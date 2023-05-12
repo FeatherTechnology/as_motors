@@ -117,7 +117,9 @@
       display: none;
    }
 </style>
+
 <div class="page-header">
+   
    <ol class="breadcrumb">
       <li class="breadcrumb-item">AS - Audit Follow Up </li>
    </ol>
@@ -125,6 +127,7 @@
    <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
    </a>
 </div>
+
 <!-- Page header end -->
 <!-- Main container start -->
 <div class="main-container">
@@ -219,102 +222,32 @@
                                        <th colspan="2" >Action</th>
                                     </tr>
                                  </thead>
-                                 <?php if($idupd<=0){ ?>
+                                
                                  <tbody id='t1'>
                                     <tr>
-                                       <td>
-                                          <input tabindex="3" type="text" class="form-control" id="major" placeholder="Enter Area" name="major[]" >
-                                          </input>
-                                       </td>
-                                       <!-- <td >
-                                          <input tabindex="5" type="text" class="form-control" id="sub" name="sub[]" >
-                                          </input>
-                                          </td> -->
-                                       <td>
-                                          <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]" ></input>
-                                       </td>
-                                       <!-- <input tabindex="7" type="text" class="form-control" id="weightage" name="weightage[]" ></input>  -->
-                                       <td>
-                                          <!-- <input tabindex="7" type="text" class="form-control" id="Astatus" name="Astatus[]" > -->
-                                          <select type="text" tabindex="5" name="prevstatus[]" id="prevstatus" class="form-control prevstatus">
-                                             <option value=''>Select Status</option>
-                                             <option value='1'>Yes</option>
-                                             <option value='0'>No</option>
-                                          </select>
-                                       </td>
-                                       <td><textarea tabindex="8" id="aremarks"  class="form-control" rows="1" name="aremarks[]"  cols="35" placeholder='Enter Audit Remarks'></textarea></td>
-                                       <td><input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" placeholder="Enter Recommendation"></td>
-                                       <td><input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;'></td>
+                                    <td>
+                                          <input tabindex="4" type="text" class="form-control" id="assertion"  name="assertion[]" ></input>
+                                    </td>
+                                    <td>
+                                          <input tabindex="7" type="text" class="form-control" id="audit_remarks" name="audit_remarks[]" >
+                                    </td>  
+                                    <td>
+                                       <input tabindex="6" type="text" class="form-control" id="attachment" name="attachment[]">
+                                    </td>
+                                    <td>
+                                       <input type='text' tabindex='7' class='form-control' id='auditee_response' name='auditee_response[]'>
+                                    </td>
+                                    <td>
+                                       <input type='text' tabindex='7' class='form-control' id='action_plan' name='action_plan[]'>
+                                    </td>
+                                    <td>
+                                       <input type='text' tabindex='7' class='form-control' id='target_date' name='target_date[]'>
+                                    </td>
                                        <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
                                        <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
                                  </tbody>
-                                 <?php } if($idupd>0){
-                                    if(isset($id)){  ?>
-                                 <tbody id='t2' >
-                                    <?php for($g=0;$g<=count($major)-1;$g++) { ?>
-                                    <tr>
-                                       <td>
-                                          <input tabindex="3" type="text" class="form-control" id="major" name="major[]" value="<?php echo $major[$g]?>">
-                                          </input>
-                                          <input type="hidden" id='rid' class="rid" name="audit_assign_ref_id[]" value="<?php echo $audit_assign_ref_id[$g]?>">
-                                       </td>
-                                       <td>
-                                          <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion[$g]?>"></input>
-                                       </td>
-                                       <td>
-                                          <select type="text" tabindex="5" name="prevstatus[]" id="prevstatus" class="form-control prevstatus" value="<?php echo $audit_status[$g]; ?>">
-                                             <?php $audit= $audit_status[$g]; if ($audit == 0){ ?>
-                                                <option value=''>Select Status</option>
-                                                <option value='1'>Yes</option>
-                                                <option value='0'>No</option>
-                                             <?php }else if($audit == 1){?>
-                                                <option value=''>Select Status</option>
-                                             <option value='1'>Yes</option>
-                                             <option value='0'>No</option>
-                                             <?php }else{ ?>
-                                             <option value=''>Select Status</option>
-                                             <option value='1'>Yes</option>
-                                             <option value='0'>No</option>
-                                             <?php }  ?>
-                                          </select>
-                                       </td>
-                                       <td>
-                                          <textarea tabindex="8"  id="aremarks"  class="form-control" rows="1" name="aremarks[]"  cols="35" value="<?php echo $audit_remarks[$g];  ?>" placeholder='Write something here'><?php echo $audit_remarks[$g];  ?></textarea>
-                                          <?php $audit= $audit_status[$g]; if ($audit == 0){  ?>
-                                       <td>
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>">
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' > <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
-                                       </td>
-                                       <?php }else if($audit == 1){?>
-                                       <td>
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>" readonly>
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' readonly>
-                                          <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>' readonly>
-                                       </td>
-                                       <?php }else{ ?>
-                                       <td>
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>">
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' > <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
-                                       </td>
-                                       <?php }  ?>
-                                       <td>
-                                          <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button>
-                                       </td>
-                                       <td>
-                                          <span class='icon-trash-2' tabindex="9" id="delete_row"></span>
-                                       </td>
-                                    </tr>
-                                    <?php } ?>
-                                 </tbody>
-                                 <?php }
-                                    } ?>
+                                 
                               </table>
                            </div>
                            <!-- </div> -->
@@ -325,14 +258,43 @@
             </div>
             <div class="col-md-12">
                <br><br>
-               <div class="text-right">
-                  <!-- <button type="button" class="btn btn-outline-secondary" tabindex="15">Save</button> -->
-                  <button type="submit" name="submit_audit_checklist" id="submit_audit_checklist" class="btn btn-primary" value="Submit" tabindex="10">Submit</button>
+               
                </div>
-            </div>
          </div>
       </div>
 </div>
 </div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+         <h4 class="modal-title">Follow Up</h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body" style="
+    background-color: whitesmoke;
+">
+          <p>Some text in the modal.</p>
+          <p>Some text in the modal.</p>
+          <p>Some text in the modal.</p>
+          <p>Some text in the modal.</p>
+          <p>Some text in the modal.</p>
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </form>
 </div>
+ <!-- Modal -->
+ 
+  
+                    
+                    
+                     
