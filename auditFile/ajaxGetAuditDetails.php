@@ -50,5 +50,6 @@ if($con->affected_rows>0){
 }else{
     $message['exist']='';
 }
+
 echo json_encode($message);
 ?>
