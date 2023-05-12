@@ -2219,6 +2219,10 @@ if($current_page == 'promotional_activities') { ?>
     <script src="js/promotional_activities.js"></script>
     <?php }
 
+if($current_page == 'audit_followup') { ?>
+	<script src="js/audit_followup.js"></script>
+	<?php }
+
 ?> 
 
 <script src="js/logincreation.js"></script>
