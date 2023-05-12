@@ -106,55 +106,31 @@ $("#viewBtn").click(function(){
     });
 });
 
+// Get the actual start date input element
+const actualStartDateInput = document.getElementById('actual_start_date');
 
-// insert and update
-// $("#submitDailyKMBtn").click(function(){
-
-//     var totalCheckboxCount = $(':checkbox:checked').length;
-//     if(totalCheckboxCount > 0 ){
-        
-//         var company_id = $("#branch_id").val();
-//         var date = $("#date").val();   
-        
-//         var vehicle_details_id = [];
-//         var vehicle_number = [];
-//         var start_km = [];
-//         var end_km = [];
-//         var dailyKMRefId = [];
-//         $(':checkbox:checked').each(function(i){
-//             vehicle_details_id[i] = $(this).val(); 
-//             vehicle_number[i] = $(this).parents('tr').find('td #vehicle_number').val();   
-//             start_km[i] = $(this).parents('tr').find('td #start_km').val();   
-//             end_km[i] = $(this).parents('tr').find('td #end_km').val();   
-//             dailyKMRefId[i] = $(this).parents('tr').find('td #dailyKMRefId').val();   
-//         });
-        
-//         var updid = $("#id").val(); 
-//         if(updid>0){
-            
-//             var dailyKMId = $("#dailyKMId").val();
-//             $.ajax({
-//                 type: "POST",
-//                 url: 'vehicledetailsFile/updateDailyKM.php',
-//                 data: { "dailyKMId":dailyKMId, "dailyKMRefId":dailyKMRefId, "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km },
-//                 success:function(response){
-//                     window.location.href = "edit_daily_km&msc=2";
-//                 }
-//             });
+// Add an event listener to listen for changes to the actual start date input
+actualStartDateInput.addEventListener('change', function() {
+    // Get the value of the actual start date input
+    const actualStartDate = this.value;
     
-//         }else{
-//             $.ajax({
-//                 type: "POST",
-//                 url: 'vehicledetailsFile/insertDailyKM.php',
-//                 data: { "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km },
-//                 success:function(response){
-//                     window.location.href = "edit_daily_km&msc=1";
-//                 }
-//             });
-//         }
-     
-//     }else{
-//         alert('Select any one checkbox to submit')
-//         return false;
-//     }
-// });
+    // Get all the start date and end date input elements
+    const startDateInputs = document.querySelectorAll('.start_date');
+    const endDateInputs = document.querySelectorAll('.end_date');
+    
+    // Loop through each start date and end date input element and update their values
+    for (let i = 0; i < startDateInputs.length; i++) {
+        // Get the time frame start and duration input values for the current row
+        const timeFrameStart = parseInt(document.querySelectorAll('.time_frame_start')[i].value);
+        const duration = parseInt(document.querySelectorAll('.duration')[i].value);
+        
+        // Calculate the new start date and end date values using the actual start date, time frame start, and duration
+        const startDate = new Date(actualStartDate);
+        startDate.setDate(startDate.getDate() - timeFrameStart);
+        startDateInputs[i].value = startDate.toISOString().slice(0, 10);
+        
+        const endDate = new Date(actualStartDate);
+        endDate.setDate(endDate.getDate() - duration);
+        endDateInputs[i].value = endDate.toISOString().slice(0, 10);
+    }
+});

@@ -48,8 +48,8 @@ if(isset($_POST["audit_assign_id"])){
                     <th>Audit Remarks</th>
                     <th>Recommendation</th>
                     <th>Attachment</th>
-                    <th>Auditee Response</th>
-                    <th>Action Plan</th>
+                    <th>Auditee Response <span class="text-danger">*</span></th>
+                    <th>Action Plan <span class="text-danger">*</span></th>
                     <th>Target Date</th>
                 </tr>
                 <?php

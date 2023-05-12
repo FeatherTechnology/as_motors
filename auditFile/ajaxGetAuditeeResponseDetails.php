@@ -11,11 +11,9 @@ if(isset($_SESSION["branch_id"])){
 if(isset($_POST["audit_assign_id"])){
     $audit_assign_id  = $_POST["audit_assign_id"];
 }
-
 ?>
 
 <div class="card" id="stockinformation">
-    <!-- <div class="card-header">Audit Assign</div> -->
     <div class="card-body ">
         <br> 
         <div style="overflow-x: auto; white-space: nowrap;" >
@@ -45,15 +43,14 @@ if(isset($_POST["audit_assign_id"])){
             <table class="table custom-table" id="sstable">
                 <tr>
                     <th>S. No.</th>
-                    <!-- <th></th> -->
                     <th>Area</th>
                     <th>Assertion</th>
                     <th>Audit Status</th>
                     <th>Audit Remarks</th>
                     <th>Recommendation</th>
                     <th>Attachment</th>
-                    <th>Auditee Response</th>
-                    <th>Action Plan</th>
+                    <th>Auditee Response <span class="text-danger">*</span></th>
+                    <th>Action Plan <span class="text-danger">*</span></th>
                     <th>Target Date</th>
                 </tr>
                 <?php

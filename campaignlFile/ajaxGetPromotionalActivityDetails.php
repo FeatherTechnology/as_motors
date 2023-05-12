@@ -55,11 +55,11 @@ if(isset($_POST["actual_start_date"])){
                             <tr>
                                 <td><?php echo $sno; ?></td>
                                 <td style="display: none;"><input tabindex="4" name="promotional_activities_ref_id[]" id="promotional_activities_ref_id" class="promotional_activities_ref_id" value="<?php echo $promotional_activities_ref_id[$o]; ?>" /></td>
-                                <td><input type="text" readonly class="form-control" name="activity_involved[]" id="activity_involved" value="<?php echo $activity_involved[$o]; ?>" ></td>
-                                <td><input type="text" readonly class="form-control" name="time_frame_start[]" id="time_frame_start" value="<?php echo $time_frame_start[$o]; ?>" ></td>
-                                <td><input type="text" readonly class="form-control" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
-                                <td><input type="date" class="form-control" name="start_date[]" id="start_date" value="<?php echo $start_date; ?>" ></td>
-                                <td><input type="date" class="form-control" name="end_date[]" id="end_date" value="<?php echo $end_date; ?>" ></td>
+                                <td><input type="text" readonly class="form-control activity_involved" name="activity_involved[]" id="activity_involved" value="<?php echo $activity_involved[$o]; ?>" ></td>
+                                <td><input type="text" readonly class="form-control time_frame_start" name="time_frame_start[]" id="time_frame_start" value="<?php echo $time_frame_start[$o]; ?>" ></td>
+                                <td><input type="text" readonly class="form-control duration" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
+                                <td><input type="date" class="form-control start_date" name="start_date[]" id="start_date" value="<?php echo $start_date; ?>" ></td>
+                                <td><input type="date" class="form-control end_date" name="end_date[]" id="end_date" value="<?php echo $end_date; ?>" ></td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
                                     </select>
