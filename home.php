@@ -489,6 +489,12 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'edit_promotional_activities') { ?>
 			<?php include "include/templates/edit_promotional_activities.php" ?>
 			<?php } ?>
+
+			<!-- Audit Followup -->
+			<?php if($current_page == 'audit_followup') { ?>
+			<?php include "include/templates/audit_followup.php" ?>
+			<?php } ?>
+
 			
 		</div>
 		<!-- Page content end -->

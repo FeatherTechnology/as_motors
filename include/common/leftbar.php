@@ -207,6 +207,9 @@
 											<!-- <li>
 												<a href="auditee_response"><i class="icon-compass"></i>Auditee Response</a>	
 											</li> -->
+											<li>
+												<a href="audit_followup"><i class="icon-compass"></i>Audit Follow Up</a>	
+											</li>
 										</ul>
 									</div>	
 								</li>
