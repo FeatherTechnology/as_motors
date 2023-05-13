@@ -8,10 +8,10 @@ if($selectec->num_rows>0){
 		$vehicleCode2=$row["doc_no"];
 	}
 	$vehicleCode1 = ltrim(strstr($vehicleCode2, 'M'), 'M')+1;
-	$doc_no="DOCNUM".$vehicleCode1;
+	$doc_no="ARDOCNUM".$vehicleCode1;
 }else{
 	$initialemployeecode=1;
-	$doc_no="DOCNUM".$initialemployeecode;
+	$doc_no="ARDOCNUM".$initialemployeecode;
 }
 echo json_encode($doc_no);
 ?>

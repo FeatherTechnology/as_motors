@@ -6758,7 +6758,7 @@
 		}
 
 
-		//Add promotional_activities
+		// Add promotional_activities
 		public function addpromotional_activities($mysqli,$userid,$id){
 							   
 			if(isset($_POST['id'])){
@@ -6780,10 +6780,8 @@
 				$duration = $_POST['duration'];
 			}
 			if(isset($_POST['userid'])){
-					$userid = $_POST['userid'];
-			 }
-				
-
+				$userid = $_POST['userid'];
+			}
 				
 			if($id == '0'){
 				$qry1="INSERT INTO promotional_activities (promotional_activities_id,project,insert_login_id,status) VALUES (NULL, '$project', '$userid', '0');";
@@ -6797,79 +6795,276 @@
 				}
 			}else{
 				$qry1="UPDATE promotional_activities set project = '$project',status ='0',update_login_id='$userid' WHERE promotional_activities_id = '$id' ";
-					$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-					$last_id  = $mysqli->insert_id;
+				$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+				$last_id  = $mysqli->insert_id;
 				
 				$deleteqry = " DELETE FROM promotional_activities_ref WHERE promotional_activities_id = '".$id."' ";
-					$delete=$mysqli->query($deleteqry) or die("Error on delete query ".$mysqli->error);
+				$delete=$mysqli->query($deleteqry) or die("Error on delete query ".$mysqli->error);
 
 				for($j=0; $j<=sizeof($activity)-1; $j++){
 
-			if($refid = ' '){
-				$qry2="INSERT INTO promotional_activities_ref (promotional_activities_ref_id,promotional_activities_id,activity_involved,time_frame_start,duration)
-				VALUES (NULL,'$id','$activity[$j]','$time_frame[$j]','$duration[$j]');";
-					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-					
-			}else { }
-			}
+					if($refid = ' '){
+						$qry2="INSERT INTO promotional_activities_ref (promotional_activities_ref_id,promotional_activities_id,activity_involved,time_frame_start,duration)
+						VALUES (NULL,'$id','$activity[$j]','$time_frame[$j]','$duration[$j]');";
+							$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+							
+					}else { }
+				}
 			}  
 
-		  } 
+		} 
 
 
-		//Promotional_activities DELETE
-
-		  public function deletepromotional_activities($mysqli, $id){
-				$checklistDelete = "UPDATE promotional_activities set status='1' WHERE promotional_activities_id = '".strip_tags($id)."' ";
-				$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
-		  }
-
+		// Promotional_activities DELETE
+		public function deletepromotional_activities($mysqli, $id){
+			$checklistDelete = "UPDATE promotional_activities set status='1' WHERE promotional_activities_id = '".strip_tags($id)."' ";
+			$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+		}
 
 
 		//get promotional_activities list table
 		  public function getPromoActivities($mysqli,$id){
 
-				if($id>0){
-					$checklistSelect = "SELECT * FROM promotional_activities where promotional_activities_id = '$id'";
-				}else{
-					$checklistSelect = "SELECT * FROM promotional_activities";
-				}
-				$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
-				if ($mysqli->affected_rows>0)
-				{
-					while($row = $res->fetch_object()){
-					$auditChecklist['project'] = $row->project;
-					$auditChecklist['promotional_activities_id'] = $row->promotional_activities_id;
-					
-				}
-				}    
-				return $auditChecklist;
+			if($id>0){
+				$checklistSelect = "SELECT * FROM promotional_activities where promotional_activities_id = '$id'";
+			}else{
+				$checklistSelect = "SELECT * FROM promotional_activities";
+			}
+			$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
+			if ($mysqli->affected_rows>0)
+			{
+				while($row = $res->fetch_object()){
+				$auditChecklist['project'] = $row->project;
+				$auditChecklist['promotional_activities_id'] = $row->promotional_activities_id;
+				
+			}
+			}    
+			return $auditChecklist;
 		 }
 
-
-
 		// get getPromoActivities_ref edit list
-		   public function getPromoActivities_ref($mysqli,$id){
-				$get_checklist = "SELECT * FROM promotional_activities_ref where promotional_activities_id IN ($id)";
+		public function getPromoActivities_ref($mysqli,$id){
+			$get_checklist = "SELECT * FROM promotional_activities_ref where promotional_activities_id IN ($id)";
 
-				$res2 = $mysqli->query($get_checklist) or die("Error in Get All Records".$mysqli->error);
-				$i=0;
-				$activities='';
-				$activities=array();
+			$res2 = $mysqli->query($get_checklist) or die("Error in Get All Records".$mysqli->error);
+			$i=0;
+			$activities='';
+			$activities=array();
+			if ($mysqli->affected_rows>0)
+			{
+				while($row2 = $res2->fetch_assoc()){
+				$activities[$i]['promotional_activities_ref_id'] = $row2['promotional_activities_ref_id'];
+				$activities[$i]['activity_involved'] = $row2['activity_involved'];
+				$activities[$i]['time_frame_start'] = $row2['time_frame_start'];
+				$activities[$i]['duration']=$row2['duration'];
+				$i++;
+				}
+			}
+			return $activities;
+		}
+
+
+		// Add approval line
+		public function addMeetingMinutesApprovalLine($mysqli, $userid){
+
+			if(isset($_POST['branch_id'])){
+				$company_id = $_POST['branch_id'];
+			}
+			if(isset($_POST['sstaffid'])){
+				$staff_id = $_POST['sstaffid'];
+			}
+			if(isset($_POST['approvalStaffId'])){
+				$approvalStaffId1 = $_POST['approvalStaffId']; 
+				$approvalStaffId = implode(",", $approvalStaffId1);
+			}
+			if(isset($_POST['agreeParallelStaffId'])){
+				$agreeParallelStaffId1 = $_POST['agreeParallelStaffId'];
+				$agreeParallelStaffId = implode(",", $agreeParallelStaffId1);
+			}
+			if(isset($_POST['afterNotifiedStaffId'])){
+				$afterNotifiedStaffId1 = $_POST['afterNotifiedStaffId'];
+				$afterNotifiedStaffId = implode(",", $afterNotifiedStaffId1);
+			} 
+			if(isset($_POST['receivingDeptId'])){
+				$receivingDeptId1 = $_POST['receivingDeptId'];
+				$receivingDeptId = implode(",", $receivingDeptId1);
+			} 
+	
+			$addMeetingMinutesApprovalLine = "INSERT INTO meeting_minutes_approval_line(company_id, staff_id, approval_staff_id, agree_par_staff_id, after_notified_staff_id, receiving_dept_id, insert_login_id)
+				VALUES('".strip_tags($company_id)."', '".strip_tags($staff_id)."', '".strip_tags($approvalStaffId)."','".strip_tags($agreeParallelStaffId)."', '".strip_tags($afterNotifiedStaffId)."', 
+				'".strip_tags($receivingDeptId)."','".strip_tags($userid)."')"; 
+			$updresult = $mysqli->query($addMeetingMinutesApprovalLine)or die ("Error in in update Query!.".$mysqli->error);
+			$approvalLineId = $mysqli->insert_id;
+
+			for($i=0; $i<=sizeof($agreeParallelStaffId1)-1; $i++){
+
+				$addAgreeDisagree = "INSERT INTO meeting_minutes_parallel_agree_disagree(meeting_minutes_approval_line_id, agree_disagree_staff_id)
+				VALUES('".strip_tags($approvalLineId)."', '".strip_tags($agreeParallelStaffId1[$i])."')";
+				$updresult1 = $mysqli->query($addAgreeDisagree)or die ("Error in in Insert Query!.".$mysqli->error);
+			} 
+	
+		}
+
+
+		// Add approval requisition
+		public function addMeetingMinutes($mysqli, $userid){
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$staff_id = $_POST['staffid'];
+			}
+			if(isset($_POST['doc_no'])){
+				$doc_no = $_POST['doc_no'];
+			}
+			if(isset($_POST['auto_generation_date'])){
+				$auto_generation_date = $_POST['auto_generation_date'];
+			}
+			if(isset($_POST['title'])){
+				$title = $_POST['title'];
+			}
+			if(isset($_POST['comments'])){
+				$comments = $_POST['comments'];
+			}
+
+			$file1 = array();
+			if(count($_FILES["file"]["name"]) > 0)
+			{
+				sleep(3);
+				for($count=0; $count<count($_FILES["file"]["name"]); $count++)
+				{
+					$file_name = $_FILES["file"]["name"][$count];
+						array_push($file1,$file_name);
+					$tmp_name = $_FILES["file"]['tmp_name'][$count];
+					$file_array = explode(".", $file_name);
+					$file_extension = end($file_array);
+					$location = 'uploads/meeting_minutes/'.$file_name;
+					move_uploaded_file($tmp_name, $location);
+				}
+			}
+			$file= implode(",", $file1 );
+
+			$addApprovalRequisition = "INSERT INTO meeting_minutes(meeting_minutes_approval_line_id, staff_id, doc_no, auto_generation_date, title, comments, file, insert_login_id)
+				VALUES('".strip_tags($approval_line_id)."','".strip_tags($staff_id)."', '".strip_tags($doc_no)."', '".strip_tags($auto_generation_date)."', '".strip_tags($title)."',
+				'".strip_tags($comments)."', '".strip_tags($file)."', '".strip_tags($userid)."')"; 
+			$updresult = $mysqli->query($addApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+		}
+
+
+		// Get all approval requisition approve staff
+		public function getMeetingMinutesApproveStaffDashboard($mysqli){
+
+			$getApprovalReq = "SELECT * FROM meeting_minutes WHERE 1 AND status=0";
+			$res1 = $mysqli->query($getApprovalReq) or die("Error in Get All Records".$mysqli->error);
+			$appReqApproval_line_id = array();
+			$i=0;
+			if ($mysqli->affected_rows>0)
+			{
+				while($row1 = $res1->fetch_object())
+				{
+					$appReqApproval_line_id[] = $row1->meeting_minutes_approval_line_id;
+					$i++;
+				}
+			}
+
+			if($appReqApproval_line_id > 0){
+				$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE 1 AND status=0 ORDER BY meeting_minutes_approval_line_id ASC";
+				$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+				$detailrecords = array();
 				if ($mysqli->affected_rows>0)
 				{
-					while($row2 = $res2->fetch_assoc()){
-					$activities[$i]['promotional_activities_ref_id'] = $row2['promotional_activities_ref_id'];
-					$activities[$i]['activity_involved'] = $row2['activity_involved'];
-					$activities[$i]['time_frame_start'] = $row2['time_frame_start'];
-					$activities[$i]['duration']=$row2['duration'];
-					$i++;
+
+					$row = $res->fetch_object();
+					if (in_array($row->meeting_minutes_approval_line_id, $appReqApproval_line_id)){
+						
+						$detailrecords['meeting_minutes_approval_line_id'] = $row->meeting_minutes_approval_line_id;
+						$detailrecords['company_id']  = $row->company_id;
+						$detailrecords['approval_staff_id']  = $row->approval_staff_id;
+						$detailrecords['agree_par_staff_id']  = $row->agree_par_staff_id;
+						$detailrecords['after_notified_staff_id']  = $row->after_notified_staff_id;
+						$detailrecords['receiving_dept_id']  = $row->receiving_dept_id;
+						$detailrecords['checker_approval']  = $row->checker_approval;
+						$detailrecords['reviewer_approval']  = $row->reviewer_approval;
+						$detailrecords['final_approval']  = $row->final_approval;
+						$detailrecords['created_date']  = $row->created_date;
+						$detailrecords['checker_approval_date']  = $row->checker_approval_date;
+						$detailrecords['reviewer_approval_date']  = $row->reviewer_approval_date;
+						$detailrecords['final_approval_date']  = $row->final_approval_date;
 					}
 				}
-				return $activities;
-		   }
+				return $detailrecords;
+			}else{
+				return false;
+			}
+				
+		}
 
 
+		// fetch parallel staff on dashboard meeting minutes
+		public function getMeetingMinutesParallelAgreement($mysqli, $sessionId, $meeting_minutes_approval_line_id){
+	
+			$getParallelAgreementStaffId = "SELECT agree_disagree_staff_id, agree_disagree FROM meeting_minutes_parallel_agree_disagree 
+			WHERE meeting_minutes_approval_line_id = '".strip_tags($meeting_minutes_approval_line_id)."' AND agree_disagree = '0' AND status=0 
+			ORDER BY meeting_minutes_agree_disagree_id ASC LIMIT 1";
+			$res11 = $mysqli->query($getParallelAgreementStaffId) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row11 = $res11->fetch_object();
+				$detailrecords['agree_disagree_staff_id']  = $row11->agree_disagree_staff_id;
+				$detailrecords['agree_disagree']  = $row11->agree_disagree;
+			}
+			return $detailrecords;
+		}
+
+
+		// fetch after notification meeting minutes
+		public function getMeetingMinutesAfterNotification($mysqli, $sessionId, $meeting_minutes_approval_line_id){
+
+			$getafterNotificationStaff = "SELECT final_approval, after_notified_staff_id FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($meeting_minutes_approval_line_id)."' 
+			AND final_approval = '1' AND status=0";
+			$res = $mysqli->query($getafterNotificationStaff) or die("Error in Get All Records".$mysqli->error);
+			$after_notified_staff_id = '';
+			$final_approval = '';
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$after_notified_staff_id  = $row->after_notified_staff_id;
+				$final_approval  = $row->final_approval;
+			}
+
+			$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($meeting_minutes_approval_line_id)."' AND status=0"; 
+			$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+			$agree_par_staff_id = '';
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$agree_par_staff_id  = $row->agree_par_staff_id;
+			}
+
+			$parallel_staff_idArr = array_map('intval', explode(',', $agree_par_staff_id));
+			$parallel_staff_idLength = sizeof($parallel_staff_idArr);
+
+			$getParallelAgreementStaffId = "SELECT COUNT(agree_disagree) as agree_disagree FROM meeting_minutes_parallel_agree_disagree WHERE agree_disagree = '1' AND status=0 ";
+			$res11 = $mysqli->query($getParallelAgreementStaffId) or die("Error in Get All Records".$mysqli->error);
+			if ($mysqli->affected_rows>0)
+			{
+				$row11 = $res11->fetch_object();
+				$agree_disagree  = $row11->agree_disagree;
+			}
+
+			if($final_approval == 1 && $parallel_staff_idLength == $agree_disagree){
+				$detailrecords['after_notified_staff_id']  = $after_notified_staff_id;
+				$detailrecords['status'] = 1;
+			}else{
+				$detailrecords['status'] = 0;
+				$detailrecords['after_notified_staff_id']  = $after_notified_staff_id;
+			}
+
+			return $detailrecords;
+		}
 
 
 
