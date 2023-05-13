@@ -30,13 +30,16 @@ LEFT JOIN audit_assign aa ON aa.audit_assign_id = aai.audit_assign_id
 LEFT JOIN designation_creation ds ON ds.designation_id = aa.role1
 LEFT JOIN designation_creation dsc ON dsc.designation_id = aa.role2
 WHERE aai.auditee_response_status = '1'
-  AND aa.audit_area_id = '1'
+
+  AND aa.audit_area_id = '$prev_chekclist_id'
+
   AND aai.auditee_followup_status = '0'
   AND aai.target_date >= CURDATE()
   AND aai.target_date <= CURDATE() + INTERVAL 3 DAY");
    
 
 while($row=$qry->fetch_assoc()){
+
     $audit_assign_ref_id[] = $row['audit_assign_ref_id'];
     $audit_assign_id[] = $row['audit_assign_id'];
     $assertion[] = $row['assertion'];
