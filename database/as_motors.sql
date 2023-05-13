@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2023 at 03:22 PM
+-- Generation Time: May 13, 2023 at 02:51 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -90,6 +90,13 @@ CREATE TABLE `approval_line` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `approval_line`
+--
+
+INSERT INTO `approval_line` (`approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1', '1', '1', '1', '2023-05-12', '2023-05-12', '2023-05-12', 0, 20, NULL, NULL, '2023-05-12 18:38:43', '2023-05-12 18:38:43');
+
 -- --------------------------------------------------------
 
 --
@@ -113,6 +120,13 @@ CREATE TABLE `approval_requisition` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `approval_requisition`
+--
+
+INSERT INTO `approval_requisition` (`approval_requisition_id`, `approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', 'DOCNUM1', '12-05-2023', 'test', 'testst', '', 0, 20, NULL, NULL, '2023-05-12 18:39:01', '2023-05-12 18:39:01');
+
 -- --------------------------------------------------------
 
 --
@@ -128,6 +142,15 @@ CREATE TABLE `approval_requisition_parallel_agree_disagree` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `approval_requisition_parallel_agree_disagree`
+--
+
+INSERT INTO `approval_requisition_parallel_agree_disagree` (`approval_requisition_agree_disagree_id`, `approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
+(11, '1', '2', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
+(12, '1', '3', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
+(13, '1', '4', 0, NULL, 0, '2023-05-12 18:38:43');
 
 -- --------------------------------------------------------
 
@@ -321,11 +344,10 @@ CREATE TABLE `audit_assign` (
 --
 
 INSERT INTO `audit_assign` (`audit_assign_id`, `date_of_audit`, `department_id`, `role1`, `role2`, `audit_area_id`, `auditee_response_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-05-09', '1,2', '1', '2', '1', 1, 0, 1, NULL, NULL, '2023-05-09 12:38:54', '2023-05-09 12:38:54'),
-(2, '2023-05-09', '1,2', '1', '2', '1', 0, 0, 1, NULL, NULL, '2023-05-09 12:49:17', '2023-05-09 12:49:17'),
-(3, '2023-05-09', '1,2', '1', '2', '1', 0, 0, 1, NULL, NULL, '2023-05-09 12:58:20', '2023-05-09 12:58:20'),
-(4, '2023-05-09', '1,2', '1', '2', '1', 0, 0, 1, NULL, NULL, '2023-05-09 13:03:02', '2023-05-09 13:03:02'),
-(5, '2023-05-11', '1,2', '1', '2', '1', 1, 0, 1, NULL, NULL, '2023-05-11 10:14:54', '2023-05-11 10:14:54');
+(1, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 1, NULL, NULL, '2023-05-12 17:12:19', '2023-05-12 17:12:19'),
+(2, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 21, NULL, NULL, '2023-05-12 17:19:26', '2023-05-12 17:19:26'),
+(3, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 21, NULL, NULL, '2023-05-12 17:21:14', '2023-05-12 17:21:14'),
+(4, '2023-05-12', '1,2', '1', '2', '1', 0, 0, 21, NULL, NULL, '2023-05-12 17:41:39', '2023-05-12 17:41:39');
 
 -- --------------------------------------------------------
 
@@ -353,16 +375,14 @@ CREATE TABLE `audit_assign_ref` (
 --
 
 INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`) VALUES
-(1, '1', 'chennai', 'test', '1', '', '', 'test', NULL, NULL, NULL, 0),
-(2, '1', 'pondy', 'test1', '0', 'ttetesf', '', 'testt', 'testing', 'testing', '2023-05-30', 1),
-(3, '2', 'chennai', 'test', '1', '', '', 'sadf', NULL, NULL, NULL, 0),
-(4, '2', 'pondy', 'test1', '0', 'sdfasfd', '', 'sadf', NULL, NULL, NULL, 0),
-(5, '3', 'chennai', 'test', '1', '', '', 'test', NULL, NULL, NULL, 0),
-(6, '3', 'pondy', 'test1', '0', 'sdfasfd', '', 'sfdsadf', NULL, NULL, NULL, 0),
-(7, '4', 'chennai', 'test', '1', '', '', 'sdf', NULL, NULL, NULL, 0),
-(8, '4', 'pondy', 'test1', '0', 'sdfasfd', 'img_avatar4.png', 'asdfasdf', NULL, NULL, NULL, 0),
-(9, '5', 'chennai', 'test', '0', 'sdafa', '', 'asdf', 'test', 'test', '2023-05-30', 1),
-(10, '5', 'pondy', 'test1', '0', 'sdfsdf', '', 'sadf', 'test', 'test', '2023-05-20', 1);
+(1, '1', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0),
+(2, '1', 'pondy', 'test1', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0),
+(3, '2', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0),
+(4, '2', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0),
+(5, '3', 'chennai', 'test', '0', 'asdf', '', 'asdf', 'asdf', 'asdf1212', '2023-05-12', 1),
+(6, '3', 'pondy', 'test1', '0', 'sadfsfsdf', '', 'asdf', '1212', '121221', '2023-05-22', 1),
+(7, '4', 'chennai', 'test', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0),
+(8, '4', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -580,6 +600,13 @@ CREATE TABLE `business_com_line` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `business_com_line`
+--
+
+INSERT INTO `business_com_line` (`business_com_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `recipient_id`, `receiving_branch_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '3', '2', '1', '1', '1', '2023-05-13', '2023-05-13', '2023-05-13', 0, 20, NULL, NULL, '2023-05-13 14:34:53', '2023-05-13 14:34:53');
+
 -- --------------------------------------------------------
 
 --
@@ -603,6 +630,13 @@ CREATE TABLE `business_com_out` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `business_com_out`
+--
+
+INSERT INTO `business_com_out` (`business_com_out_id`, `business_com_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', 'DOCNUM1', '13-05-2023', 'test', 'test', '', 0, 20, NULL, NULL, '2023-05-13 14:35:11', '2023-05-13 14:35:11');
+
 -- --------------------------------------------------------
 
 --
@@ -618,6 +652,15 @@ CREATE TABLE `business_com_parallel_agree_disagree` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `business_com_parallel_agree_disagree`
+--
+
+INSERT INTO `business_com_parallel_agree_disagree` (`business_com_parallel_agree_disagree_id`, `business_com_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
+(1, '1', '2', 1, '2023-05-13', 0, '2023-05-13 14:34:53'),
+(2, '1', '3', 1, '2023-05-13', 0, '2023-05-13 14:34:53'),
+(3, '1', '4', 1, '2023-05-13', 0, '2023-05-13 14:34:53');
 
 -- --------------------------------------------------------
 
@@ -1249,6 +1292,96 @@ INSERT INTO `media_creation` (`media_id`, `company_id`, `media_name`, `media_fil
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `meeting_minutes`
+--
+
+CREATE TABLE `meeting_minutes` (
+  `meeting_minutes_id` int(11) NOT NULL,
+  `meeting_minutes_approval_line_id` varchar(255) DEFAULT NULL,
+  `staff_id` varchar(255) DEFAULT NULL,
+  `doc_no` varchar(255) DEFAULT NULL,
+  `auto_generation_date` varchar(255) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `comments` text DEFAULT NULL,
+  `file` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `meeting_minutes`
+--
+
+INSERT INTO `meeting_minutes` (`meeting_minutes_id`, `meeting_minutes_approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', 'DOCNUM2', '13-05-2023', 'test', 'test', 'ZR_106418_CAND (1).pdf', 0, 20, NULL, NULL, '2023-05-13 17:08:16', '2023-05-13 17:08:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting_minutes_approval_line`
+--
+
+CREATE TABLE `meeting_minutes_approval_line` (
+  `meeting_minutes_approval_line_id` int(11) NOT NULL,
+  `company_id` varchar(255) DEFAULT NULL,
+  `staff_id` varchar(255) DEFAULT NULL,
+  `approval_staff_id` varchar(255) DEFAULT NULL,
+  `agree_par_staff_id` varchar(255) DEFAULT NULL,
+  `after_notified_staff_id` varchar(255) DEFAULT NULL,
+  `receiving_dept_id` varchar(255) DEFAULT NULL,
+  `checker_approval` varchar(255) NOT NULL DEFAULT '0',
+  `reviewer_approval` varchar(255) NOT NULL DEFAULT '0',
+  `final_approval` varchar(255) NOT NULL DEFAULT '0',
+  `checker_approval_date` varchar(255) DEFAULT NULL,
+  `reviewer_approval_date` varchar(255) DEFAULT NULL,
+  `final_approval_date` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `meeting_minutes_approval_line`
+--
+
+INSERT INTO `meeting_minutes_approval_line` (`meeting_minutes_approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1,2', '0', '0', '0', NULL, NULL, NULL, 0, 20, NULL, NULL, '2023-05-13 17:01:18', '2023-05-13 17:01:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meeting_minutes_parallel_agree_disagree`
+--
+
+CREATE TABLE `meeting_minutes_parallel_agree_disagree` (
+  `meeting_minutes_agree_disagree_id` int(11) NOT NULL,
+  `meeting_minutes_approval_line_id` varchar(255) DEFAULT NULL,
+  `agree_disagree_staff_id` varchar(255) DEFAULT NULL,
+  `agree_disagree` int(11) NOT NULL DEFAULT 0,
+  `agree_disagree_date` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `meeting_minutes_parallel_agree_disagree`
+--
+
+INSERT INTO `meeting_minutes_parallel_agree_disagree` (`meeting_minutes_agree_disagree_id`, `meeting_minutes_approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
+(1, '1', '2', 0, NULL, 0, '2023-05-13 17:01:18'),
+(2, '1', '3', 0, NULL, 0, '2023-05-13 17:01:18'),
+(3, '1', '4', 0, NULL, 0, '2023-05-13 17:01:18');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `memo`
 --
 
@@ -1392,7 +1525,8 @@ CREATE TABLE `pm_checklist` (
 
 INSERT INTO `pm_checklist` (`pm_checklist_id`, `company_id`, `category_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `frequency`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
 (1, '1', '1', 'test', 'Option', 'Yes', '2', 'option1', 'option2', '', '', 'Fortnightly', 'High', 1, 0, 1, NULL, NULL, '2023-05-05 13:33:36', '2023-05-05 13:33:36'),
-(2, '1', '1', 'test', 'Yes/No/NA', '', '', '', '', '', '', 'Fortnightly', 'High', 1, 0, 1, NULL, NULL, '2023-05-11 18:31:59', '2023-05-11 18:31:59');
+(2, '1', '1', 'test', 'Yes/No/NA', '', '', '', '', '', '', 'Fortnightly', 'High', 1, 0, 1, NULL, NULL, '2023-05-11 18:31:59', '2023-05-11 18:31:59'),
+(3, '1', '1', 'stset', 'Yes/No/NA', '', '', '', '', '', '', 'Fortnightly', 'High', 0, 0, 1, NULL, NULL, '2023-05-13 13:20:14', '2023-05-13 13:20:14');
 
 -- --------------------------------------------------------
 
@@ -1443,7 +1577,7 @@ CREATE TABLE `promotional_activities` (
 --
 
 INSERT INTO `promotional_activities` (`promotional_activities_id`, `project`, `campaign_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'project1', 1, 0, 1, NULL, NULL, '2023-05-10 15:58:48', '2023-05-10 15:58:48'),
+(1, 'project1', 0, 0, 1, NULL, NULL, '2023-05-10 15:58:48', '2023-05-10 15:58:48'),
 (2, 'project2', 0, 0, 1, NULL, NULL, '2023-05-10 16:04:59', '2023-05-10 16:04:59');
 
 -- --------------------------------------------------------
@@ -1690,7 +1824,8 @@ CREATE TABLE `staff_creation` (
 INSERT INTO `staff_creation` (`staff_id`, `staff_name`, `company_id`, `designation`, `emp_code`, `department`, `doj`, `krikpi`, `dob`, `key_skills`, `contact_number`, `email_id`, `reporting`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
 (1, 'Suresh', 1, 1, '111', 1, '2023-05-04', '1', '2023-05-04', 'coding', '2121212121', 'test@gmail.com', '', 0, 1, NULL, NULL, '2023-05-04 18:55:47', '2023-05-04 18:55:47'),
 (2, 'Barath', 1, 2, '112', 1, '2023-05-04', '1', '2023-05-04', 'coding', '1111111111', 'test@gmail.com1', '1', 0, 1, NULL, NULL, '2023-05-04 18:56:13', '2023-05-04 18:56:13'),
-(3, 'Ram', 1, 3, '113', 1, '2023-05-04', '1', '2023-05-04', 'coding', '3333333333', 'test1@gmail.com', '2', 0, 1, NULL, NULL, '2023-05-04 18:56:43', '2023-05-04 18:56:43');
+(3, 'Ram', 1, 3, '113', 1, '2023-05-04', '1', '2023-05-04', 'coding', '3333333333', 'test1@gmail.com', '2', 0, 1, NULL, NULL, '2023-05-04 18:56:43', '2023-05-04 18:56:43'),
+(4, 'Kumar', 1, 3, '114', 1, '2023-05-12', '1', '2023-05-12', 'coding', '1222211111', 'test@gmail.com', '3', 0, 1, NULL, NULL, '2023-05-12 18:02:35', '2023-05-12 18:02:35');
 
 -- --------------------------------------------------------
 
@@ -1817,7 +1952,7 @@ INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `em
 (20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04'),
 (21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', NULL, '2', '1', '0', '2023-03-14 13:09:26'),
 (22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', NULL, '3', '1', '0', '2023-03-15 10:48:41'),
-(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', NULL, '4', '2', '0', '2023-03-16 16:34:10'),
+(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', NULL, '4', '1', '0', '2023-03-16 16:34:10'),
 (24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', NULL, '5', '2', '0', '2023-03-22 09:40:51');
 
 -- --------------------------------------------------------
@@ -2197,6 +2332,24 @@ ALTER TABLE `media_creation`
   ADD PRIMARY KEY (`media_id`);
 
 --
+-- Indexes for table `meeting_minutes`
+--
+ALTER TABLE `meeting_minutes`
+  ADD PRIMARY KEY (`meeting_minutes_id`);
+
+--
+-- Indexes for table `meeting_minutes_approval_line`
+--
+ALTER TABLE `meeting_minutes_approval_line`
+  ADD PRIMARY KEY (`meeting_minutes_approval_line_id`);
+
+--
+-- Indexes for table `meeting_minutes_parallel_agree_disagree`
+--
+ALTER TABLE `meeting_minutes_parallel_agree_disagree`
+  ADD PRIMARY KEY (`meeting_minutes_agree_disagree_id`);
+
+--
 -- Indexes for table `memo`
 --
 ALTER TABLE `memo`
@@ -2337,19 +2490,19 @@ ALTER TABLE `accountsgroup`
 -- AUTO_INCREMENT for table `approval_line`
 --
 ALTER TABLE `approval_line`
-  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition`
 --
 ALTER TABLE `approval_requisition`
-  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition_parallel_agree_disagree`
 --
 ALTER TABLE `approval_requisition_parallel_agree_disagree`
-  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `asset_details`
@@ -2391,13 +2544,13 @@ ALTER TABLE `audit_area_creation`
 -- AUTO_INCREMENT for table `audit_assign`
 --
 ALTER TABLE `audit_assign`
-  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `audit_assign_ref`
 --
 ALTER TABLE `audit_assign_ref`
-  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist`
@@ -2439,19 +2592,19 @@ ALTER TABLE `branch_creation`
 -- AUTO_INCREMENT for table `business_com_line`
 --
 ALTER TABLE `business_com_line`
-  MODIFY `business_com_line_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `business_com_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `business_com_out`
 --
 ALTER TABLE `business_com_out`
-  MODIFY `business_com_out_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `business_com_out_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `business_com_parallel_agree_disagree`
 --
 ALTER TABLE `business_com_parallel_agree_disagree`
-  MODIFY `business_com_parallel_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `business_com_parallel_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `campaign`
@@ -2592,6 +2745,24 @@ ALTER TABLE `media_creation`
   MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `meeting_minutes`
+--
+ALTER TABLE `meeting_minutes`
+  MODIFY `meeting_minutes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `meeting_minutes_approval_line`
+--
+ALTER TABLE `meeting_minutes_approval_line`
+  MODIFY `meeting_minutes_approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `meeting_minutes_parallel_agree_disagree`
+--
+ALTER TABLE `meeting_minutes_parallel_agree_disagree`
+  MODIFY `meeting_minutes_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `memo`
 --
 ALTER TABLE `memo`
@@ -2619,7 +2790,7 @@ ALTER TABLE `permission_or_on_duty`
 -- AUTO_INCREMENT for table `pm_checklist`
 --
 ALTER TABLE `pm_checklist`
-  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `project_creation`
@@ -2679,7 +2850,7 @@ ALTER TABLE `spare_creation`
 -- AUTO_INCREMENT for table `staff_creation`
 --
 ALTER TABLE `staff_creation`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tag_creation`
