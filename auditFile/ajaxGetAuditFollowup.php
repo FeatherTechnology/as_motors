@@ -3,6 +3,7 @@ include '../ajaxconfig.php';
 
 if(isset($_POST["checklist"])){
 	$prev_chekclist_id  = $_POST["checklist"];
+  
    
 }
 if(isset($_POST["date"])){
@@ -25,11 +26,12 @@ FROM audit_assign a
 LEFT JOIN designation_creation dc1 ON dc1.designation_id = a.role1
 LEFT JOIN designation_creation dc2 ON dc2.designation_id = a.role2
 LEFT JOIN audit_assign_ref aai ON aai.audit_assign_id = a.audit_assign_id
-WHERE a.audit_area_id = 1
+WHERE a.audit_area_id = '$prev_chekclist_id'
   AND aai.target_date <= CURDATE() + INTERVAL 3 DAY
 GROUP BY a.audit_assign_id, a.department_id, a.role1, dc1.designation_name, a.role2");
 
 while($row=$qry->fetch_assoc()){
+ 
     $audit_assign_id[] = $row['audit_assign_id'];
     $department_id[]= $row['department_id'];
    
