@@ -31,25 +31,24 @@ if($dashboard_upd>0)
 	} 
 ?>
 
-    <input type="hidden" id="auditAssignEdit" name="auditAssignEdit" value="<?php print_r($audit_assign_id); ?>" >
-
-    <script language='javascript'>
-        // get branch name
-        window.onload=updateAuditeeResponse;
-        function updateAuditeeResponse(){  
-            
-            var audit_assign_id = $('#auditAssignEdit').val();
-            $.ajax({
-                url:"auditFile/ajaxGetAuditAssignDetails.php",
-                method:"post",
-                data:{ 'audit_assign_id': audit_assign_id },
-                success:function(html){
-                    $("#auditAssignDetailsAppend").empty();
-                    $("#auditAssignDetailsAppend").html(html);
-                }
-            });
-        }
-    </script>
+<input type="hidden" id="auditAssignEdit" name="auditAssignEdit" value="<?php print_r($audit_assign_id); ?>" >
+<script language='javascript'>
+    // get branch name
+    window.onload=updateAuditeeResponse;
+    function updateAuditeeResponse(){  
+        
+        var audit_assign_id = $('#auditAssignEdit').val();
+        $.ajax({
+            url:"auditFile/ajaxGetAuditAssignDetails.php",
+            method:"post",
+            data:{ 'audit_assign_id': audit_assign_id },
+            success:function(html){
+                $("#auditAssignDetailsAppend").empty();
+                $("#auditAssignDetailsAppend").html(html);
+            }
+        });
+    }
+</script>
 
 <?php
 }
