@@ -26,7 +26,7 @@ LEFT JOIN designation_creation dc1 ON dc1.designation_id = a.role1
 LEFT JOIN designation_creation dc2 ON dc2.designation_id = a.role2
 LEFT JOIN audit_assign_ref aai ON aai.audit_assign_id = a.audit_assign_id
 WHERE a.audit_area_id = 1
-  AND aai.target_date >= DATE_ADD(CURDATE(), INTERVAL 3 DAY)
+  AND aai.target_date <= CURDATE() + INTERVAL 3 DAY
 GROUP BY a.audit_assign_id, a.department_id, a.role1, dc1.designation_name, a.role2");
 
 while($row=$qry->fetch_assoc()){

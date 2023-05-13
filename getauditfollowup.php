@@ -3,13 +3,13 @@ include('ajaxconfig.php');
 
 if(isset($_POST["prev_checklist"])){
 	$prev_chekclist_id  = $_POST["prev_checklist"];
-    // print_r($prev_chekclist_id);
+
 }
 if(isset($_POST["date"])){
 	$current_date  = $_POST["date"];
-    // print_r($current_date);
+  
 }
-
+$audit_assign_ref_id = array();
 $audit_assign_id = array();
 $assertion = array();
 $recommendation = array();
@@ -24,17 +24,20 @@ $designation_name1 = array();
 $role2 = array();
 $designation_name2 = array();
 
-$qry=$con->query("SELECT aai.audit_assign_id, aai.assertion, aai.audit_remarks, aai.recommendation, aai.attachment, aai.auditee_response, aai.action_plan, aai.target_date, aai.audit_status,aa.department_id,aa.role1,ds.designation_name AS designation_name1,aa.role2,dsc.designation_name AS designation_name2
+$qry=$con->query("SELECT aai.audit_assign_ref_id,aai.audit_assign_id, aai.assertion, aai.audit_remarks, aai.recommendation, aai.attachment, aai.auditee_response, aai.action_plan, aai.target_date, aai.audit_status, aa.department_id, aa.role1, ds.designation_name AS designation_name1, aa.role2, dsc.designation_name AS designation_name2
 FROM audit_assign_ref aai
 LEFT JOIN audit_assign aa ON aa.audit_assign_id = aai.audit_assign_id
 LEFT JOIN designation_creation ds ON ds.designation_id = aa.role1
 LEFT JOIN designation_creation dsc ON dsc.designation_id = aa.role2
-
 WHERE aai.auditee_response_status = '1'
-  AND aa.audit_area_id = 1
-  AND aai.target_date >= DATE_ADD(CURDATE(), INTERVAL 3 DAY)");
+  AND aa.audit_area_id = '1'
+  AND aai.auditee_followup_status = '0'
+  AND aai.target_date >= CURDATE()
+  AND aai.target_date <= CURDATE() + INTERVAL 3 DAY");
+   
 
 while($row=$qry->fetch_assoc()){
+    $audit_assign_ref_id[] = $row['audit_assign_ref_id'];
     $audit_assign_id[] = $row['audit_assign_id'];
     $assertion[] = $row['assertion'];
     $audit_remarks[] = $row['audit_remarks'];
@@ -54,6 +57,7 @@ while($row=$qry->fetch_assoc()){
 }
 
 for($i=0;$i<count($audit_assign_id); $i++){
+    $prevChecklist[$i]['audit_assign_ref_id'] = $audit_assign_ref_id[$i];
     $prevChecklist[$i]['audit_assign_id'] = $audit_assign_id[$i];
     $prevChecklist[$i]['assertion'] = $assertion[$i];
     $prevChecklist[$i]['audit_remarks'] = $audit_remarks[$i];

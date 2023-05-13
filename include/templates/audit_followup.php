@@ -3,114 +3,23 @@
    if(isset($_SESSION["userid"])){
        $userid = $_SESSION["userid"];
    }
-   if(isset($_SESSION["branch_id"])){
-       $sbranch_id = $_SESSION["branch_id"];
-       $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-       $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
-   }
+  
    $audit_area_list = $userObj->getAuditAreaTable($mysqli);
 
    $id=0;
 
    $idupd=0;
-    if(isset($_POST['submit_audit_checklist']) && $_POST['submit_audit_checklist'] != '')
+    if(isset($_POST['submit_audit_followup']) && $_POST['submit_audit_followup'] != '')
     {
-       if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){
+       
            $id = $_POST['id'];
            $audit_area_id = $_POST['audit_area_id'];
-           if(isset($idupd)) echo $idupd;
-           $addAuditAssign = $userObj->addAuditAssign($mysqli,$userid,$idupd);
-       ?>
-<!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=2';</script>  -->
-<?php	}
-   else{
-
-       $addAuditAssign = $userObj->addAuditAssign($mysqli,$userid,$idupd);
-       ?>
-<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=1';</script>
-<?php
-   }
-   }
-
-   $del=0;
-   if(isset($_GET['del']))
-   {
-   $del=$_GET['del'];
-   }
-   if($del>0)
-   {
-   $deleteAuditAreaCreation = $userObj->deleteAuditAssign($mysqli,$del);
-   ?>
-<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=3';</script>
-<?php
-   }
-
-   if(isset($_GET['upd']))
-   {
-   $idupd=$_GET['upd'];
-   }
-
-   if($idupd>0)
-   {
-   	$getAuditAssignlist = $userObj->getAuditAssignlist($mysqli,$idupd);
-
-   	if (sizeof($getAuditAssignlist)>0) {
-           for($i=0;$i<sizeof($getAuditAssignlist);$i++)  {
-               $date_of_audit                  = $getAuditAssignlist['date_of_audit'];
-               $audit_area_id                  = $getAuditAssignlist['area_id'];
-               $audit_area_name                  = $getAuditAssignlist['area_name'];
-   			$dept                	 = $getAuditAssignlist['department'];
-   			$departid = explode(",", $dept);
-    $department_name   = array();
-   foreach($departid as $departmentid) {
-   $deptid = trim($departmentid);
-    $department_name1 = "SELECT department_name FROM department_creation WHERE department_id IN ($deptid) and status = 0";
-    $res2 = $mysqli->query($department_name1);
+          
+    }
+      
+      ?>
 
 
-              $row2 = $res2->fetch_assoc();
-              $department_name[] = $row2['department_name'];
-
-
-
-   }
-   $dept_name                 = $department_name;
-
-   $deptname = implode(', ', $dept_name);
-               // $dept_name                	 = $getAuditAssignlist['department_name'];
-               $role1                	     = $getAuditAssignlist['auditor'];
-               $auditor_name                	     = $getAuditAssignlist['auditor_name'];
-   			$role2    	                = $getAuditAssignlist['auditee'];
-   			$auditee_name    	                = $getAuditAssignlist['auditee_name'];
-
-   		}
-   	}
-
-       $getAuditassign_ref = $userObj->getAuditassign_ref($mysqli,$idupd);
-
-       $major[]=array();
-       $assertion[]=array();
-       $audit_status[]=array();
-       $recommendation[]=array();
-       $attachment[]=array();
-       $audit_remarks[]=array();
-        $audit_assign_ref_id[]=array();
-
-
-       if (sizeof($getAuditassign_ref)>0) {
-           for($j=0;$j<sizeof($getAuditassign_ref);$j++)  {
-               // print_r($getAuditassign_ref);
-               $major[$j]    	                = $getAuditassign_ref[$j]['major_area'];
-               $assertion[$j]    	                = $getAuditassign_ref[$j]['assertion'];
-               $audit_status[$j]    	                = $getAuditassign_ref[$j]['audit_status'];
-               $recommendation[$j]    	                = $getAuditassign_ref[$j]['recommendation'];
-               $attachment[$j]    	                = $getAuditassign_ref[$j]['attachment'];
-               $audit_remarks[$j]    	                = $getAuditassign_ref[$j]['audit_remarks'];
-               $audit_assign_ref_id[$j]                 = $getAuditassign_ref[$j]['audit_assign_ref_id'];
-   		}
-   	}
-   }
-   ?>
 <!-- Page header start -->
 <style>
    .hidden{
@@ -256,14 +165,13 @@
                   </div>
                </div>
             </div>
-            <div class="col-md-12">
-               <br><br>
-               
-               </div>
+            
          </div>
       </div>
 </div>
 </div>
+</form>
+<form >
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -273,18 +181,33 @@
          <h4 class="modal-title">Follow Up</h4>
          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="modal-body" style="
-    background-color: whitesmoke;
-">
-          <p>Some text in the modal.</p>
-          <p>Some text in the modal.</p>
-          <p>Some text in the modal.</p>
-          <p>Some text in the modal.</p>
-          <p>Some text in the modal.</p>
-          <p>Some text in the modal.</p>
+        <div class="modal-body" style="background-color: whitesmoke;">
+                  <div class="form-group">
+                        <label for="remarks">Remarks *</label>
+                                       <?php 
+                                             if(isset($_SESSION["userid"])){
+                                                   $userid = $_SESSION["userid"];
+                                             }
+                                        ?>
+                        <textarea id='remarks'  class='form-control' rows='5' name='remarks'  cols='35' placeholder='Enter Audit Remarks'></textarea>
+                        <input  type='hidden' class='form-control assignid' id='assignidc'  name='assidnid' value="" readonly>
+                        <input  type='hidden' class='form-control assignrefid' id='assignrefidc'  name='assidnrefid' value="" readonly>
+                        <input  type='hidden' class='form-control userid' id='userid'  name='userid' value="<?php echo   $userid;?>" readonly>
+                  </div>
+                  <div class="form-group">
+                        <label for="date">Completed Date *</label>
+                        <input type="date" class="form-control" id="date" name="date">
+                  </div>
+                  <div class="form-group">
+                        <label for="file">Attachment If Any</label>
+                        <input type="file" class="form-control" style='padding: 3px;' id="file" name="file">
+                        
+                  </div>
+                 
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="modal-footer" style="background-color: whitesmoke;">
+        <button type="button" id ="insert" class="btn btn-primary insert" name="insert">Submit</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
         </div>
       </div>
       
