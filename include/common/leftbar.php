@@ -348,6 +348,21 @@
 						</div>	
 					</li>
 
+					<!-- Target Fixing -->
+					<li class="sidebar-dropdown1">
+											<a href="javascript:void(0)">
+												<i class="icon-target"></i>
+												<span class="menu-text" >Target Fixing</span>
+											</a>
+											<div class="sidebar-submenu1">
+												<ul>
+													<li>
+														<a href="goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
+													</li>
+												</ul>
+											</div>	
+										</li>
+
 					<!-- vehicle management -->
 					<li class="sidebar-dropdown1">
 						<a href="javascript:void(0)">
