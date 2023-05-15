@@ -190,6 +190,7 @@
                 </div>
 
             </div>
+
         </div>
 </div>
 </div>
@@ -208,10 +209,14 @@
                     <div class="form-group">
                         <label for="remarks">Remarks *</label>
                         <?php 
+
+            
+        
                                              if(isset($_SESSION["userid"])){
                                                    $userid = $_SESSION["userid"];
                                              }
                                         ?>
+
                         <textarea id='remarks' class='form-control' rows='5' name='remarks' cols='35'
                             placeholder='Enter Audit Remarks'></textarea>
                         <input type='hidden' class='form-control assignid' id='assignidc' name='assidnid' value=""
@@ -238,6 +243,8 @@
                 </div>
             </div>
 
+=======
+                 
         </div>
     </div>
 </form>
