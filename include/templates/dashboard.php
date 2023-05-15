@@ -181,6 +181,56 @@ $auditAssignDashboard = $userObj->getAuditAssignDashboard($mysqli, $sstaffid);
 // auditee response
 $auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $sstaffid);
 
+
+// Meeting Minutes
+$mm_approval_staff_idArr=array();
+$mm_approval_staff_idLength=array();
+$mm_agree_par_staff_idArr=array();
+$mm_receiving_dept_idArr=array();
+$mm_after_notified_staff_idArr=array();
+
+$approvalRequisitionApproveStaff = $userObj->getMeetingMinutesApproveStaffDashboard($mysqli); 
+if (sizeof($approvalRequisitionApproveStaff)>0) {   
+    for($a=0;$a<sizeof($approvalRequisitionApproveStaff);$a++) {	
+        $mm_approval_line_id                 = $approvalRequisitionApproveStaff['meeting_minutes_approval_line_id'];
+        $mm_company_id                	         = $approvalRequisitionApproveStaff['company_id'];
+        $mm_approval_staff_id                   = $approvalRequisitionApproveStaff['approval_staff_id'];
+        $mm_agree_par_staff_id		             = $approvalRequisitionApproveStaff['agree_par_staff_id'];
+        $mm_after_notified_staff_id		     = $approvalRequisitionApproveStaff['after_notified_staff_id'];
+        $mm_receiving_dept_id		             = $approvalRequisitionApproveStaff['receiving_dept_id'];
+        $mm_checker_approval		             = $approvalRequisitionApproveStaff['checker_approval'];
+        $mm_reviewer_approval		             = $approvalRequisitionApproveStaff['reviewer_approval'];
+        $mm_final_approval		                 = $approvalRequisitionApproveStaff['final_approval'];
+    }
+    
+    // approval staff
+    $mm_approval_staff_idArr = array_map('intval', explode(',', $approval_staff_id));
+    $mm_approval_staff_idLength = sizeof($mm_approval_staff_idArr);
+
+    // parallel staff
+    $mm_agree_par_staff_idArr = array_map('intval', explode(',', $agree_par_staff_id));
+
+    // receiving dept 
+    $mm_receiving_dept_idArr = array_map('intval', explode(',', $receiving_dept_id));
+
+    // receiving dept 
+    $mm_after_notified_staff_idArr = array_map('intval', explode(',', $after_notified_staff_id));
+}
+
+ // fetch parallel staff on dashboard
+ $mm_approvalRequisitionParallelAgreement = $userObj->getMeetingMinutesParallelAgreement($mysqli, $sstaffid, $mm_approval_line_id);
+ $mm_agree_disagree_staff_id = 0;
+ if(sizeof($mm_approvalRequisitionParallelAgreement) > 0){
+     $mm_agree_disagree_staff_id          = $mm_approvalRequisitionParallelAgreement['agree_disagree_staff_id'];
+ }
+
+$mm_approvalRequisitionAfterNotification = $userObj->getMeetingMinutesAfterNotification($mysqli, $sstaffid, $mm_approval_line_id);
+$mm_approve_requisition_after_notification_staff_id = '';
+$mm_approve_requisition_after_notification_staff_status = '';
+if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
+    $mm_approve_requisition_after_notification_staff_id  = $mm_approvalRequisitionAfterNotification['after_notified_staff_id'];
+    $mm_approve_requisition_after_notification_staff_status  = $mm_approvalRequisitionAfterNotification['status'];
+}
 ?>
 
 <style>
@@ -625,7 +675,7 @@ $auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $ssta
 
                 <!-- approval requisition -->
                 <?php 
-                if($approval_staff_idLength == '2'){
+                if($approval_staff_idLength == '2'){    
                     if($checker_approval == 0){  
                         if($sstaffid == $approval_staff_idArr[0]) { ?>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -1485,6 +1535,292 @@ $auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $ssta
                                                                     <th>Department</th>
                                                                     <th>Role 1</th>
                                                                     <th>Role 2</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                <!-- meeting minutes -->
+                <?php 
+                if($mm_approval_staff_idLength == '2'){    
+                    if($mm_checker_approval == 0){  
+                        if($sstaffid == $mm_approval_staff_idArr[0]) { ?>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Meeting Minutes</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 "> 
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <div class="table">
+                                                            <table id="meetingMinutesApprovalLine_info_dashboard" class="table custom-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>S. No.</th>
+                                                                        <th>Company Name</th>
+                                                                        <th>Branch Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php  
+                        } 
+                    } 
+
+                    if($mm_checker_approval == 1 && $mm_final_approval == 0){
+                        if($sstaffid == $mm_approval_staff_idArr[1]) { ?>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Meeting Minutes</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 "> 
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <div class="table">
+                                                            <table id="meetingMinutesApprovalLine_info_dashboard" class="table custom-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>S. No.</th>
+                                                                        <th>Company Name</th>
+                                                                        <th>Branch Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php  
+                        }
+                    }
+
+                } else if($mm_approval_staff_idLength == '3'){
+
+                    if($mm_checker_approval == 0){
+                        if($sstaffid == $mm_approval_staff_idArr[0]) { ?>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Meeting Minutes</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 "> 
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <div class="table">
+                                                            <table id="meetingMinutesApprovalLine_info_dashboard" class="table custom-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>S. No.</th>
+                                                                        <th>Company Name</th>
+                                                                        <th>Branch Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php  
+                        } 
+                    } 
+
+                    if($mm_checker_approval == 1 && $mm_reviewer_approval == 0){
+                        if($sstaffid == $mm_approval_staff_idArr[1]) { ?>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Meeting Minutes</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Fields -->
+                                            <div class="col-md-12 "> 
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <div class="table">
+                                                            <table id="meetingMinutesApprovalLine_info_dashboard" class="table custom-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>S. No.</th>
+                                                                        <th>Company Name</th>
+                                                                        <th>Branch Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php  
+                        }
+                    }
+
+                    if($mm_checker_approval == 1 && $mm_reviewer_approval == 1 && $mm_final_approval == 0){
+                        if($sstaffid == $mm_approval_staff_idArr[2]) { ?>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Approval Requisition</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12 "> 
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <div class="table">
+                                                            <table id="meetingMinutesApprovalLine_info_dashboard" class="table custom-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>S. No.</th>
+                                                                        <th>Company Name</th>
+                                                                        <th>Branch Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php  
+                        }
+                    }
+
+                } ?>
+                
+                <!-- Parallel Meeting Minutes -->
+                <?php 
+                if($mm_agree_disagree_staff_id == $sstaffid){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Parallel Agreement - Meeting Minutes</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="parallelAgreement_info_dashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S. No.</th>
+                                                                    <th>Company Name</th>
+                                                                    <th>Branch Name</th>
+                                                                    <th>Date</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                <!-- after notified staff Meeting Minutes -->
+                <?php 
+                if($mm_approve_requisition_after_notification_staff_id == $sstaffid && $mm_approve_requisition_after_notification_staff_status == 1){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">After Notification - Meeting Minutes</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="afterNotification_info_dashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S. No.</th>
+                                                                    <th>Company Name</th>
+                                                                    <th>Branch Name</th>
+                                                                    <th>Date</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>

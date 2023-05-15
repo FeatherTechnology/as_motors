@@ -393,10 +393,13 @@
 						<div class="sidebar-submenu1">
 							<ul>
 								<li>
-									<a href="approval_requisition"><i class="icon-card_travel"></i>Approval Requisition</a>	
+									<a href="edit_approval_requisition"><i class="icon-card_travel"></i>Approval Requisition</a>	
 								</li>
 								<li>
-									<a href="business_com_out"><i class="icon-redeem"></i>Business Communication - Outgoing</a>	
+									<a href="edit_business_com_out"><i class="icon-redeem"></i>Business Communication - Outgoing</a>	
+								</li>
+								<li>
+									<a href="edit_meeting_minutes"><i class="icon-redeem"></i>Minutes Of Meeting</a>	
 								</li>
 							</ul>
 						</div>	

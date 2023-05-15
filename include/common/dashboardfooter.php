@@ -1255,6 +1255,42 @@
         ]
     });
 
+    // approval requisition list fetching
+    var approvalRequisition_info = $('#approvalRequisition_info').DataTable({
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        //'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxApprovalRequisitionListFetch.php',
+            'data': function(data){
+                console.log("data",data);
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
 
     // approval line - approval requisition dashboard
     var approvalLine_info_dashboard = $('#approvalLine_info_dashboard').DataTable({
@@ -1378,6 +1414,41 @@
                 data.search = search;
             }
         },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+    // business communication outgoing list fetching
+    var businessComOut_info = $('#businessComOut_info').DataTable({
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        //'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxBusinessComOutListFetch.php',
+            'data': function(data){
+                console.log("data",data);
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+
         // dom: 'lBfrtip',
         buttons: [
             {
@@ -2000,6 +2071,112 @@
         ]
     });
 
+    // meeting minutes - approval line
+    var minutesMeetingApprovalLine_info = $('#minutesMeetingApprovalLine_info').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url':'ajaxMinutesMeetingApprovalLineFetch.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+    // meeting minutes 
+    var meetingMinutes_info = $('#meetingMinutes_info').DataTable({
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url':'ajaxMeetingMinutesListFetch.php',
+            'data': function(data){
+                console.log("data",data);
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+
+    // Meeting minutes approval line - dashboard
+    var meetingMinutesApprovalLine_info_dashboard = $('#meetingMinutesApprovalLine_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxMeetingMinutesApprovalLineDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+
+
 	$('#search').change(function(){
 		companyCreation_info.draw();
 		branchCreation_info.draw();
@@ -2049,6 +2226,11 @@
         campaign_info.draw();
         promotional_activities_info.draw();
         goal_setting_infoDashboard.draw();
+        approvalRequisition_info.draw();
+        businessComOut_info.draw();
+        minutesMeetingApprovalLine_info.draw();
+        meetingMinutes_info.draw();
+        meetingMinutesApprovalLine_info_dashboard.draw();
 
     });
 	
@@ -2259,9 +2441,20 @@ if($current_page == 'audit_followup') { ?>
 	<script src="js/audit_followup.js"></script>
 	<?php }
 
+
 if($current_page == 'goal_setting') { ?>
 	<script src="js/goal_setting.js"></script>
 	<?php }
+
+if($current_page == 'meeting_minutes_approval_line') { ?>
+	<script src="js/meeting_minutes_approval_line.js"></script>
+	<?php }
+
+if($current_page == 'meeting_minutes') { ?>
+	<script src="js/meeting_minutes.js"></script>
+	<?php }
+
+
 ?> 
 
 <script src="js/logincreation.js"></script>

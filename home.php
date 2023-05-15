@@ -396,6 +396,10 @@ include('api/main.php'); // Database Connection File
             <?php include "include/templates/business_com_out.php" ?>
             <?php } ?>
 
+            <?php if($current_page == 'edit_business_com_out') { ?>
+            <?php include "include/templates/edit_business_com_out.php" ?>
+            <?php } ?>
+
             <?php if($current_page == 'business_com_approval_line') { ?>
             <?php include "include/templates/business_com_approval_line.php" ?>
             <?php } ?>
@@ -409,6 +413,10 @@ include('api/main.php'); // Database Connection File
             <?php include "include/templates/approval_requisition.php" ?>
             <?php } ?>
 
+            <?php if($current_page == 'edit_approval_requisition') { ?>
+            <?php include "include/templates/edit_approval_requisition.php" ?>
+            <?php } ?>
+
 			<!-- Approval Line -->
             <?php if($current_page == 'approval_line') { ?>
             <?php include "include/templates/approval_line.php" ?>
@@ -416,6 +424,24 @@ include('api/main.php'); // Database Connection File
 
             <?php if($current_page == 'edit_approval_line') { ?>
             <?php include "include/templates/edit_approval_line.php" ?>
+            <?php } ?>
+			
+			<!-- Meeting Minutes -->
+            <?php if($current_page == 'meeting_minutes') { ?>
+            <?php include "include/templates/meeting_minutes.php" ?>
+            <?php } ?>
+
+            <?php if($current_page == 'edit_meeting_minutes') { ?>
+            <?php include "include/templates/edit_meeting_minutes.php" ?>
+            <?php } ?>
+
+			<!-- Minutes Meeting Approval Line -->
+            <?php if($current_page == 'meeting_minutes_approval_line') { ?>
+            <?php include "include/templates/meeting_minutes_approval_line.php" ?>
+            <?php } ?>
+
+            <?php if($current_page == 'edit_meeting_minutes_approval_line') { ?>
+            <?php include "include/templates/edit_meeting_minutes_approval_line.php" ?>
             <?php } ?>
 
 			<!-- Maintenance Checklist -->
