@@ -24,7 +24,7 @@ $after_notified_staff_idArr=array();
 if(isset($_GET['upd']))
 { 
     $idupd=$_GET['upd'];
-    $approvalRequisitionApproveStaff = $userObj->getApprovalRequisitionApproveStaff($mysqli, $idupd); 
+    $approvalRequisitionApproveStaff = $userObj->getMeetingMinutesApprovalLineApproveStaff($mysqli, $idupd); 
     if (sizeof($approvalRequisitionApproveStaff)>0) {   
         for($a=0;$a<sizeof($approvalRequisitionApproveStaff);$a++) {	
             $approval_line_id                    = $approvalRequisitionApproveStaff['approval_line_id'];
@@ -84,7 +84,7 @@ if(isset($_GET['dashupd']))
     } 
 
     $dashupd=$_GET['dashupd'];
-    $approvalRequisitionApproveStaff = $userObj->getApprovalRequisitionApproveStaff($mysqli, $dashupd); 
+    $approvalRequisitionApproveStaff = $userObj->getMeetingMinutesApprovalLineApproveStaff($mysqli, $dashupd); 
     if (sizeof($approvalRequisitionApproveStaff)>0) {   
         for($a=0;$a<sizeof($approvalRequisitionApproveStaff);$a++) {	
             $approval_line_id                    = $approvalRequisitionApproveStaff['approval_line_id'];
@@ -104,7 +104,7 @@ if(isset($_GET['dashupd']))
         }
 
         // get approval requisition 
-        $getqry = "SELECT * FROM approval_requisition WHERE approval_line_id ='".strip_tags($approval_line_id)."' and status = 0"; 
+        $getqry = "SELECT * FROM meeting_minutes WHERE meeting_minutes_approval_line_id ='".strip_tags($approval_line_id)."' and status = 0"; 
         $res = $mysqli->query($getqry) or die("Error in Get All Records".$mysqli->error);
         while($row = $res->fetch_assoc())
         {
@@ -154,9 +154,9 @@ if(isset($_GET['parallel'])){
 if(isset($_POST['agreeBtn']) && $_POST['agreeBtn'] != '')
 {
     if($parallel > 0){
-        $parallelAgreeApprovalRequisition = $userObj->parallelAgreeApprovalRequisition($mysqli, $userid);   
+        $parallelMeetingMinutes = $userObj->parallelMeetingMinutes($mysqli, $userid);   
     }else{
-        $agreeApprovalRequisition = $userObj->agreeApprovalRequisition($mysqli, $userid);   
+        $agreeMeetingMinutes = $userObj->agreeMeetingMinutes($mysqli, $userid);   
     }
     ?>
     <script>location.href='<?php echo $HOSTPATH; ?>dashboard';</script>
@@ -165,9 +165,9 @@ if(isset($_POST['agreeBtn']) && $_POST['agreeBtn'] != '')
 if(isset($_POST['disagreeBtn']) && $_POST['disagreeBtn'] != '')
 {
     if($parallel > 0){
-        $parallelDisagreeApprovalRequisition = $userObj->parallelDisagreeApprovalRequisition($mysqli, $userid);     
+        $parallelDisagreeMeetingMinutes = $userObj->parallelDisagreeMeetingMinutes($mysqli, $userid);     
     }else{
-        $disagreeApprovalRequisition = $userObj->disagreeApprovalRequisition($mysqli, $userid);    
+        $disagreeMeetingMinutes = $userObj->disagreeMeetingMinutes($mysqli, $userid);    
     }
      
     ?>
@@ -226,13 +226,6 @@ function getDeptName($mysqli, $department_id){
                     <div class="row">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6"></div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-                            <!-- <div class="card-header">Room Scheduling</div> -->
-                            <!-- <div class="text-left">
-                                <a href="approval_line"><button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary"> Approval Line</button></a>
-                                <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Save Temp</button>
-                                <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Preview</button>
-                                <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"><span class="icon-print"></span> PDF</button>
-                            </div> -->
                             <br>   
                             <?php if($afterNotification <= 0){ ?> 
                                 <div class="text-left" >
@@ -298,10 +291,8 @@ function getDeptName($mysqli, $department_id){
 
                                                 <!-- approvaed rejected if condition -->                                                                                        
                                                 <td style="width: 20%; height: 30px;"> <input style="color: <?php echo $color; ?>" readonly type="text" id="checker_dateApp" name="checker_dateApp" value="<?php echo $status; ?>" class="form-control"> </td>
-                                                <!-- <td style="width: 20%; height: 30px;"> <input readonly type="text" id="checker_dateApp" name="checker_dateApp" value="<?php if($dashupd>0){ if($checker_approval_date == ''){ echo ""; } else echo date('d-m-Y',strtotime($checker_approval_date)); } ?>" class="form-control"> </td> -->
                                                 <td style="width: 20%; height: 30px;"> <input style="color: <?php echo $color2; ?>" readonly type="text" id="reviewer_dateApp" name="reviewer_dateApp" value="<?php echo $status2; ?>" class="form-control"> </td>
                                                 <td style="width: 20%; height: 30px;"> <input style="color: <?php echo $color1; ?>" readonly type="text" id="approvar_dateApp" name="approvar_dateApp" value="<?php echo $status1; ?>" class="form-control"> </td>
-
                                             </tr>
                                             <?php } else if($approval_staff_idLength == '3'){ ?>
                                             <td style="width: 20%; height: 50px;"> <input readonly type="text" id="drafter_nameApp" name="drafter_nameApp"value="<?php if($dashupd>0){ echo getStaffName($mysqli, $staff_id); } ?>" class="form-control"> </td>
@@ -340,7 +331,7 @@ function getDeptName($mysqli, $department_id){
 
                                         $agree_disagree='';
                                         $agree_disagree_date='';
-                                        $getqry = "SELECT agree_disagree, agree_disagree_date FROM approval_requisition_parallel_agree_disagree 
+                                        $getqry = "SELECT agree_disagree, agree_disagree_date FROM meeting_minutes_parallel_agree_disagree 
                                         WHERE agree_disagree_staff_id ='".strip_tags($agree_par_staff_idArr[$j])."' 
                                         AND status = 0";
                                         $res = $mysqli->query($getqry) or die("Error in Get All Records".$mysqli->error);
@@ -468,7 +459,7 @@ function getDeptName($mysqli, $department_id){
                                         $s_array = explode(",",$file); 
                                         foreach($s_array as $file)
                                     { ?>
-                                    <a href="uploads/approval_requisition/<?php echo $approval_line_id; ?>/<?php echo $file; ?>" download><li><?php echo $file; ?></li></a>
+                                    <a href="uploads/meeting_minutes/<?php echo $approval_line_id; ?>/<?php echo $file; ?>" download><li><?php echo $file; ?></li></a>
 							        <?php } ?>
                                 </div>  
                             </div>
@@ -502,16 +493,9 @@ function getDeptName($mysqli, $department_id){
                         <?php if($idupd<=0) { ?>
                             <div class="text-left">
                                 <a href="meeting_minutes_approval_line"><button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary"> Approval Line</button></a>
-                                <!-- <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Save Temp</button>
-                                <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Preview</button>
-                                <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"><span class="icon-print"></span> PDF</button> -->
                             </div>
                         <?php } ?>
                         <br>    
-                        <!-- <div class="text-left" >
-                            <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Agree</button>
-                            <button type="button" id="downloadpdf" name="downloadpdf" class="btn btn-primary" onclick="printTable()"> Disagree</button>
-                        </div> -->
                         <br>
                         <div class="text-left">
                             <table border="1" style="width: 100%">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2023 at 02:51 PM
+-- Generation Time: May 15, 2023 at 03:02 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -95,7 +95,8 @@ CREATE TABLE `approval_line` (
 --
 
 INSERT INTO `approval_line` (`approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1', '1', '1', '1', '2023-05-12', '2023-05-12', '2023-05-12', 0, 20, NULL, NULL, '2023-05-12 18:38:43', '2023-05-12 18:38:43');
+(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1', '1', '1', '1', '2023-05-12', '2023-05-12', '2023-05-12', 0, 20, NULL, NULL, '2023-05-12 18:38:43', '2023-05-12 18:38:43'),
+(2, '1', '1', '2,3,4', '2,3,4', '2,3,4', '2', '0', '0', '0', NULL, NULL, NULL, 0, 20, NULL, NULL, '2023-05-15 10:04:36', '2023-05-15 10:04:36');
 
 -- --------------------------------------------------------
 
@@ -125,7 +126,8 @@ CREATE TABLE `approval_requisition` (
 --
 
 INSERT INTO `approval_requisition` (`approval_requisition_id`, `approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'DOCNUM1', '12-05-2023', 'test', 'testst', '', 0, 20, NULL, NULL, '2023-05-12 18:39:01', '2023-05-12 18:39:01');
+(1, '1', '1', 'DOCNUM1', '12-05-2023', 'test', 'testst', '', 0, 20, NULL, NULL, '2023-05-12 18:39:01', '2023-05-12 18:39:01'),
+(2, '2', '1', 'ARDOCNUM2', '15-05-2023', 'test', 'et', '', 0, 20, NULL, NULL, '2023-05-15 10:23:47', '2023-05-15 10:23:47');
 
 -- --------------------------------------------------------
 
@@ -150,7 +152,10 @@ CREATE TABLE `approval_requisition_parallel_agree_disagree` (
 INSERT INTO `approval_requisition_parallel_agree_disagree` (`approval_requisition_agree_disagree_id`, `approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
 (11, '1', '2', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
 (12, '1', '3', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
-(13, '1', '4', 0, NULL, 0, '2023-05-12 18:38:43');
+(13, '1', '4', 0, NULL, 0, '2023-05-12 18:38:43'),
+(14, '2', '2', 1, '2023-05-15', 0, '2023-05-15 10:04:36'),
+(15, '2', '3', 0, NULL, 0, '2023-05-15 10:04:36'),
+(16, '2', '4', 0, NULL, 0, '2023-05-15 10:04:36');
 
 -- --------------------------------------------------------
 
@@ -367,22 +372,23 @@ CREATE TABLE `audit_assign_ref` (
   `auditee_response` varchar(100) DEFAULT NULL,
   `action_plan` varchar(100) DEFAULT NULL,
   `target_date` varchar(100) DEFAULT NULL,
-  `auditee_response_status` int(11) NOT NULL DEFAULT 0
+  `auditee_response_status` int(11) NOT NULL DEFAULT 0,
+  `auditee_followup_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `audit_assign_ref`
 --
 
-INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`) VALUES
-(1, '1', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0),
-(2, '1', 'pondy', 'test1', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0),
-(3, '2', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0),
-(4, '2', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0),
-(5, '3', 'chennai', 'test', '0', 'asdf', '', 'asdf', 'asdf', 'asdf1212', '2023-05-12', 1),
-(6, '3', 'pondy', 'test1', '0', 'sadfsfsdf', '', 'asdf', '1212', '121221', '2023-05-22', 1),
-(7, '4', 'chennai', 'test', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0),
-(8, '4', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0);
+INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`, `auditee_followup_status`) VALUES
+(1, '1', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0, 0),
+(2, '1', 'pondy', 'test1', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0, 0),
+(3, '2', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0, 0),
+(4, '2', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0, 0),
+(5, '3', 'chennai', 'test', '0', 'asdf', '', 'asdf', 'asdf', 'asdf1212', '2023-05-12', 1, 0),
+(6, '3', 'pondy', 'test1', '0', 'sadfsfsdf', '', 'asdf', '1212', '121221', '2023-05-22', 1, 0),
+(7, '4', 'chennai', 'test', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0, 0),
+(8, '4', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -428,6 +434,23 @@ CREATE TABLE `audit_checklist_ref` (
 INSERT INTO `audit_checklist_ref` (`audit_checklist_ref_id`, `audit_area_id`, `major_area`, `sub_area`, `assertion`, `weightage`) VALUES
 (1, 1, 'chennai', NULL, 'test', ''),
 (2, 1, 'pondy', NULL, 'test1', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audit_followup`
+--
+
+CREATE TABLE `audit_followup` (
+  `audit_followup_id` int(11) NOT NULL,
+  `audit_assign_id` int(11) NOT NULL,
+  `audit_assign_ref_id` int(11) NOT NULL,
+  `remarks` varchar(200) NOT NULL,
+  `completed_date` date NOT NULL,
+  `files` varchar(200) DEFAULT NULL,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `created_date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -934,6 +957,45 @@ INSERT INTO `diesel_slip` (`diesel_slip_id`, `company_id`, `vehicle_number`, `pr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `goal_setting`
+--
+
+CREATE TABLE `goal_setting` (
+  `goal_setting_id` int(11) NOT NULL,
+  `company_name` varchar(11) DEFAULT NULL,
+  `department` varchar(255) DEFAULT NULL,
+  `role` varchar(250) DEFAULT NULL,
+  `year` varchar(200) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `goal_setting_ref`
+--
+
+CREATE TABLE `goal_setting_ref` (
+  `goal_setting_ref_id` int(11) NOT NULL,
+  `goal_setting_id` int(11) DEFAULT NULL,
+  `assertion` varchar(255) DEFAULT NULL,
+  `target` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hierarchy_creation`
 --
 
@@ -1317,7 +1379,7 @@ CREATE TABLE `meeting_minutes` (
 --
 
 INSERT INTO `meeting_minutes` (`meeting_minutes_id`, `meeting_minutes_approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'DOCNUM2', '13-05-2023', 'test', 'test', 'ZR_106418_CAND (1).pdf', 0, 20, NULL, NULL, '2023-05-13 17:08:16', '2023-05-13 17:08:16');
+(1, '1', '1', 'MMDOCNUM1', '15-05-2023', 'test', 'test', 'ZR_106418_CAND (1).pdf', 0, 20, NULL, NULL, '2023-05-15 10:40:13', '2023-05-15 10:40:13');
 
 -- --------------------------------------------------------
 
@@ -1352,7 +1414,7 @@ CREATE TABLE `meeting_minutes_approval_line` (
 --
 
 INSERT INTO `meeting_minutes_approval_line` (`meeting_minutes_approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1,2', '0', '0', '0', NULL, NULL, NULL, 0, 20, NULL, NULL, '2023-05-13 17:01:18', '2023-05-13 17:01:18');
+(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '2', '1', '1', '1', '2023-05-15', '2023-05-15', '2023-05-15', 0, 20, NULL, NULL, '2023-05-15 10:37:19', '2023-05-15 10:37:19');
 
 -- --------------------------------------------------------
 
@@ -1375,9 +1437,9 @@ CREATE TABLE `meeting_minutes_parallel_agree_disagree` (
 --
 
 INSERT INTO `meeting_minutes_parallel_agree_disagree` (`meeting_minutes_agree_disagree_id`, `meeting_minutes_approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
-(1, '1', '2', 0, NULL, 0, '2023-05-13 17:01:18'),
-(2, '1', '3', 0, NULL, 0, '2023-05-13 17:01:18'),
-(3, '1', '4', 0, NULL, 0, '2023-05-13 17:01:18');
+(1, '1', '2', 1, '2023-05-15', 0, '2023-05-15 10:37:19'),
+(2, '1', '3', 1, '2023-05-15', 0, '2023-05-15 10:37:19'),
+(3, '1', '4', 1, '2023-05-15', 0, '2023-05-15 10:37:19');
 
 -- --------------------------------------------------------
 
@@ -2063,6 +2125,21 @@ INSERT INTO `work_status` (`status_id`, `work_id`, `work_des`, `work_status`, `r
 (48, 'campaign 7', 'act 1', '2', '', NULL, NULL, 0, '2023-05-11 18:51:16', '2023-05-11 18:51:16', NULL, NULL),
 (49, 'campaign 7', 'act 1', '3', NULL, '', NULL, 0, '2023-05-11 18:51:27', '2023-05-11 18:51:27', NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `year_creation`
+--
+
+CREATE TABLE `year_creation` (
+  `year_id` int(11) NOT NULL,
+  `year` varchar(255) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -2150,6 +2227,12 @@ ALTER TABLE `audit_checklist`
 --
 ALTER TABLE `audit_checklist_ref`
   ADD PRIMARY KEY (`audit_checklist_ref_id`);
+
+--
+-- Indexes for table `audit_followup`
+--
+ALTER TABLE `audit_followup`
+  ADD PRIMARY KEY (`audit_followup_id`);
 
 --
 -- Indexes for table `bankmaster`
@@ -2252,6 +2335,18 @@ ALTER TABLE `designation_creation`
 --
 ALTER TABLE `diesel_slip`
   ADD PRIMARY KEY (`diesel_slip_id`);
+
+--
+-- Indexes for table `goal_setting`
+--
+ALTER TABLE `goal_setting`
+  ADD PRIMARY KEY (`goal_setting_id`);
+
+--
+-- Indexes for table `goal_setting_ref`
+--
+ALTER TABLE `goal_setting_ref`
+  ADD PRIMARY KEY (`goal_setting_ref_id`);
 
 --
 -- Indexes for table `hierarchy_creation`
@@ -2477,6 +2572,12 @@ ALTER TABLE `work_status`
   ADD PRIMARY KEY (`status_id`);
 
 --
+-- Indexes for table `year_creation`
+--
+ALTER TABLE `year_creation`
+  ADD PRIMARY KEY (`year_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -2490,19 +2591,19 @@ ALTER TABLE `accountsgroup`
 -- AUTO_INCREMENT for table `approval_line`
 --
 ALTER TABLE `approval_line`
-  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition`
 --
 ALTER TABLE `approval_requisition`
-  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition_parallel_agree_disagree`
 --
 ALTER TABLE `approval_requisition_parallel_agree_disagree`
-  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `asset_details`
@@ -2563,6 +2664,12 @@ ALTER TABLE `audit_checklist`
 --
 ALTER TABLE `audit_checklist_ref`
   MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `audit_followup`
+--
+ALTER TABLE `audit_followup`
+  MODIFY `audit_followup_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bankmaster`
@@ -2665,6 +2772,18 @@ ALTER TABLE `designation_creation`
 --
 ALTER TABLE `diesel_slip`
   MODIFY `diesel_slip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `goal_setting`
+--
+ALTER TABLE `goal_setting`
+  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `goal_setting_ref`
+--
+ALTER TABLE `goal_setting_ref`
+  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hierarchy_creation`
@@ -2887,6 +3006,12 @@ ALTER TABLE `vehicle_details`
 --
 ALTER TABLE `work_status`
   MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+
+--
+-- AUTO_INCREMENT for table `year_creation`
+--
+ALTER TABLE `year_creation`
+  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

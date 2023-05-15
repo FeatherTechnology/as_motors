@@ -14,13 +14,13 @@ if(isset($_SESSION["staffid"])){
 
 $column = array(
 
-    'approval_line_id',
+    'meeting_minutes_approval_line_id',
     'company_id',
     'created_date',
     'status'
 );
 
-$query = "SELECT * FROM approval_line WHERE 1";
+$query = "SELECT * FROM meeting_minutes_approval_line WHERE 1";
 // if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -38,7 +38,7 @@ $query = "SELECT * FROM approval_line WHERE 1";
 
             else{	
                 $query .= "
-                OR approval_line_id LIKE  '%".$_POST['search']."%'
+                OR meeting_minutes_approval_line_id LIKE  '%".$_POST['search']."%'
                 OR company_id LIKE  '%".$_POST['search']."%'
                 OR created_date LIKE  '%".$_POST['search']."%'
                 OR status LIKE '%".$_POST['search']."%' ";
@@ -78,52 +78,34 @@ foreach ($result as $row) {
         $sub_array[] = $sno;
     }
 
-    $final_approval  = $row['final_approval'];
-    $agree_par_staff_id  = $row['agree_par_staff_id'];
-
-    $parallel_staff_idArr = array_map('intval', explode(',', $agree_par_staff_id));
-    $parallel_staff_idLength = sizeof($parallel_staff_idArr);
-
-    $getParallelAgreementStaffId = "SELECT COUNT(agree_disagree) as agree_disagree FROM approval_requisition_parallel_agree_disagree WHERE agree_disagree = '1' AND status=0 ";
-    $res11 = $con->query($getParallelAgreementStaffId);
-    if ($con->affected_rows>0)
+    $company_name='';
+    $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
+    $res = $con->query($qry);
+    while($row5 = $res->fetch_assoc())
     {
-        $row11 = $res11->fetch_object();
-        $agree_disagree  = $row11->agree_disagree;
-    }
-
-    // if($final_approval != 1 && $parallel_staff_idLength != $agree_disagree){
-    if($parallel_staff_idLength != $agree_disagree){
-
-        $company_name='';
-        $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
-        $res = $con->query($qry);
-        while($row5 = $res->fetch_assoc())
-        {
-            $branch_name = $row5['branch_name'];
-            $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
-            $res1 = $con->query($getname);
-            while ($row52 = $res1->fetch_assoc()) {
-                $company_name = $row52['company_name'];
-            }
+        $branch_name = $row5['branch_name'];
+        $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
+        $res1 = $con->query($getname);
+        while ($row52 = $res1->fetch_assoc()) {
+            $company_name = $row52['company_name'];
         }
-
-        $sub_array[] = $company_name;
-        $sub_array[] = $branch_name;
-        $sub_array[] = date('d-m-Y',strtotime($row['created_date']));   
-
-        $id   = $row['approval_line_id'];
-        $action="<a href='approval_requisition&dashupd=$id&parallel=$id' title='view details'><span class='btn btn-info'>View</span></a>";
-
-        $sub_array[] = $action;
-        $data[]      = $sub_array;
-        $sno = $sno + 1;
     }
+
+    $sub_array[] = $company_name;
+    $sub_array[] = $branch_name;
+    $sub_array[] = date('d-m-Y',strtotime($row['created_date']));   
+
+	$id   = $row['meeting_minutes_approval_line_id'];
+	$action="<a href='meeting_minutes&dashupd=$id&afterNotification=$id' title='view details'><span class='btn btn-info'>View</span></a>";
+
+	$sub_array[] = $action;
+    $data[]      = $sub_array;
+    $sno = $sno + 1;
 }
 
 function count_all_data($connect)
 {
-    $query     = "SELECT * FROM approval_line";
+    $query     = "SELECT * FROM meeting_minutes_approval_line";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();

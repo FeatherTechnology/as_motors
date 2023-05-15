@@ -348,6 +348,24 @@
 						</div>	
 					</li>
 
+					<!-- approval mechanism -->
+					<li class="sidebar-dropdown1">
+						<a href="javascript:void(0)">
+							<i class="icon-people_outline"></i>
+							<span class="menu-text" >Target Fixing</span>
+						</a>
+						<div class="sidebar-submenu1">
+							<ul>
+								<li>
+									<a href="goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
+								</li>
+								<li>
+									<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
+								</li>
+							</ul>
+						</div>	
+					</li>
+
 					<!-- vehicle management -->
 					<li class="sidebar-dropdown1">
 						<a href="javascript:void(0)">

@@ -2142,6 +2142,77 @@
     });
 
 
+    // parallel agreement - meeting minutes dashboard
+    var meetingMinutesParallelAgreement_info_dashboard = $('#meetingMinutesParallelAgreement_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxMeetingMinutesParallelAgreementDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+
+    // after notification - approval requisition dashboard
+    var afterMeetingMinutesNotification_info_dashboard = $('#afterMeetingMinutesNotification_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxMeetingMinutesAfterNotificationDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
 
 	$('#search').change(function(){
 		companyCreation_info.draw();
@@ -2196,6 +2267,8 @@
         minutesMeetingApprovalLine_info.draw();
         meetingMinutes_info.draw();
         meetingMinutesApprovalLine_info_dashboard.draw();
+        meetingMinutesParallelAgreement_info_dashboard.draw();
+        afterMeetingMinutesNotification_info_dashboard.draw();
     });
 	
 </script>
@@ -2411,6 +2484,10 @@ if($current_page == 'meeting_minutes_approval_line') { ?>
 
 if($current_page == 'meeting_minutes') { ?>
 	<script src="js/meeting_minutes.js"></script>
+	<?php }
+
+if($current_page == 'target_fixing') { ?>
+	<script src="js/target_fixing.js"></script>
 	<?php }
 
 ?> 

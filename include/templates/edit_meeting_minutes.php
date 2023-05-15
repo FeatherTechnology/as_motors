@@ -3,7 +3,7 @@
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Meeting Minutes List</li>
 	</ol>
-	<a href="meeting_minutes">
+	<a href="meeting_minutes_approval_line">
 		<button type="button" tabindex="1" class="btn btn-primary"><span class="icon-add"></span>&nbsp Add Meeting Minutes</button>
 	</a>
 </div>

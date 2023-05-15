@@ -7066,6 +7066,172 @@
 			return $detailrecords;
 		}
 
+		// Get meeting minutes approval line approve staff approval line
+		public function getMeetingMinutesApprovalLineApproveStaff($mysqli, $idupd){
+
+			$rr1Select = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($idupd)."' AND status=0 ORDER BY meeting_minutes_approval_line_id ASC";
+			$res = $mysqli->query($rr1Select) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$detailrecords['approval_line_id']          = $row->meeting_minutes_approval_line_id;
+				$detailrecords['company_id']                = $row->company_id;
+				$detailrecords['staff_id']                  = $row->staff_id;
+				$detailrecords['approval_staff_id']         = $row->approval_staff_id;
+				$detailrecords['agree_par_staff_id']        = $row->agree_par_staff_id;
+				$detailrecords['after_notified_staff_id']   = $row->after_notified_staff_id;
+				$detailrecords['receiving_dept_id']         = $row->receiving_dept_id;
+				$detailrecords['checker_approval']          = $row->checker_approval;
+				$detailrecords['reviewer_approval']         = $row->reviewer_approval;
+				$detailrecords['final_approval']            = $row->final_approval;
+				$detailrecords['created_date']              = $row->created_date;
+				$detailrecords['checker_approval_date']     = $row->checker_approval_date;
+				$detailrecords['reviewer_approval_date']    = $row->reviewer_approval_date;
+				$detailrecords['final_approval_date']       = $row->final_approval_date;
+			}
+			return $detailrecords;
+		}
+
+		// parallel agrement meeting minutes
+		public function parallelMeetingMinutes($mysqli, $userid){  
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+			$date  = date('Y-m-d');
+
+			$agreeApprovalRequisition = "UPDATE meeting_minutes_parallel_agree_disagree set agree_disagree = '1', agree_disagree_date = '".strip_tags($date)."' 
+			WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND agree_disagree_staff_id = '".strip_tags($sstaffid)."' ";
+			$updresult1 = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+		}
+
+
+		// agree approval requisition
+		public function agreeMeetingMinutes($mysqli, $userid){
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+
+			$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND status=0"; 
+			$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$checker_approval  = $row->checker_approval;
+				$reviewer_approval  = $row->reviewer_approval;
+				$final_approval  = $row->final_approval;
+				$approval_staff_id  = $row->approval_staff_id;
+			}
+
+			$approval_staff_idArr = array_map('intval', explode(',', $approval_staff_id));
+			$approval_staff_idLength = sizeof($approval_staff_idArr);
+			$date  = date('Y-m-d');
+
+			if($approval_staff_idLength == '2'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '1', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '1', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}else if($approval_staff_idLength == '3'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '1', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set reviewer_approval = '1', reviewer_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[2]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '1', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}
+		}
+
+		// parallel disagrement meeting minutes
+		public function parallelDisagreeMeetingMinutes($mysqli, $userid){  
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+			$date  = date('Y-m-d');
+
+			$agreeApprovalRequisition = "UPDATE meeting_minutes_parallel_agree_disagree set agree_disagree = '2', agree_disagree_date = '".strip_tags($date)."' 
+			WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND agree_disagree_staff_id = '".strip_tags($sstaffid)."' ";
+			$updresult1 = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+		}
+
+
+		// disagree meeting minutes
+		public function disagreeMeetingMinutes($mysqli, $userid){
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+
+			$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND status=0"; 
+			$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$checker_approval  = $row->checker_approval;
+				$reviewer_approval  = $row->reviewer_approval;
+				$final_approval  = $row->final_approval;
+				$approval_staff_id  = $row->approval_staff_id;
+			}
+
+			$approval_staff_idArr = array_map('intval', explode(',', $approval_staff_id));
+			$approval_staff_idLength = sizeof($approval_staff_idArr);
+			$date  = date('Y-m-d');
+
+			if($approval_staff_idLength == '2'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '2', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '2', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}else if($approval_staff_idLength == '3'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '2', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set reviewer_approval = '2', reviewer_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[2]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '2', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}
+		}
 
 
 
