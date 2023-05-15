@@ -1837,27 +1837,27 @@
 		// }
 
 		//get Audit area table
-        public function getAuditAreaTable($mysqli){
+			public function getAuditAreaTable($mysqli){
 
-            $auditSelect = "SELECT * FROM audit_area_creation WHERE check_list = 'Yes' ";
-            $res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
-            $audit_area_list = array();
-            $i=0;
+				$auditSelect = "SELECT * FROM audit_area_creation WHERE check_list = 'Yes' ";
+				$res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
+				$audit_area_list = array();
+				$i=0;
 
-            if ($mysqli->affected_rows>0)
-            {
-                while($row = $res->fetch_object()){
+				if ($mysqli->affected_rows>0)
+				{
+					while($row = $res->fetch_object()){
 
-					$audit_area_list[$i]['audit_area_id']      = $row->audit_area_id;
-					$audit_area_list[$i]['audit_area']      = $row->audit_area;
-					$audit_area_list[$i]['role1']       = $row->role1;
-					$audit_area_list[$i]['role2']         = $row->role2;
-					$i++;
-                }
-            }
+						$audit_area_list[$i]['audit_area_id']      = $row->audit_area_id;
+						$audit_area_list[$i]['audit_area']      = $row->audit_area;
+						$audit_area_list[$i]['role1']       = $row->role1;
+						$audit_area_list[$i]['role2']         = $row->role2;
+						$i++;
+					}
+				}
 
-            return $audit_area_list;
-        }
+				return $audit_area_list;
+			}
 
 		//get Audit area table
         public function getAuditAreaTable1($mysqli, $sbranch_id){
@@ -6871,7 +6871,26 @@
 
 
 
+		   public function getgoalsettingTable($mysqli){
 
+            $auditSelect = "SELECT company_id,company_name FROM company_creation WHERE status = '0'";
+            $res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
+            $audit_area_list = array();
+            $i=0;
+
+            if ($mysqli->affected_rows>0)
+            {
+                while($row = $res->fetch_object()){
+
+					$audit_area_list[$i]['company_id']      = $row->company_id;
+					$audit_area_list[$i]['company_name']      = $row->company_name;
+					$i++;
+                }
+            }
+
+            return $audit_area_list;
+        }
+		
 
 
 }

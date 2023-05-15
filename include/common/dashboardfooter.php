@@ -1965,6 +1965,40 @@
         ]
     });
 
+    // goal dashboard
+    var goal_setting_infoDashboard = $('#goal_setting_infoDashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        //"ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        //'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxAuditAssignFetchDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
 
 	$('#search').change(function(){
 		companyCreation_info.draw();
@@ -2014,6 +2048,8 @@
         auditassignCreation_info.draw();
         campaign_info.draw();
         promotional_activities_info.draw();
+        goal_setting_infoDashboard.draw();
+
     });
 	
 </script>
@@ -2223,6 +2259,9 @@ if($current_page == 'audit_followup') { ?>
 	<script src="js/audit_followup.js"></script>
 	<?php }
 
+if($current_page == 'goal_setting') { ?>
+	<script src="js/goal_setting.js"></script>
+	<?php }
 ?> 
 
 <script src="js/logincreation.js"></script>
@@ -2562,7 +2601,15 @@ if($current_page == 'audit_followup') { ?>
         }
     });
 	
-
+    //  delete goal_setting
+    $(document).on("click", '.delete_goal_setting', function(){
+        var dlt = confirm("Do you want to delete this goal_setting?");
+        if(dlt){
+            return true;
+        }else{
+            return false;
+        }
+    });
 	
 </script>
 

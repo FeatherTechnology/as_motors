@@ -495,7 +495,15 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/audit_followup.php" ?>
 			<?php } ?>
 
-			
+			<!-- goal_setting -->
+			<?php if($current_page == 'goal_setting') { ?>
+			<?php include "include/templates/goal_setting.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'edit_goal_setting') { ?>
+			<?php include "include/templates/edit_goal_setting.php" ?>
+			<?php } ?>
+
 		</div>
 		<!-- Page content end -->
 
