@@ -2046,7 +2046,7 @@
         'serverMethod': 'post',
         //'searching': false, // Remove default Search Control
         'ajax': {
-            'url':'ajaxAuditAssignFetchDashboard.php',
+            'url':'ajaxGoalSettingFetchDashboard.php',
             'data': function(data){
                 var search = $('#search').val();
                 data.search = search;
@@ -2070,6 +2070,7 @@
             [10, 25, 50, "All"]
         ]
     });
+    
 
     // meeting minutes - approval line
     var minutesMeetingApprovalLine_info = $('#minutesMeetingApprovalLine_info').DataTable({

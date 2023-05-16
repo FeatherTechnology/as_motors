@@ -357,7 +357,7 @@
 											<div class="sidebar-submenu1">
 												<ul>
 													<li>
-														<a href="goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
+														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
 													</li>
 												</ul>
 											</div>	

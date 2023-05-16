@@ -20,15 +20,15 @@
            $id = $_POST['id']; 	
            $audit_area_id = $_POST['audit_area_id'];
            if(isset($idupd)) echo $idupd;
-           $addAuditAssign = $userObj->addAuditAssign($mysqli,$userid,$idupd);  
+           $addAuditAssign = $userObj->addgoalsetting($mysqli,$userid,$idupd);  
        ?>
-<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=2';</script> 
+<script>location.href='<?php echo $HOSTPATH; ?>edit_goal_setting&msc=2';</script> 
 <?php	}
    else{  
       
-       $addAuditAssign = $userObj->addAuditAssign($mysqli,$userid,$idupd);   
+       $addAuditAssign = $userObj->addgoalsetting($mysqli,$userid,$idupd);   
        ?>
-<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=1';</script>
+<script>location.href='<?php echo $HOSTPATH; ?>edit_goal_setting&msc=1';</script>
 <?php
    }
    }   
@@ -40,9 +40,9 @@
    }
    if($del>0)
    {   
-   $deleteAuditAreaCreation = $userObj->deleteAuditAssign($mysqli,$del); 
+   $deleteAuditAreaCreation = $userObj->deleteAuditAssigns($mysqli,$del); 
    ?>
-<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_assign&msc=3';</script>
+<script>location.href='<?php echo $HOSTPATH; ?>edit_goal_setting&msc=3';</script>
 <?php	
    }
    
@@ -53,61 +53,40 @@
    
    if($idupd>0)
    {
-   	$getAuditAssignlist = $userObj->getAuditAssignlist($mysqli,$idupd); 
+   	$getAuditAssignlist = $userObj->getGoalSettingfetch($mysqli,$idupd); 
    	
    	if (sizeof($getAuditAssignlist)>0) {
            for($i=0;$i<sizeof($getAuditAssignlist);$i++)  {
-               $date_of_audit                  = $getAuditAssignlist['date_of_audit'];
-               $audit_area_id                  = $getAuditAssignlist['area_id']; 
-               $audit_area_name                  = $getAuditAssignlist['area_name']; 
-   			$dept                	 = $getAuditAssignlist['department'];
-   			$departid = explode(",", $dept);
-    $department_name   = array();
-   foreach($departid as $departmentid) {
-   $deptid = trim($departmentid);
-    $department_name1 = "SELECT department_name FROM department_creation WHERE department_id IN ($deptid) and status = 0";
-    $res2 = $mysqli->query($department_name1);
-    
-   
-              $row2 = $res2->fetch_assoc();
-              $department_name[] = $row2['department_name'];
-   
-              
-          
-   }
-   $dept_name                 = $department_name;  
-   
-   $deptname = implode(', ', $dept_name); 
-               // $dept_name                	 = $getAuditAssignlist['department_name'];
-               $role1                	     = $getAuditAssignlist['auditor'];
-               $auditor_name                	     = $getAuditAssignlist['auditor_name'];
-   			$role2    	                = $getAuditAssignlist['auditee'];
-   			$auditee_name    	                = $getAuditAssignlist['auditee_name'];
+                        $company_id                  = $getAuditAssignlist['company_id'];
+                        $company                  = $getAuditAssignlist['company']; 
+                        $dept_id                  = $getAuditAssignlist['dept_id']; 
+                        $dept                	 = $getAuditAssignlist['dept'];
+                        $role_id                	 = $getAuditAssignlist['role_id'];
+                        $role                	     = $getAuditAssignlist['role'];
+                        $year_id                	     = $getAuditAssignlist['year_id'];
+                        $year    	                = $getAuditAssignlist['year'];
+
    	
    		}
    	}
        
-       $getAuditassign_ref = $userObj->getAuditassign_ref($mysqli,$idupd);
+       $getGoalSettingfet = $userObj->getGoalSettingfet($mysqli,$idupd);
        
-       $major[]=array();
+       $goal_setting_ref_id[]=array();
+       $goal_setting_id[]=array();
        $assertion[]=array();
-       $audit_status[]=array();
-       $recommendation[]=array();
-       $attachment[]=array();
-       $audit_remarks[]=array();
-        $audit_assign_ref_id[]=array();
+       $target[]=array();
+      
        
    
-       if (sizeof($getAuditassign_ref)>0) {
-           for($j=0;$j<sizeof($getAuditassign_ref);$j++)  {
+       if (sizeof($getGoalSettingfet)>0) {
+           for($j=0;$j<sizeof($getGoalSettingfet);$j++)  {
                // print_r($getAuditassign_ref);
-               $major[$j]    	                = $getAuditassign_ref[$j]['major_area'];
-               $assertion[$j]    	                = $getAuditassign_ref[$j]['assertion'];
-               $audit_status[$j]    	                = $getAuditassign_ref[$j]['audit_status'];
-               $recommendation[$j]    	                = $getAuditassign_ref[$j]['recommendation'];
-               $attachment[$j]    	                = $getAuditassign_ref[$j]['attachment']; 
-               $audit_remarks[$j]    	                = $getAuditassign_ref[$j]['audit_remarks'];
-               $audit_assign_ref_id[$j]                 = $getAuditassign_ref[$j]['audit_assign_ref_id'];
+               $goal_setting_ref_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_ref_id'];
+               $goal_setting_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_id'];
+               $assertion[$j]    	                = $getGoalSettingfet[$j]['assertion'];
+               $target[$j]    	                = $getGoalSettingfet[$j]['target'];
+              
    		}
    	}
    }
@@ -117,7 +96,7 @@
    <ol class="breadcrumb">
       <li class="breadcrumb-item">AS - Goal Setting</li>
    </ol>
-   <a href="edit_audit_assign">
+   <a href="edit_goal_setting">
    <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
    </a>
 </div>
@@ -127,6 +106,10 @@
    <!--------form start-->
    <form id = "audit_checklist" name="audit_checklist" action="" method="post" enctype="multipart/form-data">
       <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+      <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd">
+      <input type="hidden" class="form-control" value="<?php if(isset($dept_id)) echo $dept_id; ?>"  id="dept_id_upd" name="dept_id_upd">
+      <input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
+      <input type="hidden" class="form-control" value="<?php if(isset($year_id)) echo $year_id; ?>"  id="year_idup" name="year_idup">
       <input type="hidden" class="form-control" value="<?php if(isset($audit_area_id)) echo $audit_area_id ?>"  id="audit_area_id" name="audit_area_id" aria-describedby="id" placeholder="Enter id">
       <!-- Row start -->
       <div class="row gutters">
@@ -143,9 +126,9 @@
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <label for="inputReadOnly">Company Name</label>
-                                 <select type="text" tabindex="2" name="prev" id="prev" class="form-control" >
+                                 <select type="text" tabindex="2" name="cname" id="prev" class="form-control"  >
                                     <?php if ($company_id <>'') {  ?>
-                                    <?php if(isset($company_id)) echo $company_id;
+                                    <?php  if(isset($company_id)) echo $company_id;
                                        for($j=0;$j<count($audit_area_list);$j++) {
                                            $areaid = $audit_area_list[$j]['company_id'];
                                            $areaname = $audit_area_list[$j]['company_name'];
@@ -169,8 +152,8 @@
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="inputReadOnly">Department</label>
-                                 <select type="text" tabindex="2" name="dept" id="dept" class="form-control" >
-                                 <!-- <option value="0">Select Department</option> -->
+                                 <select type="text" tabindex="2" name="dept" id="dept" class="form-control"  >
+                               
                                  </select>
                               </div>
                            </div>
@@ -178,18 +161,16 @@
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="inputReadOnly">Role</label>
-                                 <select type="text" tabindex="2" name="designation" id="designation" class="form-control" >
-                                 <!-- <option value="0">Select Role</option> -->
+                                 <select type="text" tabindex="2" name="designation" id="designation" class="form-control"  >
+                                
                                  </select>                              
                               </div>
                            </div>
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label class="label">Year</label>
-                                    <select type="text" tabindex="2" name="syear" id="syear" class="form-control syear selectpicker" data-live-search="true" >
-                                        <!-- <select class="form-control year selectpicker syear" id="syear"  data-live-search="true" name="state">
-                                          
-                                        </select> -->
+                                    <select type="text" tabindex="2" name="syear" id="syear" class="form-control syear"  >
+                                    
                                  </select>           
                                 </div>
                             </div>
@@ -231,66 +212,20 @@
                                  <?php } if($idupd>0){
                                     if(isset($id)){  ?>
                                  <tbody id='t2' >
-                                    <?php for($g=0;$g<=count($major)-1;$g++) { ?>
+                                    <?php for($g=0;$g<=count($getGoalSettingfet)-1;$g++) {  ?>
+                                       
+                                      
                                     <tr>
-                                       <td>
-                                          <input tabindex="3" type="text" class="form-control" id="major" name="major[]" value="<?php echo $major[$g]?>">
-                                          </input> 
-                                          <input type="hidden" id='rid' class="rid" name="audit_assign_ref_id[]" value="<?php echo $audit_assign_ref_id[$g]?>">
+                                    <td>
+                                    <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
                                        </td>
-                                       <td>
-                                          <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion[$g]?>"></input> 
-                                       </td>
-                                       <td>
-                                          <select type="text" tabindex="5" name="prevstatus[]" id="prevstatus" class="form-control prevstatus" value="<?php echo $audit_status[$g]; ?>">
-                                             <?php $audit= $audit_status[$g]; if ($audit == 0){ ?>
-                                             <option value='0'>No</option>
-                                             <option value=''>Select Status</option>
-                                             <option value='1'>Yes</option>
-                                             <?php }else if($audit == 1){?>
-                                             <option value='1'>Yes</option>
-                                             <option value='0'>No</option>
-                                             <option value=''>Select Status</option>
-                                             <?php }else{ ?>
-                                             <option value=''>Select Status</option>
-                                             <option value='1'>Yes</option>
-                                             <option value='0'>No</option>
-                                             <?php }  ?>
-                                          </select>
-                                       </td>
-                                       <td>
-                                          <textarea tabindex="8"  id="aremarks"  class="form-control" rows="1" name="aremarks[]"  cols="35" value="<?php echo $audit_remarks[$g];  ?>" placeholder='Write something here'><?php echo $audit_remarks[$g];  ?></textarea> 
-                                          <?php $audit= $audit_status[$g]; if ($audit == 0){  ?>
-                                       <td>     
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>">
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'> <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
-                                       </td>
-                                       <?php }else if($audit == 1){?>
-                                       <td>     
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>" readonly>
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>' readonly>
-                                          <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>' readonly>
-                                       </td>
-                                       <?php }else{ ?>
-                                       <td>     
-                                          <input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" value="<?php echo  $recommendation[$g]; ?>">
-                                       </td>
-                                       <td>
-                                          <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'> <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
-                                       </td>
-                                       <?php }  ?>
-                                       <td>
-                                          <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
-                                       </td>
-                                       <td>
-                                          <span class='icon-trash-2' tabindex="9" id="delete_row"></span> 
-                                       </td>
+                                       <td><input tabindex="6" type="text" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
+                                       <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                       <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
+                                 
                                     <?php } ?>
+                                    
                                  </tbody>
                                  <?php }
                                     } ?>
@@ -341,10 +276,7 @@
                     <button type="button" id="insert" class="btn btn-primary insert" name="insert">Submit</button>
                     <button type="button" style="display:none"; class="btn btn-warning close" data-dismiss="modal">Close</button>
                 </div>
-            </div>
-
-=======
-                 
+            </div>                
         </div>
     </div>
 </form>
