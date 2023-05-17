@@ -2232,7 +2232,8 @@
         minutesMeetingApprovalLine_info.draw();
         meetingMinutes_info.draw();
         meetingMinutesApprovalLine_info_dashboard.draw();
-
+        daily_performance_info.draw();
+        appreciation_depreciatione_info.draw();
     });
 	
 </script>
@@ -2456,6 +2457,14 @@ if($current_page == 'meeting_minutes') { ?>
 	<?php }
 
 
+if($current_page == 'daily_performance') { ?>
+	<script src="js/daily_performance.js"></script>
+	<?php } 
+
+if($current_page == 'appreciation_depreciatione') { ?>
+	<script src="js/appreciation_depreciatione.js"></script>
+	<?php } 
+    
 ?> 
 
 <script src="js/logincreation.js"></script>
@@ -2805,6 +2814,15 @@ if($current_page == 'meeting_minutes') { ?>
         }
     });
 	
+    //  delete daily_performance
+    $(document).on("click", '.delete_daily_performance', function(){
+        var dlt = confirm("Do you want to delete this daily performance?");
+        if(dlt){
+            return true;
+        }else{
+            return false;
+        }
+    });
 </script>
 
 
