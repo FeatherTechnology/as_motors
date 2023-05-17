@@ -9,11 +9,12 @@ $(function(){
 })
 
 $(document).ready(function () {
-    
+
      $('#delete_row:last').filter(':last').attr('id', '');
+     $(document).on("click", '#execute', function () {
 
-   
-
+        $('#tables').removeClass('hidden');
+     });
 
 
     $(document).on("click", '#yes', function () {
@@ -32,36 +33,44 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function(data){
                     // console.log("data",data);
-                    if(prevyear == data['pyear']){
-                        selected = 'selected';
+                    if(data['year_id'] == ''){
+                        alert('Year Does Not Exist!');
+                        $('#yes').prop('checked', false);
+                    }else{
+                        if(prevyear == data['pyear']){
+                            selected = 'selected';
+                        }
+                        
+                        var option = $('<option '+selected+' ></option>').val(data['year_id']).text(data['pyear']);
+                        // console.log("option",option);
+                         
+                        $('#syear').append(option);
+                        $('#moduleTable').find('tbody').empty();
+                        // $('#moduleTable').find('tbody').remove();
+                        var yid = data['year_id']; 
+                        console.log("yid",yid);
+                        $.ajax({
+                            url: 'ajaxGetrowdetailes.php',
+                            data: {"yid": yid},
+                            cache: false,
+                            type: "post",
+                            dataType: "json",
+                            success: function(data){
+                        // console.log("data",data);
+                        $('#tables').removeClass('hidden');
+                        
+                                for(var a=0; a<=data.length-1; a++){
+                                    var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' value="+ data[a]['assertion'] + " name='assertion[]'></td>"+
+                                    "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['target'] + " ></td>"+
+                                    "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+                                    "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
+                                    $('#moduleTable').find('tbody').append(appendTxt);
+                                }
+                             }
+                        });
+
                     }
                     
-                    var option = $('<option '+selected+' ></option>').val(data['year_id']).text(data['pyear']);
-                    // console.log("option",option);
-                     
-                    $('#syear').append(option);
-                    $('#moduleTable').find('tbody').empty();
-                    // $('#moduleTable').find('tbody').remove();
-                    var yid = data['year_id']; 
-                    console.log("yid",yid);
-                    $.ajax({
-                        url: 'ajaxGetrowdetailes.php',
-                        data: {"yid": yid},
-                        cache: false,
-                        type: "post",
-                        dataType: "json",
-                        success: function(data){
-                    // console.log("data",data);
-                    
-                            for(var a=0; a<=data.length-1; a++){
-                                var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' value="+ data[a]['assertion'] + " name='assertion[]'></td>"+
-                                "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['target'] + " ></td>"+
-                                "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-                                "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
-                                $('#moduleTable').find('tbody').append(appendTxt);
-                            }
-                         }
-                    });
                     
                 }
             });
