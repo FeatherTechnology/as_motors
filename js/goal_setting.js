@@ -9,14 +9,10 @@ $(function(){
 })
 
 $(document).ready(function () {
-//    $('#syear').picker();
-    // remove delete option for last child
-    $('#delete_row:last').filter(':last').attr('id', '');
+    
+     $('#delete_row:last').filter(':last').attr('id', '');
 
-    // disable dropdown in case of update
-    // if($('#audit_area_id').val() > 0){
-    //     $('#date_of_audit').attr("disabled", true);
-    // }
+   
 
 
 
@@ -34,12 +30,43 @@ $(document).ready(function () {
                 cache: false,
                 type: "post",
                 dataType: "json",
-                success: function (data) {
-    
+                success: function(data){
+                    // console.log("data",data);
+                    if(prevyear == data['pyear']){
+                        selected = 'selected';
+                    }
+                    
+                    var option = $('<option '+selected+' ></option>').val(data['year_id']).text(data['pyear']);
+                    // console.log("option",option);
+                     
+                    $('#syear').append(option);
+                    $('#moduleTable').find('tbody').empty();
+                    // $('#moduleTable').find('tbody').remove();
+                    var yid = data['year_id']; 
+                    console.log("yid",yid);
+                    $.ajax({
+                        url: 'ajaxGetrowdetailes.php',
+                        data: {"yid": yid},
+                        cache: false,
+                        type: "post",
+                        dataType: "json",
+                        success: function(data){
+                    // console.log("data",data);
+                    
+                            for(var a=0; a<=data.length-1; a++){
+                                var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' value="+ data[a]['assertion'] + " name='assertion[]'></td>"+
+                                "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['target'] + " ></td>"+
+                                "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+                                "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
+                                $('#moduleTable').find('tbody').append(appendTxt);
+                            }
+                         }
+                    });
                     
                 }
             });
-        }else{ console.log('clicked'); }
+                    
+        }else{ $('#moduleTable').find('tbody').empty(); }
         
 
         
@@ -133,75 +160,7 @@ $(document).ready(function () {
           $('.close').trigger('click');
           getyear();
     });
-    // $(document).on("click", '#syear', function () {
-    // // $("#syear").change( function(){
-    //     var insertedcompany = $('#prev').val();
-    //     $.ajax({
-    //         url: 'fetchyear.php',
-    //         data: {'insertedcompany':insertedcompany },
-    //         type: "post",
-    //         dataType: "json",
-    //         success: function (data) {
-    //             var option = $('<option></option>').val(data[a]['year_id']).text(data[a]['year']);
-    //             $('#syear').append(option);
-
-               
-    //         }
-    //     });
-    // });
-
-
-    // "<td> <input tabindex='7' type='text' class='form-control' id='Astatus' name='Astatus[]'></td>"+"<td><input tabindex='9' type='text' class='form-control' id='rcmd' name='rcmd[]' ></td>"+"<td><input tabindex='10' type='text' class='form-control' id='assertion' name='assertion[]' ></td>"+"<td><input tabindex='11' type='text' class='form-control' id='aremarks' name='aremarks[]' ></td>"+"<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" + "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td></tr>"
-    // //Validations
-    // function validateArea(){
-    //     var area= $('#date_of_audit').val();
-    //     if(area == '0'){
-    //         areaError = false;
-    //         //$('#audit_err').val('required');
-    //         $('#audit_err').css('color','red');
-    //     }else{
-    //         areaError = true;
-    //     }
-    // }
-    // function validateTable(){
-    //     var major = $('#major').val();
-    //     var sub = $('#sub').val();
-    //     var assertion = $('#assertion').val();
-    //     var weightage = $('#weightage').val();
-    //     if(major=='' || sub=='' || assertion=='' || weightage==''){
-    //         $('#major').attr('placeholder','Enter Major Area');
-    //         $('#sub').attr('placeholder','Enter Sub Area');
-    //         $('#assertion').attr('placeholder','Enter Assertion');
-    //         $('#weightage').attr('placeholder','Enter Weightage');
-    //         tableError = false;
-    //         return false;
-    //     }else{
-    //         tableError = true;
-    //         return true;
-    //     }
-    // }
-    // $('#submit_audit_checklist').click(function(){
-    //     validateTable();
-    //     validateArea();
-    //     if(tableError== true && areaError == true){
-    //         return true;
-    //     }
-    //     else{ return false;}
-    // });
-    // $(document).on("click", '#prevstatus', function () {
-     
-       
-//    $('.prevstatus').change(function() { 
-
-//         var ans=$(this).val();
-//         if(ans=='1'){
-//         $(this).parent().next().children().prop('disabled', true);
-//         $(this).parent().next().next().children().prop('disabled', true); 
-//         }else{
-//             $(this).parent().next().children().prop('disabled', false);
-//             $(this).parent().next().next().children().prop('disabled', false);
-//         }
-//           }); 
+    
       
 getyear();
         
@@ -260,7 +219,7 @@ getyear();
 
 // insert Data into Module Table
 function insertData(prev_company){
-    // $('#moduleTable').find('tbody').empty();
+  
     var dept_id_upd = $('#dept_id_upd').val();
     var role_id_up = $('#role_id_up').val();
     $.ajax({
@@ -285,20 +244,22 @@ function insertData(prev_company){
                 if(dept_id_upd == data[a]['department_id']){
                     selected = 'selected';
                 }
-                if(role_id_up == data[a]['designation_id']){
-                    selected = 'selected';
-                }
+               
                 var option1 = $('<option '+selected+'></option>').val(data[a]['department_id']).text(data[a]['department_name']);
                 $('#dept').append(option1);
 
+               
+            }
+            for(var a=0; a<=data.length-1; a++){
+                var selected = '';
+                    if(role_id_up == data[a]['designation_id']){
+                         selected = 'selected';
+                    }
                 var option2 = $('<option '+selected+' ></option>').val(data[a]['designation_id']).text(data[a]['designation_name']);
+
                 $('#designation').append(option2);
             }
-            // var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' placeholder='Enter Assertion' name='assertion[]'></td>"+
-            // "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' placeholder='Enter Target'></td>"+
-            // "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-            // "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
-            // $('#moduleTable').find('tbody').append(appendTxt);
+           
         }
         });
         getyear();
