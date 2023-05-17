@@ -91,6 +91,11 @@
    	}
    }
    ?>
+   <style>
+      .hidden{
+         display: none;
+      }
+   </style>
 <!-- Page header start -->
 <div class="page-header">
    <ol class="breadcrumb">
@@ -187,8 +192,18 @@
                                     
                                 </div>
                             </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 mt-4">
+                                <div class="form-group">
+                                    <input type="button" tabindex="7"  name="execute" id="execute" class="btn btn-primary" value="execute">
+                                    
+                                </div>
+                            </div>
                            <!-- <div class="row" > -->
-                           <div class="col-md-12" >
+                          <?php if($idupd>0){ ?>
+                           <div class="col-md-12" id="tables" >
+                           <?php }else{ ?>
+                              <div class="col-md-12 hidden" id="tables" >
+                              <?php } ?>
                               <table id="moduleTable" class="table custom-table" >
                                  <thead>
                                     <tr>
@@ -209,7 +224,7 @@
                                        <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
                                  </tbody>
-                                 <?php } if($idupd>0){
+                                 <?php } if($idupd>0){ 
                                     if(isset($id)){  ?>
                                  <tbody id='t2' >
                                     <?php for($g=0;$g<=count($getGoalSettingfet)-1;$g++) {  ?>

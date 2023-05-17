@@ -14,8 +14,7 @@ $column = array(
     'status'
 );
 
-$query = "SELECT gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
 LEFT JOIN company_creation c ON c.company_id=gs.company_name 
 LEFT JOIN department_creation dc ON dc.department_id=gs.department 
 LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
@@ -106,8 +105,7 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-    LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+    $query     = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
     LEFT JOIN company_creation c ON c.company_id=gs.company_name 
     LEFT JOIN department_creation dc ON dc.department_id=gs.department 
     LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
