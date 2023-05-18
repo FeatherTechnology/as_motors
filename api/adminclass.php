@@ -6493,7 +6493,6 @@
 					$row2 = $res2->fetch_object();
 					$detailrecords['audit_area'] = $row2->audit_area;
 				}
-
 			}
 			
 			return $detailrecords;
@@ -6716,20 +6715,6 @@
 			// delete ref
             $DeleterrRef = $mysqli->query("DELETE FROM campaign_ref WHERE campaign_id = '".$id."' ");
 
-			// if($old_project_id != $project_id){
-			// 	// update promotional activity
-			// 	$updateQry1 = 'UPDATE promotional_activities SET campaign_status = "0" WHERE promotional_activities_id = "'.mysqli_real_escape_string($mysqli, $old_project_id).'" ';
-			// 	$res = $mysqli->query($updateQry1) or die ("Error in in update Query!.".$mysqli->error); 
-
-			// 	$updateQry1 = 'UPDATE promotional_activities SET campaign_status = "1" WHERE promotional_activities_id = "'.mysqli_real_escape_string($mysqli, $project_id).'" ';
-			// 	$res = $mysqli->query($updateQry1) or die ("Error in in update Query!.".$mysqli->error); 
-			// }
-
-			// if($old_promotional_activity_ref_id != $promotional_activities_ref_id){
-			// 	// update promotional activity
-			// 	$DeleterrRef = $mysqli->query("DELETE FROM promotional_activities_ref WHERE promotional_activities_ref_id = '".$old_promotional_activity_ref_id."' ");
-			// }
-
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
@@ -6808,19 +6793,16 @@
 						VALUES (NULL,'$id','$activity[$j]','$time_frame[$j]','$duration[$j]');";
 							$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 							
-					}else { }
+					}
 				}
 			}  
-
 		} 
-
 
 		// Promotional_activities DELETE
 		public function deletepromotional_activities($mysqli, $id){
 			$checklistDelete = "UPDATE promotional_activities set status='1' WHERE promotional_activities_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
 		}
-
 
 		//get promotional_activities list table
 		  public function getPromoActivities($mysqli,$id){
@@ -6863,7 +6845,6 @@
 			return $activities;
 		}
 
-
 		// Add approval line
 		public function addMeetingMinutesApprovalLine($mysqli, $userid){
 
@@ -6902,7 +6883,6 @@
 				VALUES('".strip_tags($approvalLineId)."', '".strip_tags($agreeParallelStaffId1[$i])."')";
 				$updresult1 = $mysqli->query($addAgreeDisagree)or die ("Error in in Insert Query!.".$mysqli->error);
 			} 
-	
 		}
 
 
@@ -6997,7 +6977,6 @@
 			}else{
 				return false;
 			}
-				
 		}
 
 
@@ -7231,6 +7210,33 @@
 						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
 				} }
 			}
+		}
+
+		//  Get Company Name
+		public function getGoalYear($mysqli) {
+
+			$qry = "SELECT * FROM goal_setting WHERE 1 AND status=0 ORDER BY goal_setting_id ASC"; 
+			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			$i=0;
+			if ($mysqli->affected_rows>0)
+			{
+				while($row = $res->fetch_object())
+				{
+					$detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
+
+					$selectYear = "SELECT * FROM year_creation WHERE year_id = '".strip_tags($row->year)."' ";
+					$res1 = $mysqli->query($selectYear) or die("Error in Get All Records".$mysqli->error);
+					if ($mysqli->affected_rows>0)
+					{
+						while($row1 = $res1->fetch_object()){
+							$detailrecords[$i]['year'] = $row1->year;
+						}
+					}
+					$i++;
+				}
+			}
+			return $detailrecords;
 		}
 
 

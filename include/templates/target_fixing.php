@@ -12,9 +12,10 @@ $companyName = $userObj->getCompanyName($mysqli);
 $departmentList = $userObj->getDepartment($mysqli); 
 $designationList = $userObj->getDesignation($mysqli);
 $projectCreationList = $userObj->getProjectCreationList($mysqli);
+$goalYear = $userObj->getGoalYear($mysqli);
 
 $id=0;
-if(isset($_POST['submitKraKpiCreation']) && $_POST['submitKraKpiCreation'] != '')
+if(isset($_POST['submitTargetFixing']) && $_POST['submitTargetFixing'] != '')
 {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){     
         $id = $_POST['id'];     
@@ -103,7 +104,7 @@ if($idupd>0)
 
 <!-- Main container start -->
 <div class="main-container">
-            <!--------form start-->
+            <!--form start-->
     <form id = "create_ticket" name="create_ticket" action="" method="post" enctype="multipart/form-data"> 
         <input type="hidden" class="form-control" value="<?php if(isset($krakpi_id)) echo $krakpi_id; ?>"  id="id" name="id" placeholder="Enter id" >
         <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="company_id_upd" name="company_id_upd" placeholder="Enter id" >
@@ -116,9 +117,7 @@ if($idupd>0)
             <div class="col-xl-12">
                 <div class="card">
 					<div class="card-header">
-						<!-- <div class="card-title">General Info</div> -->
 					</div>
-                    <!-- <div class="card-header">KRA & KPI Info<span class="required">*</span></div> -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -169,10 +168,9 @@ if($idupd>0)
                                         }
                                       });
                                       
-                                      getrrdropdownLoad();
+                                    //   getrrdropdownLoad();
                                     }
                                 </script>
-
                                 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
@@ -217,316 +215,71 @@ if($idupd>0)
                                         <select tabindex="4" type="text" class="form-control" id="designation" name="designation" >
                                             <option value="">Select Designation</option>   
                                             <?php if (sizeof($editDesignation)>0) { 
-                                            for($j=0;$j<count($editDesignation);$j++) { ?>
-                                            <option <?php if(isset($designation)) { if($editDesignation[$j]['designation_id'] == $designation) echo 'selected'; } ?>
-                                            value="<?php echo $editDesignation[$j]['designation_id']; ?>">
-                                            <?php echo $editDesignation[$j]['designation_name'];?></option>
+                                                for($j=0;$j<count($editDesignation);$j++) { ?>
+                                                <option <?php if(isset($designation)) { if($editDesignation[$j]['designation_id'] == $designation) echo 'selected'; } ?>
+                                                value="<?php echo $editDesignation[$j]['designation_id']; ?>">
+                                                <?php echo $editDesignation[$j]['designation_name'];?></option>
                                             <?php }} ?>
                                         </select>
                                     </div>
                                 </div>
                             <?php } ?>
 
-                            <?php if($idupd<=0){ ?>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Staff Name</label>
-                                        <select tabindex="4" type="text" class="form-control" id="staff_name" name="staff_name" >
-                                                <option value="">Select Staff Name</option>   
-                                        </select>
-                                    </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="disabledInput">Staff Name</label>
+                                    <select tabindex="4" type="text" class="form-control" id="staff_name" name="staff_name" >
+                                        <option value="">Select Staff Name</option>  
+                                    </select>
                                 </div>
-                            <?php } ?>
-                            <?php if($idupd>0){ ?>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Staff Name</label>
-                                        <select tabindex="4" type="text" class="form-control" id="staff_name" name="staff_name" >
-                                            <option value="">Select Staff Name</option>   
-                                            <!-- <?php if (sizeof($editDesignation)>0) { 
-                                            for($j=0;$j<count($editDesignation);$j++) { ?>
-                                            <option <?php if(isset($designation)) { if($editDesignation[$j]['designation_id'] == $designation) echo 'selected'; } ?>
-                                            value="<?php echo $editDesignation[$j]['designation_id']; ?>">
-                                            <?php echo $editDesignation[$j]['designation_name'];?></option>
-                                            <?php }} ?> -->
-                                        </select>
-                                    </div>
-                                </div>
-                            <?php } ?>
-
+                            </div>
+         
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">Year</label>
-                                    <input type="date" tabindex = "8" name="goal_year" id="goal_year" class="form-control"  value="<?php if (isset($goal_year)) echo $goal_year; ?>">
+                                    <select tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
+                                        <option value="">Select Year</option>    
+                                            <?php if (sizeof($goalYear)>0) { 
+                                            for($j=0;$j<count($goalYear);$j++) { ?>
+                                            <option <?php if(isset($designation)) { if($goalYear[$j]['goal_setting_id'] == $designation) echo 'selected'; } ?>
+                                            value="<?php echo $goalYear[$j]['goal_setting_id']; ?>">
+                                            <?php echo $goalYear[$j]['year'];?></option>
+                                            <?php }} ?>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">No. of Months</label>
-                                    <input type="number" tabindex = "8" name="no_of_months" id="no_of_months" class="form-control"  value="<?php if (isset($no_of_months)) echo $no_of_months; ?>">
+                                    <input type="number" tabindex = "8" name="no_of_months" id="no_of_months" class="form-control" value="<?php if (isset($no_of_months)) echo $no_of_months; ?>">
                                 </div>
                             </div>
 
+                            <?php if($idupd<=0){ ?>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="margin-top: 19px;">
+                                    <div class="form-group">
+                                        <button tabindex="3" type="button" class="btn btn-primary" id="executeGoalSettingDetails" name="executeGoalSettingDetails" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
 
                     <br><br>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table id="moduleTable" class="table custom-table">
-                                <thead>
-                                    <tr>
-                                        <th>KRA Category</th>
-                                        <th>R & R</th>
-                                        <th>KPI</th>
-                                        <th>Criteria</th>
-                                        <th>Project</th>
-                                        <th>Frequency</th>
-                                        <th>Calender</th>
-                                        <th>Start Date & End Date</th>
-                                        <th></th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <?php if($idupd<=0){ ?>
-
-                                    <script language='javascript'> 
-                                        
-                                        // get rr dropdown based on company name
-                                        function getrrdropdownLoad(){ 
-                                            var rr_id_upd = $('#rr_id_upd').val();
-                                        
-                                            $.ajax({
-                                                url: 'KRA&KPIFile/ajaxRRDetailsLoad.php',
-                                                type: 'post',
-                                                data: {},
-                                                dataType: 'json',
-                                                success:function(response){
-                                                    
-                                                    $('#rr').empty();
-                                                    $('#rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
-                                                    $('#rr').append("<option value='New'>" + 'New' + "</option>");
-                                                    var i = 0;
-                                                    for (i = 0; i <= response.rr_ref_id.length - 1; i++) { 
-                                                        var selected = "";
-                                                        if(rr_id_upd == response['rr_ref_id'][i]){
-                                                        selected = "selected";
-                                                        }
-                                                        $('#rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
-                                                    }
-                                                }
-                                            });
-                                            
-                                            getkradropdownLoad();
-                                        }
-
-                                        function getkradropdownLoad(){ 
-                                            var kra_id_upd = $('#kra_id_upd').val(); 
-
-                                            $.ajax({
-                                                url: 'KRA&KPIFile/ajaxKraDetailsLoad.php',
-                                                type: 'post',
-                                                data: {},
-                                                dataType: 'json',
-                                                success:function(response){
-                                                
-                                                    $('#kra_category').empty();
-                                                    $('#kra_category').prepend("<option value=''>" + 'Select KRA Category' + "</option>");
-                                                    var i = 0;
-                                                    for (i = 0; i <= response.kra_creation_ref_id.length - 1; i++) { 
-                                                        var selected = "";
-                                                        if(kra_id_upd == response['kra_creation_ref_id'][i]){
-                                                        selected = "selected";
-                                                        }
-                                                        $('#kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    </script>
-
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <select tabindex="5" type="text" class="form-control" id="kra_category" name="kra_category[]" >
-                                                    <option value="">Select KRA Category</option>   
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select tabindex="6" type="text" class="form-control rr" id="rr" name="rr[]" >
-                                                    <option value="">Select Roles & Responsibility</option>   
-                                                    <option value="New">New</option>  
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" readonly tabindex="7" name="kpi[]" id="kpi" class="form-control" value="">
-                                            </td>
-                                            <td>
-                                                <select tabindex="8" type="text" class="form-control criteria" id="criteria" name="criteria[]" >
-                                                    <option value="">Select Criteria</option>
-                                                    <option value="Event">Event</option>
-                                                    <option value="Project">Project</option>
-                                                </select> 
-                                            </td>
-                                            <td style="display: flex; margin-top: 25px;">
-                                                <select readonly tabindex="3" type="text" class="form-control project" id="project" name="project[]" >
-                                                    <option value="">Select Project</option>   
-                                                    <?php if (sizeof($projectCreationList)>0) { 
-                                                    for($j=0;$j<count($projectCreationList);$j++) { ?>
-                                                    <option <?php if(isset($project_id)) { if($projectCreationList[$j]['project_id'] == $project_id )  echo 'selected'; } ?> value="<?php echo $projectCreationList[$j]['project_id']; ?>">
-                                                    <?php echo $projectCreationList[$j]['project_name'];?></option>
-                                                    <?php } } ?>  
-                                                </select> &nbsp;&nbsp;&nbsp;
-                                                <button disabled type="button" tabindex="4" class="btn btn-primary" id="add_CategoryDetails" name="add_CategoryDetails" data-toggle="modal" data-target=".addProjectModal"><span class="icon-add"></span></button>
-                                            </td>
-                                            <td>
-                                                <select tabindex="9" type="text" class="form-control frequency" id="frequency" name="frequency[]" >
-                                                    <option value=''>Select Frequency</option>
-                                                    <option value='Fortnightly'>Fortnightly</option>
-                                                    <option value='Monthly'>Monthly</option>
-                                                    <option value='Quaterly'>Quaterly</option>
-                                                    <option value='Half Yearly'>Half Yearly</option>
-                                                    <option value='yearly'>Yearly</option>
-                                                    <option value='Event Driven'>Event Driven</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar[]" >
-                                                    <option value=''>Select Calendar</option>
-                                                    <option value='Yes'>Yes</option>
-                                                    <option value='No'>No</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" > &nbsp;&nbsp;
-                                                <span>To</span> &nbsp;&nbsp; <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" >
-                                            </td>
-                                            <td>
-                                                <button type="button" tabindex="11" id="add_product" name="add_product" value="Submit" class="btn btn-primary add_product">Add</button> 
-                                            </td>
-                                            <td><span class='icon-trash-2' tabindex="12"></span></td>
-                                        </tr>
-                                    </tbody>
-
-                                <?php } if($idupd>0) {
-
-                                        if(isset($rr)){ ?>
-                                            <tbody>
-                                                <?php for($i=0; $i<=sizeof($rr)-1; $i++) {  ?>
-                                            
-                                                    <tr>
-                                                        <input type="hidden" name="krakpi_ref_id[]" id="krakpi_ref_id" value="<?php if(isset($krakpi_ref_id)){ echo $krakpi_ref_id[$i]; } ?>">
-                                                        <td>
-                                                            <select tabindex="5" type="text" class="form-control" id="kra_category" name="kra_category[]" >
-                                                                <option value="">Select KRA Category</option> 
-                                                                <?php if (sizeof($kraCategory)>0) { 
-                                                                    for($j=0;$j<count($kraCategory);$j++) { ?>
-                                                                    <option <?php if(isset($kra_category)) { if($kraCategory[$j]['kra_creation_ref_id'] == $kra_category[$i]) echo 'selected'; }  ?> value="<?php echo $kraCategory[$j]['kra_creation_ref_id']; ?>">
-                                                                    <?php echo $kraCategory[$j]['kra_category']; ?></option>
-                                                                <?php } } ?>  
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select tabindex="6" type="text" class="form-control rr" id="rr" name="rr[]" >
-                                                                <option value="">Select Roles & Responsibility</option> 
-                                                                <!-- <option value="New">New</option> -->
-                                                                <?php if (sizeof($rrList)>0) { 
-                                                                    $tt=true;
-                                                                    for($j=0;$j<count($rrList);$j++) { 
-                                                                    if($rr[$i] == "New" && $tt==true) { echo '<option value="New" selected >New</option>'; $tt=false; }
-                                                                    else if($tt==true){echo '<option value="New">New</option>'; $tt=false;} ?>
-                                                                    <option <?php if(isset($rr)) { if($rrList[$j]['rr_ref_id'] == $rr[$i])  echo 'selected'; }  ?>
-                                                                    value="<?php echo $rrList[$j]['rr_ref_id']; ?>">
-                                                                    <?php echo $rrList[$j]['rr'];?></option>
-                                                                <?php } } ?>
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" readonly tabindex="7" name="kpi[]" id="kpi" class="form-control" value="<?php if(isset($kpi)){ echo $kpi[$i]; } ?>">
-                                                        </td>
-                                                        <td>
-                                                            <select tabindex="8" type="text" class="form-control" id="criteria" name="criteria[]" >
-                                                                <option value="">Select Criteria</option>
-                                                                <option <?php if(isset($criteria)) { if('Event' == $criteria[$i]) echo 'selected'; ?> value="<?php echo 'Event' ?>">
-                                                                <?php echo 'Event'; } else { ?> <option value="Event">Event</option> <?php } ?></option>
-                                                                <option <?php if(isset($criteria)) { if('Project' == $criteria[$i]) echo 'selected'; ?> value="<?php echo 'Project' ?>">
-                                                                <?php echo 'Project'; } else { ?> <option value="Project">Project</option> <?php } ?></option> 
-                                                            </select> 
-                                                        </td>
-                                                        <td style="display: flex; margin-top: 25px;">
-                                                            <select tabindex="3" type="text" class="form-control project" id="project" name="project[]" >
-                                                                <option value="">Select Project</option>   
-                                                                <?php if (sizeof($projectCreationList)>0) { 
-                                                                for($j=0;$j<count($projectCreationList);$j++) { ?>
-                                                                <option <?php if(isset($project_id)) { if($projectCreationList[$j]['project_id'] == $project_id[$i] )  echo 'selected'; } ?> value="<?php echo $projectCreationList[$j]['project_id']; ?>">
-                                                                <?php echo $projectCreationList[$j]['project_name'];?></option>
-                                                                <?php } } ?>  
-                                                            </select> &nbsp;&nbsp;&nbsp;
-                                                            <button type="button" tabindex="4" class="btn btn-primary" id="add_CategoryDetails" name="add_CategoryDetails" data-toggle="modal" data-target=".addProjectModal"><span class="icon-add"></span></button>
-                                                        </td>
-                                                        <td>
-                                                            <select tabindex="9" type="text" class="form-control" id="frequency" name="frequency[]" >
-                                                                <option value=''>Select Frequency</option>    
-                                                                <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Fortnightly' ?>">
-                                                                <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option> <?php } ?></option>
-                                                                <option <?php if(isset($frequency)) { if('Monthly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Monthly' ?>">
-                                                                <?php echo 'Monthly'; }else{ ?> <option value="Monthly">Monthly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('Quaterly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Quaterly' ?>">
-                                                                <?php echo 'Quaterly'; }else{ ?> <option value="Quaterly">Quaterly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('Half Yearly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Half Yearly' ?>">
-                                                                <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('yearly' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'yearly' ?>">
-                                                                <?php echo 'yearly'; }else{ ?> <option value="yearly">yearly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Event Driven' ?>">
-                                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option> 
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar[]" >
-                                                                <option value=''>Select Calendar</option>
-                                                                <option <?php if(isset($calendar) && 'Yes' == $calendar[$i]) echo 'selected'; ?> value="Yes">Yes</option>
-                                                                <option <?php if(isset($calendar) && 'No' == $calendar[$i]) echo 'selected'; ?> value="No">No</option>
-                                                            </select>
-                                                        </td>
-
-                                                        <?php if($calendar[$i] == 'Yes'){ ?>
-                                                            <td>
-                                                                <input type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" value="<?php if(isset($from_date)){ echo date('Y-m-d',strtotime($from_date[$i])); } ?>" > &nbsp;&nbsp;
-                                                                <span>To</span> &nbsp;&nbsp;
-                                                                <input type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" value="<?php if(isset($to_date)){ echo date('Y-m-d',strtotime($to_date[$i])); } ?>" >
-                                                            </td>
-                                                        <?php } else if($calendar[$i] == 'No'){ ?>
-                                                            <td>
-                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" value="<?php if(isset($from_date)){ echo $from_date[$i]; } ?>" > &nbsp;&nbsp;
-                                                                <span>To</span> &nbsp;&nbsp;
-                                                                <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" value="<?php if(isset($to_date)){ echo $to_date[$i]; } ?>" >
-                                                            </td>
-                                                        <?php } ?>
-                                                        <td>
-                                                            <button type="button" tabindex="11" id="add_product" name="add_product" value="Submit" class="btn btn-primary add_product">Add</button> 
-                                                        </td>
-                                                        <td>
-                                                            <span class='deleterow icon-trash-2' tabindex="12" id="delete_row"></span>
-                                                        </td>
-                                                    </tr>
-
-                                                <?php 
-                                                } ?>
-                                            </tbody>
-                                        <?php } } ?>
-                                </table>
-                            </div>
-                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="text-right">
-                    <button type="submit" tabindex="13"  id="submitKraKpiCreation" name="submitKraKpiCreation" value="Submit" class="btn btn-primary">Save</button>
-                    <button type="reset" tabindex="14"  id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
-                </div>
-            </div>       
+                    </div>
+                
+
+                    <div id="goadSettingDetailsAppend"></div>
+
+                    <div class="col-md-12">
+                        <div class="text-right">
+                            <button type="submit" tabindex="13" id="submitTargetFixing" name="submitTargetFixing" value="Submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" tabindex="14" id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
+                        </div>
+                    </div>  
+                
+            </div>     
         </div>
     </form>
 </div>
@@ -537,53 +290,60 @@ if($idupd>0)
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="background-color: white">
             <div class="modal-header">
-                <h5 class="modal-title" id="myLargeModalLabel">Add Project</h5>
+                <h5 class="modal-title" id="myLargeModalLabel">Add New Assertion</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DropDownCourse()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- alert messages -->
-                <div id="categoryInsertNotOk" class="unsuccessalert">Project Already Exists, Please Enter a Different Name!
+                <div id="categoryInsertNotOk" class="unsuccessalert">Assertion Already Exists, Please Enter a Different Name!
                 <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
                 </div>
 
-                <div id="categoryInsertOk" class="successalert">Project Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                <div id="categoryInsertOk" class="successalert">Assertion Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
                 </div>
 
-                <div id="categoryUpdateOk" class="successalert">Project Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                <div id="categoryUpdateOk" class="successalert">Assertion Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
                 </div>
 
-                <div id="categoryDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Project!
+                <div id="categoryDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Assertion!
                 <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
                 </div>
 
-                <div id="categoryDeleteOk" class="successalert">Project Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                <div id="categoryDeleteOk" class="successalert">Assertion Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
                 </div>
 
                 <br />
                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
-                            <label class="label">Enter Project</label>
-                            <input type="hidden" name="project_id" id="project_id">
-                            <input type="text" name="project_name" id="project_name" class="form-control" placeholder="Enter Project">
-                            <span class="text-danger" id="projectnameCheck">Enter Project</span>
+                        <label >New Assertion<span class="text-danger">*</span></label>
+                        <input type="text"  class="form-control" id="new_assertion" name="new_assertion" placeholder="Enter New Assertion">
+                        <!-- <span id="customernamecheckNew" class="text-danger">Enter New Assertion</span> -->
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
-                            <label class="label" style="visibility: hidden;">Project</label>
-                        <button type="button" name="submitProjectModal" id="submitProjectModal" class="btn btn-primary">Submit</button>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                            <label class="label">New Target<span class="text-danger">*</span></label>
+                            <input  type="number" tabindex="46" name="new_target" id="new_target" class="form-control" placeholder='Enter New Target'>
+                        </div>
                     </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addCustSubmit">Submit</button>
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closemodal">Cancel</button> -->
                 </div>
 
                 <div id="updatedprojectTable"> 
                     <table class="table custom-table" id="projectTable"> 
                         <thead>
                             <tr>
-                                <th>S. No</th>
-                                <th>PROJECT</th>
+                                <th>S. NO</th>
+                                <th>NEW ASSERTION</th>
+                                <th>NEW TARGET</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -592,6 +352,7 @@ if($idupd>0)
                                 for($j=0;$j<count($projectCreationList);$j++) { ?>
                                 <tr>
                                     <td class="col-md-2 col-xl-2"><?php echo $j+1; ?></td>
+                                    <td><?php  echo $projectCreationList[$j]['project_name']; ?></td>
                                     <td><?php  echo $projectCreationList[$j]['project_name']; ?></td>
                                     <td>
                                         <a id="edit_project" value="<?php echo $projectCreationList[$j]['project_id'] ?>"><span class="icon-border_color"></span></a> &nbsp
@@ -612,10 +373,3 @@ if($idupd>0)
     </div>
 </div>
 
-
-<script>
-    var loadFile = function(event) {
-        var image = document.getElementById("viewimage");
-        image.src = URL.createObjectURL(event.target.files[0]);
-    };
-</script>

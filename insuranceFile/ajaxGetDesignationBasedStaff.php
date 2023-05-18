@@ -18,7 +18,8 @@ if(isset($_POST["designation_id"])){
 $staff_id = array();
 $staff_name = array();
 
-$getInstName=$con->query("SELECT * FROM staff_creation WHERE department = '".strip_tags($department_id)."' AND designation = '".strip_tags($designation_id)."' AND FIND_IN_SET($company_id, company_id) > 0 AND status = 0");
+$getInstName=$con->query("SELECT * FROM staff_creation WHERE department = '".strip_tags($department_id)."' AND designation = '".strip_tags($designation_id)."' 
+AND FIND_IN_SET($company_id, company_id) > 0 AND status = 0");
 while($row2=$getInstName->fetch_assoc()){
     $staff_id[]    = $row2["staff_id"];
     $staff_name[]    = $row2["staff_name"];

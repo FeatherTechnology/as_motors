@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2023 at 03:02 PM
+-- Generation Time: May 18, 2023 at 03:04 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -974,6 +974,14 @@ CREATE TABLE `goal_setting` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `goal_setting`
+--
+
+INSERT INTO `goal_setting` (`goal_setting_id`, `company_name`, `department`, `role`, `year`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '2', '3', '7', '5', 0, 1, NULL, NULL, '2023-05-16 10:45:58', '2023-05-16 10:45:58'),
+(2, '2', '3', '7', '5', 0, 1, NULL, NULL, '2023-05-16 10:46:35', '2023-05-16 10:46:35');
+
 -- --------------------------------------------------------
 
 --
@@ -992,6 +1000,17 @@ CREATE TABLE `goal_setting_ref` (
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `goal_setting_ref`
+--
+
+INSERT INTO `goal_setting_ref` (`goal_setting_ref_id`, `goal_setting_id`, `assertion`, `target`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 1, 'test1', '300', 0, 1, NULL, NULL, '2023-05-16 10:54:37', '2023-05-16 10:54:37'),
+(2, 1, 'test2', '500', 0, 0, NULL, NULL, '2023-05-16 10:54:37', '2023-05-16 10:54:37'),
+(3, 1, 'test3', '600', 0, 1, NULL, NULL, '2023-05-16 10:54:38', '2023-05-16 10:54:38'),
+(4, 2, 'test4', '800', 0, 0, NULL, NULL, '2023-05-16 10:54:38', '2023-05-16 10:54:38'),
+(5, 2, 'test5', '200', 0, 1, NULL, NULL, '2023-05-16 10:54:38', '2023-05-16 10:54:38');
 
 -- --------------------------------------------------------
 
@@ -1140,7 +1159,8 @@ CREATE TABLE `krakpi_creation` (
 --
 
 INSERT INTO `krakpi_creation` (`krakpi_id`, `company_name`, `department`, `designation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-05 15:23:53', '2023-05-05 15:23:53');
+(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-05 15:23:53', '2023-05-05 15:23:53'),
+(2, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-18 16:23:19', '2023-05-18 16:23:19');
 
 -- --------------------------------------------------------
 
@@ -1920,6 +1940,45 @@ INSERT INTO `tag_creation` (`tag_id`, `department_id`, `company_id`, `tag_classi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `target_fixing`
+--
+
+CREATE TABLE `target_fixing` (
+  `target_fixing_id` int(11) NOT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `emp_id` int(11) DEFAULT NULL,
+  `year_id` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `target_fixing_ref`
+--
+
+CREATE TABLE `target_fixing_ref` (
+  `target_fixing_ref_id` int(11) NOT NULL,
+  `target_fixing_id` int(11) NOT NULL,
+  `assertion` varchar(200) DEFAULT NULL,
+  `target` varchar(100) DEFAULT NULL,
+  `new_assertion` varchar(200) DEFAULT NULL,
+  `new_target` varchar(100) DEFAULT NULL,
+  `applicability` varchar(250) DEFAULT NULL,
+  `delete_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `delete_remarks` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `todo_creation`
 --
 
@@ -2139,6 +2198,18 @@ CREATE TABLE `year_creation` (
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `year_creation`
+--
+
+INSERT INTO `year_creation` (`year_id`, `year`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
+(1, '1959', 0, 0, '2023-05-15 17:45:38', '2023-05-15 17:45:38'),
+(2, '1956', 0, 0, '2023-05-15 18:05:58', '2023-05-15 18:05:58'),
+(3, '1958', 1, 0, '2023-05-15 18:21:03', '2023-05-15 18:21:03'),
+(4, '1955', 1, 0, '2023-05-15 18:22:55', '2023-05-15 18:22:55'),
+(5, '1959', 2, 0, '2023-05-15 18:29:49', '2023-05-15 18:29:49'),
+(6, '2022', 2, 0, '2023-05-15 18:31:34', '2023-05-15 18:31:34');
 
 --
 -- Indexes for dumped tables
@@ -2541,6 +2612,18 @@ ALTER TABLE `tag_creation`
   ADD PRIMARY KEY (`tag_id`);
 
 --
+-- Indexes for table `target_fixing`
+--
+ALTER TABLE `target_fixing`
+  ADD PRIMARY KEY (`target_fixing_id`);
+
+--
+-- Indexes for table `target_fixing_ref`
+--
+ALTER TABLE `target_fixing_ref`
+  ADD PRIMARY KEY (`target_fixing_ref_id`);
+
+--
 -- Indexes for table `todo_creation`
 --
 ALTER TABLE `todo_creation`
@@ -2777,13 +2860,13 @@ ALTER TABLE `diesel_slip`
 -- AUTO_INCREMENT for table `goal_setting`
 --
 ALTER TABLE `goal_setting`
-  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `goal_setting_ref`
 --
 ALTER TABLE `goal_setting_ref`
-  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `hierarchy_creation`
@@ -2819,7 +2902,7 @@ ALTER TABLE `insurance_register`
 -- AUTO_INCREMENT for table `krakpi_creation`
 --
 ALTER TABLE `krakpi_creation`
-  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation_ref`
@@ -2978,6 +3061,18 @@ ALTER TABLE `tag_creation`
   MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `target_fixing`
+--
+ALTER TABLE `target_fixing`
+  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `target_fixing_ref`
+--
+ALTER TABLE `target_fixing_ref`
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `todo_creation`
 --
 ALTER TABLE `todo_creation`
@@ -3011,7 +3106,7 @@ ALTER TABLE `work_status`
 -- AUTO_INCREMENT for table `year_creation`
 --
 ALTER TABLE `year_creation`
-  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

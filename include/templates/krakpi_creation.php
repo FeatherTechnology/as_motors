@@ -141,24 +141,6 @@ if($idupd>0)
                                 </div>
                             </div>
 
-                            <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="disabledInput">Branch Name</label>
-                                    <?php if($sbranch_id == 'Overall'){ ?>
-                                        <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
-                                            <option value="" disabled selected>Select Branch Name</option> 
-                                        </select> 
-                                    <?php } else if($sbranch_id != 'Overall'){ ?>
-                                        <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
-                                        <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
-                                            <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
-                                        </select> 
-                                    <?php } ?>
-                                </div>
-                            </div> -->
-
-                            <!-- <div class="col-md-4"></div> -->
-
                             <?php if($idupd<=0){ ?>
 
                                 <script language='javascript'> 
@@ -406,12 +388,11 @@ if($idupd>0)
                                                         <td>
                                                             <select tabindex="6" type="text" class="form-control rr" id="rr" name="rr[]" >
                                                                 <option value="">Select Roles & Responsibility</option> 
-                                                                <!-- <option value="New">New</option> -->
                                                                 <?php if (sizeof($rrList)>0) { 
                                                                     $tt=true;
                                                                     for($j=0;$j<count($rrList);$j++) { 
                                                                     if($rr[$i] == "New" && $tt==true) { echo '<option value="New" selected >New</option>'; $tt=false; }
-                                                                    else if($tt==true){echo '<option value="New">New</option>'; $tt=false;} ?>
+                                                                    else if($tt==true){echo '<option value="New">New</option>'; $tt=false; } ?>
                                                                     <option <?php if(isset($rr)) { if($rrList[$j]['rr_ref_id'] == $rr[$i])  echo 'selected'; }  ?>
                                                                     value="<?php echo $rrList[$j]['rr_ref_id']; ?>">
                                                                     <?php echo $rrList[$j]['rr'];?></option>

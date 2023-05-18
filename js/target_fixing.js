@@ -1,8 +1,3 @@
-// choices js for multi select dropdown:
-// const assign_to = new Choices('#assign_to', {
-// 	removeItemButton: true,
-// });
-
 $(document).ready(function () {
 
   // remove delete option for last child
@@ -12,9 +7,9 @@ $(document).ready(function () {
   $("#department").change(function(){ 
     var department_id = $("#department").val();
     if(department_id.length==''){ 
-    $("#department").val('');
+      $("#department").val('');
     }else{
-        getdesignation(department_id);
+      getdesignation(department_id);
     }
   });
   
@@ -25,8 +20,6 @@ $(document).ready(function () {
       $("#company_name").val('');
     }else{
       getdepartment(company_id);
-      getkradropdown(company_id);
-      getrrdropdown(company_id);
     }
   });
 
@@ -34,7 +27,6 @@ $(document).ready(function () {
   var markup1 = "<option value=''>Select KRA Category</option>";
   var markup2 = "<option value=''>Select Roles & Responsibility</option><option value='New'>New</option>";
   var markup3 = "<option value=''>Select Project</option>";
-    // var forChoice = 1;
     $(document).on("click", '.add_product', function () {
       var company_id = $("#company_name").val();
       var designation = $('#designation').val();
@@ -72,7 +64,6 @@ $(document).ready(function () {
           markup3 = "<option value=''>Select Project</option>";
         }
       });
-      // forChoice++;
     });
 
   // Delete unwanted Rows
@@ -80,248 +71,54 @@ $(document).ready(function () {
     $(this).parent().parent().remove();
   });
 
-  // Get read only text box
-  $(document).on("change",".rr",function(){ 
-    var rr = $(this).children(":selected").text();  
-    if(rr == 'New'){ 
-      $(this).closest("tr").find('td:eq(2) #kpi').prop('readonly',false);
-    } else {
-      $(this).closest("tr").find('td:eq(2) #kpi').prop('readonly',true);
-      $(this).closest("tr").find('td:eq(2) #kpi').val('');
-    }
-  });
-
-  // enable and disable calendar
-  $(document).on("change",".calendar",function(){  
-    var calendar1 = $(this).children(":selected").text();
-    var calendar = calendar1.trim();
-    if(calendar == 'Yes'){ 
-      $(this).parents('tr').find('td #from_date').attr("readonly",false);
-      $(this).parents('tr').find('td #to_date').attr("readonly",false);
-    } else if(calendar == 'No'){ 
-      $(this).parents('tr').find('td #from_date').attr("readonly",true);
-      $(this).parents('tr').find('td #to_date').attr("readonly",true);
-      $(this).parents('tr').find('td #from_date').val('');
-      $(this).parents('tr').find('td #to_date').val('');
-    }
-  });
-
-    // enable and disable project
-    $(document).on("change",".criteria",function(){  
-      var criteria1 = $(this).children(":selected").text();
-      var criteria = criteria1.trim();
-      if(criteria == 'Event'){ 
-        $(this).parents('tr').find('td #project_id').attr("readonly",true);
-        $(this).parents('tr').find('td #add_CategoryDetails').attr("disabled",true);
-      } else if(criteria == 'Project'){ 
-        $(this).parents('tr').find('td #project_id').attr("readonly",false);
-        $(this).parents('tr').find('td #add_CategoryDetails').attr("disabled",false);
-        // $(this).parents('tr').find('td #project_id').val('');
-        // $(this).parents('tr').find('td #add_CategoryDetails').val('');
-      }
-    });
-
-
-  // Modal Box for Project Name
-  $("#projectnameCheck").hide();
-  $(document).on("click", "#submitProjectModal", function () {
-      var project_id=$("#project_id").val();
-      var project_name=$("#project_name").val();
-      if(project_name!=""){
-          $.ajax({
-              url: 'KRA&KPIFile/ajaxInsertProject.php',
-              type: 'POST',
-              data: {"project_name":project_name,"project_id":project_id},
-              cache: false,
-              success:function(response){
-                  var insresult = response.includes("Exists");
-                  var updresult = response.includes("Updated");
-                  if(insresult){
-                      $('#categoryInsertNotOk').show(); 
-                      setTimeout(function() {
-                          $('#categoryInsertNotOk').fadeOut('fast');
-                      }, 2000);
-                  }else if(updresult){
-                      $('#categoryUpdateOk').show();  
-                      setTimeout(function() {
-                          $('#categoryUpdateOk').fadeOut('fast');
-                      }, 2000);
-                      $("#coursecategoryTable").remove();
-                      resetloancategoryTable();
-                      $("#project_name").val('');
-                      $("#project_id").val('');
-                  }
-                  else{
-                      $('#categoryInsertOk').show();  
-                      setTimeout(function() {
-                          $('#categoryInsertOk').fadeOut('fast');
-                      }, 2000);
-                      $("#coursecategoryTable").remove();
-                      resetloancategoryTable();
-                      $("#project_name").val('');
-                      $("#project_id").val('');
-                  }
-              }
-          });
-      }
-      else{
-      $("#projectnameCheck").show();
-      }
-  });
-
-  function resetloancategoryTable(){
-      $.ajax({
-          url: 'KRA&KPIFile/ajaxResetProjectTable.php',
-          type: 'POST',
-          data: {},
-          cache: false,
-          success:function(html){
-              $("#updatedprojectTable").empty();
-              $("#updatedprojectTable").html(html);
-          }
-      });
-  }
-
-  $("#project_name").keyup(function(){
-      var CTval = $("#project_name").val();
-      if(CTval.length == ''){
-      $("#projectnameCheck").show();
-      return false;
-      }else{
-      $("#projectnameCheck").hide();
-      }
-  });
-
-  $("body").on("click","#edit_project",function(){
-      var project_id=$(this).attr('value');
-      $("#project_id").val(project_id);
-      $.ajax({
-              url: 'KRA&KPIFile/ajaxEditProject.php',
-              type: 'POST',
-              data: {"project_id":project_id},
-              cache: false,
-              success:function(response){
-              $("#project_name").val(response);
-          }
-      });
-  });
-
-  $("body").on("click","#delete_project", function(){
-      var isok=confirm("Do you want delete course project?");
-      if(isok==false){
-          return false;
-      }else{
-          var project_id=$(this).attr('value');
-          var c_obj = $(this).parents("tr");
-          $.ajax({
-              url: 'KRA&KPIFile/ajaxDeleteProject.php',
-              type: 'POST',
-              data: {"project_id":project_id},
-              cache: false,
-              success:function(response){
-                  var delresult = response.includes("Rights");
-                  if(delresult){
-                  $('#categoryDeleteNotOk').show(); 
-                  setTimeout(function() {
-                  $('#categoryDeleteNotOk').fadeOut('fast');
-                  }, 2000);
-                  }
-                  else{
-                  c_obj.remove();
-                  $('#categoryDeleteOk').show();  
-                  setTimeout(function() {
-                  $('#categoryDeleteOk').fadeOut('fast');
-                  }, 2000);
-                  }
-              }
-          });
-      }
-  });
-
-  $(function(){
-      $('#projectTable').DataTable({
-          'iDisplayLength': 5,
-          "language": {
-          "lengthMenu": "Display _MENU_ Records Per Page",
-          "info": "Showing Page _PAGE_ of _PAGES_",
-          }
-      });
-  });
-
-
   // Get Department based reporting person
-  $("#designation").change(function(){ 
+  $("#designation").change(function(){  
 
-    var company_id = $("#branch_id").val();
+    var company_id = $("#company_name").val();
     var department_id = $("#department").val();
     var designation_id = $("#designation").val();
 
     if(designation_id.length==''){ 
         $("#designation").val('');
     }else{
-        $.ajax({
-            url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
-            dataType: 'json',
-            success:function(response){
-            
-                $('#staff_name').empty();
-                $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
-                var i = 0;
-                for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                    $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
-                }
+      $.ajax({
+          url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
+          type: 'post',
+          data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
+          dataType: 'json',
+          success:function(response){
+          
+              $('#staff_name').empty();
+              $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+              var i = 0;
+              for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                  $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
+              }
 
-            }
-        });
-    }
-});
-
-});
-
-
-function DropDownCourse(){
-  $.ajax({
-      url: 'KRA&KPIFile/ajaxGetProject.php',
-      type: 'post',
-      data: {},
-      dataType: 'json',
-      context: this,
-      success:function(response){
-
-        var i = 0;
-        var arr = [];
-        $('.project').each(function(){
-          arr[i] = $(this).val();
-          i++;
-        });
-
-        var len = response.length;
-        $(".project").empty();
-        $(".project").append("<option value=''>"+'Select Project'+"</option>");
-
-        var k = 0;
-        $('.project').each(function(){
-          var selVal = arr[k];
-         
-          for(var j = 0; j<len; j++){
-            var project_id = response[j]['project_id'];
-            var project_name = response[j]['project_name'];
-            
-            var selected = '';
-            if(selVal == project_id){ 
-              selected = 'selected';
-            }
-            $(this).append("<option value='"+project_id+"' "+selected+">"+project_name+"</option>");
           }
-          k++;
-        });
+      });
+    }
+  });
 
+});
+
+
+// execute target
+$("#executeGoalSettingDetails").click(function(){
+
+  var company_name = $('#company_name :selected').val();
+  var goal_year = $('#goal_year :selected').val();
+  var no_of_months = $('#no_of_months').val();
+  $.ajax({
+      url:"targetFixingFile/ajaxGetGoalDetails.php",
+      method:"post",
+      data: {'company_name': company_name, 'goal_year': goal_year, 'no_of_months': no_of_months},
+      success:function(html){
+          $("#goadSettingDetailsAppend").empty();
+          $("#goadSettingDetailsAppend").html(html);
       }
   });
-}
-
+});
 
 //get details on edit
 $(function(){
@@ -333,8 +130,8 @@ $(function(){
 		
 		getdepartment(idupd);
 		getdesignation(department_upd);
-		getkradropdown(idupd);
-    getrrdropdown(idupd);
+		// getkradropdown(idupd);
+    // getrrdropdown(idupd);
 	}else{
 	}
 });
@@ -387,93 +184,5 @@ function getdesignation(department_id){
         $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
       }
     }
-  });
-}
-
-//get kra dropdown based on company name
-function getkradropdown(company_id_upd){   
-  var kra_id_upd = $('#kra_id_upd').val().split(','); 
-  
-  $.ajax({
-    url: 'KRA&KPIFile/ajaxKraDetails.php',
-    type: 'post',
-    data: { "company_id_upd":company_id_upd },
-    dataType: 'json',
-    success:function(response){
-      
-      $('#kra_category').empty();
-      $('#kra_category').prepend("<option value=''>" + 'Select KRA Category' + "</option>");
-      var i = 0;
-      for (i = 0; i <= response.kra_creation_ref_id.length - 1; i++) {
-
-        var selected = "";
-        if(kra_id_upd != ''){
-          for(var j=0;j<kra_id_upd.length;j++){
-              if(kra_id_upd[j] == response['kra_creation_ref_id'][i]){  
-                  selected = 'selected';
-              }
-          }
-        }
-        $('#kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
-      }
-
-    }
-  });
-}
-
-//get rr dropdown based on company name
-function getrrdropdown(company_id_upd){
-  var rr_id_upd = $('#rr_id_upd').val().split(','); 
-  
-  $.ajax({
-    url: 'KRA&KPIFile/ajaxRRDetails.php',
-    type: 'post',
-    data: { "company_id_upd":company_id_upd },
-    dataType: 'json',
-    success:function(response){
-      
-      $('#rr').empty();
-      $('#rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
-      $('#rr').append("<option value='New'>" + 'New' + "</option>");
-      var i = 0;
-      for (i = 0; i <= response.rr_ref_id.length - 1; i++) { 
-        var selected = "";
-        if(rr_id_upd != ''){
-          for(var j=0;j<rr_id_upd.length;j++){ 
-              if(rr_id_upd[j] == response['rr_ref_id'][i]){  
-                  selected = 'selected';
-              }
-          }
-        }
-        $('#rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
-      }
-
-    }
-  });
-}
-
-
-function getkradropdownEdit(company_id_upd){  
-
-  var kra_id_upd = $('#kra_id_Edit').val(); 
-  $.ajax({
-      url: 'KRA&KPIFile/ajaxKraDetails.php',
-      type: 'post',
-      data: { "company_id_upd":company_id_upd },
-      dataType: 'json',
-      success:function(response){
-      
-      $('#kra_category').empty();
-      $('#kra_category').prepend("<option value=''>" + 'Select KRA Category' + "</option>");
-      var i = 0;
-      for (i = 0; i <= response.kra_creation_ref_id.length - 1; i++) { 
-          var selected = "";
-          if(kra_id_upd == response['kra_creation_ref_id'][i]){
-          selected = "selected";
-          }
-          $('#kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
-      }
-
-      }
   });
 }
