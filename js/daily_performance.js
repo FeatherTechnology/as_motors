@@ -266,39 +266,42 @@ $('#designation_id').change(function() {
          }
       });
 });
-$('#staff_id').change(function() { 
+$('#execute').click(function() { 
     var company_id=$('#company').val();
     var department_id=$('#department_id').val();
     var designation_id=$('#designation_id').val();
-    var emp_id = $(this).val();
-    console.log('company_id',company_id);
-    console.log('department_id',department_id);
-    console.log('designation_id',designation_id);
-    console.log('emp_id',emp_id);
-    // $.ajax({
-    //     url: 'get_emp_detail.php',
-    //     data: {'company_id': company_id,
-    //            'department_id':department_id,
-    //            'designation_id':designation_id
-    //           },
-    //     cache: false,
-    //     type:'post',
-    //     dataType: 'json',
-    //     success: function(data){
-    //    console.log("data",data);
-    //         $('#staff_id').text('');
-    //         $('#staff_id').val('');
-    //         var option = $('<option></option>').val('').text('Select Employee');
-    //         $('#staff_id').append(option);
-    //         for(var a=0; a<=data.length-1; a++){
-    //             // var selected = '';
-    //             // if(year_idup == data[a]['department_id']){
-    //             //     selected = 'selected';
-    //             // }'+selected+' 
-    //             var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
-    //                $('#staff_id').append(option);
-    //         }
+    var emp_id = $('#staff_id').val();
+    var wdays = $('#tday').val();
+    // console.log('company_id',company_id);
+    // console.log('department_id',department_id);
+    // console.log('designation_id',designation_id);
+    // console.log('emp_id',emp_id);
+    $.ajax({
+        url: 'get_all_detail.php',
+        data: {'company_id': company_id,
+               'department_id':department_id,
+               'designation_id':designation_id,
+               'emp_id':emp_id,
+               'wdays':wdays
+              },
+        cache: false,
+        type:'post',
+        dataType: 'json',
+        success: function(data){
+       console.log("data",data);
+            // $('#staff_id').text('');
+            // $('#staff_id').val('');
+            // var option = $('<option></option>').val('').text('Select Employee');
+            // $('#staff_id').append(option);
+            // for(var a=0; a<=data.length-1; a++){
+            //     // var selected = '';
+            //     // if(year_idup == data[a]['department_id']){
+            //     //     selected = 'selected';
+            //     // }'+selected+' 
+            //     var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+            //        $('#staff_id').append(option);
+            // }
 
-    //      }
-    //   });
+         }
+      });
 });

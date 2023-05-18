@@ -190,8 +190,14 @@ if($idupd>0)
                                                 <label for="inputReadOnly"id="audit_err" >Month</label>
                                                 <input tabindex="2" type="text" class="form-control" id="month" name="month[]" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>" >
                                                 <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth[]" value="<?php $currentMonth = date("m"); echo $currentMonth; ?>" >
-                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday[]" value="<?php $daysInMonth = date('t');echo $daysInMonth; ?>" >
-                                                
+                                                <!-- <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday[]" value="<?php $daysInMonth = date('t');echo $daysInMonth; ?>" > -->
+                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tdayy[]" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
+                                            <div class="form-group">
+                                            <input  type="button" class="btn btn-primary" id="execute" name="execute[]" value="execute" >
+                                                    </input> 
                                             </div>
                                         </div>
 
