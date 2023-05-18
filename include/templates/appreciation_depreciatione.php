@@ -5,7 +5,7 @@ if(isset($_SESSION["userid"])){
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
-    $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+    // $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
     $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
 }
 $audit_area_list = $userObj->getAuditAreaTable($mysqli);

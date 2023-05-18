@@ -7228,6 +7228,38 @@
 		return $auditChecklist;
 	}
 
+
+
+
+
+	//get daily_performance table
+	public function get_daily_performance($mysqli){
+
+		$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+				
+
+				$dailyperform_list[$i]['company_id']      = $row->company_id;
+				$dailyperform_list[$i]['company_name']      = $row->company_name;
+				
+				$i++;
+			}
+		}
+
+		return $dailyperform_list;
+	}
+     
+
+
+
+
 }
 ?>
 
