@@ -1,5 +1,18 @@
 // Document is ready
 $(document).ready(function () {
+
+    
+var currentDate = new Date();
+
+// Format the date as "YYYY-MM-DD" (required by the input type="date")
+var formattedDate = currentDate.toISOString().split('T')[0];
+
+// Set the value of the input field to the current date
+document.getElementById('sdate').value = formattedDate;
+
+
+
+
     // remove delete option for last child
     $('#delete_row:last').filter(':last').attr('id', '');
 
@@ -62,17 +75,41 @@ $(document).ready(function () {
             removeData();
         }
       });
+
+
+
+      
+     
     //Add new row value="<?php $currentDate = date('Y-m-d'); echo $currentDate;?>"
-    $(document).on('click','#add_row',(function(){
+    // $(document).on('click','#add_row',(function(){ 
+        
+    //     var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
+    //     "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]'></input></td>"+
+    //     "<td><input tabindex='8' type='date' class='form-control' id='sdate' name='sdate[]' value=+"'<?php eho 'hai'; ?>'"+ ></input></td>"+
+    //     "<td> <select  class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>"+
+    //     "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]' ></input></td>"+
+    //     "<td><button tabindex='11' type='button' tabindex='8' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>"+
+    //     "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
+               
+               
+    //              $('#moduleTable').find('tbody').append(appendTxt);
+    //              wstatus();
+            
+    // }));
+    $(document).on('click', '#add_row', function() {
         var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
-        "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]'></input></td>"+
-        "<td><input tabindex='8' type='date' class='form-control' id='sdate' name='sdate[]' value='' ></input></td>"+
-        "<td><input tabindex='9' type='text' class='form-control' id='wstatus' name='wstatus[]' ></input></td>"+
-        "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]' ></input></td>"+
-        "<td><button tabindex='11' type='button' tabindex='8' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>"+
-        "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
-                $('#moduleTable').find('tbody').append(appendTxt);
-    }));
+          "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]'></input></td>" +
+          "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
+          "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
+          "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td>" +
+          "<td><button tabindex='8' type='button' tabindex='11' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+          "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
+      
+        $('#moduleTable').find('tbody').append(appendTxt);
+        wstatus();
+        
+      });
+      
     // Delete unwanted Rows
     $(document).on("click", '#delete_row', function () {
         $(this).parent().parent().remove();
@@ -89,6 +126,7 @@ $(document).ready(function () {
       });
     //resetting modult table
     function removeData(){
+      
         $('#moduleTable').find('tbody').empty();
         var removeData = "<tr><td> <input tabindex='3' type='text' class='form-control' id='major' name='major[]'></input></td>" +
         // "<td> <input tabindex='3' type='text' class='form-control' id='sub' name='sub[]'></input></td>" +
@@ -123,40 +161,144 @@ $(document).ready(function () {
                         }
                       });
     }
-    // //Validations
-    // function validateArea(){
-    //     var area= $('#audit').val();
-    //     if(area == '0'){
-    //         areaError = false;
-    //         //$('#audit_err').val('required');
-    //         $('#audit_err').css('color','red');
-    //     }else{
-    //         areaError = true;
-    //     }
-    // }
-    // function validateTable(){
-    //     var major = $('#major').val();
-    //     var sub = $('#sub').val();
-    //     var assertion = $('#assertion').val();
-    //     var weightage = $('#weightage').val();
-    //     if(major=='' || sub=='' || assertion=='' || weightage==''){
-    //         $('#major').attr('placeholder','Enter Major Area');
-    //         $('#sub').attr('placeholder','Enter Sub Area');
-    //         $('#assertion').attr('placeholder','Enter Assertion');
-    //         $('#weightage').attr('placeholder','Enter Weightage');
-    //         tableError = false;
-    //         return false;
-    //     }else{
-    //         tableError = true;
-    //         return true;
-    //     }
-    // }
-    // $('#submit_audit_checklist').click(function(){
-    //     validateTable();
-    //     validateArea();
-    //     if(tableError== true && areaError == true){
-    //         return true;
-    //     }
-    //     else{ return false;}
-    // });
+    
+});
+
+
+function wstatus() {
+            
+    $('.wstatus').change(function() { 
+
+            var wstatus=$(this).val();
+            if(wstatus == 'statisfied'){
+                    $(this).parent().next().children().css("background-color", "green");
+                }else if(wstatus == 'not_done'){
+                    $(this).parent().next().children().css("background-color", "red");
+                }else if(wstatus == 'carry_forward'){
+                    $(this).parent().next().children().css("background-color", "blue");
+                }else{}
+                 
+    }); 
+}
+$('.wstatus').change(function() { 
+
+    var wstatus=$(this).val();
+    if(wstatus == 'statisfied'){
+            $(this).parent().next().children().css("background-color", "green");
+        }else if(wstatus == 'not_done'){
+            $(this).parent().next().children().css("background-color", "red");
+        }else if(wstatus == 'carry_forward'){
+            $(this).parent().next().children().css("background-color", "blue");
+        }else{
+            
+                
+    }
+       
+}); 
+$('#company').change(function() { 
+
+    var comid=$(this).val();
+    $.ajax({
+        url: 'get_perform_detail.php',
+        data: {'comid': comid },
+        cache: false,
+        type:'post',
+        dataType: 'json',
+        success: function(data){
+            console.log("data.departments",data.departments);
+            $('#department_id').text('');
+            $('#department_id').val('');
+            var option = $('<option></option>').val('').text('Select Department');
+            $('#department_id').append(option);
+            for(var a=0; a<=data.departments.length-1; a++){
+                // var selected = '';
+                // if(year_idup == data[a]['department_id']){
+                //     selected = 'selected';
+                // }'+selected+' 
+                var option = $('<option ></option>').val(data.departments[a]['department_id']).text(data.departments[a]['department_name']);
+                $('#department_id').append(option);
+            }
+
+            $('#designation_id').text('');
+            $('#designation_id').val('');
+            var option = $('<option></option>').val('').text('Select Role');
+            $('#designation_id').append(option);
+            for(var a=0; a<=data.designations.length-1; a++){
+                // var selected = '';
+                // if(year_idup == data[a]['department_id']){
+                //     selected = 'selected';
+                // }'+selected+' 
+                var option = $('<option ></option>').val(data.designations[a]['designation_id']).text(data.designations[a]['designation_name']);
+                $('#designation_id').append(option);
+            }
+        }
+      });
+         
+}); 
+$('#designation_id').change(function() { 
+    var company_id=$('#company').val();
+    var department_id=$('#department_id').val();
+    var designation_id=$(this).val();
+    $.ajax({
+        url: 'get_emp_detail.php',
+        data: {'company_id': company_id,
+               'department_id':department_id,
+               'designation_id':designation_id
+              },
+        cache: false,
+        type:'post',
+        dataType: 'json',
+        success: function(data){
+       console.log("data",data);
+            $('#staff_id').text('');
+            $('#staff_id').val('');
+            var option = $('<option></option>').val('').text('Select Employee');
+            $('#staff_id').append(option);
+            for(var a=0; a<=data.length-1; a++){
+                // var selected = '';
+                // if(year_idup == data[a]['department_id']){
+                //     selected = 'selected';
+                // }'+selected+' 
+                var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+                   $('#staff_id').append(option);
+            }
+
+         }
+      });
+});
+$('#staff_id').change(function() { 
+    var company_id=$('#company').val();
+    var department_id=$('#department_id').val();
+    var designation_id=$('#designation_id').val();
+    var emp_id = $(this).val();
+    console.log('company_id',company_id);
+    console.log('department_id',department_id);
+    console.log('designation_id',designation_id);
+    console.log('emp_id',emp_id);
+    // $.ajax({
+    //     url: 'get_emp_detail.php',
+    //     data: {'company_id': company_id,
+    //            'department_id':department_id,
+    //            'designation_id':designation_id
+    //           },
+    //     cache: false,
+    //     type:'post',
+    //     dataType: 'json',
+    //     success: function(data){
+    //    console.log("data",data);
+    //         $('#staff_id').text('');
+    //         $('#staff_id').val('');
+    //         var option = $('<option></option>').val('').text('Select Employee');
+    //         $('#staff_id').append(option);
+    //         for(var a=0; a<=data.length-1; a++){
+    //             // var selected = '';
+    //             // if(year_idup == data[a]['department_id']){
+    //             //     selected = 'selected';
+    //             // }'+selected+' 
+    //             var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+    //                $('#staff_id').append(option);
+    //         }
+
+    //      }
+    //   });
 });

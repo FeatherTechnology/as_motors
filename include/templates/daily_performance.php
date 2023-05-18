@@ -5,10 +5,12 @@ if(isset($_SESSION["userid"])){
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
-    $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-    $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
+    // $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+  
+  
 }
-$audit_area_list = $userObj->getAuditAreaTable($mysqli);
+$get_company = $userObj->get_daily_performance($mysqli);
+// $audit_area_list = $userObj->getAuditAreaTable($mysqli);
 
 $id=0;
 $idupd=0;
@@ -131,23 +133,23 @@ if($idupd>0)
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Company Name</label>
                                                 <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
+                                                <select tabindex="1" type="text" class="form-control" name="company_id" id="company">
                                                     <option value="">Select Company</option>
-                                                    <?php if (sizeof($audit_area_list)>0) { 
-                                                    for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                    value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>">
-                                                    <?php echo $audit_area_list[$j]['audit_area'];?></option>
+                                                    <?php if (sizeof($get_company)>0) { 
+                                                    for($j=0;$j<count($get_company);$j++) { ?>
+                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $get_company[$j]['company_id']){ echo "selected";  } ?>
+                                                    value="<?php echo $get_company[$j]['company_id']; ?>">
+                                                    <?php echo $get_company[$j]['company_name'];?></option>
                                                     <?php } } ?>
                                                 </select>
                                                 <?php } else if($sbranch_id != 'Overall'){ ?>
                                                     <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
                                                         <option value="">Select Company</option>
-                                                        <?php if (sizeof($audit_area_list1)>0) { 
-                                                        for($j=0;$j<count($audit_area_list1);$j++) { ?>
-                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list1[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $audit_area_list1[$j]['audit_area_id']; ?>">
-                                                        <?php echo $audit_area_list1[$j]['audit_area'];?></option>
+                                                        <?php if (sizeof($get_company)>0) { 
+                                                        for($j=0;$j<count($get_company);$j++) { ?>
+                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $get_company[$j]['company_id']){ echo "selected";  } ?>
+                                                        value="<?php echo $get_company[$j]['company_id']; ?>">
+                                                        <?php echo $get_company[$j]['company_name'];?></option>
                                                         <?php } } ?>  
                                                     </select>
                                             <?php } ?>
@@ -156,105 +158,40 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Department</label>
-                                                <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                    <option value="">Select Department</option>
-                                                    <?php if (sizeof($audit_area_list)>0) { 
-                                                    for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                    value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>">
-                                                    <?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                                    <?php } } ?>
+                                                <select tabindex="1" type="text" class="form-control" name="department_id" id="department_id">
+                                                   
+                                                
                                                 </select>
-                                                <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                    <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                        <option value="">Select Department</option>
-                                                        <?php if (sizeof($audit_area_list1)>0) { 
-                                                        for($j=0;$j<count($audit_area_list1);$j++) { ?>
-                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list1[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $audit_area_list1[$j]['audit_area_id']; ?>">
-                                                        <?php echo $audit_area_list1[$j]['audit_area'];?></option>
-                                                        <?php } } ?>  
-                                                    </select>
-                                            <?php } ?>
+                                            
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Role</label>
-                                                <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                    <option value="">Select Role</option>
-                                                    <?php if (sizeof($audit_area_list)>0) { 
-                                                    for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                    value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>">
-                                                    <?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                                    <?php } } ?>
-                                                </select>
-                                                <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                    <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                        <option value="">Select Role</option>
-                                                        <?php if (sizeof($audit_area_list1)>0) { 
-                                                        for($j=0;$j<count($audit_area_list1);$j++) { ?>
-                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list1[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $audit_area_list1[$j]['audit_area_id']; ?>">
-                                                        <?php echo $audit_area_list1[$j]['audit_area'];?></option>
-                                                        <?php } } ?>  
+                                               
+                                                <select tabindex="1" type="text" class="form-control" name="designation_id" id="designation_id">
+                                                   
                                                     </select>
-                                            <?php } ?>
+                                           
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Emp Name</label>
-                                                <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                    <option value="">Select Emp Name</option>
-                                                    <?php if (sizeof($audit_area_list)>0) { 
-                                                    for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                    value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>">
-                                                    <?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                                    <?php } } ?>
+                                                
+                                                <select tabindex="1" type="text" class="form-control" name="staff_id" id="staff_id">
+                                                    
                                                 </select>
-                                                <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                    <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                        <option value="">Select Emp Name</option>
-                                                        <?php if (sizeof($audit_area_list1)>0) { 
-                                                        for($j=0;$j<count($audit_area_list1);$j++) { ?>
-                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list1[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $audit_area_list1[$j]['audit_area_id']; ?>">
-                                                        <?php echo $audit_area_list1[$j]['audit_area'];?></option>
-                                                        <?php } } ?>  
-                                                    </select>
-                                            <?php } ?>
+                                            
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Month</label>
-                                                <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                    <option value="">Select Month</option>
-                                                    <?php if (sizeof($audit_area_list)>0) { 
-                                                    for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                                    <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                    value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>">
-                                                    <?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                                    <?php } } ?>
-                                                </select>
-                                                <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                    <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
-                                                        <option value="">Select Month</option>
-                                                        <?php if (sizeof($audit_area_list1)>0) { 
-                                                        for($j=0;$j<count($audit_area_list1);$j++) { ?>
-                                                        <option <?php if(isset($audit_area_id) and $audit_area_id == $audit_area_list1[$j]['audit_area_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $audit_area_list1[$j]['audit_area_id']; ?>">
-                                                        <?php echo $audit_area_list1[$j]['audit_area'];?></option>
-                                                        <?php } } ?>  
-                                                    </select>
-                                            <?php } ?>
+                                                <input tabindex="2" type="text" class="form-control" id="month" name="month[]" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>" >
+                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth[]" value="<?php $currentMonth = date("m"); echo $currentMonth; ?>" >
+                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday[]" value="<?php $daysInMonth = date('t');echo $daysInMonth; ?>" >
+                                                
                                             </div>
                                         </div>
 
@@ -286,10 +223,16 @@ if($idupd>0)
                                                     </input> 
                                                 </td>
                                                 <td>
-                                                    <input  type="date" class="form-control" id="sdate" name="sdate[]" value="<?php $currentDate = date('Y-m-d'); echo $currentDate;?>" ></input> 
+                                                    <input  type="date" class="form-control" id="sdate" name="sdate[]" value="" ></input> 
                                                 </td>
                                                 <td>
-                                                    <input  type="text" class="form-control" id="wstatus" name="wstatus[]" ></input> 
+                                                    <!-- <input  type="text" class="form-control" id="wstatus" name="wstatus[]" ></input>  -->
+                                                    <select  class="form-control wstatus" id="wstatus" name="wstatus[]" >
+                                                        <option value=" ">Select Work Status</option>
+                                                        <option value="statisfied">Statisfied</option>
+                                                        <option value="not_done">Not Done</option>
+                                                        <option value="carry_forward">Carry Forward</option>
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <input  type="text" class="form-control" id="status" name="status[]" ></input> 
