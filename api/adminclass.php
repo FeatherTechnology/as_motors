@@ -7401,9 +7401,6 @@
 	}
 
 
-
-
-
 	//get daily_performance table
 	public function get_daily_performance($mysqli){
 
@@ -7429,6 +7426,206 @@
 	}
      
 
+	public function addTargetFixing($mysqli, $userid){
+
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['no_of_months'])){
+			$no_of_months = $_POST['no_of_months'];
+		} 
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
+
+		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
+		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
+		'".strip_tags($userid)."' )";
+		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
+		$lastId = $mysqli->insert_id; 
+
+		for($i=0; $i<=sizeof($id)-1; $i++){
+
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
+	}
+
+
+	// Get target fixing
+	public function getTargetFixing($mysqli, $id){
+
+		$kraSelect = "SELECT * FROM target_fixing WHERE target_fixing_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+		$res = $mysqli->query($kraSelect) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		if ($mysqli->affected_rows>0)
+		{
+			$row = $res->fetch_object();	
+			$targetFixingId  							= $row->target_fixing_id;
+			$detailrecords['target_fixing_id']            = $row->target_fixing_id; 
+			$detailrecords['company_id']        = $row->company_id;
+			$detailrecords['department']        = $row->department_id;
+			$detailrecords['designation']       = $row->designation_id; 	
+			$detailrecords['emp_id']       = $row->emp_id; 	
+			$detailrecords['year_id']       = $row->year_id; 	
+			$detailrecords['no_of_months']       = $row->no_of_months; 	
+
+		}
+		
+		$targetFixingRefId = 0;
+		$kraRefSelect = "SELECT * FROM target_fixing_ref WHERE target_fixing_id='".mysqli_real_escape_string($mysqli, $targetFixingId)."' "; 
+		$res1 = $mysqli->query($kraRefSelect) or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+
+				$targetFixingRefId         			= $row1->target_fixing_ref_id; 
+				$target_fixing_ref_id[]     	    = $row1->target_fixing_ref_id; 
+				$goal_setting_and_kra_id[]          = $row1->goal_setting_and_kra_id; 
+				$assertion[]                        = $row1->assertion;
+				$target[]                           = $row1->target;
+				$new_assertion[]                    = $row1->new_assertion;
+				$new_target[]                       = $row1->new_target;
+				$applicability[]                    = $row1->applicability;
+				$deleted_date[]                     = $row1->deleted_date;
+				$deleted_remarks[]                  = $row1->deleted_remarks;
+			} 
+		}
+		if($targetFixingRefId > 0)
+		{
+			$detailrecords['target_fixing_ref_id']             = $target_fixing_ref_id; 
+			$detailrecords['goal_setting_and_kra_id']          = $goal_setting_and_kra_id;
+			$detailrecords['assertion']                        = $assertion;  	
+			$detailrecords['target']                           = $target;  	
+			$detailrecords['new_assertion']                    = $new_assertion;  	
+			$detailrecords['new_target']                       = $new_target;  	
+			$detailrecords['applicability']                    = $applicability;  	
+			$detailrecords['deleted_date']                     = $deleted_date;  	
+			$detailrecords['deleted_remarks']                  = $deleted_remarks;  	
+		}
+		else
+		{
+			$detailrecords['target_fixing_ref_id']           = array();
+			$detailrecords['goal_setting_and_kra_id']        = array();
+			$detailrecords['assertion']                      = array(); 
+			$detailrecords['target']                         = array(); 
+			$detailrecords['new_assertion']                  = array(); 
+			$detailrecords['new_target']                     = array(); 
+			$detailrecords['applicability']                  = array(); 
+			$detailrecords['deleted_date']                   = array(); 
+			$detailrecords['deleted_remarks']                = array(); 
+		}
+		
+		return $detailrecords;
+	}
+
+	// Update target fixing
+	public function updateTargetFixing($mysqli, $upd_id, $userid){
+
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['no_of_months'])){
+			$no_of_months = $_POST['no_of_months'];
+		} 
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
+
+		$qry = "UPDATE target_fixing SET company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
+		designation_id = '".strip_tags($designation_id)."', emp_id = '".strip_tags($emp_id)."', year_id = '".strip_tags($year_id)."', 
+		no_of_months = '".strip_tags($no_of_months)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE target_fixing_id= '".strip_tags($upd_id)."' ";
+		$updresult = $mysqli->query($qry )or die ("Error in in update Query!.".$mysqli->error);
+
+		$deleteKraRef = $mysqli->query("DELETE FROM target_fixing_ref WHERE target_fixing_id = '".$upd_id."' "); 
+
+		for($i=0; $i<=sizeof($id)-1; $i++){
+
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($upd_id)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
+
+	 }
+
+
+	//  Delete Terget fixing
+	public function deleteTargetFixing($mysqli, $id, $userid){
+
+		$qry = "UPDATE target_fixing set status='1', delete_login_id='".strip_tags($userid)."' WHERE target_fixing_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
+	}
 
 
 
