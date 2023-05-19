@@ -6493,7 +6493,6 @@
 					$row2 = $res2->fetch_object();
 					$detailrecords['audit_area'] = $row2->audit_area;
 				}
-
 			}
 			
 			return $detailrecords;
@@ -6716,20 +6715,6 @@
 			// delete ref
             $DeleterrRef = $mysqli->query("DELETE FROM campaign_ref WHERE campaign_id = '".$id."' ");
 
-			// if($old_project_id != $project_id){
-			// 	// update promotional activity
-			// 	$updateQry1 = 'UPDATE promotional_activities SET campaign_status = "0" WHERE promotional_activities_id = "'.mysqli_real_escape_string($mysqli, $old_project_id).'" ';
-			// 	$res = $mysqli->query($updateQry1) or die ("Error in in update Query!.".$mysqli->error); 
-
-			// 	$updateQry1 = 'UPDATE promotional_activities SET campaign_status = "1" WHERE promotional_activities_id = "'.mysqli_real_escape_string($mysqli, $project_id).'" ';
-			// 	$res = $mysqli->query($updateQry1) or die ("Error in in update Query!.".$mysqli->error); 
-			// }
-
-			// if($old_promotional_activity_ref_id != $promotional_activities_ref_id){
-			// 	// update promotional activity
-			// 	$DeleterrRef = $mysqli->query("DELETE FROM promotional_activities_ref WHERE promotional_activities_ref_id = '".$old_promotional_activity_ref_id."' ");
-			// }
-
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
@@ -6808,19 +6793,16 @@
 						VALUES (NULL,'$id','$activity[$j]','$time_frame[$j]','$duration[$j]');";
 							$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 							
-					}else { }
+					}
 				}
 			}  
-
 		} 
-
 
 		// Promotional_activities DELETE
 		public function deletepromotional_activities($mysqli, $id){
 			$checklistDelete = "UPDATE promotional_activities set status='1' WHERE promotional_activities_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
 		}
-
 
 		//get promotional_activities list table
 		  public function getPromoActivities($mysqli,$id){
@@ -6863,7 +6845,6 @@
 			return $activities;
 		}
 
-
 		// Add approval line
 		public function addMeetingMinutesApprovalLine($mysqli, $userid){
 
@@ -6902,7 +6883,6 @@
 				VALUES('".strip_tags($approvalLineId)."', '".strip_tags($agreeParallelStaffId1[$i])."')";
 				$updresult1 = $mysqli->query($addAgreeDisagree)or die ("Error in in Insert Query!.".$mysqli->error);
 			} 
-	
 		}
 
 
@@ -6997,7 +6977,6 @@
 			}else{
 				return false;
 			}
-				
 		}
 
 
@@ -7066,6 +7045,199 @@
 			return $detailrecords;
 		}
 
+		// Get meeting minutes approval line approve staff approval line
+		public function getMeetingMinutesApprovalLineApproveStaff($mysqli, $idupd){
+
+			$rr1Select = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($idupd)."' AND status=0 ORDER BY meeting_minutes_approval_line_id ASC";
+			$res = $mysqli->query($rr1Select) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$detailrecords['approval_line_id']          = $row->meeting_minutes_approval_line_id;
+				$detailrecords['company_id']                = $row->company_id;
+				$detailrecords['staff_id']                  = $row->staff_id;
+				$detailrecords['approval_staff_id']         = $row->approval_staff_id;
+				$detailrecords['agree_par_staff_id']        = $row->agree_par_staff_id;
+				$detailrecords['after_notified_staff_id']   = $row->after_notified_staff_id;
+				$detailrecords['receiving_dept_id']         = $row->receiving_dept_id;
+				$detailrecords['checker_approval']          = $row->checker_approval;
+				$detailrecords['reviewer_approval']         = $row->reviewer_approval;
+				$detailrecords['final_approval']            = $row->final_approval;
+				$detailrecords['created_date']              = $row->created_date;
+				$detailrecords['checker_approval_date']     = $row->checker_approval_date;
+				$detailrecords['reviewer_approval_date']    = $row->reviewer_approval_date;
+				$detailrecords['final_approval_date']       = $row->final_approval_date;
+			}
+			return $detailrecords;
+		}
+
+		// parallel agrement meeting minutes
+		public function parallelMeetingMinutes($mysqli, $userid){  
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+			$date  = date('Y-m-d');
+
+			$agreeApprovalRequisition = "UPDATE meeting_minutes_parallel_agree_disagree set agree_disagree = '1', agree_disagree_date = '".strip_tags($date)."' 
+			WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND agree_disagree_staff_id = '".strip_tags($sstaffid)."' ";
+			$updresult1 = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+		}
+
+
+		// agree approval requisition
+		public function agreeMeetingMinutes($mysqli, $userid){
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+
+			$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND status=0"; 
+			$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$checker_approval  = $row->checker_approval;
+				$reviewer_approval  = $row->reviewer_approval;
+				$final_approval  = $row->final_approval;
+				$approval_staff_id  = $row->approval_staff_id;
+			}
+
+			$approval_staff_idArr = array_map('intval', explode(',', $approval_staff_id));
+			$approval_staff_idLength = sizeof($approval_staff_idArr);
+			$date  = date('Y-m-d');
+
+			if($approval_staff_idLength == '2'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '1', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '1', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}else if($approval_staff_idLength == '3'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '1', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set reviewer_approval = '1', reviewer_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[2]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '1', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}
+		}
+
+		// parallel disagrement meeting minutes
+		public function parallelDisagreeMeetingMinutes($mysqli, $userid){  
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+			$date  = date('Y-m-d');
+
+			$agreeApprovalRequisition = "UPDATE meeting_minutes_parallel_agree_disagree set agree_disagree = '2', agree_disagree_date = '".strip_tags($date)."' 
+			WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND agree_disagree_staff_id = '".strip_tags($sstaffid)."' ";
+			$updresult1 = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+		}
+
+
+		// disagree meeting minutes
+		public function disagreeMeetingMinutes($mysqli, $userid){
+
+			if(isset($_POST['approval_line_id'])){
+				$approval_line_id = $_POST['approval_line_id'];
+			}
+			if(isset($_POST['staffid'])){
+				$sstaffid = $_POST['staffid'];
+			}
+
+			$getApprovalLine = "SELECT * FROM meeting_minutes_approval_line WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' AND status=0"; 
+			$res = $mysqli->query($getApprovalLine) or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();
+				$checker_approval  = $row->checker_approval;
+				$reviewer_approval  = $row->reviewer_approval;
+				$final_approval  = $row->final_approval;
+				$approval_staff_id  = $row->approval_staff_id;
+			}
+
+			$approval_staff_idArr = array_map('intval', explode(',', $approval_staff_id));
+			$approval_staff_idLength = sizeof($approval_staff_idArr);
+			$date  = date('Y-m-d');
+
+			if($approval_staff_idLength == '2'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '2', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '2', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}else if($approval_staff_idLength == '3'){
+				if($checker_approval == 0){
+					if($sstaffid == $approval_staff_idArr[0]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set checker_approval = '2', checker_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 0){
+					if($sstaffid == $approval_staff_idArr[1]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set reviewer_approval = '2', reviewer_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} } else if($checker_approval == 1 && $reviewer_approval == 1 && $final_approval == 0){
+					if($sstaffid == $approval_staff_idArr[2]) {
+						$agreeApprovalRequisition = "UPDATE meeting_minutes_approval_line set final_approval = '2', final_approval_date = '".strip_tags($date)."' WHERE meeting_minutes_approval_line_id = '".strip_tags($approval_line_id)."' ";
+						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
+				} }
+			}
+		}
+
+		//  Get Company Name
+		public function getGoalYear($mysqli) {
+
+			$qry = "SELECT * FROM goal_setting WHERE 1 AND status=0 ORDER BY goal_setting_id ASC"; 
+			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			$i=0;
+			if ($mysqli->affected_rows>0)
+			{
+				while($row = $res->fetch_object())
+				{
+					$detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
+
+					$selectYear = "SELECT * FROM year_creation WHERE year_id = '".strip_tags($row->year)."' ";
+					$res1 = $mysqli->query($selectYear) or die("Error in Get All Records".$mysqli->error);
+					if ($mysqli->affected_rows>0)
+					{
+						while($row1 = $res1->fetch_object()){
+							$detailrecords[$i]['year'] = $row1->year;
+						}
+					}
+					$i++;
+				}
+			}
+			return $detailrecords;
+		}
 		   public function getgoalsettingTable($mysqli){
 
             $auditSelect = "SELECT company_id,company_name FROM company_creation WHERE status = '0'";
@@ -7232,7 +7404,9 @@
 
 
 
+
 	//get company daily_performance table
+
 	public function get_daily_performance($mysqli){
 
 		$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
@@ -7327,6 +7501,206 @@ public function adddailyperformance($mysqli,$userid){
 		$nmonth = $_POST['nmonth'];
 	}
 
+	public function addTargetFixing($mysqli, $userid){
+
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['no_of_months'])){
+			$no_of_months = $_POST['no_of_months'];
+		} 
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
+
+		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
+		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
+		'".strip_tags($userid)."' )";
+		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
+		$lastId = $mysqli->insert_id; 
+
+		for($i=0; $i<=sizeof($id)-1; $i++){
+
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
+	}
+
+
+	// Get target fixing
+	public function getTargetFixing($mysqli, $id){
+
+		$kraSelect = "SELECT * FROM target_fixing WHERE target_fixing_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+		$res = $mysqli->query($kraSelect) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		if ($mysqli->affected_rows>0)
+		{
+			$row = $res->fetch_object();	
+			$targetFixingId  							= $row->target_fixing_id;
+			$detailrecords['target_fixing_id']            = $row->target_fixing_id; 
+			$detailrecords['company_id']        = $row->company_id;
+			$detailrecords['department']        = $row->department_id;
+			$detailrecords['designation']       = $row->designation_id; 	
+			$detailrecords['emp_id']       = $row->emp_id; 	
+			$detailrecords['year_id']       = $row->year_id; 	
+			$detailrecords['no_of_months']       = $row->no_of_months; 	
+
+		}
+		
+		$targetFixingRefId = 0;
+		$kraRefSelect = "SELECT * FROM target_fixing_ref WHERE target_fixing_id='".mysqli_real_escape_string($mysqli, $targetFixingId)."' "; 
+		$res1 = $mysqli->query($kraRefSelect) or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+
+				$targetFixingRefId         			= $row1->target_fixing_ref_id; 
+				$target_fixing_ref_id[]     	    = $row1->target_fixing_ref_id; 
+				$goal_setting_and_kra_id[]          = $row1->goal_setting_and_kra_id; 
+				$assertion[]                        = $row1->assertion;
+				$target[]                           = $row1->target;
+				$new_assertion[]                    = $row1->new_assertion;
+				$new_target[]                       = $row1->new_target;
+				$applicability[]                    = $row1->applicability;
+				$deleted_date[]                     = $row1->deleted_date;
+				$deleted_remarks[]                  = $row1->deleted_remarks;
+			} 
+		}
+		if($targetFixingRefId > 0)
+		{
+			$detailrecords['target_fixing_ref_id']             = $target_fixing_ref_id; 
+			$detailrecords['goal_setting_and_kra_id']          = $goal_setting_and_kra_id;
+			$detailrecords['assertion']                        = $assertion;  	
+			$detailrecords['target']                           = $target;  	
+			$detailrecords['new_assertion']                    = $new_assertion;  	
+			$detailrecords['new_target']                       = $new_target;  	
+			$detailrecords['applicability']                    = $applicability;  	
+			$detailrecords['deleted_date']                     = $deleted_date;  	
+			$detailrecords['deleted_remarks']                  = $deleted_remarks;  	
+		}
+		else
+		{
+			$detailrecords['target_fixing_ref_id']           = array();
+			$detailrecords['goal_setting_and_kra_id']        = array();
+			$detailrecords['assertion']                      = array(); 
+			$detailrecords['target']                         = array(); 
+			$detailrecords['new_assertion']                  = array(); 
+			$detailrecords['new_target']                     = array(); 
+			$detailrecords['applicability']                  = array(); 
+			$detailrecords['deleted_date']                   = array(); 
+			$detailrecords['deleted_remarks']                = array(); 
+		}
+		
+		return $detailrecords;
+	}
+
+	// Update target fixing
+	public function updateTargetFixing($mysqli, $upd_id, $userid){
+
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['no_of_months'])){
+			$no_of_months = $_POST['no_of_months'];
+		} 
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
+
+		$qry = "UPDATE target_fixing SET company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
+		designation_id = '".strip_tags($designation_id)."', emp_id = '".strip_tags($emp_id)."', year_id = '".strip_tags($year_id)."', 
+		no_of_months = '".strip_tags($no_of_months)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE target_fixing_id= '".strip_tags($upd_id)."' ";
+		$updresult = $mysqli->query($qry )or die ("Error in in update Query!.".$mysqli->error);
+
+		$deleteKraRef = $mysqli->query("DELETE FROM target_fixing_ref WHERE target_fixing_id = '".$upd_id."' "); 
+
+		for($i=0; $i<=sizeof($id)-1; $i++){
+
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($upd_id)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
+
+	 }
+
+
+	//  Delete Terget fixing
+	public function deleteTargetFixing($mysqli, $id, $userid){
+
+		$qry = "UPDATE target_fixing set status='1', delete_login_id='".strip_tags($userid)."' WHERE target_fixing_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
+	}
 
 
 	if(isset($_POST['assertion'])){

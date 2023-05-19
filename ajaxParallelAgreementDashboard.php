@@ -92,7 +92,8 @@ foreach ($result as $row) {
         $agree_disagree  = $row11->agree_disagree;
     }
 
-    if($final_approval != 1 && $parallel_staff_idLength != $agree_disagree){
+    // if($final_approval != 1 && $parallel_staff_idLength != $agree_disagree){
+    if($parallel_staff_idLength != $agree_disagree){
 
         $company_name='';
         $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 

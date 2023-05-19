@@ -507,7 +507,7 @@ include('api/main.php'); // Database Connection File
             <?php include "include/templates/edit_campaign.php" ?>
             <?php } ?>
 
-			<!-- promotional_activities -->
+			<!-- Promotional Activities -->
 			<?php if($current_page == 'promotional_activities') { ?>
 			<?php include "include/templates/promotional_activities.php" ?>
 			<?php } ?>
@@ -519,6 +519,15 @@ include('api/main.php'); // Database Connection File
 			<!-- Audit Followup -->
 			<?php if($current_page == 'audit_followup') { ?>
 			<?php include "include/templates/audit_followup.php" ?>
+			<?php } ?>
+
+			<!-- Target Fixing -->
+			<?php if($current_page == 'target_fixing') { ?>
+			<?php include "include/templates/target_fixing.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'edit_target_fixing') { ?>
+			<?php include "include/templates/edit_target_fixing.php" ?>
 			<?php } ?>
 
 			<!-- goal_setting -->

@@ -348,6 +348,7 @@
 						</div>	
 					</li>
 
+
 					<!-- Target Fixing -->
 					<li class="sidebar-dropdown1">
 											<a href="javascript:void(0)">
@@ -360,14 +361,19 @@
 														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
 													</li>
 													<li>
+
 														<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
+
+														<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
 													</li>
+													
 													<li>
 														<a href="appreciation_depreciatione"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
 													</li>
 												</ul>
 											</div>	
 										</li>
+
 
 					<!-- vehicle management -->
 					<li class="sidebar-dropdown1">

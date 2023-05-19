@@ -2212,6 +2212,113 @@ buttons: [
 });
 
 
+    // parallel agreement - meeting minutes dashboard
+    var meetingMinutesParallelAgreement_info_dashboard = $('#meetingMinutesParallelAgreement_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxMeetingMinutesParallelAgreementDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+
+    // after notification - approval requisition dashboard
+    var afterMeetingMinutesNotification_info_dashboard = $('#afterMeetingMinutesNotification_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxMeetingMinutesAfterNotificationDashboard.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+
+    // Target fixing
+    var targetFixing_info = $('#targetFixing_info').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url':'ajaxTargetFixingFetch.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        
+        // dom: 'lBfrtip', 
+        buttons: [		
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {		 
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+
+        ],	
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
 
 	$('#search').change(function(){
 		companyCreation_info.draw();
@@ -2267,8 +2374,11 @@ buttons: [
         minutesMeetingApprovalLine_info.draw();
         meetingMinutes_info.draw();
         meetingMinutesApprovalLine_info_dashboard.draw();
+        meetingMinutesParallelAgreement_info_dashboard.draw();
+        afterMeetingMinutesNotification_info_dashboard.draw();
         daily_performance_info.draw();
         appreciation_depreciatione_info.draw();
+        targetFixing_info.draw();
     });
 	
 </script>
@@ -2491,6 +2601,9 @@ if($current_page == 'meeting_minutes') { ?>
 	<script src="js/meeting_minutes.js"></script>
 	<?php }
 
+if($current_page == 'target_fixing') { ?>
+	<script src="js/target_fixing.js"></script>
+	<?php }
 
 if($current_page == 'daily_performance') { ?>
 	<script src="js/daily_performance.js"></script>
@@ -2852,6 +2965,16 @@ if($current_page == 'appreciation_depreciatione') { ?>
     //  delete daily_performance
     $(document).on("click", '.delete_daily_performance', function(){
         var dlt = confirm("Do you want to delete this daily performance?");
+        if(dlt){
+            return true;
+        }else{
+            return false;
+        }
+    });
+
+    //  delete target fixing
+    $(document).on("click", '.delete_target_fixing', function(){
+        var dlt = confirm("Do you want to delete this target fixing?");
         if(dlt){
             return true;
         }else{
