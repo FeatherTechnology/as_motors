@@ -90,7 +90,19 @@ $(document).ready(function () {
 
 });
 
-campaign
+// append all vehicle
+$("#displayAllVehicleBtn").click(function(){
+    
+    $.ajax({
+        url:"vehicledetailsFile/ajaxGetAllVehicleDetails.php",
+        method:"post",
+        data:{},
+        success:function(html){
+            $("#vehicleListAppend").empty();
+            $("#vehicleListAppend").html(html);
+        }
+    });
+});
 
 
 // insert and update

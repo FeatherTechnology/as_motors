@@ -851,7 +851,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <!-- Fields -->
                                             <div class="col-md-12 "> 
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -895,7 +894,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Fields -->
                                     <div class="col-md-12 "> 
                                         <div class="row">
                                             <div class="col-md-12">
@@ -925,7 +923,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
-
                 <!-- after notified staff Approval Requisition -->
                 <?php 
                 if($approve_requisition_after_notification_staff_id == $sstaffid && $approve_requisition_after_notification_staff_status == 1){ ?>
@@ -936,7 +933,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Fields -->
                                     <div class="col-md-12 "> 
                                         <div class="row">
                                             <div class="col-md-12">
@@ -980,7 +976,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <!-- Fields -->
                                             <div class="col-md-12 "> 
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -1065,7 +1060,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <!-- Fields -->
                                             <div class="col-md-12 "> 
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -1723,7 +1717,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="card-title">Approval Requisition</div>
+                                        <div class="card-title">Meeting Minutes</div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
@@ -1757,7 +1751,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                         <?php  
                         }
                     }
-
                 } ?>
                 
                 <!-- Parallel Meeting Minutes -->
@@ -1775,7 +1768,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                             <div class="col-md-12">
                                                 <div class="form-group" >
                                                     <div class="table">
-                                                        <table id="parallelAgreement_info_dashboard" class="table custom-table">
+                                                        <table id="meetingMinutesParallelAgreement_info_dashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>S. No.</th>
@@ -1814,7 +1807,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                             <div class="col-md-12">
                                                 <div class="form-group" >
                                                     <div class="table">
-                                                        <table id="afterNotification_info_dashboard" class="table custom-table">
+                                                        <table id="afterMeetingMinutesNotification_info_dashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>S. No.</th>

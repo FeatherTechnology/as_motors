@@ -14,16 +14,16 @@ if(isset($_SESSION["staffid"])){
 
 $column = array(
 
-    'approval_line_id',
+    'meeting_minutes_approval_line_id',
     'company_id',
     'created_date',
     'status'
 );
 
-$query = "SELECT * FROM approval_line WHERE 1";
+$query = "SELECT * FROM meeting_minutes_approval_line WHERE 1";
 // if($sbranch_id == 'Overall'){
     $query .= '';
-    if($_POST['search']!="");
+    if($_POST['search']!="");  
     {
         if (isset($_POST['search'])) {
 
@@ -38,9 +38,9 @@ $query = "SELECT * FROM approval_line WHERE 1";
 
             else{	
                 $query .= "
-                OR approval_line_id LIKE  '%".$_POST['search']."%'
-                OR company_id LIKE  '%".$_POST['search']."%'
-                OR created_date LIKE  '%".$_POST['search']."%'
+                OR meeting_minutes_approval_line_id LIKE  '%".$_POST['search']."%'
+                OR company_id LIKE '%".$_POST['search']."%'
+                OR created_date LIKE '%".$_POST['search']."%'
                 OR status LIKE '%".$_POST['search']."%' ";
             }
         }
@@ -84,7 +84,7 @@ foreach ($result as $row) {
     $parallel_staff_idArr = array_map('intval', explode(',', $agree_par_staff_id));
     $parallel_staff_idLength = sizeof($parallel_staff_idArr);
 
-    $getParallelAgreementStaffId = "SELECT COUNT(agree_disagree) as agree_disagree FROM approval_requisition_parallel_agree_disagree WHERE agree_disagree = '1' AND status=0 ";
+    $getParallelAgreementStaffId = "SELECT COUNT(agree_disagree) as agree_disagree FROM meeting_minutes_parallel_agree_disagree WHERE agree_disagree = '1' AND status=0 ";
     $res11 = $con->query($getParallelAgreementStaffId);
     if ($con->affected_rows>0)
     {
@@ -112,8 +112,8 @@ foreach ($result as $row) {
         $sub_array[] = $branch_name;
         $sub_array[] = date('d-m-Y',strtotime($row['created_date']));   
 
-        $id   = $row['approval_line_id'];
-        $action="<a href='approval_requisition&dashupd=$id&parallel=$id' title='view details'><span class='btn btn-info'>View</span></a>";
+        $id   = $row['meeting_minutes_approval_line_id'];
+        $action="<a href='meeting_minutes&dashupd=$id&parallel=$id' title='view details'><span class='btn btn-info'>View</span></a>";
 
         $sub_array[] = $action;
         $data[]      = $sub_array;
@@ -123,7 +123,7 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT * FROM approval_line";
+    $query     = "SELECT * FROM meeting_minutes_approval_line";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();

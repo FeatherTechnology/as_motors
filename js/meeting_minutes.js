@@ -82,7 +82,7 @@ $(document).ready(function () {
 
 		var id = $('#approval_line_id').val();
 		$.ajax({
-		    url: 'meetingMinutesFile/ajaxPrintApprovalRequisition.php',
+		    url: 'meetingMinutesFile/ajaxPrintMeetingMinutes.php',
 		    cache: false,
 		    type: 'POST',
 		    data: { 'id':id },

@@ -348,6 +348,7 @@
 						</div>	
 					</li>
 
+
 					<!-- Target Fixing -->
 					<li class="sidebar-dropdown1">
 											<a href="javascript:void(0)">
@@ -360,6 +361,9 @@
 														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
 													</li>
 													<li>
+														<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
+													</li>
+													<li>
 														<a href="daily_performance"><i class="icon-file"></i>Daily Performance</a>	
 													</li>
 													<li>
@@ -368,6 +372,7 @@
 												</ul>
 											</div>	
 										</li>
+
 
 					<!-- vehicle management -->
 					<li class="sidebar-dropdown1">

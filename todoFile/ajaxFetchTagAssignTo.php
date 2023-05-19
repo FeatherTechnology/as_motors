@@ -21,8 +21,7 @@ $staff_name = array();
 
 // get work description
 $getqry = $con->query("SELECT rr FROM krakpi_creation_ref LEFT JOIN krakpi_creation ON krakpi_creation_ref.krakpi_reff_id = krakpi_creation.krakpi_id 
-WHERE krakpi_creation.company_name = '".$company_id."' AND krakpi_creation.status = 0 
-AND krakpi_creation_ref.rr != 'New' ");
+WHERE krakpi_creation.company_name = '".$company_id."' AND krakpi_creation.status = 0 AND krakpi_creation_ref.rr != 'New' ");
 // $getqry = "SELECT * FROM krakpi_creation_ref WHERE rr != 'New' AND status = 0";
 while($row = $getqry->fetch_assoc())
 {

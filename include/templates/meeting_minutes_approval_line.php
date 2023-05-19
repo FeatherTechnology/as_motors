@@ -22,12 +22,12 @@ if(isset($_POST['submitMeetingMinutesApprovalLine']) && $_POST['submitMeetingMin
         $id = $_POST['id']; 	
         // $updatekraCreation = $userObj->updatekraCreation($mysqli,$id,$userid);  
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_approval_line&msc=2';</script> 
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_meeting_minutes_approval_line&msc=2';</script> 
     <?php }
     else {   
         $addMeetingMinutesApprovalLine = $userObj->addMeetingMinutesApprovalLine($mysqli,$userid);   
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_approval_line&msc=1';</script>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_meeting_minutes_approval_line&msc=1';</script>
         <?php
     }
 }   
