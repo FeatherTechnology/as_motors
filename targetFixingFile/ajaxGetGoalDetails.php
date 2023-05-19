@@ -72,7 +72,7 @@ if(isset($_POST["no_of_months"])){
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertions[$o]; ?>"  name="assertion[]" id="assertion" ></td>
                                 <?php 
                                 if (strpos($ids[$o], $subString) !== false) { ?>
-                                    <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>"  name="target[]" id="target" ></td>
+                                    <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <?php } else { ?>
                                     <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]/$no_of_months); ?>"  name="target[]" id="target" ></td>
                                 <?php } ?>
