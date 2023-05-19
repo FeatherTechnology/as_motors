@@ -530,6 +530,24 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/edit_target_fixing.php" ?>
 			<?php } ?>
 
+			<!-- goal_setting -->
+			<?php if($current_page == 'goal_setting') { ?>
+			<?php include "include/templates/goal_setting.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'edit_goal_setting') { ?>
+			<?php include "include/templates/edit_goal_setting.php" ?>
+			<?php } ?>
+
+            <!-- daily_performance -->
+			<?php if($current_page == 'daily_performance') { ?>
+			<?php include "include/templates/daily_performance.php" ?>
+			<?php } ?>
+
+			<!-- appreciation_depreciatione -->
+			<?php if($current_page == 'appreciation_depreciatione') { ?>
+			<?php include "include/templates/appreciation_depreciatione.php" ?>
+			<?php } ?>
 			
 		</div>
 		<!-- Page content end -->

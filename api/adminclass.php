@@ -1837,27 +1837,27 @@
 		// }
 
 		//get Audit area table
-        public function getAuditAreaTable($mysqli){
+			public function getAuditAreaTable($mysqli){
 
-            $auditSelect = "SELECT * FROM audit_area_creation WHERE check_list = 'Yes' ";
-            $res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
-            $audit_area_list = array();
-            $i=0;
+				$auditSelect = "SELECT * FROM audit_area_creation WHERE check_list = 'Yes' ";
+				$res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
+				$audit_area_list = array();
+				$i=0;
 
-            if ($mysqli->affected_rows>0)
-            {
-                while($row = $res->fetch_object()){
+				if ($mysqli->affected_rows>0)
+				{
+					while($row = $res->fetch_object()){
 
-					$audit_area_list[$i]['audit_area_id']      = $row->audit_area_id;
-					$audit_area_list[$i]['audit_area']      = $row->audit_area;
-					$audit_area_list[$i]['role1']       = $row->role1;
-					$audit_area_list[$i]['role2']         = $row->role2;
-					$i++;
-                }
-            }
+						$audit_area_list[$i]['audit_area_id']      = $row->audit_area_id;
+						$audit_area_list[$i]['audit_area']      = $row->audit_area;
+						$audit_area_list[$i]['role1']       = $row->role1;
+						$audit_area_list[$i]['role2']         = $row->role2;
+						$i++;
+					}
+				}
 
-            return $audit_area_list;
-        }
+				return $audit_area_list;
+			}
 
 		//get Audit area table
         public function getAuditAreaTable1($mysqli, $sbranch_id){
@@ -7238,6 +7238,197 @@
 			}
 			return $detailrecords;
 		}
+		   public function getgoalsettingTable($mysqli){
+
+            $auditSelect = "SELECT company_id,company_name FROM company_creation WHERE status = '0'";
+            $res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
+            $audit_area_list = array();
+            $i=0;
+
+            if ($mysqli->affected_rows>0)
+            {
+                while($row = $res->fetch_object()){
+
+					$audit_area_list[$i]['company_id']      = $row->company_id;
+					$audit_area_list[$i]['company_name']      = $row->company_name;
+					$i++;
+                }
+            }
+
+            return $audit_area_list;
+        }
+
+
+
+		// Add Goal Setting
+		public function addgoalsetting($mysqli,$userid,$id){
+
+			if(isset($_POST['id'])){
+				$id = $_POST['id'];
+			}
+			if(isset($_POST['cname'])){
+				$cname = $_POST['cname'];
+			}
+			if(isset($_POST['dept'])){
+				$dept = $_POST['dept'];
+			}
+			if(isset($_POST['designation'])){
+				$designation = $_POST['designation'];
+			}
+			if(isset($_POST['syear'])){
+				$syear = $_POST['syear'];
+			}
+
+
+			if(isset($_POST['assertion'])){
+				$assertion = $_POST['assertion'];
+			}
+			if(isset($_POST['target'])){
+				$target = $_POST['target'];
+			}
+			if(isset($_POST['iid'])){
+				$iid = $_POST['iid'];
+			}
+
+			if($id == '0'){
+
+				$qry1="INSERT INTO goal_setting (goal_setting_id, company_name, department, role, year, insert_login_id, status)
+				VALUES (NULL, '$cname', '$dept', '$designation', '$syear','$userid', '0')";
+				$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+				$last_id  = $mysqli->insert_id;
+
+				for($j=0; $j<=sizeof($assertion)-1; $j++){
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($userid[$j])."')";
+					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+				}
+
+			} else {
+				
+				$qry1="UPDATE goal_setting set company_name = '$cname', department = '$dept' , role = '$designation',year = '$syear', status ='0',update_login_id='$userid' WHERE goal_setting_id = '$id' ";
+                $update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+                $last_id  = $mysqli->insert_id;
+
+				$deleteqry = " DELETE FROM goal_setting_ref WHERE goal_setting_id = '".$id."' ";
+				$delete=$mysqli->query($deleteqry) or die("Error on delete query ".$mysqli->error);
+
+
+                for($i=0;$i<=sizeof($assertion)-1;$i++){
+                    // $qry3 = "DELETE FROM goal_setting_ref WHERE goal_setting_ref_id = '$iid[$i]'"; 
+					// print_r($qry3);
+					// $update_assign_ref1=$mysqli->query($qry3) or die("Error ".$mysqli->error);
+
+                    $qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,update_login_id)
+					VALUES('$id', '$assertion[$i]','$target[$i]','$userid[$i]')";
+
+					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+                }
+			}
+		}
+		// Delete goal setting
+		public function deleteAuditAssigns($mysqli, $id){
+			$checklistDelete = "UPDATE goal_setting set status='1' WHERE goal_setting_id = '".strip_tags($id)."' ";
+			$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+		}
+		
+	// get auditAssign edit list
+	public function getGoalSettingfet($mysqli,$id){
+		
+		$get_checklist = "SELECT * FROM goal_setting_ref where goal_setting_id IN ($id)";
+	
+		$res2 = $mysqli->query($get_checklist) or die("Error in Get All Records".$mysqli->error);
+		$i=0;
+		$auditChecklist2='';
+		$auditChecklist2=array();
+		if ($mysqli->affected_rows>0)
+		{
+			while($row2 = $res2->fetch_assoc()){
+			$auditChecklist2[$i]['goal_setting_ref_id'] = $row2['goal_setting_ref_id'];
+			$auditChecklist2[$i]['goal_setting_id'] = $row2['goal_setting_id'];
+			$auditChecklist2[$i]['assertion'] = $row2['assertion'];
+			$auditChecklist2[$i]['target']=$row2['target'];
+			
+			$i++;
+			}
+		}
+		return $auditChecklist2;
+	}
+
+	// get getGoalSettingfetch list table
+	public function getGoalSettingfetch($mysqli,$id){
+		if($id>0){
+			$checklistSelect = "SELECT gs.company_name AS company_id,c.company_name AS company,gs.department AS dept_id,dc.department_name AS dept,gs.role AS role_id,ds.designation_name  AS role,gs.year AS year_id,y.year AS year,gs.status FROM goal_setting gs 
+			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+			LEFT JOIN company_creation c ON c.company_id=gs.company_name 
+			LEFT JOIN department_creation dc ON dc.department_id=gs.department 
+			LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
+			LEFT JOIN year_creation y ON y.year_id=gs.year WHERE gs.goal_setting_id = '$id' GROUP BY gs.company_name";
+			
+		} else {
+			$checklistSelect = "SELECT gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
+			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+			LEFT JOIN company_creation c ON c.company_id=gs.company_name 
+			LEFT JOIN department_creation dc ON dc.department_id=gs.department 
+			LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
+			LEFT JOIN year_creation y ON y.year_id=gs.year GROUP BY gs.company_name";
+			
+		}
+
+		$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+			$auditChecklist['company_id'] = $row->company_id;
+			$auditChecklist['company'] = $row->company;
+			$auditChecklist['dept_id'] = $row->dept_id;
+			$auditChecklist['dept'] = $row->dept;
+			$auditChecklist['role_id'] = $row->role_id;
+			$auditChecklist['role'] = $row->role;
+			$auditChecklist['year_id'] = $row->year_id;
+			$auditChecklist['year'] = $row->year;
+			// $auditareaid =  $auditChecklist['area_id'];
+			// $dept = $auditChecklist['department'];
+			// $auditor = $auditChecklist['auditor'];
+			// $auditee = $auditChecklist['auditee'];
+		}
+
+		//change value into new variable
+		}
+		
+		
+		return $auditChecklist;
+	}
+
+
+
+
+
+	//get daily_performance table
+	public function get_daily_performance($mysqli){
+
+		$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+				
+
+				$dailyperform_list[$i]['company_id']      = $row->company_id;
+				$dailyperform_list[$i]['company_name']      = $row->company_name;
+				
+				$i++;
+			}
+		}
+
+		return $dailyperform_list;
+	}
+     
+
 
 
 

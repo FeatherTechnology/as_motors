@@ -348,23 +348,31 @@
 						</div>	
 					</li>
 
-					<!-- approval mechanism -->
+
+					<!-- Target Fixing -->
 					<li class="sidebar-dropdown1">
-						<a href="javascript:void(0)">
-							<i class="icon-people_outline"></i>
-							<span class="menu-text" >Target Fixing</span>
-						</a>
-						<div class="sidebar-submenu1">
-							<ul>
-								<li>
-									<a href="goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
-								</li>
-								<li>
-									<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
-								</li>
-							</ul>
-						</div>	
-					</li>
+											<a href="javascript:void(0)">
+												<i class="icon-target"></i>
+												<span class="menu-text" >Target Fixing</span>
+											</a>
+											<div class="sidebar-submenu1">
+												<ul>
+													<li>
+														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
+													</li>
+													<li>
+														<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
+													</li>
+													<li>
+														<a href="daily_performance"><i class="icon-file"></i>Daily Performance</a>	
+													</li>
+													<li>
+														<a href="appreciation_depreciatione"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
+													</li>
+												</ul>
+											</div>	
+										</li>
+
 
 					<!-- vehicle management -->
 					<li class="sidebar-dropdown1">
