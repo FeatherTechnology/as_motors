@@ -5,6 +5,9 @@ if(isset($_POST["prev_company"])){
 	$company_id  = $_POST["prev_company"];
 }
 
+
+
+
 $department_id = array();
 $department_name = array();
 

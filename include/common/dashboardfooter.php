@@ -2071,7 +2071,7 @@
         ]
     });
     
-
+   
     // meeting minutes - approval line
     var minutesMeetingApprovalLine_info = $('#minutesMeetingApprovalLine_info').DataTable({
 
@@ -2175,6 +2175,41 @@
             [10, 25, 50, "All"]
         ]
     });
+
+// Daily Performance
+var daily_performance_info = $('#daily_performance_info').DataTable({
+
+"order": [[ 0, "desc" ]],
+//"ordering": false, //removes sorting by column
+'processing': true,
+'serverSide': true,
+'serverMethod': 'post',
+//'searching': false, // Remove default Search Control
+'ajax': {
+    'url':'ajaxdaily_performance_info.php',
+    'data': function(data){
+        var search = $('#search').val();
+        data.search = search;
+    }
+},
+// dom: 'lBfrtip',
+buttons: [
+    {
+        extend: 'csv',
+        exportOptions: {
+            columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+        }
+    },
+    {
+        extend:'colvis',
+        collectionLayout: 'fixed four-column',
+    }
+],
+"lengthMenu": [
+    [10, 25, 50, -1],
+    [10, 25, 50, "All"]
+]
+});
 
 
     // parallel agreement - meeting minutes dashboard
