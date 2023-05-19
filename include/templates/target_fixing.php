@@ -318,6 +318,13 @@ if($idupd>0)
 
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="form-group">
+                        <label >Old Assertion<span class="text-danger">*</span></label>
+                        <input type="text" readonly class="form-control" id="new_assertion" name="new_assertion">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
                         <label >New Assertion<span class="text-danger">*</span></label>
                         <input type="text"  class="form-control" id="new_assertion" name="new_assertion" placeholder="Enter New Assertion">
                         <!-- <span id="customernamecheckNew" class="text-danger">Enter New Assertion</span> -->
@@ -328,6 +335,14 @@ if($idupd>0)
                         <div class="form-group">
                             <label class="label">New Target<span class="text-danger">*</span></label>
                             <input  type="number" tabindex="46" name="new_target" id="new_target" class="form-control" placeholder='Enter New Target'>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="form-group">
+                        <label >Applicability<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="new_assertion" name="new_assertion" placeholder="Enter Applicability">
+                        <!-- <span id="customernamecheckNew" class="text-danger">Enter New Assertion</span> -->
                         </div>
                     </div>
                 </div>
@@ -352,8 +367,8 @@ if($idupd>0)
                                 for($j=0;$j<count($projectCreationList);$j++) { ?>
                                 <tr>
                                     <td class="col-md-2 col-xl-2"><?php echo $j+1; ?></td>
-                                    <td><?php  echo $projectCreationList[$j]['project_name']; ?></td>
-                                    <td><?php  echo $projectCreationList[$j]['project_name']; ?></td>
+                                    <td><?php echo $projectCreationList[$j]['project_name']; ?></td>
+                                    <td><?php echo $projectCreationList[$j]['project_name']; ?></td>
                                     <td>
                                         <a id="edit_project" value="<?php echo $projectCreationList[$j]['project_id'] ?>"><span class="icon-border_color"></span></a> &nbsp
                                         <a id="delete_project" value="<?php echo $projectCreationList[$j]['project_id'] ?>"><span class='icon-trash-2'></span></a>

@@ -69,7 +69,7 @@ if(isset($_POST["no_of_months"])){
                             <tr>
                                 <td><?php echo $sno; ?></td>
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $ids[$o]; ?>" name="id[]" id="id" ></td>
-                                <td><input readonly type="text" class="form-control" value="<?php echo $assertions[$o]; ?>"  name="assertion[]" id="assertion" ></td>
+                                <td><input readonly type="text" class="form-control" value="<?php echo $assertions[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <?php 
                                 if (strpos($ids[$o], $subString) !== false) { ?>
                                     <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
@@ -80,10 +80,10 @@ if(isset($_POST["no_of_months"])){
                                 <span class='icon-border_color' id="edit_assertion" name="edit_assertion" data-toggle="modal" data-target=".addProjectModal"></span>&nbsp;&nbsp; 
                                 <span class='icon-trash-2' id="delete_assertion" name="delete_assertion" data-toggle="modal" data-target=".addProjectModal1"></span>
                                 </td>
-                                <td><input readonly type="number" class="form-control" value=""  name="new_assertion[]" id="new_assertion" ></td>
-                                <td><input readonly type="number" class="form-control" value=""  name="new_target[]" id="new_target" ></td>
-                                <td><input readonly type="number" class="form-control" value=""  name="applicability[]" id="applicability" ></td>
-                                <td><input readonly type="number" class="form-control" value=""  name="deleted_date[]" id="deleted_date" ></td>
+                                <td><input readonly type="number" class="form-control" value="" name="new_assertion[]" id="new_assertion" ></td>
+                                <td><input readonly type="number" class="form-control" value="" name="new_target[]" id="new_target" ></td>
+                                <td><input readonly type="number" class="form-control" value="" name="applicability[]" id="applicability" ></td>
+                                <td><input readonly type="number" class="form-control" value="" name="deleted_date[]" id="deleted_date" ></td>
                                 <td><textarea readonly id="deleted_remarks" name="deleted_remarks" class="form-control" rows="2" cols="40" ></textarea></td>
                             </tr>
                         </tbody>
