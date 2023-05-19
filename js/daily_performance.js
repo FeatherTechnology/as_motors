@@ -272,10 +272,7 @@ $('#execute').click(function() {
     var designation_id=$('#designation_id').val();
     var emp_id = $('#staff_id').val();
     var wdays = $('#tday').val();
-    // console.log('company_id',company_id);
-    // console.log('department_id',department_id);
-    // console.log('designation_id',designation_id);
-    // console.log('emp_id',emp_id);
+   
     $.ajax({
         url: 'get_all_detail.php',
         data: {'company_id': company_id,
@@ -288,20 +285,19 @@ $('#execute').click(function() {
         type:'post',
         dataType: 'json',
         success: function(data){
-       console.log("data",data);
-            // $('#staff_id').text('');
-            // $('#staff_id').val('');
-            // var option = $('<option></option>').val('').text('Select Employee');
-            // $('#staff_id').append(option);
-            // for(var a=0; a<=data.length-1; a++){
-            //     // var selected = '';
-            //     // if(year_idup == data[a]['department_id']){
-            //     //     selected = 'selected';
-            //     // }'+selected+' 
-            //     var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
-            //        $('#staff_id').append(option);
-            // }
-
+            $('#moduleTable').find('tbody').empty();
+          for(var a=0; a<=data.length-1; a++){
+            var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data[a]['new_assertion'] +"></input></td>" +
+            "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['new_target'] +"></input></td>" +
+            "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
+            "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
+            "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td>" +
+            "<td><button tabindex='8' type='button' tabindex='11' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+            "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
+             $('#moduleTable').find('tbody').append(appendTxt);
+            }
+            wstatus();
          }
       });
+      
 });
