@@ -7232,7 +7232,7 @@
 
 
 
-	//get daily_performance table
+	//get company daily_performance table
 	public function get_daily_performance($mysqli){
 
 		$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
@@ -7256,8 +7256,203 @@
 		return $dailyperform_list;
 	}
      
+	//get  deptn daily_performance table
+	public function get_dept_performance($mysqli){
+
+		$dailyperform = "SELECT * FROM `department_creation` WHERE status='0'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperformdept_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+				
+
+				$dailyperformdept_list[$i]['department_id']      = $row->department_id;
+				$dailyperformdept_list[$i]['department_name']      = $row->department_name;
+				
+				$i++;
+			}
+		}
+
+		return $dailyperformdept_list;
+	}
+	
+
+	//get  role daily_performance table
+	public function get_role_performance($mysqli){
+
+		$dailyperform = "SELECT * FROM `designation_creation` WHERE status='0'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperformdesi_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+				
+
+				$dailyperformdesi_list[$i]['designation_id']      = $row->designation_id;
+				$dailyperformdesi_list[$i]['designation_name']      = $row->designation_name;
+				
+				$i++;
+			}
+		}
+
+		return $dailyperformdesi_list;
+	}
+	
+// Add & Edit daily performance
+public function adddailyperformance($mysqli,$userid){
+
+	if(isset($_POST['id'])){
+		$id = $_POST['id'];
+	}
+	if(isset($_POST['company_id'])){
+		$company_id = $_POST['company_id'];
+	}
+	if(isset($_POST['department_id'])){
+		$department_id = $_POST['department_id'];
+	}
+	if(isset($_POST['designation_id'])){
+		$designation_id = $_POST['designation_id'];
+	}
+	if(isset($_POST['staff_id'])){
+		$staff_id = $_POST['staff_id'];
+	}
+	if(isset($_POST['nmonth'])){
+		$nmonth = $_POST['nmonth'];
+	}
 
 
+
+	if(isset($_POST['assertion'])){
+		$assertion = $_POST['assertion'];
+	}
+	if (isset($_POST['target'])) {
+	   $target = $_POST['target'];
+	} 
+	if(isset($_POST['sdate'])){
+		$sdate = $_POST['sdate'];
+	}
+	if (isset($_POST['wstatus'])) {
+		$wstatus = $_POST['wstatus'];
+	}
+
+	if(isset($_POST['userid'])){
+		$userid = $_POST['userid'];
+	}
+
+	// print_r($company_id);
+	// print_r($department_id);
+	// print_r($designation_id);
+	// print_r($staff_id);
+	
+	// print_r($assertion);
+	// print_r($target);
+	// print_r($sdate);
+	// print_r($wstatus);
+	// print_r($userid);
+	// print_r($id);
+	// INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status) 
+	// 							VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
+
+	if($id == '0'){
+
+		$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
+		VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+		print_r($qry1);
+		$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+		$last_id  = $mysqli->insert_id;
+
+		for($j=0; $j<=sizeof($assertion)-1; $j++){
+			$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date, status)
+			VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($wstatus[$j])."')";
+			$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+		}
+
+	 }
+	// else {
+		
+	// 	$qry1="UPDATE audit_assign set date_of_audit = '$date_of_audit', department_id = '$dept_id' , role1 = '$role1_id',role2 = '$role2_id',audit_area_id = '$prev', status ='0',update_login_id='$userid' WHERE audit_assign_id = '$id' ";
+	// 	$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+	// 	$last_id  = $mysqli->insert_id;
+	// 	for($i=0;$i<=sizeof($major)-1;$i++){
+	// 		if($file[$i] == ''){
+	// 			$afile = $files1[$i];
+	// 		} else {
+	// 			$afile = $file[$i];
+	// 		}
+	// 		$qry2="UPDATE audit_assign_ref set major_area= '$major[$i]', assertion= '$assertion[$i]', audit_status = '$prevstatus[$i]',
+	// 		recommendation ='$rcmd[$i]',attachment = '$afile',audit_remarks = '$aremarks[$i]' WHERE audit_assign_id= '$id'
+	// 		AND audit_assign_ref_id  = '$audit_assign_ref_id[$i]'";
+	// 		$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+	// 	}
+	// }
+}
+
+	// get dailyperformance table
+
+	public function getdailyperformance($mysqli,$id){
+
+		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+			
+				$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
+				$dailyperform_list[$i]['company_id']      = $row->company_id;
+				$dailyperform_list[$i]['company_name']      = $row->company_name;
+				$dailyperform_list[$i]['department_id']      = $row->department_id;
+				$dailyperform_list[$i]['department_name']      = $row->department_name;
+				$dailyperform_list[$i]['role_id']      = $row->role_id;
+				$dailyperform_list[$i]['designation_name']      = $row->designation_name;
+				$dailyperform_list[$i]['emp_id']      = $row->emp_id;
+				$dailyperform_list[$i]['staff_name']      = $row->staff_name;
+                $dailyperform_list[$i]['month']      = $row->month;
+				$dailyperform_list[$i]['status']      = $row->status;
+				
+                
+				
+				$i++;
+			}
+		}
+
+        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,status FROM daily_performance_ref WHERE daily_performance_id ='$id'";
+		
+		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list1 = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+			
+				$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
+				$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
+				$dailyperform_list1[$i]['target']      = $row1->target;	
+				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
+				$dailyperform_list1[$i]['status']      = $row1->status;
+				
+				$i++;
+			}
+		}
+        $response = array(
+            'departments' => $dailyperform_list,
+            'designations' => $dailyperform_list1
+          );
+        
+      
+		return $response;
+	}
 
 
 }
