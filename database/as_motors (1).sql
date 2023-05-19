@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 03:04 PM
+-- Generation Time: May 19, 2023 at 02:15 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -1947,16 +1947,25 @@ CREATE TABLE `target_fixing` (
   `target_fixing_id` int(11) NOT NULL,
   `company_id` int(11) DEFAULT NULL,
   `department_id` int(11) DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL,
+  `designation_id` int(11) DEFAULT NULL,
   `emp_id` int(11) DEFAULT NULL,
   `year_id` int(11) DEFAULT NULL,
-  `month` int(11) DEFAULT NULL,
+  `no_of_months` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `target_fixing`
+--
+
+INSERT INTO `target_fixing` (`target_fixing_id`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `no_of_months`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 1, 1, 1, 1, 1, 10, 0, 1, 1, NULL, '2023-05-19 17:38:25', '2023-05-19 17:38:25'),
+(2, 1, 1, 1, 1, 1, 30, 1, 1, NULL, 1, '2023-05-19 17:39:37', '2023-05-19 17:39:37');
 
 -- --------------------------------------------------------
 
@@ -1967,14 +1976,31 @@ CREATE TABLE `target_fixing` (
 CREATE TABLE `target_fixing_ref` (
   `target_fixing_ref_id` int(11) NOT NULL,
   `target_fixing_id` int(11) NOT NULL,
+  `goal_setting_and_kra_id` varchar(50) DEFAULT NULL,
   `assertion` varchar(200) DEFAULT NULL,
   `target` varchar(100) DEFAULT NULL,
   `new_assertion` varchar(200) DEFAULT NULL,
   `new_target` varchar(100) DEFAULT NULL,
   `applicability` varchar(250) DEFAULT NULL,
-  `delete_date` datetime NOT NULL DEFAULT current_timestamp(),
-  `delete_remarks` text DEFAULT NULL
+  `deleted_date` varchar(100) DEFAULT NULL,
+  `deleted_remarks` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `target_fixing_ref`
+--
+
+INSERT INTO `target_fixing_ref` (`target_fixing_ref_id`, `target_fixing_id`, `goal_setting_and_kra_id`, `assertion`, `target`, `new_assertion`, `new_target`, `applicability`, `deleted_date`, `deleted_remarks`) VALUES
+(16, 2, '1', 'test1', '10', '', '', '', '', ''),
+(17, 2, '2', 'test2', '17', '', '', '', '', ''),
+(18, 2, '3', 'test3', '20', '', '', '', '', ''),
+(19, 2, '1_kra', 'kra1', '', '', '', '', '', ''),
+(20, 2, '2_kra', 'kra2', '', '', '', '', '', ''),
+(21, 1, '1', 'test1', '30', '', '', '', '', ''),
+(22, 1, '2', 'test2', '50', '', '', '', '5/19/2023', 'test'),
+(23, 1, '3', 'test3', '60', '', '', '', '', ''),
+(24, 1, '1_kra', 'kra1', '', '', '', '', '', ''),
+(25, 1, '2_kra', 'kra2', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -3064,13 +3090,13 @@ ALTER TABLE `tag_creation`
 -- AUTO_INCREMENT for table `target_fixing`
 --
 ALTER TABLE `target_fixing`
-  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `target_fixing_ref`
 --
 ALTER TABLE `target_fixing_ref`
-  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `todo_creation`

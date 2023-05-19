@@ -74,17 +74,19 @@ if(isset($_POST["no_of_months"])){
                                 if (strpos($ids[$o], $subString) !== false) { ?>
                                     <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <?php } else { ?>
-                                    <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]/$no_of_months); ?>"  name="target[]" id="target" ></td>
+                                    <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]/$no_of_months); ?>" name="target[]" id="target" ></td>
                                 <?php } ?>
                                 <td>
-                                <span class='icon-border_color' id="edit_assertion" name="edit_assertion" data-toggle="modal" data-target=".addProjectModal"></span>&nbsp;&nbsp; 
-                                <span class='icon-trash-2' id="delete_assertion" name="delete_assertion" data-toggle="modal" data-target=".addProjectModal1"></span>
+                                    <input type="checkbox" id="edit_assertion" name="edit_assertion[]" class="edit_assertion" value="edit">
+                                    <label for="edit_assertion"> EDIT</label> &nbsp;&nbsp;
+                                    <input type="checkbox" id="delete_assertion" name="delete_assertion[]" class="delete_assertion" value="delete">
+                                    <label for="delete_assertion"> DELETE</label><br>
                                 </td>
-                                <td><input readonly type="number" class="form-control" value="" name="new_assertion[]" id="new_assertion" ></td>
-                                <td><input readonly type="number" class="form-control" value="" name="new_target[]" id="new_target" ></td>
-                                <td><input readonly type="number" class="form-control" value="" name="applicability[]" id="applicability" ></td>
-                                <td><input readonly type="number" class="form-control" value="" name="deleted_date[]" id="deleted_date" ></td>
-                                <td><textarea readonly id="deleted_remarks" name="deleted_remarks" class="form-control" rows="2" cols="40" ></textarea></td>
+                                <td><input readonly type="text" class="form-control" value="" name="new_assertion[]" id="new_assertion" placeholder="Enter new assertion" ></td>
+                                <td><input readonly type="number" class="form-control" value="" name="new_target[]" id="new_target" placeholder="Enter new target" ></td>
+                                <td><input readonly type="text" class="form-control" value="" name="applicability[]" id="applicability" placeholder="Enter applicability" ></td>
+                                <td><input readonly type="text" class="form-control" value="" name="deleted_date[]" id="deleted_date" ></td>
+                                <td><textarea readonly id="deleted_remarks" name="deleted_remarks[]" class="form-control" rows="2" cols="40" placeholder="Enter remarks" ></textarea></td>
                             </tr>
                         </tbody>
                     <?php $sno = $sno + 1; }
@@ -93,4 +95,41 @@ if(isset($_POST["no_of_months"])){
         </div>
     </div>
 </div>
-    
+   
+<script>
+    // set enable and disable condition
+    $(".edit_assertion").on('click', function() { 
+        var checkbox = $(this).parents('tr').find('td #edit_assertion').is(":checked");
+        if (checkbox) { 
+            $(this).parents('tr').find('td #new_assertion').attr("readonly",false);
+            $(this).parents('tr').find('td #new_target').attr("readonly",false);
+            $(this).parents('tr').find('td #applicability').attr("readonly",false);
+        } else { 
+            $(this).parents('tr').find('td #new_assertion').val('').attr("readonly",true);
+            $(this).parents('tr').find('td #new_target').val('').attr("readonly",true);
+            $(this).parents('tr').find('td #applicability').val('').attr("readonly",true);
+        }
+    });
+
+    $(".delete_assertion").on('click', function() { 
+        var checkbox = $(this).parents('tr').find('td #delete_assertion').is(":checked");
+        if (checkbox) { 
+
+            var currentDate = new Date($.now());
+            var formattedDate = currentDate.toLocaleDateString();  
+
+            $(this).parents('tr').find('td #deleted_date').val(formattedDate);
+            $(this).parents('tr').find('td #deleted_remarks').attr("readonly",false);
+        } else { 
+            $(this).parents('tr').find('td #deleted_date').val('');
+            $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
+        }
+    });
+</script>
+
+<!-- 
+<script>
+    $("#edit_assertion").click(function(){
+        $("#callAssertion").click();      
+    });
+</script> -->
