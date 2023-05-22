@@ -317,7 +317,8 @@ function insertData(prev_company){
   
     var dept_id_upd = $('#dept_id_upd').val();
     var role_id_up = $('#role_id_up').val();
-   
+
+    
     $.ajax({
         url: 'getgoalsettings.php',
         data: {'prev_company': prev_company },
@@ -356,17 +357,49 @@ function insertData(prev_company){
                 $('#designation_id').append(option2);
 
             }
-           
-        }
-        });
-    getempname();
-}
-function getempname(){
+                var company_id=$('#company').val();
+                var department_id=$('#department_id').val();
+                var designation_id=$('#designation_id').val();
+                 var emp_idup = $('#emp_idup').val();
 
-     var company_id=$('#company').val();
-    var department_id=$('#department_id').val();
-    var designation_id=$('#designation_id').val();
-    console.log("company_id",company_id);
-    console.log("department_id",department_id);
-    console.log("designation_id",designation_id);
+                console.log("company_id",company_id);
+                console.log("department_id",department_id);
+                console.log("designation_id",designation_id);
+
+
+                $.ajax({
+                    url: 'get_emp_detail.php',
+                    data: {'company_id': company_id,
+                            'department_id':department_id,
+                            'designation_id':designation_id },
+                    cache: false,
+                    type:'post',
+                    dataType: 'json',
+                    success: function(data){
+                       console.log("data",data);
+                        $('#staff_id').text('');
+                        $('#staff_id').val('');
+                        var option4 = $('<option></option>').val('').text('Select Staff');
+                        $('#staff_id').append(option4);
+                       
+                      for(var a=0; a<=data.length-1; a++){
+                            var selected = '';
+                            if(emp_idup == data[a]['staff_id']){
+                                selected = 'selected';
+                            }
+                           
+                            var option1 = $('<option '+selected+'></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+                            $('#staff_id').append(option1);
+            
+                           
+                        }
+                    }
+                  
+                    });
+
+        }
+      
+        });
+   
 }
+

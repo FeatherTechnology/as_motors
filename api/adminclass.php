@@ -7301,6 +7301,7 @@
 					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,insert_login_id)
 					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($userid[$j])."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+					print_r($qry2);
 				}
 
 			} else {
@@ -7480,27 +7481,7 @@
 	}
 	
 // Add & Edit daily performance
-public function adddailyperformance($mysqli,$userid){
 
-	if(isset($_POST['id'])){
-		$id = $_POST['id'];
-	}
-	if(isset($_POST['company_id'])){
-		$company_id = $_POST['company_id'];
-	}
-	if(isset($_POST['department_id'])){
-		$department_id = $_POST['department_id'];
-	}
-	if(isset($_POST['designation_id'])){
-		$designation_id = $_POST['designation_id'];
-	}
-	if(isset($_POST['staff_id'])){
-		$staff_id = $_POST['staff_id'];
-	}
-	if(isset($_POST['nmonth'])){
-		$nmonth = $_POST['nmonth'];
-	}
-}
 	
 public function addTargetFixing($mysqli, $userid){
 
@@ -7702,75 +7683,99 @@ public function addTargetFixing($mysqli, $userid){
 		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
 	}
 
+	public function adddailyperformance($mysqli,$userid){
 
-	// if(isset($_POST['assertion'])){
-	// 	$assertion = $_POST['assertion'];
-	// }
-	// if (isset($_POST['target'])) {
-	//    $target = $_POST['target'];
-	// } 
-	// if(isset($_POST['sdate'])){
-	// 	$sdate = $_POST['sdate'];
-	// }
-	// if (isset($_POST['wstatus'])) {
-	// 	$wstatus = $_POST['wstatus'];
-	// }
-
-	// if(isset($_POST['userid'])){
-	// 	$userid = $_POST['userid'];
-	// }
-
-	// // print_r($company_id);
-	// // print_r($department_id);
-	// // print_r($designation_id);
-	// // print_r($staff_id);
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		}
+		if(isset($_POST['company_id'])){
+			$company_id = $_POST['company_id'];
+		}
+		if(isset($_POST['department_id'])){
+			$department_id = $_POST['department_id'];
+		}
+		if(isset($_POST['designation_id'])){
+			$designation_id = $_POST['designation_id'];
+		}
+		if(isset($_POST['staff_id'])){
+			$staff_id = $_POST['staff_id'];
+		}
+		if(isset($_POST['nmonth'])){
+			$nmonth = $_POST['nmonth'];
+		}
 	
-	// // print_r($assertion);
-	// // print_r($target);
-	// // print_r($sdate);
-	// // print_r($wstatus);
-	// // print_r($userid);
-	// // print_r($id);
-	// // INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status) 
-	// // 							VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		}
+		if (isset($_POST['target'])) {
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['sdate'])){
+			$sdate = $_POST['sdate'];
+		}
+		if (isset($_POST['wstatus'])) {
+			$wstatus = $_POST['wstatus'];
+		}
 
-	// if($id == '0'){
+		if(isset($_POST['userid'])){
+			$userid = $_POST['userid'];
+		}
 
-	// 	$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
-	// 	VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
-	// 	print_r($qry1);
-	// 	$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-	// 	$last_id  = $mysqli->insert_id;
+		// print_r($company_id);
+		// print_r($department_id);
+		// print_r($designation_id);
+		// print_r($staff_id);
 
-	// 	for($j=0; $j<=sizeof($assertion)-1; $j++){
-	// 		$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date, status)
-	// 		VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($wstatus[$j])."')";
-	// 		$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-	// 	}
+		// print_r($assertion);
+		// print_r($target);
+		// print_r($sdate);
+		// print_r($wstatus);
+		// print_r($userid);
+		// print_r($id);
+		// INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status) 
+		// 							VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
 
-	//  }
-	// else {
-		
-	// 	$qry1="UPDATE audit_assign set date_of_audit = '$date_of_audit', department_id = '$dept_id' , role1 = '$role1_id',role2 = '$role2_id',audit_area_id = '$prev', status ='0',update_login_id='$userid' WHERE audit_assign_id = '$id' ";
-	// 	$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-	// 	$last_id  = $mysqli->insert_id;
-	// 	for($i=0;$i<=sizeof($major)-1;$i++){
-	// 		if($file[$i] == ''){
-	// 			$afile = $files1[$i];
-	// 		} else {
-	// 			$afile = $file[$i];
-	// 		}
-	// 		$qry2="UPDATE audit_assign_ref set major_area= '$major[$i]', assertion= '$assertion[$i]', audit_status = '$prevstatus[$i]',
-	// 		recommendation ='$rcmd[$i]',attachment = '$afile',audit_remarks = '$aremarks[$i]' WHERE audit_assign_id= '$id'
-	// 		AND audit_assign_ref_id  = '$audit_assign_ref_id[$i]'";
-	// 		$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-	// 	}
-	// }
-// }
+		if($id == '0'){
 
+			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
+			VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+			print_r($qry1);
+			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+			$last_id  = $mysqli->insert_id;
+
+			for($j=0; $j<=sizeof($assertion)-1; $j++){
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date, status)
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($wstatus[$j])."')";
+				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+			}
+
+			}
+		else {
+			
+			$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
+			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+			$last_id  = $mysqli->insert_id;
+
+			$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
+
+			for($i=0;$i<=sizeof($assertion)-1;$i++){
+				
+
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,status)
+				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$wstatus[$i]')";
+
+				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+			}
+			
+		}
+		}
+	// Delete Audit Area Checklist
+				public function deletedailyperformance($mysqli, $id){
+				$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
+				$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+				}
 	// get dailyperformance table
-
-	public function getdailyperformance($mysqli,$id){
+      public function getdailyperformance($mysqli,$id){
 
 		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
 		
