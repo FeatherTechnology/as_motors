@@ -332,7 +332,6 @@ function insertData(prev_company){
             $('#department_id').append(option4);
            
           for(var a=0; a<=data.length-1; a++){
-                
                 var selected = '';
                 if(dept_id_upd == data[a]['department_id']){
                     selected = 'selected';
@@ -360,5 +359,14 @@ function insertData(prev_company){
            
         }
         });
-    
+    getempname();
+}
+function getempname(){
+
+     var company_id=$('#company').val();
+    var department_id=$('#department_id').val();
+    var designation_id=$('#designation_id').val();
+    console.log("company_id",company_id);
+    console.log("department_id",department_id);
+    console.log("designation_id",designation_id);
 }

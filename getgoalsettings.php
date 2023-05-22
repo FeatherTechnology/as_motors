@@ -40,6 +40,21 @@ for($i=0;$i<count($designation_id); $i++){
 }
 //  print_r($prevChecklist);
 
+$staff_id = array();
+$staff_name = array();
+
+$qry1=$con->query("SELECT staff_id,staff_name FROM staff_creation  WHERE company_id = '$company_id' AND designation IN ($designation_id) AND department_id IN ()");
+
+while($row1=$qry1->fetch_assoc()){
+    $designation_id[] = $row1['designation_id'];
+    $designation_name[] = $row1['designation_name'];
+   }
+
+for($i=0;$i<count($designation_id); $i++){
+    $prevChecklist[$i]['designation_id'] = $designation_id[$i];
+    $prevChecklist[$i]['designation_name'] = $designation_name[$i];
+}
+
 echo json_encode($prevChecklist);
 
 ?>
