@@ -19,15 +19,15 @@ $idupd=0;
  {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	
-        $audit_area_id = $_POST['audit_area_id'];
-        $updateAuditAreaCreationmaster = $userObj->updateAuditAreaChecklist($mysqli,$id,$audit_area_id);  
+        $audit_area_id = $_POST['daily_performance_id'];
+        $updateAuditAreaCreationmaster = $userObj->adddailyperformance($mysqli,$id,$audit_area_id);  
     ?>
-   <!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_audit_area_checklist&msc=2';</script>  -->
+   <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_performance&msc=2';</script> 
     <?php	}
     else{   
         $addAuditAreaCreation = $userObj->adddailyperformance($mysqli,$userid);   
         ?>
-     <!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_audit_area_checklist&msc=1';</script> -->
+     <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_performance&msc=1';</script>
         <?php
     }
  }   
@@ -39,9 +39,9 @@ $del=$_GET['del'];
 }
 if($del>0)
 {   
-	$deleteAuditAreaCreation = $userObj->deleteAuditAreaChecklist($mysqli,$del); 
+	$deleteAuditAreaCreation = $userObj->deletedailyperformance($mysqli,$del); 
 	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>edit_audit_area_checklist&msc=3';</script>
+	<script>location.href='<?php echo $HOSTPATH; ?>edit_daily_performance&msc=3';</script>
 <?php	
 }
 
@@ -82,7 +82,7 @@ if($idupd>0)
         $month                  = $header_table[$i]['month']; 
         $designation_name                  = $header_table[$i]['designation_name']; 
     }
-      
+     
    
 }
 ?>
@@ -93,7 +93,7 @@ if($idupd>0)
         <li class="breadcrumb-item">AS - Daily Performance</li>
     </ol>
 
-    <a href="edit_audit_area_checklist">
+    <a href="edit_daily_performance">
         <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
    </a>
 </div>
@@ -192,9 +192,18 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Month</label>
-                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>" >
-                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php $currentMonth = date("m"); echo $currentMonth; ?>" >
+                                               <?php if($idupd == '0'){ ?>
+                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>">
+                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php $currentMonth = date("m"); echo $currentMonth;  ?>" >
                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
+                                               <?php }else{ ?> 
+
+                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){ }else{$months = date("F", mktime(0, 0, 0, $month, 1));echo $months; }  ?>">
+                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo $month;  ?>" >
+                                               <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php  $months = date("F", mktime(0, 0, 0, $month, 1)); if($months == 'February'){ echo "22";}else{echo "26";}  ?>" >
+                                               
+                                               <?php } ?>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
@@ -266,53 +275,55 @@ if($idupd>0)
                                                 ?>
                                                         <tr>
                                                             <td>
-                                                                <input tabindex="4" type="text" class="form-control" id="major" name="major[]" value="<?php echo $assertion; ?>">
-                                                                </input> 
+                                                                <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion; ?>">
                                                                 <input  type="hidden" class="form-control" id="sub" name="sub[]" value="<?php echo  $daily_performance_ref_id; ?>">
                                                             </td>
-                                                            <td>
-                                                                <input tabindex="6" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $target ?>"></input> 
+                                                            <td >
+                                                                <input tabindex="5" type="text" class="form-control" id="target" name="target[]" value="<?php echo $target ?>" >
+                                                                </input> 
                                                             </td>
                                                             <td>
-                                                                <input tabindex="6" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $system_date; ?>"></input> 
+                                                                <input  type="date" class="form-control" id="sdate" name="sdate[]" value="<?php echo $system_date; ?>" ></input> 
                                                             </td>
                                                             <td>
-                                                            <select  class="form-control wstatus" id="wstatus" name="wstatus[]"  value="<?php echo $status ?>" >
-                                                               <?php if($status == 'statisfied') { ?>
-                                                                <option value="statisfied">Statisfied</option>
-                                                                <option value=" ">Select Work Status</option>
-                                                                <option value="not_done">Not Done</option>
-                                                                <option value="carry_forward">Carry Forward</option>
-                                                                <?php }else if($status == 'not_done'){ ?>
-                                                                <option value="not_done">Not Done</option>
-                                                                <option value=" ">Select Work Status</option>
-                                                                <option value="statisfied">Statisfied</option>
-                                                                <option value="carry_forward">Carry Forward</option>
-                                                                <?php }else if($status == 'carry_forward'){ ?>
-                                                                
-                                                                <option value="carry_forward">Carry Forward</option>
-                                                               <option value=" ">Select Work Status</option>
-                                                                <option value="statisfied">Statisfied</option>
-                                                                <option value="not_done">Not Done</option>
-                                                                <?php } ?>
-                                                            </select>
+                                                           
+                                                                <select  class="form-control wstatus" id="wstatus" name="wstatus[]"  value="<?php echo $status ?>" >
+                                                                    <?php if($status == 'statisfied') { ?>
+                                                                        <option value="statisfied">Statisfied</option>
+                                                                        <option value=" ">Select Work Status</option>
+                                                                        <option value="not_done">Not Done</option>
+                                                                        <option value="carry_forward">Carry Forward</option>
+                                                                    <?php }else if($status == 'not_done'){ ?>
+                                                                        <option value="not_done">Not Done</option>
+                                                                        <option value=" ">Select Work Status</option>
+                                                                        <option value="statisfied">Statisfied</option>
+                                                                        <option value="carry_forward">Carry Forward</option>
+                                                                    <?php }else if($status == 'carry_forward'){ ?>
+                                                                        <option value="carry_forward">Carry Forward</option>
+                                                                        <option value=" ">Select Work Status</option>
+                                                                        <option value="statisfied">Statisfied</option>
+                                                                        <option value="not_done">Not Done</option>
+                                                                    <?php } ?>
+                                                                </select>
                                                             </td>
                                                             <td>
-                                                            <?php if($status == 'statisfied') { ?>
-                                                                <input type="text" class="form-control" id="status" name="status[]" style="background-color: green;">
-                                                                <?php }else if($status == 'not_done'){ ?>
-                                                                    <input type="text" class="form-control" id="status" name="status[]" style="background-color: red;">
-                                                                <?php }else if($status == 'carry_forward'){ ?>
-                                                                
-                                                                    <input type="text" class="form-control" id="status" name="status[]" style="background-color: blue;">
-                                                                <?php }else{ ?>
-                                                           <input type="text" class="form-control" id="status" name="status[]">
-                                                           <?php } ?>
-                                                           </td>
+                                                                    <?php if($status == 'statisfied') { ?>
+                                                                        <input type="text" class="form-control" id="status" name="status[]" style="background-color: green;">
+                                                                        <?php }else if($status == 'not_done'){ ?>
+                                                                            <input type="text" class="form-control" id="status" name="status[]" style="background-color: red;">
+                                                                        <?php }else if($status == 'carry_forward'){ ?>
+                                                                        
+                                                                            <input type="text" class="form-control" id="status" name="status[]" style="background-color: blue;">
+                                                                        <?php }else{ ?>
+                                                                            <input type="text" class="form-control" id="status" name="status[]">
+                                                                        <?php } ?>
+                                                            </td>
                                                             <td>
                                                                 <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
                                                             </td>
-                                                            <td><span class='icon-trash-2' tabindex="9" id="delete_row"></span></td>
+                                                            <td>
+                                                                <span class='icon-trash-2' tabindex="9" id="delete_row"></span>
+                                                            </td>
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>
