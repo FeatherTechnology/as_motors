@@ -94,8 +94,9 @@ foreach ($result as $row) {
 	}
 	$id   = $row['goal_setting_id'];
 	
-	$action="<a href='goal_setting&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-	<a href='goal_setting&del=$id' title='Delete details' class='delete_goal_setting'><span class='icon-trash-2'></span></a>";
+	$action="<a href='goal_setting&upd=$id' class='edpage' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+	<a href='goal_setting&del=$id' title='Delete details' class='delete_goal_setting'><span class='icon-trash-2'></span></a>
+    <a href='goal_setting&upd=$id' title='View details' class='View_goal_setting'><span class='icon-eye'></span></a>";
 
 	$sub_array[] = $action;
     $data[]      = $sub_array;

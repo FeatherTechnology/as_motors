@@ -12,7 +12,12 @@ if(isset($_SESSION["branch_id"])){
 $get_company = $userObj->get_daily_performance($mysqli);
 $get_dept = $userObj->get_dept_performance($mysqli);
 $get_role = $userObj->get_role_performance($mysqli);
-
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+for($j=0;$j<count($CompanyroleDetail);$j++) {
+        $logrole = $CompanyroleDetail['role'];
+        $company_id         = $CompanyroleDetail['company_id'];
+             $company_name         = $CompanyroleDetail['company_name'];
+}
 $id=0;
 $idupd=0;
  if(isset($_POST['submit_audit_checklist']) && $_POST['submit_audit_checklist'] != '')
@@ -110,6 +115,10 @@ if($idupd>0)
       <input type="hidden" class="form-control" value="<?php if(isset($department_id)) echo $department_id; ?>"  id="dept_id_upd" name="dept_id_upd">
       <input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
       <input type="hidden" class="form-control" value="<?php if(isset($emp_id)) echo $emp_id; ?>"  id="emp_idup" name="emp_idup">
+      <input type="hidden" class="form-control" value="<?php if(isset($logrole)) echo $logrole; ?>"  id="logrole" name="logrole">
+      <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="logcomp" name="logcomp">
+      <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="logcname" name="logcname">
+        
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -147,7 +156,7 @@ if($idupd>0)
 
                                                 <?php } else if($sbranch_id != 'Overall'){ ?>
 
-                                                    <select tabindex="1" type="text" class="form-control" name="audit" id="audit">
+                                                    <select tabindex="1" type="text" class="form-control" name="company_id" id="company">
                                                         <option value="">Select Company</option>
                                                         <?php if (sizeof($get_company)>0) { 
                                                         for($j=0;$j<count($get_company);$j++) { ?>
@@ -198,7 +207,7 @@ if($idupd>0)
                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
                                                <?php }else{ ?> 
 
-                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){ }else{$months = date("F", mktime(0, 0, 0, $month, 1));echo $months; }  ?>">
+                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){  }else{$months = date("F", mktime(0, 0, 0, $month, 1));   echo $months; }  ?>">
                                                 <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo $month;  ?>" >
                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php  $months = date("F", mktime(0, 0, 0, $month, 1)); if($months == 'February'){ echo "22";}else{echo "26";}  ?>" >
                                                
