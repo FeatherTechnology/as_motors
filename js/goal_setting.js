@@ -293,20 +293,15 @@ $(document).ready(function () {
             insertData(prev_company);
         
         }else{
-            // $('#prev').prop('disabled', true);
-            // $('#dept').prop('disabled', true);
-            // $('#designation').prop('disabled', true);
-            // $('#dept').prop('disabled', true);
-            // $('#syear').prop('disabled', true);
-            $('#add_row_0').prop('disabled', true);
-            $('#yes').prop('disabled', true);
+           
             $('.form-control').prop('disabled', true);
-            $('.add_row').prop('disabled', true);
-            $('.icon-trash-2').prop('disabled', true);
             $('#execute').css('display', 'none');
-             $('#submit_audit_checklist').css('display', 'none');
-            
-            
+            $('#submit_audit_checklist').css('display', 'none');
+            $('#add_row_0').css('display', 'none');
+            $('.yes').css('display', 'none');
+            $('th:nth-child(3)').remove();
+            $('tbody tr td:nth-child(3)').remove();
+            $('tbody tr td:nth-child(3)').remove();
         }
     }else{
         

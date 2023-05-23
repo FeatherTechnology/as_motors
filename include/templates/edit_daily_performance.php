@@ -1,11 +1,34 @@
+<?php if(isset($_SESSION["branch_id"])){
+
+$sbranch_id = $_SESSION["branch_id"];
+// $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+for($j=0;$j<count($CompanyroleDetail);$j++) {
+		$logrole            = $CompanyroleDetail['role'];
+		$logtitle           = $CompanyroleDetail['title'];
+		$company_id         = $CompanyroleDetail['company_id'];
+	  $company_name         = $CompanyroleDetail['company_name'];
+}
+} ?>
+<input type="hidden" id="logrole" class="logrole" value="<?php 	echo $logrole;       ?>" >
+<input type="hidden" id="logtitle" class="logtitle" value="<?php 	echo $logtitle;      ?>" >
+<input type="hidden" id="company_id" class="company_id" value="<?php 	echo $company_id;    ?>" >
+<input type="hidden" id="company_name" class="company_name" value="<?php echo $company_name;    ?>" >
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Daily Performance List</li>
 	</ol>
-	<a href="daily_performance">
-		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp Daily Performance Creation</button>
+	<?php if($logtitle == 'Super Admin'){ ?>
+		<a href="daily_performance">
+		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Daily Performance Creation</button>
 	</a>
+	<?php echo '<style>.View_goal_setting { display: none; }</style>'; ?>
+	<?php }else{ ?>
+<?php echo '<style>.edpage { display: none; }</style>'; echo '<style>.icon-trash-2 { display: none; }</style>'; ?>
+
+		<?php } ?>
+	
 </div>
 <!-- Page header end -->
 
