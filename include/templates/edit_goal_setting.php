@@ -10,40 +10,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 	  $company_name         = $CompanyroleDetail['company_name'];
 }
 } 
-// if(logtitle == 'Super Admin'){
 
-// }else{
-// $('.backb').css('display', 'none');
-// if(logrole == '4'){
-   
-// 	var idupd = $('#id').val();
-
-// 	if(idupd == '0'){ 
-	   
-// 		$('#prev').prop('disabled', true);
-// 		var prev_company = $('#prev').val();
-// 		insertData(prev_company);
-	
-// 	}else{
-// 		// $('#prev').prop('disabled', true);
-// 		// $('#dept').prop('disabled', true);
-// 		// $('#designation').prop('disabled', true);
-// 		// $('#dept').prop('disabled', true);
-// 		// $('#syear').prop('disabled', true);
-// 		$('#add_row_0').prop('disabled', true);
-// 		$('#yes').prop('disabled', true);
-// 		$('.form-control').prop('disabled', true);
-// 		$('.add_row').prop('disabled', true);
-// 		$('.icon-trash-2').prop('disabled', true);
-// 		$('#execute').css('display', 'none');
-// 		 $('#submit_audit_checklist').css('display', 'none');
-		
-		
-// 	}
-// }else{
-	
-//  }
-// }  
 ?> 
 <input type="hidden" id="logrole" class="logrole" value="<?php 	echo $logrole;       ?>" >
 <input type="hidden" id="logtitle" class="logtitle" value="<?php 	echo $logtitle;      ?>" >
@@ -130,18 +97,6 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 		$('.alert').fadeOut('slow');
 	}, 2000);
 
-// 	$(document).ready(function () {
-//     var logrole = $('#logrole').val();
-//     var logtitle= $('#logtitle').val();
-//     if(logtitle == 'Super Admin'){
-// 		console.log("qqqqqqqqqqqqqqqqq");
-//     }else{
-//     console.log("fgzfdgfzxgzxdfgzsfxgz");
-    
-//     }       
-    
-// });
-// class='edpage'
     
 </script>
 

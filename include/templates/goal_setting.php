@@ -203,7 +203,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
-                                <div class="form-group">
+                                <div class="form-group yes">
                                     <input type="checkbox" tabindex="7"  name="preyear" id="yes" value="Yes"> &nbsp;&nbsp; <label for="yes">Use Previous Year Setting</label> &nbsp;&nbsp;&nbsp;&nbsp;
                                     
                                 </div>
