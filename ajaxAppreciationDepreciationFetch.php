@@ -8,23 +8,21 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 }
-if(isset($_SESSION["staffid"])){
-    $sstaffid = $_SESSION["staffid"];
-}
 
 $column = array(
 
-    'target_fixing_id',
+    'appreciation_depreciation_id',
+    'review',
     'company_id',
     'department_id',
     'designation_id',
     'emp_id',
     'year_id',
-    'no_of_months',
+    'month',
     'status'
 );
 
-$query = "SELECT * FROM target_fixing WHERE 1";
+$query = "SELECT * FROM appreciation_depreciation WHERE 1";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -40,22 +38,23 @@ if($sbranch_id == 'Overall'){
                 $query .="and status=1 ";
             }
 
-            else {	
-
+            else{	
                 $query .= "
-                OR target_fixing_id LIKE '%".$_POST['search']."%'
+
+                OR appreciation_depreciation_id LIKE '%".$_POST['search']."%'
+                OR review LIKE  '%".$_POST['search']."%'
                 OR company_id LIKE  '%".$_POST['search']."%'
                 OR department_id LIKE  '%".$_POST['search']."%'
                 OR designation_id LIKE  '%".$_POST['search']."%'
                 OR emp_id LIKE  '%".$_POST['search']."%'
                 OR year_id LIKE  '%".$_POST['search']."%'
-                OR no_of_months LIKE  '%".$_POST['search']."%'
+                OR month LIKE  '%".$_POST['search']."%'
                 OR status LIKE '%".$_POST['search']."%' ";
             }
         }
     }
 }else{
-    $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' ";
+    $query .=" and company_id= '".$sbranch_id."' ";
 }
 
 if (isset($_POST['order'])) {
@@ -80,9 +79,8 @@ $data = array();
 
 $sno = 1;
 foreach ($result as $row) {
-
-    $sub_array = array();
-
+    $sub_array   = array();
+    
     if($sno!="")
     {
         $sub_array[] = $sno;
@@ -94,7 +92,7 @@ foreach ($result as $row) {
     while($row5 = $res->fetch_assoc())
     {
         $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
-        $res1 = $con->query($getname);
+        $res1 = $con->query($getname) ;
         while ($row52 = $res1->fetch_assoc()) {
             $company_name = $row52['company_name'];
         }
@@ -106,7 +104,7 @@ foreach ($result as $row) {
     $res1 = $con->query($qry1);
     while($row1 = $res1->fetch_assoc())
     {
-    $department_name = $row1["department_name"];        
+       $department_name = $row1["department_name"];        
     }
 
     $designation_name='';
@@ -115,7 +113,7 @@ foreach ($result as $row) {
     $res2 = $con->query($qry2);
     while($row2 = $res2->fetch_assoc())
     {
-    $designation_name = $row2["designation_name"];        
+       $designation_name = $row2["designation_name"];        
     }
 
     $staff_name='';
@@ -124,7 +122,7 @@ foreach ($result as $row) {
     $res3 = $con->query($qry3);
     while($row3 = $res3->fetch_assoc())
     {
-    $staff_name = $row3["staff_name"];        
+       $staff_name = $row3["staff_name"];        
     }
 
     $year='';
@@ -133,39 +131,41 @@ foreach ($result as $row) {
     $res4 = $con->query($qry4);
     while($row4 = $res4->fetch_assoc())
     {
-    $year = $row4["year"];        
+       $year = $row4["year"];        
     }
     
+    if($row['review'] == 'midterm_review') { $review = 'Midterm Review'; } else if($row['review'] == 'final_review') { $review = 'Final Review'; }
+
+    $sub_array[] = $review;
     $sub_array[] = $company_name;
     $sub_array[] = $department_name;
     $sub_array[] = $designation_name;
     $sub_array[] = $staff_name;
     $sub_array[] = $year;
-    $sub_array[] = $row['no_of_months'];
+    $sub_array[] = $row['month'];
     
     $status      = $row['status'];
     if($status == 1)
-    {
-    $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Inactive</span></span>";
-    }
-    else
-    {
+	{
+	$sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Inactive</span></span>";
+	}
+	else
+	{
     $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Active</span></span>";
-    }
-    $id   = $row['target_fixing_id'];
-    
-    $action="<a href='target_fixing&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-    <a href='target_fixing&del=$id' title='Delete details' class='delete_target_fixing'><span class='icon-trash-2'></span></a>";
+	}
+	$id   = $row['appreciation_depreciation_id'];
+	
+	$action="<a href='appreciation_depreciation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+	<a href='appreciation_depreciation&del=$id' title='Delete details' class='delete_appreciation_depreciation'><span class='icon-trash-2'></span></a>";
 
-    $sub_array[] = $action;
+	$sub_array[] = $action;
     $data[]      = $sub_array;
     $sno = $sno + 1;
-
 }
 
 function count_all_data($connect)
 {
-    $query     = "SELECT * FROM target_fixing";
+    $query     = "SELECT * FROM appreciation_depreciation";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();

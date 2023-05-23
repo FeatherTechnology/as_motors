@@ -2320,6 +2320,41 @@ buttons: [
         ]
     });
 
+    // Appreciation Depreciation
+    var appreciation_depreciation_info = $('#appreciation_depreciation_info').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url':'ajaxAppreciationDepreciationFetch.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        
+        // dom: 'lBfrtip', 
+        buttons: [		
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            },
+            {		 
+                extend:'colvis',
+                collectionLayout: 'fixed four-column',
+            }
+
+        ],	
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
 
 	$('#search').change(function(){
 		companyCreation_info.draw();
@@ -2380,6 +2415,7 @@ buttons: [
         daily_performance_info.draw();
         appreciation_depreciatione_info.draw();
         targetFixing_info.draw();
+        appreciation_depreciation_info.draw();
     });
 	
 </script>
@@ -2953,7 +2989,7 @@ if($current_page == 'appreciation_depreciation') { ?>
         }
     });
 	
-    //  delete goal_setting
+    // delete goal_setting
     $(document).on("click", '.delete_goal_setting', function(){
         var dlt = confirm("Do you want to delete this goal_setting?");
         if(dlt){
@@ -2963,7 +2999,7 @@ if($current_page == 'appreciation_depreciation') { ?>
         }
     });
 	
-    //  delete daily_performance
+    // delete daily_performance
     $(document).on("click", '.delete_daily_performance', function(){
         var dlt = confirm("Do you want to delete this daily performance?");
         if(dlt){
@@ -2973,7 +3009,7 @@ if($current_page == 'appreciation_depreciation') { ?>
         }
     });
 
-    //  delete target fixing
+    // delete target fixing
     $(document).on("click", '.delete_target_fixing', function(){
         var dlt = confirm("Do you want to delete this target fixing?");
         if(dlt){
@@ -2982,6 +3018,17 @@ if($current_page == 'appreciation_depreciation') { ?>
             return false;
         }
     });
+
+    // delete Appreciation Depreciation
+    $(document).on("click", '.delete_appreciation_depreciation', function(){
+        var dlt = confirm("Do you want to delete this Appreciation Depreciation?");
+        if(dlt){
+            return true;
+        }else{
+            return false;
+        }
+    });
+
 </script>
 
 

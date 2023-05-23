@@ -7502,69 +7502,69 @@
 		return $dailyperformdesi_list;
 	}
 	
-// Add & Edit daily performance
+	// Add & Edit daily performance
 
-	
-public function addTargetFixing($mysqli, $userid){
+		
+	public function addTargetFixing($mysqli, $userid){
 
-	if(isset($_POST['company_name'])){
-		$company_id = $_POST['company_name'];
-	}
-	if(isset($_POST['department'])){
-		$department_id = $_POST['department'];
-	}
-	if(isset($_POST['designation'])){
-		$designation_id = $_POST['designation'];
-	}
-	if(isset($_POST['staff_name'])){
-		$emp_id = $_POST['staff_name'];
-	}
-	if(isset($_POST['goal_year'])){
-		$year_id = $_POST['goal_year'];
-	}
-	if(isset($_POST['no_of_months'])){
-		$no_of_months = $_POST['no_of_months'];
-	} 
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['no_of_months'])){
+			$no_of_months = $_POST['no_of_months'];
+		} 
 
-	if(isset($_POST['id'])){
-		$id = $_POST['id'];
-	} 
-	if(isset($_POST['assertion'])){
-		$assertion = $_POST['assertion'];
-	} 
-	if(isset($_POST['target'])){
-		$target = $_POST['target'];
-	} 
-	if(isset($_POST['new_assertion'])){
-		$new_assertion = $_POST['new_assertion'];
-	} 
-	if(isset($_POST['new_target'])){
-		$new_target = $_POST['new_target'];
-	} 
-	if(isset($_POST['applicability'])){
-		$applicability = $_POST['applicability'];
-	} 
-	if(isset($_POST['deleted_date'])){
-		$deleted_date = $_POST['deleted_date'];
-	} 
-	if(isset($_POST['deleted_remarks'])){
-		$deleted_remarks = $_POST['deleted_remarks'];
-	} 
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
 
-	$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
-	'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
-	'".strip_tags($userid)."' )";
-	$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
-	$lastId = $mysqli->insert_id; 
+		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
+		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
+		'".strip_tags($userid)."' )";
+		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
+		$lastId = $mysqli->insert_id; 
 
-	for($i=0; $i<=sizeof($id)-1; $i++){
+		for($i=0; $i<=sizeof($id)-1; $i++){
 
-		$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
-		VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
-		'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
-		$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
 	}
-}
 
 	// Get target fixing
 	public function getTargetFixing($mysqli, $id){
@@ -7707,6 +7707,9 @@ public function addTargetFixing($mysqli, $userid){
     
 	public function addAppDep($mysqli, $userid){
 
+		if(isset($_POST['review'])){
+			$review = $_POST['review'];
+		}
 		if(isset($_POST['company_name'])){
 			$company_id = $_POST['company_name'];
 		}
@@ -7716,8 +7719,8 @@ public function addTargetFixing($mysqli, $userid){
 		if(isset($_POST['designation'])){
 			$designation_id = $_POST['designation'];
 		}
-		if(isset($_POST['staff_name'])){
-			$emp_id = $_POST['staff_name'];
+		if(isset($_POST['staff_id'])){
+			$emp_id = $_POST['staff_id'];
 		}
 		if(isset($_POST['goal_year'])){
 			$year_id = $_POST['goal_year'];
@@ -7726,9 +7729,6 @@ public function addTargetFixing($mysqli, $userid){
 			$month = $_POST['month'];
 		} 
 
-		if(isset($_POST['daily_performance_id'])){
-			$daily_performance_id = $_POST['daily_performance_id'];
-		} 
 		if(isset($_POST['daily_performance_ref_id'])){
 			$daily_performance_ref_id = $_POST['daily_performance_ref_id'];
 		} 
@@ -7739,7 +7739,16 @@ public function addTargetFixing($mysqli, $userid){
 			$target = $_POST['target'];
 		} 
 		if(isset($_POST['overall_performance'])){
-			$overall_performance = $_POST['overall_performance'];
+			$overall_performance1 = $_POST['overall_performance'];
+			$overall_performance = str_replace("Total Satisfied - ", "", $overall_performance1);
+		} 
+		if(isset($_POST['not_done'])){
+			$not_done1 = $_POST['not_done'];
+			$not_done = str_replace("Total Not Done - ", "", $not_done1);
+		} 
+		if(isset($_POST['carry_forward'])){
+			$carry_forward1 = $_POST['carry_forward'];
+			$carry_forward = str_replace("Total Carry Forward - ", "", $carry_forward1);
 		} 
 		if(isset($_POST['achievement'])){
 			$achievement = $_POST['achievement'];
@@ -7747,27 +7756,256 @@ public function addTargetFixing($mysqli, $userid){
 		if(isset($_POST['employee_rating'])){
 			$employee_rating = $_POST['employee_rating'];
 		} 
-		if(isset($_POST['not_done'])){
-			$not_done = $_POST['not_done'];
+		if(isset($_POST['strength'])){
+			$strength = $_POST['strength'];
 		} 
-		if(isset($_POST['carry_forward'])){
-			$carry_forward = $_POST['carry_forward'];
+		if(isset($_POST['weakness'])){
+			$weakness = $_POST['weakness'];
+		} 
+		if(isset($_POST['need_for_improvement'])){
+			$need_for_improvement = $_POST['need_for_improvement'];
+		} 
+		if(isset($_POST['overall_rating'])){
+			$overall_rating = $_POST['overall_rating'];
 		} 
 
-		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
-		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
-		'".strip_tags($userid)."' )";
+		$qry="INSERT INTO appreciation_depreciation(review, company_id, department_id, designation_id, emp_id, year_id, month, overall_performance, not_done, carry_forward, 
+		strength, weakness, need_for_improvement, overall_rating, insert_login_id) VALUES('".strip_tags($review)."', '".strip_tags($company_id)."', 
+		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($month)."', 
+		'".strip_tags($overall_performance)."', '".strip_tags($not_done)."', '".strip_tags($carry_forward)."', '".strip_tags($strength)."', '".strip_tags($weakness)."', 
+		'".strip_tags($need_for_improvement)."', '".strip_tags($overall_rating)."', '".strip_tags($userid)."' )";
 		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
 		$lastId = $mysqli->insert_id; 
 
-		for($i=0; $i<=sizeof($id)-1; $i++){
+		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
 
-			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
-			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
-			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refQry="INSERT INTO appreciation_depreciation_ref(review, appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($review)."', '".strip_tags($lastId)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
+		
+	}
+
+	// Get appdeb
+	public function getAppDep($mysqli, $id){
+
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		if ($mysqli->affected_rows>0)
+		{
+			$row = $res->fetch_object();	
+			$appreciationDepreciationId  							= $row->appreciation_depreciation_id;
+			$detailrecords['appreciation_depreciation_id']            = $row->appreciation_depreciation_id; 
+			$detailrecords['review']        = $row->review;
+			$detailrecords['company_id']        = $row->company_id;
+			$detailrecords['department']        = $row->department_id;
+			$detailrecords['designation']       = $row->designation_id; 	
+			$detailrecords['emp_id']       = $row->emp_id; 	
+			$detailrecords['year_id']       = $row->year_id; 	
+			$detailrecords['month']       = $row->month; 	
+			$detailrecords['overall_performance']       = $row->overall_performance; 	
+			$detailrecords['not_done']       = $row->not_done; 	
+			$detailrecords['carry_forward']       = $row->carry_forward; 	
+			$detailrecords['strength']       = $row->strength; 	
+			$detailrecords['weakness']       = $row->weakness; 	
+			$detailrecords['need_for_improvement']       = $row->need_for_improvement; 	
+			$detailrecords['overall_rating']       = $row->overall_rating; 	
+		}
+		
+		$appreciationDepreciationRefId = 0;
+		$appDepRef = "SELECT * FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $appreciationDepreciationId)."' "; 
+		$res1 = $mysqli->query($appDepRef) or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+
+				$appreciationDepreciationRefId         			= $row1->appreciation_depreciation_ref_id;  
+				$appreciation_depreciation_ref_id[]     	    = $row1->appreciation_depreciation_ref_id; 
+				$daily_performance_ref_id[]     	    = $row1->daily_performance_ref_id; 
+				$assertion[]                                    = $row1->assertion;
+				$target[]                                       = $row1->target;
+				$achievement[]                                  = $row1->achievement;
+				$employee_rating[]                              = $row1->employee_rating;
+			} 
+		}
+		if($appreciationDepreciationRefId > 0)
+		{
+			$detailrecords['appreciation_depreciation_ref_id']          = $appreciation_depreciation_ref_id;  
+			$detailrecords['daily_performance_ref_id']          = $daily_performance_ref_id;  
+			$detailrecords['assertion']                                 = $assertion;  	
+			$detailrecords['target']                                    = $target;  	
+			$detailrecords['achievement']                               = $achievement;  	
+			$detailrecords['employee_rating']                           = $employee_rating;  	
+		}
+		else
+		{
+			$detailrecords['appreciation_depreciation_ref_id']          = array();
+			$detailrecords['daily_performance_ref_id']          = array();
+			$detailrecords['assertion']                                 = array(); 
+			$detailrecords['target']                                    = array(); 
+			$detailrecords['achievement']                               = array(); 
+			$detailrecords['employee_rating']                           = array(); 
+		}
+		
+		return $detailrecords;
+	}
+
+	// Update appdep
+	public function updateAppDep($mysqli, $id, $userid){
+
+		if(isset($_POST['review'])){
+			$review = $_POST['review'];
+		}
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_id'])){
+			$emp_id = $_POST['staff_id'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['month'])){
+			$month = $_POST['month'];
+		} 
+
+		if(isset($_POST['daily_performance_ref_id'])){
+			$daily_performance_ref_id = $_POST['daily_performance_ref_id']; 
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['overall_performance'])){
+			$overall_performance1 = $_POST['overall_performance'];
+			$overall_performance = str_replace("Total Satisfied - ", "", $overall_performance1);
+		} 
+		if(isset($_POST['not_done'])){
+			$not_done1 = $_POST['not_done'];
+			$not_done = str_replace("Total Not Done - ", "", $not_done1);
+		} 
+		if(isset($_POST['carry_forward'])){
+			$carry_forward1 = $_POST['carry_forward'];
+			$carry_forward = str_replace("Total Carry Forward - ", "", $carry_forward1);
+		} 
+		if(isset($_POST['achievement'])){
+			$achievement = $_POST['achievement'];
+		} 
+		if(isset($_POST['employee_rating'])){
+			$employee_rating = $_POST['employee_rating'];
+		} 
+		if(isset($_POST['strength'])){
+			$strength = $_POST['strength'];
+		} 
+		if(isset($_POST['weakness'])){
+			$weakness = $_POST['weakness'];
+		} 
+		if(isset($_POST['need_for_improvement'])){
+			$need_for_improvement = $_POST['need_for_improvement'];
+		} 
+		if(isset($_POST['overall_rating'])){
+			$overall_rating = $_POST['overall_rating'];
+		} 
+
+		$qry = "UPDATE appreciation_depreciation SET review = '".strip_tags($review)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
+		designation_id = '".strip_tags($designation_id)."', emp_id = '".strip_tags($emp_id)."', year_id = '".strip_tags($year_id)."', month = '".strip_tags($month)."', 
+		overall_performance = '".strip_tags($overall_performance)."', not_done = '".strip_tags($not_done)."', carry_forward = '".strip_tags($carry_forward)."', 
+		strength = '".strip_tags($strength)."', weakness = '".strip_tags($weakness)."', need_for_improvement = '".strip_tags($need_for_improvement)."', 
+		overall_rating = '".strip_tags($overall_rating)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE appreciation_depreciation_id= '".strip_tags($id)."' ";
+		$updresult = $mysqli->query($qry )or die ("Error in in update Query!.".$mysqli->error);
+
+		$deleteRef = $mysqli->query("DELETE FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id = '".$id."' "); 
+
+		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
+
+			$refQry="INSERT INTO appreciation_depreciation_ref(review, appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($review)."', '".strip_tags($id)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
 
+	}
+
+	// Delete app dep
+	public function deleteAppDep($mysqli, $id, $userid){
+
+		$qry = "UPDATE appreciation_depreciation set status='1', delete_login_id='".strip_tags($userid)."' WHERE appreciation_depreciation_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
+	}
+
+	// view app dep
+	public function viewAppDep($mysqli){
+
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1 "; 
+		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		if ($mysqli->affected_rows>0)
+		{
+			$row = $res->fetch_object();	
+			$appreciationDepreciationId  							= $row->appreciation_depreciation_id;
+			$detailrecords['appreciation_depreciation_id']            = $row->appreciation_depreciation_id; 
+			$detailrecords['review']        = $row->review;
+			$detailrecords['company_id']        = $row->company_id;
+			$detailrecords['department']        = $row->department_id;
+			$detailrecords['designation']       = $row->designation_id; 	
+			$detailrecords['emp_id']       = $row->emp_id; 	
+			$detailrecords['year_id']       = $row->year_id; 	
+			$detailrecords['month']       = $row->month; 	
+			$detailrecords['overall_performance']       = $row->overall_performance; 	
+			$detailrecords['not_done']       = $row->not_done; 	
+			$detailrecords['carry_forward']       = $row->carry_forward; 	
+			$detailrecords['strength']       = $row->strength; 	
+			$detailrecords['weakness']       = $row->weakness; 	
+			$detailrecords['need_for_improvement']       = $row->need_for_improvement; 	
+			$detailrecords['overall_rating']       = $row->overall_rating; 	
+		}
+		
+		$appreciationDepreciationRefId = 0;
+		$appDepRef = "SELECT * FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $appreciationDepreciationId)."' "; 
+		$res1 = $mysqli->query($appDepRef) or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+
+				$appreciationDepreciationRefId         			= $row1->appreciation_depreciation_ref_id;  
+				$appreciation_depreciation_ref_id[]     	    = $row1->appreciation_depreciation_ref_id; 
+				$daily_performance_ref_id[]     	    = $row1->daily_performance_ref_id; 
+				$assertion[]                                    = $row1->assertion;
+				$target[]                                       = $row1->target;
+				$achievement[]                                  = $row1->achievement;
+				$employee_rating[]                              = $row1->employee_rating;
+			} 
+		}
+		if($appreciationDepreciationRefId > 0)
+		{
+			$detailrecords['appreciation_depreciation_ref_id']          = $appreciation_depreciation_ref_id;  
+			$detailrecords['daily_performance_ref_id']          = $daily_performance_ref_id;  
+			$detailrecords['assertion']                                 = $assertion;  	
+			$detailrecords['target']                                    = $target;  	
+			$detailrecords['achievement']                               = $achievement;  	
+			$detailrecords['employee_rating']                           = $employee_rating;  	
+		}
+		else
+		{
+			$detailrecords['appreciation_depreciation_ref_id']          = array();
+			$detailrecords['daily_performance_ref_id']          = array();
+			$detailrecords['assertion']                                 = array(); 
+			$detailrecords['target']                                    = array(); 
+			$detailrecords['achievement']                               = array(); 
+			$detailrecords['employee_rating']                           = array(); 
+		}
+		
+		return $detailrecords;
 	}
 
 	public function adddailyperformance($mysqli,$userid){
@@ -7803,7 +8041,6 @@ public function addTargetFixing($mysqli, $userid){
 		if (isset($_POST['wstatus'])) {
 			$wstatus = $_POST['wstatus'];
 		}
-
 		if(isset($_POST['userid'])){
 			$userid = $_POST['userid'];
 		}
@@ -7829,7 +8066,7 @@ public function addTargetFixing($mysqli, $userid){
 		// print_r($userid);
 		// print_r($id);
 		// INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status) 
-		// 							VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
+		// VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
 
 		if($id == '0'){
 

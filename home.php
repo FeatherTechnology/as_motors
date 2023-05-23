@@ -544,13 +544,21 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/daily_performance.php" ?>
 			<?php } ?>
 
+			<?php if($current_page == 'edit_daily_performance') { ?>
+			<?php include "include/templates/edit_daily_performance.php" ?>
+			<?php } ?>
+
 			<!-- appreciation_depreciation -->
 			<?php if($current_page == 'appreciation_depreciation') { ?>
 			<?php include "include/templates/appreciation_depreciation.php" ?>
 			<?php } ?>
-      
-			<?php if($current_page == 'edit_daily_performance') { ?>
-			<?php include "include/templates/edit_daily_performance.php" ?>
+
+			<?php if($current_page == 'edit_appreciation_depreciation') { ?>
+			<?php include "include/templates/edit_appreciation_depreciation.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'view_midterm_review') { ?>
+			<?php include "include/templates/view_midterm_review.php" ?>
 			<?php } ?>
 			
 		</div>

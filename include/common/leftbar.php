@@ -361,14 +361,13 @@
 														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
 													</li>
 													<li>
-
-														<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
-
-														<a href="target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
+														<a href="edit_target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
 													</li>
-													
 													<li>
-														<a href="appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
+														<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
+													</li>
+													<li>
+														<a href="edit_appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
 													</li>
 												</ul>
 											</div>	
