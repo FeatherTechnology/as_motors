@@ -66,10 +66,10 @@ if(isset($_POST["month"])){
                     <th>S. No.</th>
                     <th>Assertion</th>
                     <th>Target</th>
-                    <th>Overall Performance</th>
+                    <!-- <th>Overall Performance</th> -->
                     <th>Achievement</th>
                     <th>Employee Rating</th>
-                    <th>Not Done / Carry Forward</th>
+                    <!-- <th>Not Done / Carry Forward</th> -->
                 </tr>
                 <?php
                 $sno = 1;   
@@ -79,11 +79,9 @@ if(isset($_POST["month"])){
                         <tbody>
                             <tr>
                                 <td><?php echo $sno; ?></td>
-                                <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_id[$o]; ?>" name="daily_performance_id[]" id="daily_performance_id" ></td>
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
-                                <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]); ?>" name="target[]" id="target" ></td>
-                                <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$statisfiedCount; ?>" name="overall_performance[]" id="overall_performance" placeholder="Enter new assertion" ></td>
+                                <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" ></td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
@@ -95,14 +93,24 @@ if(isset($_POST["month"])){
                                         <option value="5">5</option>
                                     </select>   
                                 </td>
-                                <td>
-                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_doneCount; ?>" name="not_done" id="not_done" >
-                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forwardCount; ?>" name="carry_forward" id="carry_forward"  >
-                                </td> 
                             </tr>
                         </tbody>
-                    <?php $sno = $sno + 1; }
-                } ?>
+                    <?php $sno = $sno + 1; } ?>
+
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$statisfiedCount; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
+                            <td>
+                                <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_doneCount; ?>" name="not_done" id="not_done" >
+                                <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forwardCount; ?>" name="carry_forward" id="carry_forward"  >
+                            </td> 
+                        </tr>
+                    </tbody>
+
+                <?php } ?>
             </table>
         </div>
     </div>

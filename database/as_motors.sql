@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2023 at 03:25 PM
+-- Generation Time: May 23, 2023 at 03:19 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -61,6 +61,74 @@ INSERT INTO `accountsgroup` (`Id`, `AccountsName`, `ParentId`, `status`, `order_
 (19, 'Loans and Advances', 3, 0, 20),
 (40, 'Sundry Debtors', 3, 0, 35),
 (42, 'Fixed Assets', 0, 0, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appreciation_depreciation`
+--
+
+CREATE TABLE `appreciation_depreciation` (
+  `appreciation_depreciation_id` int(11) NOT NULL,
+  `review` varchar(50) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `designation_id` int(11) DEFAULT NULL,
+  `emp_id` int(11) DEFAULT NULL,
+  `year_id` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `overall_performance` varchar(255) DEFAULT NULL,
+  `not_done` varchar(255) DEFAULT NULL,
+  `carry_forward` varchar(255) DEFAULT NULL,
+  `strength` varchar(255) NOT NULL,
+  `weakness` varchar(255) NOT NULL,
+  `need_for_improvement` varchar(255) NOT NULL,
+  `overall_rating` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appreciation_depreciation`
+--
+
+INSERT INTO `appreciation_depreciation` (`appreciation_depreciation_id`, `review`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `month`, `overall_performance`, `not_done`, `carry_forward`, `strength`, `weakness`, `need_for_improvement`, `overall_rating`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(2, 'midterm_review', 1, 1, 2, 2, 1, 5, '1', '1', '1', 'test11', 'test21', 'test31', '5', 0, 1, 1, NULL, '2023-05-23 16:50:48', '2023-05-23 16:50:48'),
+(3, 'final_review', 1, 1, 1, 1, 1, 5, '1', '1', '1', 'test', 'test1', 'test2', '1', 0, 1, NULL, NULL, '2023-05-23 18:03:48', '2023-05-23 18:03:48'),
+(4, 'midterm_review', 1, 1, 1, 1, 1, 5, '', '', '', 'test', 'test1', 'test2', '5', 1, 1, 1, 1, '2023-05-23 18:45:33', '2023-05-23 18:45:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `appreciation_depreciation_ref`
+--
+
+CREATE TABLE `appreciation_depreciation_ref` (
+  `appreciation_depreciation_ref_id` int(11) NOT NULL,
+  `review` varchar(50) DEFAULT NULL,
+  `appreciation_depreciation_id` int(11) DEFAULT NULL,
+  `daily_performance_ref_id` int(11) DEFAULT NULL,
+  `assertion` varchar(255) DEFAULT NULL,
+  `target` varchar(255) DEFAULT NULL,
+  `achievement` varchar(255) DEFAULT NULL,
+  `employee_rating` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appreciation_depreciation_ref`
+--
+
+INSERT INTO `appreciation_depreciation_ref` (`appreciation_depreciation_ref_id`, `review`, `appreciation_depreciation_id`, `daily_performance_ref_id`, `assertion`, `target`, `achievement`, `employee_rating`) VALUES
+(19, 'final_review', 3, 1, 'Test4', '2', 'test', '1'),
+(20, 'final_review', 3, 2, 'Test5', '1', 'test1', '2'),
+(21, 'final_review', 3, 3, 'test6', '4', 'test2', '3'),
+(22, 'midterm_review', 2, 1, 'Test4', '2', 'test1', '4'),
+(23, 'midterm_review', 2, 2, 'Test5', '1', 'test11', '4'),
+(24, 'midterm_review', 2, 3, 'test6', '4', 'test21', '5');
 
 -- --------------------------------------------------------
 
@@ -2016,8 +2084,8 @@ CREATE TABLE `target_fixing` (
 --
 
 INSERT INTO `target_fixing` (`target_fixing_id`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `no_of_months`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, 1, 10, 0, 1, 1, NULL, '2023-05-19 17:38:25', '2023-05-19 17:38:25'),
-(2, 1, 1, 1, 1, 1, 30, 1, 1, NULL, 1, '2023-05-19 17:39:37', '2023-05-19 17:39:37');
+(1, 1, 1, 1, 1, 1, 10, 0, 1, 20, NULL, '2023-05-19 17:38:25', '2023-05-19 17:38:25'),
+(2, 1, 1, 1, 2, 1, 30, 0, 1, 20, 1, '2023-05-19 17:39:37', '2023-05-19 17:39:37');
 
 -- --------------------------------------------------------
 
@@ -2043,16 +2111,16 @@ CREATE TABLE `target_fixing_ref` (
 --
 
 INSERT INTO `target_fixing_ref` (`target_fixing_ref_id`, `target_fixing_id`, `goal_setting_and_kra_id`, `assertion`, `target`, `new_assertion`, `new_target`, `applicability`, `deleted_date`, `deleted_remarks`) VALUES
-(16, 2, '1', 'test1', '10', '', '', '', '', ''),
-(17, 2, '2', 'test2', '17', '', '', '', '', ''),
-(18, 2, '3', 'test3', '20', '', '', '', '', ''),
-(19, 2, '1_kra', 'kra1', '', '', '', '', '', ''),
-(20, 2, '2_kra', 'kra2', '', '', '', '', '', ''),
-(21, 1, '1', 'test1', '30', '', '', '', '', ''),
-(22, 1, '2', 'test2', '50', '', '', '', '5/19/2023', 'test'),
-(23, 1, '3', 'test3', '60', '', '', '', '', ''),
-(24, 1, '1_kra', 'kra1', '', '', '', '', '', ''),
-(25, 1, '2_kra', 'kra2', '', '', '', '', '', '');
+(26, 1, '1', 'test1', '30', 'testing1', '12', 'testsdf', '', ''),
+(27, 1, '2', 'test2', '50', '', '', '', '5/19/2023', 'test'),
+(28, 1, '3', 'test3', '60', 'testing2', '10', 'testsdf', '', ''),
+(29, 1, '1_kra', 'kra1', '', '', '', '', '', ''),
+(30, 1, '2_kra', 'kra2', '', '', '', '', '', ''),
+(31, 2, '1', 'test1', '10', '', '', '', '', ''),
+(32, 2, '2', 'test2', '17', '', '', '', '', ''),
+(33, 2, '3', 'test3', '20', '', '', '', '', ''),
+(34, 2, '1_kra', 'kra1', '', '', '', '', '', ''),
+(35, 2, '2_kra', 'kra2', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2298,6 +2366,18 @@ INSERT INTO `year_creation` (`year_id`, `year`, `company_id`, `status`, `created
 --
 ALTER TABLE `accountsgroup`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `appreciation_depreciation`
+--
+ALTER TABLE `appreciation_depreciation`
+  ADD PRIMARY KEY (`appreciation_depreciation_id`);
+
+--
+-- Indexes for table `appreciation_depreciation_ref`
+--
+ALTER TABLE `appreciation_depreciation_ref`
+  ADD PRIMARY KEY (`appreciation_depreciation_ref_id`);
 
 --
 -- Indexes for table `approval_line`
@@ -2761,6 +2841,18 @@ ALTER TABLE `accountsgroup`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
+-- AUTO_INCREMENT for table `appreciation_depreciation`
+--
+ALTER TABLE `appreciation_depreciation`
+  MODIFY `appreciation_depreciation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `appreciation_depreciation_ref`
+--
+ALTER TABLE `appreciation_depreciation_ref`
+  MODIFY `appreciation_depreciation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
 -- AUTO_INCREMENT for table `approval_line`
 --
 ALTER TABLE `approval_line`
@@ -3172,7 +3264,7 @@ ALTER TABLE `target_fixing`
 -- AUTO_INCREMENT for table `target_fixing_ref`
 --
 ALTER TABLE `target_fixing_ref`
-  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `todo_creation`

@@ -42,11 +42,11 @@ $(document).ready(function () {
           dataType: 'json',
           success:function(response){
           
-              $('#staff_name').empty();
-              $('#staff_name').prepend("<option value=''>" + 'Select Staff' + "</option>");
+              $('#staff_id').empty();
+              $('#staff_id').prepend("<option value=''>" + 'Select Staff' + "</option>");
               var i = 0;
               for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                  $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
+                  $('#staff_id').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
               }
           }
       });
