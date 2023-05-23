@@ -7768,6 +7768,8 @@ public function addTargetFixing($mysqli, $userid){
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
 
+	}
+
 	public function adddailyperformance($mysqli,$userid){
 
 		if(isset($_POST['id'])){
@@ -7853,12 +7855,14 @@ public function addTargetFixing($mysqli, $userid){
 			}
 			
 		}
-		}
+	}
+
 	// Delete Audit Area Checklist
-				public function deletedailyperformance($mysqli, $id){
-				$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
-				$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
-				}
+		public function deletedailyperformance($mysqli, $id){
+		$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+		}
+
 	// get dailyperformance table
       public function getdailyperformance($mysqli,$id){
 
