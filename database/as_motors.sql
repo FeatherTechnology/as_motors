@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2023 at 02:15 PM
+-- Generation Time: May 22, 2023 at 03:25 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -873,6 +873,58 @@ INSERT INTO `daily_km_ref` (`daily_km_ref_id`, `vehicle_details_id`, `vehicle_nu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `daily_performance`
+--
+
+CREATE TABLE `daily_performance` (
+  `daily_performance_id` int(11) NOT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `emp_id` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daily_performance`
+--
+
+INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `department_id`, `role_id`, `emp_id`, `month`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`, `status`) VALUES
+(1, 2, 3, 7, 4, 5, 1, NULL, NULL, '2023-05-22 15:23:22', '2023-05-22 15:23:22', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daily_performance_ref`
+--
+
+CREATE TABLE `daily_performance_ref` (
+  `daily_performance_ref_id` int(11) NOT NULL,
+  `daily_performance_id` int(11) NOT NULL,
+  `assertion` varchar(200) DEFAULT NULL,
+  `target` varchar(100) DEFAULT NULL,
+  `system_date` date DEFAULT NULL,
+  `status` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daily_performance_ref`
+--
+
+INSERT INTO `daily_performance_ref` (`daily_performance_ref_id`, `daily_performance_id`, `assertion`, `target`, `system_date`, `status`) VALUES
+(1, 1, 'Test4', '2', '2023-05-09', 'statisfied'),
+(2, 1, 'Test5', '1', '2023-05-10', 'not_done'),
+(3, 1, 'test6', '4', '2023-05-11', 'carry_forward');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `department_creation`
 --
 
@@ -980,7 +1032,7 @@ CREATE TABLE `goal_setting` (
 
 INSERT INTO `goal_setting` (`goal_setting_id`, `company_name`, `department`, `role`, `year`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
 (1, '2', '3', '7', '5', 0, 1, NULL, NULL, '2023-05-16 10:45:58', '2023-05-16 10:45:58'),
-(2, '2', '3', '7', '5', 0, 1, NULL, NULL, '2023-05-16 10:46:35', '2023-05-16 10:46:35');
+(2, '2', '3', '7', '6', 0, 1, NULL, NULL, '2023-05-16 10:46:35', '2023-05-16 10:46:35');
 
 -- --------------------------------------------------------
 
@@ -2416,6 +2468,18 @@ ALTER TABLE `daily_km_ref`
   ADD PRIMARY KEY (`daily_km_ref_id`);
 
 --
+-- Indexes for table `daily_performance`
+--
+ALTER TABLE `daily_performance`
+  ADD PRIMARY KEY (`daily_performance_id`);
+
+--
+-- Indexes for table `daily_performance_ref`
+--
+ALTER TABLE `daily_performance_ref`
+  ADD PRIMARY KEY (`daily_performance_ref_id`);
+
+--
 -- Indexes for table `department_creation`
 --
 ALTER TABLE `department_creation`
@@ -2844,7 +2908,7 @@ ALTER TABLE `category_creation`
 -- AUTO_INCREMENT for table `company_creation`
 --
 ALTER TABLE `company_creation`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `costcentre`
@@ -2863,6 +2927,18 @@ ALTER TABLE `daily_km`
 --
 ALTER TABLE `daily_km_ref`
   MODIFY `daily_km_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `daily_performance`
+--
+ALTER TABLE `daily_performance`
+  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `daily_performance_ref`
+--
+ALTER TABLE `daily_performance_ref`
+  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `department_creation`

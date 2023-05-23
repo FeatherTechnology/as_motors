@@ -7258,7 +7258,9 @@
 			}
 			return $detailrecords;
 		}
-		   public function getgoalsettingTable($mysqli){
+
+
+		public function getgoalsettingTable($mysqli){
 
             $auditSelect = "SELECT company_id,company_name FROM company_creation WHERE status = '0'";
             $res = $mysqli->query($auditSelect) or die("Error in Get All Records".$mysqli->error);
@@ -7693,15 +7695,75 @@ public function addTargetFixing($mysqli, $userid){
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
 
-	 }
+	}
 
-
-	//  Delete Terget fixing
+	// Delete Terget fixing
 	public function deleteTargetFixing($mysqli, $id, $userid){
 
 		$qry = "UPDATE target_fixing set status='1', delete_login_id='".strip_tags($userid)."' WHERE target_fixing_id = '".strip_tags($id)."' ";
 		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
 	}
+
+    
+	public function addAppDep($mysqli, $userid){
+
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
+		}
+		if(isset($_POST['department'])){
+			$department_id = $_POST['department'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
+		}
+		if(isset($_POST['staff_name'])){
+			$emp_id = $_POST['staff_name'];
+		}
+		if(isset($_POST['goal_year'])){
+			$year_id = $_POST['goal_year'];
+		}
+		if(isset($_POST['month'])){
+			$month = $_POST['month'];
+		} 
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		} 
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		} 
+		if(isset($_POST['target'])){
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['new_assertion'])){
+			$new_assertion = $_POST['new_assertion'];
+		} 
+		if(isset($_POST['new_target'])){
+			$new_target = $_POST['new_target'];
+		} 
+		if(isset($_POST['applicability'])){
+			$applicability = $_POST['applicability'];
+		} 
+		if(isset($_POST['deleted_date'])){
+			$deleted_date = $_POST['deleted_date'];
+		} 
+		if(isset($_POST['deleted_remarks'])){
+			$deleted_remarks = $_POST['deleted_remarks'];
+		} 
+
+		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 
+		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($no_of_months)."', 
+		'".strip_tags($userid)."' )";
+		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
+		$lastId = $mysqli->insert_id; 
+
+		for($i=0; $i<=sizeof($id)-1; $i++){
+
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
+			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
+		}
 
 	public function adddailyperformance($mysqli,$userid){
 
