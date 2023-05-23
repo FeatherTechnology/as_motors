@@ -297,7 +297,8 @@ $('#execute').click(function() {
         success: function(data){
             $('#moduleTable').find('tbody').empty();
           for(var a=0; a<=data.length-1; a++){
-            var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data[a]['new_assertion'] +"></input></td>" +
+            console.log("data",data);
+            var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data[a]['new_assertion'] +"><input type='hidden' class='form-control' id='old_target' name='old_target[]' value="+ data[a]['old_target'] +"><input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="+ data[a]['target_fixing_id'] +"><input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="+ data[a]['target_fixing_ref_id'] +"></td>" +
             "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['new_target'] +"></input></td>" +
             "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
             "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
@@ -414,16 +415,56 @@ if(logrole == '4'){
         insertData(prev_company);
     
     }else{
-        $('#company').prop('disabled', true);
-        $('#department_id').prop('disabled', true);
-        $('#designation_id').prop('disabled', true);
-        $('#staff_id').prop('disabled', true);
-         $('#month').prop('disabled', true);
+        
+        // $('#company').prop('disabled', true);
+        // $('#department_id').prop('disabled', true);
+        // $('#designation_id').prop('disabled', true);
+        // $('#staff_id').prop('disabled', true);
+        //  $('#month').prop('disabled', true);
+        $('#submit_audit_checklist').remove();
          $('.back').prop('disabled', true);
-         
+         $('#execute').css('display', 'none');
+         $('.form-control').prop('disabled', true);
+         $('th:nth-child(6)').remove();
+         $('tbody tr td:nth-child(6)').remove();
+         $('tbody tr td:nth-child(6)').remove();
     }
    
 }else{
    
 }
 });
+// $(document).ready(function () {
+//     var logrole = $('#logrole').val();
+//     var logtitle= $('#logtitle').val();
+//     if(logtitle == 'Super Admin'){
+
+//     }else{
+//     $('.backb').css('display', 'none');
+//     if(logrole == '4'){
+       
+//         var idupd = $('#id').val();
+    
+//         if(idupd == '0'){ 
+           
+//             $('#prev').prop('disabled', true);
+//             var prev_company = $('#prev').val();
+//             insertData(prev_company);
+        
+//         }else{
+           
+//             $('.form-control').prop('disabled', true);
+//             $('#execute').css('display', 'none');
+//             $('#submit_audit_checklist').css('display', 'none');
+//             $('#add_row_0').css('display', 'none');
+//             $('.yes').css('display', 'none');
+//             $('th:nth-child(3)').remove();
+//             $('tbody tr td:nth-child(3)').remove();
+//             $('tbody tr td:nth-child(3)').remove();
+//         }
+//     }else{
+        
+//      }
+//     }       
+    
+// });

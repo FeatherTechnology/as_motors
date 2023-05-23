@@ -7808,6 +7808,15 @@ public function addTargetFixing($mysqli, $userid){
 			$userid = $_POST['userid'];
 		}
 
+		if (isset($_POST['old_target'])) {
+			$old_target = $_POST['old_target'];
+		}
+		if (isset($_POST['target_fixing_id'])) {
+			$target_fixing_id = $_POST['target_fixing_id'];
+		}
+		if (isset($_POST['target_fixing_ref_id'])) {
+			$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
+		}
 		// print_r($company_id);
 		// print_r($department_id);
 		// print_r($designation_id);
@@ -7831,8 +7840,8 @@ public function addTargetFixing($mysqli, $userid){
 			$last_id  = $mysqli->insert_id;
 
 			for($j=0; $j<=sizeof($assertion)-1; $j++){
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date, status)
-				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($wstatus[$j])."')";
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
 				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 			}
 
@@ -7848,8 +7857,8 @@ public function addTargetFixing($mysqli, $userid){
 			for($i=0;$i<=sizeof($assertion)-1;$i++){
 				
 
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,status)
-				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$wstatus[$i]')";
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
+				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
 
 				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 			}
@@ -7894,7 +7903,7 @@ public function addTargetFixing($mysqli, $userid){
 			}
 		}
 
-        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,status FROM daily_performance_ref WHERE daily_performance_id ='$id'";
+        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
 		
 		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list1 = array();
@@ -7908,6 +7917,9 @@ public function addTargetFixing($mysqli, $userid){
 				$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
 				$dailyperform_list1[$i]['target']      = $row1->target;	
 				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
+				$dailyperform_list1[$i]['old_target']      = $row1->old_target;
+				$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
+				$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
 				$dailyperform_list1[$i]['status']      = $row1->status;
 				
 				$i++;

@@ -277,15 +277,22 @@ if($idupd>0)
                                                     
                                                 <?php    for($i=0;$i<sizeof($ref_table);$i++)  {
                                                         $daily_performance_ref_id                  = $ref_table[$i]['daily_performance_ref_id']; 
-                                                        $assertion                  = $ref_table[$i]['assertion'];  
+                                                        $assertion                  = $ref_table[$i]['assertion']; 
                                                         $target                  = $ref_table[$i]['target'];  
                                                         $system_date            =$ref_table[$i]['system_date'];
+                                                        $old_target                   = $ref_table[$i]['old_target'];
+                                                        $target_fixing_id                   = $ref_table[$i]['target_fixing_id'];
+                                                        $target_fixing_ref_id                   = $ref_table[$i]['target_fixing_ref_id'];
                                                         $status            =$ref_table[$i]['status'];
                                                 ?>
                                                         <tr>
                                                             <td>
-                                                                <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion; ?>">
-                                                                <input  type="hidden" class="form-control" id="sub" name="sub[]" value="<?php echo  $daily_performance_ref_id; ?>">
+                                                            <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion; ?>">
+                                                            <input type='hidden' class='form-control' id='old_target' name='old_target[]' value="<?php echo $old_target; ?>">
+                                                            <input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="<?php echo $target_fixing_id; ?>">
+                                                            <input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="<?php echo $target_fixing_ref_id; ?>">
+                                                            <input  type="hidden" class="form-control" id="sub" name="sub[]" value="<?php echo  $daily_performance_ref_id; ?>">
+                                                            
                                                             </td>
                                                             <td >
                                                                 <input tabindex="5" type="text" class="form-control" id="target" name="target[]" value="<?php echo $target ?>" >
