@@ -84,7 +84,7 @@ if(isset($_POST["month"])){
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]); ?>" name="target[]" id="target" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$statisfiedCount; ?>" name="overall_performance[]" id="overall_performance" placeholder="Enter new assertion" ></td>
-                                <td><input type="text" class="form-control" name="not_done_carry_forward[]" id="not_done_carry_forward" placeholder="Enter new achievement" ></td>
+                                <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" ></td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
                                         <option value="">Select Employee Rating</option>  
@@ -96,8 +96,8 @@ if(isset($_POST["month"])){
                                     </select>   
                                 </td>
                                 <td>
-                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_doneCount; ?>" name="achievement[]" id="achievement" >
-                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forwardCount; ?>" name="achievement[]" id="achievement"  >
+                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_doneCount; ?>" name="not_done" id="not_done" >
+                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forwardCount; ?>" name="carry_forward" id="carry_forward"  >
                                 </td> 
                             </tr>
                         </tbody>

@@ -7726,8 +7726,11 @@ public function addTargetFixing($mysqli, $userid){
 			$month = $_POST['month'];
 		} 
 
-		if(isset($_POST['id'])){
-			$id = $_POST['id'];
+		if(isset($_POST['daily_performance_id'])){
+			$daily_performance_id = $_POST['daily_performance_id'];
+		} 
+		if(isset($_POST['daily_performance_ref_id'])){
+			$daily_performance_ref_id = $_POST['daily_performance_ref_id'];
 		} 
 		if(isset($_POST['assertion'])){
 			$assertion = $_POST['assertion'];
@@ -7735,20 +7738,20 @@ public function addTargetFixing($mysqli, $userid){
 		if(isset($_POST['target'])){
 			$target = $_POST['target'];
 		} 
-		if(isset($_POST['new_assertion'])){
-			$new_assertion = $_POST['new_assertion'];
+		if(isset($_POST['overall_performance'])){
+			$overall_performance = $_POST['overall_performance'];
 		} 
-		if(isset($_POST['new_target'])){
-			$new_target = $_POST['new_target'];
+		if(isset($_POST['achievement'])){
+			$achievement = $_POST['achievement'];
 		} 
-		if(isset($_POST['applicability'])){
-			$applicability = $_POST['applicability'];
+		if(isset($_POST['employee_rating'])){
+			$employee_rating = $_POST['employee_rating'];
 		} 
-		if(isset($_POST['deleted_date'])){
-			$deleted_date = $_POST['deleted_date'];
+		if(isset($_POST['not_done'])){
+			$not_done = $_POST['not_done'];
 		} 
-		if(isset($_POST['deleted_remarks'])){
-			$deleted_remarks = $_POST['deleted_remarks'];
+		if(isset($_POST['carry_forward'])){
+			$carry_forward = $_POST['carry_forward'];
 		} 
 
 		$qry="INSERT INTO target_fixing(company_id, department_id, designation_id, emp_id, year_id, no_of_months, insert_login_id) VALUES('".strip_tags($company_id)."', 

@@ -205,9 +205,9 @@ if($idupd>0)
                                     </div>
                                 <?php } ?>
 
-                                
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"></div>
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"></div>
+                            
                             </div>
                                 
                             <div class="row">
@@ -237,10 +237,10 @@ if($idupd>0)
                                         <textarea id="need_for_improvement" name="need_for_improvement" class="form-control" rows="4" cols="40" ><?php if (isset($need_for_improvement)) echo $need_for_improvement[$o]; ?></textarea>
                                     </div>
                                 </div>
-
-                                </div>
                             </div>
+
                         </div>
+                    </div>
 
                     </div>
                     
@@ -250,13 +250,13 @@ if($idupd>0)
                                 <div class="form-group">
                                     <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
                                     <select tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
-                                            <option value="">Select Overall Rating</option>  
-                                            <option value="1">Poor Performance</option>
-                                            <option value="2">Below Expectation</option>
-                                            <option value="3">More Expectation</option>
-                                            <option value="4">Exceeding Expectation</option>
-                                            <option value="5">Far Exceeding Expectation</option>
-                                        </select>
+                                        <option value="">Select Overall Rating</option>  
+                                        <option value="1">Poor Performance</option>
+                                        <option value="2">Below Expectation</option>
+                                        <option value="3">More Expectation</option>
+                                        <option value="4">Exceeding Expectation</option>
+                                        <option value="5">Far Exceeding Expectation</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -275,16 +275,15 @@ if($idupd>0)
                             </div>
                         </div>
                     </div>
-
-                    </div>
-                        <div class="col-md-12">
-                            <br><br>
-                            <div class="text-right">
-                                <button type="submit" name="submitAppDep" id="submitAppDep" class="btn btn-primary" value="Submit" tabindex="10">Submit</button>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-md-12">
+                    <br><br>
+                    <div class="text-right">
+                        <button type="submit" name="submitAppDep" id="submitAppDep" class="btn btn-primary" value="Submit" tabindex="10">Submit</button>
                     </div>
                 </div>
+            </div>
+        </div>
     </form>
 </div>
 
