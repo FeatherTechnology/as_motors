@@ -7,19 +7,20 @@ if(isset($_SESSION["userid"])){
 }
 
 $column = array(
-    'c.company_name',
+    'company_name',
     'department_name',
     'designation_name',
-    'year',
+    'staff_name',
+    'month',
     'status'
 );
 
-$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-LEFT JOIN year_creation y ON y.year_id=gs.year
- WHERE 1";
+$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month,dp.status FROM daily_performance dp 
+LEFT JOIN company_creation c ON c.company_id=dp.company_id 
+LEFT JOIN department_creation dc ON dc.department_id=dp.department_id 
+LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id 
+LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id
+WHERE 1";
 
 if($_POST['search']!="");
 {
@@ -39,9 +40,10 @@ if($_POST['search']!="");
             
             OR c.company_name LIKE  '%".$_POST['search']."%'
             OR dc.department_name LIKE '%".$_POST['search']."%'
-            OR ds.designation_name LIKE '%".$_POST['search']."%'
-            OR y.year LIKE '%".$_POST['search']."%'
-            OR gs.status LIKE '%".$_POST['search']."%'";
+            OR dsc.designation_name LIKE '%".$_POST['search']."%'
+            OR s.staff_name LIKE '%".$_POST['search']."%'
+            OR dp.month LIKE '%".$_POST['search']."%'
+            OR dp.status LIKE '%".$_POST['search']."%'";
            
         }
     }
@@ -79,7 +81,8 @@ foreach ($result as $row) {
     $sub_array[] = $row['company_name'];
     $sub_array[] = $row['department_name'];
     $sub_array[] = $row['designation_name'];
-    $sub_array[] = $row['year'];
+    $sub_array[] = $row['staff_name'];
+    $sub_array[] = $row['month'];
     $status    = $row['status'];
     
     
@@ -92,11 +95,10 @@ foreach ($result as $row) {
 	{
     $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Active</span></span>";
 	}
-	$id   = $row['goal_setting_id'];
+	$id   = $row['daily_performance_id'];
 	
-	$action="<a href='goal_setting&upd=$id' class='edpage' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-	<a href='goal_setting&del=$id' title='Delete details' class='delete_goal_setting'><span class='icon-trash-2'></span></a>
-    <a href='goal_setting&upd=$id' title='View details' class='View_goal_setting'><span class='icon-eye'></span></a>";
+	$action="<a href='daily_performance&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+	<a href='daily_performance&del=$id' title='Delete details' class='delete_daily_performance'><span class='icon-trash-2'></span></a>";
 
 	$sub_array[] = $action;
     $data[]      = $sub_array;
@@ -106,11 +108,11 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-    LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-    LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-    LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-    LEFT JOIN year_creation y ON y.year_id=gs.year";
+    $query     = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month,dp.status FROM daily_performance dp 
+    LEFT JOIN company_creation c ON c.company_id=dp.company_id 
+    LEFT JOIN department_creation dc ON dc.department_id=dp.department_id 
+    LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id 
+    LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();

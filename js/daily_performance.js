@@ -1,17 +1,29 @@
 // Document is ready
 $(document).ready(function () {
 
+
+//     var id = $('#id').val();
+//    if(id == '0'){
+     
+//    }else{
+   
     
-var currentDate = new Date();
-
-// Format the date as "YYYY-MM-DD" (required by the input type="date")
-var formattedDate = currentDate.toISOString().split('T')[0];
-
-// Set the value of the input field to the current date
-document.getElementById('sdate').value = formattedDate;
 
 
-
+    
+   
+//    }
+  
+$(function(){
+    var idupd = $('#id').val();
+    if(parseInt(idupd) > 0){
+        var company_id_upd = $('#company_id_upd').val();
+        insertData(company_id_upd);
+        
+        
+        
+    }
+})
 
     // remove delete option for last child
     $('#delete_row:last').filter(':last').attr('id', '');
@@ -137,30 +149,30 @@ document.getElementById('sdate').value = formattedDate;
         $('#moduleTable').find('tbody').html(removeData);
     }
     //insert Data into Module Table
-    function insertData(audit_id){
-        $('#moduleTable').find('tbody').empty();
-                    $.ajax({
-                        url: 'getPrevChecklist.php',
-                        data: {'prev_checklist': audit_id },
-                        cache: false,
-                        type:'post',
-                        dataType: 'json',
-                        success: function(data){
-                        //   $('#moduleTable').find('tbody').empty();
-                            for(var a=0; a<=data.length-1; a++){
-                                markup1 = "<td><input type='text' tabindex='3' class='form-control' value="+ data[a]['major_area'] + " id='major' name='major[]'></input></td>";
-                                // markup2= "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['sub_area'] + " id='sub' name='sub[]'></input></td>";
-                                markup3 = "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['assertion'] + " id='assertion' name='assertion[]'></input></td>";
-                                // markup4 = "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['weightage'] + " id='weightage' name='weightage[]'></input></td>";
-                                var dataAppend = "<tr>"+ markup1 + markup3 +
-                                "<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-                                "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td> </tr>";
-                                $('#moduleTable').find('tbody').append(dataAppend);
-                            }
-                              // $('#delete_row:last').filter(':last').attr('id', '');
-                        }
-                      });
-    }
+    // function insertData(audit_id){
+    //     $('#moduleTable').find('tbody').empty();
+    //                 $.ajax({
+    //                     url: 'getPrevChecklist.php',
+    //                     data: {'prev_checklist': audit_id },
+    //                     cache: false,
+    //                     type:'post',
+    //                     dataType: 'json',
+    //                     success: function(data){
+    //                     //   $('#moduleTable').find('tbody').empty();
+    //                         for(var a=0; a<=data.length-1; a++){
+    //                             markup1 = "<td><input type='text' tabindex='3' class='form-control' value="+ data[a]['major_area'] + " id='major' name='major[]'></input></td>";
+    //                             // markup2= "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['sub_area'] + " id='sub' name='sub[]'></input></td>";
+    //                             markup3 = "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['assertion'] + " id='assertion' name='assertion[]'></input></td>";
+    //                             // markup4 = "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['weightage'] + " id='weightage' name='weightage[]'></input></td>";
+    //                             var dataAppend = "<tr>"+ markup1 + markup3 +
+    //                             "<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+    //                             "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td> </tr>";
+    //                             $('#moduleTable').find('tbody').append(dataAppend);
+    //                         }
+    //                           // $('#delete_row:last').filter(':last').attr('id', '');
+    //                     }
+    //                   });
+    // }
     
 });
 
@@ -205,7 +217,6 @@ $('#company').change(function() {
         type:'post',
         dataType: 'json',
         success: function(data){
-            console.log("data.departments",data.departments);
             $('#department_id').text('');
             $('#department_id').val('');
             var option = $('<option></option>').val('').text('Select Department');
@@ -249,7 +260,6 @@ $('#designation_id').change(function() {
         type:'post',
         dataType: 'json',
         success: function(data){
-       console.log("data",data);
             $('#staff_id').text('');
             $('#staff_id').val('');
             var option = $('<option></option>').val('').text('Select Employee');
@@ -300,4 +310,120 @@ $('#execute').click(function() {
          }
       });
       
+});
+
+// insert Data into Module Table
+function insertData(prev_company){
+  
+    var dept_id_upd = $('#dept_id_upd').val();
+    var role_id_up = $('#role_id_up').val();
+
+    
+    $.ajax({
+        url: 'getgoalsettings.php',
+        data: {'prev_company': prev_company },
+        cache: false,
+        type:'post',
+        dataType: 'json',
+        success: function(data){
+           
+            $('#department_id').text('');
+            $('#department_id').val('');
+            var option4 = $('<option></option>').val('').text('Select Department');
+            $('#department_id').append(option4);
+           
+          for(var a=0; a<=data.length-1; a++){
+                var selected = '';
+                if(dept_id_upd == data[a]['department_id']){
+                    selected = 'selected';
+                }
+               
+                var option1 = $('<option '+selected+'></option>').val(data[a]['department_id']).text(data[a]['department_name']);
+                $('#department_id').append(option1);
+
+               
+            }
+            $('#designation_id').text('');
+            $('#designation_id').val('');
+            var option5 = $('<option></option>').val('').text('Select Role');
+            $('#designation_id').append(option5);
+            for(var a=0; a<=data.length-1; a++){
+                var selected = '';
+                    if(role_id_up == data[a]['designation_id']){
+                         selected = 'selected';
+                    }
+                var option2 = $('<option '+selected+' ></option>').val(data[a]['designation_id']).text(data[a]['designation_name']);
+
+                $('#designation_id').append(option2);
+
+            }
+                var company_id=$('#company').val();
+                var department_id=$('#department_id').val();
+                var designation_id=$('#designation_id').val();
+                 var emp_idup = $('#emp_idup').val();
+
+                // console.log("company_id",company_id);
+                // console.log("department_id",department_id);
+                // console.log("designation_id",designation_id);
+
+
+                $.ajax({
+                    url: 'get_emp_detail.php',
+                    data: {'company_id': company_id,
+                            'department_id':department_id,
+                            'designation_id':designation_id },
+                    cache: false,
+                    type:'post',
+                    dataType: 'json',
+                    success: function(data){
+                       console.log("data",data);
+                        $('#staff_id').text('');
+                        $('#staff_id').val('');
+                        var option4 = $('<option></option>').val('').text('Select Staff');
+                        $('#staff_id').append(option4);
+                       
+                      for(var a=0; a<=data.length-1; a++){
+                            var selected = '';
+                            if(emp_idup == data[a]['staff_id']){
+                                selected = 'selected';
+                            }
+                           
+                            var option1 = $('<option '+selected+'></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+                            $('#staff_id').append(option1);
+            
+                           
+                        }
+                    }
+                  
+                    });
+
+        }
+      
+        });
+   
+}
+
+$(document).ready(function () {
+    var logrole = $('#logrole').val();
+if(logrole == '4'){
+    var idupd = $('#id').val();
+ 
+    if(idupd == '0'){ 
+        $('#company').prop('disabled', true);
+        var prev_company = $('#company').val();
+        insertData(prev_company);
+    
+    }else{
+        $('#company').prop('disabled', true);
+        $('#department_id').prop('disabled', true);
+        $('#designation_id').prop('disabled', true);
+        $('#staff_id').prop('disabled', true);
+         $('#month').prop('disabled', true);
+         $('.back').prop('disabled', true);
+         
+    }
+   
+}else{
+   
+}
 });
