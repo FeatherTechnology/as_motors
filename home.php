@@ -544,9 +544,9 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/daily_performance.php" ?>
 			<?php } ?>
 
-			<!-- appreciation_depreciatione -->
-			<?php if($current_page == 'appreciation_depreciatione') { ?>
-			<?php include "include/templates/appreciation_depreciatione.php" ?>
+			<!-- appreciation_depreciation -->
+			<?php if($current_page == 'appreciation_depreciation') { ?>
+			<?php include "include/templates/appreciation_depreciation.php" ?>
 			<?php } ?>
 			
 		</div>

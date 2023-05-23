@@ -48,28 +48,42 @@ $(document).ready(function () {
               for (i = 0; i <= response.staff_id.length - 1; i++) { 
                   $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
               }
-
           }
       });
     }
   });
 
+    //   $("#midterm_review").click(function(){
+    //     $(".midtermDiv").css('display','block');
+    //     $(".midtermDiv2").css('display','block');
+    //     $(".finalDiv").css('display','none');
+    //     $(".finalDiv2").css('display','none');
+    //   });
+
+    //   $("#final_review").click(function(){
+    //     $(".finalDiv").css('display','block');
+    //     $(".finalDiv2").css('display','block');
+    //     $(".midtermDiv").css('display','none');
+    //     $(".midtermDiv2").css('display','none');
+    //   });
+
 });
 
 
-// execute target
-$("#executeGoalSettingDetails").click(function(){
+// execute daily performance
+$("#executeTargetFixingDetails").click(function(){
 
   var company_name = $('#company_name :selected').val();
   var goal_year = $('#goal_year :selected').val();
-  var no_of_months = $('#no_of_months').val();
+  var month = $('#month :selected').val();
+
   $.ajax({
-      url:"targetFixingFile/ajaxGetGoalDetails.php",
+      url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
-      data: {'company_name': company_name, 'goal_year': goal_year, 'no_of_months': no_of_months},
+      data: {'company_name': company_name, 'goal_year': goal_year, 'month': month},
       success:function(html){
-          $("#goadSettingDetailsAppend").empty();
-          $("#goadSettingDetailsAppend").html(html);
+          $("#dailyPerformanceDetailsAppend").empty();
+          $("#dailyPerformanceDetailsAppend").html(html);
       }
   });
 });

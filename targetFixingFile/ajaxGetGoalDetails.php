@@ -126,10 +126,3 @@ if(isset($_POST["no_of_months"])){
         }
     });
 </script>
-
-<!-- 
-<script>
-    $("#edit_assertion").click(function(){
-        $("#callAssertion").click();      
-    });
-</script> -->

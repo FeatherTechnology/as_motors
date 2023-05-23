@@ -9,9 +9,6 @@ if(isset($_SESSION["branch_id"])){
 }
 
 $companyName = $userObj->getCompanyName($mysqli);
-$departmentList = $userObj->getDepartment($mysqli); 
-$designationList = $userObj->getDesignation($mysqli);
-$projectCreationList = $userObj->getProjectCreationList($mysqli);
 $goalYear = $userObj->getGoalYear($mysqli);
 
 $id=0;
@@ -98,7 +95,7 @@ if($idupd>0)
                 success:function(response){ 
 
                 $('#department').empty();
-                $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+                $('#department').prepend("<option value=''>" + 'Select Department' + "</option>");
                 var r = 0;
                 for (r = 0; r <= response.department_id.length - 1; r++) { 
                     var selected = "";
@@ -206,7 +203,7 @@ if($idupd>0)
                                     <label for="disabledInput">Company</label>   
                                     <?php if($sbranch_id == 'Overall'){ ?>
                                         <select tabindex="1" type="text" class="form-control" id="company_name" name="company_name" >
-                                            <option value="">Select Company Name</option>   
+                                            <option value="">Select Company</option>   
                                                 <?php if (sizeof($companyName)>0) { 
                                                 for($j=0;$j<count($companyName);$j++) { ?>
                                                 <option <?php if(isset($sCompanyBranchDetailEdit['company_id'])) { if($companyName[$j]['company_id'] == $sCompanyBranchDetailEdit['company_id'])  echo 'selected'; }  ?> value="<?php echo $companyName[$j]['company_id']; ?>">
@@ -243,7 +240,7 @@ if($idupd>0)
                                 <div class="form-group">
                                     <label for="disabledInput">Staff Name</label>
                                     <select tabindex="4" type="text" class="form-control" id="staff_name" name="staff_name" >
-                                        <option value="">Select Staff Name</option>  
+                                        <option value="">Select Staff</option>  
                                     </select>
                                 </div>
                             </div>
@@ -397,80 +394,4 @@ if($idupd>0)
         </div>
     </form>
 </div>
-
-
-<!-- Add Course Project Modal -->
-<!-- <button type="button" id="callAssertion" style="display: none" data-toggle="modal" data-target=".addProjectModal"></button>
-<div class="modal fade addProjectModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="background-color: white">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myLargeModalLabel">Add New Assertion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DropDownCourse()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="categoryInsertNotOk" class="unsuccessalert">Assertion Already Exists, Please Enter a Different Name!
-                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                </div>
-
-                <div id="categoryInsertOk" class="successalert">Assertion Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                </div>
-
-                <div id="categoryUpdateOk" class="successalert">Assertion Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                </div>
-
-                <div id="categoryDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Assertion!
-                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                </div>
-
-                <div id="categoryDeleteOk" class="successalert">Assertion Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                </div>
-
-                <br />
-                <div class="row">
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                        <label >Old Assertion<span class="text-danger">*</span></label>
-                        <input type="text" readonly class="form-control" id="new_assertion" name="new_assertion">
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                        <label >New Assertion<span class="text-danger">*</span></label>
-                        <input type="text"  class="form-control" id="new_assertion" name="new_assertion" placeholder="Enter New Assertion">
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                            <label class="label">New Target<span class="text-danger">*</span></label>
-                            <input  type="number" tabindex="46" name="new_target" id="new_target" class="form-control" placeholder='Enter New Target'>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="form-group">
-                        <label >Applicability<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="new_assertion" name="new_assertion" placeholder="Enter Applicability">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addCustSubmit">Submit</button>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="DropDownCourse()">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div> -->
 

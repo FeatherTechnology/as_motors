@@ -367,7 +367,7 @@
 														<a href="daily_performance"><i class="icon-file"></i>Daily Performance</a>	
 													</li>
 													<li>
-														<a href="appreciation_depreciatione"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
+														<a href="appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
 													</li>
 												</ul>
 											</div>	

@@ -2574,8 +2574,8 @@ if($current_page == 'daily_performance') { ?>
 	<script src="js/daily_performance.js"></script>
 	<?php } 
 
-if($current_page == 'appreciation_depreciatione') { ?>
-	<script src="js/appreciation_depreciatione.js"></script>
+if($current_page == 'appreciation_depreciation') { ?>
+	<script src="js/appreciation_depreciation.js"></script>
 	<?php } 
     
 ?> 
