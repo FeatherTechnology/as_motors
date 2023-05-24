@@ -55,7 +55,8 @@ if($sbranch_id == 'Overall'){
         }
     }
 }else{
-    $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' ";
+  
+   $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' and status = '0' ";
 }
 
 if (isset($_POST['order'])) {
@@ -154,8 +155,14 @@ foreach ($result as $row) {
     }
     $id   = $row['target_fixing_id'];
     
-    $action="<a href='target_fixing&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-    <a href='target_fixing&del=$id' title='Delete details' class='delete_target_fixing'><span class='icon-trash-2'></span></a>";
+    if($sstaffid == 'Overall'){
+        $action="<a href='target_fixing&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+        <a href='target_fixing&del=$id' title='Delete details' class='delete_target_fixing'><span class='icon-trash-2'></span></a>";
+    }else{
+        $action="<a href='view_target_fixing&view=$id' title='View details'><span class='icon-eye'></span></a>";
+    }
+   
+
 
     $sub_array[] = $action;
     $data[]      = $sub_array;
