@@ -530,6 +530,10 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/edit_target_fixing.php" ?>
 			<?php } ?>
 
+			<?php if($current_page == 'view_target_fixing') { ?>
+			<?php include "include/templates/view_target_fixing.php" ?>
+			<?php } ?>
+
 			<!-- goal_setting -->
 			<?php if($current_page == 'goal_setting') { ?>
 			<?php include "include/templates/goal_setting.php" ?>
@@ -555,6 +559,10 @@ include('api/main.php'); // Database Connection File
 
 			<?php if($current_page == 'edit_appreciation_depreciation') { ?>
 			<?php include "include/templates/edit_appreciation_depreciation.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'view_appreciation_depreciation') { ?>
+			<?php include "include/templates/view_appreciation_depreciation.php" ?>
 			<?php } ?>
 
 			<?php if($current_page == 'view_midterm_review') { ?>

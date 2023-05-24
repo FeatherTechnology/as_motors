@@ -144,7 +144,7 @@ $goalYear = $userObj->getGoalYear($mysqli);
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">AS - Appreciation and Depreciatione - Midterm Review</li>
+        <li class="breadcrumb-item">AS - Appreciation VS Depreciatione - Midterm Review</li>
     </ol>
 
     <a href="edit_appreciation_depreciation">

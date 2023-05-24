@@ -10,47 +10,15 @@ if(isset($_SESSION["branch_id"])){
 }
 $companyName = $userObj->getCompanyName($mysqli);
 $goalYear = $userObj->getGoalYear($mysqli);
-// $dailyPerformanceMonth = $userObj->getDailyPerformanceMonth($mysqli);
 
-$id=0;
-$idupd=0;
-if(isset($_POST['submitAppDep']) && $_POST['submitAppDep'] != '')
+if(isset($_GET['view']))
 {
-    if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
-        $id = $_POST['id']; 	    
-        $updateAppDep = $userObj->updateAppDep($mysqli,$id,$userid);   
-    ?>
-    <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=2';</script> 
-    <?php }
-    else{   
-        $addAppDep = $userObj->addAppDep($mysqli, $userid);   
-        ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=1';</script>
-        <?php
-    }
-}   
-
-$del=0;
-if(isset($_GET['del']))
-{
-    $del=$_GET['del'];
-}
-if($del>0)
-{   
-	$deleteAuditAreaCreation = $userObj->deleteAppDep($mysqli,$del, $userid); 
-	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=3';</script>
-    <?php	
+$viewId=$_GET['view'];
 }
 
-if(isset($_GET['upd']))
+if($viewId>0)
 {
-$idupd=$_GET['upd'];
-}
-
-if($idupd>0)
-{
-	$getAppDep = $userObj->getAppDep($mysqli,$idupd); 
+	$getAppDep = $userObj->getAppDep($mysqli,$viewId); 
 	
 	if (sizeof($getAppDep)>0) {
         for($i=0;$i<sizeof($getAppDep);$i++)  {
@@ -184,7 +152,7 @@ if($idupd>0)
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">AS - Appreciation VS Depreciatione</li>
+        <li class="breadcrumb-item">AS - View Appreciation VS Depreciatione</li>
     </ol>
 
     <a href="edit_appreciation_depreciation">
@@ -210,9 +178,9 @@ if($idupd>0)
                         <div class="form-group">
 							<center><table>
 								<tr>
-									<td><input type="radio" checked name="review" id="midterm_review" value="midterm_review" <?php if(isset($review)) echo ($review=='midterm_review')?'checked':'' ?>></td>
+									<td><input disabled type="radio" checked name="review" id="midterm_review" value="midterm_review" <?php if(isset($review)) echo ($review=='midterm_review')?'checked':'' ?>></td>
 									<td><label for="midterm_review">Midterm Review</label></td>
-									<td><input type="radio" name="review" id="final_review" value="final_review" <?php if(isset($review)) echo ($review=='final_review')?'checked':'' ?> ></td>
+									<td><input disabled type="radio" name="review" id="final_review" value="final_review" <?php if(isset($review)) echo ($review=='final_review')?'checked':'' ?> ></td>
 									<td><label for="final_review">Final Review</label></td>
 								</tr>
 							</table></center>
@@ -225,7 +193,7 @@ if($idupd>0)
                                     <div class="form-group">   
                                         <label for="disabledInput">Company</label>   
                                         <?php if($sbranch_id == 'Overall'){ ?>
-                                            <select tabindex="1" type="text" class="form-control" id="company_name" name="company_name" >
+                                            <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name" >
                                                 <option value="">Select Company</option>   
                                                     <?php if (sizeof($companyName)>0) { 
                                                     for($j=0;$j<count($companyName);$j++) { ?>
@@ -244,7 +212,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Department</label>
-                                        <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                        <select disabled tabindex="3" type="text" class="form-control" id="department" name="department" >
                                             <option value="">Select Department</option>   
                                         </select>
                                     </div>
@@ -253,8 +221,8 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Designation</label>
-                                        <select tabindex="4" type="text" class="form-control" id="designation" name="designation" >
-                                                <option value="">Select Designation</option>   
+                                        <select disabled tabindex="4" type="text" class="form-control" id="designation" name="designation" >
+                                            <option value="">Select Designation</option>   
                                         </select>
                                     </div>
                                 </div>
@@ -262,7 +230,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Staff Name</label>
-                                        <select tabindex="4" type="text" class="form-control" id="staff_id" name="staff_id" >
+                                        <select disabled tabindex="4" type="text" class="form-control" id="staff_id" name="staff_id" >
                                             <option value="">Select Staff</option>  
                                         </select>
                                     </div>
@@ -271,7 +239,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Year</label>
-                                        <select tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
+                                        <select disabled tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
                                             <option value="">Select Year</option>    
                                             <?php if (sizeof($goalYear)>0) { 
                                             for($j=0;$j<count($goalYear);$j++) { ?>
@@ -286,7 +254,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Month</label>
-                                        <select tabindex="4" type="text" class="form-control" id="month" name="month" >
+                                        <select disabled tabindex="4" type="text" class="form-control" id="month" name="month" >
                                             <option value="">Select Month</option>  
                                             <option value="1" <?php if(isset($month )){if($month == "1") echo "selected";} ?>>January</option>
                                             <option value="2" <?php if(isset($month )){if($month == "2") echo "selected";} ?>>February</option>
@@ -303,14 +271,6 @@ if($idupd>0)
                                         </select>
                                     </div>
                                 </div>
-                                
-                                <?php if($idupd<=0){ ?>
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="margin-top: 19px;">
-                                        <div class="form-group">
-                                            <button tabindex="3" type="button" class="btn btn-primary" id="executeTargetFixingDetails" name="executeTargetFixingDetails" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
-                                        </div>
-                                    </div>
-                                <?php } ?>
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"></div>
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12"></div>
@@ -323,92 +283,84 @@ if($idupd>0)
                                 </div>
                             </div>
 
-                            <?php if($idupd>0){ ?>
-                                <div class="card" id="stockinformation">
-                                    <div class="card-header">Goal Setting Details</div>
-                                    <div class="card-body">
-                                    <br> 
-                                        <div style="overflow-x: auto; white-space: nowrap;" >
-                                             <table class="table custom-table" id="sstable">
-                                                <tr>
-                                                    <th>S. No.</th>
-                                                    <th>Assertion</th>
-                                                    <th>Target</th>
-                                                    <!-- <th>Overall Performance</th> -->
-                                                    <th>Achievement</th>
-                                                    <th>Employee Rating</th>
-                                                    <!-- <th>Not Done / Carry Forward</th> -->
-                                                </tr>
-                                                <?php
-                                                $sno = 1;   
-                                                if(isset($appreciation_depreciation_ref_id)){ 
-                                                    for($o=0; $o<=sizeof($appreciation_depreciation_ref_id)-1; $o++){ 
-                                                        ?>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td><?php echo $sno; ?></td>
-                                                                <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $appreciation_depreciation_ref_id[$o]; ?>" name="appreciation_depreciation_ref_id[]" id="appreciation_depreciation_ref_id" ></td>
-                                                                <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
-                                                                <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
-                                                                <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
-                                                                <!-- <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$overall_performance; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td> -->
-                                                                <td><input type="text" class="form-control" name="achievement[]" id="achievement" value="<?php echo $achievement[$o]; ?>" placeholder="Enter new achievement" ></td>
-                                                                <td>
-                                                                    <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
-                                                                        <option value="">Select Employee Rating</option>
-                                                                        <option value="1" <?php if(isset($employee_rating )){if($employee_rating[$o] == "1") echo "selected";} ?>>1</option>
-                                                                        <option value="2" <?php if(isset($employee_rating )){if($employee_rating[$o] == "2") echo "selected";} ?>>2</option>
-                                                                        <option value="3" <?php if(isset($employee_rating )){if($employee_rating[$o] == "3") echo "selected";} ?>>3</option>
-                                                                        <option value="4" <?php if(isset($employee_rating )){if($employee_rating[$o] == "4") echo "selected";} ?>>4</option>
-                                                                        <option value="5" <?php if(isset($employee_rating )){if($employee_rating[$o] == "5") echo "selected";} ?>>5</option>
-                                                                    </select>   
-                                                                </td>
-                                                                <!-- <td>
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_done; ?>" name="not_done" id="not_done" >
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  >
-                                                                </td>  -->
-                                                            </tr>
-                                                        </tbody>
-                                                    <?php $sno = $sno + 1; } ?>
+                            <div class="card" id="stockinformation">
+                                <div class="card-header">Goal Setting Details</div>
+                                <div class="card-body">
+                                <br> 
+                                    <div style="overflow-x: auto; white-space: nowrap;" >
+                                            <table class="table custom-table" id="sstable">
+                                            <tr>
+                                                <th>S. No.</th>
+                                                <th>Assertion</th>
+                                                <th>Target</th>
+                                                <th>Achievement</th>
+                                                <th>Employee Rating</th>
+                                            </tr>
+                                            <?php
+                                            $sno = 1;   
+                                            if(isset($appreciation_depreciation_ref_id)){ 
+                                                for($o=0; $o<=sizeof($appreciation_depreciation_ref_id)-1; $o++){ 
+                                                    ?>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><?php echo $sno; ?></td>
+                                                            <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $appreciation_depreciation_ref_id[$o]; ?>" name="appreciation_depreciation_ref_id[]" id="appreciation_depreciation_ref_id" ></td>
+                                                            <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
+                                                            <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
+                                                            <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
+                                                            <td><input readonly type="text" class="form-control" name="achievement[]" id="achievement" value="<?php echo $achievement[$o]; ?>" placeholder="Enter new achievement" ></td>
+                                                            <td>
+                                                                <select disabled tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
+                                                                    <option value="">Select Employee Rating</option>
+                                                                    <option value="1" <?php if(isset($employee_rating )){if($employee_rating[$o] == "1") echo "selected";} ?>>1</option>
+                                                                    <option value="2" <?php if(isset($employee_rating )){if($employee_rating[$o] == "2") echo "selected";} ?>>2</option>
+                                                                    <option value="3" <?php if(isset($employee_rating )){if($employee_rating[$o] == "3") echo "selected";} ?>>3</option>
+                                                                    <option value="4" <?php if(isset($employee_rating )){if($employee_rating[$o] == "4") echo "selected";} ?>>4</option>
+                                                                    <option value="5" <?php if(isset($employee_rating )){if($employee_rating[$o] == "5") echo "selected";} ?>>5</option>
+                                                                </select>   
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                <?php $sno = $sno + 1; } ?>
 
-                                                        <tbody>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$overall_performance; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
-                                                                <td>
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_done; ?>" name="not_done" id="not_done" >
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  >
-                                                                </td> 
-                                                            </tr>
-                                                        </tbody>
-                                                <?php } ?>
-                                            </table>
-                                        </div>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$overall_performance; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
+                                                            <td>
+                                                                <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_done; ?>" name="not_done" id="not_done" >
+                                                                <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  >
+                                                            </td> 
+                                                        </tr>
+                                                    </tbody>
+                                            <?php } ?>
+                                        </table>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            </div>
+                
 
                             <div class="row">
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Strength</label>
-                                        <textarea id="strength" name="strength" class="form-control" rows="4" cols="40" ><?php if (isset($strength)) echo $strength; ?></textarea>
+                                        <textarea readonly id="strength" name="strength" class="form-control" rows="4" cols="40" ><?php if (isset($strength)) echo $strength; ?></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Weakness</label>
-                                        <textarea id="weakness" name="weakness" class="form-control" rows="4" cols="40" ><?php if (isset($weakness)) echo $weakness; ?></textarea>
+                                        <textarea readonly id="weakness" name="weakness" class="form-control" rows="4" cols="40" ><?php if (isset($weakness)) echo $weakness; ?></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Need For Improvement</label>
-                                        <textarea id="need_for_improvement" name="need_for_improvement" class="form-control" rows="4" cols="40" ><?php if (isset($need_for_improvement)) echo $need_for_improvement; ?></textarea>
+                                        <textarea readonly id="need_for_improvement" name="need_for_improvement" class="form-control" rows="4" cols="40" ><?php if (isset($need_for_improvement)) echo $need_for_improvement; ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +375,7 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
-                                    <select tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
+                                    <select disabled tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
                                         <option value="">Select Overall Rating</option>  
                                         <option value="1" <?php if(isset($month )) { if($month == "1") echo "selected"; } ?>>Poor Performance</option>
                                         <option value="2" <?php if(isset($month )) { if($month == "2") echo "selected"; } ?>>Below Expectation</option>
@@ -434,7 +386,7 @@ if($idupd>0)
                                 </div>
                             </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="inputReadOnly" id="audit_err" >Memo If Required</label> <br>
                                     <a href="memo"> <button type="button" name="memoBtn" id="memoBtn" class="btn btn-outline-secondary" value="Submit" tabindex="10">Go to memo</button></a>
@@ -445,14 +397,8 @@ if($idupd>0)
                                     <label for="inputReadOnly" id="audit_err" >Midterm Review</label> <br>
                                     <a href="view_midterm_review&last_view_midterm_review" target="_blank"><button type="button" class="btn btn-outline-secondary" value="Submit" tabindex="10">View</button></a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <br><br>
-                    <div class="text-right">
-                        <button type="submit" name="submitAppDep" id="submitAppDep" class="btn btn-primary" value="Submit" tabindex="10">Submit</button>
                     </div>
                 </div>
             </div>

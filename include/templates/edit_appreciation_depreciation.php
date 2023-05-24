@@ -1,7 +1,7 @@
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Appreciation Depreciation List</li>
+		<li class="breadcrumb-item">Appreciation VS Depreciation List</li>
 	</ol>
 	<a href="appreciation_depreciation">
 		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp; Appreciation Depreciation</button>
