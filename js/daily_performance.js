@@ -108,19 +108,17 @@ $(function(){
     //              wstatus();
             
     // }));
-    $(document).on('click', '#add_row', function() {
-        var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
-          "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]'></input></td>" +
-          "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
-          "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
-          "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td>" +
-          "<td><button tabindex='8' type='button' tabindex='11' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-          "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
+    // $(document).on('click', '#add_row', function() {
+    //     var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
+    //       "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]'></input></td>" +
+    //       "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
+    //       "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
+    //       "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td></tr>";
       
-        $('#moduleTable').find('tbody').append(appendTxt);
-        wstatus();
+    //     $('#moduleTable').find('tbody').append(appendTxt);
+    //     wstatus();
         
-      });
+    //   });
       
     // Delete unwanted Rows
     $(document).on("click", '#delete_row', function () {
@@ -136,18 +134,18 @@ $(function(){
             insertData(prev_checklist);
         }
       });
-    //resetting modult table
-    function removeData(){
+    // //resetting modult table
+    // function removeData(){
       
-        $('#moduleTable').find('tbody').empty();
-        var removeData = "<tr><td> <input tabindex='3' type='text' class='form-control' id='major' name='major[]'></input></td>" +
-        // "<td> <input tabindex='3' type='text' class='form-control' id='sub' name='sub[]'></input></td>" +
-        "<td> <input tabindex='3' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
-        // "<td> <input tabindex='3' type='text' class='form-control' id='weightage' name='weightage[]'></input></td>" +
-        "<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-        "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td> </tr>";
-        $('#moduleTable').find('tbody').html(removeData);
-    }
+    //     $('#moduleTable').find('tbody').empty();
+    //     var removeData = "<tr><td> <input tabindex='3' type='text' class='form-control' id='major' name='major[]'></input></td>" +
+    //     // "<td> <input tabindex='3' type='text' class='form-control' id='sub' name='sub[]'></input></td>" +
+    //     "<td> <input tabindex='3' type='text' class='form-control' id='assertion' name='assertion[]'></input></td>" +
+    //     // "<td> <input tabindex='3' type='text' class='form-control' id='weightage' name='weightage[]'></input></td>" +
+    //     "<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+    //     "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td> </tr>";
+    //     $('#moduleTable').find('tbody').html(removeData);
+    // }
     //insert Data into Module Table
     // function insertData(audit_id){
     //     $('#moduleTable').find('tbody').empty();
@@ -209,10 +207,10 @@ $('.wstatus').change(function() {
 }); 
 $('#company').change(function() { 
 
-    var comid=$(this).val();
+    var company_id=$(this).val();
     $.ajax({
         url: 'get_perform_detail.php',
-        data: {'comid': comid },
+        data: {'company_id': company_id },
         cache: false,
         type:'post',
         dataType: 'json',
@@ -222,30 +220,43 @@ $('#company').change(function() {
             var option = $('<option></option>').val('').text('Select Department');
             $('#department_id').append(option);
             for(var a=0; a<=data.departments.length-1; a++){
-                // var selected = '';
-                // if(year_idup == data[a]['department_id']){
-                //     selected = 'selected';
-                // }'+selected+' 
+                
                 var option = $('<option ></option>').val(data.departments[a]['department_id']).text(data.departments[a]['department_name']);
                 $('#department_id').append(option);
             }
-
-            $('#designation_id').text('');
-            $('#designation_id').val('');
-            var option = $('<option></option>').val('').text('Select Role');
-            $('#designation_id').append(option);
-            for(var a=0; a<=data.designations.length-1; a++){
-                // var selected = '';
-                // if(year_idup == data[a]['department_id']){
-                //     selected = 'selected';
-                // }'+selected+' 
-                var option = $('<option ></option>').val(data.designations[a]['designation_id']).text(data.designations[a]['designation_name']);
-                $('#designation_id').append(option);
-            }
+          
         }
       });
          
 }); 
+$('#department_id').change(function() { 
+    var company_id=$('#company').val();
+    var department_id =$(this).val();
+    var role_id_up = $('#role_id_up').val();
+   
+    $.ajax({
+        url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+        type: 'post',
+        data: { "company_id":company_id, "department_id":department_id },
+        dataType: 'json',
+        success:function(response){
+          
+            $('#designation_id').text('');
+            $('#designation_id').val('');
+            var option = $('<option></option>').val('').text('Select Department');
+            $('#designation_id').append(option);
+          var i = 0;
+          for (i = 0; i <= response.designation_id.length - 1; i++) { 
+            var selected = "";
+            if(role_id_up == response['designation_id'][i]){
+              selected = "selected";
+          }
+            $('#designation_id').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
+          }
+        }
+      });
+         
+});
 $('#designation_id').change(function() { 
     var company_id=$('#company').val();
     var department_id=$('#department_id').val();
@@ -297,14 +308,12 @@ $('#execute').click(function() {
         success: function(data){
             $('#moduleTable').find('tbody').empty();
           for(var a=0; a<=data.length-1; a++){
-            console.log("data",data);
+           
             var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data[a]['new_assertion'] +"><input type='hidden' class='form-control' id='old_target' name='old_target[]' value="+ data[a]['old_target'] +"><input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="+ data[a]['target_fixing_id'] +"><input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="+ data[a]['target_fixing_ref_id'] +"></td>" +
             "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['new_target'] +"></input></td>" +
-            "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' ></input></td>" +
+            "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ data[a]['cdate'] +" ></input></td>" +
             "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
-            "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td>" +
-            "<td><button tabindex='8' type='button' tabindex='11' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-            "<td><span class='icon-trash-2' tabindex='9' id='delete_row'></span></td></tr>";
+            "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td></tr>";
              $('#moduleTable').find('tbody').append(appendTxt);
             }
             wstatus();
@@ -344,59 +353,71 @@ function insertData(prev_company){
 
                
             }
+            var company_id=$('#company').val();
+            var department_id=$('#department_id').val();
+            $.ajax({
+                url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+                data: {'company_id': company_id,
+                        'department_id':department_id
+                                      },
+                cache: false,
+                type:'post',
+                dataType: 'json',
+                success: function(data){
+                  
             $('#designation_id').text('');
             $('#designation_id').val('');
-            var option5 = $('<option></option>').val('').text('Select Role');
-            $('#designation_id').append(option5);
-            for(var a=0; a<=data.length-1; a++){
-                var selected = '';
-                    if(role_id_up == data[a]['designation_id']){
-                         selected = 'selected';
-                    }
-                var option2 = $('<option '+selected+' ></option>').val(data[a]['designation_id']).text(data[a]['designation_name']);
-
-                $('#designation_id').append(option2);
-
-            }
-                var company_id=$('#company').val();
-                var department_id=$('#department_id').val();
-                var designation_id=$('#designation_id').val();
-                 var emp_idup = $('#emp_idup').val();
-
-                // console.log("company_id",company_id);
-                // console.log("department_id",department_id);
-                // console.log("designation_id",designation_id);
-
-
-                $.ajax({
-                    url: 'get_emp_detail.php',
-                    data: {'company_id': company_id,
-                            'department_id':department_id,
-                            'designation_id':designation_id },
-                    cache: false,
-                    type:'post',
-                    dataType: 'json',
-                    success: function(data){
-                       console.log("data",data);
-                        $('#staff_id').text('');
-                        $('#staff_id').val('');
-                        var option4 = $('<option></option>').val('').text('Select Staff');
-                        $('#staff_id').append(option4);
-                       
-                      for(var a=0; a<=data.length-1; a++){
-                            var selected = '';
-                            if(emp_idup == data[a]['staff_id']){
-                                selected = 'selected';
+            var option = $('<option></option>').val('').text('Select Department');
+            $('#designation_id').append(option);
+                    var i = 0;
+                            for (i = 0; i <= data.designation_id.length - 1; i++) { 
+                                var selected = "";
+                                if(role_id_up == data['designation_id'][i]){
+                                selected = "selected";
                             }
-                           
-                            var option1 = $('<option '+selected+'></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
-                            $('#staff_id').append(option1);
-            
-                           
-                        }
+                         $('#designation_id').append("<option value='" + data['designation_id'][i] + "' "+selected+" >" + data['designation_name'][i] + "</option>");
                     }
-                  
-                    });
+                
+                    var company_id=$('#company').val();
+                    var department_id=$('#department_id').val();
+                    var designation_id=$('#designation_id').val();
+                     var emp_idup = $('#emp_idup').val();
+                     
+ 
+                    $.ajax({
+                        url: 'get_emp_detail.php',
+                        data: {'company_id': company_id,
+                                'department_id':department_id,
+                                'designation_id':designation_id },
+                        cache: false,
+                        type:'post',
+                        dataType: 'json',
+                        success: function(data){
+                            
+                            $('#staff_id').text('');
+                            $('#staff_id').val('');
+                            var option4 = $('<option></option>').val('').text('Select Staff');
+                            $('#staff_id').append(option4);
+                           
+                          for(var a=0; a<=data.length-1; a++){
+                                var selected = '';
+                                if(emp_idup == data[a]['staff_id']){
+                                    selected = 'selected';
+                                }
+                               
+                                var option1 = $('<option '+selected+'></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
+                                $('#staff_id').append(option1);
+                
+                               
+                            }
+                        }
+                      
+                        });
+                
+                
+                }
+              
+                });
 
         }
       

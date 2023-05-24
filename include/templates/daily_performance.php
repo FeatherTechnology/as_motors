@@ -217,7 +217,7 @@ if($idupd>0)
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
                                             <div class="form-group">
-                                            <input  type="button" class="btn btn-primary" id="execute" name="execute[]" value="execute" >
+                                            <input  type="button" class="btn btn-primary" id="execute" name="execute[]" value="Execute" >
                                                     </input> 
                                             </div>
                                         </div>
@@ -234,7 +234,7 @@ if($idupd>0)
                                             <th>System Date</th>
                                             <th>Work Status</th>
                                             <th>Status</th>
-                                            <th colspan="2">Action</th>
+                                            
                                         </tr>
                                     </thead>
                                     <?php if($idupd<=0){ ?>
@@ -265,10 +265,7 @@ if($idupd>0)
                                                     <input  type="text" class="form-control" id="status" name="status[]" ></input> 
                                                 </td>
                                                 
-                                                <td>
-                                                    <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
-                                                </td>
-                                                <td><span class='icon-trash-2' tabindex="9" id="delete_row"></span></td>
+                                                
                                             </tr>
                                         </tbody>
                                     <?php } if($idupd>0){
@@ -334,12 +331,7 @@ if($idupd>0)
                                                                             <input type="text" class="form-control" id="status" name="status[]">
                                                                         <?php } ?>
                                                             </td>
-                                                            <td>
-                                                                <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
-                                                            </td>
-                                                            <td>
-                                                                <span class='icon-trash-2' tabindex="9" id="delete_row"></span>
-                                                            </td>
+                                                            
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>
