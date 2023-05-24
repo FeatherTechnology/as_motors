@@ -12,7 +12,6 @@ if(isset($_SESSION["staffid"])){
     $sstaffid = $_SESSION["staffid"];
 }
 
-
 $column = array(
 
     'appreciation_depreciation_id',
@@ -58,6 +57,7 @@ if($sbranch_id == 'Overall'){
         }
     }
 }else{
+
     $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' and status = '0' ";
 }
 
@@ -159,12 +159,13 @@ foreach ($result as $row) {
 	}
 	$id   = $row['appreciation_depreciation_id'];
 	
-    if($sstaffid == 'Overall'){
-        $action="<a href='appreciation_depreciation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-	    <a href='appreciation_depreciation&del=$id' title='Delete details' class='delete_appreciation_depreciation'><span class='icon-trash-2'></span></a>";
-    }else{
-        $action="<a href='view_appreciation_depreciation&view=$id' title='View details'><span class='icon-eye'></span></a>";
-    }
+  if($sstaffid == 'Overall'){
+      $action="<a href='appreciation_depreciation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+    <a href='appreciation_depreciation&del=$id' title='Delete details' class='delete_appreciation_depreciation'><span class='icon-trash-2'></span></a>";
+  }else{
+      $action="<a href='view_appreciation_depreciation&view=$id' title='View details'><span class='icon-eye'></span></a>";
+  }
+
 
 	$sub_array[] = $action;
     $data[]      = $sub_array;
