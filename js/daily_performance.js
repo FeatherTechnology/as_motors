@@ -294,7 +294,7 @@ $('#execute').click(function() {
         cache: false,
         type:'post',
         dataType: 'json',
-        success: function(data){
+        success: function(data){ 
             $('#moduleTable').find('tbody').empty();
           for(var a=0; a<=data.length-1; a++){
             console.log("data",data);

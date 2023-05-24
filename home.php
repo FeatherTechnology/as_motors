@@ -543,7 +543,7 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/edit_goal_setting.php" ?>
 			<?php } ?>
 
-      <!-- daily_performance -->
+      		<!-- daily_performance -->
 			<?php if($current_page == 'daily_performance') { ?>
 			<?php include "include/templates/daily_performance.php" ?>
 			<?php } ?>
@@ -567,6 +567,11 @@ include('api/main.php'); // Database Connection File
 
 			<?php if($current_page == 'view_midterm_review') { ?>
 			<?php include "include/templates/view_midterm_review.php" ?>
+			<?php } ?>
+
+			<!-- appreciation_depreciation -->
+			<?php if($current_page == 'manage_users') { ?>
+			<?php include "include/templates/manage_users.php" ?>
 			<?php } ?>
 			
 		</div>
