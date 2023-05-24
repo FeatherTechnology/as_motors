@@ -133,9 +133,9 @@
 								<li>									
 									<a href="edit_holiday_creation"><i class="icon-aperture"></i>Holiday Creation</a>
 								</li>
-								<!-- <li>									
+								<li>									
 									<a href="manage_users"><i class="icon-users"></i>Manage Users</a>
-								</li> -->
+								</li>
 							</ul>
 						</div>
 					</li>
@@ -230,7 +230,7 @@
 												<a href="asset_register"><i class="icon-map2"></i>Asset Creation</a>
 											</li>
 											<li>
-												<a href="edit_insurance_register"><i class="icon-offline_pin"></i>Insurance register</a>
+												<a href="edit_insurance_register"><i class="icon-offline_pin"></i>Insurance Register</a>
 											</li>
 											<li>
 												<a href="edit_service_indent"><i class="icon-slack"></i>Service Indent</a>
@@ -339,7 +339,7 @@
 						<div class="sidebar-submenu1">
 							<ul>
 								<li>
-									<a href="edit_permission_or_on_duty"><i class="icon-receipt"></i>Permission / On duty</a>	
+									<a href="edit_permission_or_on_duty"><i class="icon-receipt"></i>Permission / On Duty</a>	
 								</li>
 								<li>
 									<a href="edit_transfer_location"><i class="icon-recent_actors"></i>Transfer Location</a>	
@@ -351,27 +351,27 @@
 
 					<!-- Target Fixing -->
 					<li class="sidebar-dropdown1">
-											<a href="javascript:void(0)">
-												<i class="icon-target"></i>
-												<span class="menu-text" >Target Fixing</span>
-											</a>
-											<div class="sidebar-submenu1">
-												<ul>
-													<li>
-														<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
-													</li>
-													<li>
-														<a href="edit_target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
-													</li>
-													<li>
-														<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
-													</li>
-													<li>
-														<a href="edit_appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation And Depreciation</a>	
-													</li>
-												</ul>
-											</div>	
-										</li>
+						<a href="javascript:void(0)">
+							<i class="icon-target"></i>
+							<span class="menu-text" >Target Fixing</span>
+						</a>
+						<div class="sidebar-submenu1">
+							<ul>
+								<li>
+									<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
+								</li>
+								<li>
+									<a href="edit_target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
+								</li>
+								<li>
+									<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
+								</li>
+								<li>
+									<a href="edit_appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation VS Depreciation</a>	
+								</li>
+							</ul>
+						</div>	
+					</li>
 
 
 					<!-- vehicle management -->
@@ -389,7 +389,7 @@
 									<a href="edit_daily_km"><i class="icon-local_car_wash"></i>Daily KM </a>	
 								</li>
 								<li>
-									<a href="diesel_slip"><i class="icon-local_car_wash"></i>Diesel Slip </a>	
+									<a href="edit_diesel_slip"><i class="icon-local_car_wash"></i>Diesel Slip </a>	
 								</li>
 							</ul>
 						</div>	

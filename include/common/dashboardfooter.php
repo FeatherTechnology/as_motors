@@ -2649,6 +2649,10 @@ if($current_page == 'daily_performance') { ?>
 if($current_page == 'appreciation_depreciation') { ?>
 	<script src="js/appreciation_depreciation.js"></script>
 	<?php } 
+
+if($current_page == 'manage_users') { ?>
+	<script src="js/manage_users.js"></script>
+    <?php }
     
 ?> 
 

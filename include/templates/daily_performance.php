@@ -217,7 +217,7 @@ if($idupd>0)
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
                                             <div class="form-group">
-                                            <input  type="button" class="btn btn-primary" id="execute" name="execute[]" value="execute" >
+                                            <input  type="button" class="btn btn-primary" id="execute" name="execute[]" value="Execute" >
                                                     </input> 
                                             </div>
                                         </div>
@@ -242,19 +242,18 @@ if($idupd>0)
                                             <tr>
                                                
                                                 <td>
-                                                    <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" >
+                                                    <input readonly tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" >
                                                     </input> 
                                                 </td>
                                                 <td >
-                                                    <input tabindex="5" type="text" class="form-control" id="target" name="target[]" >
+                                                    <input readonly tabindex="5" type="text" class="form-control" id="target" name="target[]" >
                                                     </input> 
                                                 </td>
                                                 <td>
-                                                    <input  type="date" class="form-control" id="sdate" name="sdate[]" value="" ></input> 
+                                                    <input readonly type="date" class="form-control" id="sdate" name="sdate[]" value="" ></input> 
                                                 </td>
                                                 <td>
-                                                    <!-- <input  type="text" class="form-control" id="wstatus" name="wstatus[]" ></input>  -->
-                                                    <select  class="form-control wstatus" id="wstatus" name="wstatus[]" >
+                                                    <select class="form-control wstatus" id="wstatus" name="wstatus[]" >
                                                         <option value=" ">Select Work Status</option>
                                                         <option value="statisfied">Statisfied</option>
                                                         <option value="not_done">Not Done</option>
