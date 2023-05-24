@@ -55,7 +55,8 @@ if($sbranch_id == 'Overall'){
         }
     }
 }else{
-    $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' and status = '0' ";
+  
+   $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' and status = '0' ";
 }
 
 if (isset($_POST['order'])) {
@@ -161,6 +162,7 @@ foreach ($result as $row) {
         $action="<a href='view_target_fixing&view=$id' title='View details'><span class='icon-eye'></span></a>";
     }
    
+
 
     $sub_array[] = $action;
     $data[]      = $sub_array;
