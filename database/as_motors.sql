@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2023 at 02:57 PM
+-- Generation Time: May 25, 2023 at 03:01 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -92,6 +92,13 @@ CREATE TABLE `appreciation_depreciation` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `appreciation_depreciation`
+--
+
+INSERT INTO `appreciation_depreciation` (`appreciation_depreciation_id`, `review`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `month`, `overall_performance`, `not_done`, `carry_forward`, `strength`, `weakness`, `need_for_improvement`, `overall_rating`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 'midterm_review', 1, 1, 1, 1, 1, 5, '1', '1', '0', 'test', 'test2', 'test3', '3', 0, 1, NULL, NULL, '2023-05-25 13:05:49', '2023-05-25 13:05:49');
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +115,14 @@ CREATE TABLE `appreciation_depreciation_ref` (
   `achievement` varchar(255) DEFAULT NULL,
   `employee_rating` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `appreciation_depreciation_ref`
+--
+
+INSERT INTO `appreciation_depreciation_ref` (`appreciation_depreciation_ref_id`, `review`, `appreciation_depreciation_id`, `daily_performance_ref_id`, `assertion`, `target`, `achievement`, `employee_rating`) VALUES
+(1, 'midterm_review', 1, 1, 'demo1', '3', 'test', '1'),
+(2, 'midterm_review', 1, 2, 'kra2', '2', 'test1', '2');
 
 -- --------------------------------------------------------
 
@@ -490,13 +505,13 @@ INSERT INTO `audit_checklist_ref` (`audit_checklist_ref_id`, `audit_area_id`, `m
 
 CREATE TABLE `audit_followup` (
   `audit_followup_id` int(11) NOT NULL,
-  `audit_assign_id` int(11) NOT NULL,
-  `audit_assign_ref_id` int(11) NOT NULL,
-  `remarks` varchar(200) NOT NULL,
-  `completed_date` date NOT NULL,
+  `audit_assign_id` int(11) DEFAULT NULL,
+  `audit_assign_ref_id` int(11) DEFAULT NULL,
+  `remarks` varchar(200) DEFAULT NULL,
+  `completed_date` varchar(255) DEFAULT NULL,
   `files` varchar(200) DEFAULT NULL,
   `insert_login_id` int(11) DEFAULT NULL,
-  `created_date` date NOT NULL DEFAULT current_timestamp()
+  `created_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -757,7 +772,7 @@ CREATE TABLE `campaign` (
 INSERT INTO `campaign` (`campaign_id`, `promotional_activities_id`, `actual_start_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
 (1, '1', '2023-05-11', 1, 1, NULL, 1, '2023-05-11 18:38:22', '2023-05-11 18:38:22'),
 (2, '1', '2023-05-11', 0, 1, 1, NULL, '2023-05-11 18:44:19', '2023-05-11 18:44:19'),
-(3, '1', '2023-05-11', 0, 1, NULL, NULL, '2023-05-11 18:50:00', '2023-05-11 18:50:00');
+(3, '1', '2023-05-11', 0, 1, 1, NULL, '2023-05-11 18:50:00', '2023-05-11 18:50:00');
 
 -- --------------------------------------------------------
 
@@ -787,8 +802,8 @@ INSERT INTO `campaign_ref` (`campaign_ref_id`, `campaign_id`, `promotional_activ
 (2, '1', '2', 'act 2', '5', '2', '2023-05-11 18:38:22', '2023-05-14 18:38:22', '2', 3),
 (5, '2', '1', 'act 1', '10', '3', ' 18:44:31', ' 18:44:31', '1', 0),
 (6, '2', '2', 'act 2', '5', '2', ' 18:44:31', ' 18:44:31', '2', 0),
-(7, '3', '1', 'act 1', '10', '3', '2023-05-11 18:50:00', '2023-05-13 18:50:00', '1', 3),
-(8, '3', '2', 'act 2', '5', '2', '2023-05-11 18:50:00', '2023-05-17 18:50:00', '2', 0);
+(9, '3', '1', 'act 1', '10', '3', '2023-05-25 09:41:43', '2023-05-26 09:41:43', '1', 0),
+(10, '3', '2', 'act 2', '5', '2', '2023-05-11 09:41:43', '2023-05-17 09:41:43', '2', 0);
 
 -- --------------------------------------------------------
 
@@ -938,6 +953,13 @@ CREATE TABLE `daily_performance` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `daily_performance`
+--
+
+INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `department_id`, `role_id`, `emp_id`, `month`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`, `status`) VALUES
+(1, 1, 1, 1, 1, 5, 1, NULL, NULL, '2023-05-25 10:29:40', '2023-05-25 10:29:40', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -955,6 +977,14 @@ CREATE TABLE `daily_performance_ref` (
   `target_fixing_ref_id` int(11) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daily_performance_ref`
+--
+
+INSERT INTO `daily_performance_ref` (`daily_performance_ref_id`, `daily_performance_id`, `assertion`, `target`, `system_date`, `old_target`, `target_fixing_id`, `target_fixing_ref_id`, `status`) VALUES
+(1, 1, 'demo1', '3', '2023-05-25', '80', 1, 5, 'statisfied'),
+(2, 1, 'kra2', '2', '2023-05-25', '60', 1, 8, 'not_done');
 
 -- --------------------------------------------------------
 
@@ -1766,7 +1796,7 @@ CREATE TABLE `promotional_activities_ref` (
 --
 
 INSERT INTO `promotional_activities_ref` (`promotional_activities_ref_id`, `promotional_activities_id`, `activity_involved`, `time_frame_start`, `duration`, `start_date`, `end_date`, `employee_name`) VALUES
-(1, 1, 'act 1', 10, 3, '2023-05-11', '2023-05-13', '1'),
+(1, 1, 'act 1', 10, 3, '2023-05-25', '2023-05-26', '1'),
 (2, 1, 'act 2', 5, 2, '2023-05-11', '2023-05-17', '2'),
 (4, 3, 'act 3', 20, 5, NULL, NULL, NULL),
 (5, 3, 'act 4', 15, 2, NULL, NULL, NULL);
@@ -2214,13 +2244,13 @@ CREATE TABLE `user` (
   `daily_performance` varchar(11) DEFAULT NULL,
   `appreciation_depreciation` varchar(11) DEFAULT NULL,
   `vehicle_management_module` varchar(11) DEFAULT NULL,
-  `vehicle_details` int(11) DEFAULT NULL,
-  `daily_km` int(11) DEFAULT NULL,
-  `diesel_slip` int(11) DEFAULT NULL,
-  `approval_mechanism_module` int(11) DEFAULT NULL,
-  `approval_requisition` int(11) DEFAULT NULL,
-  `business_communication_outgoing` int(11) DEFAULT NULL,
-  `minutes_of_meeting` int(11) DEFAULT NULL
+  `vehicle_details` varchar(11) DEFAULT NULL,
+  `daily_km` varchar(11) DEFAULT NULL,
+  `diesel_slip` varchar(11) DEFAULT NULL,
+  `approval_mechanism_module` varchar(11) DEFAULT NULL,
+  `approval_requisition` varchar(11) DEFAULT NULL,
+  `business_communication_outgoing` varchar(11) DEFAULT NULL,
+  `minutes_of_meeting` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -2228,13 +2258,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', '0', '2021-04-17 17:08:00', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(19, 'Manager', 'Manager', 'Manager', 'Manager', 'manager@feathertechnology.in', 'manager@feathertechnology.in', 'admin@123', '3', NULL, '1', '0', '2023-01-31 16:52:54', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', '4', '2', '1', '0', '2023-03-14 13:09:26', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', '4', '3', '1', '0', '2023-03-15 10:48:41', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', '4', '4', '1', '0', '2023-03-16 16:34:10', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0),
-(24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', '4', '5', '2', '0', '2023-03-22 09:40:51', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', 0, 0, 0, 0, 0, 0, 0);
+(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(19, 'Manager', 'Manager', 'Manager', 'Manager', 'manager@feathertechnology.in', 'manager@feathertechnology.in', 'admin@123', '3', NULL, '1', '0', '2023-01-31 16:52:54', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', '4', '2', '1', '0', '2023-03-14 13:09:26', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', '4', '3', '1', '0', '2023-03-15 10:48:41', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', '4', '4', '1', '0', '2023-03-16 16:34:10', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', '4', '5', '2', '0', '2023-03-22 09:40:51', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
+(25, 'test', 'ttt', 'test ttt', 'test', 'test@gmail.com', 'test@gmail.com', '123', '4', NULL, NULL, '0', '2023-05-25 14:15:49', '0', '1', '1', '1', '1', '1', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '1', '1', '0', '1', '1', '0', '1', '1', '1', '1', NULL, '1', '1', '1', '0', '1', '1', '1');
 
 -- --------------------------------------------------------
 
@@ -2858,13 +2889,13 @@ ALTER TABLE `accountsgroup`
 -- AUTO_INCREMENT for table `appreciation_depreciation`
 --
 ALTER TABLE `appreciation_depreciation`
-  MODIFY `appreciation_depreciation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `appreciation_depreciation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `appreciation_depreciation_ref`
 --
 ALTER TABLE `appreciation_depreciation_ref`
-  MODIFY `appreciation_depreciation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `appreciation_depreciation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `approval_line`
@@ -3002,7 +3033,7 @@ ALTER TABLE `campaign`
 -- AUTO_INCREMENT for table `campaign_ref`
 --
 ALTER TABLE `campaign_ref`
-  MODIFY `campaign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `campaign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `category_creation`
@@ -3038,13 +3069,13 @@ ALTER TABLE `daily_km_ref`
 -- AUTO_INCREMENT for table `daily_performance`
 --
 ALTER TABLE `daily_performance`
-  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `daily_performance_ref`
 --
 ALTER TABLE `daily_performance_ref`
-  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `department_creation`
@@ -3296,7 +3327,7 @@ ALTER TABLE `transfer_location`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`

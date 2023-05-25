@@ -2356,6 +2356,38 @@ buttons: [
     });
 
 
+    var user_info = $('#user_info').DataTable({
+
+		"order": [[ 0, "desc" ]],
+		'processing': true,
+		'serverSide': true,
+		'serverMethod': 'post',
+		// 'searching': false,
+		info:false,
+		//'searching': false, // Remove default Search Control
+		'ajax': {
+			'url':'ajaxUserinfoFetch.php',
+			'data': function(data){
+                var search = $('#search').val();
+				// Append to data                           
+				data.search      = search;
+			}
+		},
+		// dom: 'lBfrtip',
+		buttons: [		
+			{		 
+				extend:'colvis',
+				collectionLayout: 'fixed four-column',		
+			}
+
+		],	
+		"lengthMenu": [
+			[10, 25, 50, -1],
+			[10, 25, 50, "All"]
+		]
+	});
+
+
 	$('#search').change(function(){
 		companyCreation_info.draw();
 		branchCreation_info.draw();
@@ -2416,6 +2448,7 @@ buttons: [
         appreciation_depreciatione_info.draw();
         targetFixing_info.draw();
         appreciation_depreciation_info.draw();
+        user_info.draw();
     });
 	
 </script>
@@ -3026,6 +3059,16 @@ if($current_page == 'manage_users') { ?>
     // delete Appreciation Depreciation
     $(document).on("click", '.delete_appreciation_depreciation', function(){
         var dlt = confirm("Do you want to delete this Appreciation Depreciation?");
+        if(dlt){
+            return true;
+        }else{
+            return false;
+        }
+    });
+
+    // delete manage users
+    $(document).on("click", '.delete_user', function(){
+        var dlt = confirm("Do you want to delete this user?");
         if(dlt){
             return true;
         }else{

@@ -53,31 +53,29 @@ $(document).ready(function () {
     }
   });
 
-    //   $("#midterm_review").click(function(){
-    //     $(".midtermDiv").css('display','block');
-    //     $(".midtermDiv2").css('display','block');
-    //     $(".finalDiv").css('display','none');
-    //     $(".finalDiv2").css('display','none');
-    //   });
+  $("#overall_rating").change(function(){
 
-    //   $("#final_review").click(function(){
-    //     $(".finalDiv").css('display','block');
-    //     $(".finalDiv2").css('display','block');
-    //     $(".midtermDiv").css('display','none');
-    //     $(".midtermDiv2").css('display','none');
-    //   });
+    var overallRating = $('#overall_rating').val();
+    if(overallRating == '1' || overallRating == '2'){
+      $("#memoBtn").prop('disabled',false);
+      $("#memoBtn").prop('disabled',false);
+    }else{
+      $("#memoBtn").prop('disabled',true);
+      $("#memoBtn").prop('disabled',true);
+    }
+  });
 
 });
 
 
-// execute daily performance
-$("#executeTargetFixingDetails").click(function(){
+  // execute daily performance
+  $("#executeTargetFixingDetails").click(function(){
 
-  var company_name = $('#company_name :selected').val();
-  var goal_year = $('#goal_year :selected').val();
-  var month = $('#month :selected').val();
+    var company_name = $('#company_name :selected').val();
+    var goal_year = $('#goal_year :selected').val();
+    var month = $('#month :selected').val();
 
-  $.ajax({
+    $.ajax({
       url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
       data: {'company_name': company_name, 'goal_year': goal_year, 'month': month},
@@ -85,22 +83,21 @@ $("#executeTargetFixingDetails").click(function(){
           $("#dailyPerformanceDetailsAppend").empty();
           $("#dailyPerformanceDetailsAppend").html(html);
       }
+    });
   });
-});
 
-//get details on edit
-$(function(){
+  //get details on edit
+  $(function(){
 
-  // super admin login
-	var idupd = $("#company_name :selected").val();
-	var department_upd = $('#department_upd').val();
-	if(idupd > 0 ){
-		
-		getdepartment(idupd);
-		getdesignation(department_upd);
-	}else{
-	}
-});
+    // super admin login
+    var idupd = $("#company_name :selected").val();
+    var department_upd = $('#department_upd').val();
+    if(idupd > 0 ){
+
+      getdepartment(idupd);
+      getdesignation(department_upd);
+    }
+  });
 
 // get department details
 function getdepartment(company_id){ 
@@ -168,16 +165,17 @@ $(".edit_assertion").on('click', function() {
 });
 
 $(".delete_assertion").on('click', function() { 
+  
   var checkbox = $(this).parents('tr').find('td #delete_assertion').is(":checked");
   if (checkbox) { 
 
-      var currentDate = new Date($.now());
-      var formattedDate = currentDate.toLocaleDateString();  
+    var currentDate = new Date($.now());
+    var formattedDate = currentDate.toLocaleDateString();  
 
-      $(this).parents('tr').find('td #deleted_date').val(formattedDate);
-      $(this).parents('tr').find('td #deleted_remarks').attr("readonly",false);
+    $(this).parents('tr').find('td #deleted_date').val(formattedDate);
+    $(this).parents('tr').find('td #deleted_remarks').attr("readonly",false);
   } else { 
-      $(this).parents('tr').find('td #deleted_date').val('').attr("readonly",true);
-      $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
+    $(this).parents('tr').find('td #deleted_date').val('').attr("readonly",true);
+    $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
   }
 });

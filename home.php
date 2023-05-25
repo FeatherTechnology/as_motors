@@ -573,6 +573,10 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'manage_users') { ?>
 			<?php include "include/templates/manage_users.php" ?>
 			<?php } ?>
+
+			<?php if($current_page == 'edit_user') { ?>
+			<?php include "include/templates/edit_user.php" ?>
+			<?php } ?>
 			
 		</div>
 		<!-- Page content end -->

@@ -25,16 +25,42 @@ $(document).ready(function(){
     });
     
     // master module enable disable
-    $("#master").on("change", function() {
-        var isChecked = $(this).is(":checked");
-        $(".master-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
-    });
-    
     var masterCheckbox = document.getElementById("master_module");
-    masterCheckbox.addEventListener("change", function() {
+    masterCheckbox.addEventListener("change", function() { 
         var disabledCheckboxes = document.getElementsByClassName("master-checkbox");
+        var disabledCheckboxes1 = document.getElementsByClassName("master-sub-checkbox");
+        var disabledCheckboxes2 = document.getElementsByClassName("responsibility-sub-checkbox");
+        var disabledCheckboxes3 = document.getElementsByClassName("audit-sub-checkbox");
+        var disabledCheckboxes4 = document.getElementsByClassName("others-sub-checkbox");
         for (var i = 0; i < disabledCheckboxes.length; i++) {
             disabledCheckboxes[i].disabled = !masterCheckbox.checked;
+            if (!masterCheckbox.checked) {
+                disabledCheckboxes[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes1.length; i++) {
+            disabledCheckboxes1[i].disabled = !masterCheckbox.checked;
+            if (!masterCheckbox.checked) {
+                disabledCheckboxes1[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes2.length; i++) {
+            disabledCheckboxes2[i].disabled = !masterCheckbox.checked;
+            if (!masterCheckbox.checked) {
+                disabledCheckboxes2[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes3.length; i++) {
+            disabledCheckboxes3[i].disabled = !masterCheckbox.checked;
+            if (!masterCheckbox.checked) {
+                disabledCheckboxes3[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes4.length; i++) {
+            disabledCheckboxes4[i].disabled = !masterCheckbox.checked;
+            if (!masterCheckbox.checked) {
+                disabledCheckboxes4[i].checked = false;
+            }
         }
     });
     
@@ -58,6 +84,71 @@ $(document).ready(function(){
         $(".others-sub-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
     });
 
+    // work force module enable disable
+    var workForceCheckbox = document.getElementById("work_force_module");
+    workForceCheckbox.addEventListener("change", function() {
+        var disabledCheckboxes = document.getElementsByClassName("workforce-checkbox");
+        var disabledCheckboxes1 = document.getElementsByClassName("scheduletask-sub-checkbox");
+        var disabledCheckboxes2 = document.getElementsByClassName("memo-sub-checkbox");
+        for (var i = 0; i < disabledCheckboxes.length; i++) {
+            disabledCheckboxes[i].disabled = !workForceCheckbox.checked;
+            if (!workForceCheckbox.checked) {
+                disabledCheckboxes[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes1.length; i++) {
+            disabledCheckboxes1[i].disabled = !workForceCheckbox.checked;
+            if (!workForceCheckbox.checked) {
+                disabledCheckboxes1[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes2.length; i++) {
+            disabledCheckboxes2[i].disabled = !workForceCheckbox.checked;
+            if (!workForceCheckbox.checked) {
+                disabledCheckboxes2[i].checked = false;
+            }
+        }
+    });
+    
+    $("#schedule_task_sub_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".scheduletask-sub-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
+    $("#memo_sub_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".memo-sub-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
+    // maintenance module enable disable
+    $("#maintenance_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".maintenance-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
+    // manpower module enable disable
+    $("#manpower_in_out_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".manpower-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
+    // target fixing module enable disable
+    $("#target_fixing_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".targetfixing-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+    
+    // vehicle management module enable disable
+    $("#vehicle_management_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".vehicle-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
+    // approval mechanism module enable disable
+    $("#approval_mechanism_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".approvalmechanism-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
 
 
 

@@ -11,135 +11,131 @@ if(isset($_SESSION["branch_id"])){
 $companyName = $userObj->getCompanyName($mysqli);
 $goalYear = $userObj->getGoalYear($mysqli);
 
-	$viewAppDep = $userObj->viewAppDep($mysqli); 
-	if (sizeof($viewAppDep)>0) {
-        for($i=0;$i<sizeof($viewAppDep);$i++)  {
+$viewAppDep = $userObj->viewAppDep($mysqli); 
+if (sizeof($viewAppDep)>0) {
+    for($i=0;$i<sizeof($viewAppDep);$i++)  {
 
-            $appreciation_depreciation_id                  = $viewAppDep['appreciation_depreciation_id']; 
-            $review                  = $viewAppDep['review']; 
-            $company_id                  = $viewAppDep['company_id']; 
-            $department                  = $viewAppDep['department']; 
-            $designation                  = $viewAppDep['designation']; 
-            $emp_id                  = $viewAppDep['emp_id']; 
-            $year_id                  = $viewAppDep['year_id']; 
-            $month                  = $viewAppDep['month']; 
-            $overall_performance                  = $viewAppDep['overall_performance']; 
-            $not_done                  = $viewAppDep['not_done']; 
-            $carry_forward                  = $viewAppDep['carry_forward']; 
-            $strength                  = $viewAppDep['strength']; 
-            $weakness                  = $viewAppDep['weakness']; 
-            $need_for_improvement                  = $viewAppDep['need_for_improvement']; 
-            $overall_rating                  = $viewAppDep['overall_rating']; 
+        $appreciation_depreciation_id                  = $viewAppDep['appreciation_depreciation_id']; 
+        $review                  = $viewAppDep['review']; 
+        $company_id                  = $viewAppDep['company_id']; 
+        $department                  = $viewAppDep['department']; 
+        $designation                  = $viewAppDep['designation']; 
+        $emp_id                  = $viewAppDep['emp_id']; 
+        $year_id                  = $viewAppDep['year_id']; 
+        $month                  = $viewAppDep['month']; 
+        $overall_performance                  = $viewAppDep['overall_performance']; 
+        $not_done                  = $viewAppDep['not_done']; 
+        $carry_forward                  = $viewAppDep['carry_forward']; 
+        $strength                  = $viewAppDep['strength']; 
+        $weakness                  = $viewAppDep['weakness']; 
+        $need_for_improvement                  = $viewAppDep['need_for_improvement']; 
+        $overall_rating                  = $viewAppDep['overall_rating']; 
 
-            $appreciation_depreciation_ref_id                  = $viewAppDep['appreciation_depreciation_ref_id']; 
-            $daily_performance_ref_id                  = $viewAppDep['daily_performance_ref_id']; 
-            $assertion                  = $viewAppDep['assertion']; 
-            $target                  = $viewAppDep['target']; 
-            $achievement                  = $viewAppDep['achievement']; 
-            $employee_rating                  = $viewAppDep['employee_rating']; 
-	    }
+        $appreciation_depreciation_ref_id                  = $viewAppDep['appreciation_depreciation_ref_id']; 
+        $daily_performance_ref_id                  = $viewAppDep['daily_performance_ref_id']; 
+        $assertion                  = $viewAppDep['assertion']; 
+        $target                  = $viewAppDep['target']; 
+        $achievement                  = $viewAppDep['achievement']; 
+        $employee_rating                  = $viewAppDep['employee_rating']; 
     }
+}
 
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
-    ?>
-
-    <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
-    <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
-    <input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation); ?>" >
-    <input type="hidden" id="empEdit" name="empEdit" value="<?php print_r($emp_id); ?>" >
-    
-    <script>
-        window.onload=editDepartment;
-        function editDepartment(){  
-
-            var company_id = $('#company_nameEdit').val();
-            var department_upd = $('#departmentEdit').val();
-            $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
-                type: 'post',
-                data: { "company_id":company_id },
-                dataType: 'json',
-                success:function(response){ 
-
-                $('#department').empty();
-                $('#department').prepend("<option value=''>" + 'Select Department' + "</option>");
-                var r = 0;
-                for (r = 0; r <= response.department_id.length - 1; r++) { 
-                    var selected = "";
-                    if(department_upd == response['department_id'][r]){
-                    selected = "selected";
-                    }
-                    $('#department').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
-                }
-                }
-            });
-
-            editDesignation();
-            editStaff();
-        }   
-
-        // get reporting details
-        function editDesignation(){ 
-            var company_id = $('#company_nameEdit').val();
-            var department_id = $('#departmentEdit').val();
-            var designation_upd = $('#designationEdit').val();
-
-            $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
-                type: 'post',
-                data: { "company_id":company_id, "department_id":department_id },
-                dataType: 'json',
-                success:function(response){
-                
-                    $('#designation').empty();
-                    $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
-                    var i = 0;
-                    for (i = 0; i <= response.designation_id.length - 1; i++) { 
-                        var selected = "";
-                        if(designation_upd == response['designation_id'][i]){
-                            selected = "selected";
-                        }
-                        $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
-                    }
-                }
-            });
-        };
-
-        function editStaff(){ 
-            var company_id = $("#company_nameEdit").val();
-            var department_id = $("#departmentEdit").val();
-            var designation_id = $("#designationEdit").val();
-            var emp_upd = $("#empEdit").val();
-
-            if(designation_id.length==''){ 
-                $("#designation").val('');
-            }else{
-            $.ajax({
-                url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
-                type: 'post',
-                data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
-                dataType: 'json',
-                success:function(response){
-                
-                    $('#staff_id').empty();
-                    $('#staff_id').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
-                    var i = 0;
-                    for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                        var selected = "";
-                        if(emp_upd == response['staff_id'][i]){
-                            selected = "selected";
-                        }
-                        $('#staff_id').append("<option value='" + response['staff_id'][i] + "' "+selected+" >" + response['staff_name'][i] + "</option>");
-                    }
-                }
-            });
-            }
-        };
-    </script>
-
-
-
+$sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
 ?>
+
+<input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
+<input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
+<input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation); ?>" >
+<input type="hidden" id="empEdit" name="empEdit" value="<?php print_r($emp_id); ?>" >
+
+<script>
+    window.onload=editDepartment;
+    function editDepartment(){  
+
+        var company_id = $('#company_nameEdit').val();
+        var department_upd = $('#departmentEdit').val();
+        $.ajax({
+            url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
+            type: 'post',
+            data: { "company_id":company_id },
+            dataType: 'json',
+            success:function(response){ 
+
+            $('#department').empty();
+            $('#department').prepend("<option value=''>" + 'Select Department' + "</option>");
+            var r = 0;
+            for (r = 0; r <= response.department_id.length - 1; r++) { 
+                var selected = "";
+                if(department_upd == response['department_id'][r]){
+                selected = "selected";
+                }
+                $('#department').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
+            }
+            }
+        });
+
+        editDesignation();
+        editStaff();
+    }   
+
+    // get reporting details
+    function editDesignation(){ 
+        var company_id = $('#company_nameEdit').val();
+        var department_id = $('#departmentEdit').val();
+        var designation_upd = $('#designationEdit').val();
+
+        $.ajax({
+            url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+            type: 'post',
+            data: { "company_id":company_id, "department_id":department_id },
+            dataType: 'json',
+            success:function(response){
+            
+                $('#designation').empty();
+                $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
+                var i = 0;
+                for (i = 0; i <= response.designation_id.length - 1; i++) { 
+                    var selected = "";
+                    if(designation_upd == response['designation_id'][i]){
+                        selected = "selected";
+                    }
+                    $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
+                }
+            }
+        });
+    };
+
+    function editStaff(){ 
+        var company_id = $("#company_nameEdit").val();
+        var department_id = $("#departmentEdit").val();
+        var designation_id = $("#designationEdit").val();
+        var emp_upd = $("#empEdit").val();
+
+        if(designation_id.length==''){ 
+            $("#designation").val('');
+        }else{
+        $.ajax({
+            url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
+            type: 'post',
+            data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
+            dataType: 'json',
+            success:function(response){
+            
+                $('#staff_id').empty();
+                $('#staff_id').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+                var i = 0;
+                for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                    var selected = "";
+                    if(emp_upd == response['staff_id'][i]){
+                        selected = "selected";
+                    }
+                    $('#staff_id').append("<option value='" + response['staff_id'][i] + "' "+selected+" >" + response['staff_name'][i] + "</option>");
+                }
+            }
+        });
+        }
+    };
+</script>
    
 <!-- Page header start -->
 <div class="page-header">
@@ -367,11 +363,11 @@ $goalYear = $userObj->getGoalYear($mysqli);
                                     <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
                                     <select disabled tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
                                         <option value="">Select Overall Rating</option>  
-                                        <option value="1" <?php if(isset($month )) { if($month == "1") echo "selected"; } ?>>Poor Performance</option>
-                                        <option value="2" <?php if(isset($month )) { if($month == "2") echo "selected"; } ?>>Below Expectation</option>
-                                        <option value="3" <?php if(isset($month )) { if($month == "3") echo "selected"; } ?>>More Expectation</option>
-                                        <option value="4" <?php if(isset($month )) { if($month == "4") echo "selected"; } ?>>Exceeding Expectation</option>
-                                        <option value="5" <?php if(isset($month )) { if($month == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
+                                        <option value="1" <?php if(isset($overall_rating )) { if($overall_rating == "1") echo "selected"; } ?>>Poor Performance</option>
+                                        <option value="2" <?php if(isset($overall_rating )) { if($overall_rating == "2") echo "selected"; } ?>>Below Expectation</option>
+                                        <option value="3" <?php if(isset($overall_rating )) { if($overall_rating == "3") echo "selected"; } ?>>More Expectation</option>
+                                        <option value="4" <?php if(isset($overall_rating )) { if($overall_rating == "4") echo "selected"; } ?>>Exceeding Expectation</option>
+                                        <option value="5" <?php if(isset($overall_rating )) { if($overall_rating == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
                                     </select>
                                 </div>
                             </div>

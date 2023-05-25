@@ -1,7 +1,7 @@
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Temple - User List</li>
+		<li class="breadcrumb-item">AS - User List</li>
 	</ol>
 	<a href="manage_users">
 		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add User</button>
@@ -68,5 +68,8 @@
 </div>
 <!-- Main container end -->
 
-	
-
+<script>
+	setTimeout(function() {
+		$('.alert').fadeOut('slow');
+	}, 2000);
+</script>

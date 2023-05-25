@@ -6082,23 +6082,6 @@
 			$detailrecords = 0;
 			if ($mysqli->affected_rows>0)
 			{
-				// $row = $res->fetch_object();
-				// $getPeriodicLevel = "SELECT * FROM periodic_level WHERE 1 AND status=0";
-				// $res1 = $mysqli->query($getPeriodicLevel) or die("Error in Get All Records".$mysqli->error);
-				// if ($mysqli->affected_rows>0)
-				// {
-				// 	$row1 = $res1->fetch_object();
-				// 	$detailrecords['periodic_level_id']  = $row1->periodic_level_id;
-
-				// 	$getqry7 = "SELECT asset_name FROM asset_register WHERE asset_id ='".strip_tags($row1->asset_details)."' and status = 0";
-				// 	$res7 = $mysqli->query($getqry7);
-				// 	while($row7 = $res7->fetch_object())
-				// 	{ 
-				// 	   $detailrecords['asset_name']  = $row7->asset_name;   
-				// 	}
-
-				// }
-
 				$detailrecords = 1;
 			}
 			
@@ -7790,30 +7773,30 @@
 	// Get appdeb
 	public function getAppDep($mysqli, $id){
 
-		$appDep = "SELECT * FROM appreciation_depreciation WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $id)."' ";  echo $appDep; die;
 		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
 		$detailrecords = array();
 		if ($mysqli->affected_rows>0)
 		{
 			$row = $res->fetch_object();	
-			$appreciationDepreciationId  							= $row->appreciation_depreciation_id;
-			$detailrecords['appreciation_depreciation_id']            = $row->appreciation_depreciation_id; 
-			$detailrecords['review']        = $row->review;
-			$detailrecords['company_id']        = $row->company_id;
-			$detailrecords['department']        = $row->department_id;
-			$detailrecords['designation']       = $row->designation_id; 	
-			$detailrecords['emp_id']       = $row->emp_id; 	
-			$detailrecords['year_id']       = $row->year_id; 	
-			$detailrecords['month']       = $row->month; 	
-			$detailrecords['overall_performance']       = $row->overall_performance; 	
-			$detailrecords['not_done']       = $row->not_done; 	
-			$detailrecords['carry_forward']       = $row->carry_forward; 	
-			$detailrecords['strength']       = $row->strength; 	
-			$detailrecords['weakness']       = $row->weakness; 	
-			$detailrecords['need_for_improvement']       = $row->need_for_improvement; 	
-			$detailrecords['overall_rating']       = $row->overall_rating; 	
+			$appreciationDepreciationId  					= $row->appreciation_depreciation_id;
+			$detailrecords['appreciation_depreciation_id']  = $row->appreciation_depreciation_id; 
+			$detailrecords['review']                        = $row->review;
+			$detailrecords['company_id']                    = $row->company_id;
+			$detailrecords['department']                    = $row->department_id;
+			$detailrecords['designation']                   = $row->designation_id; 	
+			$detailrecords['emp_id']                        = $row->emp_id; 	
+			$detailrecords['year_id']                       = $row->year_id; 	
+			$detailrecords['month']                         = $row->month; 	
+			$detailrecords['overall_performance']           = $row->overall_performance; 	
+			$detailrecords['not_done']                      = $row->not_done; 	
+			$detailrecords['carry_forward']                 = $row->carry_forward; 	
+			$detailrecords['strength']                      = $row->strength; 	
+			$detailrecords['weakness']                      = $row->weakness; 	
+			$detailrecords['need_for_improvement']          = $row->need_for_improvement; 	
+			$detailrecords['overall_rating']                = $row->overall_rating; 	
 		}
-		
+
 		$appreciationDepreciationRefId = 0;
 		$appDepRef = "SELECT * FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $appreciationDepreciationId)."' "; 
 		$res1 = $mysqli->query($appDepRef) or die("Error in Get All Records".$mysqli->error);
@@ -7944,30 +7927,44 @@
 	}
 
 	// view app dep
+	public function getmidtermReview($mysqli){
+
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1"; 
+		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			$detailrecords = 1;
+		}
+		
+		return $detailrecords;
+	
+	}
+
+	// view app dep
 	public function viewAppDep($mysqli){
 
-		$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1 "; 
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1"; 
 		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
 		$detailrecords = array();
 		if ($mysqli->affected_rows>0)
 		{
 			$row = $res->fetch_object();	
 			$appreciationDepreciationId  							= $row->appreciation_depreciation_id;
-			$detailrecords['appreciation_depreciation_id']            = $row->appreciation_depreciation_id; 
-			$detailrecords['review']        = $row->review;
-			$detailrecords['company_id']        = $row->company_id;
-			$detailrecords['department']        = $row->department_id;
-			$detailrecords['designation']       = $row->designation_id; 	
-			$detailrecords['emp_id']       = $row->emp_id; 	
-			$detailrecords['year_id']       = $row->year_id; 	
-			$detailrecords['month']       = $row->month; 	
-			$detailrecords['overall_performance']       = $row->overall_performance; 	
-			$detailrecords['not_done']       = $row->not_done; 	
-			$detailrecords['carry_forward']       = $row->carry_forward; 	
-			$detailrecords['strength']       = $row->strength; 	
-			$detailrecords['weakness']       = $row->weakness; 	
-			$detailrecords['need_for_improvement']       = $row->need_for_improvement; 	
-			$detailrecords['overall_rating']       = $row->overall_rating; 	
+			$detailrecords['appreciation_depreciation_id']          = $row->appreciation_depreciation_id; 
+			$detailrecords['review']                 = $row->review;
+			$detailrecords['company_id']             = $row->company_id;
+			$detailrecords['department']             = $row->department_id;
+			$detailrecords['designation']            = $row->designation_id; 	
+			$detailrecords['emp_id']                 = $row->emp_id; 	
+			$detailrecords['year_id']                = $row->year_id; 	
+			$detailrecords['month']                  = $row->month; 	
+			$detailrecords['overall_performance']    = $row->overall_performance; 	
+			$detailrecords['not_done']               = $row->not_done; 	
+			$detailrecords['carry_forward']          = $row->carry_forward; 	
+			$detailrecords['strength']               = $row->strength; 	
+			$detailrecords['weakness']               = $row->weakness; 	
+			$detailrecords['need_for_improvement']   = $row->need_for_improvement; 	
+			$detailrecords['overall_rating']         = $row->overall_rating; 	
 		}
 		
 		$appreciationDepreciationRefId = 0;
@@ -7979,7 +7976,7 @@
 
 				$appreciationDepreciationRefId         			= $row1->appreciation_depreciation_ref_id;  
 				$appreciation_depreciation_ref_id[]     	    = $row1->appreciation_depreciation_ref_id; 
-				$daily_performance_ref_id[]     	    = $row1->daily_performance_ref_id; 
+				$daily_performance_ref_id[]     	            = $row1->daily_performance_ref_id; 
 				$assertion[]                                    = $row1->assertion;
 				$target[]                                       = $row1->target;
 				$achievement[]                                  = $row1->achievement;
@@ -7989,7 +7986,7 @@
 		if($appreciationDepreciationRefId > 0)
 		{
 			$detailrecords['appreciation_depreciation_ref_id']          = $appreciation_depreciation_ref_id;  
-			$detailrecords['daily_performance_ref_id']          = $daily_performance_ref_id;  
+			$detailrecords['daily_performance_ref_id']                  = $daily_performance_ref_id;  
 			$detailrecords['assertion']                                 = $assertion;  	
 			$detailrecords['target']                                    = $target;  	
 			$detailrecords['achievement']                               = $achievement;  	
@@ -7998,7 +7995,7 @@
 		else
 		{
 			$detailrecords['appreciation_depreciation_ref_id']          = array();
-			$detailrecords['daily_performance_ref_id']          = array();
+			$detailrecords['daily_performance_ref_id']                  = array();
 			$detailrecords['assertion']                                 = array(); 
 			$detailrecords['target']                                    = array(); 
 			$detailrecords['achievement']                               = array(); 
@@ -8054,25 +8051,11 @@
 		if (isset($_POST['target_fixing_ref_id'])) {
 			$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
 		}
-		// print_r($company_id);
-		// print_r($department_id);
-		// print_r($designation_id);
-		// print_r($staff_id);
-
-		// print_r($assertion);
-		// print_r($target);
-		// print_r($sdate);
-		// print_r($wstatus);
-		// print_r($userid);
-		// print_r($id);
-		// INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status) 
-		// VALUES (NULL, '2', '3', '7', '4', 'Array','1', '0')
 
 		if($id == '0'){
 
 			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
 			VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
-			print_r($qry1);
 			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 
@@ -8081,8 +8064,7 @@
 				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
 				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 			}
-
-			}
+		}
 		else {
 			
 			$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
@@ -8093,10 +8075,8 @@
 
 			for($i=0;$i<=sizeof($assertion)-1;$i++){
 				
-
 				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
 				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
-
 				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 			}
 			
@@ -8104,10 +8084,11 @@
 	}
 
 	// Delete Audit Area Checklist
-		public function deletedailyperformance($mysqli, $id){
+	public function deletedailyperformance($mysqli, $id){
+
 		$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
 		$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
-		}
+	}
 
 	// get dailyperformance table
       public function getdailyperformance($mysqli,$id){
@@ -8133,19 +8114,14 @@
 				$dailyperform_list[$i]['staff_name']      = $row->staff_name;
                 $dailyperform_list[$i]['month']      = $row->month;
 				$dailyperform_list[$i]['status']      = $row->status;
-				
-                
-				
 				$i++;
 			}
 		}
 
         $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
-		
 		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list1 = array();
 		$i=0;
-
 		if ($mysqli->affected_rows>0)
 		{
 			while($row1 = $res1->fetch_object()){
@@ -8158,19 +8134,970 @@
 				$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
 				$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
 				$dailyperform_list1[$i]['status']      = $row1->status;
-				
 				$i++;
 			}
 		}
+
         $response = array(
-            'departments' => $dailyperform_list,
-            'designations' => $dailyperform_list1
-          );
+			'departments' => $dailyperform_list,
+			'designations' => $dailyperform_list1
+		);
         
-      
 		return $response;
 	}
 
+
+		// Add User
+		public function adduser($mysqli){
+
+			if(isset($_POST['first_name'])){
+				$first_name = $_POST['first_name'];
+			}
+			if(isset($_POST['last_name'])){
+				$last_name = $_POST['last_name'];
+			}
+			if(isset($_POST['full_name'])){
+				$full_name = $_POST['full_name'];
+			}
+			if(isset($_POST['title'])){
+				$title = $_POST['title'];
+			}
+			if(isset($_POST['email_id'])){
+				$email_id = $_POST['email_id'];
+			}
+			if(isset($_POST['user_name'])){
+				$user_name = $_POST['user_name'];
+			}
+			if(isset($_POST['password'])){
+				$password = $_POST['password'];
+			}
+			if(isset($_POST['role'])){
+				$role = $_POST['role'];
+			}
+			
+			if(isset($_POST['administration_module']) &&    $_POST['administration_module'] == 'Yes')		
+			{
+				$administration_module=0;
+			}else{
+				$administration_module=1;
+			}
+			if(isset($_POST['dashboard']) &&    $_POST['dashboard'] == 'Yes')		
+			{
+				$dashboard=0;
+			}else{
+				$dashboard=1;
+			}
+			if(isset($_POST['company_creation']) &&    $_POST['company_creation'] == 'Yes')		
+			{
+				$company_creation=0;
+			}else{
+				$company_creation=1;
+			}
+			if(isset($_POST['branch_creation']) &&    $_POST['branch_creation'] == 'Yes')		
+			{
+				$branch_creation=0;
+			}else{
+				$branch_creation=1;
+			}
+			if(isset($_POST['holiday_creation']) &&    $_POST['holiday_creation'] == 'Yes')		
+			{
+				$holiday_creation=0;
+			}else{
+				$holiday_creation=1;
+			}
+			if(isset($_POST['manage_users']) &&    $_POST['manage_users'] == 'Yes')		
+			{
+				$manage_users=0;
+			}else{
+				$manage_users=1;
+			}
+			if(isset($_POST['master_module']) &&    $_POST['master_module'] == 'Yes')		
+			{
+				$master_module=0;
+			}else{
+				$master_module=1;
+			}
+			if(isset($_POST['basic_sub_module']) &&    $_POST['basic_sub_module'] == 'Yes')		
+			{
+				$basic_sub_module=0;
+			}else{
+				$basic_sub_module=1;
+			}
+			if(isset($_POST['responsibility_sub_module']) &&    $_POST['responsibility_sub_module'] == 'Yes')		
+			{
+				$responsibility_sub_module=0;
+			}else{
+				$responsibility_sub_module=1;
+			}
+			if(isset($_POST['audit_sub_module']) &&    $_POST['audit_sub_module'] == 'Yes')		
+			{
+				$audit_sub_module=0;
+			}else{
+				$audit_sub_module=1;
+			}
+			if(isset($_POST['others_sub_module']) &&    $_POST['others_sub_module'] == 'Yes')		
+			{
+				$others_sub_module=0;
+			}else{
+				$others_sub_module=1;
+			}
+			if(isset($_POST['basic_creation']) &&    $_POST['basic_creation'] == 'Yes')		
+			{
+				$basic_creation=0;
+			}else{
+				$basic_creation=1;
+			}
+			if(isset($_POST['tag_creation']) &&    $_POST['tag_creation'] == 'Yes')		
+			{
+				$tag_creation=0;
+			}else{
+				$tag_creation=1;
+			}
+			if(isset($_POST['rr_creation']) &&    $_POST['rr_creation'] == 'Yes')		
+			{
+				$rr_creation=0;
+			}else{
+				$rr_creation=1;
+			}
+			if(isset($_POST['kra_category']) &&    $_POST['kra_category'] == 'Yes')		
+			{
+				$kra_category=0;
+			}else{
+				$kra_category=1;
+			}
+			if(isset($_POST['krakpi_creation']) &&    $_POST['krakpi_creation'] == 'Yes')		
+			{
+				$krakpi_creation=0;
+			}else{
+				$krakpi_creation=1;
+			}
+			if(isset($_POST['staff_creation']) &&    $_POST['staff_creation'] == 'Yes')		
+			{
+				$staff_creation=0;
+			}else{
+				$staff_creation=1;
+			}
+			if(isset($_POST['audit_area_creation']) &&    $_POST['audit_area_creation'] == 'Yes')		
+			{
+				$audit_area_creation=0;
+			}else{
+				$audit_area_creation=1;
+			}
+			if(isset($_POST['audit_area_checklist']) &&    $_POST['audit_area_checklist'] == 'Yes')		
+			{
+				$audit_area_checklist=0;
+			}else{
+				$audit_area_checklist=1;
+			}
+			if(isset($_POST['audit_assign']) &&    $_POST['audit_assign'] == 'Yes')		
+			{
+				$audit_assign=0;
+			}else{
+				$audit_assign=1;
+			}
+			if(isset($_POST['audit_follow_up']) &&    $_POST['audit_follow_up'] == 'Yes')		
+			{
+				$audit_follow_up=0;
+			}else{
+				$audit_follow_up=1;
+			}
+			if(isset($_POST['report_template']) &&    $_POST['report_template'] == 'Yes')		
+			{
+				$report_template=0;
+			}else{
+				$report_template=1;
+			}
+			if(isset($_POST['media_master']) &&    $_POST['media_master'] == 'Yes')		
+			{
+				$media_master=0;
+			}else{
+				$media_master=1;
+			}
+			if(isset($_POST['asset_creation']) &&    $_POST['asset_creation'] == 'Yes')		
+			{
+				$asset_creation=0;
+			}else{
+				$asset_creation=1;
+			}
+			if(isset($_POST['insurance_register']) &&    $_POST['insurance_register'] == 'Yes')		
+			{
+				$insurance_register=0;
+			}else{
+				$insurance_register=1;
+			}
+			if(isset($_POST['service_indent']) &&    $_POST['service_indent'] == 'Yes')		
+			{
+				$service_indent=0;
+			}else{
+				$service_indent=1;
+			}
+			if(isset($_POST['asset_details']) &&    $_POST['asset_details'] == 'Yes')		
+			{
+				$asset_details=0;
+			}else{
+				$asset_details=1;
+			}
+			if(isset($_POST['rgp_creation']) &&    $_POST['rgp_creation'] == 'Yes')		
+			{
+				$rgp_creation=0;
+			}else{
+				$rgp_creation=1;
+			}
+			if(isset($_POST['promotional_activities']) &&    $_POST['promotional_activities'] == 'Yes')		
+			{
+				$promotional_activities=0;
+			}else{
+				$promotional_activities=1;
+			}
+			if(isset($_POST['work_force_module']) &&    $_POST['work_force_module'] == 'Yes')		
+			{
+				$work_force_module=0;
+			}else{
+				$work_force_module=1;
+			}
+			if(isset($_POST['schedule_task_sub_module']) &&    $_POST['schedule_task_sub_module'] == 'Yes')		
+			{
+				$schedule_task_sub_module=0;
+			}else{
+				$schedule_task_sub_module=1;
+			}
+			if(isset($_POST['memo_sub_module']) &&    $_POST['memo_sub_module'] == 'Yes')		
+			{
+				$memo_sub_module=0;
+			}else{
+				$memo_sub_module=1;
+			}
+			if(isset($_POST['campaign']) &&    $_POST['campaign'] == 'Yes')		
+			{
+				$campaign=0;
+			}else{
+				$campaign=1;
+			}
+			if(isset($_POST['assign_work']) &&    $_POST['assign_work'] == 'Yes')		
+			{
+				$assign_work=0;
+			}else{
+				$assign_work=1;
+			}
+			if(isset($_POST['todo']) &&    $_POST['todo'] == 'Yes')		
+			{
+				$todo=0;
+			}else{
+				$todo=1;
+			}
+			if(isset($_POST['assigned_work']) &&    $_POST['assigned_work'] == 'Yes')		
+			{
+				$assigned_work=0;
+			}else{
+				$assigned_work=1;
+			}
+			if(isset($_POST['memo_initiate']) &&    $_POST['memo_initiate'] == 'Yes')		
+			{
+				$memo_initiate=0;
+			}else{
+				$memo_initiate=1;
+			}
+			if(isset($_POST['memo_assigned']) &&    $_POST['memo_assigned'] == 'Yes')		
+			{
+				$memo_assigned=0;
+			}else{
+				$memo_assigned=1;
+			}
+			if(isset($_POST['memo_update']) &&    $_POST['memo_update'] == 'Yes')		
+			{
+				$memo_update=0;
+			}else{
+				$memo_update=1;
+			}
+			if(isset($_POST['maintenance_module']) &&    $_POST['maintenance_module'] == 'Yes')		
+			{
+				$maintenance_module=0;
+			}else{
+				$maintenance_module=1;
+			}
+			if(isset($_POST['pm_checklist']) &&    $_POST['pm_checklist'] == 'Yes')		
+			{
+				$pm_checklist=0;
+			}else{
+				$pm_checklist=1;
+			}
+			if(isset($_POST['bm_checklist']) &&    $_POST['bm_checklist'] == 'Yes')		
+			{
+				$bm_checklist=0;
+			}else{
+				$bm_checklist=1;
+			}
+			if(isset($_POST['maintenance_checklist']) &&    $_POST['maintenance_checklist'] == 'Yes')		
+			{
+				$maintenance_checklist=0;
+			}else{
+				$maintenance_checklist=1;
+			}
+			if(isset($_POST['manpower_in_out_module']) &&    $_POST['manpower_in_out_module'] == 'Yes')		
+			{
+				$manpower_in_out_module=0;
+			}else{
+				$manpower_in_out_module=1;
+			}
+			if(isset($_POST['permission_or_onduty']) &&    $_POST['permission_or_onduty'] == 'Yes')		
+			{
+				$permission_or_onduty=0;
+			}else{
+				$permission_or_onduty=1;
+			}
+			if(isset($_POST['transfer_location']) &&    $_POST['transfer_location'] == 'Yes')		
+			{
+				$transfer_location=0;
+			}else{
+				$transfer_location=1;
+			}
+			if(isset($_POST['target_fixing_module']) &&    $_POST['target_fixing_module'] == 'Yes')		
+			{
+				$target_fixing_module=0;
+			}else{
+				$target_fixing_module=1;
+			}
+			if(isset($_POST['goal_setting']) &&    $_POST['goal_setting'] == 'Yes')		
+			{
+				$goal_setting=0;
+			}else{
+				$goal_setting=1;
+			}
+			if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
+			{
+				$target_fixing=0;
+			}else{
+				$target_fixing=1;
+			}
+			if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
+			{
+				$daily_performance=0;
+			}else{
+				$daily_performance=1;
+			}
+			if(isset($_POST['appreciation_depreciation']) &&    $_POST['appreciation_depreciation'] == 'Yes')		
+			{
+				$appreciation_depreciation=0;
+			}else{
+				$appreciation_depreciation=1;
+			}
+			if(isset($_POST['vehicle_management_module']) &&    $_POST['vehicle_management_module'] == 'Yes')		
+			{
+				$vehicle_management_module=0;
+			}else{
+				$vehicle_management_module=1;
+			}
+			if(isset($_POST['vehicle_details']) &&    $_POST['vehicle_details'] == 'Yes')		
+			{
+				$vehicle_details=0;
+			}else{
+				$vehicle_details=1;
+			}
+			if(isset($_POST['daily_km']) &&    $_POST['daily_km'] == 'Yes')		
+			{
+				$daily_km=0;
+			}else{
+				$daily_km=1;
+			}
+			if(isset($_POST['diesel_slip']) &&    $_POST['diesel_slip'] == 'Yes')		
+			{
+				$diesel_slip=0;
+			}else{
+				$diesel_slip=1;
+			}
+			if(isset($_POST['approval_mechanism_module']) &&    $_POST['approval_mechanism_module'] == 'Yes')		
+			{
+				$approval_mechanism_module=0;
+			}else{
+				$approval_mechanism_module=1;
+			}
+			if(isset($_POST['approval_requisition']) &&    $_POST['approval_requisition'] == 'Yes')		
+			{
+				$approval_requisition=0;
+			}else{
+				$approval_requisition=1;
+			}
+			if(isset($_POST['business_communication_outgoing']) &&    $_POST['business_communication_outgoing'] == 'Yes')		
+			{
+				$business_communication_outgoing=0;
+			}else{
+				$business_communication_outgoing=1;
+			}
+			if(isset($_POST['minutes_of_meeting']) &&    $_POST['minutes_of_meeting'] == 'Yes')		
+			{
+				$minutes_of_meeting=0;
+			}else{
+				$minutes_of_meeting=1;
+			}
+		
+			$userInsert="INSERT INTO user (firstname, lastname, fullname, title, emailid, user_name, user_password, role, Createddate, administration_module, dashboard, 
+			company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
+			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
+			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
+			memo_sub_module, campaign,assign_work, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
+			maintenance_checklist, manpower_in_out_module, permission_or_onduty, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
+			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
+			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($first_name)."', '".strip_tags($last_name)."', '".strip_tags($full_name)."', 
+			'".strip_tags($title)."', '".strip_tags($email_id)."', '".strip_tags($user_name)."', '".strip_tags($password)."', '".strip_tags($role)."', current_timestamp(), 
+			$administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, 
+			$responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, 
+			$audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, 
+			$service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $todo, $assigned_work, 
+			$memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, 
+			$permission_or_onduty, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
+			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting)";
+			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
+			
+		}
+
+		// get user table for manage users
+		public function getmanageuser($mysqli,$idupd) 
+		{
+			$qry = "SELECT * FROM user WHERE user_id='".mysqli_real_escape_string($mysqli,$idupd)."' "; 
+			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$row = $res->fetch_object();	
+				$detailrecords['user_id']                    = $row->user_id; 
+				$detailrecords['firstname']       	           = strip_tags($row->firstname);
+				$detailrecords['lastname']       	           = strip_tags($row->lastname);
+				$detailrecords['fullname']       	           = strip_tags($row->fullname);
+				$detailrecords['title']       	        = strip_tags($row->title);
+				$detailrecords['user_name']       	        = strip_tags($row->user_name);
+				$detailrecords['emailid']       	        = strip_tags($row->emailid);
+				$detailrecords['user_password']              = strip_tags($row->user_password);		  	
+				$detailrecords['role']              = strip_tags($row->role);		  	
+				$detailrecords['status']                     = strip_tags($row->status);
+
+				$detailrecords['administration_module']    = strip_tags($row->administration_module);
+				$detailrecords['dashboard']      = strip_tags($row->dashboard);
+				$detailrecords['company_creation'] = strip_tags($row->company_creation);
+				$detailrecords['branch_creation'] = strip_tags($row->branch_creation);
+				$detailrecords['holiday_creation'] = strip_tags($row->holiday_creation);
+				$detailrecords['manage_users']   = strip_tags($row->manage_users);
+				$detailrecords['master_module']   = strip_tags($row->master_module);
+				$detailrecords['basic_sub_module']        = strip_tags($row->basic_sub_module);
+				$detailrecords['responsibility_sub_module']         = strip_tags($row->responsibility_sub_module);
+				$detailrecords['audit_sub_module'] = strip_tags($row->audit_sub_module);
+				$detailrecords['others_sub_module'] = strip_tags($row->others_sub_module);
+				$detailrecords['basic_creation'] = strip_tags($row->basic_creation);
+				$detailrecords['tag_creation'] = strip_tags($row->tag_creation);
+				$detailrecords['rr_creation'] = strip_tags($row->rr_creation);
+				$detailrecords['kra_category'] = strip_tags($row->kra_category);
+				$detailrecords['krakpi_creation']  = strip_tags($row->krakpi_creation);
+				$detailrecords['staff_creation'] = strip_tags($row->staff_creation);
+				$detailrecords['audit_area_creation']  = strip_tags($row->audit_area_creation);
+				$detailrecords['audit_area_checklist']    = strip_tags($row->audit_area_checklist);
+				$detailrecords['audit_assign'] = strip_tags($row->audit_assign);
+				$detailrecords['audit_follow_up'] = strip_tags($row->audit_follow_up);
+				$detailrecords['report_template']  = strip_tags($row->report_template);
+				$detailrecords['media_master']  = strip_tags($row->media_master);
+				$detailrecords['asset_creation'] = strip_tags($row->asset_creation);
+				$detailrecords['insurance_register'] = strip_tags($row->insurance_register);
+				$detailrecords['service_indent']   = strip_tags($row->service_indent);
+				$detailrecords['asset_details']    = strip_tags($row->asset_details);
+				$detailrecords['rgp_creation']      = strip_tags($row->rgp_creation);
+				$detailrecords['promotional_activities']    = strip_tags($row->promotional_activities);
+				$detailrecords['work_force_module']  = strip_tags($row->work_force_module);
+				$detailrecords['schedule_task_sub_module']        = strip_tags($row->schedule_task_sub_module);
+				$detailrecords['memo_sub_module']      = strip_tags($row->memo_sub_module);
+				$detailrecords['campaign']        = strip_tags($row->campaign);
+				$detailrecords['assign_work'] = strip_tags($row->assign_work);
+				$detailrecords['todo'] = strip_tags($row->todo);
+				$detailrecords['assigned_work']    = strip_tags($row->assigned_work);
+				$detailrecords['memo_initiate']        = strip_tags($row->memo_initiate);
+				$detailrecords['memo_assigned']        = strip_tags($row->memo_assigned);
+				$detailrecords['memo_update'] = strip_tags($row->memo_update);
+				$detailrecords['maintenance_module']    = strip_tags($row->maintenance_module);
+				$detailrecords['pm_checklist']    = strip_tags($row->pm_checklist);
+				$detailrecords['bm_checklist']   = strip_tags($row->bm_checklist);
+				$detailrecords['maintenance_checklist']     = strip_tags($row->maintenance_checklist);
+				$detailrecords['manpower_in_out_module'] = strip_tags($row->manpower_in_out_module);
+				$detailrecords['permission_or_onduty']    = strip_tags($row->permission_or_onduty);
+				$detailrecords['transfer_location']    = strip_tags($row->transfer_location);
+				$detailrecords['target_fixing_module']  = strip_tags($row->target_fixing_module);
+				$detailrecords['goal_setting']      = strip_tags($row->goal_setting);
+				$detailrecords['target_fixing']    = strip_tags($row->target_fixing);
+				$detailrecords['daily_performance']    = strip_tags($row->daily_performance);
+				$detailrecords['appreciation_depreciation']    = strip_tags($row->appreciation_depreciation);
+				$detailrecords['vehicle_management_module']    = strip_tags($row->vehicle_management_module);
+				$detailrecords['vehicle_details']    = strip_tags($row->vehicle_details);
+				$detailrecords['daily_km']    = strip_tags($row->daily_km);
+				$detailrecords['diesel_slip']    = strip_tags($row->diesel_slip);
+				$detailrecords['approval_mechanism_module']    = strip_tags($row->approval_mechanism_module);
+				$detailrecords['approval_requisition']    = strip_tags($row->approval_requisition);
+				$detailrecords['business_communication_outgoing']    = strip_tags($row->business_communication_outgoing);
+				$detailrecords['minutes_of_meeting']    = strip_tags($row->minutes_of_meeting);
+		
+			}
+			return $detailrecords;
+		}
+		
+
+		// Update User
+	public function updateuser($mysqli,$id){
+
+		if(isset($_POST['first_name'])){
+			$first_name = $_POST['first_name'];
+		}
+		if(isset($_POST['last_name'])){
+			$last_name = $_POST['last_name'];
+		}
+		if(isset($_POST['full_name'])){
+			$full_name = $_POST['full_name'];
+		}
+		if(isset($_POST['title'])){
+			$title = $_POST['title'];
+		}
+		if(isset($_POST['email_id'])){
+			$email_id = $_POST['email_id'];
+		}
+		if(isset($_POST['user_name'])){
+			$user_name = $_POST['user_name'];
+		}
+		if(isset($_POST['password'])){
+			$password = $_POST['password'];
+		}
+		if(isset($_POST['role'])){
+			$role = $_POST['role'];
+		}
+		
+		if(isset($_POST['administration_module']) &&    $_POST['administration_module'] == 'Yes')		
+		{
+			$administration_module=0;
+		}else{
+			$administration_module=1;
+		}
+		if(isset($_POST['dashboard']) &&    $_POST['dashboard'] == 'Yes')		
+		{
+			$dashboard=0;
+		}else{
+			$dashboard=1;
+		}
+		if(isset($_POST['company_creation']) &&    $_POST['company_creation'] == 'Yes')		
+		{
+			$company_creation=0;
+		}else{
+			$company_creation=1;
+		}
+		if(isset($_POST['branch_creation']) &&    $_POST['branch_creation'] == 'Yes')		
+		{
+			$branch_creation=0;
+		}else{
+			$branch_creation=1;
+		}
+		if(isset($_POST['holiday_creation']) &&    $_POST['holiday_creation'] == 'Yes')		
+		{
+			$holiday_creation=0;
+		}else{
+			$holiday_creation=1;
+		}
+		if(isset($_POST['manage_users']) &&    $_POST['manage_users'] == 'Yes')		
+		{
+			$manage_users=0;
+		}else{
+			$manage_users=1;
+		}
+		if(isset($_POST['master_module']) &&    $_POST['master_module'] == 'Yes')		
+		{
+			$master_module=0;
+		}else{
+			$master_module=1;
+		}
+		if(isset($_POST['basic_sub_module']) &&    $_POST['basic_sub_module'] == 'Yes')		
+		{
+			$basic_sub_module=0;
+		}else{
+			$basic_sub_module=1;
+		}
+		if(isset($_POST['responsibility_sub_module']) &&    $_POST['responsibility_sub_module'] == 'Yes')		
+		{
+			$responsibility_sub_module=0;
+		}else{
+			$responsibility_sub_module=1;
+		}
+		if(isset($_POST['audit_sub_module']) &&    $_POST['audit_sub_module'] == 'Yes')		
+		{
+			$audit_sub_module=0;
+		}else{
+			$audit_sub_module=1;
+		}
+		if(isset($_POST['others_sub_module']) &&    $_POST['others_sub_module'] == 'Yes')		
+		{
+			$others_sub_module=0;
+		}else{
+			$others_sub_module=1;
+		}
+		if(isset($_POST['basic_creation']) &&    $_POST['basic_creation'] == 'Yes')		
+		{
+			$basic_creation=0;
+		}else{
+			$basic_creation=1;
+		}
+		if(isset($_POST['tag_creation']) &&    $_POST['tag_creation'] == 'Yes')		
+		{
+			$tag_creation=0;
+		}else{
+			$tag_creation=1;
+		}
+		if(isset($_POST['rr_creation']) &&    $_POST['rr_creation'] == 'Yes')		
+		{
+			$rr_creation=0;
+		}else{
+			$rr_creation=1;
+		}
+		if(isset($_POST['kra_category']) &&    $_POST['kra_category'] == 'Yes')		
+		{
+			$kra_category=0;
+		}else{
+			$kra_category=1;
+		}
+		if(isset($_POST['krakpi_creation']) &&    $_POST['krakpi_creation'] == 'Yes')		
+		{
+			$krakpi_creation=0;
+		}else{
+			$krakpi_creation=1;
+		}
+		if(isset($_POST['staff_creation']) &&    $_POST['staff_creation'] == 'Yes')		
+		{
+			$staff_creation=0;
+		}else{
+			$staff_creation=1;
+		}
+		if(isset($_POST['audit_area_creation']) &&    $_POST['audit_area_creation'] == 'Yes')		
+		{
+			$audit_area_creation=0;
+		}else{
+			$audit_area_creation=1;
+		}
+		if(isset($_POST['audit_area_checklist']) &&    $_POST['audit_area_checklist'] == 'Yes')		
+		{
+			$audit_area_checklist=0;
+		}else{
+			$audit_area_checklist=1;
+		}
+		if(isset($_POST['audit_assign']) &&    $_POST['audit_assign'] == 'Yes')		
+		{
+			$audit_assign=0;
+		}else{
+			$audit_assign=1;
+		}
+		if(isset($_POST['audit_follow_up']) &&    $_POST['audit_follow_up'] == 'Yes')		
+		{
+			$audit_follow_up=0;
+		}else{
+			$audit_follow_up=1;
+		}
+		if(isset($_POST['report_template']) &&    $_POST['report_template'] == 'Yes')		
+		{
+			$report_template=0;
+		}else{
+			$report_template=1;
+		}
+		if(isset($_POST['media_master']) &&    $_POST['media_master'] == 'Yes')		
+		{
+			$media_master=0;
+		}else{
+			$media_master=1;
+		}
+		if(isset($_POST['asset_creation']) &&    $_POST['asset_creation'] == 'Yes')		
+		{
+			$asset_creation=0;
+		}else{
+			$asset_creation=1;
+		}
+		if(isset($_POST['insurance_register']) &&    $_POST['insurance_register'] == 'Yes')		
+		{
+			$insurance_register=0;
+		}else{
+			$insurance_register=1;
+		}
+		if(isset($_POST['service_indent']) &&    $_POST['service_indent'] == 'Yes')		
+		{
+			$service_indent=0;
+		}else{
+			$service_indent=1;
+		}
+		if(isset($_POST['asset_details']) &&    $_POST['asset_details'] == 'Yes')		
+		{
+			$asset_details=0;
+		}else{
+			$asset_details=1;
+		}
+		if(isset($_POST['rgp_creation']) &&    $_POST['rgp_creation'] == 'Yes')		
+		{
+			$rgp_creation=0;
+		}else{
+			$rgp_creation=1;
+		}
+		if(isset($_POST['promotional_activities']) &&    $_POST['promotional_activities'] == 'Yes')		
+		{
+			$promotional_activities=0;
+		}else{
+			$promotional_activities=1;
+		}
+		if(isset($_POST['work_force_module']) &&    $_POST['work_force_module'] == 'Yes')		
+		{
+			$work_force_module=0;
+		}else{
+			$work_force_module=1;
+		}
+		if(isset($_POST['schedule_task_sub_module']) &&    $_POST['schedule_task_sub_module'] == 'Yes')		
+		{
+			$schedule_task_sub_module=0;
+		}else{
+			$schedule_task_sub_module=1;
+		}
+		if(isset($_POST['memo_sub_module']) &&    $_POST['memo_sub_module'] == 'Yes')		
+		{
+			$memo_sub_module=0;
+		}else{
+			$memo_sub_module=1;
+		}
+		if(isset($_POST['campaign']) &&    $_POST['campaign'] == 'Yes')		
+		{
+			$campaign=0;
+		}else{
+			$campaign=1;
+		}
+		if(isset($_POST['assign_work']) &&    $_POST['assign_work'] == 'Yes')		
+		{
+			$assign_work=0;
+		}else{
+			$assign_work=1;
+		}
+		if(isset($_POST['todo']) &&    $_POST['todo'] == 'Yes')		
+		{
+			$todo=0;
+		}else{
+			$todo=1;
+		}
+		if(isset($_POST['assigned_work']) &&    $_POST['assigned_work'] == 'Yes')		
+		{
+			$assigned_work=0;
+		}else{
+			$assigned_work=1;
+		}
+		if(isset($_POST['memo_initiate']) &&    $_POST['memo_initiate'] == 'Yes')		
+		{
+			$memo_initiate=0;
+		}else{
+			$memo_initiate=1;
+		}
+		if(isset($_POST['memo_assigned']) &&    $_POST['memo_assigned'] == 'Yes')		
+		{
+			$memo_assigned=0;
+		}else{
+			$memo_assigned=1;
+		}
+		if(isset($_POST['memo_update']) &&    $_POST['memo_update'] == 'Yes')		
+		{
+			$memo_update=0;
+		}else{
+			$memo_update=1;
+		}
+		if(isset($_POST['maintenance_module']) &&    $_POST['maintenance_module'] == 'Yes')		
+		{
+			$maintenance_module=0;
+		}else{
+			$maintenance_module=1;
+		}
+		if(isset($_POST['pm_checklist']) &&    $_POST['pm_checklist'] == 'Yes')		
+		{
+			$pm_checklist=0;
+		}else{
+			$pm_checklist=1;
+		}
+		if(isset($_POST['bm_checklist']) &&    $_POST['bm_checklist'] == 'Yes')		
+		{
+			$bm_checklist=0;
+		}else{
+			$bm_checklist=1;
+		}
+		if(isset($_POST['maintenance_checklist']) &&    $_POST['maintenance_checklist'] == 'Yes')		
+		{
+			$maintenance_checklist=0;
+		}else{
+			$maintenance_checklist=1;
+		}
+		if(isset($_POST['manpower_in_out_module']) &&    $_POST['manpower_in_out_module'] == 'Yes')		
+		{
+			$manpower_in_out_module=0;
+		}else{
+			$manpower_in_out_module=1;
+		}
+		if(isset($_POST['permission_or_onduty']) &&    $_POST['permission_or_onduty'] == 'Yes')		
+		{
+			$permission_or_onduty=0;
+		}else{
+			$permission_or_onduty=1;
+		}
+		if(isset($_POST['transfer_location']) &&    $_POST['transfer_location'] == 'Yes')		
+		{
+			$transfer_location=0;
+		}else{
+			$transfer_location=1;
+		}
+		if(isset($_POST['target_fixing_module']) &&    $_POST['target_fixing_module'] == 'Yes')		
+		{
+			$target_fixing_module=0;
+		}else{
+			$target_fixing_module=1;
+		}
+		if(isset($_POST['goal_setting']) &&    $_POST['goal_setting'] == 'Yes')		
+		{
+			$goal_setting=0;
+		}else{
+			$goal_setting=1;
+		}
+		if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
+		{
+			$target_fixing=0;
+		}else{
+			$target_fixing=1;
+		}
+		if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
+		{
+			$daily_performance=0;
+		}else{
+			$daily_performance=1;
+		}
+		if(isset($_POST['appreciation_depreciation']) &&    $_POST['appreciation_depreciation'] == 'Yes')		
+		{
+			$appreciation_depreciation=0;
+		}else{
+			$appreciation_depreciation=1;
+		}
+		if(isset($_POST['vehicle_management_module']) &&    $_POST['vehicle_management_module'] == 'Yes')		
+		{
+			$vehicle_management_module=0;
+		}else{
+			$vehicle_management_module=1;
+		}
+		if(isset($_POST['vehicle_details']) &&    $_POST['vehicle_details'] == 'Yes')		
+		{
+			$vehicle_details=0;
+		}else{
+			$vehicle_details=1;
+		}
+		if(isset($_POST['daily_km']) &&    $_POST['daily_km'] == 'Yes')		
+		{
+			$daily_km=0;
+		}else{
+			$daily_km=1;
+		}
+		if(isset($_POST['diesel_slip']) &&    $_POST['diesel_slip'] == 'Yes')		
+		{
+			$diesel_slip=0;
+		}else{
+			$diesel_slip=1;
+		}
+		if(isset($_POST['approval_mechanism_module']) &&    $_POST['approval_mechanism_module'] == 'Yes')		
+		{
+			$approval_mechanism_module=0;
+		}else{
+			$approval_mechanism_module=1;
+		}
+		if(isset($_POST['approval_requisition']) &&    $_POST['approval_requisition'] == 'Yes')		
+		{
+			$approval_requisition=0;
+		}else{
+			$approval_requisition=1;
+		}
+		if(isset($_POST['business_communication_outgoing']) &&    $_POST['business_communication_outgoing'] == 'Yes')		
+		{
+			$business_communication_outgoing=0;
+		}else{
+			$business_communication_outgoing=1;
+		}
+		if(isset($_POST['minutes_of_meeting']) &&    $_POST['minutes_of_meeting'] == 'Yes')		
+		{
+			$minutes_of_meeting=0;
+		}else{
+			$minutes_of_meeting=1;
+		}
+	
+		$userupdate="UPDATE user SET 
+		firstname='".strip_tags($first_name)."', 
+		lastname='".strip_tags($last_name)."', 
+		fullname='".strip_tags($full_name)."', 
+		title='".strip_tags($title)."', 
+		emailid='".strip_tags($email_id)."', 
+		user_name='".strip_tags($user_name)."',
+		user_password='".strip_tags($password)."', 
+		role='".strip_tags($role)."',
+
+		administration_module    = $administration_module,
+		dashboard      = $dashboard,
+		company_creation = $company_creation,
+		branch_creation = $branch_creation,
+		holiday_creation = $holiday_creation,
+		manage_users   = $manage_users,
+		master_module   = $master_module,
+		basic_sub_module        = $basic_sub_module,
+		responsibility_sub_module         = $responsibility_sub_module,
+		audit_sub_module = $audit_sub_module,
+		others_sub_module = $others_sub_module,
+		basic_creation = $basic_creation,
+		tag_creation = $tag_creation,
+		rr_creation = $rr_creation,
+		kra_category = $kra_category,
+		krakpi_creation  = $krakpi_creation,
+		staff_creation = $staff_creation,
+		audit_area_creation  = $audit_area_creation,
+		audit_area_checklist    = $audit_area_checklist,
+		audit_assign = $audit_assign,
+		audit_follow_up = $audit_follow_up,
+		report_template  = $report_template,
+		media_master  = $media_master,
+		asset_creation = $asset_creation,
+		insurance_register = $insurance_register,
+		service_indent   = $service_indent,
+		asset_details    = $asset_details,
+		rgp_creation      = $rgp_creation,
+		promotional_activities    = $promotional_activities,
+		work_force_module  = $work_force_module,
+		schedule_task_sub_module        = $schedule_task_sub_module,
+		memo_sub_module      = $memo_sub_module,
+		campaign        = $campaign,
+		assign_work = $assign_work,
+		todo = $todo,
+		assigned_work    = $assigned_work,
+		memo_initiate        = $memo_initiate,
+		memo_assigned        = $memo_assigned,
+		memo_update = $memo_update,
+		maintenance_module    = $maintenance_module,
+		pm_checklist    = $pm_checklist,
+		bm_checklist   = $bm_checklist,
+		maintenance_checklist     = $maintenance_checklist,
+		manpower_in_out_module = $manpower_in_out_module,
+		permission_or_onduty    = $permission_or_onduty,
+		transfer_location    = $transfer_location,
+		target_fixing_module  = $target_fixing_module,
+		goal_setting      = $goal_setting,
+		target_fixing    = $target_fixing,
+		daily_performance    = $daily_performance,
+		appreciation_depreciation    = $appreciation_depreciation,
+		vehicle_management_module    = $vehicle_management_module,
+		vehicle_details    = $vehicle_details,
+		daily_km    = $daily_km,
+		diesel_slip    = $diesel_slip,
+		approval_mechanism_module    = $approval_mechanism_module,
+		approval_requisition    = $approval_requisition,
+		business_communication_outgoing    = $business_communication_outgoing,
+		minutes_of_meeting    = $minutes_of_meeting, status=0 where user_id = '".$id."' ";
+		
+		$update=$mysqli->query($userupdate) or die("Error ".$mysqli->error);
+		
+	}
+
+	//  Delete User
+	public function deleteuser($mysqli, $id){
+
+		$userDelete = "UPDATE user set status='1' WHERE user_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($userDelete) or die("Error in delete query".$mysqli->error);
+	}
 
 }
 ?>

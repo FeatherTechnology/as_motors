@@ -209,8 +209,8 @@ if($idupd>0)
                                                             <td width="10%;"><input type="text" readonly class="form-control" name="activity_involved[]" id="activity_involved" value="<?php echo $activity_involved[$o]; ?>" ></td>
                                                             <td width="10%;"><input type="text" readonly class="form-control" name="time_frame_start[]" id="time_frame_start" value="<?php echo $time_frame_start[$o]; ?>" ></td>
                                                             <td width="10%;"><input type="text" readonly class="form-control" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
-                                                            <td width="10%;"><input type="date" class="form-control" name="start_date[]" id="start_date" value="<?php echo $start_date[$o]; ?>" ></td>
-                                                            <td width="10%;"><input type="date" class="form-control" name="end_date[]" id="end_date" value="<?php echo $end_date[$o]; ?>" ></td>
+                                                            <td width="10%;"><input type="date" class="form-control" name="start_date[]" id="start_date" value="<?php echo date('Y-m-d',strtotime($start_date[$o])); ?>" ></td>
+                                                            <td width="10%;"><input type="date" class="form-control" name="end_date[]" id="end_date" value="<?php echo date('Y-m-d',strtotime($end_date[$o])); ?>" ></td>
                                                             <td width="10%;">
                                                                 <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
                                                                 <option value="">Select Employee Name</option>   
