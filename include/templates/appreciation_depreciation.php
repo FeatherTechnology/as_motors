@@ -10,7 +10,7 @@ if(isset($_SESSION["branch_id"])){
 }
 $companyName = $userObj->getCompanyName($mysqli);
 $goalYear = $userObj->getGoalYear($mysqli);
-// $dailyPerformanceMonth = $userObj->getDailyPerformanceMonth($mysqli);
+$midtermReview = $userObj->getmidtermReview($mysqli);
 
 $id=0;
 $idupd=0;
@@ -19,10 +19,10 @@ if(isset($_POST['submitAppDep']) && $_POST['submitAppDep'] != '')
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	    
         $updateAppDep = $userObj->updateAppDep($mysqli,$id,$userid);   
-    ?>
-    <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=2';</script> 
+        ?>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=2';</script> 
     <?php }
-    else{   
+    else {   
         $addAppDep = $userObj->addAppDep($mysqli, $userid);   
         ?>
         <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=1';</script>
@@ -56,27 +56,27 @@ if($idupd>0)
         for($i=0;$i<sizeof($getAppDep);$i++)  {
 
             $appreciation_depreciation_id                  = $getAppDep['appreciation_depreciation_id']; 
-            $review                  = $getAppDep['review']; 
-            $company_id                  = $getAppDep['company_id']; 
-            $department                  = $getAppDep['department']; 
-            $designation                  = $getAppDep['designation']; 
-            $emp_id                  = $getAppDep['emp_id']; 
-            $year_id                  = $getAppDep['year_id']; 
-            $month                  = $getAppDep['month']; 
-            $overall_performance                  = $getAppDep['overall_performance']; 
-            $not_done                  = $getAppDep['not_done']; 
-            $carry_forward                  = $getAppDep['carry_forward']; 
-            $strength                  = $getAppDep['strength']; 
-            $weakness                  = $getAppDep['weakness']; 
-            $need_for_improvement                  = $getAppDep['need_for_improvement']; 
-            $overall_rating                  = $getAppDep['overall_rating']; 
+            $review                                        = $getAppDep['review']; 
+            $company_id                                    = $getAppDep['company_id']; 
+            $department                                    = $getAppDep['department']; 
+            $designation                                   = $getAppDep['designation']; 
+            $emp_id                                        = $getAppDep['emp_id']; 
+            $year_id                                       = $getAppDep['year_id']; 
+            $month                                         = $getAppDep['month']; 
+            $overall_performance                           = $getAppDep['overall_performance']; 
+            $not_done                                      = $getAppDep['not_done']; 
+            $carry_forward                                 = $getAppDep['carry_forward']; 
+            $strength                                      = $getAppDep['strength']; 
+            $weakness                                      = $getAppDep['weakness']; 
+            $need_for_improvement                          = $getAppDep['need_for_improvement']; 
+            $overall_rating                                = $getAppDep['overall_rating']; 
 
-            $appreciation_depreciation_ref_id                  = $getAppDep['appreciation_depreciation_ref_id']; 
-            $daily_performance_ref_id                  = $getAppDep['daily_performance_ref_id']; 
-            $assertion                  = $getAppDep['assertion']; 
-            $target                  = $getAppDep['target']; 
-            $achievement                  = $getAppDep['achievement']; 
-            $employee_rating                  = $getAppDep['employee_rating']; 
+            $appreciation_depreciation_ref_id              = $getAppDep['appreciation_depreciation_ref_id']; 
+            $daily_performance_ref_id                      = $getAppDep['daily_performance_ref_id']; 
+            $assertion                                     = $getAppDep['assertion']; 
+            $target                                        = $getAppDep['target']; 
+            $achievement                                   = $getAppDep['achievement']; 
+            $employee_rating                               = $getAppDep['employee_rating']; 
 	    }
     }
 
@@ -334,10 +334,8 @@ if($idupd>0)
                                                     <th>S. No.</th>
                                                     <th>Assertion</th>
                                                     <th>Target</th>
-                                                    <!-- <th>Overall Performance</th> -->
                                                     <th>Achievement</th>
                                                     <th>Employee Rating</th>
-                                                    <!-- <th>Not Done / Carry Forward</th> -->
                                                 </tr>
                                                 <?php
                                                 $sno = 1;   
@@ -351,7 +349,6 @@ if($idupd>0)
                                                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
-                                                                <!-- <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$overall_performance; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td> -->
                                                                 <td><input type="text" class="form-control" name="achievement[]" id="achievement" value="<?php echo $achievement[$o]; ?>" placeholder="Enter new achievement" ></td>
                                                                 <td>
                                                                     <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
@@ -363,10 +360,6 @@ if($idupd>0)
                                                                         <option value="5" <?php if(isset($employee_rating )){if($employee_rating[$o] == "5") echo "selected";} ?>>5</option>
                                                                     </select>   
                                                                 </td>
-                                                                <!-- <td>
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_done; ?>" name="not_done" id="not_done" >
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  >
-                                                                </td>  -->
                                                             </tr>
                                                         </tbody>
                                                     <?php $sno = $sno + 1; } ?>
@@ -425,11 +418,11 @@ if($idupd>0)
                                     <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
                                     <select tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
                                         <option value="">Select Overall Rating</option>  
-                                        <option value="1" <?php if(isset($month )) { if($month == "1") echo "selected"; } ?>>Poor Performance</option>
-                                        <option value="2" <?php if(isset($month )) { if($month == "2") echo "selected"; } ?>>Below Expectation</option>
-                                        <option value="3" <?php if(isset($month )) { if($month == "3") echo "selected"; } ?>>More Expectation</option>
-                                        <option value="4" <?php if(isset($month )) { if($month == "4") echo "selected"; } ?>>Exceeding Expectation</option>
-                                        <option value="5" <?php if(isset($month )) { if($month == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
+                                        <option value="1" <?php if(isset($overall_rating )) { if($overall_rating == "1") echo "selected"; } ?>>Poor Performance</option>
+                                        <option value="2" <?php if(isset($overall_rating )) { if($overall_rating == "2") echo "selected"; } ?>>Below Expectation</option>
+                                        <option value="3" <?php if(isset($overall_rating )) { if($overall_rating == "3") echo "selected"; } ?>>More Expectation</option>
+                                        <option value="4" <?php if(isset($overall_rating )) { if($overall_rating == "4") echo "selected"; } ?>>Exceeding Expectation</option>
+                                        <option value="5" <?php if(isset($overall_rating )) { if($overall_rating == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
                                     </select>
                                 </div>
                             </div>
@@ -437,15 +430,19 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="inputReadOnly" id="audit_err" >Memo If Required</label> <br>
-                                    <a href="memo"> <button type="button" name="memoBtn" id="memoBtn" class="btn btn-outline-secondary" value="Submit" tabindex="10">Go to memo</button></a>
+                                    <a href="memo"> <button disabled type="button" name="memoBtn" id="memoBtn" class="btn btn-outline-secondary" value="Submit" tabindex="10">Go to memo</button></a>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="inputReadOnly" id="audit_err" >Midterm Review</label> <br>
-                                    <a href="view_midterm_review&last_view_midterm_review" target="_blank"><button type="button" class="btn btn-outline-secondary" value="Submit" tabindex="10">View</button></a>
+
+                            <?php if($midtermReview > 0){ ?>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="inputReadOnly" id="audit_err" >Midterm Review</label> <br>
+                                        <a href="view_midterm_review&last_view_midterm_review" target="_blank"><button type="button" class="btn btn-outline-secondary" value="Submit" tabindex="10">View</button></a>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
+                            
                         </div>
                     </div>
                 </div>
