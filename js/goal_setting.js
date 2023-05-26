@@ -272,7 +272,7 @@ function insertData(prev_company){
             
             var option4 = $('<option></option>').val('').text('Select Department');
             $('#dept').append(option4);
-            var option5 = $('<option></option>').val('').text('Select Role');
+            var option5 = $('<option></option>').val('').text('Select Designation');
             $('#designation').append(option5);
         
             for(var a=0; a<=data.length-1; a++){
@@ -301,20 +301,19 @@ function insertData(prev_company){
                 dataType: 'json',
                 success: function(data){
                   
-            $('#designation').text('');
-            $('#designation').val('');
-            var option = $('<option></option>').val('').text('Select Designation');
-            $('#designation').append(option);
+                    $('#designation').text('');
+                    $('#designation').val('');
+                    var option = $('<option></option>').val('').text('Select Designation');
+                    $('#designation').append(option);
                     var i = 0;
-                            for (i = 0; i <= data.designation_id.length - 1; i++) { 
-                                var selected = "";
-                                if(role_id_up == data['designation_id'][i]){
-                                selected = "selected";
-                            }
-                         $('#designation').append("<option value='" + data['designation_id'][i] + "' "+selected+" >" + data['designation_name'][i] + "</option>");
+                        for (i = 0; i <= data.designation_id.length - 1; i++) { 
+                            var selected = "";
+                            if(role_id_up == data['designation_id'][i]){
+                            selected = "selected";
+                        }
+                        $('#designation').append("<option value='" + data['designation_id'][i] + "' "+selected+" >" + data['designation_name'][i] + "</option>");
                     }
-                
-                
+            
                 
                 }
               
