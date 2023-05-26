@@ -180,7 +180,7 @@ if($idupd>0)
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
-                                                <label for="inputReadOnly"id="audit_err" >Role</label>
+                                                <label for="inputReadOnly"id="audit_err" >Designation</label>
                                                
                                                 <select tabindex="1" type="text" class="form-control" name="designation_id" id="designation_id">
                                                    
@@ -201,9 +201,14 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Month</label>
+
                                                <?php if($idupd == '0'){ ?>
                                                 <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>">
                                                 <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php $currentMonth = date("m"); echo $currentMonth;  ?>" >
+                                                <input tabindex="2" type="hidden" class="form-control" id="ffixedid" name="ffixedid" value="" > 
+                                                <input tabindex="2" type="hidden" class="form-control" id="ffixedrefid" name="ffixedrefid" value="" >
+                                                <input tabindex="2" type="hidden" class="form-control" id="" name="ffixedid" value="" > 
+                                                <input tabindex="2" type="hidden" class="form-control" id="_target" name="ffixedrefid" value="" >
                                                <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
                                                <?php }else{ ?> 
 
@@ -234,7 +239,7 @@ if($idupd>0)
                                             <th>System Date</th>
                                             <th>Work Status</th>
                                             <th>Status</th>
-                                            <th colspan="2">Action</th>
+                                            
                                         </tr>
                                     </thead>
                                     <?php if($idupd<=0){ ?>
@@ -242,18 +247,19 @@ if($idupd>0)
                                             <tr>
                                                
                                                 <td>
-                                                    <input readonly tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" >
+                                                    <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]"  readonly>
                                                     </input> 
                                                 </td>
                                                 <td >
-                                                    <input readonly tabindex="5" type="text" class="form-control" id="target" name="target[]" >
+                                                    <input tabindex="5" type="text" class="form-control" id="target" name="target[]" readonly>
                                                     </input> 
                                                 </td>
                                                 <td>
-                                                    <input readonly type="date" class="form-control" id="sdate" name="sdate[]" value="" ></input> 
+                                                    <input  type="date" class="form-control" id="sdate" name="sdate[]" value=""  readonly></input> 
                                                 </td>
                                                 <td>
-                                                    <select class="form-control wstatus" id="wstatus" name="wstatus[]" >
+                                                    <!-- <input  type="text" class="form-control" id="wstatus" name="wstatus[]" ></input>  -->
+                                                    <select  class="form-control wstatus" id="wstatus" name="wstatus[]" >
                                                         <option value=" ">Select Work Status</option>
                                                         <option value="statisfied">Statisfied</option>
                                                         <option value="not_done">Not Done</option>
@@ -264,10 +270,7 @@ if($idupd>0)
                                                     <input  type="text" class="form-control" id="status" name="status[]" ></input> 
                                                 </td>
                                                 
-                                                <td>
-                                                    <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
-                                                </td>
-                                                <td><span class='icon-trash-2' tabindex="9" id="delete_row"></span></td>
+                                                
                                             </tr>
                                         </tbody>
                                     <?php } if($idupd>0){
@@ -286,19 +289,19 @@ if($idupd>0)
                                                 ?>
                                                         <tr>
                                                             <td>
-                                                            <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion; ?>">
-                                                            <input type='hidden' class='form-control' id='old_target' name='old_target[]' value="<?php echo $old_target; ?>">
+                                                            <input tabindex="4" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $assertion; ?>" readonly>
+                                                            <input type='hidden' class='form-control' id='old_target' name='old_target[]' value="<?php echo $old_target; ?>" >
                                                             <input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="<?php echo $target_fixing_id; ?>">
                                                             <input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="<?php echo $target_fixing_ref_id; ?>">
                                                             <input  type="hidden" class="form-control" id="sub" name="sub[]" value="<?php echo  $daily_performance_ref_id; ?>">
                                                             
                                                             </td>
                                                             <td >
-                                                                <input tabindex="5" type="text" class="form-control" id="target" name="target[]" value="<?php echo $target ?>" >
+                                                                <input tabindex="5" type="text" class="form-control" id="target" name="target[]" value="<?php echo $target ?>" readonly>
                                                                 </input> 
                                                             </td>
                                                             <td>
-                                                                <input  type="date" class="form-control" id="sdate" name="sdate[]" value="<?php echo $system_date; ?>" ></input> 
+                                                                <input  type="date" class="form-control" id="sdate" name="sdate[]" value="<?php echo $system_date; ?>" readonly></input> 
                                                             </td>
                                                             <td>
                                                            
@@ -333,12 +336,7 @@ if($idupd>0)
                                                                             <input type="text" class="form-control" id="status" name="status[]">
                                                                         <?php } ?>
                                                             </td>
-                                                            <td>
-                                                                <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
-                                                            </td>
-                                                            <td>
-                                                                <span class='icon-trash-2' tabindex="9" id="delete_row"></span>
-                                                            </td>
+                                                            
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>

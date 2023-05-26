@@ -15,11 +15,16 @@ $column = array(
     'status'
 );
 
-$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month,dp.status FROM daily_performance dp 
-LEFT JOIN company_creation c ON c.company_id=dp.company_id 
-LEFT JOIN department_creation dc ON dc.department_id=dp.department_id 
-LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id 
-LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id
+$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,DATE_FORMAT(CONCAT('2023-', LPAD(dp.month, 2, '0'), '-01'), '%M') AS month,dp.status FROM
+daily_performance dp
+LEFT JOIN
+company_creation c ON c.company_id = dp.company_id
+LEFT JOIN
+department_creation dc ON dc.department_id = dp.department_id
+LEFT JOIN
+designation_creation dsc ON dsc.designation_id = dp.role_id
+LEFT JOIN
+staff_creation s ON s.staff_id = dp.emp_id
 WHERE 1";
 
 if($_POST['search']!="");
@@ -111,11 +116,16 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month,dp.status FROM daily_performance dp 
-    LEFT JOIN company_creation c ON c.company_id=dp.company_id 
-    LEFT JOIN department_creation dc ON dc.department_id=dp.department_id 
-    LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id 
-    LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id";
+    $query     = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,DATE_FORMAT(CONCAT('2023-', LPAD(dp.month, 2, '0'), '-01'), '%M') AS month,dp.status FROM
+    daily_performance dp
+  LEFT JOIN
+    company_creation c ON c.company_id = dp.company_id
+  LEFT JOIN
+    department_creation dc ON dc.department_id = dp.department_id
+  LEFT JOIN
+    designation_creation dsc ON dsc.designation_id = dp.role_id
+  LEFT JOIN
+    staff_creation s ON s.staff_id = dp.emp_id";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();
