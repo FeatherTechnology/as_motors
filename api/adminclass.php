@@ -3704,26 +3704,26 @@
             return $detailrecords;
         }
 		// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
-        public function getsroleDetail ($mysqli, $sbranch_id){
-			$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.branch_id in ('$sbranch_id')  AND u.status=0 ORDER BY u.branch_id ASC";
-            $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-            $detailrecords = array();
+        // public function getsroleDetail ($mysqli, $sbranch_id){
+		// 	$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.branch_id in ('$sbranch_id')  AND u.status=0 ORDER BY u.branch_id ASC";
+        //     $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+        //     $detailrecords = array();
            
-            $i=0;
-            if ($mysqli->affected_rows>0)
-            {
-                while($row = $res->fetch_object())
-                {
-                    $detailrecords['role']          = strip_tags($row->role);
-					$detailrecords['title']          = strip_tags($row->title);
-					$detailrecords['company_id']          = strip_tags($row->company_id);
-					$detailrecords['company_name']          = strip_tags($row->company_name);
-                    $i++;
-                }
-            }
-			// print_r($detailrecords);
-            return $detailrecords;
-		}
+        //     $i=0;
+        //     if ($mysqli->affected_rows>0)
+        //     {
+        //         while($row = $res->fetch_object())
+        //         {
+        //             $detailrecords['role']          = strip_tags($row->role);
+		// 			$detailrecords['title']          = strip_tags($row->title);
+		// 			$detailrecords['company_id']          = strip_tags($row->company_id);
+		// 			$detailrecords['company_name']          = strip_tags($row->company_name);
+        //             $i++;
+        //         }
+        //     }
+		// 	// print_r($detailrecords);
+        //     return $detailrecords;
+		// }
 
 		//  Get branch Name
 		public function getCompanyNameFromBranch($mysqli) {
@@ -7304,9 +7304,9 @@
 
 				for($j=0; $j<=sizeof($assertion)-1; $j++){
 					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,insert_login_id)
-					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($userid[$j])."')";
+					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($userid)."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-					print_r($qry2);
+
 				}
 
 			} else {
@@ -7325,7 +7325,7 @@
 					// $update_assign_ref1=$mysqli->query($qry3) or die("Error ".$mysqli->error);
 
                     $qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,update_login_id)
-					VALUES('$id', '$assertion[$i]','$target[$i]','$userid[$i]')";
+					VALUES('$id', '$assertion[$i]','$target[$i]','$userid')";
 
 					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
                 }
@@ -7413,77 +7413,77 @@
 
 	//get company daily_performance table
 
-	public function get_daily_performance($mysqli){
+	// public function get_daily_performance($mysqli){
 
-		$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
+	// 	$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
 		
-		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-		$dailyperform_list = array();
-		$i=0;
+	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	// 	$dailyperform_list = array();
+	// 	$i=0;
 
-		if ($mysqli->affected_rows>0)
-		{
-			while($row = $res->fetch_object()){
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row = $res->fetch_object()){
 				
 
-				$dailyperform_list[$i]['company_id']      = $row->company_id;
-				$dailyperform_list[$i]['company_name']      = $row->company_name;
+	// 			$dailyperform_list[$i]['company_id']      = $row->company_id;
+	// 			$dailyperform_list[$i]['company_name']      = $row->company_name;
 				
-				$i++;
-			}
-		}
+	// 			$i++;
+	// 		}
+	// 	}
 
-		return $dailyperform_list;
-	}
+	// 	return $dailyperform_list;
+	// }
      
 	//get  deptn daily_performance table
-	public function get_dept_performance($mysqli){
+	// public function get_dept_performance($mysqli){
 
-		$dailyperform = "SELECT * FROM `department_creation` WHERE status='0'";
+	// 	$dailyperform = "SELECT * FROM `department_creation` WHERE status='0'";
 		
-		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-		$dailyperformdept_list = array();
-		$i=0;
+	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	// 	$dailyperformdept_list = array();
+	// 	$i=0;
 
-		if ($mysqli->affected_rows>0)
-		{
-			while($row = $res->fetch_object()){
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row = $res->fetch_object()){
 				
 
-				$dailyperformdept_list[$i]['department_id']      = $row->department_id;
-				$dailyperformdept_list[$i]['department_name']      = $row->department_name;
+	// 			$dailyperformdept_list[$i]['department_id']      = $row->department_id;
+	// 			$dailyperformdept_list[$i]['department_name']      = $row->department_name;
 				
-				$i++;
-			}
-		}
+	// 			$i++;
+	// 		}
+	// 	}
 
-		return $dailyperformdept_list;
-	}
+	// 	return $dailyperformdept_list;
+	// }
 	
 
 	//get  role daily_performance table
-	public function get_role_performance($mysqli){
+	// public function get_role_performance($mysqli){
 
-		$dailyperform = "SELECT * FROM `designation_creation` WHERE status='0'";
+	// 	$dailyperform = "SELECT * FROM `designation_creation` WHERE status='0'";
 		
-		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-		$dailyperformdesi_list = array();
-		$i=0;
+	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	// 	$dailyperformdesi_list = array();
+	// 	$i=0;
 
-		if ($mysqli->affected_rows>0)
-		{
-			while($row = $res->fetch_object()){
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row = $res->fetch_object()){
 				
 
-				$dailyperformdesi_list[$i]['designation_id']      = $row->designation_id;
-				$dailyperformdesi_list[$i]['designation_name']      = $row->designation_name;
+	// 			$dailyperformdesi_list[$i]['designation_id']      = $row->designation_id;
+	// 			$dailyperformdesi_list[$i]['designation_name']      = $row->designation_name;
 				
-				$i++;
-			}
-		}
+	// 			$i++;
+	// 		}
+	// 	}
 
-		return $dailyperformdesi_list;
-	}
+	// 	return $dailyperformdesi_list;
+	// }
 	
 	// Add & Edit daily performance
 
@@ -8005,146 +8005,146 @@
 		return $detailrecords;
 	}
 
-	public function adddailyperformance($mysqli,$userid){
+	// public function adddailyperformance($mysqli,$userid){
 
-		if(isset($_POST['id'])){
-			$id = $_POST['id'];
-		}
-		if(isset($_POST['company_id'])){
-			$company_id = $_POST['company_id'];
-		}
-		if(isset($_POST['department_id'])){
-			$department_id = $_POST['department_id'];
-		}
-		if(isset($_POST['designation_id'])){
-			$designation_id = $_POST['designation_id'];
-		}
-		if(isset($_POST['staff_id'])){
-			$staff_id = $_POST['staff_id'];
-		}
-		if(isset($_POST['nmonth'])){
-			$nmonth = $_POST['nmonth'];
-		}
+	// 	if(isset($_POST['id'])){
+	// 		$id = $_POST['id'];
+	// 	}
+	// 	if(isset($_POST['company_id'])){
+	// 		$company_id = $_POST['company_id'];
+	// 	}
+	// 	if(isset($_POST['department_id'])){
+	// 		$department_id = $_POST['department_id'];
+	// 	}
+	// 	if(isset($_POST['designation_id'])){
+	// 		$designation_id = $_POST['designation_id'];
+	// 	}
+	// 	if(isset($_POST['staff_id'])){
+	// 		$staff_id = $_POST['staff_id'];
+	// 	}
+	// 	if(isset($_POST['nmonth'])){
+	// 		$nmonth = $_POST['nmonth'];
+	// 	}
 	
-		if(isset($_POST['assertion'])){
-			$assertion = $_POST['assertion'];
-		}
-		if (isset($_POST['target'])) {
-			$target = $_POST['target'];
-		} 
-		if(isset($_POST['sdate'])){
-			$sdate = $_POST['sdate'];
-		}
-		if (isset($_POST['wstatus'])) {
-			$wstatus = $_POST['wstatus'];
-		}
-		if(isset($_POST['userid'])){
-			$userid = $_POST['userid'];
-		}
+	// 	if(isset($_POST['assertion'])){
+	// 		$assertion = $_POST['assertion'];
+	// 	}
+	// 	if (isset($_POST['target'])) {
+	// 		$target = $_POST['target'];
+	// 	} 
+	// 	if(isset($_POST['sdate'])){
+	// 		$sdate = $_POST['sdate'];
+	// 	}
+	// 	if (isset($_POST['wstatus'])) {
+	// 		$wstatus = $_POST['wstatus'];
+	// 	}
+	// 	if(isset($_POST['userid'])){
+	// 		$userid = $_POST['userid'];
+	// 	}
 
-		if (isset($_POST['old_target'])) {
-			$old_target = $_POST['old_target'];
-		}
-		if (isset($_POST['target_fixing_id'])) {
-			$target_fixing_id = $_POST['target_fixing_id'];
-		}
-		if (isset($_POST['target_fixing_ref_id'])) {
-			$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
-		}
+	// 	if (isset($_POST['old_target'])) {
+	// 		$old_target = $_POST['old_target'];
+	// 	}
+	// 	if (isset($_POST['target_fixing_id'])) {
+	// 		$target_fixing_id = $_POST['target_fixing_id'];
+	// 	}
+	// 	if (isset($_POST['target_fixing_ref_id'])) {
+	// 		$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
+	// 	}
 
-		if($id == '0'){
+	// 	if($id == '0'){
 
-			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
-			VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
-			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-			$last_id  = $mysqli->insert_id;
+	// 		$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
+	// 		VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+	// 		$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+	// 		$last_id  = $mysqli->insert_id;
 
-			for($j=0; $j<=sizeof($assertion)-1; $j++){
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
-				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
-				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-			}
-		}
-		else {
+	// 		for($j=0; $j<=sizeof($assertion)-1; $j++){
+	// 			$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
+	// 			VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
+	// 			$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+	// 		}
+	// 	}
+	// 	else {
 			
-			$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
-			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-			$last_id  = $mysqli->insert_id;
+	// 		$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
+	// 		$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+	// 		$last_id  = $mysqli->insert_id;
 
-			$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
+	// 		$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
 
-			for($i=0;$i<=sizeof($assertion)-1;$i++){
+	// 		for($i=0;$i<=sizeof($assertion)-1;$i++){
 				
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
-				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
-				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
-			}
+	// 			$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
+	// 			VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
+	// 			$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+	// 		}
 			
-		}
-	}
+	// 	}
+	// }
 
 	// Delete Audit Area Checklist
-	public function deletedailyperformance($mysqli, $id){
+	// public function deletedailyperformance($mysqli, $id){
 
-		$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
-		$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
-	}
+	// 	$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
+	// 	$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+	// }
 
 	// get dailyperformance table
-      public function getdailyperformance($mysqli,$id){
+    //   public function getdailyperformance($mysqli,$id){
 
-		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
+	// 	$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
 		
-		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-		$dailyperform_list = array();
-		$i=0;
+	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	// 	$dailyperform_list = array();
+	// 	$i=0;
 
-		if ($mysqli->affected_rows>0)
-		{
-			while($row = $res->fetch_object()){
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row = $res->fetch_object()){
 			
-				$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
-				$dailyperform_list[$i]['company_id']      = $row->company_id;
-				$dailyperform_list[$i]['company_name']      = $row->company_name;
-				$dailyperform_list[$i]['department_id']      = $row->department_id;
-				$dailyperform_list[$i]['department_name']      = $row->department_name;
-				$dailyperform_list[$i]['role_id']      = $row->role_id;
-				$dailyperform_list[$i]['designation_name']      = $row->designation_name;
-				$dailyperform_list[$i]['emp_id']      = $row->emp_id;
-				$dailyperform_list[$i]['staff_name']      = $row->staff_name;
-                $dailyperform_list[$i]['month']      = $row->month;
-				$dailyperform_list[$i]['status']      = $row->status;
-				$i++;
-			}
-		}
+	// 			$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
+	// 			$dailyperform_list[$i]['company_id']      = $row->company_id;
+	// 			$dailyperform_list[$i]['company_name']      = $row->company_name;
+	// 			$dailyperform_list[$i]['department_id']      = $row->department_id;
+	// 			$dailyperform_list[$i]['department_name']      = $row->department_name;
+	// 			$dailyperform_list[$i]['role_id']      = $row->role_id;
+	// 			$dailyperform_list[$i]['designation_name']      = $row->designation_name;
+	// 			$dailyperform_list[$i]['emp_id']      = $row->emp_id;
+	// 			$dailyperform_list[$i]['staff_name']      = $row->staff_name;
+    //             $dailyperform_list[$i]['month']      = $row->month;
+	// 			$dailyperform_list[$i]['status']      = $row->status;
+	// 			$i++;
+	// 		}
+	// 	}
 
-        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
-		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
-		$dailyperform_list1 = array();
-		$i=0;
-		if ($mysqli->affected_rows>0)
-		{
-			while($row1 = $res1->fetch_object()){
+    //     $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
+	// 	$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
+	// 	$dailyperform_list1 = array();
+	// 	$i=0;
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row1 = $res1->fetch_object()){
 			
-				$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
-				$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
-				$dailyperform_list1[$i]['target']      = $row1->target;	
-				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
-				$dailyperform_list1[$i]['old_target']      = $row1->old_target;
-				$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
-				$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
-				$dailyperform_list1[$i]['status']      = $row1->status;
-				$i++;
-			}
-		}
+	// 			$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
+	// 			$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
+	// 			$dailyperform_list1[$i]['target']      = $row1->target;	
+	// 			$dailyperform_list1[$i]['system_date']      = $row1->system_date;
+	// 			$dailyperform_list1[$i]['old_target']      = $row1->old_target;
+	// 			$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
+	// 			$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
+	// 			$dailyperform_list1[$i]['status']      = $row1->status;
+	// 			$i++;
+	// 		}
+	// 	}
 
-        $response = array(
-			'departments' => $dailyperform_list,
-			'designations' => $dailyperform_list1
-		);
+    //     $response = array(
+	// 		'departments' => $dailyperform_list,
+	// 		'designations' => $dailyperform_list1
+	// 	);
         
-		return $response;
-	}
+	// 	return $response;
+	// }
 
 
 		// Add User
@@ -9098,6 +9098,257 @@
 		$userDelete = "UPDATE user set status='1' WHERE user_id = '".strip_tags($id)."' ";
 		$runQry = $mysqli->query($userDelete) or die("Error in delete query".$mysqli->error);
 	}
+
+
+
+
+	//get company daily_performance table
+
+public function get_daily_performance($mysqli){
+
+	$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
+	
+	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	$dailyperform_list = array();
+	$i=0;
+
+	if ($mysqli->affected_rows>0)
+	{
+		while($row = $res->fetch_object()){
+			
+
+			$dailyperform_list[$i]['company_id']      = $row->company_id;
+			$dailyperform_list[$i]['company_name']      = $row->company_name;
+			
+			$i++;
+		}
+	}
+
+	return $dailyperform_list;
+}
+ 
+//get  deptn daily_performance table
+public function get_dept_performance($mysqli){
+
+	$dailyperform = "SELECT * FROM `department_creation` WHERE status='0'";
+	
+	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	$dailyperformdept_list = array();
+	$i=0;
+
+	if ($mysqli->affected_rows>0)
+	{
+		while($row = $res->fetch_object()){
+			
+
+			$dailyperformdept_list[$i]['department_id']      = $row->department_id;
+			$dailyperformdept_list[$i]['department_name']      = $row->department_name;
+			
+			$i++;
+		}
+	}
+
+	return $dailyperformdept_list;
+}
+
+
+//get  role daily_performance table
+public function get_role_performance($mysqli){
+
+	$dailyperform = "SELECT * FROM `designation_creation` WHERE status='0'";
+	
+	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+	$dailyperformdesi_list = array();
+	$i=0;
+
+	if ($mysqli->affected_rows>0)
+	{
+		while($row = $res->fetch_object()){
+			
+
+			$dailyperformdesi_list[$i]['designation_id']      = $row->designation_id;
+			$dailyperformdesi_list[$i]['designation_name']      = $row->designation_name;
+			
+			$i++;
+		}
+	}
+
+	return $dailyperformdesi_list;
+}
+	// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
+	public function getsroleDetail ($mysqli, $sbranch_id){
+		$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.branch_id in ('$sbranch_id')  AND u.status=0 ORDER BY u.branch_id ASC";
+		$res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+	   
+		$i=0;
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object())
+			{
+				$detailrecords['role']          = strip_tags($row->role);
+				$detailrecords['title']          = strip_tags($row->title);
+				$detailrecords['company_id']          = strip_tags($row->company_id);
+				$detailrecords['company_name']          = strip_tags($row->company_name);
+				$i++;
+			}
+		}
+		// print_r($detailrecords);
+		return $detailrecords;
+	}
+	// get dailyperformance table
+      public function getdailyperformance($mysqli,$id){
+
+		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
+		
+		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object()){
+			
+				$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
+				$dailyperform_list[$i]['company_id']      = $row->company_id;
+				$dailyperform_list[$i]['company_name']      = $row->company_name;
+				$dailyperform_list[$i]['department_id']      = $row->department_id;
+				$dailyperform_list[$i]['department_name']      = $row->department_name;
+				$dailyperform_list[$i]['role_id']      = $row->role_id;
+				$dailyperform_list[$i]['designation_name']      = $row->designation_name;
+				$dailyperform_list[$i]['emp_id']      = $row->emp_id;
+				$dailyperform_list[$i]['staff_name']      = $row->staff_name;
+                $dailyperform_list[$i]['month']      = $row->month;
+				$dailyperform_list[$i]['status']      = $row->status;
+				
+                
+				
+				$i++;
+			}
+		}
+
+        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
+		
+		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
+		$dailyperform_list1 = array();
+		$i=0;
+
+		if ($mysqli->affected_rows>0)
+		{
+			while($row1 = $res1->fetch_object()){
+			
+				$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
+				$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
+				$dailyperform_list1[$i]['target']      = $row1->target;	
+				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
+				$dailyperform_list1[$i]['old_target']      = $row1->old_target;
+				$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
+				$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
+				$dailyperform_list1[$i]['status']      = $row1->status;
+				
+				$i++;
+			}
+		}
+        $response = array(
+            'departments' => $dailyperform_list,
+            'designations' => $dailyperform_list1
+          );
+        
+      
+		return $response;
+	}
+
+public function adddailyperformance($mysqli,$userid){
+
+		if(isset($_POST['id'])){
+			$id = $_POST['id'];
+		}
+		if(isset($_POST['company_id'])){
+			$company_id = $_POST['company_id'];
+		}
+		if(isset($_POST['department_id'])){
+			$department_id = $_POST['department_id'];
+		}
+		if(isset($_POST['designation_id'])){
+			$designation_id = $_POST['designation_id'];
+		}
+		if(isset($_POST['staff_id'])){
+			$staff_id = $_POST['staff_id'];
+		}
+		if(isset($_POST['nmonth'])){
+			$nmonth = $_POST['nmonth'];
+		}
+	
+		if(isset($_POST['assertion'])){
+			$assertion = $_POST['assertion'];
+		}
+		if (isset($_POST['target'])) {
+			$target = $_POST['target'];
+		} 
+		if(isset($_POST['sdate'])){
+			$sdate = $_POST['sdate'];
+		}
+		if (isset($_POST['wstatus'])) {
+			$wstatus = $_POST['wstatus'];
+		}
+		if(isset($_POST['userid'])){
+			$userid = $_POST['userid'];
+		}
+
+		if (isset($_POST['old_target'])) {
+			$old_target = $_POST['old_target'];
+		}
+		if (isset($_POST['target_fixing_id'])) {
+			$target_fixing_id = $_POST['target_fixing_id'];
+		}
+		if (isset($_POST['target_fixing_ref_id'])) {
+			$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
+		}
+		
+		if($id == '0'){
+
+			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
+			VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+
+			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+			$last_id  = $mysqli->insert_id;
+
+			for($j=0; $j<=sizeof($assertion)-1; $j++){
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
+				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+			}
+
+			}
+		else {
+			
+			$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
+			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
+			$last_id  = $mysqli->insert_id;
+
+			$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
+
+			for($i=0;$i<=sizeof($assertion)-1;$i++){
+				
+
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
+				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
+
+				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+			}
+			
+		}
+	}
+
+// Delete daily_performance
+	public function deletedailyperformance($mysqli, $id){
+	$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
+	$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+	}
+
+
+
+
 
 }
 ?>

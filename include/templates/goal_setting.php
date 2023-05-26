@@ -181,7 +181,7 @@
                            
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Role</label>
+                                 <label for="inputReadOnly">Designation</label>
                                  <select type="text" tabindex="2" name="designation" id="designation" class="form-control"  >
                                 
                                  </select>                              
@@ -210,7 +210,7 @@
                             </div>
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 mt-4">
                                 <div class="form-group">
-                                    <input type="button" tabindex="7"  name="execute" id="execute" class="btn btn-primary" value="execute">
+                                    <input type="button" tabindex="7"  name="execute" id="execute" class="btn btn-primary" value="Execute">
                                     
                                 </div>
                             </div>
