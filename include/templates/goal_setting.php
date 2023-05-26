@@ -181,7 +181,7 @@
                            
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Role</label>
+                                 <label for="inputReadOnly">Designation</label>
                                  <select type="text" tabindex="2" name="designation" id="designation" class="form-control"  >
                                 
                                  </select>                              

@@ -16,99 +16,145 @@ if(isset($_POST["emp_id"])){
 if(isset($_POST["wdays"])){
 	$wdays  = $_POST["wdays"];
 }
+if(isset($_POST["target_fixing_id"])){
+	$target_fixing_id  = $_POST["target_fixing_id"];
+}
+if(isset($_POST["target_fixing_ref_id"])){
+	$target_fixing_ref_id  = $_POST["target_fixing_ref_id"];
 
+}
 
-       $emp_data1 = "SELECT tfr.new_assertion, ROUND(tfr.new_target / $wdays) AS new_target, tfr.new_target AS old_target, tfr.target_fixing_id, tfr.target_fixing_ref_id FROM target_fixing_ref tfr LEFT JOIN target_fixing tf ON tf.target_fixing_id = tfr.target_fixing_id LEFT JOIN daily_performance_ref dp ON dp.target_fixing_ref_id = tfr.target_fixing_ref_id  WHERE 
-	   tf.company_id = '$company_id'
-	   AND tf.department_id = '$department_id'
-	   AND tf.designation_id = '$designation_id'
-	   AND tf.emp_id = '$emp_id' AND dp.status  NOT IN('statisfied')";
+       $emp_data1 = "SELECT dpr.system_date
+	   FROM daily_performance_ref dpr
+	   LEFT JOIN daily_performance dp ON dp.daily_performance_id = dpr.daily_performance_id
+	   WHERE dp.company_id = '$company_id'
+		 AND dp.department_id = '$department_id'
+		 AND dp.role_id = '$designation_id'
+		 AND dp.emp_id = '$emp_id'
+		 AND YEAR(dpr.system_date) = YEAR(CURDATE())  
+		 AND MONTH(dpr.system_date) = MONTH(CURDATE())";
 	    $result = $mysqli->query($emp_data1); 
 	
+		
+		
+
+
 if (!empty($result)) {
     $row = $result->fetch_assoc();
 	if($row <> ''){
 		// echo "if";
-
-        $emp_data = "SELECT
-		CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		ELSE CASE WHEN (tfr.new_assertion <> '') THEN tfr.new_assertion ELSE tfr.assertion END END AS assertion,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		ELSE CASE WHEN (tfr.new_target <> '') THEN ROUND(tfr.new_target / $wdays) ELSE ROUND(tfr.target / $wdays)  END END AS new_target,
-		CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		ELSE CASE WHEN (tfr.new_target <> '') THEN tfr.new_target ELSE tfr.target END END AS old_target,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		 ELSE tfr.target_fixing_id END AS target_fixing_id,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		 ELSE tfr.target_fixing_ref_id END AS target_fixing_ref_id,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-         ELSE CURDATE() END  AS cdate
-		FROM
-		target_fixing_ref tfr
-		LEFT JOIN target_fixing tf ON tf.target_fixing_id = tfr.target_fixing_id
-		LEFT JOIN daily_performance_ref dp ON dp.target_fixing_ref_id = tfr.target_fixing_ref_id 
-	      WHERE 
-    	 tf.company_id = '$company_id'
-    	 AND tf.department_id = '$department_id'
-    	 AND tf.designation_id = '$designation_id'
-    	 AND tf.emp_id = '$emp_id' AND dp.status  NOT IN('statisfied')";
-		//  print_r($emp_data);
+		$emp_data = "SELECT   
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE CASE WHEN (tfr.new_assertion <> '') THEN tfr.new_assertion ELSE tfr.assertion END END END AS new_assertion,
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE CASE WHEN (tfr.new_target <> '') THEN ROUND(tfr.new_target / $wdays) ELSE ROUND(tfr.target / $wdays)  END END END AS new_target,
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE CASE WHEN (tfr.new_target <> '') THEN tfr.new_target ELSE tfr.target END END END AS old_target,
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE tfr.target_fixing_id END END AS target_fixing_id,
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  ''ELSE tfr.target_fixing_ref_id END END AS target_fixing_ref_id,
+		CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE CURDATE() END END AS cdate
+		FROM daily_performance dp 
+		LEFT JOIN daily_performance_ref dpr ON dpr.daily_performance_id=dp.daily_performance_id
+		LEFT JOIN target_fixing_ref tfr ON tfr.target_fixing_ref_id = dpr.target_fixing_ref_id
+		LEFT JOIN target_fixing tf ON tf.target_fixing_id=tfr.target_fixing_id
+		
+		WHERE dp.company_id ='$company_id'
+		AND dp.department_id ='$department_id'
+		AND dp.role_id = '$designation_id'
+		AND dp.emp_id ='$emp_id'";
+	
+        
 	}else{
-		// echo "else";
+		
+	
+	
 		$emp_data = "SELECT
 		CASE WHEN (tfr.deleted_date <> '') THEN  ''
 		ELSE CASE WHEN (tfr.new_assertion <> '') THEN tfr.new_assertion ELSE tfr.assertion END END AS new_assertion,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
+		CASE WHEN (tfr.deleted_date <> '') THEN  ''
 		ELSE CASE WHEN (tfr.new_target <> '') THEN ROUND(tfr.new_target / $wdays) ELSE ROUND(tfr.target / $wdays)  END END AS new_target,
 		CASE WHEN (tfr.deleted_date <> '') THEN  ''
 		ELSE CASE WHEN (tfr.new_target <> '') THEN tfr.new_target ELSE tfr.target END END AS old_target,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		 ELSE tfr.target_fixing_id END AS target_fixing_id,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-		 ELSE tfr.target_fixing_ref_id END AS target_fixing_ref_id,
-		 CASE WHEN (tfr.deleted_date <> '') THEN  ''
-         ELSE CURDATE() END  AS cdate
+		CASE WHEN (tfr.deleted_date <> '') THEN  ''
+		ELSE tfr.target_fixing_id END AS target_fixing_id,
+		CASE WHEN (tfr.deleted_date <> '') THEN  ''
+		ELSE tfr.target_fixing_ref_id END AS target_fixing_ref_id,
+		CASE WHEN (tfr.deleted_date <> '') THEN  ''
+		ELSE CURDATE() END  AS cdate
 		FROM
 		target_fixing_ref tfr
 		LEFT JOIN target_fixing tf ON tf.target_fixing_id = tfr.target_fixing_id
-	WHERE
-		
-                   
-	           tf.company_id = '$company_id'
-	      AND tf.department_id = '$department_id'
-	      AND tf.designation_id = '$designation_id'
-	      AND tf.emp_id = '$emp_id' ";
-		//  print_r($emp_data);
+		WHERE
 
+				
+			tf.company_id = '$company_id'
+		AND tf.department_id = '$department_id'
+		AND tf.designation_id = '$designation_id'
+		AND tf.emp_id = '$emp_id' ";
+	
+	
 	}
-		$res = $mysqli->query($emp_data) or die("Error in Get All Records".$mysqli->error);
+	
+		
+	$res = $mysqli->query($emp_data) or die("Error in Get All Records".$mysqli->error);
 		
 		
 			$emp_data_list = array();
 			$i=0;
-
+          $j=0;
+		  $new_target1= 0;
 			if ($mysqli->affected_rows>0)
 			{
 				while($row = $res->fetch_object()){
+				
 					$data = $row->new_assertion;
 					
 				       if($data == ''){
 						
 						
 					   }else{
+							
+						
+							$qry5 = "SELECT *
+							FROM daily_performance_ref WHERE status != 'statisfied' AND target_fixing_ref_id = '$row->target_fixing_ref_id' AND MONTH(system_date) = MONTH(DATE_SUB(CURDATE(), INTERVAL 1 MONTH)) ";
+							$res5 = $mysqli->query($qry5) or die("Error in Get All Records".$mysqli->error);
+							while($row5 = $res5->fetch_object()){
+							$new_target1 = $row5->target;
+							$target_fixing_ref_id = $row5->target_fixing_ref_id;
+							}
+							if($target_fixing_ref_id == $row->target_fixing_ref_id){
+								
+								$emp_data_list[$i]['new_target']      = $new_target1 + $row->new_target;
+
+							    
+							}else{
+								$emp_data_list[$i]['new_target']      =  $row->new_target;
+
+
+								
+							}
+							                 
 							$emp_data_list[$i]['new_assertion']      = $row->new_assertion;
-							$emp_data_list[$i]['new_target']      = $row->new_target;
+							$emp_data_list[$i]['new_target2']      = $row->new_target;
 							$emp_data_list[$i]['old_target']      = $row->old_target;
 							$emp_data_list[$i]['target_fixing_id']      = $row->target_fixing_id;
 							$emp_data_list[$i]['target_fixing_ref_id']      = $row->target_fixing_ref_id;
-							$emp_data_list[$i]['cdate']                     = $row->cdate;
+							$emp_data_list[$i]['cdate']    = $row->cdate;
+							
+							
+							
+							
+
 							$i++;					
 					   }
 					
 				}
+				
 			}
 			
-			echo json_encode($emp_data_list);
+			
+					$response = array(
+						'emp_data_list' => $emp_data_list
+					  );
+					
+			echo json_encode($response);
 } 
 	
 	

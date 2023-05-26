@@ -243,7 +243,7 @@ $('#department_id').change(function() {
           
             $('#designation_id').text('');
             $('#designation_id').val('');
-            var option = $('<option></option>').val('').text('Select Department');
+            var option = $('<option></option>').val('').text('Select Designation');
             $('#designation_id').append(option);
           var i = 0;
           for (i = 0; i <= response.designation_id.length - 1; i++) { 
@@ -283,37 +283,81 @@ $('#designation_id').change(function() {
                 var option = $('<option ></option>').val(data[a]['staff_id']).text(data[a]['staff_name']);
                    $('#staff_id').append(option);
             }
-
+           
          }
       });
 });
+$('#staff_id').change(function() { 
+    var company_id=$('#company').val();
+    var department_id=$('#department_id').val();
+    var designation_id=$('#designation_id').val();
+    var emp_id = $('#staff_id').val();
+    var wdays = $('#tday').val();
+    var target_fixing_id = $('#target_fixing_id').val();
+    var target_fixing_ref_id = $('#target_fixing_ref_id').val();
+  
+    $.ajax({
+        url: 'get_dperform.php',
+        data: {'company_id': company_id,
+               'department_id':department_id,
+               'designation_id':designation_id,
+               'emp_id':emp_id,
+               'wdays':wdays,
+               'target_fixing_id':target_fixing_id,
+               'target_fixing_ref_id':target_fixing_ref_id
+              },
+        cache: false,
+        type:'post',
+        dataType: 'json',
+        success: function(data){
+            for(var a=0; a<=data.length-1; a++){
+                console.log(data);
+           console.log(data[a]['target_fixing_id']);
+           $('#ffixedid').val(data[a]['target_fixing_id']);
+           $('#ffixedrefid').val(data[a]['target_fixing_ref_id']);
+               
+        }
+             
+           
+         
+         }
+      });
+});
+
+
 $('#execute').click(function() { 
     var company_id=$('#company').val();
     var department_id=$('#department_id').val();
     var designation_id=$('#designation_id').val();
     var emp_id = $('#staff_id').val();
     var wdays = $('#tday').val();
-   
+    var target_fixing_id = $('#ffixedid').val();
+    var target_fixing_ref_id = $('#ffixedrefid').val();
+ 
     $.ajax({
         url: 'get_all_detail.php',
         data: {'company_id': company_id,
                'department_id':department_id,
                'designation_id':designation_id,
                'emp_id':emp_id,
-               'wdays':wdays
+               'wdays':wdays,
+               'target_fixing_id':target_fixing_id,
+               'target_fixing_ref_id':target_fixing_ref_id
               },
         cache: false,
         type:'post',
         dataType: 'json',
         success: function(data){
+          console.log(data.emp_data_list);
             $('#moduleTable').find('tbody').empty();
-          for(var a=0; a<=data.length-1; a++){
+          for(var a=0; a<=data.emp_data_list.length-1; a++){
            
-            var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data[a]['new_assertion'] +"><input type='hidden' class='form-control' id='old_target' name='old_target[]' value="+ data[a]['old_target'] +"><input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="+ data[a]['target_fixing_id'] +"><input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="+ data[a]['target_fixing_ref_id'] +"></td>" +
-            "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['new_target'] +"></input></td>" +
-            "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ data[a]['cdate'] +" ></input></td>" +
+            var appendTxt = "<tr><td><input tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' value="+ data.emp_data_list[a]['new_assertion'] +" readonly><input type='hidden' class='form-control' id='old_target' name='old_target[]' value="+ data.emp_data_list[a]['old_target'] +"><input type='hidden' class='form-control' id='target_fixing_id' name='target_fixing_id[]' value="+ data.emp_data_list[a]['target_fixing_id'] +"><input type='hidden' class='form-control' id='target_fixing_ref_id' name='target_fixing_ref_id[]' value="+ data.emp_data_list[a]['target_fixing_ref_id'] +"></td>" +
+            "<td><input tabindex='7' type='text' class='form-control' id='target' name='target[]' value="+ data.emp_data_list[a]['new_target'] +" readonly></input></td>" +
+            "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ data.emp_data_list[a]['cdate'] +" readonly></input></td>" +
             "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
             "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td></tr>";
+console.log("appendTxt",appendTxt);
              $('#moduleTable').find('tbody').append(appendTxt);
             }
             wstatus();
