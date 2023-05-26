@@ -216,10 +216,10 @@
                             </div>
                            <!-- <div class="row" > -->
                           <?php if($idupd>0){ ?>
-                           <div class="col-md-12" id="tables" >
+                              <div class="col-md-12" id="tables" >
                            <?php }else{ ?>
                               <div class="col-md-12 hidden" id="tables" >
-                              <?php } ?>
+                           <?php } ?>
                               <table id="moduleTable" class="table custom-table" >
                                  <thead>
                                     <tr>
