@@ -326,7 +326,7 @@ if($idupd>0)
                             <br><br>
                             <div class="text-right">
                                 <button type="submit" name="submitKraCreation" id="submitKraCreation" class="btn btn-primary" value="Submit" tabindex="8">Submit</button>
-                                <button type="reset" class="btn btn-outline-secondary" tabindex="9">Cancel</button>
+                                <!-- <button type="reset" class="btn btn-outline-secondary" tabindex="9">Cancel</button> -->
                             </div>
                         </div>
                     </div>

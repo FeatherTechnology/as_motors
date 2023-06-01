@@ -662,6 +662,11 @@
 			if(isset($_POST['userid'])){
 				$userid = $_POST['userid'];
 			} 
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = '';
+			}
 
 			if($calendar == "No"){
 				$from_date = '';
@@ -671,11 +676,158 @@
 				$to_date = $to_date1.' '.$current_time;
 			}
 		
-			$auditInsert="INSERT INTO audit_area_creation(audit_area, frequency, department_id, calendar, from_date, to_date, role1, role2, check_list, insert_login_id) 
-			VALUES('".strip_tags($audit_area)."', '".strip_tags($frequency)."', '".strip_tags($department_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."', 
-			'".strip_tags($to_date)."', '".strip_tags($role1)."', '".strip_tags($role2)."', '".strip_tags($check_list)."','".strip_tags($userid)."' )";
-
+			$auditInsert="INSERT INTO audit_area_creation(audit_area, frequency, frequency_applicable, department_id, calendar, from_date, to_date, role1, role2, check_list, 
+			insert_login_id) VALUES ('".strip_tags($audit_area)."', '".strip_tags($frequency)."', '".strip_tags($frequency_applicable)."', '".strip_tags($department_id)."', 
+			'".strip_tags($calendar)."', '".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($role1)."', '".strip_tags($role2)."', 
+			'".strip_tags($check_list)."','".strip_tags($userid)."' )";
 			$insresult=$mysqli->query($auditInsert) or die("Error ".$mysqli->error);
+			$lastid = $mysqli->insert_id;
+
+			// select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
+
+			if($frequency_applicable == 'frequency_applicable'){
+
+				if ($frequency == 'Fortnightly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Monthly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Quaterly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Half Yearly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				}
+
+				for($i=0; $i<=sizeof($from_dates)-1; $i++){
+
+					$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
+					'".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				} 
+			} else {
+
+				$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($lastid)."', '".strip_tags($from_date)."', 
+				'".strip_tags($to_date)."' )";
+				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+			}
+
 		}
 
 		// Get Audit
@@ -690,6 +842,7 @@
 				$detailrecords['audit_area_id']      = $row->audit_area_id; 
 				$detailrecords['audit_area']      = $row->audit_area;
 				$detailrecords['frequency']      = $row->frequency;
+				$detailrecords['frequency_applicable']      = $row->frequency_applicable;
 				$detailrecords['department_id']      = $row->department_id;  	
 				$detailrecords['calendar']       = $row->calendar;
 				$detailrecords['from_date']       = $row->from_date;
@@ -697,7 +850,6 @@
 				$detailrecords['role1']       = $row->role1;
 				$detailrecords['role2']         = $row->role2;
 				$detailrecords['check_list']       = $row->check_list;
-				
 			}
 			
 			return $detailrecords;
@@ -740,6 +892,11 @@
 			if(isset($_POST['userid'])){
 				$userid = $_POST['userid'];
 			} 
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = '';
+			}
 
 			if($calendar == "No"){
 				$from_date = '';
@@ -749,11 +906,160 @@
 				$to_date = $to_date1.' '.$current_time;
 			}
 		
-		   $auditUpdaet = "UPDATE audit_area_creation SET audit_area = '".strip_tags($audit_area)."', frequency='".strip_tags($frequency)."',
+		   $auditUpdaet = "UPDATE audit_area_creation SET audit_area = '".strip_tags($audit_area)."', frequency='".strip_tags($frequency)."', frequency_applicable='".strip_tags($frequency_applicable)."',
 		   department_id='".strip_tags($department_id)."', calendar='".strip_tags($calendar)."', from_date='".strip_tags($from_date)."', to_date='".strip_tags($to_date)."',
 		   role1='".strip_tags($role1)."', role2='".strip_tags($role2)."', check_list='".strip_tags($check_list)."', update_login_id='".strip_tags($userid)."', status = '0' 
 		   WHERE audit_area_id= '".strip_tags($id)."' ";
 		   $updresult = $mysqli->query($auditUpdaet )or die ("Error in in update Query!.".$mysqli->error);
+
+		   // delete audit area ref
+			$DeleterrRef = $mysqli->query("DELETE FROM audit_area_creation_ref WHERE audit_area_id = '".$id."' ");
+
+		   // select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
+
+			if($frequency_applicable == 'frequency_applicable'){
+
+				if ($frequency == 'Fortnightly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Monthly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Quaterly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Half Yearly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				}
+
+				for($i=0; $i<=sizeof($from_dates)-1; $i++){
+
+					$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($id)."', 
+					'".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				} 
+			} else {
+
+				$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($id)."', '".strip_tags($from_date)."', 
+				'".strip_tags($to_date)."' )";
+				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+			}
+
 	 	}
 
 		//  Delete audit
@@ -1297,9 +1603,9 @@
 			// if(isset($_POST['applicability'])){
 			// 	$applicability = $_POST['applicability'];
 			// }
-			if(isset($_POST['frequency'])){
-				$frequency = $_POST['frequency'];
-			}
+			// if(isset($_POST['frequency'])){
+			// 	$frequency = $_POST['frequency'];
+			// }
 			// if(isset($_POST['code_ref'])){
 			// 	$code_ref = $_POST['code_ref'];
 			// }
@@ -1313,9 +1619,8 @@
 
 			for($i=0; $i<=sizeof($department)-1; $i++){
 
-				$rr1Insert="INSERT INTO rr_creation_ref(rr_reff_id,rr, department, designation, frequency, insert_login_id)
-				VALUES('".strip_tags($RRId)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."',
-				'".strip_tags($frequency[$i])."', '".strip_tags($userid)."' )";
+				$rr1Insert="INSERT INTO rr_creation_ref(rr_reff_id,rr, department, designation, insert_login_id)
+				VALUES('".strip_tags($RRId)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($userid)."' )";
 				$insresult=$mysqli->query($rr1Insert) or die("Error ".$mysqli->error);
 			} 
 
@@ -1348,7 +1653,7 @@
 					$department[]             = $row1->department; 
 					$designation[]      = $row1->designation;
 					// $applicability[]      = $row1->applicability;
-					$frequency[]      = $row1->frequency;
+					// $frequency[]      = $row1->frequency;
 					// $code_ref[]      = $row1->code_ref;
 					$rr[]      = $row1->rr;
 
@@ -1360,7 +1665,7 @@
 				$detailrecords['department']      = $department;
 				$detailrecords['designation'] = $designation;  	
 				// $detailrecords['code_ref']   = $code_ref;  	
-				$detailrecords['frequency']   = $frequency;  	
+				// $detailrecords['frequency']   = $frequency;  	
 				// $detailrecords['applicability']  = $applicability;
 				$detailrecords['rr'] = $rr;  	
 				
@@ -1371,7 +1676,7 @@
 				$detailrecords['department']     = array();
 				$detailrecords['designation']    = array(); 
 				// $detailrecords['applicability']  = array(); 
-				$detailrecords['frequency']      = array(); 
+				// $detailrecords['frequency']      = array(); 
 				// $detailrecords['code_ref']       = array(); 
 				$detailrecords['rr']             = array(); 
 			}
@@ -1397,9 +1702,9 @@
 			// if(isset($_POST['applicability'])){
 			// 	$applicability = $_POST['applicability'];
 			// }
-			if(isset($_POST['frequency'])){
-				$frequency = $_POST['frequency'];
-			}
+			// if(isset($_POST['frequency'])){
+			// 	$frequency = $_POST['frequency'];
+			// }
 			// if(isset($_POST['code_ref'])){
 			// 	$code_ref = $_POST['code_ref'];
 			// }
@@ -1414,9 +1719,8 @@
 
 			for($i=0; $i<=sizeof($department)-1; $i++){
 
-				$rrUpdaet = "INSERT INTO rr_creation_ref(rr_reff_id, rr, department, designation,frequency, insert_login_id) 
-					VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."', 
-					'".strip_tags($frequency[$i])."','".strip_tags($userid)."')";
+				$rrUpdaet = "INSERT INTO rr_creation_ref(rr_reff_id, rr, department, designation, insert_login_id) 
+				VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($userid)."')";
 				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
 			} 
 
@@ -1472,6 +1776,11 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = [];
+			}
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
@@ -1479,13 +1788,21 @@
             $rrInsert="INSERT INTO krakpi_creation(company_name, department, designation, insert_login_id) VALUES('".strip_tags($company_name)."', 
 			'".strip_tags($department)."', '".strip_tags($designation)."', '".strip_tags($userid)."' )";
             $insresult=$mysqli->query($rrInsert) or die("Error ".$mysqli->error);
-            $RRId = $mysqli->insert_id;
+            $lastid = $mysqli->insert_id;
+
+			// select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
 
             for($i=0; $i<=sizeof($rr)-1; $i++){
 
 				if($calendar[$i] == "No"){
 					$from_date = '';
-				}else{
+				} else {
 					$from_date = $from_date1[$i].' '.$current_time;
 				}
 
@@ -1495,11 +1812,150 @@
 					$to_date = $to_date1[$i].' '.$current_time;
 				}
 
-				$krakpiInsert="INSERT INTO krakpi_creation_ref(krakpi_reff_id,rr, criteria, project_id, frequency, calendar, from_date, to_date, insert_login_id, kra_category, 
-				kpi) VALUES ('".strip_tags($RRId)."', '".strip_tags($rr[$i])."','".strip_tags($criteria[$i])."', '".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', 
-				'".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', 
-				'".strip_tags($kpi[$i])."' )";
+				$krakpiInsert="INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, frequency_applicable, calendar, from_date, to_date, 
+				insert_login_id, kra_category, kpi) VALUES ('".strip_tags($lastid)."', '".strip_tags($rr[$i])."','".strip_tags($criteria[$i])."', 
+				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($calendar[$i])."', 
+				'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."' )";
 				$insresult=$mysqli->query($krakpiInsert) or die("Error ".$mysqli->error); 
+				$lastref_id = $mysqli->insert_id;
+
+				if($frequency_applicable[$i] == 'frequency_applicable'){
+
+					if ($frequency[$i] == 'Fortnightly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Monthly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Quaterly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Half Yearly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					}
+
+					for($j=0; $j<=sizeof($from_dates)-1; $j++){
+
+						$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
+						'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', 
+						'".strip_tags($to_dates[$j].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+				} else {
+
+					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
+					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				}
 			} 
 
 			return true;
@@ -1531,6 +1987,7 @@
                     $criteria[]       = $row1->criteria;
                     $project_id[]       = $row1->project_id;
                     $frequency[]           = $row1->frequency;
+                    $frequency_applicable[]           = $row1->frequency_applicable;
                     $calendar[]           = $row1->calendar;
                     $from_date[]           = $row1->from_date;
                     $to_date[]           = $row1->to_date;
@@ -1542,8 +1999,9 @@
             if($rrRefid > 0)
             {
                 $detailrecords['krakpi_ref_id'] = $krakpi_ref_id;
-                $detailrecords['code_ref'] = $code_ref;
+                // $detailrecords['code_ref'] = $code_ref;
                 $detailrecords['frequency'] = $frequency;
+                $detailrecords['frequency_applicable'] = $frequency_applicable;
                 $detailrecords['calendar'] = $calendar;
                 $detailrecords['from_date'] = $from_date;
                 $detailrecords['to_date'] = $to_date;
@@ -1559,10 +2017,11 @@
                 $detailrecords['criteria'] = array();
                 $detailrecords['project_id'] = array();
                 $detailrecords['frequency']     = array();
+                $detailrecords['frequency_applicable']     = array();
                 $detailrecords['calendar']     = array();
                 $detailrecords['from_date']     = array();
                 $detailrecords['to_date']     = array();
-                $detailrecords['code_ref']      = array();
+                // $detailrecords['code_ref']      = array();
                 $detailrecords['rr']            = array();
                 $detailrecords['kra_category']            = array();
                 $detailrecords['kpi']            = array();
@@ -1613,6 +2072,11 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = [];
+			}
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
@@ -1620,8 +2084,18 @@
             $updateQry = 'UPDATE krakpi_creation SET company_name = "'.strip_tags($company_name).'", department = "'.strip_tags($department).'", 
 			designation = "'.strip_tags($designation).'", status = "0" WHERE krakpi_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
             $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error);
-            $DeleterrRef = $mysqli->query("DELETE FROM krakpi_creation_ref WHERE krakpi_reff_id = '".$id."' ");
 
+            $DeleterrRef = $mysqli->query("DELETE FROM krakpi_creation_ref WHERE krakpi_reff_id = '".$id."' ");
+            $DeleterCalendar = $mysqli->query("DELETE FROM krakpi_calendar_map WHERE krakpi_id = '".$id."' ");
+
+			// select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
+			
             for($i=0; $i<=sizeof($rr)-1; $i++){
 
 				if($calendar[$i] == "No"){
@@ -1636,12 +2110,151 @@
 					$to_date = $to_date1[$i].' '.$current_time;
 				}
 
-				$rrUpdaet = "INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, calendar, from_date, to_date, insert_login_id, 
-				kra_category, kpi)
-				VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."', '".strip_tags($criteria[$i])."', '".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', 
-				'".strip_tags($calendar[$i])."','".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', 
-				'".strip_tags($kpi[$i])."')";  
+				$rrUpdaet = "INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, frequency_applicable, calendar, from_date, to_date, 
+				insert_login_id, kra_category, kpi)VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."', '".strip_tags($criteria[$i])."', 
+				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($calendar[$i])."', 
+				'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."')";  
 				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+				$lastref_id = $mysqli->insert_id;
+
+				if($frequency_applicable[$i] == 'frequency_applicable'){
+
+					if ($frequency[$i] == 'Fortnightly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Monthly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Quaterly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} else if ($frequency[$i] == 'Half Yearly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					}
+
+					for($j=0; $j<=sizeof($from_dates)-1; $j++){
+
+						$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($id)."', 
+						'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', 
+						'".strip_tags($to_dates[$j].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+
+				} else {
+
+					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($id)."', 
+					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				}
 			}
 
 			return true;
@@ -3040,17 +3653,99 @@
 			if(isset($_POST['staff_name'])){
 				$staff_id = $_POST['staff_name'];
 			}
+			if(isset($_POST['calendar'])){
+				$calendar = $_POST['calendar'];
+			}
 			if(isset($_POST['from_date'])){
-				$from_date = $_POST['from_date'];
+				$from_date1 = $_POST['from_date'];
 			}
 			if(isset($_POST['to_date'])){
-				$to_date = $_POST['to_date'];
+				$to_date1 = $_POST['to_date'];
+			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = '';
 			}
 
-			$insertQry="INSERT INTO insurance_register(company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, from_date, to_date, created_date) 
-			VALUES('".strip_tags($company_id)."','".strip_tags($insurance_id)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', 
-			'".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($from_date)."', '".strip_tags($to_date)."', current_timestamp() )";
-			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);			
+			date_default_timezone_set('Asia/Calcutta');
+			$current_time = date('H:i:s');
+
+			if($calendar == "No"){
+				$from_date = '';
+				$to_date = '';
+			} else {
+				$from_date = $from_date1.' '.$current_time;
+				$to_date = $to_date1.' '.$current_time;
+			}
+
+			$insertQry="INSERT INTO insurance_register(company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, 
+			frequency_applicable, created_date) VALUES ('".strip_tags($company_id)."','".strip_tags($insurance_id)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', 
+			'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."', 
+			'".strip_tags($to_date)."', '".strip_tags($frequency_applicable)."', current_timestamp() )";
+			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+			$last_id  = $mysqli->insert_id;
+		
+			// select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
+
+			if($frequency_applicable == 'frequency_applicable'){
+
+				if ($freq_id == 1) {
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+	
+					for($i=0; $i<=sizeof($from_dates)-1; $i++){
+	
+						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
+						calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
+						'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
+						'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', 
+						'".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+				} 
+			} else {
+
+				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
+				calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
+				'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
+				'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
+				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+			}
+
 		}
 
 		// Update Insurance Register
@@ -3077,28 +3772,111 @@
 			if(isset($_POST['staff_name'])){
 				$staff_id = $_POST['staff_name'];
 			}
+			if(isset($_POST['calendar'])){
+				$calendar = $_POST['calendar'];
+			}
 			if(isset($_POST['from_date'])){
-				$from_date = $_POST['from_date'];
+				$from_date1 = $_POST['from_date'];
 			}
 			if(isset($_POST['to_date'])){
-				$to_date = $_POST['to_date'];
+				$to_date1 = $_POST['to_date'];
+			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}else{
+				$frequency_applicable = '';
+			}
+			
+			date_default_timezone_set('Asia/Calcutta');
+			$current_time = date('H:i:s');
+
+			if($calendar == "No"){
+				$from_date = '';
+				$to_date = '';
+			} else {
+				$from_date = $from_date1.' '.$current_time;
+				$to_date = $to_date1.' '.$current_time;
 			}
 
 			$updQry="UPDATE insurance_register set company_id = '".strip_tags($company_id)."', insurance_id = '".strip_tags($insurance_id)."', 
 			dept_id = '".strip_tags($dept_id)."', freq_id = '".strip_tags($freq_id)."', department_id = '".strip_tags($department_id)."', 
-			designation_id = '".strip_tags($designation_id)."', staff_id = '".strip_tags($staff_id)."', from_date = '".strip_tags($from_date)."', 
-			to_date = '".strip_tags($to_date)."',  status = 0 WHERE ins_reg_id  = '".strip_tags($id)."' ";
+			designation_id = '".strip_tags($designation_id)."', staff_id = '".strip_tags($staff_id)."', calendar = '".strip_tags($calendar)."', 
+			from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', frequency_applicable = '".strip_tags($frequency_applicable)."',  
+			status = 0 WHERE ins_reg_id  = '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
+
+			// delete insurance ref
+			$DeleterrRef = $mysqli->query("DELETE FROM insurance_register_ref WHERE ins_reg_id = '".$id."' ");
+
+			// select holiday
+			$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+			$res9 = $mysqli->query($getqry9);
+			$holiday_dates = [];
+			while ($row9 = $res9->fetch_assoc()) {
+				$holiday_dates[] = $row9["holiday_date"];
+			}
+
+			if($frequency_applicable == 'frequency_applicable'){
+
+				if ($freq_id == 1) {
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+					
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+
+					for($i=0; $i<=sizeof($from_dates)-1; $i++){
+
+						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
+						calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
+						'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
+						'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', 
+						'".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+				} 
+			} else {
+
+				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
+				calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
+				'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
+				'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
+				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+			}
 		}
 		
-		//get Insurance creation Table
+		// get Insurance creation Table
 		public function getInsuranceRegisterTable($mysqli,$id) {
 
 			$qry = "SELECT * FROM insurance_register WHERE ins_reg_id  = '".$id."' ORDER BY ins_reg_id ASC"; 
 			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 			$detailrecords = array();
 			$i=0;
-			if ($mysqli->affected_rows>0)
+			if($mysqli->affected_rows>0)
 			{
 				while($row = $res->fetch_object())
 				{
@@ -3110,11 +3888,14 @@
 					$detailrecords[$i]['department_id']= $row->department_id;
 					$detailrecords[$i]['designation_id']= $row->designation_id;
 					$detailrecords[$i]['staff_id']= $row->staff_id;
+					$detailrecords[$i]['calendar']= $row->calendar;
 					$detailrecords[$i]['from_date']= $row->from_date;
 					$detailrecords[$i]['to_date']= $row->to_date;
+					$detailrecords[$i]['frequency_applicable']= $row->frequency_applicable;
 					$i++;
 				}
 			}
+
 			return $detailrecords;
 		}
 		
@@ -3675,8 +4456,9 @@
 
 
 		// get company and branch name based on session id
-        public function getsCompanyBranchDetail($mysqli, $sbranch_id){
-            $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
+		public function getsCompanyBranchDetail($mysqli, $sbranch_id){
+            $qry = "SELECT * FROM branch_creation WHERE company_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
+			// print_r($qry);
             $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
             $detailrecords = array();
             // $detailrecords['company_name'] = '';
@@ -3686,12 +4468,15 @@
             {
                 while($row = $res->fetch_object())
                 {
+					
+					$detailrecords['branch_id']          = strip_tags($row->branch_id);
                     $detailrecords['branch_name']          = strip_tags($row->branch_name);
                     $detailrecords['company_id']          = strip_tags($row->company_id);
                     $detailrecords['address1']          = strip_tags($row->address1);
                     $detailrecords['address2']          = strip_tags($row->address2);
                     $detailrecords['state']          = strip_tags($row->state);
                     $detailrecords['city']          = strip_tags($row->city);
+					
                         $getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
                         $res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
                         while ($row2 = $res1->fetch_object()) {
@@ -3703,6 +4488,7 @@
             }
             return $detailrecords;
         }
+
 		// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
         // public function getsroleDetail ($mysqli, $sbranch_id){
 		// 	$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.branch_id in ('$sbranch_id')  AND u.status=0 ORDER BY u.branch_id ASC";
@@ -4965,22 +5751,25 @@
 			if(isset($_POST['frequency'])){
 				$frequency = $_POST['frequency'];
 			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
 			if(isset($_POST['rating'])){
 				$rating = $_POST['rating'];
 			} 
 
-			$rrInsert="INSERT INTO pm_checklist(company_id, category_id, checklist, type_of_checklist, yes_no_na, no_of_option, option1, option2, option3, option4, frequency, 
-			rating, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($checklist)."', '".strip_tags($type_of_checklist)."', 
+			$insertQry="INSERT INTO pm_checklist(company_id, category_id, checklist, type_of_checklist, yes_no_na, no_of_option, option1, option2, option3, option4, frequency, 
+			frequency_applicable, rating, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($checklist)."', '".strip_tags($type_of_checklist)."', 
 			'".strip_tags($yes_no_na)."', '".strip_tags($no_of_option)."', '".strip_tags($option1)."', '".strip_tags($option2)."', '".strip_tags($option3)."', 
-			'".strip_tags($option4)."', '".strip_tags($frequency)."', '".strip_tags($rating)."', '".strip_tags($userid)."')";
-			$insresult=$mysqli->query($rrInsert) or die("Error ".$mysqli->error);
+			'".strip_tags($option4)."', '".strip_tags($frequency)."', '".strip_tags($frequency_applicable)."', '".strip_tags($rating)."', '".strip_tags($userid)."')";
+			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 		}
 
 		// Get PM Checklist
 		public function getPMChecklist($mysqli, $id){
 
-			$rr1Select = "SELECT * FROM pm_checklist WHERE pm_checklist_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
-			$res = $mysqli->query($rr1Select) or die("Error in Get All Records".$mysqli->error);
+			$selectQry = "SELECT * FROM pm_checklist WHERE pm_checklist_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+			$res = $mysqli->query($selectQry) or die("Error in Get All Records".$mysqli->error);
 			$detailrecords = array();
 			if ($mysqli->affected_rows>0)
 			{
@@ -4997,6 +5786,7 @@
 			    $detailrecords['option3']  = $row->option3;
 			    $detailrecords['option4']  = $row->option4;
 			    $detailrecords['frequency']  = $row->frequency;
+			    $detailrecords['frequency_applicable']  = $row->frequency_applicable;
 			    $detailrecords['rating']  = $row->rating;
 			}
 			
@@ -5039,6 +5829,9 @@
 			if(isset($_POST['frequency'])){
 				$frequency = $_POST['frequency'];
 			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
 			if(isset($_POST['rating'])){
 				$rating = $_POST['rating'];
 			} 
@@ -5046,7 +5839,7 @@
 			$updateQry = 'UPDATE pm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'", 
 			checklist = "'.strip_tags($checklist).'", type_of_checklist = "'.strip_tags($type_of_checklist).'", yes_no_na = "'.strip_tags($yes_no_na).'", 
 			no_of_option = "'.strip_tags($no_of_option).'", option1 = "'.strip_tags($option1).'", option2 = "'.strip_tags($option2).'", option3 = "'.strip_tags($option3).'", 
-			option4 = "'.strip_tags($option4).'", frequency = "'.strip_tags($frequency).'", rating = "'.strip_tags($rating).'", status = "0" 
+			option4 = "'.strip_tags($option4).'", frequency = "'.strip_tags($frequency).'", frequency_applicable = "'.strip_tags($frequency_applicable).'", rating = "'.strip_tags($rating).'", status = "0" 
 			WHERE pm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 		}
@@ -5054,8 +5847,8 @@
 		//  Delete PM Checklist
 		public function deletePMChecklist($mysqli, $id, $userid){
 
-			$rrDelete = "UPDATE pm_checklist set status='1', delete_login_id='".strip_tags($userid)."' WHERE pm_checklist_id = '".strip_tags($id)."' ";
-			$runQry = $mysqli->query($rrDelete) or die("Error in delete query".$mysqli->error);
+			$deleteQry = "UPDATE pm_checklist set status='1', delete_login_id='".strip_tags($userid)."' WHERE pm_checklist_id = '".strip_tags($id)."' ";
+			$runQry = $mysqli->query($deleteQry) or die("Error in delete query".$mysqli->error);
 		}
 
 		// Add BM Checklist
@@ -7215,10 +8008,10 @@
 			}
 		}
 
-		//  Get Company Name
+		//  Get goal setting year
 		public function getGoalYear($mysqli) {
 
-			$qry = "SELECT * FROM goal_setting WHERE 1 AND status=0 ORDER BY goal_setting_id ASC"; 
+			$qry = "SELECT * FROM goal_setting WHERE 1 AND status=0 GROUP BY year"; 
 			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 			$detailrecords = array();
 			$i=0;
@@ -7226,13 +8019,14 @@
 			{
 				while($row = $res->fetch_object())
 				{
-					$detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
+					// $detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
 
 					$selectYear = "SELECT * FROM year_creation WHERE year_id = '".strip_tags($row->year)."' ";
 					$res1 = $mysqli->query($selectYear) or die("Error in Get All Records".$mysqli->error);
 					if ($mysqli->affected_rows>0)
 					{
 						while($row1 = $res1->fetch_object()){
+							$detailrecords[$i]['year_id'] = $row1->year_id;
 							$detailrecords[$i]['year'] = $row1->year;
 						}
 					}

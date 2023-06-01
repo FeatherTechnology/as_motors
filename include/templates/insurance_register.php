@@ -15,14 +15,14 @@ $id=0;
  {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	
-    $updateAssetRegister = $userObj->updateInsuranceRegister($mysqli,$id);  
-    ?>
-   <script>location.href='<?php echo $HOSTPATH; ?>edit_insurance_register&msc=2';</script> 
-    <?php	}
+        $updateAssetRegister = $userObj->updateInsuranceRegister($mysqli,$id);  
+        ?>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_insurance_register&msc=2';</script> 
+    <?php }
     else{   
 		$addAssetRegister = $userObj->addInsuranceRegister($mysqli);   
         ?>
-     <script>location.href='<?php echo $HOSTPATH; ?>edit_insurance_register&msc=1';</script>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_insurance_register&msc=1';</script>
         <?php
     }
  }   
@@ -58,8 +58,10 @@ if($idupd>0)
 			$department_id		             = $getInsuranceRegisterList[$i]['department_id'];
 			$designation_id		             = $getInsuranceRegisterList[$i]['designation_id'];
 			$staff_id		             = $getInsuranceRegisterList[$i]['staff_id'];
-			$from_date		             = $getInsuranceRegisterList[$i]['from_date'];
-			$to_date		             = $getInsuranceRegisterList[$i]['to_date'];
+			$calendar		             = $getInsuranceRegisterList[$i]['calendar'];
+			$from_date		             = date('Y-m-d',strtotime($getInsuranceRegisterList[$i]['from_date'])); 
+			$to_date		             = date('Y-m-d',strtotime($getInsuranceRegisterList[$i]['to_date']));  
+			$frequency_applicable		 = $getInsuranceRegisterList[$i]['frequency_applicable'];
 		}
 	}
 
@@ -72,6 +74,8 @@ if($idupd>0)
     <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department_id); ?>" >
     <input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation_id); ?>" >
     <input type="hidden" id="staffEdit" name="staffEdit" value="<?php print_r($staff_id); ?>" >
+    <input type="hidden" id="calendarEdit" name="calendarEdit" value="<?php print_r($calendar); ?>" >
+    <input type="hidden" id="freq_idEdit" name="freq_idEdit" value="<?php print_r($freq_id); ?>" >
    
     <script>
         window.onload=editCompanyBasedBranch;
@@ -107,6 +111,27 @@ if($idupd>0)
             var designationEdit = $('#designationEdit').val(); 
             var staffEdit = $('#staffEdit').val();
 
+            // enable disable calendar
+            var calendar = $('#calendarEdit').val();
+            if(calendar == 'Yes'){ 
+                $('#from_date').attr("readonly",false);
+                $('#to_date').attr("readonly",false);
+            } else if(calendar == 'No'){ 
+                $('#from_date').attr("readonly",true);
+                $('#to_date').attr("readonly",true);
+                $('#from_date').val('');
+                $('#to_date').val('');
+            }
+
+            // enable and disable frequency
+            var frequency = $('#freq_idEdit').val(); 
+            if(frequency == '1'){ 
+                $('#frequency_applicable').attr("disabled",false);
+            } else  if(frequency == '2'){ 
+                $('#frequency_applicable').prop('checked', false);
+                $('#frequency_applicable').attr("disabled",true);
+            }
+    
             resetinsuranceTable(branch_id);
             DropDownInsuranceEdit(branch_id, insurance_upd);
             DropDownDepartmentEdit(branch_id, department_upd);
@@ -318,10 +343,29 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Frequency</label>
-                                            <select tabindex="6" type="text" class="form-control" name="frequency" id="frequency">
+                                            <select tabindex="6" type="text" class="form-control frequency" name="frequency" id="frequency">
                                                 <option value="" >Select Frequency</option>
                                                 <option value="1" <?php if(isset($freq_id )){if($freq_id == "1") echo "selected";} ?>>Half Yearly</option>
                                                 <option value="2" <?php if(isset($freq_id )){if($freq_id == "2") echo "selected"; }?>>Yearly</option>  
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-4" >
+										<div class="form-group">
+                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for next 6 months</label>
+										</div>
+									</div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Calendar</label>
+                                            <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar" >
+                                                <option value=''>Select Calendar</option>
+                                                <option <?php if(isset($calendar)) { if('Yes' == $calendar) echo 'selected';  ?> value="<?php echo 'Yes' ?>">
+                                                <?php echo 'Yes'; } else { ?> <option value="Yes">Yes</option> <?php } ?></option>
+                                                <option <?php if(isset($calendar)) { if('No' == $calendar) echo 'selected';  ?> value="<?php echo 'No' ?>">
+                                                <?php echo 'No'; } else { ?> <option value="No">No</option> <?php } ?></option> 
                                             </select>
                                         </div>
                                     </div>
@@ -330,8 +374,8 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="from_date">Start Date & End Date</label>
                                             <div class="form-inline">
-                                                <input type="date" tabindex = "8" name="from_date" id="from_date" placeholder="From" class="form-control"  value="<?php if (isset($from_date)) echo $from_date; ?>">&nbsp;&nbsp;
-                                                <span>To</span>&nbsp;&nbsp;<input type="date" tabindex = "9" name="to_date" id="to_date" placeholder="To" class="form-control"  value="<?php if (isset($to_date)) echo $to_date; ?>">
+                                                <input readonly type="date" tabindex = "8" name="from_date" id="from_date" placeholder="From" class="form-control"  value="<?php if (isset($from_date)) echo $from_date; ?>">&nbsp;&nbsp;
+                                                <span>To</span>&nbsp;&nbsp;<input readonly type="date" tabindex = "9" name="to_date" id="to_date" placeholder="To" class="form-control"  value="<?php if (isset($to_date)) echo $to_date; ?>">
                                             </div>
                                         </div>
                                     </div>

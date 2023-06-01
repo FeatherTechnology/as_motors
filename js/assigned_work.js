@@ -70,16 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
             var krakpiCount = data.filter(item => item.hasOwnProperty('krakpi_rr')).length;
             for(var i=0;i<krakpiCount;i++){
 
-                var krakpi_work_status = '';
-                if(data[i]['krakpi_work_status'] != ''){
-                    krakpi_work_status = ' - '+ data[i]['krakpi_work_status']; 
+                var krakpi_calendar_map_work_status = '';
+                if(data[i]['krakpi_calendar_map_work_status'] != ''){
+                    krakpi_calendar_map_work_status = ' - '+ data[i]['krakpi_calendar_map_work_status']; 
                 }
                 events.push({ 
-                    title:  data[i]['krakpi_rr'] + krakpi_work_status,
+                    title:  data[i]['krakpi_rr'] + krakpi_calendar_map_work_status,
                     description: data[i]['krakpi_rr'],
-                    krakpi_ref_id:data[i]['krakpi_ref_id'],
-                    start: data[i]['krakpi_from_date'], 
-                    end: data[i]['krakpi_to_date'],
+                    krakpi_calendar_map_id:data[i]['krakpi_calendar_map_id'],
+                    start: data[i]['krakpi_calendar_map_from_date'], 
+                    end: data[i]['krakpi_calendar_map_to_date'],
                 });
                 k++;
             }
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 events.push({ 
                     title:  data[i]['audit_area'] + audit_work_status,
                     description: data[i]['audit_area'],
-                    audit_area_id:data[i]['audit_area_id'],
+                    audit_area_creation_ref_id:data[i]['audit_area_creation_ref_id'],
                     start: data[i]['audit_from_date'], 
                     end: data[i]['audit_to_date'],
                 });
@@ -103,19 +103,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             m = l;
-            var maintenanceCount = data.filter(item => item.hasOwnProperty('maintenance_asset_details')).length;
+            var maintenanceCount = data.filter(item => item.hasOwnProperty('maintenance_checklist_ref_checklist')).length;
             for(var i=0;i<maintenanceCount;i++){
 
-                var maintenance_work_status = '';
-                if(data[i]['maintenance_work_status'] != ''){
-                    maintenance_work_status = ' - '+ data[i]['maintenance_work_status']; 
+                var maintenance_checklist_ref_work_status = '';
+                if(data[i]['maintenance_checklist_ref_work_status'] != ''){
+                    maintenance_checklist_ref_work_status = ' - '+ data[i]['maintenance_checklist_ref_work_status']; 
                 }
                 events.push({ 
-                    title:  data[i]['maintenance_asset_details'] + maintenance_work_status,
-                    description: data[i]['maintenance_asset_details'],
-                    maintenance_checklist_id:data[i]['maintenance_checklist_id'],
-                    start: data[i]['maintenance_from_date'], 
-                    end: data[i]['maintenance_to_date'],
+                    title:  data[i]['maintenance_checklist_ref_checklist'] + maintenance_checklist_ref_work_status,
+                    description: data[i]['maintenance_checklist_ref_checklist'],
+                    maintenance_checklist_ref_id:data[i]['maintenance_checklist_ref_id'],
+                    start: data[i]['maintenance_checklist_ref_from_date'], 
+                    end: data[i]['maintenance_checklist_ref_to_date'],
                 });
                 m++;
             }
@@ -136,6 +136,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     end: data[i]['campaign_end_date'],
                 });
                 n++;
+            }
+
+            p = n;
+            var insuranceCount = data.filter(item => item.hasOwnProperty('insurance_name')).length;
+            for(var i=0;i<insuranceCount;i++){
+
+                var insurance_work_status = '';
+                if(data[i]['insurance_work_status'] != ''){
+                    insurance_work_status = ' - '+ data[i]['insurance_work_status']; 
+                }
+                events.push({ 
+                    title:  data[i]['insurance_name'] + insurance_work_status,
+                    description: data[i]['insurance_name'],
+                    ins_reg_id:data[i]['ins_reg_ref_id'],
+                    start: data[i]['insurance_from_date'], 
+                    end: data[i]['insurance_to_date'],
+                });
+                p++;
             }
          
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -158,17 +176,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     else if(arg.event._def.extendedProps.todo_id != undefined){
                         work_id = 'todo ' + arg.event._def.extendedProps.todo_id;
                     }
-                    else if(arg.event._def.extendedProps.krakpi_ref_id != undefined){
-                        work_id = 'krakpi_ref ' + arg.event._def.extendedProps.krakpi_ref_id;
+                    else if(arg.event._def.extendedProps.krakpi_calendar_map_id != undefined){
+                        work_id = 'krakpi_ref ' + arg.event._def.extendedProps.krakpi_calendar_map_id;
                     }
-                    else if(arg.event._def.extendedProps.audit_area_id != undefined){
-                        work_id = 'audit_area ' + arg.event._def.extendedProps.audit_area_id;
+                    else if(arg.event._def.extendedProps.audit_area_creation_ref_id != undefined){
+                        work_id = 'audit_area ' + arg.event._def.extendedProps.audit_area_creation_ref_id;
                     }
-                    else if(arg.event._def.extendedProps.maintenance_checklist_id != undefined){
-                        work_id = 'maintenance ' + arg.event._def.extendedProps.maintenance_checklist_id;
+                    else if(arg.event._def.extendedProps.maintenance_checklist_ref_id != undefined){
+                        work_id = 'maintenance ' + arg.event._def.extendedProps.maintenance_checklist_ref_id;
                     }
                     else if(arg.event._def.extendedProps.campaign_ref_id != undefined){
                         work_id = 'campaign ' + arg.event._def.extendedProps.campaign_ref_id;
+                    }
+                    else if(arg.event._def.extendedProps.ins_reg_id != undefined){
+                        work_id = 'insurance ' + arg.event._def.extendedProps.ins_reg_id;
                     }
                     var work_des = arg.event._def.extendedProps.description;
                     var end_date = arg.event.endStr;

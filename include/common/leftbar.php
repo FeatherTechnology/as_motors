@@ -1,4 +1,4 @@
-<?php 
+<?php
 if(isset($_SESSION["userid"])){
 	$userid = $_SESSION["userid"];
 } 
@@ -187,7 +187,7 @@ if (sizeof($getuser)>0) {
 
 	/* On mouse-over */
 	.sidenav a:hover, .dropdown-btn1:hover {
-		color: #5090c0;
+		olor: #5090c0;
 	}
 
 	.sidenav a, .dropdown-btn {
@@ -362,38 +362,6 @@ if (sizeof($getuser)>0) {
 										</div>	
 									</li>
 								<?php } ?>	
-								<?php if($audit_sub_module == 0 && $audit_sub_module != '' && $audit_sub_module != NULL) { ?>
-									<li class="sidebar-dropdown1">
-										<a href="javascript:void(0)">
-											<i class="icon-rate_review"></i>
-											<span class="menu-text" >Audit</span>
-										</a>
-										<div class="sidebar-submenu1">
-											<ul>
-												<?php if($audit_area_creation == 0 && $audit_area_creation != '' && $audit_area_creation != NULL) { ?>
-													<li>
-														<a href="edit_audit_area_creation"><i class="icon-codepen"></i>Audit Area Creation</a>	
-													</li>
-												<?php } ?>
-												<?php if($audit_area_checklist == 0 && $audit_area_checklist != '' && $audit_area_checklist != NULL) { ?>
-													<li>
-														<a href="edit_audit_area_checklist"><i class="icon-compass"></i>Audit Area Check List</a>	
-													</li>
-												<?php } ?>
-												<?php if($audit_assign == 0 && $audit_assign != '' && $audit_assign != NULL) { ?>
-													<li>
-														<a href="edit_audit_assign"><i class="icon-compass"></i>Audit Assign</a>	
-													</li>
-												<?php } ?>
-												<?php if($audit_follow_up == 0 && $audit_follow_up != '' && $audit_follow_up != NULL) { ?>
-													<li>
-														<a href="audit_followup"><i class="icon-compass"></i>Audit Follow Up</a>	
-													</li>
-												<?php } ?>
-											</ul>
-										</div>	
-									</li>
-								<?php } ?>	
 								<?php if($others_sub_module == 0 && $others_sub_module != '' && $others_sub_module != NULL) { ?>
 									<li class="sidebar-dropdown1">
 										<a href="javascript:void(0)">
@@ -450,6 +418,40 @@ if (sizeof($getuser)>0) {
 						</div>
 					</li>
 				<?php } ?>
+
+				<?php if($audit_sub_module == 0 && $audit_sub_module != '' && $audit_sub_module != NULL) { ?>
+					<li class="sidebar-dropdown">
+						<a href="javascript:void(0)">
+							<i class="icon-file-text"></i>
+							<span class="menu-text" >Audit</span>
+						</a>
+						<div class="sidebar-submenu">
+							<ul>
+								<?php if($audit_area_creation == 0 && $audit_area_creation != '' && $audit_area_creation != NULL) { ?>
+									<li>
+										<a href="edit_audit_area_creation"><i class="icon-codepen"></i>Audit Area Creation</a>	
+									</li>
+								<?php } ?>
+								<?php if($audit_area_checklist == 0 && $audit_area_checklist != '' && $audit_area_checklist != NULL) { ?>
+									<li>
+										<a href="edit_audit_area_checklist"><i class="icon-assignment_turned_in"></i>Audit Area Check List</a>	
+									</li>
+								<?php } ?>
+								<?php if($audit_assign == 0 && $audit_assign != '' && $audit_assign != NULL) { ?>
+									<li>
+										<a href="edit_audit_assign"><i class="icon-check-circle"></i>Audit Assign</a>	
+									</li>
+								<?php } ?>
+								<?php if($audit_follow_up == 0 && $audit_follow_up != '' && $audit_follow_up != NULL) { ?>
+									<li>
+										<a href="audit_followup"><i class="icon-compass"></i>Audit Follow Up</a>	
+									</li>
+								<?php } ?>
+							</ul>
+						</div>	
+					</li>
+				<?php } ?>
+
 				<?php if($work_force_module == 0 && $work_force_module != '' && $work_force_module != NULL) { ?>
 					<!-- Workforce Menu -->
 					<li class="sidebar-dropdown">
@@ -469,7 +471,7 @@ if (sizeof($getuser)>0) {
 											<ul>
 												<?php if($campaign == 0 && $campaign != '' && $campaign != NULL) { ?>
 													<li>
-														<a href="edit_campaign"><i class="icon-archive"></i>Campaign</a>
+														<a href="edit_campaign"><i class="icon-rss_feed"></i>Campaign</a>
 													</li>
 												<?php } ?>
 												<?php if($assign_work == 0 && $assign_work != '' && $assign_work != NULL) { ?>
@@ -501,17 +503,17 @@ if (sizeof($getuser)>0) {
 											<ul>
 												<?php if($memo_initiate == 0 && $memo_initiate != '' && $memo_initiate != NULL) { ?>
 													<li>
-														<a href="edit_memo"><i class="icon-ring_volume"></i>Memo Initiate</a>
+														<a href="edit_memo"><i class="icon-reply_all"></i>Memo Initiate</a>
 													</li>
 												<?php } ?>
 												<?php if($memo_assigned == 0 && $memo_assigned != '' && $memo_assigned != NULL) { ?>
 													<li>
-														<a href="edit_memo_assigned"><i class="icon-ring_volume"></i>Memo Assigned</a>
+														<a href="edit_memo_assigned"><i class="icon-view_carousel"></i>Memo Assigned</a>
 													</li>
 												<?php } ?>
 												<?php if($memo_update == 0 && $memo_update != '' && $memo_update != NULL) { ?>
 													<li>
-														<a href="edit_memo_update"><i class="icon-ring_volume"></i>Memo Update</a>
+														<a href="edit_memo_update"><i class="icon-upload-cloud"></i>Memo Update</a>
 													</li>
 												<?php } ?>
 											</ul>
@@ -533,17 +535,17 @@ if (sizeof($getuser)>0) {
 							<ul>
 								<?php if($pm_checklist == 0 && $pm_checklist != '' && $pm_checklist != NULL) { ?>
 									<li>
-										<a href="edit_pm_checklist"><i class="icon-menu1"></i>PM Checklist</a>	
+										<a href="edit_pm_checklist"><i class="icon-card_membership"></i>PM Checklist</a>	
 									</li>
 								<?php } ?>
 								<?php if($bm_checklist == 0 && $bm_checklist != '' && $bm_checklist != NULL) { ?>
 									<li>
-										<a href="edit_bm_checklist"><i class="icon-menu1"></i>BM Checklist</a>	
+										<a href="edit_bm_checklist"><i class="icon-business_center"></i>BM Checklist</a>	
 									</li>
 								<?php } ?>
 								<?php if($maintenance_checklist == 0 && $maintenance_checklist != '' && $maintenance_checklist != NULL) { ?>
 									<li>
-										<a href="edit_maintenance_checklist"><i class="icon-list2"></i>Maintenance Checklist</a>	
+										<a href="edit_maintenance_checklist"><i class="icon-call_split"></i>Maintenance Checklist</a>	
 									</li>
 								<?php } ?>
 							</ul>
@@ -627,7 +629,7 @@ if (sizeof($getuser)>0) {
 								<?php } ?>
 								<?php if($diesel_slip == 0 && $diesel_slip != '' && $diesel_slip != NULL) { ?>
 									<li>
-										<a href="edit_diesel_slip"><i class="icon-local_car_wash"></i>Diesel Slip </a>	
+										<a href="edit_diesel_slip"><i class="icon-location_searching"></i>Diesel Slip </a>	
 									</li>
 								<?php } ?>
 							</ul>
@@ -668,6 +670,7 @@ if (sizeof($getuser)>0) {
 	</div>
 </nav>
 <!-- Sidebar wrapper end -->
+
 
 
 	

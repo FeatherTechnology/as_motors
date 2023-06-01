@@ -2,11 +2,19 @@
 include('ajaxconfig.php');
 @session_start();
 date_default_timezone_set('Asia/Calcutta');
+$current_date = date('m');
 
 if(isset($_SESSION["staffid"])){
     $staff_id = $_SESSION["staffid"];
 }else{
     $staff_id = 0;
+}
+
+$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+$res9 = $con->query($getqry9);
+$holiday_dates = [];
+while ($row9 = $res9->fetch_assoc()) {
+    $holiday_dates[] = $row9["holiday_date"];
 }
 
 $detailRecords = array();
@@ -66,17 +74,20 @@ while($row1 = $res1->fetch_assoc())
 }
 
 // get KRA & KPI list
-$getqry2 = "SELECT krakpi_id, company_name, department, designation, krakpi_ref_id, kra_category, rr, kpi, frequency, from_date, to_date, work_status 
-FROM krakpi_creation_ref LEFT JOIN krakpi_creation ON krakpi_creation_ref.krakpi_reff_id = krakpi_creation.krakpi_id WHERE krakpi_creation.status = 0 
-AND krakpi_creation.designation = '".$designation."' AND krakpi_creation_ref.work_status != 3 AND krakpi_creation_ref.calendar = 'Yes' ";
+$getqry2 = "SELECT krakpi_calendar_map.krakpi_calendar_map_id, krakpi_calendar_map.krakpi_ref_id, krakpi_calendar_map.kra_category, krakpi_calendar_map.from_date, 
+krakpi_calendar_map.to_date, krakpi_calendar_map.work_status 
+FROM krakpi_calendar_map LEFT JOIN krakpi_creation ON krakpi_calendar_map.krakpi_id = krakpi_creation.krakpi_id WHERE krakpi_creation.status = 0 
+AND krakpi_creation.designation = '".$designation."' AND krakpi_calendar_map.work_status != 3 AND krakpi_calendar_map.calendar = 'Yes' ";
 $res2 = $con->query($getqry2);
 $i=0;
 while($row2 = $res2->fetch_assoc())
 {
-    $detailRecords[$i]['krakpi_id'] = $row2["krakpi_id"];          
-    $detailRecords[$i]['krakpi_designation'] = $row2["designation"];        
-    $detailRecords[$i]['krakpi_ref_id'] = $row2["krakpi_ref_id"];        
-    $rr = $row2["rr"];
+    $detailRecords[$i]['krakpi_calendar_map_id'] = $row2["krakpi_calendar_map_id"];          
+    $getqry3 = "SELECT rr FROM krakpi_creation_ref WHERE status = 0 AND krakpi_ref_id = '".$row2["krakpi_ref_id"]."' ";
+    $res3 = $con->query($getqry3);
+    while($row3 = $res3->fetch_assoc()){ 
+        $rr = $row3["rr"];
+    }
     if($rr == 'New'){
         $detailRecords[$i]['krakpi_rr'] = $row2["kpi"]; 
     }else{
@@ -86,28 +97,46 @@ while($row2 = $res2->fetch_assoc())
             $detailRecords[$i]['krakpi_rr'] = $row3["rr"];   
         }
     }           
-    $detailRecords[$i]['krakpi_from_date'] = $row2["from_date"];      
-    $detailRecords[$i]['krakpi_to_date'] = $row2["to_date"];   
+
+    $checkFromDate = date('m', strtotime($row2["from_date"]));
+    $checkToDate = date('m', strtotime($row2["to_date"]));
+
+    if ($checkFromDate == $current_date) {
+
+        $detailRecords[$i]['krakpi_calendar_map_from_date'] = $row2["from_date"];      
+        $detailRecords[$i]['krakpi_calendar_map_to_date'] = $row2["to_date"];   
+    }
     
     $work_status1 = $row2["work_status"];
     if ($work_status1 == 0) {$work_status = '';}
     if ($work_status1 == 1) {$work_status = 'In Progress';}
     if ($work_status1 == 2) {$work_status = 'Pending';}
-    $detailRecords[$i]['krakpi_work_status'] = $work_status;   
+    $detailRecords[$i]['krakpi_calendar_map_work_status'] = $work_status;   
     $i++;
 }
 
 // get audit area creation list
-$getqry4 = "SELECT * FROM audit_area_creation WHERE status = 0 and work_status != 3  AND calendar = 'Yes' AND (role1 = '".$designation."' OR role2 = '".$designation."') "; 
+$getqry4 = "SELECT audit_area_creation_ref.audit_area_creation_ref_id, audit_area_creation_ref.audit_area_id, audit_area_creation_ref.from_date, 
+audit_area_creation_ref.to_date, audit_area_creation_ref.work_status, audit_area_creation.audit_area  
+FROM audit_area_creation_ref LEFT JOIN audit_area_creation  ON audit_area_creation_ref.audit_area_id = audit_area_creation.audit_area_id WHERE audit_area_creation.status = 0 
+AND audit_area_creation_ref.work_status != 3 AND audit_area_creation.calendar = 'Yes' AND (audit_area_creation.role1 = '".$designation."' 
+OR audit_area_creation.role2 = '".$designation."') "; 
 $res4 = $con->query($getqry4);
 $i=0;
 while($row4 = $res4->fetch_assoc())
 {
-    $detailRecords[$i]['audit_area_id'] = $row4["audit_area_id"];      
-    $detailRecords[$i]['audit_area'] = $row4["audit_area"];      
-    $detailRecords[$i]['audit_from_date'] = $row4["from_date"];      
-    $detailRecords[$i]['audit_to_date'] = $row4["to_date"];          
+    $detailRecords[$i]['audit_area_creation_ref_id'] = $row4["audit_area_creation_ref_id"];      
+    $detailRecords[$i]['audit_area'] = $row4["audit_area"];    
     
+    $checkFromDate = date('m', strtotime($row4["from_date"]));
+    $checkToDate = date('m', strtotime($row4["to_date"]));
+
+    if ($checkFromDate == $current_date) {
+    
+        $detailRecords[$i]['audit_from_date'] = $row4["from_date"];      
+        $detailRecords[$i]['audit_to_date'] = $row4["to_date"];          
+    }
+
     $work_status1 = $row4["work_status"];
     if ($work_status1 == 0) {$work_status = '';}
     if ($work_status1 == 1) {$work_status = 'In Progress';}
@@ -117,25 +146,32 @@ while($row4 = $res4->fetch_assoc())
 }
 
 // get maintenance checklist list
-$getqry5 = "SELECT * FROM maintenance_checklist WHERE status = 0 and work_status != 3 AND calendar = 'Yes' AND (role1 = '".$designation."' OR role2 = '".$designation."') "; 
+$getqry5 = "SELECT pm_checklist_ref.pm_checklist_ref_id, pm_checklist_ref.maintenance_checklist_id,  pm_checklist_ref.pm_checklist_id, pm_checklist_ref.checklist, 
+pm_checklist_ref.from_date, pm_checklist_ref.to_date, pm_checklist_ref.work_status FROM pm_checklist_ref LEFT JOIN maintenance_checklist 
+ON pm_checklist_ref.maintenance_checklist_id = maintenance_checklist.maintenance_checklist_id WHERE maintenance_checklist.status = 0 
+AND pm_checklist_ref.work_status != 3 AND maintenance_checklist.calendar = 'Yes' AND (maintenance_checklist.role1 = '".$designation."' 
+OR maintenance_checklist.role2 = '".$designation."') "; 
 $res5 = $con->query($getqry5);
 $i=0;
 while($row5 = $res5->fetch_assoc())
 {
-    $detailRecords[$i]['maintenance_checklist_id'] = $row5["maintenance_checklist_id"];      
-    $getqry6 = "SELECT asset_name FROM asset_register WHERE status = 0 AND asset_id = '". $row5["asset_details"]."' ";
-    $res6 = $con->query($getqry6);
-    while($row6 = $res6->fetch_assoc()){
-        $detailRecords[$i]['maintenance_asset_details'] = $row6["asset_name"];   
-    }
-    $detailRecords[$i]['maintenance_from_date'] = $row5["from_date"];      
-    $detailRecords[$i]['maintenance_to_date'] = $row5["to_date"];          
+    $detailRecords[$i]['maintenance_checklist_ref_id'] = $row5["pm_checklist_ref_id"];
+    $detailRecords[$i]['maintenance_checklist_ref_checklist'] = $row5["checklist"];
+
+    $checkFromDate = date('m', strtotime($row5["from_date"]));
+    $checkToDate = date('m', strtotime($row5["to_date"]));
+
+    if ($checkFromDate == $current_date) {
+
+        $detailRecords[$i]['maintenance_checklist_ref_from_date'] = $row5["from_date"];      
+        $detailRecords[$i]['maintenance_checklist_ref_to_date'] = $row5["to_date"];  
+    }        
     
     $work_status1 = $row5["work_status"];
     if ($work_status1 == 0) {$work_status = '';}
     if ($work_status1 == 1) {$work_status = 'In Progress';}
     if ($work_status1 == 2) {$work_status = 'Pending';}
-    $detailRecords[$i]['maintenance_work_status'] = $work_status;   
+    $detailRecords[$i]['maintenance_checklist_ref_work_status'] = $work_status;   
     $i++;
 }
 
@@ -159,6 +195,40 @@ while($row6 = $res6->fetch_assoc())
     if ($work_status1 == 1) {$work_status = 'In Progress';}
     if ($work_status1 == 2) {$work_status = 'Pending';}
     $detailRecords[$i]['campaign_work_status'] = $work_status;   
+    $i++;
+}
+
+// get insurance register
+$getqry7 = "SELECT insurance_register_ref.ins_reg_ref_id, insurance_register_ref.ins_reg_id, insurance_register.insurance_id, insurance_register_ref.from_date, 
+insurance_register_ref.to_date, insurance_register_ref.work_status 
+FROM insurance_register_ref LEFT JOIN insurance_register 
+ON insurance_register_ref.ins_reg_id = insurance_register.ins_reg_id 
+WHERE insurance_register.status = 0 AND insurance_register_ref.work_status != 3 AND insurance_register.staff_id = '".$staff_id."' ";  
+$res7 = $con->query($getqry7);
+$i=0;
+while($row7 = $res7->fetch_assoc())
+{
+    $detailRecords[$i]['ins_reg_ref_id'] = $row7["ins_reg_ref_id"]; 
+    $getqry8 = "SELECT insurance_name FROM insurance_creation WHERE status = 0 AND insurance_id = '". $row7["insurance_id"]."' ";
+    $res8 = $con->query($getqry8);
+    while($row8 = $res8->fetch_assoc()){
+        $detailRecords[$i]['insurance_name'] = $row8["insurance_name"];   
+    }
+
+    $checkFromDate = date('m', strtotime($row7["from_date"]));
+    $checkToDate = date('m', strtotime($row7["to_date"]));
+
+    if ($checkFromDate == $current_date) {
+
+        $detailRecords[$i]['insurance_from_date'] = $row7["from_date"];
+        $detailRecords[$i]['insurance_to_date'] = $row7["to_date"];
+    }
+    
+    $work_status1 = $row7["work_status"];
+    if ($work_status1 == 0) {$work_status = '';}
+    if ($work_status1 == 1) {$work_status = 'In Progress';}
+    if ($work_status1 == 2) {$work_status = 'Pending';}
+    $detailRecords[$i]['insurance_work_status'] = $work_status;   
     $i++;
 }
 

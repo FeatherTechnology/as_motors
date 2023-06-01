@@ -60,6 +60,7 @@ if($checklist == 'pm_checklist'){ ?>
                     $option4[]	= $row["option4"];
                     $frequency[]	= $row["frequency"];
                     $rating[]	= $row["rating"];
+                    $frequency_applicable[]	= $row["frequency_applicable"];
                 } ?>
 
                 <table class="table custom-table" id="sstable">
@@ -87,21 +88,15 @@ if($checklist == 'pm_checklist'){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
-                                    <!-- <input type="hidden" name="ispmorbm" id="ispmorbm" value="<?php echo 'pm_checklist'; ?>" /> -->
-                                    <td><input tabindex="9" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_checklist_id[$o]; ?>" /></td>
+                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
+                                    <td><input tabindex="9" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_checklist_id[$o]; ?>" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist[]" id="checklist" ></td>
+                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist_textarea[]" id="checklist_textarea" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $type_of_checklist[$o]; ?>" name="type_of_checklist[]" id="type_of_checklist" ></td>
-                                    <!-- <td><input type="text" readonly class="form-control" value="<?php echo $yes_no_na[$o]; ?>" name="yes_no_na[]" id="yes_no_na" ></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $no_of_option[$o]; ?>" name="no_of_option[]" id="no_of_option" ></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $option1[$o]; ?>" name="option1[]" id="option1" ></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $option2[$o]; ?>" name="option2[]" id="option2" ></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $option3[$o]; ?>" name="option3[]" id="option3" ></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $option4[$o]; ?>" name="option4[]" id="option4" ></td> -->
                                     <td><input type="text" readonly class="form-control" value="<?php echo $frequency[$o]; ?>" name="frequency[]" id="frequency" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $rating[$o]; ?>" name="rating[]" id="rating" ></td>
-                                    <td ><textarea tabindex="10" disabled id="remarks" name="remarks[]" rows="3" cols="30" ></textarea></td>
-                                    <td ><input tabindex="11" disabled type="file" name="file[]" id="file" ></td>
+                                    <td><textarea tabindex="10" disabled id="remarks" name="remarks[]" rows="3" cols="30" ></textarea></td>
+                                    <td><input tabindex="11" disabled type="file" name="file[]" id="file" ></td>
                                 </tr>
                             </tbody>
                         <?php $sno = $sno + 1; }

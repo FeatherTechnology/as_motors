@@ -63,6 +63,7 @@ if($idupd>0)
             $krakpi_ref_id            = $getKraKpiCreation['krakpi_ref_id'];
 			$rr                   = $getKraKpiCreation['rr'];	
 			$frequency            = $getKraKpiCreation['frequency'];
+            $frequency_applicable             = $getKraKpiCreation['frequency_applicable']; 
 			$calendar            = $getKraKpiCreation['calendar'];
 			$from_date            = $getKraKpiCreation['from_date'];
 			$to_date            = $getKraKpiCreation['to_date'];
@@ -241,10 +242,11 @@ if($idupd>0)
                                         <th>Criteria</th>
                                         <th>Project</th>
                                         <th>Frequency</th>
+                                        <th>Applicable For All Months</th>
                                         <th>Calender</th>
                                         <th>Start Date & End Date</th>
-                                        <th></th>
-                                        <th>Action</th>
+                                        <!-- <th></th> -->
+                                        <th colspan='2'>Action</th>
                                     </tr>
                                 </thead>
                                 <?php if($idupd<=0){ ?>
@@ -350,6 +352,9 @@ if($idupd>0)
                                                 </select>
                                             </td>
                                             <td>
+                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
+                                            </td>
+                                            <td>
                                                 <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar[]" >
                                                     <option value=''>Select Calendar</option>
                                                     <option value='Yes'>Yes</option>
@@ -439,6 +444,17 @@ if($idupd>0)
                                                                 <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option> 
                                                             </select>
                                                         </td>
+                                                        
+                                                        <?php if($frequency[$i] == 'Fortnightly' || $frequency[$i] == 'Monthly' || $frequency[$i] == 'Quaterly' || $frequency[$i] == 'Half Yearly' ){ ?>
+                                                        <td>
+                                                            <input type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
+                                                        </td>
+                                                        <?php } else if($frequency[$i] == 'Event Driven' || $frequency[$i] == 'Yearly'){  ?>
+                                                            <td>
+                                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
+                                                            </td>
+                                                        <?php } ?>
+
                                                         <td>
                                                             <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar[]" >
                                                                 <option value=''>Select Calendar</option>
@@ -481,7 +497,7 @@ if($idupd>0)
             <div class="col-md-12">
                 <div class="text-right">
                     <button type="submit" tabindex="13"  id="submitKraKpiCreation" name="submitKraKpiCreation" value="Submit" class="btn btn-primary">Save</button>
-                    <button type="reset" tabindex="14"  id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
+                    <!-- <button type="reset" tabindex="14"  id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br /> -->
                 </div>
             </div>       
         </div>

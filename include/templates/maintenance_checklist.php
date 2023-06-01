@@ -27,7 +27,7 @@ if(isset($_POST['submitMaintenanceChecklistBtn']) && $_POST['submitMaintenanceCh
 $del=0;
 if(isset($_GET['del']))
 {
-$del=$_GET['del'];
+    $del=$_GET['del'];
 }
 if($del>0)
 {
@@ -57,8 +57,8 @@ if($idupd>0)
 			$calendar    	                     = $getMaintenanceChecklist['calendar']; 
 			$from_date    	                     = date('Y-m-d',strtotime($getMaintenanceChecklist['from_date']));
 			$to_date    	                     = date('Y-m-d',strtotime($getMaintenanceChecklist['to_date'])); 
-			$role1    	                     = $getMaintenanceChecklist['role1']; 
-			$role2    	                     = $getMaintenanceChecklist['role2'];
+			$role1    	                         = $getMaintenanceChecklist['role1']; 
+			$role2    	                         = $getMaintenanceChecklist['role2'];
 			$maintenance_checklist_ref_id    	 = $getMaintenanceChecklist['maintenance_checklist_ref_id'];
 			$pm_checklist_id    	             = $getMaintenanceChecklist['pm_checklist_id'];
 			$bm_checklist_id    	             = $getMaintenanceChecklist['bm_checklist_id'];
@@ -973,7 +973,7 @@ if($view>0)
                                         </div>
 
                                         <?php if($idupd<=0){ ?>
-                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="margin-top: 19px;">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right" style="margin-top: 19px;">
                                                 <div class="form-group">
                                                     <button type="button" tabindex="8" class="btn btn-primary" id="executeBtn" name="executeBtn" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
                                                 </div>

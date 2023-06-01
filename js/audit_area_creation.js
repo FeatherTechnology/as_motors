@@ -6,7 +6,6 @@ const department_id = new Choices('#department_id', {
 $(document).ready(function(){
 
     $("#role2").change(function(){
-
         var role2 = $("#role2").val();
         var role1   = $("#role1").val();
 
@@ -18,10 +17,9 @@ $(document).ready(function(){
     });
 
     $("#role1").change(function(){
-
         var role2 = $("#role2").val();
         var role1   = $("#role1").val();
-        
+
         if(role2 == role1){
             alert("role1 and role2 shold not be same");
             $("#role1").val('');
@@ -54,6 +52,18 @@ $(document).ready(function(){
     }
   });
 
+  // enable and disable frequency
+  $(document).on("change",".frequency",function(){ 
+    var frequency1 = $(this).children(":selected").text();
+    var frequency = frequency1.trim(); 
+    if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
+      $('#frequency_applicable').attr("disabled",false);
+    } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+      $('#frequency_applicable').prop('checked', false);
+      $('#frequency_applicable').attr("disabled",true);
+    }
+  });
+
 }); 
 
 
@@ -77,7 +87,7 @@ function getdesignation(department_id){
         var selected = "";
         if(designation_upd == response['designation_id'][i]){
           selected = "selected";
-      }
+        }
         $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
       }
     }
