@@ -77,7 +77,7 @@ foreach ($result as $row) {
     }
 
     $company_name='';
-    $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_name']."' AND status=0 ORDER BY branch_id DESC"; 
+    $qry = "SELECT * FROM branch_creation WHERE company_id = '".$row['company_name']."' AND status=0 ORDER BY branch_id DESC"; 
     $res = $con->query($qry);
     while($row5 = $res->fetch_assoc())
     {

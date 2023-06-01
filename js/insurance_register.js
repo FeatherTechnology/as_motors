@@ -233,6 +233,33 @@ $(document).ready(function(){
         }
     });
 
+    // enable and disable calendar
+    $(document).on("change",".calendar",function(){ 
+        var calendar1 = $(this).children(":selected").text();
+        var calendar = calendar1.trim();
+        if(calendar == 'Yes'){ 
+            $('#from_date').attr("readonly",false);
+            $('#to_date').attr("readonly",false);
+        } else if(calendar == 'No'){ 
+            $('#from_date').attr("readonly",true);
+            $('#to_date').attr("readonly",true);
+            $('#from_date').val('');
+            $('#to_date').val('');
+        }
+    });
+
+    // enable and disable frequency
+    $(document).on("change",".frequency",function(){ 
+        var frequency1 = $(this).children(":selected").text();
+        var frequency = frequency1.trim(); 
+        if(frequency == 'Half Yearly'){ 
+            $('#frequency_applicable').attr("disabled",false);
+        } else  if(frequency == 'Yearly'){ 
+            $('#frequency_applicable').prop('checked', false);
+            $('#frequency_applicable').attr("disabled",true);
+        }
+    });
+
 
 });//document ready End
 
@@ -372,7 +399,7 @@ function DropDownDepartmentEdit(company_id,department_upd){
 
             var len = response.length;
             $("#dept").empty();
-            $("#dept").append("<option value=''disabled selected>"+'Select Responsibile Department Name'+"</option>");
+            $("#dept").append("<option value=''disabled selected>"+'Select Department Name'+"</option>");
             for(var i = 0; i<len; i++){
                 var department_id = response[i]['department_id'];
                 var department_name = response[i]['department_name']; 
@@ -438,7 +465,7 @@ function DropDownDepartmentLoad(){
 
             var len = response.length;
             $("#dept").empty();
-            $("#dept").append("<option value='' disabled selected>"+'Select Responsibile Department Name'+"</option>");
+            $("#dept").append("<option value='' disabled selected>"+'Select Department Name'+"</option>");
             for(var i = 0; i<len; i++){ 
                 var department_id = response[i]['department_id']; 
                 var department_name = response[i]['department_name']; 

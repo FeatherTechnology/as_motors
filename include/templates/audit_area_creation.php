@@ -66,6 +66,7 @@ if($idupd>0)
 			$role2    	                = $getAuditAreaCreation['role2'];
 			$frequency    	                = $getAuditAreaCreation['frequency'];
 			$check_list    	                = $getAuditAreaCreation['check_list'];
+			$frequency_applicable    	                = $getAuditAreaCreation['frequency_applicable'];
 		}
 	}
 
@@ -74,6 +75,7 @@ if($idupd>0)
     ?>
 
     <input type="hidden" id="calendarEdit" name="calendarEdit" value="<?php print_r($calendar); ?>" >
+    <input type="hidden" id="frequencyEdit" name="frequencyEdit" value="<?php print_r($frequency); ?>" >
     <script>
         // enable disable calendar
         window.onload=editCompanyBasedBranch;
@@ -88,6 +90,15 @@ if($idupd>0)
                 $('#to_date').attr("readonly",true);
                 $('#from_date').val('');
                 $('#to_date').val('');
+            }
+
+            // enable and disable frequency
+            var frequency = $('#frequencyEdit').val(); 
+            if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){
+                $('#frequency_applicable').attr("disabled",false);
+            } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+                $('#frequency_applicable').prop('checked', false);
+                $('#frequency_applicable').attr("disabled",true);
             }
         }
     </script>
@@ -166,7 +177,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Frequency</label>
-                                            <select type="text" class="form-control" id="frequency" name="frequency" tabindex="4" >
+                                            <select type="text" class="form-control frequency" id="frequency" name="frequency" tabindex="4" >
                                                 <option value="">Select Frequency</option> 
                                                 <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
                                                 <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
@@ -183,6 +194,12 @@ if($idupd>0)
                                             </select> 
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-3" >
+										<div class="form-group">
+                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for all months</label>
+										</div>
+									</div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">

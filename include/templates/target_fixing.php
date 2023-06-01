@@ -252,8 +252,8 @@ if($idupd>0)
                                         <option value="">Select Year</option>    
                                         <?php if (sizeof($goalYear)>0) { 
                                         for($j=0;$j<count($goalYear);$j++) { ?>
-                                        <option <?php if(isset($year_id)) { if($goalYear[$j]['goal_setting_id'] == $year_id) echo 'selected'; } ?>
-                                        value="<?php echo $goalYear[$j]['goal_setting_id']; ?>">
+                                        <option <?php if(isset($year_id)) { if($goalYear[$j]['year_id'] == $year_id) echo 'selected'; } ?>
+                                        value="<?php echo $goalYear[$j]['year_id']; ?>">
                                         <?php echo $goalYear[$j]['year'];?></option>
                                         <?php }} ?>
                                     </select>

@@ -53,21 +53,24 @@ if($idupd>0)
     
     if(sizeof($getRolesResponsibilityCreation)>0) {
         for($ibranch=0;$ibranch<sizeof($getRolesResponsibilityCreation);$ibranch++)  {  
-
             $rr_id                = $getRolesResponsibilityCreation['rr_id'];
             $company_name         = $getRolesResponsibilityCreation['company_name'];
             $rr_ref_id            = $getRolesResponsibilityCreation['rr_ref_id']; 
             $department           = $getRolesResponsibilityCreation['department'];  
-			$designation	      = $getRolesResponsibilityCreation['designation'];
-			$rr                   = $getRolesResponsibilityCreation['rr'];	
-			$frequency            = $getRolesResponsibilityCreation['frequency'];
-            // $applicability        = $getRolesResponsibilityCreation['applicability']; 
-            // $code_ref             = $getRolesResponsibilityCreation['code_ref']; 
+            $designation	       = $getRolesResponsibilityCreation['designation'];
+            $rr                   = $getRolesResponsibilityCreation['rr'];	
+            $frequency             = $getRolesResponsibilityCreation['frequency'];
         }
     } 
-    
+
     $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_name);
-    $editDepartment = $userObj->getEditDepartment($mysqli, $company_name);
+    if(sizeof($sCompanyBranchDetailEdit)>0) {
+        for($ibranch=0;$ibranch<sizeof($sCompanyBranchDetailEdit);$ibranch++)  {  
+            $branch_id                = $sCompanyBranchDetailEdit['branch_id'];
+        }
+    } 
+
+    $editDepartment = $userObj->getEditDepartment($mysqli, $branch_id);
     $editDesignation = $userObj->getEditDesignation($mysqli, $department);
 
     foreach($department as $dept)
@@ -220,7 +223,7 @@ if($idupd>0)
                                             <th>R & R</th>
                                             <!-- <th>Applicability</th> -->
                                             <th>Designation</th>
-                                            <th>Frequency</th>
+                                            <!-- <th>Frequency</th> -->
                                             <!-- <th>Code Ref</th> -->
                                             <th></th>
                                             <th>Action</th>
@@ -273,7 +276,7 @@ if($idupd>0)
                                                         <option value="">Select designation</option>
                                                     </select> 
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <select tabindex="9" type="text" class="form-control frequency" id="frequency" name="frequency[]" >
                                                         <option value=''>Select Frequency</option>
                                                         <option value='Fortnightly'>Fortnightly</option>
@@ -283,7 +286,7 @@ if($idupd>0)
                                                         <option value='yearly'>Yearly</option>
                                                         <option value='Event Driven'>Event Driven</option>
                                                     </select>
-                                                </td>
+                                                </td> -->
                                                 
                                                 <!-- <td>
                                                     <input type="text" tabindex="8" name="code_ref[]" id="code_ref" class="form-control" value="">
@@ -338,7 +341,7 @@ if($idupd>0)
 
                                                             </select>
                                                             </td>
-                                                            <td>
+                                                            <!-- <td>
                                                                 <select tabindex="9" type="text" class="form-control" id="frequency" name="frequency[]" >
                                                                 <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
                                                                 <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
@@ -353,7 +356,7 @@ if($idupd>0)
                                                                 <option <?php if(isset($frequency)) { if('Event Driven' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'Event Driven' ?>">
                                                                 <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option> 
                                                                 </select>
-                                                            </td>
+                                                            </td> -->
                                                             <!-- <td>
                                                                 <input type="text" tabindex="8" name="code_ref[]" id="code_ref" class="form-control" value="<?php if(isset($code_ref)){ echo $code_ref[$i]; } ?>">
                                                             </td> -->
@@ -376,7 +379,7 @@ if($idupd>0)
                 <div class="col-md-12">
                     <div class="text-right">
                         <button type="submit"  tabindex="11"  id="submitRolesResponsibilityCreation" name="submitRolesResponsibilityCreation" value="Submit" class="btn btn-primary">Save</button>
-                        <button type="reset"  tabindex="12"  id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
+                        <!-- <button type="reset"  tabindex="12"  id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br /> -->
                     </div>
                 </div>       
             </div>

@@ -64,7 +64,7 @@ $(document).ready(function () {
             });
         }
         else{
-        $("#loancategorynameCheck").show();
+            $("#loancategorynameCheck").show();
         }
     });
 
@@ -146,6 +146,18 @@ $(document).ready(function () {
             "info": "Showing Page _PAGE_ of _PAGES_",
             }
         });
+    });
+
+    // enable and disable frequency
+    $(document).on("change",".frequency",function(){ 
+        var frequency1 = $(this).children(":selected").text();
+        var frequency = frequency1.trim(); 
+        if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
+            $('#frequency_applicable').attr("disabled",false);
+        } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+            $('#frequency_applicable').prop('checked', false);
+            $('#frequency_applicable').attr("disabled",true);
+        }
     });
 
 });

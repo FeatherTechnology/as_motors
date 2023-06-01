@@ -61,12 +61,14 @@ $(document).ready(function () {
 $("#executeGoalSettingDetails").click(function(){
 
   var company_name = $('#company_name :selected').val();
+  var department = $('#department :selected').val();
+  var designation = $('#designation :selected').val();
   var goal_year = $('#goal_year :selected').val();
   var no_of_months = $('#no_of_months').val();
   $.ajax({
       url:"targetFixingFile/ajaxGetGoalDetails.php",
       method:"post",
-      data: {'company_name': company_name, 'goal_year': goal_year, 'no_of_months': no_of_months},
+      data: { 'company_name': company_name, 'department': department, 'designation': designation, 'goal_year': goal_year, 'no_of_months': no_of_months },
       success:function(html){
           $("#goadSettingDetailsAppend").empty();
           $("#goadSettingDetailsAppend").html(html);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2023 at 03:01 PM
+-- Generation Time: Jun 01, 2023 at 08:44 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -92,13 +92,6 @@ CREATE TABLE `appreciation_depreciation` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `appreciation_depreciation`
---
-
-INSERT INTO `appreciation_depreciation` (`appreciation_depreciation_id`, `review`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `month`, `overall_performance`, `not_done`, `carry_forward`, `strength`, `weakness`, `need_for_improvement`, `overall_rating`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'midterm_review', 1, 1, 1, 1, 1, 5, '1', '1', '0', 'test', 'test2', 'test3', '3', 0, 1, NULL, NULL, '2023-05-25 13:05:49', '2023-05-25 13:05:49');
-
 -- --------------------------------------------------------
 
 --
@@ -115,14 +108,6 @@ CREATE TABLE `appreciation_depreciation_ref` (
   `achievement` varchar(255) DEFAULT NULL,
   `employee_rating` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `appreciation_depreciation_ref`
---
-
-INSERT INTO `appreciation_depreciation_ref` (`appreciation_depreciation_ref_id`, `review`, `appreciation_depreciation_id`, `daily_performance_ref_id`, `assertion`, `target`, `achievement`, `employee_rating`) VALUES
-(1, 'midterm_review', 1, 1, 'demo1', '3', 'test', '1'),
-(2, 'midterm_review', 1, 2, 'kra2', '2', 'test1', '2');
 
 -- --------------------------------------------------------
 
@@ -317,13 +302,6 @@ CREATE TABLE `assign_work` (
   `updated_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `assign_work`
---
-
-INSERT INTO `assign_work` (`work_id`, `company_id`, `status`, `created_date`, `updated_date`, `created_id`, `updated_id`) VALUES
-(1, '1', 0, '2023-05-05 13:27:35', '2023-05-05 13:27:35', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -344,13 +322,6 @@ CREATE TABLE `assign_work_ref` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `assign_work_ref`
---
-
-INSERT INTO `assign_work_ref` (`ref_id`, `assign_work_reff_id`, `department_id`, `designation_id`, `work_des`, `work_des_text`, `priority`, `from_date`, `to_date`, `work_status`, `status`) VALUES
-(1, '1', '1', '1', '2', 'Webapp Creation', NULL, '2023-05-05 00:00:00', '2023-05-16 00:00:00', 3, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -362,6 +333,7 @@ CREATE TABLE `audit_area_creation` (
   `audit_area` varchar(250) DEFAULT NULL,
   `department_id` varchar(250) DEFAULT NULL,
   `frequency` varchar(255) DEFAULT NULL,
+  `frequency_applicable` varchar(100) DEFAULT NULL,
   `calendar` varchar(255) DEFAULT NULL,
   `from_date` varchar(255) DEFAULT NULL,
   `to_date` varchar(255) DEFAULT NULL,
@@ -377,12 +349,19 @@ CREATE TABLE `audit_area_creation` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `audit_area_creation`
+-- Table structure for table `audit_area_creation_ref`
 --
 
-INSERT INTO `audit_area_creation` (`audit_area_id`, `audit_area`, `department_id`, `frequency`, `calendar`, `from_date`, `to_date`, `role1`, `role2`, `check_list`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Area1', '1,2', 'Fortnightly', 'Yes', '2023-05-09 12:31:01', '2023-05-13 12:31:01', '1', '2', 'Yes', 3, 0, 1, NULL, NULL, '2023-05-09 12:31:01', '2023-05-09 12:31:01');
+CREATE TABLE `audit_area_creation_ref` (
+  `audit_area_creation_ref_id` int(11) NOT NULL,
+  `audit_area_id` varchar(50) DEFAULT NULL,
+  `from_date` varchar(100) DEFAULT NULL,
+  `to_date` varchar(100) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -406,16 +385,6 @@ CREATE TABLE `audit_assign` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `audit_assign`
---
-
-INSERT INTO `audit_assign` (`audit_assign_id`, `date_of_audit`, `department_id`, `role1`, `role2`, `audit_area_id`, `auditee_response_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 1, NULL, NULL, '2023-05-12 17:12:19', '2023-05-12 17:12:19'),
-(2, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 21, NULL, NULL, '2023-05-12 17:19:26', '2023-05-12 17:19:26'),
-(3, '2023-05-12', '1,2', '1', '2', '1', 1, 0, 21, NULL, NULL, '2023-05-12 17:21:14', '2023-05-12 17:21:14'),
-(4, '2023-05-12', '1,2', '1', '2', '1', 0, 0, 21, NULL, NULL, '2023-05-12 17:41:39', '2023-05-12 17:41:39');
-
 -- --------------------------------------------------------
 
 --
@@ -435,22 +404,8 @@ CREATE TABLE `audit_assign_ref` (
   `action_plan` varchar(100) DEFAULT NULL,
   `target_date` varchar(100) DEFAULT NULL,
   `auditee_response_status` int(11) NOT NULL DEFAULT 0,
-  `auditee_followup_status` int(11) NOT NULL
+  `auditee_followup_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_assign_ref`
---
-
-INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`, `auditee_followup_status`) VALUES
-(1, '1', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0, 0),
-(2, '1', 'pondy', 'test1', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0, 0),
-(3, '2', 'chennai', 'test', '0', 'asdf', '', 'sdf', NULL, NULL, NULL, 0, 0),
-(4, '2', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0, 0),
-(5, '3', 'chennai', 'test', '0', 'asdf', '', 'asdf', 'asdf', 'asdf1212', '2023-05-12', 1, 0),
-(6, '3', 'pondy', 'test1', '0', 'sadfsfsdf', '', 'asdf', '1212', '121221', '2023-05-22', 1, 0),
-(7, '4', 'chennai', 'test', '0', 'asdf', '', 'sadf', NULL, NULL, NULL, 0, 0),
-(8, '4', 'pondy', 'test1', '0', 'sadf', '', 'asdf', NULL, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -467,13 +422,6 @@ CREATE TABLE `audit_checklist` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `audit_checklist`
---
-
-INSERT INTO `audit_checklist` (`audit_checklist_id`, `audit_area_id`, `department`, `auditor`, `auditee`, `status`) VALUES
-(1, 1, '1,2', '1', '2', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -488,14 +436,6 @@ CREATE TABLE `audit_checklist_ref` (
   `assertion` varchar(200) DEFAULT NULL,
   `weightage` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_checklist_ref`
---
-
-INSERT INTO `audit_checklist_ref` (`audit_checklist_ref_id`, `audit_area_id`, `major_area`, `sub_area`, `assertion`, `weightage`) VALUES
-(1, 1, 'chennai', NULL, 'test', ''),
-(2, 1, 'pondy', NULL, 'test1', '');
 
 -- --------------------------------------------------------
 
@@ -765,15 +705,6 @@ CREATE TABLE `campaign` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `campaign`
---
-
-INSERT INTO `campaign` (`campaign_id`, `promotional_activities_id`, `actual_start_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '2023-05-11', 1, 1, NULL, 1, '2023-05-11 18:38:22', '2023-05-11 18:38:22'),
-(2, '1', '2023-05-11', 0, 1, 1, NULL, '2023-05-11 18:44:19', '2023-05-11 18:44:19'),
-(3, '1', '2023-05-11', 0, 1, 1, NULL, '2023-05-11 18:50:00', '2023-05-11 18:50:00');
-
 -- --------------------------------------------------------
 
 --
@@ -792,18 +723,6 @@ CREATE TABLE `campaign_ref` (
   `employee_name` varchar(255) DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `campaign_ref`
---
-
-INSERT INTO `campaign_ref` (`campaign_ref_id`, `campaign_id`, `promotional_activities_ref_id`, `activity_involved`, `time_frame_start`, `duration`, `start_date`, `end_date`, `employee_name`, `work_status`) VALUES
-(1, '1', '1', 'act 1', '10', '3', '2023-05-11 18:38:22', '2023-05-12 18:38:22', '1', 3),
-(2, '1', '2', 'act 2', '5', '2', '2023-05-11 18:38:22', '2023-05-14 18:38:22', '2', 3),
-(5, '2', '1', 'act 1', '10', '3', ' 18:44:31', ' 18:44:31', '1', 0),
-(6, '2', '2', 'act 2', '5', '2', ' 18:44:31', ' 18:44:31', '2', 0),
-(9, '3', '1', 'act 1', '10', '3', '2023-05-25 09:41:43', '2023-05-26 09:41:43', '1', 0),
-(10, '3', '2', 'act 2', '5', '2', '2023-05-11 09:41:43', '2023-05-17 09:41:43', '2', 0);
 
 -- --------------------------------------------------------
 
@@ -953,13 +872,6 @@ CREATE TABLE `daily_performance` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `daily_performance`
---
-
-INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `department_id`, `role_id`, `emp_id`, `month`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`, `status`) VALUES
-(1, 1, 1, 1, 1, 5, 1, NULL, NULL, '2023-05-25 10:29:40', '2023-05-25 10:29:40', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -968,7 +880,7 @@ INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `departme
 
 CREATE TABLE `daily_performance_ref` (
   `daily_performance_ref_id` int(11) NOT NULL,
-  `daily_performance_id` int(11) NOT NULL,
+  `daily_performance_id` int(11) DEFAULT NULL,
   `assertion` varchar(200) DEFAULT NULL,
   `target` varchar(100) DEFAULT NULL,
   `system_date` date DEFAULT NULL,
@@ -977,14 +889,6 @@ CREATE TABLE `daily_performance_ref` (
   `target_fixing_ref_id` int(11) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_performance_ref`
---
-
-INSERT INTO `daily_performance_ref` (`daily_performance_ref_id`, `daily_performance_id`, `assertion`, `target`, `system_date`, `old_target`, `target_fixing_id`, `target_fixing_ref_id`, `status`) VALUES
-(1, 1, 'demo1', '3', '2023-05-25', '80', 1, 5, 'statisfied'),
-(2, 1, 'kra2', '2', '2023-05-25', '60', 1, 8, 'not_done');
 
 -- --------------------------------------------------------
 
@@ -1095,7 +999,8 @@ CREATE TABLE `goal_setting` (
 --
 
 INSERT INTO `goal_setting` (`goal_setting_id`, `company_name`, `department`, `role`, `year`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', '3', 0, 1, NULL, NULL, '2023-05-24 17:01:14', '2023-05-24 17:01:14');
+(1, '1', '1', '1', '7', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
+(2, '1', '1', '2', '7', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26');
 
 -- --------------------------------------------------------
 
@@ -1121,8 +1026,10 @@ CREATE TABLE `goal_setting_ref` (
 --
 
 INSERT INTO `goal_setting_ref` (`goal_setting_ref_id`, `goal_setting_id`, `assertion`, `target`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, 'test', '1000', 0, 1, NULL, NULL, '2023-05-24 17:01:14', '2023-05-24 17:01:14'),
-(2, 1, 'test1', '900', 0, 0, NULL, NULL, '2023-05-24 17:01:14', '2023-05-24 17:01:14');
+(1, 1, 'test', '1000', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
+(2, 1, 'test1', '2000', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
+(3, 2, 'test', '3000', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26'),
+(4, 2, 'test1', '4000', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26');
 
 -- --------------------------------------------------------
 
@@ -1193,7 +1100,7 @@ CREATE TABLE `holiday_creation_ref` (
 --
 
 INSERT INTO `holiday_creation_ref` (`holiday_ref_id`, `holiday_reff_id`, `holiday_date`, `holiday_description`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(3, 1, '2023-05-10', 'Holiday 1', 0, 1, NULL, NULL, '2023-05-04 18:23:09', '2023-05-04 18:23:09'),
+(3, 1, '2023-05-29', 'Holiday 1', 0, 1, NULL, NULL, '2023-05-04 18:23:09', '2023-05-04 18:23:09'),
 (4, 1, '2023-05-25', 'Holiday 2', 0, 1, NULL, NULL, '2023-05-04 18:23:09', '2023-05-04 18:23:09');
 
 -- --------------------------------------------------------
@@ -1233,19 +1140,85 @@ CREATE TABLE `insurance_register` (
   `department_id` varchar(255) DEFAULT NULL,
   `designation_id` varchar(255) DEFAULT NULL,
   `staff_id` varchar(255) DEFAULT NULL,
+  `calendar` varchar(50) DEFAULT NULL,
   `from_date` varchar(255) DEFAULT NULL,
   `to_date` varchar(255) DEFAULT NULL,
+  `frequency_applicable` varchar(100) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `insurance_register`
+-- Table structure for table `insurance_register_ref`
 --
 
-INSERT INTO `insurance_register` (`ins_reg_id`, `company_id`, `insurance_id`, `dept_id`, `freq_id`, `department_id`, `designation_id`, `staff_id`, `from_date`, `to_date`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, '1', '1', '1', '2023-05-05', '2023-05-15', 0, '2023-05-05 12:16:25', '2023-05-05 12:16:25');
+CREATE TABLE `insurance_register_ref` (
+  `ins_reg_ref_id` int(11) NOT NULL,
+  `ins_reg_id` int(11) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `insurance_id` int(11) DEFAULT NULL,
+  `dept_id` int(11) DEFAULT NULL,
+  `freq_id` int(11) DEFAULT NULL,
+  `department_id` varchar(255) DEFAULT NULL,
+  `designation_id` varchar(255) DEFAULT NULL,
+  `staff_id` varchar(255) DEFAULT NULL,
+  `calendar` varchar(50) DEFAULT NULL,
+  `from_date` varchar(255) DEFAULT NULL,
+  `to_date` varchar(255) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `krakpi_calendar_map`
+--
+
+CREATE TABLE `krakpi_calendar_map` (
+  `krakpi_calendar_map_id` int(11) NOT NULL,
+  `krakpi_id` varchar(50) DEFAULT NULL,
+  `krakpi_ref_id` varchar(50) DEFAULT NULL,
+  `kra_category` varchar(255) DEFAULT NULL,
+  `calendar` varchar(50) DEFAULT NULL,
+  `from_date` varchar(50) DEFAULT NULL,
+  `to_date` varchar(50) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `krakpi_calendar_map`
+--
+
+INSERT INTO `krakpi_calendar_map` (`krakpi_calendar_map_id`, `krakpi_id`, `krakpi_ref_id`, `kra_category`, `calendar`, `from_date`, `to_date`, `work_status`) VALUES
+(1, '1', '1', '2', 'Yes', '2023-06-01 11:20:56', '2023-06-02 11:20:56', 3),
+(2, '1', '1', '2', 'Yes', '2023-06-16 11:20:56', '2023-06-17 11:20:56', 0),
+(3, '1', '1', '2', 'Yes', '2023-07-01 11:20:56', '2023-07-03 11:20:56', 0),
+(4, '1', '1', '2', 'Yes', '2023-07-17 11:20:56', '2023-07-18 11:20:56', 0),
+(5, '1', '1', '2', 'Yes', '2023-08-01 11:20:56', '2023-08-02 11:20:56', 0),
+(6, '1', '1', '2', 'Yes', '2023-08-16 11:20:56', '2023-08-17 11:20:56', 0),
+(7, '1', '1', '2', 'Yes', '2023-08-31 11:20:56', '2023-09-01 11:20:56', 0),
+(8, '1', '1', '2', 'Yes', '2023-09-15 11:20:56', '2023-09-16 11:20:56', 0),
+(9, '1', '1', '2', 'Yes', '2023-09-30 11:20:56', '2023-10-02 11:20:56', 0),
+(10, '1', '1', '2', 'Yes', '2023-10-16 11:20:56', '2023-10-17 11:20:56', 0),
+(11, '1', '1', '2', 'Yes', '2023-10-31 11:20:56', '2023-11-01 11:20:56', 0),
+(12, '1', '1', '2', 'Yes', '2023-11-15 11:20:56', '2023-11-16 11:20:56', 0),
+(13, '1', '1', '2', 'Yes', '2023-11-30 11:20:56', '2023-12-01 11:20:56', 0),
+(14, '1', '1', '2', 'Yes', '2023-12-15 11:20:56', '2023-12-16 11:20:56', 0),
+(15, '1', '1', '2', 'Yes', '2023-12-30 11:20:56', '2024-01-01 11:20:56', 0),
+(16, '1', '2', '1', 'Yes', '2023-06-15 11:20:56', '2023-06-16 11:20:56', 0),
+(17, '1', '2', '1', 'Yes', '2023-07-15 11:20:56', '2023-07-17 11:20:56', 0),
+(18, '1', '2', '1', 'Yes', '2023-08-15 11:20:56', '2023-08-17 11:20:56', 0),
+(19, '1', '2', '1', 'Yes', '2023-09-15 11:20:56', '2023-09-18 11:20:56', 0),
+(20, '1', '2', '1', 'Yes', '2023-10-16 11:20:56', '2023-10-18 11:20:56', 0),
+(21, '1', '2', '1', 'Yes', '2023-11-16 11:20:56', '2023-11-18 11:20:56', 0),
+(22, '1', '2', '1', 'Yes', '2023-12-16 11:20:56', '2023-12-18 11:20:56', 0);
 
 -- --------------------------------------------------------
 
@@ -1271,8 +1244,7 @@ CREATE TABLE `krakpi_creation` (
 --
 
 INSERT INTO `krakpi_creation` (`krakpi_id`, `company_name`, `department`, `designation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-05 15:23:53', '2023-05-05 15:23:53'),
-(2, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-18 16:23:19', '2023-05-18 16:23:19');
+(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56');
 
 -- --------------------------------------------------------
 
@@ -1287,6 +1259,7 @@ CREATE TABLE `krakpi_creation_ref` (
   `rr` varchar(255) DEFAULT NULL,
   `kpi` varchar(255) DEFAULT NULL,
   `frequency` varchar(250) DEFAULT NULL,
+  `frequency_applicable` varchar(50) DEFAULT NULL,
   `calendar` varchar(255) DEFAULT NULL,
   `from_date` varchar(255) DEFAULT NULL,
   `to_date` varchar(255) DEFAULT NULL,
@@ -1305,8 +1278,9 @@ CREATE TABLE `krakpi_creation_ref` (
 -- Dumping data for table `krakpi_creation_ref`
 --
 
-INSERT INTO `krakpi_creation_ref` (`krakpi_ref_id`, `krakpi_reff_id`, `kra_category`, `rr`, `kpi`, `frequency`, `calendar`, `from_date`, `to_date`, `criteria`, `project_id`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, '1', '4', '', 'Fortnightly', 'Yes', '2023-05-05 15:23:53', '2023-05-12 15:23:53', 'Project', '1', 3, 0, 1, NULL, NULL, '2023-05-05 15:23:53', '2023-05-05 15:23:53');
+INSERT INTO `krakpi_creation_ref` (`krakpi_ref_id`, `krakpi_reff_id`, `kra_category`, `rr`, `kpi`, `frequency`, `frequency_applicable`, `calendar`, `from_date`, `to_date`, `criteria`, `project_id`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 1, '2', '4', '', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 11:20:56', '2023-06-02 11:20:56', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56'),
+(2, 1, '1', '1', '', 'Monthly', 'frequency_applicable', 'Yes', '2023-06-15 11:20:56', '2023-06-16 11:20:56', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56');
 
 -- --------------------------------------------------------
 
@@ -1433,7 +1407,9 @@ CREATE TABLE `maintenance_checklist` (
 --
 
 INSERT INTO `maintenance_checklist` (`maintenance_checklist_id`, `company_id`, `date_of_inspection`, `asset_details`, `checklist`, `calendar`, `from_date`, `to_date`, `role1`, `role2`, `responder_status`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '2023-05-11', '1', 'pm_checklist', 'Yes', '2023-05-11 18:32:04', '2023-05-12 18:32:04', '1', '2', 0, 3, 0, NULL, NULL, NULL, '2023-05-11 18:32:04', '2023-05-11 18:32:04');
+(1, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-01 15:33:38', '2023-04-02 15:33:38', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:33:20', '2023-05-31 15:33:20'),
+(2, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-03 15:36:23', '2023-04-04 15:36:23', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:36:23', '2023-05-31 15:36:23'),
+(3, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-01 15:39:33', '2023-04-02 15:39:33', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:38:35', '2023-05-31 15:38:35');
 
 -- --------------------------------------------------------
 
@@ -1457,7 +1433,12 @@ CREATE TABLE `maintenance_checklist_ref` (
 --
 
 INSERT INTO `maintenance_checklist_ref` (`maintenance_checklist_ref_id`, `maintenance_checklist_id`, `pm_checklist_id`, `bm_checklist_id`, `remarks`, `file`, `responder_reason`, `responder_status_ref`) VALUES
-(1, '1', '2', NULL, 'test', '', NULL, 0);
+(3, '1', '1', NULL, 'test12', '', NULL, 0),
+(4, '1', '2', NULL, 'test22', '', NULL, 0),
+(5, '2', '1', NULL, 'asdf', '', NULL, 0),
+(6, '2', '2', NULL, 'asdf1', '', NULL, 0),
+(9, '3', '1', NULL, 'test2323', '', NULL, 0),
+(10, '3', '2', NULL, 'test12323', '', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1703,6 +1684,7 @@ CREATE TABLE `pm_checklist` (
   `option3` varchar(255) DEFAULT NULL,
   `option4` varchar(255) DEFAULT NULL,
   `frequency` varchar(255) DEFAULT NULL,
+  `frequency_applicable` varchar(50) DEFAULT NULL,
   `rating` varchar(255) DEFAULT NULL,
   `maintenance_checklist` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0,
@@ -1717,10 +1699,28 @@ CREATE TABLE `pm_checklist` (
 -- Dumping data for table `pm_checklist`
 --
 
-INSERT INTO `pm_checklist` (`pm_checklist_id`, `company_id`, `category_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `frequency`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'test', 'Option', 'Yes', '2', 'option1', 'option2', '', '', 'Fortnightly', 'High', 1, 0, 1, NULL, NULL, '2023-05-05 13:33:36', '2023-05-05 13:33:36'),
-(2, '1', '1', 'test', 'Yes/No/NA', '', '', '', '', '', '', 'Fortnightly', 'High', 1, 0, 1, NULL, NULL, '2023-05-11 18:31:59', '2023-05-11 18:31:59'),
-(3, '1', '1', 'stset', 'Yes/No/NA', '', '', '', '', '', '', 'Fortnightly', 'High', 0, 0, 1, NULL, NULL, '2023-05-13 13:20:14', '2023-05-13 13:20:14');
+INSERT INTO `pm_checklist` (`pm_checklist_id`, `company_id`, `category_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `frequency`, `frequency_applicable`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '1', '1', 'test', 'Yes/No/NA', 'Yes', '', '', '', '', '', 'Half Yearly', 'frequency_applicable', 'High', 1, 0, 1, NULL, NULL, '2023-05-31 11:59:01', '2023-05-31 11:59:01'),
+(2, '1', '2', 'testing', 'Yes/No/NA', '', '', '', '', '', '', 'Quaterly', 'frequency_applicable', 'High', 1, 0, 1, NULL, NULL, '2023-05-31 14:48:57', '2023-05-31 14:48:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pm_checklist_ref`
+--
+
+CREATE TABLE `pm_checklist_ref` (
+  `pm_checklist_ref_id` int(11) NOT NULL,
+  `pm_checklist_id` varchar(50) DEFAULT NULL,
+  `maintenance_checklist_id` varchar(50) DEFAULT NULL,
+  `maintenance_checklist_ref_id` varchar(200) DEFAULT NULL,
+  `checklist` text DEFAULT NULL,
+  `from_date` varchar(50) DEFAULT NULL,
+  `to_date` varchar(50) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0,
+  `role1` varchar(200) DEFAULT NULL,
+  `role2` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -2071,13 +2071,6 @@ CREATE TABLE `target_fixing` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `target_fixing`
---
-
-INSERT INTO `target_fixing` (`target_fixing_id`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `no_of_months`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, 1, 12, 0, 1, 1, NULL, '2023-05-24 17:01:54', '2023-05-24 17:01:54');
-
 -- --------------------------------------------------------
 
 --
@@ -2096,16 +2089,6 @@ CREATE TABLE `target_fixing_ref` (
   `deleted_date` varchar(100) DEFAULT NULL,
   `deleted_remarks` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `target_fixing_ref`
---
-
-INSERT INTO `target_fixing_ref` (`target_fixing_ref_id`, `target_fixing_id`, `goal_setting_and_kra_id`, `assertion`, `target`, `new_assertion`, `new_target`, `applicability`, `deleted_date`, `deleted_remarks`) VALUES
-(5, 1, '1', 'test', '83', 'demo1', '80', 'applicability1', '', ''),
-(6, 1, '2', 'test1', '75', '', '', '', '5/24/2023', 'test1'),
-(7, 1, '1_kra', 'kra1', '70', '', '', '', '5/24/2023', 'test2'),
-(8, 1, '2_kra', 'kra2', '60', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2131,15 +2114,6 @@ CREATE TABLE `todo_creation` (
   `created_id` int(11) DEFAULT NULL,
   `updated_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `todo_creation`
---
-
-INSERT INTO `todo_creation` (`todo_id`, `company_id`, `work_des`, `tag_id`, `priority`, `assign_to`, `from_date`, `to_date`, `work_status`, `criteria`, `project_id`, `status`, `created_date`, `updated_date`, `created_id`, `updated_id`) VALUES
-(1, '1', 'test', '1', '1', '2', '2023-05-05 13:28:40', '2023-05-08 13:28:40', 3, 'Event', '1', 0, '2023-05-05 13:28:40', '2023-05-05 13:28:40', 1, NULL),
-(2, '1', 'test', '1', '1', '3,1,2', '2023-05-05 13:30:47', '2023-05-10 13:30:47', 3, 'Project', '1', 0, '2023-05-05 13:30:47', '2023-05-05 13:30:47', 1, NULL),
-(3, '1', 'test', '1', '1', '2,3,1', '2023-05-11 18:23:45', '2023-05-15 18:23:45', 3, 'Event', '', 0, '2023-05-11 18:23:45', '2023-05-11 18:23:45', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -2259,13 +2233,12 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`) VALUES
 (1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(19, 'Manager', 'Manager', 'Manager', 'Manager', 'manager@feathertechnology.in', 'manager@feathertechnology.in', 'admin@123', '3', NULL, '1', '0', '2023-01-31 16:52:54', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', '4', '2', '1', '0', '2023-03-14 13:09:26', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', '4', '3', '1', '0', '2023-03-15 10:48:41', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', '4', '4', '1', '0', '2023-03-16 16:34:10', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', '4', '5', '2', '0', '2023-03-22 09:40:51', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', '0'),
-(25, 'test', 'ttt', 'test ttt', 'test', 'test@gmail.com', 'test@gmail.com', '123', '4', NULL, NULL, '0', '2023-05-25 14:15:49', '0', '1', '1', '1', '1', '1', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '1', '1', '0', '1', '1', '0', '1', '1', '1', '1', NULL, '1', '1', '1', '0', '1', '1', '1');
+(19, 'Manager', 'Manager', 'Manager', 'Manager', 'manager@feathertechnology.in', 'manager@feathertechnology.in', 'admin@123', '3', NULL, '1', '0', '2023-01-31 16:52:54', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', '4', '2', '1', '0', '2023-03-14 13:09:26', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', '4', '3', '1', '0', '2023-03-15 10:48:41', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', '4', '4', '1', '0', '2023-03-16 16:34:10', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', '4', '5', '2', '0', '2023-03-22 09:40:51', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -2325,55 +2298,23 @@ CREATE TABLE `work_status` (
 --
 
 INSERT INTO `work_status` (`status_id`, `work_id`, `work_des`, `work_status`, `remarks`, `completed_file`, `outdated_completed_date`, `status`, `created_date`, `updated_date`, `created_id`, `updated_id`) VALUES
-(1, 'krakpi_ref 1', 'Webapp Creation', '1', 'test', NULL, NULL, 0, '2023-05-04 06:28:08', '2023-05-04 06:28:08', NULL, NULL),
-(2, 'krakpi_ref 1', 'Webapp Creation', '2', 'tset1', NULL, NULL, 0, '2023-05-04 06:28:17', '2023-05-04 06:28:17', NULL, NULL),
-(3, 'krakpi_ref 1', 'Webapp Creation', '3', NULL, '', NULL, 0, '2023-05-04 06:28:23', '2023-05-04 06:28:23', NULL, NULL),
-(4, 'audit 1', 'Area1', '1', 'test', NULL, NULL, 0, '2023-05-05 15:10:34', '2023-05-05 15:10:34', NULL, NULL),
-(5, 'audit 1', 'Area1', '3', NULL, '', NULL, 0, '2023-05-05 15:12:28', '2023-05-05 15:12:28', NULL, NULL),
-(6, 'audit 1', 'Area1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:17:12', '2023-05-05 15:17:12', NULL, NULL),
-(7, 'audit 1', 'Area1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:18:11', '2023-05-05 15:18:11', NULL, NULL),
-(8, 'audit 1', 'Area1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:18:59', '2023-05-05 15:18:59', NULL, NULL),
-(9, 'audit 1', 'Area1', '1', 'asdf', NULL, NULL, 0, '2023-05-05 15:20:45', '2023-05-05 15:20:45', NULL, NULL),
-(10, '1', 'Webapp Creation', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:22:24', '2023-05-05 15:22:24', NULL, NULL),
-(11, '1', 'Webapp Creation', '1', 'test', NULL, NULL, 0, '2023-05-05 15:22:52', '2023-05-05 15:22:52', NULL, NULL),
-(12, 'todo 2', 'test', '2', '', NULL, NULL, 0, '2023-05-05 15:23:02', '2023-05-05 15:23:02', NULL, NULL),
-(13, '1', 'Webapp Creation', '3', NULL, '', NULL, 0, '2023-05-05 15:23:09', '2023-05-05 15:23:09', NULL, NULL),
-(14, 'todo 2', 'test', '3', NULL, '', NULL, 0, '2023-05-05 15:23:15', '2023-05-05 15:23:15', NULL, NULL),
-(15, 'krakpi_ref 1', 'Market smm', '1', 'test', NULL, NULL, 0, '2023-05-05 15:24:00', '2023-05-05 15:24:00', NULL, NULL),
-(16, 'krakpi_ref 1', 'Market smm', '2', '', NULL, NULL, 0, '2023-05-05 15:24:05', '2023-05-05 15:24:05', NULL, NULL),
-(17, 'krakpi_ref 1', 'Market smm', '3', NULL, '', NULL, 0, '2023-05-05 15:24:10', '2023-05-05 15:24:10', NULL, NULL),
-(18, 'audit 1', 'area 1', '1', 'tsdfdf', NULL, NULL, 0, '2023-05-05 15:26:23', '2023-05-05 15:26:23', NULL, NULL),
-(19, 'audit 1', 'area 1', '1', 'test', NULL, NULL, 0, '2023-05-05 15:32:54', '2023-05-05 15:32:54', NULL, NULL),
-(20, 'audit 1', 'area 1', '2', '', NULL, NULL, 0, '2023-05-05 15:33:45', '2023-05-05 15:33:45', NULL, NULL),
-(21, 'audit 1', 'area 1', '1', NULL, '', NULL, 0, '2023-05-05 15:33:49', '2023-05-05 15:33:49', NULL, NULL),
-(22, 'audit 1', '1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:34:11', '2023-05-05 15:34:11', NULL, NULL),
-(23, 'audit 1', 'area 1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:40:04', '2023-05-05 15:40:04', NULL, NULL),
-(24, 'audit 1', 'area 1', '1', 'sadf', NULL, NULL, 0, '2023-05-05 15:40:19', '2023-05-05 15:40:19', NULL, NULL),
-(25, 'audit 1', 'area 1', '2', 'sadfsdf', NULL, NULL, 0, '2023-05-05 15:40:27', '2023-05-05 15:40:27', NULL, NULL),
-(26, 'audit 1', 'area 1', '1', 'sdf', NULL, NULL, 0, '2023-05-05 15:40:48', '2023-05-05 15:40:48', NULL, NULL),
-(27, 'audit_area 1', 'area 1', '1', 'sdf', NULL, NULL, 0, '2023-05-05 15:45:00', '2023-05-05 15:45:00', NULL, NULL),
-(28, '', '', '1', NULL, NULL, '', 0, '2023-05-10 14:43:22', '2023-05-10 14:43:22', NULL, NULL),
-(29, '', '', '1', NULL, NULL, '', 0, '2023-05-10 14:43:40', '2023-05-10 14:43:40', NULL, NULL),
-(30, '', '', '1', NULL, NULL, '2023-05-10', 0, '2023-05-10 14:43:57', '2023-05-10 14:43:57', NULL, NULL),
-(31, 'todo 1', 'test', '0', NULL, NULL, '2023-05-11', 0, '2023-05-10 14:49:09', '2023-05-10 14:49:09', NULL, NULL),
-(32, 'audit_area 1', 'Area1', '0', NULL, '', NULL, 0, '2023-05-10 14:51:36', '2023-05-10 14:51:36', NULL, NULL),
-(33, 'todo 1', 'test', '0', NULL, NULL, '2023-05-10', 0, '2023-05-10 15:00:36', '2023-05-10 15:00:36', NULL, NULL),
-(34, 'todo 1', 'test', '0', NULL, NULL, '2023-05-10', 0, '2023-05-10 15:11:23', '2023-05-10 15:11:23', NULL, NULL),
-(35, 'todo 1', 'test', '3', NULL, NULL, '2023-05-11', 0, '2023-05-11 17:15:44', '2023-05-11 17:15:44', NULL, NULL),
-(36, 'todo 2', 'test', '3', NULL, NULL, '2023-05-11', 0, '2023-05-11 17:15:49', '2023-05-11 17:15:49', NULL, NULL),
-(37, 'audit_area 1', 'Area1', '3', NULL, '', NULL, 0, '2023-05-11 17:15:53', '2023-05-11 17:15:53', NULL, NULL),
-(38, 'campaign 2', 'act 2', '1', '', NULL, NULL, 0, '2023-05-11 18:39:21', '2023-05-11 18:39:21', NULL, NULL),
-(39, 'campaign 2', 'act 2', '2', '', NULL, NULL, 0, '2023-05-11 18:39:26', '2023-05-11 18:39:26', NULL, NULL),
-(40, 'campaign 2', 'act 2', '3', NULL, '', NULL, 0, '2023-05-11 18:39:33', '2023-05-11 18:39:33', NULL, NULL),
-(41, 'maintenance 1', 'Dell System', '3', NULL, '', NULL, 0, '2023-05-11 18:39:40', '2023-05-11 18:39:40', NULL, NULL),
-(42, 'todo 3', 'test', '3', NULL, '', NULL, 0, '2023-05-11 18:39:47', '2023-05-11 18:39:47', NULL, NULL),
-(43, 'campaign 1', 'act 1', '1', '', NULL, NULL, 0, '2023-05-11 18:40:15', '2023-05-11 18:40:15', NULL, NULL),
-(44, 'campaign 1', 'act 1', '2', '', NULL, NULL, 0, '2023-05-11 18:40:26', '2023-05-11 18:40:26', NULL, NULL),
-(45, 'campaign 1', 'act 1', '3', NULL, '', NULL, 0, '2023-05-11 18:40:31', '2023-05-11 18:40:31', NULL, NULL),
-(46, 'campaign 7', 'act 1', '1', '', NULL, NULL, 0, '2023-05-11 18:50:53', '2023-05-11 18:50:53', NULL, NULL),
-(47, 'campaign 7', 'act 1', '1', '', NULL, NULL, 0, '2023-05-11 18:51:02', '2023-05-11 18:51:02', NULL, NULL),
-(48, 'campaign 7', 'act 1', '2', '', NULL, NULL, 0, '2023-05-11 18:51:16', '2023-05-11 18:51:16', NULL, NULL),
-(49, 'campaign 7', 'act 1', '3', NULL, '', NULL, 0, '2023-05-11 18:51:27', '2023-05-11 18:51:27', NULL, NULL);
+(1, '', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 17:52:42', '2023-05-30 17:52:42', NULL, NULL),
+(2, 'insurance 1', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 17:58:03', '2023-05-30 17:58:03', NULL, NULL),
+(3, 'insurance 1', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 18:01:30', '2023-05-30 18:01:30', NULL, NULL),
+(4, 'insurance 2', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:01:40', '2023-05-30 18:01:40', NULL, NULL),
+(5, 'insurance 2', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:05:09', '2023-05-30 18:05:09', NULL, NULL),
+(6, 'insurance 18', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:12:49', '2023-05-30 18:12:49', NULL, NULL),
+(7, 'insurance 18', 'Health Insurance', '2', '', NULL, NULL, 0, '2023-05-30 18:12:55', '2023-05-30 18:12:55', NULL, NULL),
+(8, 'insurance 18', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 18:12:59', '2023-05-30 18:12:59', NULL, NULL),
+(9, '', 'test', '3', NULL, NULL, '2023-05-31', 0, '2023-05-31 15:59:25', '2023-05-31 15:59:25', NULL, NULL),
+(10, 'maintenance 1', 'test', '3', NULL, NULL, '', 0, '2023-05-31 16:03:32', '2023-05-31 16:03:32', NULL, NULL),
+(11, 'maintenance 4', 'testing', '1', '', NULL, NULL, 0, '2023-05-31 16:04:19', '2023-05-31 16:04:19', NULL, NULL),
+(12, 'maintenance 4', 'testing', '2', '', NULL, NULL, 0, '2023-05-31 16:04:26', '2023-05-31 16:04:26', NULL, NULL),
+(13, 'audit_area 1', 'Area1', '1', '', NULL, NULL, 0, '2023-05-31 17:03:42', '2023-05-31 17:03:42', NULL, NULL),
+(14, 'audit_area 1', 'Area1', '2', '', NULL, NULL, 0, '2023-05-31 17:03:48', '2023-05-31 17:03:48', NULL, NULL),
+(15, 'audit_area 1', 'Area1', '3', NULL, '', NULL, 0, '2023-05-31 17:03:54', '2023-05-31 17:03:54', NULL, NULL),
+(16, 'krakpi_ref 1', 'Market smm', '1', '', NULL, NULL, 0, '2023-06-01 11:37:50', '2023-06-01 11:37:50', NULL, NULL),
+(17, 'krakpi_ref 1', 'Market smm', '3', NULL, '', NULL, 0, '2023-06-01 11:37:56', '2023-06-01 11:37:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2400,7 +2341,8 @@ INSERT INTO `year_creation` (`year_id`, `year`, `company_id`, `status`, `created
 (3, '1958', 1, 0, '2023-05-15 18:21:03', '2023-05-15 18:21:03'),
 (4, '1955', 1, 0, '2023-05-15 18:22:55', '2023-05-15 18:22:55'),
 (5, '1959', 2, 0, '2023-05-15 18:29:49', '2023-05-15 18:29:49'),
-(6, '2022', 2, 0, '2023-05-15 18:31:34', '2023-05-15 18:31:34');
+(6, '2022', 2, 0, '2023-05-15 18:31:34', '2023-05-15 18:31:34'),
+(7, '2023', 1, 0, '2023-05-26 18:29:33', '2023-05-26 18:29:33');
 
 --
 -- Indexes for dumped tables
@@ -2477,6 +2419,12 @@ ALTER TABLE `assign_work_ref`
 --
 ALTER TABLE `audit_area_creation`
   ADD PRIMARY KEY (`audit_area_id`);
+
+--
+-- Indexes for table `audit_area_creation_ref`
+--
+ALTER TABLE `audit_area_creation_ref`
+  ADD PRIMARY KEY (`audit_area_creation_ref_id`);
 
 --
 -- Indexes for table `audit_assign`
@@ -2665,6 +2613,18 @@ ALTER TABLE `insurance_register`
   ADD PRIMARY KEY (`ins_reg_id`);
 
 --
+-- Indexes for table `insurance_register_ref`
+--
+ALTER TABLE `insurance_register_ref`
+  ADD PRIMARY KEY (`ins_reg_ref_id`);
+
+--
+-- Indexes for table `krakpi_calendar_map`
+--
+ALTER TABLE `krakpi_calendar_map`
+  ADD PRIMARY KEY (`krakpi_calendar_map_id`);
+
+--
 -- Indexes for table `krakpi_creation`
 --
 ALTER TABLE `krakpi_creation`
@@ -2759,6 +2719,12 @@ ALTER TABLE `permission_or_on_duty`
 --
 ALTER TABLE `pm_checklist`
   ADD PRIMARY KEY (`pm_checklist_id`);
+
+--
+-- Indexes for table `pm_checklist_ref`
+--
+ALTER TABLE `pm_checklist_ref`
+  ADD PRIMARY KEY (`pm_checklist_ref_id`);
 
 --
 -- Indexes for table `project_creation`
@@ -2889,13 +2855,13 @@ ALTER TABLE `accountsgroup`
 -- AUTO_INCREMENT for table `appreciation_depreciation`
 --
 ALTER TABLE `appreciation_depreciation`
-  MODIFY `appreciation_depreciation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `appreciation_depreciation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `appreciation_depreciation_ref`
 --
 ALTER TABLE `appreciation_depreciation_ref`
-  MODIFY `appreciation_depreciation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `appreciation_depreciation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `approval_line`
@@ -2937,43 +2903,49 @@ ALTER TABLE `asset_register`
 -- AUTO_INCREMENT for table `assign_work`
 --
 ALTER TABLE `assign_work`
-  MODIFY `work_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `work_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `assign_work_ref`
 --
 ALTER TABLE `assign_work_ref`
-  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_area_creation`
 --
 ALTER TABLE `audit_area_creation`
-  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `audit_area_creation_ref`
+--
+ALTER TABLE `audit_area_creation_ref`
+  MODIFY `audit_area_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_assign`
 --
 ALTER TABLE `audit_assign`
-  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_assign_ref`
 --
 ALTER TABLE `audit_assign_ref`
-  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist`
 --
 ALTER TABLE `audit_checklist`
-  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist_ref`
 --
 ALTER TABLE `audit_checklist_ref`
-  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_followup`
@@ -3027,13 +2999,13 @@ ALTER TABLE `business_com_parallel_agree_disagree`
 -- AUTO_INCREMENT for table `campaign`
 --
 ALTER TABLE `campaign`
-  MODIFY `campaign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `campaign_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `campaign_ref`
 --
 ALTER TABLE `campaign_ref`
-  MODIFY `campaign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `campaign_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `category_creation`
@@ -3069,13 +3041,13 @@ ALTER TABLE `daily_km_ref`
 -- AUTO_INCREMENT for table `daily_performance`
 --
 ALTER TABLE `daily_performance`
-  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daily_performance_ref`
 --
 ALTER TABLE `daily_performance_ref`
-  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `department_creation`
@@ -3099,13 +3071,13 @@ ALTER TABLE `diesel_slip`
 -- AUTO_INCREMENT for table `goal_setting`
 --
 ALTER TABLE `goal_setting`
-  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `goal_setting_ref`
 --
 ALTER TABLE `goal_setting_ref`
-  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `hierarchy_creation`
@@ -3135,19 +3107,31 @@ ALTER TABLE `insurance_creation`
 -- AUTO_INCREMENT for table `insurance_register`
 --
 ALTER TABLE `insurance_register`
-  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `insurance_register_ref`
+--
+ALTER TABLE `insurance_register_ref`
+  MODIFY `ins_reg_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `krakpi_calendar_map`
+--
+ALTER TABLE `krakpi_calendar_map`
+  MODIFY `krakpi_calendar_map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation`
 --
 ALTER TABLE `krakpi_creation`
-  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation_ref`
 --
 ALTER TABLE `krakpi_creation_ref`
-  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `kra_creation`
@@ -3171,13 +3155,13 @@ ALTER TABLE `ledger`
 -- AUTO_INCREMENT for table `maintenance_checklist`
 --
 ALTER TABLE `maintenance_checklist`
-  MODIFY `maintenance_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `maintenance_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `maintenance_checklist_ref`
 --
 ALTER TABLE `maintenance_checklist_ref`
-  MODIFY `maintenance_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `maintenance_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `media_creation`
@@ -3231,7 +3215,13 @@ ALTER TABLE `permission_or_on_duty`
 -- AUTO_INCREMENT for table `pm_checklist`
 --
 ALTER TABLE `pm_checklist`
-  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `pm_checklist_ref`
+--
+ALTER TABLE `pm_checklist_ref`
+  MODIFY `pm_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `project_creation`
@@ -3303,19 +3293,19 @@ ALTER TABLE `tag_creation`
 -- AUTO_INCREMENT for table `target_fixing`
 --
 ALTER TABLE `target_fixing`
-  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `target_fixing_ref`
 --
 ALTER TABLE `target_fixing_ref`
-  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `todo_creation`
 --
 ALTER TABLE `todo_creation`
-  MODIFY `todo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `todo_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transfer_location`
@@ -3339,13 +3329,13 @@ ALTER TABLE `vehicle_details`
 -- AUTO_INCREMENT for table `work_status`
 --
 ALTER TABLE `work_status`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `year_creation`
 --
 ALTER TABLE `year_creation`
-  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

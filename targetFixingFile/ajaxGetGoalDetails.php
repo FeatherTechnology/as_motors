@@ -5,6 +5,12 @@ include '../ajaxconfig.php';
 if(isset($_POST["company_name"])){
 	$company_name = $_POST["company_name"];
 }
+if(isset($_POST["designation"])){
+	$designation = $_POST["designation"];
+}
+if(isset($_POST["department"])){
+	$department = $_POST["department"];
+}
 if(isset($_POST["goal_year"])){
 	$goal_year = $_POST["goal_year"];
 }
@@ -24,10 +30,13 @@ if(isset($_POST["no_of_months"])){
             $assertion = array();         
             $target = array();         
             $vehicle_numberArr2 = array();         
+            $kra_creation_ref_id = array();         
+            $kra_category = array();         
         
             // get goal setting details
             $selectGoalSettingDetails = $con->query("SELECT goal_setting_ref.goal_setting_ref_id, goal_setting_ref.assertion, goal_setting_ref.target FROM goal_setting_ref 
-            LEFT JOIN goal_setting ON goal_setting_ref.goal_setting_id = goal_setting.goal_setting_id WHERE goal_setting.goal_setting_id = '".$goal_year."' 
+            LEFT JOIN goal_setting ON goal_setting_ref.goal_setting_id = goal_setting.goal_setting_id WHERE goal_setting.year = '".$goal_year."' 
+            AND goal_setting.company_name = '".$company_name."' AND goal_setting.department = '".$department."' AND goal_setting.role = '".$designation."' 
             AND goal_setting.status = 0 ");
             while($row = $selectGoalSettingDetails->fetch_assoc()){
                 $goal_setting_ref_id[] 	= $row["goal_setting_ref_id"];
@@ -37,7 +46,8 @@ if(isset($_POST["no_of_months"])){
 
             // get kra cetails
             $selectKraDetails = $con->query("SELECT kra_creation_ref.kra_creation_ref_id, kra_creation_ref.kra_category FROM kra_creation_ref LEFT JOIN kra_creation 
-            ON kra_creation_ref.kra_id = kra_creation.kra_id WHERE kra_creation.kra_id = '".$goal_year."' AND kra_creation.status = 0 ");
+            ON kra_creation_ref.kra_id = kra_creation.kra_id WHERE kra_creation.kra_id = '".$goal_year."' AND kra_creation.company_id = '".$company_name."' 
+           AND kra_creation.department_id = '".$department."' AND kra_creation.designation_id = '".$designation."' AND kra_creation.status = 0 ");
             while($row1 = $selectKraDetails->fetch_assoc()){
                 $kra_creation_ref_id[] 	= $row1["kra_creation_ref_id"].""."_kra";  
                 $kra_category[]	= $row1["kra_category"];

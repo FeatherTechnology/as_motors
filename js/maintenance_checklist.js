@@ -134,14 +134,22 @@ $("#submitMaintenanceChecklistBtn").click(function(){
         var to_date = $("#to_date").val(); 
         var role1 = $("#role1").val(); 
         var role2 = $("#role2").val(); 
+        var checklist_textarea = $("#checklist_textarea").val(); 
 
         formData = new FormData();     
         var checkedid = [];
+        var frequency = [];          
+        var frequency_applicable = [];          
         var remarks = [];          
         var maintenanceChceklistRefId = [];  
         var file = [];
+        var checklist_textarea = [];
+
         $(':checkbox:checked').each(function(i){
             checkedid[i] = $(this).val(); 
+            checklist_textarea[i] = $(this).parents('tr').find('td #checklist_textarea').val();   
+            frequency[i] = $(this).parents('tr').find('td #frequency').val();   
+            frequency_applicable[i] = $(this).parents('tr').find('td #frequency_applicable').val();   
             remarks[i] = $(this).parents('tr').find('td #remarks').val();   
             maintenanceChceklistRefId[i] = $(this).parents('tr').find('td #maintenanceChceklistRefId').val(); 
             file[i] = $(this).closest('tr').find('input[type="file"]').prop('files')[0];
@@ -158,8 +166,11 @@ $("#submitMaintenanceChecklistBtn").click(function(){
         formData.append('role1', role1);
         formData.append('role2', role2);
         formData.append('checkedid[]', checkedid);
+        formData.append('frequency[]', frequency);
+        formData.append('frequency_applicable[]', frequency_applicable);
         formData.append('remarks[]', remarks);
-        
+        formData.append('checklist_textarea[]', checklist_textarea);
+       
         var updid = $("#id").val(); 
         if(updid>0){
             
@@ -174,7 +185,7 @@ $("#submitMaintenanceChecklistBtn").click(function(){
                 contentType: false,
                 processData: false,
                 success:function(response){
-                    window.location.href = "edit_maintenance_checklist&msc=1";
+                    window.location.href = "edit_maintenance_checklist&msc=2";
                 }
             });
     
