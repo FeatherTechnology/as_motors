@@ -129,7 +129,7 @@ if($idupd>0)
             $master_module   = $getuser['master_module'];
             $basic_sub_module        = $getuser['basic_sub_module'];
             $responsibility_sub_module         = $getuser['responsibility_sub_module'];
-            $audit_sub_module = $getuser['audit_sub_module'];
+            $audit_module = $getuser['audit_sub_module'];
             $others_sub_module = $getuser['others_sub_module'];
             $basic_creation = $getuser['basic_creation'];
             $tag_creation = $getuser['tag_creation'];
@@ -385,7 +385,7 @@ if($idupd>0)
                             </div>
                         </div>
 
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_sub_module==0){echo'checked';}} ?> tabindex="14" class="custom-control-input master-checkbox" id="audit_sub_module" name="audit_sub_module" disabled>
                                 <label class="custom-control-label" for="audit_sub_module"><h6>Audit<h6></label>
@@ -406,7 +406,7 @@ if($idupd>0)
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_follow_up==0){echo'checked';}} ?> tabindex="14"class="custom-control-input audit-sub-checkbox" id="audit_follow_up" name="audit_follow_up" disabled>
                                 <label class="custom-control-label" for="audit_follow_up">Audit Follow Up</label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
@@ -448,6 +448,43 @@ if($idupd>0)
                         </div>
                     </div>
                 <!-- master module end -->
+                    <hr>
+
+                    <!-- audit module start -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" tabindex="36" value="Yes" <?php if($idupd > 0){ if($audit_module==0){ echo'checked'; }} ?>  class="custom-control-input" id="audit_module" name="audit_module">
+                        <label class="custom-control-label" for="audit_module">
+                            <h5>Audit</h5>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_area_creation==0){echo'checked';}} ?> tabindex="14"class="custom-control-input audit-checkbox" id="audit_area_creation" name="audit_area_creation" disabled>
+                                <label class="custom-control-label" for="audit_area_creation">Audit Area Creation</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_area_checklist==0){echo'checked';}} ?> tabindex="14"class="custom-control-input audit-checkbox" id="audit_area_checklist" name="audit_area_checklist" disabled>
+                                <label class="custom-control-label" for="audit_area_checklist">Audit Area Checklist</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_assign==0){echo'checked';}} ?> tabindex="14"class="custom-control-input audit-checkbox" id="audit_assign" name="audit_assign" disabled>
+                                <label class="custom-control-label" for="audit_assign">Audit Assign</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($audit_follow_up==0){echo'checked';}} ?> tabindex="14"class="custom-control-input audit-checkbox" id="audit_follow_up" name="audit_follow_up" disabled>
+                                <label class="custom-control-label" for="audit_follow_up">Audit Follow Up</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- audit module end -->
                     <hr>
                 <!-- work force module start -->
                     <div class="custom-control custom-checkbox">

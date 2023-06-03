@@ -11,6 +11,9 @@ if(isset($_POST["goal_year"])){
 if(isset($_POST["month"])){
 	$month = $_POST["month"];
 }
+if(isset($_POST["staff_id"])){
+	$staff_id = $_POST["staff_id"];
+}
 ?>
 
 <div class="card" id="stockinformation">
@@ -27,7 +30,7 @@ if(isset($_POST["month"])){
             // get Daily Performance details
             $selectGoalSettingDetails = $con->query("SELECT daily_performance_ref.daily_performance_id, daily_performance_ref.daily_performance_ref_id, daily_performance_ref.assertion, 
             daily_performance_ref.target FROM daily_performance_ref LEFT JOIN daily_performance ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id 
-            WHERE daily_performance.daily_performance_id = '".$goal_year."' AND daily_performance.month = '".$month."' AND daily_performance.status = 0 ");
+            WHERE daily_performance.emp_id = '".$staff_id."' AND daily_performance.month = '".$month."' AND daily_performance.status = 0 ");
             while($row = $selectGoalSettingDetails->fetch_assoc()){
                 $daily_performance_id[] 	= $row["daily_performance_id"];
                 $daily_performance_ref_id[] 	= $row["daily_performance_ref_id"];
@@ -37,7 +40,7 @@ if(isset($_POST["month"])){
 
             // get satisfied count
             $selectGoalSettingDetails1 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.daily_performance_id = '".$goal_year."' 
+            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
             AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'statisfied' ");
             while($row1 = $selectGoalSettingDetails1->fetch_assoc()){
                 $statisfiedCount	= $row1["statusCount"];
@@ -45,7 +48,7 @@ if(isset($_POST["month"])){
 
             // get not done and carry farward count
             $selectGoalSettingDetails1 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.daily_performance_id = '".$goal_year."' 
+            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
             AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'not_done' ");
             while($row1 = $selectGoalSettingDetails1->fetch_assoc()){
                 $not_doneCount	= $row1["statusCount"];
@@ -53,7 +56,7 @@ if(isset($_POST["month"])){
 
             // get not done and carry farward count
             $selectGoalSettingDetails2 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.daily_performance_id = '".$goal_year."' 
+            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
             AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'carry_forward' ");
             while($row2 = $selectGoalSettingDetails2->fetch_assoc()){
                 $carry_forwardCount	= $row2["statusCount"];

@@ -232,8 +232,8 @@ if($idupd>0)
                     <br><br>
 
                     <div class="row">
-                        <div class="col-md-12">
-                            <table id="moduleTable" class="table custom-table">
+                        <div class="col-md-12" style="overflow-x: auto">
+                            <table id="moduleTable" class="table custom-table" style="width: 120%">
                                 <thead>
                                     <tr>
                                         <th>KRA Category</th>
@@ -242,11 +242,11 @@ if($idupd>0)
                                         <th>Criteria</th>
                                         <th>Project</th>
                                         <th>Frequency</th>
-                                        <th>Applicable For All Months</th>
+                                        <th>Applicablity</th>
                                         <th>Calender</th>
                                         <th>Start Date & End Date</th>
-                                        <!-- <th></th> -->
-                                        <th colspan='2'>Action</th>
+                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <?php if($idupd<=0){ ?>
@@ -264,17 +264,17 @@ if($idupd>0)
                                                 dataType: 'json',
                                                 success:function(response){
                                                 
-                                                $('#rr').empty();
-                                                $('#rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
-                                                $('#rr').append("<option value='New'>" + 'New' + "</option>");
-                                                var i = 0;
-                                                for (i = 0; i <= response.rr_ref_id.length - 1; i++) { 
-                                                    var selected = "";
-                                                    if(rr_id_upd == response['rr_ref_id'][i]){
-                                                    selected = "selected";
+                                                    $('#rr').empty();
+                                                    $('#rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
+                                                    $('#rr').append("<option value='New'>" + 'New' + "</option>");
+                                                    var i = 0;
+                                                    for (i = 0; i <= response.rr_ref_id.length - 1; i++) { 
+                                                        var selected = "";
+                                                        if(rr_id_upd == response['rr_ref_id'][i]){
+                                                        selected = "selected";
+                                                        }
+                                                        $('#rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
                                                     }
-                                                    $('#rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
-                                                }
                                                 }
                                             });
                                             
@@ -297,7 +297,7 @@ if($idupd>0)
                                                     for (i = 0; i <= response.kra_creation_ref_id.length - 1; i++) { 
                                                         var selected = "";
                                                         if(kra_id_upd == response['kra_creation_ref_id'][i]){
-                                                        selected = "selected";
+                                                            selected = "selected";
                                                         }
                                                         $('#kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
                                                     }
@@ -376,7 +376,7 @@ if($idupd>0)
 
                                         if(isset($rr)){ ?>
                                             <tbody>
-                                                <?php for($i=0; $i<=sizeof($rr)-1; $i++) {  ?>
+                                                <?php for($i=0; $i<=sizeof($rr)-1; $i++) { ?>
                                             
                                                     <tr>
                                                         <input type="hidden" name="krakpi_ref_id[]" id="krakpi_ref_id" value="<?php if(isset($krakpi_ref_id)){ echo $krakpi_ref_id[$i]; } ?>">
@@ -451,7 +451,7 @@ if($idupd>0)
                                                         </td>
                                                         <?php } else if($frequency[$i] == 'Event Driven' || $frequency[$i] == 'Yearly'){  ?>
                                                             <td>
-                                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
+                                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
                                                             </td>
                                                         <?php } ?>
 

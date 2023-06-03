@@ -3,21 +3,16 @@
    if(isset($_SESSION["userid"])){
        $userid = $_SESSION["userid"];
    }
-  
+
    $audit_area_list = $userObj->getAuditAreaTable($mysqli);
-
    $id=0;
-
    $idupd=0;
     if(isset($_POST['submit_audit_followup']) && $_POST['submit_audit_followup'] != '')
     {
-       
-           $id = $_POST['id'];
-           $audit_area_id = $_POST['audit_area_id'];
-          
+        $id = $_POST['id'];
+        $audit_area_id = $_POST['audit_area_id'];
     }
-      
-      ?>
+?>
 
 
 <!-- Page header start -->

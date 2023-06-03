@@ -65,9 +65,21 @@ $(document).ready(function(){
         });
       });
       
- // Download
-      $('#downloadAsset').click(function () {
-       window.location.href='uploads/bulkimport/asset_register_format.xlsx'
-   });
+  // Download
+  //     $('#downloadAsset').click(function () {
+  //      window.location.href='uploads/bulkimport/asset_register_format.xlsx'
+  //  });
+
+
+  // Download button
+  $('#downloadAsset').click(function () { 
+    $.ajax({
+        url: 'ajaxAssetRegisterBulkUpload.php',
+        catch: false,
+        success: function(){
+          window.location.href='uploads/downloadfiles/assetregisterbulksample.xlsx';
+        }
+    });
+  });
 
 });

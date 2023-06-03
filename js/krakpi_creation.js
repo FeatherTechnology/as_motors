@@ -358,8 +358,8 @@ $(function(){
 		
 		getdepartment(idupd);
 		getdesignation(department_upd);
-		getkradropdown(idupd);
-    getrrdropdown(idupd);
+		// getkradropdown(idupd);
+    // getrrdropdown(idupd);
 	}else{
 	}
 });

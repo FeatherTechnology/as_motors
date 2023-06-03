@@ -74,14 +74,15 @@ $(document).ready(function () {
     var company_name = $('#company_name :selected').val();
     var goal_year = $('#goal_year :selected').val();
     var month = $('#month :selected').val();
+    var staff_id = $('#staff_id :selected').val();
 
     $.ajax({
       url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
-      data: {'company_name': company_name, 'goal_year': goal_year, 'month': month},
+      data: { 'company_name': company_name, 'goal_year': goal_year, 'month': month, 'staff_id': staff_id },
       success:function(html){
-          $("#dailyPerformanceDetailsAppend").empty();
-          $("#dailyPerformanceDetailsAppend").html(html);
+        $("#dailyPerformanceDetailsAppend").empty();
+        $("#dailyPerformanceDetailsAppend").html(html);
       }
     });
   });
