@@ -2665,11 +2665,11 @@
 
             for($i=0;$i<=sizeof($major)-1;$i++){
 
-                $qry2="INSERT INTO audit_checklist_ref(audit_area_id, major_area, assertion, weightage)
-				VALUES('".strip_tags($audit_area_id)."', '".strip_tags($major[$i])."', '".strip_tags($assertion[$i])."',
-				'".strip_tags($weightage[$i])."' )";
+                $qry2="INSERT INTO audit_checklist_ref(audit_area_id, major_area, assertion)
+				VALUES('".strip_tags($audit_area_id)."', '".strip_tags($major[$i])."', '".strip_tags($assertion[$i])."' )";
 				$insert_checklist_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
             }
+
         }
 
         // Update Audit area checklist in both tables
@@ -4119,6 +4119,7 @@
 				$detailrecords['completion_target_date']      = $row->completion_target_date;		
 				$detailrecords['initial_phase']      = $row->initial_phase;		
 				$detailrecords['final_phase']      = $row->final_phase;			
+				$detailrecords['update_attachment']      = $row->update_attachment;			
 			}
 			
 			return $detailrecords;

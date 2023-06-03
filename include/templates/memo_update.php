@@ -45,6 +45,7 @@ if($idupd>0)
             $completion_target_date      = $getMemo['completion_target_date'];
             $initial_phase      = $getMemo['initial_phase'];
             $final_phase      = $getMemo['final_phase'];
+            $update_attachment      = $getMemo['update_attachment'];
         }
     } 
 

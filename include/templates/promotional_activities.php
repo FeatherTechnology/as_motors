@@ -138,9 +138,9 @@
                                           </input> 
                                        </td>
                                        <td>
-                                          <input tabindex="4" type="text" class="form-control" id="time_frame_start" placeholder="Enter Time_Frame_Start" name="time_frame_start[]" ></input> 
+                                          <input tabindex="4" type="number" class="form-control" id="time_frame_start" placeholder="Enter Time Frame Start" name="time_frame_start[]" ></input> 
                                       </td>
-                                       <td><input tabindex="6" type="text" class="form-control" id="duration" name="duration[]" placeholder="Enter Duration"></td>
+                                       <td><input tabindex="6" type="number" class="form-control" id="duration" name="duration[]" placeholder="Enter Duration"></td>
                                       <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
                                        <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
@@ -155,10 +155,10 @@
                                           <input  type="hidden" class="form-control" id="promotional_activities_ref_id" placeholder="Enter Activity Involved" name="promotional_activities_ref_id[]" value="<?php echo $promotional_activities_ref_id[$g]; ?>">
                                          </td>
                                          <td>
-                                         <input type="number" class="form-control" id="time_frame_start" placeholder="Enter Time_Frame_Start" name="time_frame_start[]" value="<?php echo $time_frame_start[$g]?>">
+                                         <input type="number" class="form-control" id="time_frame_start" placeholder="Enter Time Frame Start" name="time_frame_start[]" value="<?php echo $time_frame_start[$g]?>">
                                          </td>
                                        <td>
-                                          <input tabindex="4" type="text" class="form-control" id="duration" name="duration[]" placeholder="Enter Duration" value="<?php echo $duration[$g]; ?>"></input> 
+                                          <input tabindex="4" type="number" class="form-control" id="duration" name="duration[]" placeholder="Enter Duration" value="<?php echo $duration[$g]; ?>"></input> 
                                        </td>
                                       
                                       

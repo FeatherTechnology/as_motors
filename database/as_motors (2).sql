@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2023 at 08:44 AM
+-- Generation Time: Jun 02, 2023 at 09:47 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.26
 
@@ -349,6 +349,13 @@ CREATE TABLE `audit_area_creation` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `audit_area_creation`
+--
+
+INSERT INTO `audit_area_creation` (`audit_area_id`, `audit_area`, `department_id`, `frequency`, `frequency_applicable`, `calendar`, `from_date`, `to_date`, `role1`, `role2`, `check_list`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 'Area1', '1,2', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 15:30:57', '2023-06-02 15:30:57', '1', '3', 'Yes', 0, 0, 1, NULL, NULL, '2023-06-01 15:30:57', '2023-06-01 15:30:57');
+
 -- --------------------------------------------------------
 
 --
@@ -362,6 +369,27 @@ CREATE TABLE `audit_area_creation_ref` (
   `to_date` varchar(100) DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `audit_area_creation_ref`
+--
+
+INSERT INTO `audit_area_creation_ref` (`audit_area_creation_ref_id`, `audit_area_id`, `from_date`, `to_date`, `work_status`) VALUES
+(1, '1', '2023-06-01 15:30:57', '2023-06-02 15:30:57', 0),
+(2, '1', '2023-06-16 15:30:57', '2023-06-17 15:30:57', 0),
+(3, '1', '2023-07-01 15:30:57', '2023-07-03 15:30:57', 0),
+(4, '1', '2023-07-17 15:30:57', '2023-07-18 15:30:57', 0),
+(5, '1', '2023-08-01 15:30:57', '2023-08-02 15:30:57', 0),
+(6, '1', '2023-08-16 15:30:57', '2023-08-17 15:30:57', 0),
+(7, '1', '2023-08-31 15:30:57', '2023-09-01 15:30:57', 0),
+(8, '1', '2023-09-15 15:30:57', '2023-09-16 15:30:57', 0),
+(9, '1', '2023-09-30 15:30:57', '2023-10-02 15:30:57', 0),
+(10, '1', '2023-10-16 15:30:57', '2023-10-17 15:30:57', 0),
+(11, '1', '2023-10-31 15:30:57', '2023-11-01 15:30:57', 0),
+(12, '1', '2023-11-15 15:30:57', '2023-11-16 15:30:57', 0),
+(13, '1', '2023-11-30 15:30:57', '2023-12-01 15:30:57', 0),
+(14, '1', '2023-12-15 15:30:57', '2023-12-16 15:30:57', 0),
+(15, '1', '2023-12-30 15:30:57', '2024-01-01 15:30:57', 0);
 
 -- --------------------------------------------------------
 
@@ -385,6 +413,13 @@ CREATE TABLE `audit_assign` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `audit_assign`
+--
+
+INSERT INTO `audit_assign` (`audit_assign_id`, `date_of_audit`, `department_id`, `role1`, `role2`, `audit_area_id`, `auditee_response_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, '2023-06-01', '1,2', '1', '3', '1', 1, 0, 1, NULL, NULL, '2023-06-01 15:31:51', '2023-06-01 15:31:51');
+
 -- --------------------------------------------------------
 
 --
@@ -407,6 +442,14 @@ CREATE TABLE `audit_assign_ref` (
   `auditee_followup_status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `audit_assign_ref`
+--
+
+INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`, `auditee_followup_status`) VALUES
+(1, '1', 'chennai', 'test', '1', '', '', 'test2', NULL, NULL, NULL, 0, 0),
+(2, '1', 'Pondy', 'test1', '0', 'test rec', '', 'test3', 'test', 'test', '2023-06-03', 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -422,6 +465,13 @@ CREATE TABLE `audit_checklist` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `audit_checklist`
+--
+
+INSERT INTO `audit_checklist` (`audit_checklist_id`, `audit_area_id`, `department`, `auditor`, `auditee`, `status`) VALUES
+(1, 1, '1,2', '1', '3', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -436,6 +486,14 @@ CREATE TABLE `audit_checklist_ref` (
   `assertion` varchar(200) DEFAULT NULL,
   `weightage` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `audit_checklist_ref`
+--
+
+INSERT INTO `audit_checklist_ref` (`audit_checklist_ref_id`, `audit_area_id`, `major_area`, `sub_area`, `assertion`, `weightage`) VALUES
+(1, 1, 'chennai', NULL, 'test', ''),
+(2, 1, 'Pondy', NULL, 'test1', '');
 
 -- --------------------------------------------------------
 
@@ -826,7 +884,8 @@ CREATE TABLE `daily_km` (
 
 INSERT INTO `daily_km` (`daily_km_id`, `company_id`, `date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
 (1, '1', '2023-05-05', 0, NULL, NULL, NULL, '2023-05-05 02:05:23', '2023-05-05 02:05:23'),
-(2, '1', '2023-05-05', 0, NULL, NULL, NULL, '2023-05-05 14:43:13', '2023-05-05 14:43:13');
+(2, '1', '2023-05-05', 0, NULL, NULL, NULL, '2023-05-05 14:43:13', '2023-05-05 14:43:13'),
+(3, '1', '2023-06-02', 0, NULL, NULL, NULL, '2023-06-02 12:42:23', '2023-06-02 12:42:23');
 
 -- --------------------------------------------------------
 
@@ -849,7 +908,8 @@ CREATE TABLE `daily_km_ref` (
 
 INSERT INTO `daily_km_ref` (`daily_km_ref_id`, `vehicle_details_id`, `vehicle_number`, `start_km`, `end_km`, `daily_km_id`) VALUES
 (2, '1', '111', '50', '500', '1'),
-(3, '1', '111', '50', '100', '2');
+(3, '1', '111', '50', '100', '2'),
+(4, '1', '111', '50', '500', '3');
 
 -- --------------------------------------------------------
 
@@ -872,6 +932,13 @@ CREATE TABLE `daily_performance` (
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `daily_performance`
+--
+
+INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `department_id`, `role_id`, `emp_id`, `month`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`, `status`) VALUES
+(1, 1, 1, 1, 1, 6, 1, NULL, NULL, '2023-06-02 12:03:53', '2023-06-02 12:03:53', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -889,6 +956,14 @@ CREATE TABLE `daily_performance_ref` (
   `target_fixing_ref_id` int(11) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `daily_performance_ref`
+--
+
+INSERT INTO `daily_performance_ref` (`daily_performance_ref_id`, `daily_performance_id`, `assertion`, `target`, `system_date`, `old_target`, `target_fixing_id`, `target_fixing_ref_id`, `status`) VALUES
+(1, 1, 'demo1', '3', '2023-06-02', '90', 1, 1, 'statisfied'),
+(2, 1, 'test1', '8', '2023-06-02', '200', 1, 2, 'not_done');
 
 -- --------------------------------------------------------
 
@@ -1150,6 +1225,13 @@ CREATE TABLE `insurance_register` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `insurance_register`
+--
+
+INSERT INTO `insurance_register` (`ins_reg_id`, `company_id`, `insurance_id`, `dept_id`, `freq_id`, `department_id`, `designation_id`, `staff_id`, `calendar`, `from_date`, `to_date`, `frequency_applicable`, `work_status`, `status`, `created_date`, `updated_date`) VALUES
+(1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-06-01 15:02:12', '2023-06-02 15:02:12', 'frequency_applicable', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12');
+
 -- --------------------------------------------------------
 
 --
@@ -1175,6 +1257,14 @@ CREATE TABLE `insurance_register_ref` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `insurance_register_ref`
+--
+
+INSERT INTO `insurance_register_ref` (`ins_reg_ref_id`, `ins_reg_id`, `company_id`, `insurance_id`, `dept_id`, `freq_id`, `department_id`, `designation_id`, `staff_id`, `calendar`, `from_date`, `to_date`, `work_status`, `status`, `created_date`, `updated_date`) VALUES
+(1, 1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-06-01 15:02:12', '2023-06-02 15:02:12', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12'),
+(2, 1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-12-01 15:02:12', '2023-12-02 15:02:12', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12');
+
 -- --------------------------------------------------------
 
 --
@@ -1197,28 +1287,30 @@ CREATE TABLE `krakpi_calendar_map` (
 --
 
 INSERT INTO `krakpi_calendar_map` (`krakpi_calendar_map_id`, `krakpi_id`, `krakpi_ref_id`, `kra_category`, `calendar`, `from_date`, `to_date`, `work_status`) VALUES
-(1, '1', '1', '2', 'Yes', '2023-06-01 11:20:56', '2023-06-02 11:20:56', 3),
-(2, '1', '1', '2', 'Yes', '2023-06-16 11:20:56', '2023-06-17 11:20:56', 0),
-(3, '1', '1', '2', 'Yes', '2023-07-01 11:20:56', '2023-07-03 11:20:56', 0),
-(4, '1', '1', '2', 'Yes', '2023-07-17 11:20:56', '2023-07-18 11:20:56', 0),
-(5, '1', '1', '2', 'Yes', '2023-08-01 11:20:56', '2023-08-02 11:20:56', 0),
-(6, '1', '1', '2', 'Yes', '2023-08-16 11:20:56', '2023-08-17 11:20:56', 0),
-(7, '1', '1', '2', 'Yes', '2023-08-31 11:20:56', '2023-09-01 11:20:56', 0),
-(8, '1', '1', '2', 'Yes', '2023-09-15 11:20:56', '2023-09-16 11:20:56', 0),
-(9, '1', '1', '2', 'Yes', '2023-09-30 11:20:56', '2023-10-02 11:20:56', 0),
-(10, '1', '1', '2', 'Yes', '2023-10-16 11:20:56', '2023-10-17 11:20:56', 0),
-(11, '1', '1', '2', 'Yes', '2023-10-31 11:20:56', '2023-11-01 11:20:56', 0),
-(12, '1', '1', '2', 'Yes', '2023-11-15 11:20:56', '2023-11-16 11:20:56', 0),
-(13, '1', '1', '2', 'Yes', '2023-11-30 11:20:56', '2023-12-01 11:20:56', 0),
-(14, '1', '1', '2', 'Yes', '2023-12-15 11:20:56', '2023-12-16 11:20:56', 0),
-(15, '1', '1', '2', 'Yes', '2023-12-30 11:20:56', '2024-01-01 11:20:56', 0),
-(16, '1', '2', '1', 'Yes', '2023-06-15 11:20:56', '2023-06-16 11:20:56', 0),
-(17, '1', '2', '1', 'Yes', '2023-07-15 11:20:56', '2023-07-17 11:20:56', 0),
-(18, '1', '2', '1', 'Yes', '2023-08-15 11:20:56', '2023-08-17 11:20:56', 0),
-(19, '1', '2', '1', 'Yes', '2023-09-15 11:20:56', '2023-09-18 11:20:56', 0),
-(20, '1', '2', '1', 'Yes', '2023-10-16 11:20:56', '2023-10-18 11:20:56', 0),
-(21, '1', '2', '1', 'Yes', '2023-11-16 11:20:56', '2023-11-18 11:20:56', 0),
-(22, '1', '2', '1', 'Yes', '2023-12-16 11:20:56', '2023-12-18 11:20:56', 0);
+(1, '1', '1', '2', 'Yes', '2023-06-01 15:12:51', '2023-06-02 15:12:51', 0),
+(2, '1', '1', '2', 'Yes', '2023-06-16 15:12:51', '2023-06-17 15:12:51', 0),
+(3, '1', '1', '2', 'Yes', '2023-07-01 15:12:51', '2023-07-03 15:12:51', 0),
+(4, '1', '1', '2', 'Yes', '2023-07-17 15:12:51', '2023-07-18 15:12:51', 0),
+(5, '1', '1', '2', 'Yes', '2023-08-01 15:12:51', '2023-08-02 15:12:51', 0),
+(6, '1', '1', '2', 'Yes', '2023-08-16 15:12:51', '2023-08-17 15:12:51', 0),
+(7, '1', '1', '2', 'Yes', '2023-08-31 15:12:51', '2023-09-01 15:12:51', 0),
+(8, '1', '1', '2', 'Yes', '2023-09-15 15:12:51', '2023-09-16 15:12:51', 0),
+(9, '1', '1', '2', 'Yes', '2023-09-30 15:12:51', '2023-10-02 15:12:51', 0),
+(10, '1', '1', '2', 'Yes', '2023-10-16 15:12:51', '2023-10-17 15:12:51', 0),
+(11, '1', '1', '2', 'Yes', '2023-10-31 15:12:51', '2023-11-01 15:12:51', 0),
+(12, '1', '1', '2', 'Yes', '2023-11-15 15:12:51', '2023-11-16 15:12:51', 0),
+(13, '1', '1', '2', 'Yes', '2023-11-30 15:12:51', '2023-12-01 15:12:51', 0),
+(14, '1', '1', '2', 'Yes', '2023-12-15 15:12:51', '2023-12-16 15:12:51', 0),
+(15, '1', '1', '2', 'Yes', '2023-12-30 15:12:51', '2024-01-01 15:12:51', 0),
+(16, '1', '2', '1', 'Yes', '2023-06-15 15:12:51', '2023-06-16 15:12:51', 0),
+(17, '1', '2', '1', 'Yes', '2023-07-15 15:12:51', '2023-07-17 15:12:51', 0),
+(18, '1', '2', '1', 'Yes', '2023-08-15 15:12:51', '2023-08-17 15:12:51', 0),
+(19, '1', '2', '1', 'Yes', '2023-09-15 15:12:51', '2023-09-18 15:12:51', 0),
+(20, '1', '2', '1', 'Yes', '2023-10-16 15:12:51', '2023-10-18 15:12:51', 0),
+(21, '1', '2', '1', 'Yes', '2023-11-16 15:12:51', '2023-11-18 15:12:51', 0),
+(22, '1', '2', '1', 'Yes', '2023-12-16 15:12:51', '2023-12-18 15:12:51', 0),
+(23, '2', '3', '2', 'No', '', '', 0),
+(24, '2', '4', '1', 'No', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1244,7 +1336,8 @@ CREATE TABLE `krakpi_creation` (
 --
 
 INSERT INTO `krakpi_creation` (`krakpi_id`, `company_name`, `department`, `designation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56');
+(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
+(2, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24');
 
 -- --------------------------------------------------------
 
@@ -1279,8 +1372,10 @@ CREATE TABLE `krakpi_creation_ref` (
 --
 
 INSERT INTO `krakpi_creation_ref` (`krakpi_ref_id`, `krakpi_reff_id`, `kra_category`, `rr`, `kpi`, `frequency`, `frequency_applicable`, `calendar`, `from_date`, `to_date`, `criteria`, `project_id`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, '2', '4', '', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 11:20:56', '2023-06-02 11:20:56', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56'),
-(2, 1, '1', '1', '', 'Monthly', 'frequency_applicable', 'Yes', '2023-06-15 11:20:56', '2023-06-16 11:20:56', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 11:20:56', '2023-06-01 11:20:56');
+(1, 1, '2', '4', '', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 15:12:51', '2023-06-02 15:12:51', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
+(2, 1, '1', '3', '', 'Monthly', 'frequency_applicable', 'Yes', '2023-06-15 15:12:51', '2023-06-16 15:12:51', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
+(3, 2, '2', '4', '', 'Fortnightly', '', 'No', '', '', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24'),
+(4, 2, '1', '3', '', 'Monthly', '', 'No', '', '', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24');
 
 -- --------------------------------------------------------
 
@@ -1589,7 +1684,8 @@ CREATE TABLE `memo` (
 --
 
 INSERT INTO `memo` (`memo_id`, `company_id`, `from_department`, `to_department`, `assign_employee`, `priority`, `inquiry`, `suggestion`, `attachment`, `completion_target_date`, `initial_phase`, `final_phase`, `date_of_completion`, `update_attachment`, `narration`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', NULL, '1', '1', '1', 'test', 'test', 'ZR_106418_CAND.pdf', '2023-05-11', '', '', '2023-05-14', '', 'test', 0, 1, 1, NULL, '2023-05-05 13:32:03', '2023-05-05 13:32:03');
+(1, '1', NULL, '1', '1', '1', 'test', 'test', 'ZR_106418_CAND.pdf', '2023-05-11', '', '', '2023-05-14', '', 'test', 0, 1, 1, NULL, '2023-05-05 13:32:03', '2023-05-05 13:32:03'),
+(2, '1', NULL, '1', '1', '1', 'test', 'test', '', '2023-06-15', '', '', NULL, NULL, NULL, 0, 1, 1, NULL, '2023-06-01 17:01:35', '2023-06-01 17:01:35');
 
 -- --------------------------------------------------------
 
@@ -1700,8 +1796,7 @@ CREATE TABLE `pm_checklist` (
 --
 
 INSERT INTO `pm_checklist` (`pm_checklist_id`, `company_id`, `category_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `frequency`, `frequency_applicable`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'test', 'Yes/No/NA', 'Yes', '', '', '', '', '', 'Half Yearly', 'frequency_applicable', 'High', 1, 0, 1, NULL, NULL, '2023-05-31 11:59:01', '2023-05-31 11:59:01'),
-(2, '1', '2', 'testing', 'Yes/No/NA', '', '', '', '', '', '', 'Quaterly', 'frequency_applicable', 'High', 1, 0, 1, NULL, NULL, '2023-05-31 14:48:57', '2023-05-31 14:48:57');
+(1, '1', '1', 'test', 'Option', '', '2', 'option1', 'option2', '', '', 'Fortnightly', 'frequency_applicable', 'High', 0, 0, 1, NULL, NULL, '2023-06-01 14:18:48', '2023-06-01 14:18:48');
 
 -- --------------------------------------------------------
 
@@ -1859,7 +1954,7 @@ CREATE TABLE `rgp_creation` (
 --
 
 INSERT INTO `rgp_creation` (`rgp_id`, `rgp_date`, `return_date`, `asset_class`, `company_id`, `branch_from`, `branch_to`, `from_comm_line1`, `from_comm_line2`, `to_comm_line1`, `to_comm_line2`, `asset_name_id`, `asset_value`, `reason_rgp`, `extended_date`, `extend_reason`, `extend_status`, `rgp_status`, `status`, `created_id`, `updated_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-05-05', '2023-05-07', '3', '1', '1', '2', 'Bussy Street', 'Chinnakadai', 'Gandhi Street', 'Vandavasi', '1', '60000', 'test', '2023-05-13', 'test', NULL, 'inward', 1, NULL, NULL, '2023-05-05 12:18:32', '2023-05-05 12:18:32');
+(1, '2023-05-05', '2023-05-07', '3', '1', '1', '2', 'Bussy Street', 'Chinnakadai', 'Gandhi Street', 'Vandavasi', '1', '60000', 'test', '2023-05-13', 'test', 'Approved', 'inward', 1, NULL, NULL, '2023-05-05 12:18:32', '2023-05-05 12:18:32');
 
 -- --------------------------------------------------------
 
@@ -2071,6 +2166,13 @@ CREATE TABLE `target_fixing` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `target_fixing`
+--
+
+INSERT INTO `target_fixing` (`target_fixing_id`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `no_of_months`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
+(1, 1, 1, 1, 1, 7, 10, 0, 1, NULL, NULL, '2023-06-02 11:39:04', '2023-06-02 11:39:04');
+
 -- --------------------------------------------------------
 
 --
@@ -2089,6 +2191,14 @@ CREATE TABLE `target_fixing_ref` (
   `deleted_date` varchar(100) DEFAULT NULL,
   `deleted_remarks` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `target_fixing_ref`
+--
+
+INSERT INTO `target_fixing_ref` (`target_fixing_ref_id`, `target_fixing_id`, `goal_setting_and_kra_id`, `assertion`, `target`, `new_assertion`, `new_target`, `applicability`, `deleted_date`, `deleted_remarks`) VALUES
+(1, 1, '1', 'test', '100', 'demo1', '90', 'test', '', ''),
+(2, 1, '2', 'test1', '200', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2915,37 +3025,37 @@ ALTER TABLE `assign_work_ref`
 -- AUTO_INCREMENT for table `audit_area_creation`
 --
 ALTER TABLE `audit_area_creation`
-  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `audit_area_creation_ref`
 --
 ALTER TABLE `audit_area_creation_ref`
-  MODIFY `audit_area_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_area_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `audit_assign`
 --
 ALTER TABLE `audit_assign`
-  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `audit_assign_ref`
 --
 ALTER TABLE `audit_assign_ref`
-  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist`
 --
 ALTER TABLE `audit_checklist`
-  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist_ref`
 --
 ALTER TABLE `audit_checklist_ref`
-  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `audit_followup`
@@ -3029,25 +3139,25 @@ ALTER TABLE `costcentre`
 -- AUTO_INCREMENT for table `daily_km`
 --
 ALTER TABLE `daily_km`
-  MODIFY `daily_km_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `daily_km_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `daily_km_ref`
 --
 ALTER TABLE `daily_km_ref`
-  MODIFY `daily_km_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `daily_km_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `daily_performance`
 --
 ALTER TABLE `daily_performance`
-  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `daily_performance_ref`
 --
 ALTER TABLE `daily_performance_ref`
-  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `department_creation`
@@ -3107,31 +3217,31 @@ ALTER TABLE `insurance_creation`
 -- AUTO_INCREMENT for table `insurance_register`
 --
 ALTER TABLE `insurance_register`
-  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `insurance_register_ref`
 --
 ALTER TABLE `insurance_register_ref`
-  MODIFY `ins_reg_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ins_reg_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `krakpi_calendar_map`
 --
 ALTER TABLE `krakpi_calendar_map`
-  MODIFY `krakpi_calendar_map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `krakpi_calendar_map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation`
 --
 ALTER TABLE `krakpi_creation`
-  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation_ref`
 --
 ALTER TABLE `krakpi_creation_ref`
-  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `kra_creation`
@@ -3191,7 +3301,7 @@ ALTER TABLE `meeting_minutes_parallel_agree_disagree`
 -- AUTO_INCREMENT for table `memo`
 --
 ALTER TABLE `memo`
-  MODIFY `memo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `memo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `memo_status`
@@ -3215,7 +3325,7 @@ ALTER TABLE `permission_or_on_duty`
 -- AUTO_INCREMENT for table `pm_checklist`
 --
 ALTER TABLE `pm_checklist`
-  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pm_checklist_ref`
@@ -3293,13 +3403,13 @@ ALTER TABLE `tag_creation`
 -- AUTO_INCREMENT for table `target_fixing`
 --
 ALTER TABLE `target_fixing`
-  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `target_fixing_ref`
 --
 ALTER TABLE `target_fixing_ref`
-  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `todo_creation`

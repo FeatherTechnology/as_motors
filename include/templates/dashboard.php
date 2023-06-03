@@ -181,6 +181,15 @@ $auditAssignDashboard = $userObj->getAuditAssignDashboard($mysqli, $sstaffid);
 // auditee response
 $auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $sstaffid);
 
+$mm_approval_line_id='';
+$mm_company_id='';
+$mm_approval_staff_id='';
+$mm_agree_par_staff_id='';
+$mm_after_notified_staff_id='';
+$mm_receiving_dept_id='';
+$mm_checker_approval='';
+$mm_reviewer_approval='';
+$mm_final_approval='';
 
 // Meeting Minutes
 $mm_approval_staff_idArr=array();
@@ -192,11 +201,11 @@ $mm_after_notified_staff_idArr=array();
 $approvalRequisitionApproveStaff = $userObj->getMeetingMinutesApproveStaffDashboard($mysqli); 
 if (sizeof($approvalRequisitionApproveStaff)>0) {   
     for($a=0;$a<sizeof($approvalRequisitionApproveStaff);$a++) {	
-        $mm_approval_line_id                 = $approvalRequisitionApproveStaff['meeting_minutes_approval_line_id'];
+        $mm_approval_line_id                   = $approvalRequisitionApproveStaff['meeting_minutes_approval_line_id'];
         $mm_company_id                	         = $approvalRequisitionApproveStaff['company_id'];
         $mm_approval_staff_id                   = $approvalRequisitionApproveStaff['approval_staff_id'];
         $mm_agree_par_staff_id		             = $approvalRequisitionApproveStaff['agree_par_staff_id'];
-        $mm_after_notified_staff_id		     = $approvalRequisitionApproveStaff['after_notified_staff_id'];
+        $mm_after_notified_staff_id		       = $approvalRequisitionApproveStaff['after_notified_staff_id'];
         $mm_receiving_dept_id		             = $approvalRequisitionApproveStaff['receiving_dept_id'];
         $mm_checker_approval		             = $approvalRequisitionApproveStaff['checker_approval'];
         $mm_reviewer_approval		             = $approvalRequisitionApproveStaff['reviewer_approval'];

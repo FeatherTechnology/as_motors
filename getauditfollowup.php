@@ -55,8 +55,6 @@ while($row=$qry->fetch_assoc()){
     $designation_name1[]= $row['designation_name1']; 
     $role2[]= $row['role2']; 
     $designation_name2[]= $row['designation_name2'];
-    
-   
 }
 
 for($i=0;$i<count($audit_assign_id); $i++){
@@ -78,5 +76,4 @@ for($i=0;$i<count($audit_assign_id); $i++){
 }
 
 echo json_encode($prevChecklist);
-
 ?>

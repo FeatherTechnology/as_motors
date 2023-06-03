@@ -126,6 +126,12 @@ $(document).ready(function(){
         $(".maintenance-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
     });
 
+    // audit module enable disable
+    $("#audit_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".audit-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
+
     // manpower module enable disable
     $("#manpower_in_out_module").on("change", function() {
         var isChecked = $(this).is(":checked");
