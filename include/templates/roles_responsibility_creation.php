@@ -330,7 +330,7 @@ if($idupd>0)
                                                                 </select> 
                                                             </td> -->
                                                             <td>
-                                                            <select tabindex="6" type="text" class="form-control" id="designation" name="designation[]" >
+                                                            <select tabindex="6" type="text" class="form-control designation" id="designation" name="designation[]" >
                                                                 <option value="">Select Designation</option> 
 
                                                                 <?php if (sizeof($editDesignation)>0) { 
