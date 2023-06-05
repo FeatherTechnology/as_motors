@@ -304,7 +304,7 @@ if($idupd>0)
                                                         <tr>
                                                         <input type="hidden" name="rr_ref_id[]" id="rr_ref_id" value="<?php if(isset($rr_ref_id)){ echo $rr_ref_id[$i]; } ?>">
                                                             <td>
-                                                                <select tabindex="3" type="text" class="form-control" id="department" name="department[]" >
+                                                                <select tabindex="3" type="text" class="form-control department" id="department" name="department[]" >
                                                                     <option value="">Select Department</option>   
 
                                                                     <?php if (sizeof($editDepartment)>0) { 
