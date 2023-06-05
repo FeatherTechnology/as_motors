@@ -49,9 +49,9 @@
 						<thead>
 							<tr>
 								<th>S. No.</th>
-								<th>Title</th>
-								<th>User Name</th>
+								<!-- <th>Title</th> -->
 								<th>Full Name</th>
+								<th>User Name</th>
 								<th>Role</th>
 								<th>Status</th>
 								<th>Action</th>

@@ -59,7 +59,7 @@ if($idupd>0)
             $department           = $getRolesResponsibilityCreation['department'];  
             $designation	       = $getRolesResponsibilityCreation['designation'];
             $rr                   = $getRolesResponsibilityCreation['rr'];	
-            $frequency             = $getRolesResponsibilityCreation['frequency'];
+            // $frequency             = $getRolesResponsibilityCreation['frequency'];
         }
     } 
 
@@ -70,7 +70,7 @@ if($idupd>0)
         }
     } 
 
-    $editDepartment = $userObj->getEditDepartment($mysqli, $branch_id);
+    $editDepartment = $userObj->getEditDepartment($mysqli, $company_name);
     $editDesignation = $userObj->getEditDesignation($mysqli, $department);
 
     foreach($department as $dept)
@@ -234,7 +234,7 @@ if($idupd>0)
                                         <script language='javascript'> 
                                             window.onload=getdepartmentLoad;
                                             
-                                            function getdepartmentLoad(){ 
+                                            function getdepartmentLoad(){  
                                                 var company_id = $("#branch_id").val();
                                                 $.ajax({
                                                     url: 'R&RFile/ajaxR&RDepartmentDetails.php',

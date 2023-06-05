@@ -214,7 +214,7 @@ function resetKraForm(){
 function getdepartment(company_id){
 	var department_upd = $('#department_upd').val();
 	$.ajax({
-		url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
+		url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
 		type: 'post',
 		data: { "company_id":company_id },
 		dataType: 'json',
@@ -240,7 +240,7 @@ function getdesignation(department_id){
 	var designation_upd = $('#designation_upd').val();
 
 	$.ajax({
-		url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+		url: 'R&RFile/ajaxR&RDesignationDetails.php',
 		type: 'post',
 		data: { "company_id":company_id, "department_id":department_id },
 		dataType: 'json',
@@ -283,7 +283,7 @@ $(function(){
   function getdepartmentLoad(){ 
 	var company_id = $("#company_id").val();
 	$.ajax({
-		url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
+		url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
 	  type: 'post',
 	  data: { "company_id":company_id },
 	  dataType: 'json',

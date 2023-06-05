@@ -19,12 +19,12 @@ if(isset($_POST['submittag_creation']) && $_POST['submittag_creation'] != '')
         $id = $_POST['id']; 	
         $updateTagCreationmaster = $userObj->updateTagCreation($mysqli,$id,$userid);  
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>tag_creation&msc=2';</script> 
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_tag_creation&msc=2';</script> 
     <?php }
     else {   
         $addTagCreation = $userObj->addTagCreation($mysqli,$userid);   
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>tag_creation&msc=1';</script>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_tag_creation&msc=1';</script>
         <?php
     }
 }   
@@ -38,7 +38,7 @@ if($del>0)
 {
 	$deleteTagCreation = $userObj->deleteTagCreation($mysqli,$del,$userid); 
 	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>tag_creation&msc=3';</script>
+	<script>location.href='<?php echo $HOSTPATH; ?>edit_tag_creation&msc=3';</script>
 <?php	
 }
 
@@ -55,7 +55,7 @@ if($idupd>0)
         for($itag=0;$itag<sizeof($getTagCreation);$itag++)  {
 
             $tag_id                  = $getTagCreation['tag_id']; 
-            $company_id                	     = $getTagCreation['company_id'];
+            $company_id                	     = $getTagCreation['company_id']; 
 			$department                	 = $getTagCreation['department_id'];
 			$tag_classification    	     = $getTagCreation['tag_classification'];
 		}
@@ -109,13 +109,9 @@ if($idupd>0)
         <li class="breadcrumb-item">AS - Tag Creation </li>
     </ol>
 
-    <?php
-    if($idupd>0)
-    { ?>
-    <a href="tag_creation">
+    <a href="edit_tag_creation">
         <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
     </a>
-    <?php } ?>
 </div>
 <!-- Page header end -->
 
@@ -148,11 +144,11 @@ if($idupd>0)
                                                         <?php if (sizeof($companyName)>0) { 
                                                             for($j=0;$j<count($companyName);$j++) { ?>
                                                                 <option <?php  
-                                                                    if (isset($companyArr)) {
-                                                                        for ($i=0; $i < count($companyArr); $i++){
+                                                                    if (isset($companyArr)) { 
+                                                                        for ($i=0; $i < count($companyArr); $i++){ 
                                                                             if($companyName[$j]['company_id'] == $companyArr[$i] ) echo "selected"; 
                                                                         }
-                                                                    }
+                                                                    } 
                                                                     ?> value="<?php echo $companyName[$j]['company_id']; ?>"> <?php echo $companyName[$j]['company_name']; ?>
                                                                 </option>
                                                         <?php }} ?>  
@@ -217,7 +213,7 @@ if($idupd>0)
        
     </form>
 
-    <div class="row gutters">
+    <!-- <div class="row gutters">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="table-container">
 
@@ -267,12 +263,12 @@ if($idupd>0)
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 </div>
 
-<script>
+<!-- <script>
 	setTimeout(function() {
 		$('.alert').fadeOut('slow');
 	}, 2000);
-</script>
+</script> -->

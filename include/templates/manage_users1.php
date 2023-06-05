@@ -1,9 +1,5 @@
 <?php 
 $id=0;
-$employeecodelist=$userObj->getemployeecode($mysqli);
-$companyName = $userObj->getcompanyName($mysqli);
-$branchName = $userObj->getBranchName($mysqli);
-
 $user_id        = '';
 $first_name     = '';
 $last_name      = '';
@@ -114,17 +110,14 @@ if($idupd>0)
         for($iuser=0;$iuser<sizeof($getuser);$iuser++){
 
             $user_id        = $getuser['user_id'];
-            // $first_name     = $getuser['firstname'];
-            // $last_name      = $getuser['lastname'];
-            // $full_name      = $getuser['fullname'];
-            // $title          = $getuser['title'];
-            $branch_id      = $getuser['branch_id'];
-            $staff_id      = $getuser['staff_id'];
-            $user_name      = $getuser['user_name']; 
-            $designation       = $getuser['designation_id'];
-            $mobilenumber       = $getuser['mobile_number'];
-            $emailid       = $getuser['emailid'];
-            $user_password       = $getuser['user_password'];
+            $first_name     = $getuser['firstname'];
+            $last_name      = $getuser['lastname'];
+            $full_name      = $getuser['fullname'];
+            $title          = $getuser['title'];
+            $user_name      = $getuser['user_name'];
+            $email_id       = $getuser['emailid'];
+            $password       = $getuser['user_password'];
+            $confirm_password       = $getuser['user_password'];
             $role           = $getuser['role'];
 
             $administration_module    = $getuser['administration_module'];
@@ -217,89 +210,76 @@ if($idupd>0)
                         <!-- <div class="card-header">General Info</div> -->
 					</div>
 					<div class="card-body row">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="">Employee Name</label>
-                                    <select type="text" class="form-control" tabindex="11" id="staff_name" name="staff_name">
-                                        <option value="">Select Employee</option>
-                                        <?php if (sizeof($employeecodelist)>0) { 
-                                        for($j=0;$j<count($employeecodelist);$j++) { ?>
-                                            <option
-                                                <?php if(isset($staff_id)) { if($employeecodelist[$j]['staff_id'] == $staff_id ) echo 'selected'; } ?> value="<?php echo $employeecodelist[$j]['staff_id']; ?>" >
-                                                <?php echo $employeecodelist[$j]['staff_name']; ?>
-                                                (<?php echo $employeecodelist[$j]['emp_code']; ?>)
-                                            </option>
-                                        <?php } } ?>
-                                    </select>
-                                </div>
+						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+							<div class="form-group">
+								<label class="label">First Name</label>
+                                <input type="text" tabindex="1" name="first_name" id="first_name" class="form-control" placeholder="Enter First Name" value="<?php if(isset($first_name)) echo $first_name; ?>">
+                                <!-- <span class="text-danger" id="firstNameCheck">Enter First Name</span> -->
                             </div>
+						</div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for=""> Designation </label>
-                                    <input type="text" readonly placeholder="Enter Designation" class="form-control" tabindex="2" name="designation" id="designation"
-                                        value="<?php if($idupd > 0){ if(isset($designation)) echo $designation; }?>">
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="disabledInput">Last Name</label>
+                                <input type="text" tabindex="2" id="last_name" name="last_name" class="form-control"  placeholder="Enter Last Name" value="<?php if(isset($last_name)) echo $last_name; ?>" >
+                                <!-- <span class="text-danger" id="lastNameCheck">Enter Last Name</span> -->
                             </div>
+                        </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for=""> E-Mail Id </label>
-                                    <input type="text" readonly class="form-control" placeholder="Enter E-Mail Id" name="email" id="email" tabindex="6"
-                                        value="<?php if($idupd > 0){  if(isset($emailid)) echo $emailid; } ?>">
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="disabledInput">Full Name</label>
+                                <input type="text" readonly id="full_name" name="full_name" class="form-control" value="<?php if(isset($full_name)) echo $full_name; ?>" >
+                                <!-- <span class="text-danger" id="fullNameCheck">Enter Full Name</span> -->
                             </div>
+                        </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for=""> Mobile Number </label>
-                                    <input type="text" readonly placeholder="Enter Mobile Number" class="form-control" tabindex="3" name="mobilenumber" id="mobilenumber"
-                                        value="<?php if($idupd > 0){  if(isset($mobilenumber)) echo $mobilenumber; } ?>">
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="disabledInput">Title</label>
+                                <input type="text" tabindex="3" id="title" name="title" class="form-control"  value="<?php if(isset($title)) echo $title; ?>" placeholder="Enter Title">
+                                <!-- <span class="text-danger" id="firstNameCheck">Enter First Name</span> -->
                             </div>
+                        </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for=""> User Name  </label>
-                                    <input type="text" class="form-control" placeholder="Enter User Name" tabindex="7"
-                                        value="<?php if($idupd > 0){ if(isset($user_name)) echo $user_name; } ?>" id="username" name="username">
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="inputReadOnly">E-Mail Id</label>
+                                <input type="email" class="form-control" tabindex="4" id="email_id" name="email_id" value="<?php if(isset($email_id)) echo $email_id; ?>" placeholder="Enter Email Id">
+                                <!-- <span class="text-danger" id="emailidCheck">Enter Valid E-mail Id</span> -->
                             </div>
+                        </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for=""> Password </label>
-                                    <input type="text" class="form-control" tabindex="8" placeholder="Enter Password"
-                                        id="password" value="<?php if($idupd > 0){ if(isset($user_password)) echo $user_password; } ?>" name="password">
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for=""> User Name</label>
+                                <input type="text" class="form-control" readonly value="<?php if($idupd > 0){  if(isset($user_name)) echo $user_name; } ?>" id="user_name" name="user_name">
+                                <!-- <span id="usernamecheck" class="text-danger">Enter Username</span> -->
                             </div>
+                        </div>
 
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="">Branch Name</label>
-                                    <select type="text" class="form-control" tabindex="11" id="branch_id" name="branch_id">
-                                        <option value="">Select Branch</option>
-                                        <?php if (sizeof($branchName)>0) { 
-                                            for($j=0;$j<count($branchName);$j++) { ?>
-                                            <option <?php if(isset($branch_id)) { if($branchName[$j]['branch_id'] == $branch_id)  echo 'selected'; } ?> 
-                                                value="<?php echo $branchName[$j]['branch_id']; ?>" >
-                                                <?php
-                                                for($k=0;$k<count($companyName);$k++) {
-                                                    if($branchName[$j]['company_id'] == $companyName[$k]['company_id']) echo $companyName[$k]['company_name']; }
-                                                echo ' - ' . $branchName[$j]['branch_name']; ?>
-                                            </option>
-                                        <?php } } ?> 
-                                    </select>
-                                </div>
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for=""> Password</label>
+                                <input type="password" tabindex="5" class="form-control" placeholder="Enter Password" id="password" value="<?php if($idupd > 0){ if(isset($password)) echo $password; } ?>" name="password">
+                                <!-- <span id="passwordcheck" class="text-danger">Enter Password</span> -->
                             </div>
+                        </div>
+
+                        <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="">Confirm Password</label>
+                                <input type="password" class="form-control confirm_pass" placeholder="Confirm Password" id="confirm_password" value="<?php if($idupd > 0){ if(isset($confirm_password)) echo $confirm_password; } ?>" name="confirm_password">
+                            </div>
+                        </div> -->
 
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label for="inputEmail">Role</label>
                                     <div>
-                                        <input tabindex="6" type="radio" name="role" id="role" value="3" <?php if(isset($role)){if($role == 3){echo "checked";}} ?>>
-                                        <label for="role">Manager Login</label>&nbsp;&nbsp;
+                                        <input tabindex="6" type="radio" name="role" id="man_login" value="3" <?php if(isset($role)){if($role == 3){echo "checked";}} ?>>
+                                        <label for="man_login">Manager Login</label>&nbsp;&nbsp;
                                         <input tabindex="7" type="radio" name="role" id="staff_login" value="4" <?php if(isset($role)){if($role == 4){echo "checked";}} ?>>
                                         <label for="staff_login">Staff Login</label> <br>
                                         <!-- <span class="text-danger" id="roleCheck">Select Role</span> -->

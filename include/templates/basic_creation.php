@@ -14,7 +14,6 @@ $departmentList = $userObj->getDepartment($mysqli);
 $designationList = $userObj->getDesignation($mysqli);
 
 $id=0;
-// print_r($_POST['id']);
 if(isset($_POST['submitBasicCreation']) && $_POST['submitBasicCreation'] != '')
 {    
 	if(isset($_POST['id']) && $_POST['id'] >0 ){		
@@ -70,7 +69,7 @@ if($idupd>0)
     // $departmentArr = explode(",", $department);
     // $designationArr = explode(",", $designation);
 
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="hidden" id="basic_creation_idEdit" name="basic_creation_idEdit" value="<?php echo ($basic_creation_id); ?>" >

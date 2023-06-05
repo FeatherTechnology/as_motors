@@ -156,6 +156,24 @@ $(document).ready(function(){
         $(".approvalmechanism-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
     });
 
+    // employee name
+    $('#staff_name').change(function () {	
+        let staff_name = $('#staff_name').val();
+
+        $.ajax({ 
+            method:"POST",
+            url:'manageusersFiles/ajaxFetchEmployeeDetails.php',
+            dataType: 'JSON',
+            data: {staff_name:staff_name},
+            success: function (data)
+            { 
+                $("#designation").val(data['designation']);
+                $("#email").val(data['email']);
+                $("#mobilenumber").val(data['mobilenumber']);
+            }
+        });
+    });
+
 
 
     // Validate first name

@@ -76,36 +76,12 @@ if($idupd>0)
     <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
     <script>
         window.onload=editBranchBasedDepartment;
-        // function editCompanyBasedBranch(){  
-        //     var branch_id = $('#company_nameEdit').val();
-        //     $.ajax({
-        //         url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
-        //         type:'post',
-        //         data: {'branch_id': branch_id},
-        //         dataType: 'json',
-        //         success: function(response){
-                    
-        //             $("#branch_id").empty();
-        //             $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-        //             var r = 0;
-        //             for (r = 0; r <= response.branch_id.length - 1; r++) { 
-        //                 var selected = "";
-        //                 if(response['branch_id'][r] == branch_id)
-        //                 {
-        //                     selected = "selected";
-        //                 }
-        //                 $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + response['branch_name'][r] + "</option>");
-        //             }
-        //         }
-        //     });
-        //     editBranchBasedDepartment();
-        // }
 
         function editBranchBasedDepartment(){  
             var company_id = $('#company_nameEdit').val(); 
             var department = $('#departmentEdit').val();  
             $.ajax({
-                url: 'R&RFile/ajaxR&RDepartmentDetails.php',
+                url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
                 type:'post',
                 data: {'company_id': company_id},
                 dataType: 'json',
@@ -186,22 +162,6 @@ if($idupd>0)
                                             <?php } ?>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="disabledInput">Branch Name</label>
-                                            <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
-                                                    <option value="" disabled selected>Select Branch Name</option> 
-                                                </select> 
-                                            <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
-                                                <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
-                                                </select> 
-                                            <?php } ?>
-                                        </div>
-                                    </div> -->
 
                                     <?php if($idupd<=0){ ?>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">

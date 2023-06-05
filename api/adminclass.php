@@ -244,11 +244,10 @@
 		}
 
 		public function getCompnayNameBranchBased($mysqli) {
+			
             $qry = "SELECT * FROM branch_creation WHERE status=0 ORDER BY branch_id ASC";
             $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
             $detailrecords = array();
-            // $detailrecords['company_name'] = '';
-            // $detailrecords['branch_name'] = '';
             $i=0;
             if ($mysqli->affected_rows>0)
             {
@@ -588,7 +587,14 @@
 				$row = $res->fetch_object();	
 				$detailrecords['tag_id']      = $row->tag_id; 
 				$detailrecords['department_id']      = $row->department_id;
-				$detailrecords['company_id']    = $row->company_id;
+
+				$qry1 = "SELECT * FROM branch_creation WHERE branch_id = '".strip_tags($row->company_id)."' AND status=0"; 
+				$res1 = $mysqli->query($qry1);
+				while($row5 = $res1->fetch_object())
+				{
+					$detailrecords['company_id'] = $row5->company_id;
+				}
+
 				$detailrecords['tag_classification']      = $row->tag_classification;		
 			}
 			
@@ -4459,11 +4465,9 @@
 		// get company and branch name based on session id
 		public function getsCompanyBranchDetail($mysqli, $sbranch_id){
             $qry = "SELECT * FROM branch_creation WHERE company_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
-			// print_r($qry);
             $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+
             $detailrecords = array();
-            // $detailrecords['company_name'] = '';
-            // $detailrecords['branch_name'] = '';
             $i=0;
             if ($mysqli->affected_rows>0)
             {
@@ -4478,11 +4482,43 @@
                     $detailrecords['state']          = strip_tags($row->state);
                     $detailrecords['city']          = strip_tags($row->city);
 					
-                        $getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
-                        $res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
-                        while ($row2 = $res1->fetch_object()) {
-                            $company_name = $row2->company_name;
-                        }
+					$getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
+					$res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
+					while ($row2 = $res1->fetch_object()) {
+						$company_name = $row2->company_name;
+					}
+                    $detailrecords['company_name'] = $company_name;
+                    $i++;
+                }
+            }
+            return $detailrecords;
+        }
+
+		// get company and branch name based on session id
+		public function getsBranchBasedCompanyName($mysqli, $sbranch_id){
+            $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
+            $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+
+            $detailrecords = array();
+            $i=0;
+            if ($mysqli->affected_rows>0)
+            {
+                while($row = $res->fetch_object())
+                {
+					
+					$detailrecords['branch_id']          = strip_tags($row->branch_id);
+                    $detailrecords['branch_name']          = strip_tags($row->branch_name);
+                    $detailrecords['company_id']          = strip_tags($row->company_id);
+                    $detailrecords['address1']          = strip_tags($row->address1);
+                    $detailrecords['address2']          = strip_tags($row->address2);
+                    $detailrecords['state']          = strip_tags($row->state);
+                    $detailrecords['city']          = strip_tags($row->city);
+					
+					$getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
+					$res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
+					while ($row2 = $res1->fetch_object()) {
+						$company_name = $row2->company_name;
+					}
                     $detailrecords['company_name'] = $company_name;
                     $i++;
                 }
@@ -8945,29 +8981,41 @@
 		// Add User
 		public function adduser($mysqli){
 
-			if(isset($_POST['first_name'])){
-				$first_name = $_POST['first_name'];
+			if(isset($_POST['designation'])){
+				$designation = $_POST['designation'];
 			}
-			if(isset($_POST['last_name'])){
-				$last_name = $_POST['last_name'];
+			if(isset($_POST['mobilenumber'])){
+				$mobile_number = $_POST['mobilenumber'];
 			}
-			if(isset($_POST['full_name'])){
-				$full_name = $_POST['full_name'];
+			if(isset($_POST['email'])){
+				$email_id = $_POST['email'];
 			}
-			if(isset($_POST['title'])){
-				$title = $_POST['title'];
+			if(isset($_POST['staff_name'])){
+				$staff_id = $_POST['staff_name'];
 			}
-			if(isset($_POST['email_id'])){
-				$email_id = $_POST['email_id'];
+
+			$fullname = '';
+			$qry = "SELECT * FROM staff_creation WHERE staff_id = '".strip_tags($staff_id)."' AND status=0";
+			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+			if ($mysqli->affected_rows>0)
+			{
+				while($row = $res->fetch_object())
+				{
+					$fullname        = strip_tags($row->staff_name);
+				}
 			}
-			if(isset($_POST['user_name'])){
-				$user_name = $_POST['user_name'];
-			}
+
 			if(isset($_POST['password'])){
 				$password = $_POST['password'];
 			}
 			if(isset($_POST['role'])){
 				$role = $_POST['role'];
+			}
+			if(isset($_POST['branch_id'])){
+				$branch_id = $_POST['branch_id'];
+			}
+			if(isset($_POST['username'])){
+				$username = $_POST['username'];
 			}
 			
 			if(isset($_POST['administration_module']) &&    $_POST['administration_module'] == 'Yes')		
@@ -9325,22 +9373,24 @@
 				$minutes_of_meeting=1;
 			}
 		
-			$userInsert="INSERT INTO user (firstname, lastname, fullname, title, emailid, user_name, user_password, role, Createddate, administration_module, dashboard, 
+			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, 
 			company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
 			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
 			memo_sub_module, campaign,assign_work, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
 			maintenance_checklist, manpower_in_out_module, permission_or_onduty, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
 			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
-			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($first_name)."', '".strip_tags($last_name)."', '".strip_tags($full_name)."', 
-			'".strip_tags($title)."', '".strip_tags($email_id)."', '".strip_tags($user_name)."', '".strip_tags($password)."', '".strip_tags($role)."', current_timestamp(), 
-			$administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, 
-			$responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, 
-			$audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, 
-			$service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $todo, $assigned_work, 
+			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', 
+			'".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', 
+			'".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, 
+			$master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, 
+			$kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, 
+			$audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, 
+			$promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $todo, $assigned_work, 
 			$memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, 
 			$permission_or_onduty, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
-			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting)";
+			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, 
+			$minutes_of_meeting)"; // echo $userInsert; die;
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
 			
 		}
@@ -9355,11 +9405,15 @@
 			{
 				$row = $res->fetch_object();	
 				$detailrecords['user_id']                    = $row->user_id; 
-				$detailrecords['firstname']       	           = strip_tags($row->firstname);
-				$detailrecords['lastname']       	           = strip_tags($row->lastname);
-				$detailrecords['fullname']       	           = strip_tags($row->fullname);
-				$detailrecords['title']       	        = strip_tags($row->title);
+				// $detailrecords['firstname']       	           = strip_tags($row->firstname);
+				// $detailrecords['lastname']       	           = strip_tags($row->lastname);
+				// $detailrecords['fullname']       	           = strip_tags($row->fullname);
+				// $detailrecords['title']       	        = strip_tags($row->title);
 				$detailrecords['user_name']       	        = strip_tags($row->user_name);
+				$detailrecords['designation_id']       	        = strip_tags($row->designation_id);
+				$detailrecords['mobile_number']       	        = strip_tags($row->mobile_number);
+				$detailrecords['staff_id']       	        = strip_tags($row->staff_id);
+				$detailrecords['branch_id']       	        = strip_tags($row->branch_id);
 				$detailrecords['emailid']       	        = strip_tags($row->emailid);
 				$detailrecords['user_password']              = strip_tags($row->user_password);		  	
 				$detailrecords['role']              = strip_tags($row->role);		  	
@@ -9433,29 +9487,41 @@
 		// Update User
 	public function updateuser($mysqli,$id){
 
-		if(isset($_POST['first_name'])){
-			$first_name = $_POST['first_name'];
+		if(isset($_POST['designation'])){
+			$designation = $_POST['designation'];
 		}
-		if(isset($_POST['last_name'])){
-			$last_name = $_POST['last_name'];
+		if(isset($_POST['mobilenumber'])){
+			$mobile_number = $_POST['mobilenumber'];
 		}
-		if(isset($_POST['full_name'])){
-			$full_name = $_POST['full_name'];
+		if(isset($_POST['email'])){
+			$email_id = $_POST['email'];
 		}
-		if(isset($_POST['title'])){
-			$title = $_POST['title'];
+		if(isset($_POST['staff_name'])){
+			$staff_id = $_POST['staff_name'];
 		}
-		if(isset($_POST['email_id'])){
-			$email_id = $_POST['email_id'];
+
+		$fullname = '';
+		$qry = "SELECT * FROM staff_creation WHERE staff_id = '".strip_tags($staff_id)."' AND status=0";
+		$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object())
+			{
+				$fullname        = strip_tags($row->staff_name);
+			}
 		}
-		if(isset($_POST['user_name'])){
-			$user_name = $_POST['user_name'];
-		}
+
 		if(isset($_POST['password'])){
 			$password = $_POST['password'];
 		}
 		if(isset($_POST['role'])){
 			$role = $_POST['role'];
+		}
+		if(isset($_POST['branch_id'])){
+			$branch_id = $_POST['branch_id'];
+		}
+		if(isset($_POST['username'])){
+			$username = $_POST['username'];
 		}
 		
 		if(isset($_POST['administration_module']) &&    $_POST['administration_module'] == 'Yes')		
@@ -9814,12 +9880,13 @@
 		}
 	
 		$userupdate="UPDATE user SET 
-		firstname='".strip_tags($first_name)."', 
-		lastname='".strip_tags($last_name)."', 
-		fullname='".strip_tags($full_name)."', 
-		title='".strip_tags($title)."', 
+		fullname='".strip_tags($fullname)."', 
+		designation_id='".strip_tags($designation)."', 
+		mobile_number='".strip_tags($mobile_number)."', 
+		branch_id='".strip_tags($branch_id)."', 
+		staff_id='".strip_tags($staff_id)."', 
 		emailid='".strip_tags($email_id)."', 
-		user_name='".strip_tags($user_name)."',
+		user_name='".strip_tags($username)."',
 		user_password='".strip_tags($password)."', 
 		role='".strip_tags($role)."',
 
@@ -10135,10 +10202,28 @@ public function adddailyperformance($mysqli,$userid){
 		}
 	}
 
-// Delete daily_performance
+	// Delete daily_performance
 	public function deletedailyperformance($mysqli, $id){
-	$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
-	$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+		$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
+		$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
+	}
+
+	public function getemployeecode($mysqli) { 
+		$qry = "SELECT 	staff_id, emp_code, staff_name FROM staff_creation WHERE 1 and status=0"; 
+		$res = $mysqli->query($qry) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		$i=0;
+		if ($mysqli->affected_rows>0)
+		{
+			while($row = $res->fetch_object())
+			{
+				$detailrecords[$i]['staff_id']  = strip_tags($row->staff_id);
+				$detailrecords[$i]['staff_name']  = strip_tags($row->staff_name);
+				$detailrecords[$i]['emp_code']       	    = strip_tags($row->emp_code);
+				$i++;
+			}
+		}
+		return $detailrecords;
 	}
 
 

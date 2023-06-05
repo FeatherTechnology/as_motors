@@ -17,6 +17,9 @@ $kra_id = array();
 $kra_creation_ref_id = array();
 $kra_category = array();
 
+$project_id = array();
+$project_name = array();
+
 // get rr name
 $getInstName= $con->query("SELECT rr_id FROM rr_creation WHERE status = 0 AND company_name = $company_id ");
 while ($row = $getInstName->fetch_assoc()) {
