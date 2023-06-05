@@ -274,7 +274,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Director Dashboard </li>
+        <li class="breadcrumb-item">Dashboard </li>
     </ol>
 
 </div>
@@ -287,6 +287,8 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
         <input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
  		<!-- Row start -->
          <div class="row gutters">
+
+         <?php  if ($sbranch_id == 'Overall') { ?>
 
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="card">
@@ -598,89 +600,87 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 </div>
             </div>
-    
-            <?php  if ($sbranch_id == 'Overall') { ?>
 
-                <!-- PM, BM checklist -->
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">PM Checklist</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="customScroll5">
-                                <ul class="project-activity">
-                                    <div class="col-md-12 "> 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group" >
-                                                    <div class="table">
-                                                        <table id="pmChecklist_dashboard" class="table custom-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>S. No.</th>
-                                                                    <!-- <th>Company Name</th>
-                                                                    <th>Branch Name</th> -->
-                                                                    <th>Category</th>
-                                                                    <th>Checklist</th>
-                                                                    <!-- <th>Type Of Checklist</th>
-                                                                    <th>Frequency</th> -->
-                                                                    <th>Rating</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
+            <!-- PM, BM checklist -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">PM Checklist</div>
                     </div>
-                </div>
-
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">BM Checklist</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="customScroll5">
-                                <ul class="project-activity">
-                                    <div class="col-md-12 "> 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group" >
-                                                    <div class="table">
-                                                    <table id="bmChecklist_dashboard" class="table custom-table">
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                    <table id="pmChecklist_dashboard" class="table custom-table">
                                                         <thead>
                                                             <tr>
-                                                            <th>S. No.</th>
-                                                            <!-- <th>Company Name</th>
-                                                            <th>Branch Name</th> -->
-                                                            <th>Category</th>
-                                                            <th>Checklist</th>
-                                                            <th>Rating</th>
+                                                                <th>S. No.</th>
+                                                                <!-- <th>Company Name</th>
+                                                                <th>Branch Name</th> -->
+                                                                <th>Category</th>
+                                                                <th>Checklist</th>
+                                                                <!-- <th>Type Of Checklist</th>
+                                                                <th>Frequency</th> -->
+                                                                <th>Rating</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                         </tbody>
                                                     </table>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </ul>
-                            </div>
+                                </div>
+                            </ul>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            <?php } ?>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">BM Checklist</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="bmChecklist_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                        <th>S. No.</th>
+                                                        <!-- <th>Company Name</th>
+                                                        <th>Branch Name</th> -->
+                                                        <th>Category</th>
+                                                        <th>Checklist</th>
+                                                        <th>Rating</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php } ?>
 
                 <!-- approval requisition -->
                 <?php 
@@ -895,7 +895,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                 
                 <!-- approval requisition parallel Approval Requisition -->
                 <?php 
-                if($agree_disagree_staff_id == $sstaffid){ ?>
+                if($agree_disagree_staff_id == $sstaffid && $sbranch_id != 'Overall'){ ?>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="card">
                             <div class="card-header">
@@ -974,7 +974,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
 
                 <!-- business com out -->
                 <?php 
-                if($business_com_out_approval_staff_idLength == '2'){
+                if($business_com_out_approval_staff_idLength == '2' && $sbranch_id != 'Overall'){
 
                     if($BCOchecker_approval == 0){  
                         if($sstaffid == $business_com_out_approval_staff_idArr[0]) { ?>
@@ -1189,7 +1189,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
 
                 <!-- parallel approve reject Business Communication (Outgoing) -->
                 <?php 
-                if($business_com_out_agree_disagree_staff_id == $sstaffid){ ?>
+                if($business_com_out_agree_disagree_staff_id == $sstaffid && $sbranch_id != 'Overall'){ ?>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="card">
                             <div class="card-header">
@@ -1764,7 +1764,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                 
                 <!-- Parallel Meeting Minutes -->
                 <?php 
-                if($mm_agree_disagree_staff_id == $sstaffid){ ?>
+                if($mm_agree_disagree_staff_id == $sstaffid && $sbranch_id != 'Overall'){ ?>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="card">
                             <div class="card-header">
