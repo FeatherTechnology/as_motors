@@ -8,8 +8,7 @@ if(isset($_SESSION["userid"])){
 
 $column = array(
     'user_id', 
-    'title',
-    'fullname',
+    'staff_id',
     'user_name',
     'role'
 );
@@ -27,19 +26,17 @@ if($_POST['search']!="")
         {
             $query .="and status=1 ";
         }
-
         else{	
             $query .= "
             OR user_id LIKE  '%".$_POST['search']."%'
-            OR fullname LIKE  '%".$_POST['search']."%'
-            OR title LIKE '%".$_POST['search']."%'
+            OR staff_id LIKE '%".$_POST['search']."%'
             OR user_name LIKE '%".$_POST['search']."%'
             OR role LIKE '%".$_POST['search']."%' ";
         }
     }
 }
 
-    if (isset($_POST['order'])) {
+if (isset($_POST['order'])) {
     $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
 } else {
     $query .= ' ';
@@ -68,10 +65,17 @@ foreach ($result as $row) {
         $sub_array[] = $sno;
     }
     
-    $sub_array[] = $row['title'];
+    $staffId = $row['staff_id'];
+    $staff_name=''; 
+    $getqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($staffId)."' and status = 0";
+    $res12 = $con->query($getqry);
+    while($row12 = $res12->fetch_assoc())
+    {
+       $staff_name = $row12["staff_name"];        
+    }
+
+    $sub_array[] = $staff_name;
     $sub_array[] = $row['user_name'];
-    $sub_array[] = $row['fullname'];
-    // $sub_array[] = $row['emailid'];
     $role = $row['role'];
     if($role == 3){$sub_array[] = 'Manager';}
     elseif($role == 4){$sub_array[] = 'Staff';}

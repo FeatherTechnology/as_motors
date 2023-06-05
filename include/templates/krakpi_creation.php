@@ -151,7 +151,7 @@ if($idupd>0)
                                     function getdepartmentLoad(){ 
                                       var department_upd = $('#department_upd').val();
                                       $.ajax({
-                                        url: 'KRA&KPIFile/ajaxKra&KpiDepartmentDetailsLoad.php',
+                                        url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
                                         type: 'post',
                                         data: {},
                                         dataType: 'json',

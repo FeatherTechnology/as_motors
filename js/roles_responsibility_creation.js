@@ -31,7 +31,7 @@ $(document).ready(function () {
       $("#company_name").val('');
     }else{
       $.ajax({
-        url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
+        url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
         type: 'post',
         data: { "company_id":company_id },
         dataType: 'json',
@@ -96,7 +96,7 @@ $(document).ready(function () {
             $("#designation").val('');
           }else{
             $.ajax({
-              url: 'R&RFile/ajaxR&RFetchDepartmentDetails.php',
+              url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
               data: {"company_id":company_id},
               cache: false,
               type: "post",
