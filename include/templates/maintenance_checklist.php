@@ -65,7 +65,7 @@ if($idupd>0)
 		}
 	} 
     // get company name
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="hidden" id="calendarEdit" name="calendarEdit" value="<?php print_r($calendar); ?>" >
@@ -231,7 +231,7 @@ if($dashupd>0)
 	} 
 
     // get company name
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="hidden" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
@@ -385,7 +385,7 @@ if($view>0)
 		}
 	} 
     // get company name
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="hidden" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >

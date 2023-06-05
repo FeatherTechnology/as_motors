@@ -284,6 +284,7 @@ $(document).ready(function () {
     
     //report Dropdown
     function resetreportingdropdown(branch_id,report_to_upd){ 
+
          $.ajax({
             url: 'ajaxResetReportingDropdown.php',
             type: 'POST',
@@ -332,7 +333,22 @@ $(document).ready(function () {
         }
     });
 
-   
+    
+    $("body").on("click","#edit_department",function(){
+
+        var department_id=$(this).attr('value');
+        $("#department_id").val(department_id);
+        $.ajax({
+                url: 'departmentFile/ajaxEditDepartment.php',
+                type: 'POST',
+                data: {"department_id":department_id},
+                cache: false,
+                success:function(response){
+                $("#department_name").val(response);
+            }
+        });
+    });
+
 
     $("body").on("click","#delete_department", function(){
 

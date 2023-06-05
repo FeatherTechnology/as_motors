@@ -64,7 +64,7 @@ if($idupd>0)
 			$to_date		             = $getAssignWorkList[$iwork]['to_date'];
 		}
 	}
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     $editDesignation = $userObj->getEditDesignationKRAKPI($mysqli, $department_id);
     ?>
 

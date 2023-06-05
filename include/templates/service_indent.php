@@ -82,7 +82,7 @@ if($idupd>0)
 		}
 	} 
     $getAssetName = $userObj->getAssetName($mysqli, $asset_class);  
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >

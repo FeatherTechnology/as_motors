@@ -56,6 +56,7 @@ if($idupd>0)
 
             $tag_id                  = $getTagCreation['tag_id']; 
             $company_id                	     = $getTagCreation['company_id']; 
+            $branch_id                	     = $getTagCreation['branch_id']; 
 			$department                	 = $getTagCreation['department_id'];
 			$tag_classification    	     = $getTagCreation['tag_classification'];
 		}
@@ -64,20 +65,22 @@ if($idupd>0)
     $companyArr = explode(",", $company_id);
     ?>
 
-    <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
+    <input type="text" id="companyIdEdit" name="companyIdEdit" value="<?php print_r($company_id); ?>" >
+    <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($branch_id); ?>" >
     <input type="text" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
 
     <script language='javascript'>
         window.onload=editTagCreation;
         function editTagCreation(){ 
             // edit department name
-            var branch_id = $("#branchIdEdit").val(); 
+            // var branch_id = $("#companyIdEdit").val(); 
+            var branchId = $("#branchIdEdit").val(); 
             var departmentEdit = $("#departmentEdit").val(); 
 
             $.ajax({
                 url: 'tagFile/getDepartmentDetails.php',
                 type: 'post',
-                data: { "branch_id":branch_id },
+                data: { "branch_id":branchId },
                 dataType: 'json',
                 success: function(response){ 
 
@@ -95,7 +98,7 @@ if($idupd>0)
                 }
             });
             
-            editCompanyBasedBranch(branch_id);
+            editCompanyBasedBranch(branchId);
         }
     </script>
 

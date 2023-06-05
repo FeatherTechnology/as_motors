@@ -587,6 +587,7 @@
 				$row = $res->fetch_object();	
 				$detailrecords['tag_id']      = $row->tag_id; 
 				$detailrecords['department_id']      = $row->department_id;
+				$detailrecords['branch_id']    = $row->company_id;
 
 				$qry1 = "SELECT * FROM branch_creation WHERE branch_id = '".strip_tags($row->company_id)."' AND status=0"; 
 				$res1 = $mysqli->query($qry1);
