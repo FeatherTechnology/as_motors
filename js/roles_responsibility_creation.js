@@ -37,11 +37,11 @@ $(document).ready(function () {
         dataType: 'json',
         success:function(response){ 
   
-          $('#department').empty();
-          $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+          $('.department').empty();
+          $('.department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
           var r = 0;
           for (r = 0; r <= response.department_id.length - 1; r++) { 
-            $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
+            $('.department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
           }
         }
       });
@@ -110,10 +110,7 @@ $(document).ready(function () {
 
                 var appendTxt = "<tr><td><select id='department' tabindex='11' name='department[]' class='department chosen-select form-control'>" + markup1 + "</select></td>" +
                 "<td><input type='text' tabindex='13' class='chosen-select form-control rr' id='rr' name='rr[]' /></td>" +
-                // "<td><select id='applicability' tabindex='11' name='applicability[]' class='applicability chosen-select form-control'><option value=''>Select Applicability</option><option value='Common'>Common</option><option value='Specific'>Specific</option></select></td>" +
                 "<td><select id='designation' tabindex='11' name='designation[]' class='designation chosen-select form-control'></select></td>" +
-                // "<td><select id='frequency' tabindex='11' name='frequency[]' class='frequency chosen-select form-control'><option value=''>Select Frequency</option><option value='Fortnightly'>Fortnightly</option><option value='Monthly'>Monthly</option><option value='Quaterly'>Quaterly</option><option value='Half Yearly'>Half Yearly</option><option value='yearly'>yearly</option><option value='Event Driven'>Event Driven</option></select></td>" +
-                // "<td><input type='text' tabindex='13' class='chosen-select form-control code_ref' id='code_ref' name='code_ref[]' /></td>" +
                 "<td><button type='button' tabindex='26' id='add_product' name='add_product' value='Submit' class='btn btn-primary add_product'>Add</button></td>" +
                 "<td><span class='deleterow icon-trash-2' tabindex='18'></span></td>"+
                 "</tr>";
