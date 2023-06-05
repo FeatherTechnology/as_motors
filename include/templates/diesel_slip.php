@@ -61,7 +61,7 @@ if($idupd>0)
 			$diesel_amount    	     = $getDieselSlip['diesel_amount'];
 		}
 	} 
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >

@@ -52,7 +52,7 @@ if($idupd>0)
     $assignEmployeeName = $userObj->getAssignEmployeeName($mysqli, $to_department);  
     $initialPhaseName = $userObj->getInitialPhase($mysqli, $assign_employee);  
     $finalPhaseName = $userObj->getFinalPhase($mysqli, $initial_phase);  
-    $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_id);
+    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
 
     ?>
 

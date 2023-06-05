@@ -1,6 +1,5 @@
 <?php
 include '../ajaxconfig.php';
-
 if (isset($_POST['branch_id'])) {
   $company_id = $_POST['branch_id'];
 }
