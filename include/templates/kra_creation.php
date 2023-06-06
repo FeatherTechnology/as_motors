@@ -81,7 +81,7 @@ if($idupd>0)
             var company_id = $('#company_nameEdit').val(); 
             var department = $('#departmentEdit').val();  
             $.ajax({
-                url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
+                url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
                 type:'post',
                 data: {'company_id': company_id},
                 dataType: 'json',
