@@ -31,7 +31,7 @@ $(document).ready(function () {
       $("#company_name").val('');
     }else{
       $.ajax({
-        url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
+        url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
         type: 'post',
         data: { "company_id":company_id },
         dataType: 'json',
