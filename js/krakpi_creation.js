@@ -368,7 +368,7 @@ $(function(){
 function getdepartment(company_id){ 
   var department_upd = $('#department_upd').val();
   $.ajax({
-    url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
+    url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
     type: 'post',
     data: { "company_id":company_id },
     dataType: 'json',

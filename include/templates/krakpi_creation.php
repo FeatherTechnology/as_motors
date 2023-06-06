@@ -151,7 +151,7 @@ if($idupd>0)
                                     function getdepartmentLoad(){ 
                                       var department_upd = $('#department_upd').val();
                                       $.ajax({
-                                        url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
+                                        url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
                                         type: 'post',
                                         data: {},
                                         dataType: 'json',
