@@ -233,7 +233,7 @@ $('#dept').change(function() {
     var role_id_up = $('#role_id_up').val();
    
     $.ajax({
-        url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+        url: 'R&RFile/ajaxR&RDesignationDetails.php',
         type: 'post',
         data: { "company_id":company_id, "department_id":department_id },
         dataType: 'json',
@@ -292,7 +292,7 @@ function insertData(prev_company){
             var department_id=$('#dept').val();
             var role_id_up = $('#role_id_up').val();
             $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+                url: 'R&RFile/ajaxR&RDesignationDetails.php',
                 data: {'company_id': company_id,
                         'department_id':department_id
                                       },
