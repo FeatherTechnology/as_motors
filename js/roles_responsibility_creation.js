@@ -96,7 +96,7 @@ $(document).ready(function () {
             $("#designation").val('');
           }else{
             $.ajax({
-              url: 'R&RFile/ajaxGetCompanyBasedDeptDetails.php',
+              url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
               data: {"company_id":company_id},
               cache: false,
               type: "post",
