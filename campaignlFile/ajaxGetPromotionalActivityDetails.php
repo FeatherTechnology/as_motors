@@ -48,7 +48,8 @@ if(isset($_POST["actual_start_date"])){
                     for($o=0; $o<=sizeof($promotional_activities_ref_id)-1; $o++){ 
         
                         $start_date = date('Y-m-d', strtotime('-'.$time_frame_start[$o].' day', strtotime($actual_start_date)));
-                        $end_date = date('Y-m-d', strtotime('-'.$duration[$o].' day', strtotime($actual_start_date)));
+                        $end_date = date('Y-m-d', strtotime('+'.$duration[$o].' day', strtotime($start_date)));
+                        // $end_date = date('Y-m-d', strtotime('-'.$duration[$o].' day', strtotime($actual_start_date)));
                         
                         ?>
                         <tbody>
@@ -61,8 +62,7 @@ if(isset($_POST["actual_start_date"])){
                                 <td><input type="date" class="form-control start_date" name="start_date[]" id="start_date" value="<?php echo $start_date; ?>" ></td>
                                 <td><input type="date" class="form-control end_date" name="end_date[]" id="end_date" value="<?php echo $end_date; ?>" ></td>
                                 <td>
-                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
-                                    </select>
+                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
                                 </td>
                             </tr>
                         </tbody>
