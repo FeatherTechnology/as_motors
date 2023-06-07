@@ -139,8 +139,7 @@ $(document).ready(function () {
     $('#prev').change(function() {
         var prev_company = $('#prev').val();
         insertData(prev_company);
-       
-        
+        getyeardatatable();
       });
 
     // resetting modult table
@@ -151,26 +150,26 @@ $(document).ready(function () {
     }
 
     // insert year <a href="admin.php?function=myFunction">Click here to call myFunction</a>
-    $(document).on("click", '#insert', function () {
-        var insertedyear = $('#iyear').val();
-        var insertedcompany = $('#prev').val();
-        // console.log(insertedyear);
-        // console.log(insertedcompany);
-        $.ajax({
-            url: 'add_year.php',
-            data: {'insertedyear': insertedyear,
-                   'insertedcompany':insertedcompany 
-                   },
-            cache: false,
-            type:'post',
-            dataType: 'json',
-            success: function(data){
+    // $(document).on("click", '#insert', function () {
+    //     var insertedyear = $('#iyear').val();
+    //     var insertedcompany = $('#prev').val();
+    //     // console.log(insertedyear);
+    //     // console.log(insertedcompany);
+    //     $.ajax({
+    //         url: 'add_year.php',
+    //         data: {'insertedyear': insertedyear,
+    //                'insertedcompany':insertedcompany 
+    //                },
+    //         cache: false,
+    //         type:'post',
+    //         dataType: 'json',
+    //         success: function(data){
                
-            }
-          });
-          $('.close').trigger('click');
-          getyear();
-    });
+    //         }
+    //       });
+    //       $('.close').trigger('click');
+    //       getyear();
+    // });
     
       
 getyear();
@@ -221,11 +220,14 @@ getyear();
 
             var option = $('<option '+selected+' ></option>').val(data[a]['year_id']).text(data[a]['year']);
             $('#syear').append(option);
+
+            // $('#year_infoDashboard').append();
+
             }
        
         }
     });
-
+    getyeardatatable();
 }
 $('#dept').change(function() { 
     var company_id=$('#prev').val();
@@ -338,6 +340,7 @@ $(document).ready(function () {
             $('#prev').prop('disabled', true);
             var prev_company = $('#prev').val();
             insertData(prev_company);
+
         
         }else{
            
@@ -353,6 +356,184 @@ $(document).ready(function () {
     }else{
         
      }
-    }       
+    }  
+    
+    
+
+
+
+     // goal dashboard
+// var icompany= $('#icompany').val();
+
     
 });
+
+function getyeardatatable(){
+    var year_infoDashboardTable = $('#year_infoDashboard').DataTable();
+
+// Check if DataTable is already initialized
+if (year_infoDashboardTable && $.fn.DataTable.isDataTable('#year_infoDashboard')) {
+    year_infoDashboardTable.destroy();
+}
+
+    var year_infoDashboard = $('#year_infoDashboard').DataTable({
+       "order": [[ 0, "desc" ]],
+       //"ordering": false, //removes sorting by column
+       'processing': true,
+       'serverSide': true,
+       'serverMethod': 'post',
+       //'searching': false, // Remove default Search Control
+       'ajax': {
+           'url':'ajaxgetyeartable.php',
+         
+           'data': function(data){
+               var search = $('#search').val();
+               data.search = search;
+               data.icompany =  $('#prev').val();
+           }
+       },
+       // dom: 'lBfrtip',
+       buttons: [
+           {
+               extend: 'csv',
+               exportOptions: {
+                   columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+               }
+           },
+           {
+               extend:'colvis',
+               collectionLayout: 'fixed four-column',
+           }
+       ],
+       "lengthMenu": [
+           [10, 25, 50, -1],
+           [10, 25, 50, "All"]
+       ]
+   });
+}
+$(document).ready(function () {
+    $(document).on("click", '.edpage', function () {
+        var id = $(this).text();
+        console.log('id',id);
+        $.ajax({
+            url: 'ajaxgetyeartablebyid.php',
+            data: {'id': id },
+            cache: false,
+            type:'post',
+            dataType: 'json',
+            success: function(data){
+                 $('#iyearid').val(+ data['year_id'] );
+                 $('#iyear').val(+ data['year'] );
+        
+            }
+          
+            }); 
+       getyeardatatable();
+     });
+    
+});
+$(document).ready(function () {
+    $(document).on("click", '.delete_year_setting', function () {
+        var id = $(this).text();
+        console.log('id',id);
+        $.ajax({
+            url: 'ajaxdeleteyeartablebyid.php',
+            data: {'id': id },
+            cache: false,
+            type:'post',
+            dataType: 'json',
+            success: function(data){
+               if(data != 'true'){
+                $('#agentDeleteOk').show();
+                setTimeout(function() {
+                    $('#agentDeleteOk').fadeOut('fast');
+                }, 2000);
+               }else{
+                $('#agentDeleteNotOk').show();
+                setTimeout(function() {
+                    $('#agentDeleteNotOk').fadeOut('fast');
+                }, 2000);
+                
+               }
+               
+            }
+          
+            }); 
+      getyeardatatable();
+     });
+});
+// insert year <a href="admin.php?function=myFunction">Click here to call myFunction</a>
+$(document).on("click", '#insert', function () {
+    var insertedyear = $('#iyear').val();
+    var insertedcompany = $('#prev').val();
+    var id = $('#iyearid').val();
+    if (id == ''){
+        
+        $.ajax({
+            url: 'add_year.php',
+            data: {'insertedyear': insertedyear,
+                   'insertedcompany':insertedcompany, 
+                   'id':''
+                   },
+            cache: false,
+            type:'post',
+            dataType: 'json',
+            success: function(data){
+                if(data != 'true'){
+                $('#agentInsertOk').show();
+                setTimeout(function() {
+                    $('#agentInsertOk').fadeOut('fast');
+                }, 2000);
+                }else{
+                    $('#agentInsertNotOk').show();
+                    setTimeout(function() {
+                        $('#agentInsertNotOk').fadeOut('fast');
+                    }, 2000);
+                }
+                
+                $('#iyear').val('');
+                $('#iyearid').val('');
+            }
+          });
+    }else{
+             $.ajax({
+            url: 'add_year.php',
+            data: {'insertedyear': insertedyear,
+                   'insertedcompany':insertedcompany,
+                   'id':id
+                   },
+            cache: false,
+            type:'post',
+            dataType: 'json',
+            success: function(data){
+                if(data != 'true'){
+                $('#agentUpdateOk').show();
+                setTimeout(function() {
+                    $('#agentUpdateOk').fadeOut('fast');
+                }, 2000);
+               
+                }else{
+                    $('#agentInsertNotOk').show();
+                setTimeout(function() {
+                    $('#agentInsertNotOk').fadeOut('fast');
+                }, 2000);
+                    
+                }
+                 $('#iyear').val('');
+                $('#iyearid').val('');
+            }
+          });
+
+    }
+   
+ 
+      getyear();
+
+      getyeardatatable()
+});
+$(document).on("click", '#add_group', function () {
+    $('#iyear').val('');
+    $('#iyearid').val('');
+
+});
+
