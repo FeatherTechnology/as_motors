@@ -5,8 +5,8 @@ include '../ajaxconfig.php';
 if(isset($_SESSION["userid"])){
 	$userid = $_SESSION["userid"];
 }
-if(isset($_SESSION["branch_id"])){
-	$branch_id = $_SESSION["branch_id"];
+if(isset($_POST["branch_id"])){
+	$branch_id = $_POST["branch_id"];
 }
 
 function getPreviousKM($con, $vehicle_number){
@@ -32,14 +32,14 @@ function getPreviousKM($con, $vehicle_number){
             $daily_km_id = array();         
             $vehicle_numberArr2 = array();         
         
-            $selectAllVehicle = $con->query("SELECT * FROM vehicle_details WHERE 1 AND status = '0' ");
+            $selectAllVehicle = $con->query("SELECT * FROM vehicle_details WHERE company_id = '".strip_tags($branch_id)."' AND status = '0' ");
             while($row = $selectAllVehicle->fetch_assoc()){
 
                 $vehicle_details_id[] 	= $row["vehicle_details_id"];
                 $vehicle_numberArr[]	= $row["vehicle_number"];
             } 
 
-            $selectDailyKM = $con->query("SELECT * FROM daily_km WHERE 1 AND status = '0' ");
+            $selectDailyKM = $con->query("SELECT * FROM daily_km WHERE company_id = '".strip_tags($branch_id)."' AND status = '0' ");
             while($row1 = $selectDailyKM->fetch_assoc()){
                 $daily_km_id[] 	= $row1["daily_km_id"];
             } 

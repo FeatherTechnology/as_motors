@@ -93,10 +93,11 @@ $(document).ready(function () {
 // append all vehicle
 $("#displayAllVehicleBtn").click(function(){
     
+    var branch_id = $("#branch_id").val();
     $.ajax({
         url:"vehicledetailsFile/ajaxGetAllVehicleDetails.php",
         method:"post",
-        data:{},
+        data: {'branch_id': branch_id},
         success:function(html){
             $("#vehicleListAppend").empty();
             $("#vehicleListAppend").html(html);
