@@ -89,6 +89,7 @@
    
        if (sizeof($getGoalSettingfet)>0) {
            for($j=0;$j<sizeof($getGoalSettingfet);$j++)  {
+               // print_r($getAuditassign_ref);
                $goal_setting_ref_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_ref_id'];
                $goal_setting_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_id'];
                $assertion[$j]    	                = $getGoalSettingfet[$j]['assertion'];
@@ -198,7 +199,7 @@
                                 <div class="form-group">
                                     <label class="label" style="visibility: hidden;">Add Year</label>
                                     <!-- <button type="button" tabindex="4" class="btn btn-primary" id="add_departmentDetails" name="add_departmentDetails" style="padding: 5px 35px;"><span class="icon-add"></span></button> -->
-                                    <button type="button" class="btn btn-primary btn-lg add_row" id="add_row_0" data-toggle="modal" data-target="#myModal"><span class="icon-add"></span></button>
+                                    <button type="button" tabindex="" class="btn btn-primary" id="add_group" name="add_group" data-toggle="modal" data-target=".addGroup" style="padding: 5px 35px;" ><span class="icon-add"></span></button>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
@@ -241,12 +242,12 @@
                                  <?php } if($idupd>0){ 
                                     if(isset($id)){  ?>
                                  <tbody id='t2' >
-                                    <?php for($g=0;$g<=count($getGoalSettingfet)-1;$g++) {  ?>
+                                    <?php for($g=0;$g<=count($getGoalSettingfet)-1;$g++) { ?>
                                        
                                       
                                     <tr>
-                                       <td>
-                                       <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
+                                    <td>
+                                    <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
                                        </td>
                                        <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
                                        <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
@@ -277,36 +278,67 @@
       </div>
 </div>
 </div>
-<div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Year</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body" style="background-color: whitesmoke;">
-                    <div class="form-group">
-                        <label for="year">Year</label>
-                        <select type="text" tabindex="2" name="iyear" id="iyear" class="form-control" >
-                           <?php
-
-                              foreach(range(1950, (int)date("Y")) as $year) {
-                              echo "\t<option value='".$year."'>".$year."</option>\n\r";
-                              }
-
-                           ?>
-                        </select>         
-                        <input type="hidden" name="icompany" id="icompany" >
-                    </div>
-                </div>
-                <div class="modal-footer" style="background-color: whitesmoke;">
-                    <button type="button" id="insert" class="btn btn-primary insert" name="insert">Submit</button>
-                    <button type="button" style="display:none"; class="btn btn-warning close" data-dismiss="modal">Close</button>
-                </div>
-            </div>                
-        </div>
-    </div>
 </form>
 </div>
+
+<!-- /////////////////////////////////////////////////////////////////// Add Year Modal START ////////////////////////////////////////////////////////////// -->
+<div class="modal fade addGroup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Add Year</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- alert messages -->
+                <div id="agentInsertNotOk" class="unsuccessalert">Year Already Exists, Please Enter a Different Year!
+                    <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+                <div id="agentInsertOk" class="successalert">Year Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+                <div id="agentUpdateOk" class="successalert">Year Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+                <div id="agentDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Year!
+                    <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+                <div id="agentDeleteOk" class="successalert">Year Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                        <label for="year">Year</label>
+                        <input type="number" name="iyear" id="iyear" class="form-control" pattern="\d{4}" title="Please enter a Year">
+                        <input type="hidden" name="iyearid" id="iyearid" class="form-control" pattern="\d{4}" title="">
+                       
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                        <button type="button" tabindex="2" name="insert" id="insert" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
+                    </div>
+                </div>
+                <div id="updatedagentgroupTable">
+                    <table class="table custom-table" id="year_infoDashboard">
+                        <thead>
+                            <tr>
+                                <th width="25%">S. No</th>
+                                <th>Year</th>
+                                <th>status</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /////////////////////////////////////////////////////////////////// Add Year Modal END ////////////////////////////////////////////////////////////////////// -->

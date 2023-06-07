@@ -8,7 +8,8 @@ if(isset($_POST["search_dropdown"])){
     $search_dropdown = $_POST["search_dropdown"];  
 } 
 if(isset($_POST["company_id"])){
-    $company_id = $_POST["company_id"];
+    $company_id1 = $_POST["company_id"];
+    $company_ids = explode(" ",$company_id1); 
 }
 
 $StaffDetails= array();
@@ -17,59 +18,99 @@ $staff_name  = array();
 $designation = array();
 $department  = array();
 
+
 if($search_dropdown == "Id") { 
-    $getposmember= $con->query("SELECT * FROM staff_creation WHERE emp_code = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0  "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $emp_code[]=$row["emp_code"];   
-            $staff_name[]=$row["staff_name"];   
-            $staff_id[]=$row["staff_id"];   
+
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $query = "SELECT * FROM staff_creation WHERE emp_code = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0";
+        $getposmember = $con->query($query);
+        if ($getposmember) {
+            if ($getposmember->num_rows > 0) {
+                while ($row = $getposmember->fetch_assoc()) { 
+                    $emp_code[] = $row["emp_code"];   
+                    $staff_name[] = $row["staff_name"];   
+                    $staff_id[] = $row["staff_id"];   
+                }
+            }
         }
-    } 
+    }
+
 }else if($search_dropdown == "Name") { 
-    $getposmember= $con->query("SELECT * FROM staff_creation WHERE staff_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0  "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $emp_code[]=$row["emp_code"];   
-            $staff_name[]=$row["staff_name"]; 
-            $staff_id[]=$row["staff_id"];   
+
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $getposmember= "SELECT * FROM staff_creation WHERE staff_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0 "; 
+        $getposmember = $con->query($getposmember);
+        if ($getposmember) {
+            if ($getposmember->num_rows > 0) {
+                while($row=$getposmember->fetch_assoc()){ 
+                    $emp_code[]=$row["emp_code"];   
+                    $staff_name[]=$row["staff_name"]; 
+                    $staff_id[]=$row["staff_id"];   
+                }
+            }
         }
-    } 
+    }
 }else if($search_dropdown == "Position") { 
 
-    $getposmember= $con->query("SELECT * FROM designation_creation WHERE designation_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0 "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $designation_id=$row["designation_id"];   
-            $designation_name=$row["designation_name"];   
-        }
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $getposmember= "SELECT * FROM designation_creation WHERE designation_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0 "; 
+        $getposmember = $con->query($getposmember);
+        if ($getposmember) {
+            if($getposmember->num_rows>0){
+                while($row=$getposmember->fetch_assoc()){ 
+                    $designation_id=$row["designation_id"];   
+                    $designation_name=$row["designation_name"];   
+                }
+            } 
+        } 
     } 
 
-    $getposmember= $con->query("SELECT * FROM staff_creation WHERE designation = '".$designation_id."' AND FIND_IN_SET($company_id, company_id) > 0 "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $emp_code[]=$row["emp_code"];   
-            $staff_name[]=$row["staff_name"]; 
-            $staff_id[]=$row["staff_id"];   
-        }
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $getposmember= "SELECT * FROM staff_creation WHERE designation = '".$designation_id."' AND FIND_IN_SET($company_id, company_id) > 0 "; 
+        $getposmember = $con->query($getposmember);
+        if ($getposmember) {
+            if($getposmember->num_rows>0){
+                while($row=$getposmember->fetch_assoc()){ 
+                    $emp_code[]=$row["emp_code"];   
+                    $staff_name[]=$row["staff_name"]; 
+                    $staff_id[]=$row["staff_id"];   
+                }
+            } 
+        } 
     } 
 }else if($search_dropdown == "Dept Name") { 
 
-    $getposmember= $con->query("SELECT * FROM department_creation WHERE department_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0  "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $department_id=$row["department_id"];   
-            $department_name=$row["department_name"];   
-        }
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $getposmember= "SELECT * FROM department_creation WHERE department_name = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0 "; 
+        $getposmember = $con->query($getposmember);
+        if ($getposmember) {
+            if($getposmember->num_rows>0){
+                while($row=$getposmember->fetch_assoc()){ 
+                    $department_id=$row["department_id"];   
+                    $department_name=$row["department_name"];   
+                }
+            } 
+        } 
     } 
 
-    $getposmember= $con->query("SELECT * FROM staff_creation WHERE department = '".$department_id."' AND FIND_IN_SET($company_id, company_id) > 0  "); 
-    if($getposmember->num_rows>0){
-        while($row=$getposmember->fetch_assoc()){ 
-            $emp_code[]=$row["emp_code"];   
-            $staff_name[]=$row["staff_name"]; 
-            $staff_id[]=$row["staff_id"];   
-        }
+    foreach($company_ids as $company_id) {
+        $company_id = trim($company_id);
+        $getposmember= "SELECT * FROM staff_creation WHERE department = '".$department_id."' AND FIND_IN_SET($company_id, company_id) > 0 "; 
+        $getposmember = $con->query($getposmember);
+        if ($getposmember) {
+            if($getposmember->num_rows>0){
+                while($row=$getposmember->fetch_assoc()){ 
+                    $emp_code[]=$row["emp_code"];   
+                    $staff_name[]=$row["staff_name"]; 
+                    $staff_id[]=$row["staff_id"];   
+                }
+            } 
+        } 
     } 
 } 
 

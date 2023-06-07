@@ -293,7 +293,7 @@ if (sizeof($getuser)>0) {
 								<?php } ?>
 								<?php if($manage_users == 0 && $manage_users != '' && $manage_users != NULL) { ?>
 									<li>									
-										<a href="manage_users"><i class="icon-users"></i>Manage Users</a>
+										<a href="edit_user"><i class="icon-users"></i>Manage Users</a>
 									</li>
 								<?php } ?>
 							</ul>
