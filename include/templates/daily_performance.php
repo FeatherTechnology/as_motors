@@ -202,21 +202,23 @@ if($idupd>0)
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Month</label>
 
-                                               <?php if($idupd == '0'){ ?>
-                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>">
-                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php $currentMonth = date("m"); echo $currentMonth;  ?>" >
-                                                <input tabindex="2" type="hidden" class="form-control" id="ffixedid" name="ffixedid" value="" > 
-                                                <input tabindex="2" type="hidden" class="form-control" id="ffixedrefid" name="ffixedrefid" value="" >
-                                                <input tabindex="2" type="hidden" class="form-control" id="" name="ffixedid" value="" > 
-                                                <input tabindex="2" type="hidden" class="form-control" id="_target" name="ffixedrefid" value="" >
-                                               <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
-                                               <?php }else{ ?> 
-
-                                                <input tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){  }else{$months = date("F", mktime(0, 0, 0, $month, 1));   echo $months; }  ?>">
-                                                <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo $month;  ?>" >
-                                               <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php  $months = date("F", mktime(0, 0, 0, $month, 1)); if($months == 'February'){ echo "22";}else{echo "26";}  ?>" >
+                                                <?php if($idupd == '0'){ ?>
+                                                    
+                                                    <input readonly tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php $currentMonth = date("F"); echo $currentMonth; ?>">
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php $currentMonth = date("m"); echo $currentMonth;  ?>" >
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="ffixedid" name="ffixedid" value="" > 
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="ffixedrefid" name="ffixedrefid" value="" >
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="" name="ffixedid" value="" > 
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="_target" name="ffixedrefid" value="" >
+                                                    <input readonly tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php   $currentMonth = date("F"); if($currentMonth == 'February'){ echo "22";}else{echo "26";}  ?>" >
                                                
-                                               <?php } ?>
+                                                <?php } else { ?> 
+
+                                                    <input readonly tabindex="2" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){  }else{$months = date("F", mktime(0, 0, 0, $month, 1));   echo $months; }  ?>">
+                                                    <input tabindex="2" type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo $month;  ?>" >
+                                                    <input tabindex="2" type="hidden" class="form-control" id="tday" name="tday" value="<?php  $months = date("F", mktime(0, 0, 0, $month, 1)); if($months == 'February'){ echo "22";}else{echo "26";}  ?>" >
+                                               
+                                                <?php } ?>
                                                 
                                             </div>
                                         </div>
