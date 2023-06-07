@@ -89,7 +89,6 @@
    
        if (sizeof($getGoalSettingfet)>0) {
            for($j=0;$j<sizeof($getGoalSettingfet);$j++)  {
-               // print_r($getAuditassign_ref);
                $goal_setting_ref_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_ref_id'];
                $goal_setting_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_id'];
                $assertion[$j]    	                = $getGoalSettingfet[$j]['assertion'];
@@ -234,7 +233,7 @@
                                        <td>
                                           <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]" ></input> 
                                        </td>
-                                       <td><input tabindex="6" type="text" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
+                                       <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
                                        <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
                                        <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
@@ -246,10 +245,10 @@
                                        
                                       
                                     <tr>
-                                    <td>
-                                    <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
+                                       <td>
+                                       <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
                                        </td>
-                                       <td><input tabindex="6" type="text" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
+                                       <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
                                        <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
                                        <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
                                     </tr>
@@ -291,13 +290,13 @@
                     <div class="form-group">
                         <label for="year">Year</label>
                         <select type="text" tabindex="2" name="iyear" id="iyear" class="form-control" >
-                                        <?php
+                           <?php
 
-                                            foreach(range(1950, (int)date("Y")) as $year) {
-                                            echo "\t<option value='".$year."'>".$year."</option>\n\r";
-                                            }
+                              foreach(range(1950, (int)date("Y")) as $year) {
+                              echo "\t<option value='".$year."'>".$year."</option>\n\r";
+                              }
 
-                                        ?>
+                           ?>
                         </select>         
                         <input type="hidden" name="icompany" id="icompany" >
                     </div>

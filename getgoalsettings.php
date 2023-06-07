@@ -7,12 +7,9 @@ if(isset($_POST["prev_company"])){
 
 $department_id = array();
 $department_name = array();
-
 $branch_id = array();
 $hierarchyArr = array();
 $hierarchyDep = array();
-$department_id = array();
-$department_name = array();
 
 // fetch branch id
 $qry = "SELECT * FROM branch_creation WHERE company_id = '".$company_id."' AND status=0"; 
@@ -58,5 +55,4 @@ for($i=0;$i<count($department_id); $i++){
 }
 
 echo json_encode($prevChecklist);
-
 ?>
