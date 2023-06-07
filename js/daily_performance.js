@@ -235,7 +235,7 @@ $('#department_id').change(function() {
     var role_id_up = $('#role_id_up').val();
    
     $.ajax({
-        url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+        url: 'R&RFile/ajaxR&RDesignationDetails.php',
         type: 'post',
         data: { "company_id":company_id, "department_id":department_id },
         dataType: 'json',
@@ -250,7 +250,7 @@ $('#department_id').change(function() {
             var selected = "";
             if(role_id_up == response['designation_id'][i]){
               selected = "selected";
-          }
+            }
             $('#designation_id').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
           }
         }
@@ -357,7 +357,6 @@ $('#execute').click(function() {
             "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ data.emp_data_list[a]['cdate'] +" readonly></input></td>" +
             "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='statisfied'>Statisfied</option><option value='not_done'>Not Done</option><option value='carry_forward'>Carry Forward</option></select></td>" +
             "<td><input tabindex='10' type='text' class='form-control' id='status' name='status[]'></input></td></tr>";
-console.log("appendTxt",appendTxt);
              $('#moduleTable').find('tbody').append(appendTxt);
             }
             wstatus();
@@ -400,7 +399,7 @@ function insertData(prev_company){
             var company_id=$('#company').val();
             var department_id=$('#department_id').val();
             $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+                url: 'R&RFile/ajaxR&RDesignationDetails.php',
                 data: {'company_id': company_id,
                         'department_id':department_id
                                       },

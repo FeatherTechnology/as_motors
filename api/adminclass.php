@@ -6988,8 +6988,8 @@
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
-			if(isset($_POST['vehicle_code'])){
-				$vehicle_code = $_POST['vehicle_code'];
+			if(isset($_POST['vehicle_code_edit'])){
+				$vehicle_code = $_POST['vehicle_code_edit'];
 			}
 			if(isset($_POST['vehicle_name'])){
 				$vehicle_name = $_POST['vehicle_name'];
@@ -7026,7 +7026,6 @@
 			$deleteQry = "UPDATE vehicle_details set status='1', delete_login_id='".strip_tags($userid)."' WHERE vehicle_details_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($deleteQry) or die("Error in delete query".$mysqli->error);
 		}
-
 
 		// Get Daily KM
 		public function getDailyKM($mysqli, $id){

@@ -184,7 +184,7 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Vehicle Code</label>
-                                                <input type="text" readonly id="vehicle_code" name="vehicle_code" class="form-control" value="<?php if(isset($vehicle_code)) echo $vehicle_code; ?>" >
+                                                <input type="text" readonly id="vehicle_code_edit" name="vehicle_code_edit" class="form-control" value="<?php if(isset($vehicle_code)) echo $vehicle_code; ?>" >
                                             </div>
                                         </div>
                                     <?php } ?> 
@@ -199,7 +199,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Vehicle Number</label>
-                                            <input type="text" tabindex="4" id="vehicle_number" name="vehicle_number" class="form-control" value="<?php if(isset($vehicle_number)) echo $vehicle_number; ?>" placeholder="Enter Vehicle Name">
+                                            <input type="text" tabindex="4" id="vehicle_number" name="vehicle_number" class="form-control" value="<?php if(isset($vehicle_number)) echo $vehicle_number; ?>" placeholder="Enter Vehicle Number">
                                         </div>
                                     </div>
 
@@ -227,14 +227,14 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Asset Value</label>
-                                            <input type="text" tabindex="8" id="asset_value" name="asset_value" class="form-control" value="<?php if(isset($asset_value)) echo $asset_value; ?>" placeholder="Enter Vehicle Name">
+                                            <input type="text" tabindex="8" id="asset_value" name="asset_value" class="form-control" value="<?php if(isset($asset_value)) echo $asset_value; ?>" placeholder="Enter Asset Value">
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Book Value As On</label>
-                                            <input type="text" tabindex="9" id="book_value_as_on" name="book_value_as_on" class="form-control" value="<?php if(isset($book_value_as_on)) echo $book_value_as_on; ?>" placeholder="Enter Vehicle Name">
+                                            <input type="text" tabindex="9" id="book_value_as_on" name="book_value_as_on" class="form-control" value="<?php if(isset($book_value_as_on)) echo $book_value_as_on; ?>" placeholder="Enter Book Value As On">
                                         </div>
                                     </div>
 

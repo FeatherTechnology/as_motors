@@ -95,7 +95,7 @@ if($idupd>0)
             var company_id = $('#company_nameEdit').val();
             var department_upd = $('#departmentEdit').val();
             $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDepartmentDetails.php',
+                url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
                 type: 'post',
                 data: { "company_id":company_id },
                 dataType: 'json',
@@ -125,7 +125,7 @@ if($idupd>0)
             var designation_upd = $('#designationEdit').val();
 
             $.ajax({
-                url: 'KRA&KPIFile/ajaxKra&KpiFetchDesignationDetails.php',
+                url: 'R&RFile/ajaxR&RDesignationDetails.php',
                 type: 'post',
                 data: { "company_id":company_id, "department_id":department_id },
                 dataType: 'json',

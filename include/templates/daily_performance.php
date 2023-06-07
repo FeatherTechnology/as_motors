@@ -14,9 +14,9 @@ $get_dept = $userObj->get_dept_performance($mysqli);
 $get_role = $userObj->get_role_performance($mysqli);
 $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
 for($j=0;$j<count($CompanyroleDetail);$j++) {
-        $logrole = $CompanyroleDetail['role'];
-        $company_id         = $CompanyroleDetail['company_id'];
-             $company_name         = $CompanyroleDetail['company_name'];
+    $logrole = $CompanyroleDetail['role'];
+    $company_id         = $CompanyroleDetail['company_id'];
+    $company_name         = $CompanyroleDetail['company_name'];
 }
 $id=0;
 $idupd=0;
