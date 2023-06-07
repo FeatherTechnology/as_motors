@@ -18,7 +18,7 @@ $designation = array();
 $department  = array();
 
 if($search_dropdown == "Id") { 
-    $getposmember= $con->query("SELECT * FROM staff_creation WHERE emp_code = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0  "); 
+    $getposmember= "SELECT * FROM staff_creation WHERE emp_code = '".$sstaff_details."' AND FIND_IN_SET($company_id, company_id) > 0  "; echo $getposmember; die;
     if($getposmember->num_rows>0){
         while($row=$getposmember->fetch_assoc()){ 
             $emp_code[]=$row["emp_code"];   
