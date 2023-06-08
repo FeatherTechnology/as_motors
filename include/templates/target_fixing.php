@@ -268,7 +268,7 @@ if($idupd>0)
                             </div>
 
                             <?php if($idupd<=0){ ?>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="margin-top: 19px;">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right" style="margin-top: 19px;">
                                     <div class="form-group">
                                         <button tabindex="3" type="button" class="btn btn-primary" id="executeGoalSettingDetails" name="executeGoalSettingDetails" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
                                     </div>
