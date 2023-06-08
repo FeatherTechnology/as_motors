@@ -410,6 +410,7 @@ if (year_infoDashboardTable && $.fn.DataTable.isDataTable('#year_infoDashboard')
            [10, 25, 50, "All"]
        ]
    });
+
 }
 $(document).ready(function () {
     $(document).on("click", '.edpage', function () {
@@ -428,6 +429,7 @@ $(document).ready(function () {
             }
           
             }); 
+               getyear();
        getyeardatatable();
      });
     
@@ -459,6 +461,7 @@ $(document).ready(function () {
             }
           
             }); 
+            getyear();
       getyeardatatable();
      });
 });
@@ -495,6 +498,9 @@ $(document).on("click", '#insert', function () {
                 $('#iyearid').val('');
             }
           });
+          getyear();
+
+          getyeardatatable();
     }else{
              $.ajax({
             url: 'add_year.php',
@@ -523,17 +529,24 @@ $(document).on("click", '#insert', function () {
                 $('#iyearid').val('');
             }
           });
+          getyear();
+
+          getyeardatatable();
 
     }
    
  
-      getyear();
-
-      getyeardatatable()
+    
 });
 $(document).on("click", '#add_group', function () {
     $('#iyear').val('');
     $('#iyearid').val('');
 
+});
+$(document).on("click", '.close', function () {
+    getyear();
+});
+$(document).on("click", '.closebtn', function () {
+    getyear();
 });
 
