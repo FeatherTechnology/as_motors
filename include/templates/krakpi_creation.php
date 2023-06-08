@@ -438,8 +438,8 @@ if($idupd>0)
                                                                 <?php echo 'Quaterly'; }else{ ?> <option value="Quaterly">Quaterly</option> <?php } ?></option> 
                                                                 <option <?php if(isset($frequency)) { if('Half Yearly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Half Yearly' ?>">
                                                                 <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('yearly' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'yearly' ?>">
-                                                                <?php echo 'yearly'; }else{ ?> <option value="yearly">yearly</option> <?php } ?></option> 
+                                                                <option <?php if(isset($frequency)) { if('Yearly' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
+                                                                <?php echo 'Yearly'; }else{ ?> <option value="Yearly">yearly</option> <?php } ?></option> 
                                                                 <option <?php if(isset($frequency)) { if('Event Driven' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Event Driven' ?>">
                                                                 <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option> 
                                                             </select>
