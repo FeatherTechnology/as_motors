@@ -65,13 +65,14 @@ $(document).ready(function(){
     // get department details
     $('#department').change(function(){
 
-        var company_id = $('#branch_id').val();
+        var company_id = $('#company_id').val();
+        var branch_id = $('#branch_id').val();
         var department_id = $('#department').val();
 
         $.ajax({
             url: 'assignworkFile/ajaxFetchWorkDescription.php',
             type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
+            data: { "company_id":company_id, "department_id":department_id, "branch_id": branch_id },
             dataType: 'json',
             success:function(response){ 
         

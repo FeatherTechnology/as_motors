@@ -57,6 +57,10 @@ body {
   padding: 10px;
   color: black;
 }
+
+.fc-h-event {
+    border: none;
+}
 </style>
 
 

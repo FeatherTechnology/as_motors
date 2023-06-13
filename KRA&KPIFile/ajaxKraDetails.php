@@ -5,8 +5,8 @@ include '../ajaxconfig.php';
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
-if(isset($_POST["company_id_upd"])){
-	$company_id_upd = $_POST["company_id_upd"]; 
+if(isset($_POST["designation_id"])){
+	$designation_id = $_POST["designation_id"]; 
 }
 
 $kra_id = array();
@@ -14,7 +14,7 @@ $kra_creation_ref_id = array();
 $kra_category = array();
 
 // get kra id name 
-$getInstName1=$con->query("SELECT kra_id FROM kra_creation WHERE status = 0 AND company_id = $company_id_upd ");
+$getInstName1=$con->query("SELECT kra_id FROM kra_creation WHERE status = 0 AND designation_id = $designation_id ");
 while ($row12 = $getInstName1->fetch_assoc()) {
     $kra_id[] = $row12["kra_id"];
 }

@@ -428,7 +428,7 @@ if($idupd>0)
                                                             <button type="button" tabindex="4" class="btn btn-primary" id="add_CategoryDetails" name="add_CategoryDetails" data-toggle="modal" data-target=".addProjectModal"><span class="icon-add"></span></button>
                                                         </td>
                                                         <td>
-                                                            <select tabindex="9" type="text" class="form-control" id="frequency" name="frequency[]" >
+                                                            <select tabindex="9" type="text" class="form-control frequency" id="frequency" name="frequency[]" >
                                                                 <option value=''>Select Frequency</option>    
                                                                 <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Fortnightly' ?>">
                                                                 <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option> <?php } ?></option>
@@ -453,6 +453,11 @@ if($idupd>0)
                                                             <td>
                                                                 <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
                                                             </td>
+                                                        <?php }else{?>
+                                                            <td>
+                                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" >  
+                                                            </td>
+                                                        
                                                         <?php } ?>
 
                                                         <td>
@@ -475,7 +480,12 @@ if($idupd>0)
                                                                 <span>To</span> &nbsp;&nbsp;
                                                                 <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" value="<?php if(isset($to_date)){ echo $to_date[$i]; } ?>" >
                                                             </td>
-                                                        <?php } ?>
+                                                        <?php }else{ ?>
+                                                            <td>
+                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" > &nbsp;&nbsp;
+                                                                <span>To</span> &nbsp;&nbsp; <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" >
+                                                            </td>
+                                                            <?php } ?>
                                                         <td>
                                                             <button type="button" tabindex="11" id="add_product" name="add_product" value="Submit" class="btn btn-primary add_product">Add</button> 
                                                         </td>

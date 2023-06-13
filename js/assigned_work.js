@@ -17,26 +17,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['work_status'] != ''){
                     work_status = ' - '+ data[i]['work_status']; 
                 }
-                
+                // Calculate the duration in days
+                var startDate = moment(data[i]['from_date']);
+                var endDate = moment(data[i]['to_date']);
+                var duration = endDate.diff(startDate, 'days') ;
+
+                // Generate individual events for each day of the task
+                for (var a = 0; a < duration; a++) {
+                    var currentDay = startDate.clone().add(a, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({
                     title:  data[i]['work_des_text'] + work_status,
                     description: data[i]['work_des_text'],
                     work_id:data[i]['work_id'],
                     work_des_id: data[i]['work_des'],
-                    start: data[i]['from_date'],
-                    end: data[i]['to_date'],      
+                    start: startDate.clone().add(a, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(a, 'days').format('YYYY-MM-DD'),  
+                    enddate: data[i]['to_date'] 
                 });
                 
+                // Based on work Status color will change in calendar.
+                if(data[i]['work_status']=='Pending' ){
+                    events[events.length - 1].backgroundColor = 'red';
+                }
+                if(data[i]['work_status']=='In Progress' ){
+                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].border = '0px solid';
+
+                }
+
                 if(data[i]['priority']=='1' ){
-                    events[i].backgroundColor = 'red';
+                    events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['priority']=='2' ){
-                    events[i].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = '#DBA800';
                 }
                 if(data[i]['priority']=='3' ){
-                    events[i].backgroundColor = 'green';
+                    events[events.length - 1].backgroundColor = 'green';
                 }
             }
+        }
+        }
 
             j = i;
             var todoCount = data.filter(item => item.hasOwnProperty('todo_work_des')).length;
@@ -46,23 +67,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['todo_work_status'] != ''){
                     todo_work_status = ' - '+ data[i]['todo_work_status']; 
                 }
-               
+                var startDate = moment(data[i]['todo_from_date']);
+                var endDate = moment(data[i]['todo_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var b = 0; b < duration; b++) {
+                    var currentDay = startDate.clone().add(b, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['todo_work_des'] + todo_work_status,
                     description: data[i]['todo_work_des'],
                     todo_id:data[i]['todo_id'],
-                    start: data[i]['todo_from_date'], 
-                    end: data[i]['todo_to_date'],
+                    start: startDate.clone().add(b, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(b, 'days').format('YYYY-MM-DD'), 
+                    enddate: data[i]['todo_to_date']  
                 });
                 if(data[i]['todo_priority']=='1' ){
-                    events[j].backgroundColor = 'red';
+                    events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['todo_priority']=='2' ){
-                    events[j].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = '#DBA800';
                 }
                 if(data[i]['todo_priority']=='3' ){
-                    events[j].backgroundColor = 'green';
+                    events[events.length - 1].backgroundColor = 'green';
                 }
+            }
+            }
                 j++;
             }
 
@@ -74,13 +106,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['krakpi_calendar_map_work_status'] != ''){
                     krakpi_calendar_map_work_status = ' - '+ data[i]['krakpi_calendar_map_work_status']; 
                 }
+                var startDate = moment(data[i]['krakpi_calendar_map_from_date']);
+                var endDate = moment(data[i]['krakpi_calendar_map_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var c = 0; c < duration; c++) {
+                    var currentDay = startDate.clone().add(c, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['krakpi_rr'] + krakpi_calendar_map_work_status,
                     description: data[i]['krakpi_rr'],
                     krakpi_calendar_map_id:data[i]['krakpi_calendar_map_id'],
-                    start: data[i]['krakpi_calendar_map_from_date'], 
-                    end: data[i]['krakpi_calendar_map_to_date'],
+                    start: startDate.clone().add(c, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(c, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['krakpi_calendar_map_to_date']
                 });
+            }
+        }
                 k++;
             }
 
@@ -92,13 +136,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['audit_work_status'] != ''){
                     audit_work_status = ' - '+ data[i]['audit_work_status']; 
                 }
+                var startDate = moment(data[i]['audit_from_date']);
+                var endDate = moment(data[i]['audit_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var e = 0; e < duration; e++) {
+                    var currentDay = startDate.clone().add(e, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['audit_area'] + audit_work_status,
                     description: data[i]['audit_area'],
                     audit_area_creation_ref_id:data[i]['audit_area_creation_ref_id'],
-                    start: data[i]['audit_from_date'], 
-                    end: data[i]['audit_to_date'],
+                    start: startDate.clone().add(e, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(e, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['audit_to_date']
                 });
+            }
+            }
                 l++;
             }
 
@@ -110,13 +166,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['maintenance_checklist_ref_work_status'] != ''){
                     maintenance_checklist_ref_work_status = ' - '+ data[i]['maintenance_checklist_ref_work_status']; 
                 }
+                var startDate = moment(data[i]['maintenance_checklist_ref_from_date']);
+                var endDate = moment(data[i]['maintenance_checklist_ref_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var d = 0; d < duration; d++) {
+                    var currentDay = startDate.clone().add(d, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['maintenance_checklist_ref_checklist'] + maintenance_checklist_ref_work_status,
                     description: data[i]['maintenance_checklist_ref_checklist'],
                     maintenance_checklist_ref_id:data[i]['maintenance_checklist_ref_id'],
-                    start: data[i]['maintenance_checklist_ref_from_date'], 
-                    end: data[i]['maintenance_checklist_ref_to_date'],
+                    start: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['maintenance_checklist_ref_to_date']
                 });
+            }
+            }
                 m++;
             }
 
@@ -128,13 +196,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['campaign_work_status'] != ''){
                     campaign_work_status = ' - '+ data[i]['campaign_work_status']; 
                 }
+                var startDate = moment(data[i]['campaign_start_date']);
+                var endDate = moment(data[i]['campaign_end_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var f = 0; f < duration; f++) {
+                    var currentDay = startDate.clone().add(f, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['activity_involved'] + campaign_work_status,
                     description: data[i]['activity_involved'],
                     campaign_ref_id:data[i]['campaign_ref_id'],
-                    start: data[i]['campaign_start_date'], 
-                    end: data[i]['campaign_end_date'],
+                    start: startDate.clone().add(f, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(f, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['campaign_end_date']
                 });
+            }
+            }
                 n++;
             }
 
@@ -146,13 +226,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['insurance_work_status'] != ''){
                     insurance_work_status = ' - '+ data[i]['insurance_work_status']; 
                 }
+                var startDate = moment(data[i]['insurance_from_date']);
+                var endDate = moment(data[i]['insurance_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var g = 0; g < duration; g++) {
+                    var currentDay = startDate.clone().add(g, 'days');
+                    if ( currentDay.day() !== 0) {
                 events.push({ 
                     title:  data[i]['insurance_name'] + insurance_work_status,
                     description: data[i]['insurance_name'],
                     ins_reg_id:data[i]['ins_reg_ref_id'],
-                    start: data[i]['insurance_from_date'], 
-                    end: data[i]['insurance_to_date'],
+                    start: startDate.clone().add(g, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(g, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['insurance_to_date']
                 });
+            }
+            }
                 p++;
             }
          
@@ -192,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         work_id = 'insurance ' + arg.event._def.extendedProps.ins_reg_id;
                     }
                     var work_des = arg.event._def.extendedProps.description;
-                    var end_date = arg.event.endStr;
+                    var end_date = arg.event._def.extendedProps.enddate;
 
                     editStatus(work_id,work_des,end_date);
                 },

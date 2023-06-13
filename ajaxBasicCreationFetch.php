@@ -15,8 +15,8 @@ $column = array(
     'department',
     'company_id',
     'designation',
-    'department_code',
-    'designation_code',
+    // 'department_code',
+    // 'designation_code',
     'type',
     'report_to',
     'status'
@@ -44,8 +44,6 @@ if($sbranch_id == 'Overall'){
                 OR company_id LIKE '%".$_POST['search']."%'
                 OR designation LIKE '%".$_POST['search']."%'
                 OR department LIKE  '%".$_POST['search']."%'
-                OR department_code LIKE  '%".$_POST['search']."%'
-                OR designation_code LIKE  '%".$_POST['search']."%'
                 OR type LIKE '%".$_POST['search']."%'
                 OR report_to LIKE '%".$_POST['search']."%'
                 OR status LIKE '%".$_POST['search']."%' ";
@@ -138,8 +136,8 @@ foreach ($result as $row) {
     $sub_array[] = $branch_name;
     $sub_array[] = $department_name;
     $sub_array[] = $designation_name;
-    $sub_array[] = $row['department_code'];
-    $sub_array[] = $row['designation_code'];
+    // $sub_array[] = $row['department_code'];
+    // $sub_array[] = $row['designation_code'];
     $sub_array[] = $report_to_name;
     $status      = $row['status'];
     if($status == 1)

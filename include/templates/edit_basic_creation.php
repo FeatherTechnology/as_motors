@@ -54,8 +54,8 @@
 								<th>Branch Name</th>
 								<th>Department Name</th>
 								<th>Designation Name</th>
-								<th>Department Code</th>
-								<th>Designation Code</th>
+								<!-- <th>Department Code</th>
+								<th>Designation Code</th> -->
 								<th>Reporting To</th>
 								<th>Status</th>
 								<th>Action</th>

@@ -8,6 +8,9 @@ if(isset($_SESSION["userid"])){
 if(isset($_POST["company_id"])){
 	$company_id = $_POST["company_id"];
 }
+if(isset($_POST["branch_id"])){
+	$branch_id = $_POST["branch_id"];
+}
 if(isset($_POST["department_id"])){
 	$department_id = $_POST["department_id"];
 }
@@ -70,7 +73,7 @@ while($row3 = $getqry1->fetch_assoc())
 }
 
 // get designation based on hierarchy
-$getDesignationId = $con->query("SELECT * FROM basic_creation WHERE status = 0 AND company_id ='".strip_tags($company_id)."' AND FIND_IN_SET($department_id, department) > 0 ");
+$getDesignationId = $con->query("SELECT * FROM basic_creation WHERE status = 0 AND company_id ='".strip_tags($branch_id)."' AND FIND_IN_SET($department_id, department) > 0 "); // company_id column is not a company it is branch.
 while($row4=$getDesignationId->fetch_assoc()){
     $designation[]    = $row4["designation"]; 
 }

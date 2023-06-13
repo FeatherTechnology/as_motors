@@ -307,10 +307,10 @@ if($idupd>0)
                                                                 <select tabindex="3" type="text" class="form-control" id="department" name="department[]" >
                                                                     <option value="">Select Department</option>   
 
-                                                                    <?php if (sizeof($editDepartment)>0) { 
-                                                                    for($j=0;$j<count($editDepartment);$j++) { ?>
-                                                                    <option <?php if(isset($department)) { if($editDepartment[$j]['department_id'] == $department[$i])  echo 'selected'; }  ?> value="<?php echo $editDepartment[$j]['department_id']; ?>">
-                                                                    <?php echo $editDepartment[$j]['department_name'];?></option>
+                                                                    <?php if (sizeof($departmentList)>0) { 
+                                                                    for($j=0;$j<count($departmentList);$j++) { ?>
+                                                                    <option <?php if(isset($department)) { if($departmentList[$j]['department_id'] == $department[$i])  echo 'selected'; }  ?> value="<?php echo $departmentList[$j]['department_id']; ?>">
+                                                                    <?php echo $departmentList[$j]['department_name'];?></option>
                                                                     <?php }} ?> 
 
                                                                 </select>

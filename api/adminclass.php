@@ -7251,7 +7251,7 @@
 
 		// get auditee response
 		public function getAuditeeResponseDashboard($mysqli, $sessionId){
-
+			$detailrecords = array();
 			if($sessionId == 'Overall'){
 				$getRole2 = "SELECT * FROM audit_assign WHERE auditee_response_status = 1 AND status=0";
 				$res = $mysqli->query($getRole2) or die("Error in Get All Records".$mysqli->error);

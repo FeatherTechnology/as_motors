@@ -45,8 +45,16 @@ $(document).ready(function () {
       $("#company_name").val('');
     }else{
       getdepartment(company_id);
-      getkradropdown(company_id);
-      getrrdropdown(company_id);
+      // getkradropdown(company_id);
+      // getrrdropdown(company_id);
+    }
+  });
+
+  $('#designation').change(function(){  // KRA category dropdown show based on designation.
+    var designation_id = $(this).val();
+    if(designation_id.length !=''){
+      getkradropdown(designation_id);
+      getrrdropdown(designation_id);
     }
   });
 
@@ -416,13 +424,13 @@ function getdesignation(department_id){
 }
 
 //get kra dropdown based on company name
-function getkradropdown(company_id_upd){   
+function getkradropdown(designation_id){   
   var kra_id_upd = $('#kra_id_upd').val().split(','); 
   
   $.ajax({
     url: 'KRA&KPIFile/ajaxKraDetails.php',
     type: 'post',
-    data: { "company_id_upd":company_id_upd },
+    data: { "designation_id":designation_id },
     dataType: 'json',
     success:function(response){
       
@@ -447,13 +455,13 @@ function getkradropdown(company_id_upd){
 }
 
 //get rr dropdown based on company name
-function getrrdropdown(company_id_upd){
+function getrrdropdown(designation_id){
   var rr_id_upd = $('#rr_id_upd').val().split(','); 
   
   $.ajax({
     url: 'KRA&KPIFile/ajaxRRDetails.php',
     type: 'post',
-    data: { "company_id_upd":company_id_upd },
+    data: { "designation_id":designation_id },
     dataType: 'json',
     success:function(response){
       

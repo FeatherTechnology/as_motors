@@ -199,6 +199,7 @@ if($idupd>0)
                 <div class="card">
 					<div class="card-header">
 						<!-- <div class="card-title">General Info</div> -->
+                        <span class="required" style="font-size: 12px;"> *Note: To be Created from the top Hierarchy </span>
 					</div>
                     <div class="card-body">
 
