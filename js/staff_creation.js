@@ -113,7 +113,7 @@ $("#designation").change(function(){
     $("#designation").val('');
   }else{
     $.ajax({
-      url: 'StaffFile/ajaxGetDeptBasedStaff.php',
+      url: 'StaffFile/ajaxGetDeptBasedForStaff.php',
       type: 'post',
       data: { "company_id":company_id, "desgn_id":desgn_id },
       dataType: 'json',

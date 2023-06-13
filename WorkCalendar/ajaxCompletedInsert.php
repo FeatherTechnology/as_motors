@@ -7,6 +7,9 @@ if(isset($_POST['id'])){
 if(isset($_POST['work_name'])){
     $work_name = $_POST['work_name'];
 }
+if(isset($_POST['completed_remark'])){
+    $completed_remark = $_POST['completed_remark'];
+}
 if (isset($_FILES['completed_file'])) {
     
     // File uploading code
@@ -19,8 +22,7 @@ if (isset($_FILES['completed_file'])) {
 
 $work_status = "3"; // completed
    
-$qry = "INSERT into work_status (work_id,work_des,work_status,completed_file,created_date) values ('" . strip_tags($workdes_id) . "','" . strip_tags($work_name) . "','" . strip_tags($work_status) . "',
-'" . strip_tags($fileName) . "', current_timestamp())  ";
+$qry = "INSERT into work_status (work_id,work_des,work_status,remarks,completed_file,created_date) values ('" . strip_tags($workdes_id) . "','" . strip_tags($work_name) . "','" . strip_tags($work_status) . "','" . strip_tags($completed_remark) . "','" . strip_tags($fileName) . "', current_timestamp())  ";
 $result = $con->query($qry) or die("error");
 
 $ifhas = "todo";

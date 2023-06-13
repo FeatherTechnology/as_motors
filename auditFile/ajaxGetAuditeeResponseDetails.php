@@ -65,7 +65,7 @@ if(isset($_POST["audit_assign_id"])){
                                 <td><input tabindex="6" readonly type="text" class="form-control" name="audit_status[]" id="audit_status" value="<?php if($audit_status[$o] == '0') { echo "No"; } else if($audit_status[$o] == '1') { echo 'Yes'; } ?>" ></td>
                                 <td><input tabindex="6" readonly type="text" class="form-control" name="audit_remarks[]" id="audit_remarks" value="<?php echo $audit_remarks[$o]; ?>" ></td>
                                 <td><input tabindex="6" readonly type="text" class="form-control" name="recommendation[]" id="recommendation" value="<?php echo $recommendation[$o]; ?>" ></td>
-                                <td><a href="uploads/audit_assign/<?php echo $attachment[$o]; ?>" download><li><?php echo $attachment[$o]; ?></li></a></td>
+                                <td><a href="uploads/audit_assign/<?php echo $attachment[$o]; ?>" download=<?php echo $attachment[$o]; ?>><li><?php echo $attachment[$o]; ?></li></a></td>
                                 <td><input tabindex="6" readonly type="text" class="form-control" name="auditee_response[]" id="auditee_response" value="<?php echo $auditee_response[$o]; ?>" ></td>
                                 <td><input tabindex="6" readonly type="text" class="form-control" name="action_plan[]" id="action_plan" value="<?php echo $action_plan[$o]; ?>" ></td>
                                 <td><input tabindex="6" readonly type="date" class="form-control" name="target_date[]" id="target_date" value="<?php echo $target_date[$o]; ?>" ></td>

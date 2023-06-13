@@ -9,6 +9,7 @@ if(isset($_POST["staff_name"])){
 $designation = array();
 $email = array();
 $mobilenumber = array();
+$desgn_id = array();
 
 $getitem = $con->query("SELECT * FROM staff_creation WHERE staff_id = '".$staff_name."' and status=0") OR die("Error: ".$con->error);
 while ($row=$getitem->fetch_assoc()){
@@ -18,12 +19,14 @@ while ($row=$getitem->fetch_assoc()){
     }
     $email[] = $row["email_id"];
     $mobilenumber[]   = $row["contact_number"];
+    $desgn_id[]   = $row["designation"];
 }
 
 
 $empdetails["designation"] = $designation;
 $empdetails["email"] = $email;
 $empdetails["mobilenumber"] = $mobilenumber;
+$empdetails["desgn_id"] = $desgn_id;
 
 echo json_encode($empdetails);
 ?>

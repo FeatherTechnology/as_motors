@@ -167,6 +167,7 @@ $(document).ready(function(){
             data: {staff_name:staff_name},
             success: function (data)
             { 
+                $("#designation_id").val(data['desgn_id']);
                 $("#designation").val(data['designation']);
                 $("#email").val(data['email']);
                 $("#mobilenumber").val(data['mobilenumber']);

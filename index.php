@@ -17,7 +17,7 @@ if(isset($_POST['lusername'])) {
 	if($_POST['lusername'] != '') {
 		
 		$qry     = "SELECT * FROM user WHERE user_name = '".$username."' AND user_password = '".$password."' AND branch_id = '".$branch_id."' AND status=0";  
-		$res = mysqli_query($mysqli, $qry)or die("Error in Get All Records".mysqli_error()); 
+		$res = mysqli_query($mysqli, $qry)or die("Error in Get All Records"); 
 		$result = mysqli_fetch_array($res);
 		if ($mysqli->affected_rows>0)
 		{  
@@ -26,6 +26,7 @@ if(isset($_POST['lusername'])) {
 			$_SESSION['userid']      = $result['user_id']; 
 			$_SESSION['fullname']    = $result['fullname']; 
 			$_SESSION['staffid']     = $result['staff_id']; 
+			$_SESSION['designation_id']     = $result['designation_id']; 
 			?>
 			<script>location.href='<?php echo $HOSTPATH; ?>dashboard';</script>  
 			<?php
