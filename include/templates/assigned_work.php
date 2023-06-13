@@ -177,6 +177,8 @@ body {
 
                                         <label class="label" id="completed_label" style="display: none;">Completed File</label>
                                         <input type="file" class="form-control" style="display: none;width: 350px;" id="completed_file" name="completed_file" ><br>
+                                        <label class="label" id="com_remark_label" style="display: none;">Completed Remark</label>
+                                        <textarea name="completed_remark" id="completed_remark" class="form-control" style="display: none;height:100px ; width: 350px"></textarea><br>
                                         <button  name="submit_completed" id="submit_completed" style="display: none;" class="btn btn-primary">Submit</button>
                                         <button  name="cancel_completed" id="cancel_completed" style="display: none;" class="btn btn-outline-secondary">Cancel</button>
                                     </div>

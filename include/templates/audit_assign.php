@@ -204,7 +204,7 @@
                                        <th>Audit Remarks</th>
                                        <th>Recommendation</th>
                                        <th>Attachment</th>
-                                       <th colspan="2" >Action</th>
+                                       <!-- <th colspan="2" >Action</th> -->
                                     </tr>
                                  </thead>
                                  <?php if($idupd<=0){ ?>
@@ -233,8 +233,8 @@
                                        <td><textarea tabindex="8" id="aremarks"  class="form-control" rows="1" name="aremarks[]"  cols="35" placeholder='Enter Audit Remarks'></textarea></td>
                                        <td><input tabindex="6" type="text" class="form-control" id="rcmd" name="rcmd[]" placeholder="Enter Recommendation"></td>
                                        <td><input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;'></td>
-                                       <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
-                                       <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
+                                       <!-- <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                       <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td> -->
                                     </tr>
                                  </tbody>
                                  <?php } if($idupd>0){
@@ -292,12 +292,12 @@
                                           <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'> <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
                                        </td>
                                        <?php }  ?>
-                                       <td>
+                                       <!-- <td>
                                           <button type="button" tabindex="8" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button> 
                                        </td>
                                        <td>
                                           <span class='icon-trash-2' tabindex="9" id="delete_row"></span> 
-                                       </td>
+                                       </td> -->
                                     </tr>
                                     <?php } ?>
                                  </tbody>

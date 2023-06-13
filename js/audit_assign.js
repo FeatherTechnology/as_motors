@@ -48,9 +48,7 @@ $(document).ready(function () {
        "<td> <select type='text' tabindex='6' name='prevstatus[]'  id='prevstatus' class='form-control prevstatus'><option value=''>Select Status</option><option value='1'>Yes</option><option value='0'>No</option></select></td>"+
        "<td><textarea id='aremarks'  class='form-control' rows='1' name='aremarks[]'  cols='35' placeholder='Enter Audit Remarks'></textarea></td>"+
        "<td><input tabindex='7' type='text' class='form-control' id='rcmd' name='rcmd[]' placeholder='Enter Recommendation' ></td>"+
-       "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td>"+
-       "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-       "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
+       "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td></tr>";
         $('#moduleTable').find('tbody').append(appendTxt);
         sts();
     }));
@@ -80,10 +78,7 @@ $(document).ready(function () {
         "<td> <select type='text' tabindex='6' name='prevstatus[]'  id='prevstatus' class='form-control prevstatus'><option value=''>Select Status</option><option value='1'>Yes</option><option value='0'>No</option></select></td>"+
         "<td><textarea  id='aremarks'  class='form-control' rows='1' name='aremarks[]'  cols='35' placeholder='Enter Audit Remarks'></textarea></td>"+
         "<td><input tabindex='7' type='text' class='form-control' id='rcmd' placeholder='Enter Recommendation' name='rcmd[]' ></td>"+
-        "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td>"+
-        // "<td> <input tabindex='3' type='text' class='form-control' id='weightage' name='weightage[]'></input></td>" +
-        "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-        "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td> </tr>";
+        "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td></tr>";
         $('#moduleTable').find('tbody').html(removeData);
         sts();
     }
@@ -108,9 +103,7 @@ $(document).ready(function () {
                                 "<td> <select type='text' tabindex='6' name='prevstatus[]'  id='prevstatus' class='form-control prevstatus'><option value=''>Select Status</option><option value='1'>Yes</option><option value='0'>No</option></select></td>"+
                                 "<td><textarea  id='aremarks'  class='form-control' rows='1' name='aremarks[]'  cols='35' placeholder='Enter Audit Remarks'></textarea></td>"+
                                 "<td><input tabindex='7' type='text' class='form-control' id='rcmd' name='rcmd[]' placeholder='Enter Recommendation' ></td>"+
-                                "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td>"+
-                                "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-                                "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td> </tr>";
+                                "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td> </tr>";
                                 $('#moduleTable').find('tbody').append(dataAppend);
                                 sts();
                             }

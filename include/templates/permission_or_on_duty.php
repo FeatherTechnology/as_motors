@@ -187,7 +187,7 @@ if($idupd>0)
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">AS - Out Pass / On Duty Form </li>
+        <li class="breadcrumb-item">AS - Regularisation </li>
     </ol>
 
     <a href="edit_permission_or_on_duty">
@@ -338,9 +338,9 @@ if($idupd>0)
                               
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Reason</label>
+                                            <label for="disabledInput">Type</label>
                                             <select tabindex="3" type="text" class="form-control" id="reason" name="reason" >
-                                                <option value="">Select Reason</option>   
+                                                <option value="">Select Type</option>   
                                                 <option <?php if(isset($reason)) { if('Permission' == $reason) echo 'selected'; ?> value="<?php echo 'Permission' ?>">
                                                 <?php echo 'Permission'; }else{ ?> <option value="Permission">Permission</option> <?php } ?></option>
                                                 <option <?php if(isset($reason)) { if('On Duty' == $reason) echo 'selected';  ?> value="<?php echo 'On Duty' ?>">

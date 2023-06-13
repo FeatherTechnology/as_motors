@@ -27,6 +27,11 @@ if(isset($_SESSION["staffid"])){
 }else{
     $sstaffid = 0;
 }
+if(isset($_SESSION["designation_id"])){
+    $designationID = $_SESSION["designation_id"];
+}else{
+    $designationID = 0;
+}
 
 //Work Force
 $outdateList = $userObj->getOverDueTask($mysqli);
@@ -176,10 +181,10 @@ $memoInitiateDashboard = $userObj->getMemoInitiateDashboard($mysqli, $sstaffid);
 $memoAssignDashboard = $userObj->getMemoAssignDashboard($mysqli, $sstaffid);
 
 // audit assign
-$auditAssignDashboard = $userObj->getAuditAssignDashboard($mysqli, $sstaffid);
+$auditAssignDashboard = $userObj->getAuditAssignDashboard($mysqli, $designationID);
 
 // auditee response
-$auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $sstaffid);
+$auditeeResponseDashboard = $userObj->getAuditeeResponseDashboard($mysqli, $designationID);
 
 $mm_approval_line_id='';
 $mm_company_id='';

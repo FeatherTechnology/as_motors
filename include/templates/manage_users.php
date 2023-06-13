@@ -121,7 +121,8 @@ if($idupd>0)
             $branch_id      = $getuser['branch_id'];
             $staff_id      = $getuser['staff_id'];
             $user_name      = $getuser['user_name']; 
-            $designation       = $getuser['designation_id'];
+            $designation_id       = $getuser['designation_id'];
+            $designation_name       = $getuser['designation_name'];
             $mobilenumber       = $getuser['mobile_number'];
             $emailid       = $getuser['emailid'];
             $user_password       = $getuser['user_password'];
@@ -238,7 +239,8 @@ if($idupd>0)
                                 <div class="form-group">
                                     <label for=""> Designation </label>
                                     <input type="text" readonly placeholder="Enter Designation" class="form-control" tabindex="2" name="designation" id="designation"
-                                        value="<?php if($idupd > 0){ if(isset($designation)) echo $designation; }?>">
+                                        value="<?php if($idupd > 0){ if(isset($designation_name)) echo $designation_name; }?>">
+                                    <input type="hidden" class="form-control" name="designation_id" id="designation_id" value="<?php if(isset($designation_id)) echo $designation_id; ?>">
                                 </div>
                             </div>
 

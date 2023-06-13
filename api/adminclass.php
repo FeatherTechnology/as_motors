@@ -7236,9 +7236,9 @@
 		}
 
 		// get audit assign
-		public function getAuditAssignDashboard($mysqli, $sessionId){
+		public function getAuditAssignDashboard($mysqli, $designationID){
 
-			$getRole2 = "SELECT * FROM audit_assign WHERE role2 = '".strip_tags($sessionId)."' AND auditee_response_status = 0 AND status=0";
+			$getRole2 = "SELECT * FROM audit_assign WHERE role2 = '".strip_tags($designationID)."' AND auditee_response_status = 0 AND status=0";
 			$res = $mysqli->query($getRole2) or die("Error in Get All Records".$mysqli->error);
 			$detailrecords = 0;
 			if ($mysqli->affected_rows>0)
@@ -7250,9 +7250,9 @@
 		}
 
 		// get auditee response
-		public function getAuditeeResponseDashboard($mysqli, $sessionId){
+		public function getAuditeeResponseDashboard($mysqli, $designationID){
 			$detailrecords = array();
-			if($sessionId == 'Overall'){
+			if($designationID == 'Overall'){
 				$getRole2 = "SELECT * FROM audit_assign WHERE auditee_response_status = 1 AND status=0";
 				$res = $mysqli->query($getRole2) or die("Error in Get All Records".$mysqli->error);
 				$detailrecords = 0;
@@ -7261,7 +7261,7 @@
 					$detailrecords = 1;
 				}
 			} else {
-				$getRole2 = "SELECT * FROM audit_assign WHERE role1 = '".strip_tags($sessionId)."' AND auditee_response_status = 1 AND status=0";
+				$getRole2 = "SELECT * FROM audit_assign WHERE role1 = '".strip_tags($designationID)."' AND auditee_response_status = 1 AND status=0";
 				$res = $mysqli->query($getRole2) or die("Error in Get All Records".$mysqli->error);
 				$detailrecords = 0;
 				if ($mysqli->affected_rows>0)
@@ -8981,8 +8981,8 @@
 		// Add User
 		public function adduser($mysqli){
 
-			if(isset($_POST['designation'])){
-				$designation = $_POST['designation'];
+			if(isset($_POST['designation_id'])){
+				$designation = $_POST['designation_id'];
 			}
 			if(isset($_POST['mobilenumber'])){
 				$mobile_number = $_POST['mobilenumber'];
@@ -9411,6 +9411,15 @@
 				// $detailrecords['title']       	        = strip_tags($row->title);
 				$detailrecords['user_name']       	        = strip_tags($row->user_name);
 				$detailrecords['designation_id']       	        = strip_tags($row->designation_id);
+
+				$getDesignation = $mysqli->query("SELECT designation_name FROM designation_creation WHERE designation_id = '".strip_tags($row->designation_id)."' ");
+				$fetchDesignation = $getDesignation->fetch_assoc();
+				if ($mysqli->affected_rows>0)
+				{
+				$detailrecords['designation_name'] = $fetchDesignation['designation_name'];
+				}else{
+					$detailrecords['designation_name'] ='';
+				}
 				$detailrecords['mobile_number']       	        = strip_tags($row->mobile_number);
 				$detailrecords['staff_id']       	        = strip_tags($row->staff_id);
 				$detailrecords['branch_id']       	        = strip_tags($row->branch_id);
@@ -9487,8 +9496,8 @@
 		// Update User
 	public function updateuser($mysqli,$id){
 
-		if(isset($_POST['designation'])){
-			$designation = $_POST['designation'];
+		if(isset($_POST['designation_id'])){
+			$designation = $_POST['designation_id'];
 		}
 		if(isset($_POST['mobilenumber'])){
 			$mobile_number = $_POST['mobilenumber'];
