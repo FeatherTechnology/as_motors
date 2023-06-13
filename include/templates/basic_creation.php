@@ -189,7 +189,7 @@ if($idupd>0)
             <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
-                        <div class="card-header">Basic Info</div>
+                        <div class="card-header">Basic Info  <span class="required" style="font-size: 12px;"> *Note: To be Created from the top Hierarchy </span></div>
                             <div class="card-body">
                             <input type="hidden" name="branch_id_session" id="branch_id_session" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>">
                             <input type="hidden" name="id" id="id" class="form-control" value="<?php if(isset($basic_creation_id)) echo $basic_creation_id; ?>">

@@ -83,13 +83,14 @@ $i=0;
 while($row2 = $res2->fetch_assoc())
 {
     $detailRecords[$i]['krakpi_calendar_map_id'] = $row2["krakpi_calendar_map_id"];          
-    $getqry3 = "SELECT rr FROM krakpi_creation_ref WHERE status = 0 AND krakpi_ref_id = '".$row2["krakpi_ref_id"]."' ";
+    $getqry3 = "SELECT rr,kpi FROM krakpi_creation_ref WHERE status = 0 AND krakpi_ref_id = '".$row2["krakpi_ref_id"]."' ";
     $res3 = $con->query($getqry3);
     while($row3 = $res3->fetch_assoc()){ 
         $rr = $row3["rr"];
+        $kpi = $row3["kpi"];
     }
     if($rr == 'New'){
-        $detailRecords[$i]['krakpi_rr'] = $row2["kpi"]; 
+        $detailRecords[$i]['krakpi_rr'] = $kpi; 
     }else{
         $getqry3 = "SELECT rr FROM rr_creation_ref WHERE status = 0 AND rr_ref_id = '".$rr."' ";
         $res3 = $con->query($getqry3);
@@ -101,11 +102,11 @@ while($row2 = $res2->fetch_assoc())
     $checkFromDate = date('m', strtotime($row2["from_date"]));
     $checkToDate = date('m', strtotime($row2["to_date"]));
 
-    if ($checkFromDate == $current_date) {
+    // if ($checkFromDate == $current_date) {  // To show Current month only not future month. 
 
         $detailRecords[$i]['krakpi_calendar_map_from_date'] = $row2["from_date"];      
         $detailRecords[$i]['krakpi_calendar_map_to_date'] = $row2["to_date"];   
-    }
+    // }
     
     $work_status1 = $row2["work_status"];
     if ($work_status1 == 0) {$work_status = '';}

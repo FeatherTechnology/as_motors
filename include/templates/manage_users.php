@@ -269,7 +269,7 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for=""> Password </label>
-                                    <input type="text" class="form-control" tabindex="8" placeholder="Enter Password"
+                                    <input type="password" class="form-control" tabindex="8" placeholder="Enter Password"
                                         id="password" value="<?php if($idupd > 0){ if(isset($user_password)) echo $user_password; } ?>" name="password">
                                 </div>
                             </div>

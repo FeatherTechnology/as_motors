@@ -104,18 +104,18 @@ $("#department").change(function(){
 });
 
 // Get Department based reporting person
-$("#department").change(function(){ 
+$("#designation").change(function(){ 
 
   var company_id = $("#branch_id").val();
-  var department_id = $("#department").val();
+  var desgn_id = $("#designation").val();
 
-  if(department_id.length==''){ 
-    $("#department").val('');
+  if(desgn_id.length==''){ 
+    $("#designation").val('');
   }else{
     $.ajax({
       url: 'StaffFile/ajaxGetDeptBasedStaff.php',
       type: 'post',
-      data: { "company_id":company_id, "department_id":department_id },
+      data: { "company_id":company_id, "desgn_id":desgn_id },
       dataType: 'json',
       success:function(response){
         
