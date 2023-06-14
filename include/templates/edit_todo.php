@@ -52,7 +52,7 @@
 								<th>S. No.</th>
 								<th>Company Name</th>
 								<th>Work Description</th>
-								<th>Tag Classification</th>
+								<!-- <th>Tag Classification</th> -->
 								<th>Priority</th>
 								<th>Assigned To</th>
 								<th>From Date</th>

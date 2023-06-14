@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(a, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(a, 'days').format('YYYY-MM-DD'),  
                     enddate: data[i]['to_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['assign_work_sts'] 
                 });
                 
                 // Based on work Status color will change in calendar.
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                     events[events.length - 1].border = '0px solid';
                 }
                 if(data[i]['work_status']=='Completed' ){
@@ -86,20 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(b, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(b, 'days').format('YYYY-MM-DD'), 
                     enddate: data[i]['todo_to_date'],
-                    work_sts: data[i]['work_sts']   
+                    work_sts: data[i]['todo_work_sts']   
                 });
-                // Based on work Status color will change in calendar.
-                if(data[i]['todo_work_status']=='Pending' ){
-                    events[events.length - 1].backgroundColor = 'red';
-                }
-                if(data[i]['todo_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
-                    events[events.length - 1].border = '0px solid';
-                }
-                if(data[i]['todo_work_status']=='Completed' ){
-                    events[events.length - 1].backgroundColor = 'green';
-                }
-
                 if(data[i]['todo_priority']=='1' ){
                     events[events.length - 1].backgroundColor = 'red';
                 }
@@ -109,6 +97,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data[i]['todo_priority']=='3' ){
                     events[events.length - 1].backgroundColor = 'green';
                 }
+                // Based on work Status color will change in calendar.
+                if(data[i]['todo_work_status']=='Pending' ){
+                    events[events.length - 1].backgroundColor = 'red';
+                }
+                if(data[i]['todo_work_status']=='In Progress' ){
+                    events[events.length - 1].backgroundColor = 'orange';
+                    events[events.length - 1].border = '0px solid';
+                }
+                if(data[i]['todo_work_status']=='Completed' ){
+                    events[events.length - 1].backgroundColor = 'green';
+                }
+
             }
             }
                 j++;
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(c, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(c, 'days').format('YYYY-MM-DD'),
                     enddate: data[i]['krakpi_calendar_map_to_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['krakpi_calendar_work_sts'] 
                 });
                 
                 // Based on work Status color will change in calendar.
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['krakpi_calendar_map_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                 }
                 if(data[i]['krakpi_calendar_map_work_status']=='Completed' ){
                     events[events.length - 1].backgroundColor = 'green';
@@ -181,14 +181,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(e, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(e, 'days').format('YYYY-MM-DD'),
                     enddate: data[i]['audit_to_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['audit_work_sts'] 
                 });
                 // Based on work Status color will change in calendar.
                 if(data[i]['audit_work_status']=='Pending' ){
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['audit_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                     events[events.length - 1].border = '0px solid';
                 }
                 if(data[i]['audit_work_status']=='Completed' ){
@@ -223,14 +223,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
                     enddate: data[i]['maintenance_checklist_ref_to_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['maintance_work_sts'] 
                 });
                 // Based on work Status color will change in calendar.
                 if(data[i]['maintenance_checklist_ref_work_status']=='Pending' ){
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['maintenance_checklist_ref_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                     events[events.length - 1].border = '0px solid';
                 }
                 if(data[i]['maintenance_checklist_ref_work_status']=='Completed' ){
@@ -265,14 +265,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(f, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(f, 'days').format('YYYY-MM-DD'),
                     enddate: data[i]['campaign_end_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['campaign_work_sts'] 
                 });
                 // Based on work Status color will change in calendar.
                 if(data[i]['campaign_work_status']=='Pending' ){
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['campaign_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                     events[events.length - 1].border = '0px solid';
                 }
                 if(data[i]['campaign_work_status']=='Completed' ){
@@ -307,14 +307,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: startDate.clone().add(g, 'days').format('YYYY-MM-DD'),
                     end: startDate.clone().add(g, 'days').format('YYYY-MM-DD'),
                     enddate: data[i]['insurance_to_date'],
-                    work_sts: data[i]['work_sts'] 
+                    work_sts: data[i]['insurance_work_sts'] 
                 });
                 // Based on work Status color will change in calendar.
                 if(data[i]['insurance_work_status']=='Pending' ){
                     events[events.length - 1].backgroundColor = 'red';
                 }
                 if(data[i]['insurance_work_status']=='In Progress' ){
-                    events[events.length - 1].backgroundColor = '#DBA800';
+                    events[events.length - 1].backgroundColor = 'orange';
                     events[events.length - 1].border = '0px solid';
                 }
                 if(data[i]['insurance_work_status']=='Completed' ){
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 eventClick: function(arg) { 
                     var work_id='';
                     if(arg.event._def.extendedProps.work_id != undefined){
-                        work_id = arg.event._def.extendedProps.work_id;
+                        work_id = 'assign_work ' + arg.event._def.extendedProps.work_id;
                     }
                     else if(arg.event._def.extendedProps.todo_id != undefined){
                         work_id = 'todo ' + arg.event._def.extendedProps.todo_id;
@@ -652,11 +652,12 @@ $('#submit_outdated').click(function(event){
     var id = $('#work_id1').val(); 
     var work_name = $('#work_name1').val();
     var outdated = $('#outdated').val();
+    var completed_remark_outdated = $('#completed_remark_outdated').val();
     
     $.ajax({
         url: 'WorkCalendar/ajaxOutDatedInsert.php',
         type: 'post',
-        data: {'outdated':outdated,'id':id, 'work_name':work_name},
+        data: {'outdated':outdated,'id':id, 'work_name':work_name, 'completed_remark_outdated': completed_remark_outdated},
         dataType: 'json',
         cache: false,
         success: function(response){
@@ -678,8 +679,26 @@ $('#submit_outdated').click(function(event){
 
 // edit work status modal show
 function editStatus(work_id,work_des,end_date,wrk_sts){ 
+    if(wrk_sts == 3){
+        $.ajax({
+            url: 'WorkCalendar/getCompletedRemark.php',
+            type: 'post',
+            data: {'work_id':work_id},
+            dataType: 'json',
+            cache: false,
+            success: function(response){
+                $('#completed_Remark').text(response['remark']);
+                $('#com_file').attr('href',"uploads/completedTaskFile/"+response['completedFile'])
+                $('#com_file').children().text(response['completedFile'])
+            }
+        });
 
-    if(wrk_sts != 3){
+        $("#completedRemark").addClass("show");
+        $("#completedRemark").removeAttr("aria-hidden");
+        $("#completedRemark").css("display","block");
+        $("#completedRemark").css("width","500px");
+        
+    }else{
     var today = moment().format('YYYY-MM-DD'); 
     if(end_date < today){
         // Swal.fire({
@@ -763,6 +782,13 @@ function closeStatusModal1(){
     // $('#outdated').hide();
     // $('#submit_outdated').hide();
     // $('#cancel_outdated').hide();
+}
+
+function closeRemarkModal(){
+    $("#completedRemark").removeClass("show");
+    $("#completedRemark").attr("aria-hidden", "true");
+    $("#completedRemark").css("display","none");
+
 }
 
 function checkWorkDes(workdes_id){

@@ -321,11 +321,11 @@ if (sizeof($getuser)>0) {
 														<a href="edit_basic_creation"><i class="icon-playlist_add"></i>Basic Creation</a>
 													</li>
 												<?php } ?>
-												<?php if($tag_creation == 0 && $tag_creation != '' && $tag_creation != NULL) { ?>
-													<li>
+												<?php #if($tag_creation == 0 && $tag_creation != '' && $tag_creation != NULL) { ?>
+													<!-- <li>
 														<a href="edit_tag_creation"><i class="icon-price-tag"></i>Tag Creation</a>
-													</li>
-												<?php } ?>	
+													</li> -->
+												<?php #} ?>	
 											</ul>
 										</div>	
 									</li>
