@@ -115,8 +115,7 @@ while($row2 = $res2->fetch_assoc())
     if ($work_status1 == 0) {$work_status = '';}
     if ($work_status1 == 1) {$work_status = 'In Progress';}
     if ($work_status1 == 2) {$work_status = 'Pending';}
-    if ($work_status1 == 3) {$work_status = 'Completed'; echo $detailRecords[$i]['work_sts'];
-    }
+    if ($work_status1 == 3) {$work_status = 'Completed'; }
     $detailRecords[$i]['krakpi_calendar_map_work_status'] = $work_status;   
     $i++;
 }

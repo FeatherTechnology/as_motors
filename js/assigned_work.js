@@ -363,7 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     var work_des = arg.event._def.extendedProps.description;
                     var end_date = arg.event._def.extendedProps.enddate;
                     var wrk_sts = arg.event._def.extendedProps.work_sts;
-console.log(wrk_sts)
                     editStatus(work_id,work_des,end_date,wrk_sts);
                 },
 
