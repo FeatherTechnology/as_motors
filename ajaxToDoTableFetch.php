@@ -14,7 +14,7 @@ $column = array(
     'todo_id',
     'company_id',
     'work_des',
-    'tag_id',
+    // 'tag_id',
     'priority',
     'assign_to',
     'from_date',
@@ -44,7 +44,6 @@ if($sbranch_id == 'Overall'){
                 OR todo_id LIKE '%".$_POST['search']."%'
                 OR company_id LIKE  '%".$_POST['search']."%'
                 OR work_des LIKE  '%".$_POST['search']."%'
-                OR tag_id LIKE  '%".$_POST['search']."%'
                 OR priority LIKE  '%".$_POST['search']."%'
                 OR assign_to LIKE  '%".$_POST['search']."%'
                 OR from_date LIKE  '%".$_POST['search']."%'
@@ -109,14 +108,14 @@ foreach ($result as $row) {
     // }
     
     //get tag classification
-    $tagClassification='';
-    $tag_id = $row['tag_id'];   
-    $getqry = "SELECT * FROM tag_creation WHERE tag_id ='".strip_tags($tag_id)."' and status = 0";
-    $res2 = $con->query($getqry);
-    while($row2 = $res2->fetch_assoc())
-    {
-       $tagClassification = $row2["tag_classification"];        
-    }
+    // $tagClassification='';
+    // $tag_id = $row['tag_id'];   
+    // $getqry = "SELECT * FROM tag_creation WHERE tag_id ='".strip_tags($tag_id)."' and status = 0";
+    // $res2 = $con->query($getqry);
+    // while($row2 = $res2->fetch_assoc())
+    // {
+    //    $tagClassification = $row2["tag_classification"];        
+    // }
 
     // assign to
     $staffName = array();
@@ -134,7 +133,7 @@ foreach ($result as $row) {
     $sub_array[] = $company_name;
     // $sub_array[] = $department_name;
     $sub_array[] = $row['work_des'];
-    $sub_array[] = $tagClassification;
+    // $sub_array[] = $tagClassification;
     
     //check priority
     if($row['priority'] == '1'){$sub_array[] = 'High';}

@@ -64,7 +64,8 @@ if (strstr($workdes_id, $ifhas)) {
     $result = $con->query($qry) or die("Error Not able to update assign work table");
 } else {
     //"The substring was not found in the string";
-    $qry = "UPDATE assign_work_ref set work_status = 3 where ref_id = '".$workdes_id."' ";
+    $assign_wrk_ref_id = preg_replace('/assign_work /', '', $workdes_id);
+    $qry = "UPDATE assign_work_ref set work_status = 3 where ref_id = '".$assign_wrk_ref_id."' ";
     $result = $con->query($qry) or die("Error Not able to update assign work table");
 }
     

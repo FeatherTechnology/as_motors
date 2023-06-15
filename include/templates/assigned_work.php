@@ -226,6 +226,8 @@ body {
                                         
                                         <label class="label" id="over_due_label" >Completed Date</label>
                                         <input type="date" class="form-control" style="width: 350px;" id="outdated" name="outdated" ><br>
+                                        <label class="label">Completed Remark</label>
+                                        <textarea name="completed_remark_outdated" id="completed_remark_outdated" class="form-control" style="height:100px ; width: 350px"></textarea><br>
                                     </div>
                                 </div>
                             </div>
@@ -243,6 +245,43 @@ body {
                     </div>
                 </div>
             </div>
+
+
+            <!-- After Completed Show Remark Modal START -->
+            <div class="modal fade" id="completedRemark" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="background-color: white">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeRemarkModal()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- alert messages -->
+                            <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group ">
+                                        <label class="label" id="over_due_label" >Completed File</label>
+                                <a href='' download id="com_file"><li></li></a><br>
+                                        <label class="label">Completed Remark</label>
+                                        <textarea name="completed_Remark" id="completed_Remark" class="form-control" style="height:100px ; width: 350px" readonly></textarea><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeRemarkModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- After Completed Show Remark Modal END -->
 
     </form>
 </div>

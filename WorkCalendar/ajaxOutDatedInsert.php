@@ -10,10 +10,13 @@ if(isset($_POST['work_name'])){
 if(isset($_POST['outdated'])){
     $outdated_completed_date = $_POST['outdated'];
 }
+if(isset($_POST['completed_remark_outdated'])){
+    $completed_remark_outdated = $_POST['completed_remark_outdated'];
+}
 $work_status = "3"; // in progress
 
-$qry = "INSERT into work_status (work_id, work_des, work_status, outdated_completed_date, created_date) values ('" . strip_tags($workdes_id) . "', 
-'" . strip_tags($work_name) . "', '" . strip_tags($work_status) . "', '" . strip_tags($outdated_completed_date) . "', current_timestamp())  ";  
+$qry = "INSERT into work_status (work_id, work_des, work_status,remarks, outdated_completed_date, created_date) values ('" . strip_tags($workdes_id) . "', 
+'" . strip_tags($work_name) . "', '" . strip_tags($work_status) . "', '" . strip_tags($completed_remark_outdated) . "', '" . strip_tags($outdated_completed_date) . "', current_timestamp())  ";  
 $result = $con->query($qry) or die("error");
 
 $ifhas = "todo";

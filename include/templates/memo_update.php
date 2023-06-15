@@ -50,8 +50,8 @@ if($idupd>0)
     } 
 
     $assignEmployeeName = $userObj->getAssignEmployeeName($mysqli, $to_department);  
-    $initialPhaseName = $userObj->getInitialPhase($mysqli, $assign_employee);  
-    $finalPhaseName = $userObj->getFinalPhase($mysqli, $initial_phase);  
+    $initialPhaseName = $userObj->getInitialFinalPhase($mysqli, $initial_phase);  
+    $finalPhaseName = $userObj->getInitialFinalPhase($mysqli, $final_phase);  
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
 
     ?>
@@ -107,7 +107,7 @@ if($idupd>0)
                     if(to_dept == response['department_id'][i]){ 
                         selected = "selected";
                     }
-                    $('#to_department').append("<option value='" + response['department_id'][i] + "' "+"selected"+">" + response['department_name'][i] + "</option>");
+                    $('#to_department').append("<option value='" + response['department_id'][i] + "' "+selected+">" + response['department_name'][i] + "</option>");
                 }
             }
             });
@@ -286,11 +286,9 @@ if($idupd>0)
                                             <label for="disabledInput">Initial Phase</label>
                                                 <select disabled tabindex="1" type="text" class="form-control" id="initial_phase" name="initial_phase" >
                                                     <option value="">Assign Employee</option>   
-                                                    <?php if (sizeof($initialPhaseName)>0) { 
-                                                    for($i=0;$i<count($initialPhaseName);$i++) { ?>
-                                                    <option <?php if(isset($initial_phase)) { if($initialPhaseName[$i]['staff_id'] == $initial_phase)  echo 'selected'; }  ?> value="<?php echo $initialPhaseName[$i]['staff_id']; ?>">
-                                                    <?php echo $initialPhaseName[$i]['reporting'];?></option>
-                                                    <?php }} ?> 
+                                                    <?php if (sizeof($initialPhaseName)>0) {  ?>
+                                                    <option selected value="<?php echo $initialPhaseName['staff_id']; ?>"> <?php echo $initialPhaseName['staff_name'];?> </option>
+                                                    <?php } ?> 
                                             </select>
                                       
                                         </div>
@@ -301,11 +299,9 @@ if($idupd>0)
                                             <label for="disabledInput">Final Phase</label>
                                                 <select disabled tabindex="1" type="text" class="form-control" id="final_phase" name="final_phase" >
                                                     <option value="">Assign Employee</option>   
-                                                    <?php if (sizeof($finalPhaseName)>0) { 
-                                                    for($i=0;$i<count($finalPhaseName);$i++) { ?>
-                                                    <option <?php if(isset($final_phase)) { if($finalPhaseName[$i]['staff_id'] == $final_phase)  echo 'selected'; }  ?> value="<?php echo $finalPhaseName[$i]['staff_id']; ?>">
-                                                    <?php echo $finalPhaseName[$i]['reporting'];?></option>
-                                                    <?php }} ?> 
+                                                    <?php if (sizeof($finalPhaseName)>0) { ?>
+                                                    <option selected value="<?php echo $finalPhaseName['staff_id']; ?>"> <?php echo $finalPhaseName['staff_name'];?> </option>
+                                                    <?php } ?> 
                                             </select>
                                         </div>
                                     </div>

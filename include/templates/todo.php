@@ -60,7 +60,7 @@ if($idupd>0)
             $company_id                  = $getTodoList['company_id'];
             $todo_id                     = $getTodoList['todo_id'];
             $work_des          		     = $getTodoList['work_des'];
-            $tag_id      			     = $getTodoList['tag_id'];
+            // $tag_id      			     = $getTodoList['tag_id'];
 			$priority		             = $getTodoList['priority'];
 			$assign_to		             = $getTodoList['assign_to'];
             $from_date    	             = date('Y-m-d',strtotime($getTodoList['from_date'])); 
@@ -75,14 +75,14 @@ if($idupd>0)
 
     <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
     <input type="hidden" id="staffEdit" name="staffEdit" value="<?php print_r($assign_to); ?>" >
-    <input type="hidden" id="tagEdit" name="tagEdit" value="<?php print_r($tag_id); ?>" >
+    <!-- <input type="hidden" id="tagEdit" name="tagEdit" value="" > -->
     <input type="hidden" id="criteriaEdit" name="criteriaEdit" value="<?php print_r($criteria); ?>" >
     <script>
         window.onload=editCompanyBasedBranch;
         function editCompanyBasedBranch(){  
 
             var branch_id = $('#company_nameEdit').val();
-            var tagEdit = $('#tagEdit').val(); 
+            // var tagEdit = $('#tagEdit').val(); 
             var staffEdit = $('#staffEdit').val().split(',');  
 
             $.ajax({
@@ -107,7 +107,7 @@ if($idupd>0)
                 }
             });
 
-            editBranchBasedTagAssignTo(branch_id, tagEdit, staffEdit);
+            editBranchBasedTagAssignTo(branch_id, staffEdit);
 
             // enable and disable project
             var criteria = $('#criteriaEdit').val();
@@ -232,14 +232,14 @@ if($idupd>0)
                                     </div> -->
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Tag Classification</label>
                                             <select tabindex="5" type="text" class="form-control" name="tag_id" id="tag_id">
                                                 <option value="">Select Tag Classification</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">

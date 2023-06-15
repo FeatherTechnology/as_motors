@@ -3928,9 +3928,9 @@
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
-			if(isset($_POST['tag_id'])){
-				$tag_id = $_POST['tag_id'];
-			}
+			// if(isset($_POST['tag_id'])){
+			// 	$tag_id = $_POST['tag_id'];
+			// }
 			if(isset($_POST['priority'])){
 				$priority_id = $_POST['priority'];
 			}
@@ -3951,8 +3951,8 @@
 				$project_id = $_POST['project'];
 			}
 			
-			$insertQry="INSERT INTO todo_creation(company_id, work_des, tag_id, priority, assign_to, from_date, to_date, criteria, project_id, created_date, created_id)
-			VALUES('".strip_tags($company_id)."', '".strip_tags($work_des)."', '".strip_tags($tag_id)."', '".strip_tags($priority_id)."', '".strip_tags($assign_to_id)."', 
+			$insertQry="INSERT INTO todo_creation(company_id, work_des, priority, assign_to, from_date, to_date, criteria, project_id, created_date, created_id)
+			VALUES('".strip_tags($company_id)."', '".strip_tags($work_des)."','".strip_tags($priority_id)."', '".strip_tags($assign_to_id)."', 
 			'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($criteria)."','".strip_tags($project_id)."', current_timestamp(), '".$userid."' )"; 
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 		}
@@ -3969,9 +3969,9 @@
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
-			if(isset($_POST['tag_id'])){
-				$tag_id = $_POST['tag_id'];
-			}
+			// if(isset($_POST['tag_id'])){
+			// 	$tag_id = $_POST['tag_id'];
+			// }
 			if(isset($_POST['priority'])){
 				$priority_id = $_POST['priority'];
 			}
@@ -3992,8 +3992,7 @@
 				$project_id = $_POST['project'];
 			}
 
-			$updQry="UPDATE todo_creation set company_id = '".strip_tags($company_id)."', work_des = '".strip_tags($work_des)."', tag_id = '".strip_tags($tag_id)."', 
-			priority = '".strip_tags($priority_id)."', assign_to = '".strip_tags($assign_to_id)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', 
+			$updQry="UPDATE todo_creation set company_id = '".strip_tags($company_id)."', work_des = '".strip_tags($work_des)."', priority = '".strip_tags($priority_id)."', assign_to = '".strip_tags($assign_to_id)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', 
 			criteria = '".strip_tags($criteria)."', project_id = '".strip_tags($project_id)."',	status = 0, updated_id = '".$userid."' WHERE todo_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
@@ -4011,7 +4010,7 @@
 				$detailrecords['company_id']      = $row->company_id; 
 				$detailrecords['todo_id']      = $row->todo_id; 		
 				$detailrecords['work_des']      = $row->work_des;		
-				$detailrecords['tag_id']      = $row->tag_id;		
+				// $detailrecords['tag_id']      = $row->tag_id;		
 				$detailrecords['priority']      = $row->priority;		
 				$detailrecords['assign_to']      = $row->assign_to;		
 				$detailrecords['from_date']      = $row->from_date;		
@@ -4381,6 +4380,18 @@
 							$j++;
 						}
 					}
+				return $detailrecords;
+			}
+
+		// get initial_phase based final_phase
+		public function getInitialFinalPhase($mysqli, $staff_id){
+			$detailrecords = array();
+			$getStaffDetails = $mysqli->query("SELECT staff_id,staff_name FROM staff_creation WHERE staff_id = '".strip_tags($staff_id)."'");
+			if(mysqli_num_rows($getStaffDetails)>0){
+				$staffdetails = $getStaffDetails->fetch_assoc();
+				$detailrecords['staff_id'] = $staffdetails['staff_id'];
+				$detailrecords['staff_name'] = $staffdetails['staff_name'];
+			}
 				return $detailrecords;
 			}
 

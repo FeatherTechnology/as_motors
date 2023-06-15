@@ -100,7 +100,7 @@ if($idupd>0)
                     if(to_dept == response['department_id'][i]){ 
                         selected = "selected";
                     }
-                    $('#to_department').append("<option value='" + response['department_id'][i] + "' "+"selected"+">" + response['department_name'][i] + "</option>");
+                    $('#to_department').append("<option value='" + response['department_id'][i] + "' "+ selected +">" + response['department_name'][i] + "</option>");
                 }
             }
             });
