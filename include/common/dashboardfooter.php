@@ -36,6 +36,14 @@
 <script src="vendor/org_chart/OrgChart.js"></script>
 
 <script type="text/javascript" src="jsd/datatables.min.js"></script>
+<!-- CSV Format Export --->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
+<!-- CSV Format Export END -->
+
 <script type="text/javascript" language="javascript">
 
 
@@ -58,18 +66,13 @@
 			}
 		},
 		
-		// dom: 'lBfrtip',
+		dom: 'lBfrtip',
 		buttons: [		
 			{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3,4,5,6,7,8,9,10,11,12]
+						columns: [ 0, 1, 2 ,3,4,5,6,7,8,9,10,11]
 					}
-			},
-			{		 
-			extend:'colvis',
-			collectionLayout: 'fixed four-column',		
-			
 			}
 
 		],	
@@ -93,17 +96,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -129,17 +128,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -173,10 +168,6 @@
 					exportOptions: {
 						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -201,17 +192,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -236,17 +223,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -271,17 +254,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -306,17 +285,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -341,17 +316,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -376,17 +347,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4, 5 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -412,17 +379,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
 						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 
 			],	
@@ -446,17 +409,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -479,17 +438,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -514,17 +469,13 @@
 				}
 			},
 			
-			// dom: 'lBfrtip', 
+			dom: 'lBfrtip', 
 			buttons: [		
 				{
 					extend: 'csv',
 					exportOptions: {
-						columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+						columns: [ 0, 1, 2 ,3, 4 ]
 					}
-				},
-				{		 
-					extend:'colvis',
-					collectionLayout: 'fixed four-column',
 				}
 			],	
 			"lengthMenu": [
@@ -547,17 +498,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -581,17 +528,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -615,17 +558,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -649,17 +588,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -684,17 +619,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -718,17 +649,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -752,17 +679,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -793,10 +716,6 @@
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -827,10 +746,6 @@
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -854,17 +769,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -895,10 +806,6 @@
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -921,17 +828,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -954,17 +857,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -997,10 +896,6 @@
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1025,17 +920,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1060,17 +951,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1095,17 +982,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1130,17 +1013,13 @@
                     data.search = search;
                 }
             },
-            // dom: 'lBfrtip',
+            dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1172,10 +1051,6 @@
                     exportOptions: {
                         columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                     }
-                },
-                {
-                    extend:'colvis',
-                    collectionLayout: 'fixed four-column',
                 }
             ],
             "lengthMenu": [
@@ -1207,10 +1082,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1236,17 +1107,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1271,17 +1138,13 @@
             }
         },
 
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
 
         ],
@@ -1315,10 +1178,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1350,10 +1209,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1385,10 +1240,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1421,10 +1272,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1449,17 +1296,13 @@
             }
         },
 
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1491,10 +1334,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1527,10 +1366,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1563,10 +1398,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1599,10 +1430,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1628,17 +1455,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1670,10 +1493,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1706,10 +1525,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1741,10 +1556,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1770,17 +1581,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1805,17 +1612,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1840,17 +1643,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1883,10 +1682,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1918,10 +1713,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1946,17 +1737,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -1980,17 +1767,13 @@
                 data.search = search;
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2016,17 +1799,13 @@
             }
         },
 
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
 
         ],
@@ -2053,17 +1832,13 @@
                 
             }
         },
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2094,10 +1869,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2121,17 +1892,13 @@
             }
         },
 
-        // dom: 'lBfrtip',
+        dom: 'lBfrtip',
         buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
 
         ],
@@ -2165,10 +1932,6 @@
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2193,17 +1956,13 @@ var daily_performance_info = $('#daily_performance_info').DataTable({
         data.search = search;
     }
 },
-// dom: 'lBfrtip',
+dom: 'lBfrtip',
 buttons: [
     {
         extend: 'csv',
         exportOptions: {
-            columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+            columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
         }
-    },
-    {
-        extend:'colvis',
-        collectionLayout: 'fixed four-column',
     }
 ],
 "lengthMenu": [
@@ -2236,10 +1995,6 @@ buttons: [
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2272,10 +2027,6 @@ buttons: [
                 exportOptions: {
                     columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
                 }
-            },
-            {
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
         ],
         "lengthMenu": [
@@ -2300,17 +2051,13 @@ buttons: [
             }
         },
         
-        // dom: 'lBfrtip', 
+        dom: 'lBfrtip', 
         buttons: [		
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7 ]
                 }
-            },
-            {		 
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
 
         ],	
@@ -2335,17 +2082,13 @@ buttons: [
             }
         },
         
-        // dom: 'lBfrtip', 
+        dom: 'lBfrtip', 
         buttons: [		
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
                 }
-            },
-            {		 
-                extend:'colvis',
-                collectionLayout: 'fixed four-column',
             }
 
         ],	
@@ -2373,14 +2116,16 @@ buttons: [
 				data.search      = search;
 			}
 		},
-		// dom: 'lBfrtip',
-		buttons: [		
-			{		 
-				extend:'colvis',
-				collectionLayout: 'fixed four-column',		
-			}
+		dom: 'lBfrtip',
+        buttons: [		
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4 ]
+                }
+            }
 
-		],	
+        ],
 		"lengthMenu": [
 			[10, 25, 50, -1],
 			[10, 25, 50, "All"]

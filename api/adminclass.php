@@ -4383,6 +4383,18 @@
 				return $detailrecords;
 			}
 
+		// get initial_phase based final_phase
+		public function getInitialFinalPhase($mysqli, $staff_id){
+			$detailrecords = array();
+			$getStaffDetails = $mysqli->query("SELECT staff_id,staff_name FROM staff_creation WHERE staff_id = '".strip_tags($staff_id)."'");
+			if(mysqli_num_rows($getStaffDetails)>0){
+				$staffdetails = $getStaffDetails->fetch_assoc();
+				$detailrecords['staff_id'] = $staffdetails['staff_id'];
+				$detailrecords['staff_name'] = $staffdetails['staff_name'];
+			}
+				return $detailrecords;
+			}
+
 		//  Get branch name with company name
 		public function getBranchWithCompanyName($mysqli) {
 
