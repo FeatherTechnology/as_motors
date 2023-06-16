@@ -309,24 +309,38 @@ $(document).ready(function(){
 });//ready state end
 
 $(function(){
+    // Check  the Module Menu are checked or not, If Checked then Remove Disabled for sub-Menu using checkbox function in below.
     var user_id = $('#id').val();
     if(user_id > 0){
-        var adminmodule = document.getElementById('adminmodule');
-        var mastermodule = document.getElementById('mastermodule');
-        var eventmodule = document.getElementById('eventmodule');
-        var inventorymodule = document.getElementById('inventorymodule');
-        var billingmodule = document.getElementById('billingmodule');
-        var smsmodule = document.getElementById('smsmodule');
-        var accountsmodule = document.getElementById('accountsmodule');
-        var reportmodule = document.getElementById('reportmodule');
-        if(adminmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.admin-checkbox");var adminmodule = document.querySelector('#adminmodule');checkbox(checkboxesToEnable,adminmodule);}
-        if(mastermodule.checked){const checkboxesToEnable = document.querySelectorAll("input.mastermodule");var mastermodule = document.querySelector('#mastermodule');checkbox(checkboxesToEnable,mastermodule);}
-        if(eventmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.eventmodule");var eventmodule = document.querySelector('#eventmodule');checkbox(checkboxesToEnable,eventmodule);}
-        if(inventorymodule.checked){const checkboxesToEnable = document.querySelectorAll("input.inventorymodule");var inventorymodule = document.querySelector('#inventorymodule');checkbox(checkboxesToEnable,inventorymodule);}
-        if(billingmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.billingmodule");var billingmodule = document.querySelector('#billingmodule');checkbox(checkboxesToEnable,billingmodule);}
-        if(smsmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.smsmodule");var smsmodule = document.querySelector('#smsmodule');checkbox(checkboxesToEnable,smsmodule);}
-        if(accountsmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.accountsmodule");var accountsmodule = document.querySelector('#accountsmodule');checkbox(checkboxesToEnable,accountsmodule);}
-        if(reportmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.reportmodule");var reportmodule = document.querySelector('#reportmodule');checkbox(checkboxesToEnable,reportmodule);}
+        var adminmodule = document.getElementById('administration_module');
+        var mastermodule = document.getElementById('master_module');
+        var basicSubModule = document.getElementById('basic_sub_module');
+        var responsibilitySubModule = document.getElementById('responsibility_sub_module');
+        var othersSubModule = document.getElementById('others_sub_module');
+        var auditModule = document.getElementById('audit_module');
+        var workForceModule = document.getElementById('work_force_module');
+        var scheduletaskSubModule = document.getElementById('schedule_task_sub_module');
+        var memosubModule = document.getElementById('memo_sub_module');
+        var maintenanceModule = document.getElementById('maintenance_module');
+        var manpowerInOutModule = document.getElementById('manpower_in_out_module');
+        var targetFixingModule = document.getElementById('target_fixing_module');
+        var vehicleManagementModule = document.getElementById('vehicle_management_module');
+        var approvalMechanismModule = document.getElementById('approval_mechanism_module');
+
+        if(adminmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.admin-checkbox"); checkbox(checkboxesToEnable,adminmodule);}
+        if(mastermodule.checked){const checkboxesToEnable = document.querySelectorAll("input.master-checkbox"); checkbox(checkboxesToEnable,mastermodule);}
+        if(basicSubModule.checked){const checkboxesToEnable = document.querySelectorAll("input.master-sub-checkbox"); checkbox(checkboxesToEnable,basicSubModule);}
+        if(responsibilitySubModule.checked){const checkboxesToEnable = document.querySelectorAll("input.responsibility-sub-checkbox"); checkbox(checkboxesToEnable,responsibilitySubModule);}
+        if(othersSubModule.checked){const checkboxesToEnable = document.querySelectorAll("input.others-sub-checkbox"); checkbox(checkboxesToEnable,othersSubModule);}
+        if(auditModule.checked){const checkboxesToEnable = document.querySelectorAll("input.audit-checkbox");checkbox(checkboxesToEnable,auditModule);}
+        if(workForceModule.checked){const checkboxesToEnable = document.querySelectorAll("input.workforce-checkbox");checkbox(checkboxesToEnable,workForceModule);}
+        if(scheduletaskSubModule.checked){const checkboxesToEnable = document.querySelectorAll("input.scheduletask-sub-checkbox");checkbox(checkboxesToEnable,scheduletaskSubModule);}
+        if(memosubModule.checked){const checkboxesToEnable = document.querySelectorAll("input.memo-sub-checkbox");checkbox(checkboxesToEnable,memosubModule);}
+        if(maintenanceModule.checked){const checkboxesToEnable = document.querySelectorAll("input.maintenance-checkbox");checkbox(checkboxesToEnable,maintenanceModule);}
+        if(manpowerInOutModule.checked){const checkboxesToEnable = document.querySelectorAll("input.manpower-checkbox");checkbox(checkboxesToEnable,manpowerInOutModule);}
+        if(targetFixingModule.checked){const checkboxesToEnable = document.querySelectorAll("input.targetfixing-checkbox");checkbox(checkboxesToEnable,targetFixingModule);}
+        if(vehicleManagementModule.checked){const checkboxesToEnable = document.querySelectorAll("input.vehicle-checkbox");checkbox(checkboxesToEnable,vehicleManagementModule);}
+        if(approvalMechanismModule.checked){const checkboxesToEnable = document.querySelectorAll("input.approvalmechanism-checkbox");checkbox(checkboxesToEnable,approvalMechanismModule);}
     }
 });
 

@@ -9083,7 +9083,7 @@
 			}else{
 				$responsibility_sub_module=1;
 			}
-			if(isset($_POST['audit_sub_module']) &&    $_POST['audit_sub_module'] == 'Yes')		
+			if(isset($_POST['audit_module']) &&    $_POST['audit_module'] == 'Yes')		
 			{
 				$audit_sub_module=0;
 			}else{
@@ -9598,7 +9598,7 @@
 		}else{
 			$responsibility_sub_module=1;
 		}
-		if(isset($_POST['audit_sub_module']) &&    $_POST['audit_sub_module'] == 'Yes')		
+		if(isset($_POST['audit_module']) &&    $_POST['audit_module'] == 'Yes')		
 		{
 			$audit_sub_module=0;
 		}else{
