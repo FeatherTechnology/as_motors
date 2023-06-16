@@ -185,11 +185,6 @@ if (sizeof($getuser)>0) {
 		outline: none;
 	}
 
-	/* On mouse-over */
-	.sidenav a:hover, .dropdown-btn1:hover {
-		olor: #5090c0;
-	}
-
 	.sidenav a, .dropdown-btn {
 		padding: 6px 8px 6px 16px;
 		text-decoration: none;
@@ -563,7 +558,7 @@ if (sizeof($getuser)>0) {
 							<ul>
 								<?php if($permission_or_onduty == 0 && $permission_or_onduty != '' && $permission_or_onduty != NULL) { ?>
 									<li>
-										<a href="edit_permission_or_on_duty"><i class="icon-receipt"></i>Permission / On Duty</a>	
+										<a href="edit_permission_or_on_duty"><i class="icon-receipt"></i>Regularisation</a>	
 									</li>
 								<?php } ?>
 								<?php if($transfer_location == 0 && $transfer_location != '' && $transfer_location != NULL) { ?>

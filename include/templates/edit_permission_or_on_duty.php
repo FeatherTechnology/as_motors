@@ -1,10 +1,10 @@
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Out Pass / On Duty Form List</li>
+		<li class="breadcrumb-item">Regularisation Form List</li>
 	</ol>
 	<a href="permission_or_on_duty">
-		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp; Out Pass / On Duty Form List</button>
+		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add Regularisation</button>
 	</a>
 </div>
 <!-- Page header end -->
@@ -25,21 +25,21 @@
 					if($mscid==1)
 					{?>
 					<div class="alert alert-success" role="alert">
-						<div class="alert-text">Out Pass / On Duty Added Successfully!</div>
+						<div class="alert-text">Regularisation Added Successfully!</div>
 					</div> 
 					<?php
 					}
 					if($mscid==2)
 					{?>
 						<div class="alert alert-success" role="alert">
-						<div class="alert-text">Out Pass / On Duty Updated Successfully!</div>
+						<div class="alert-text">Regularisation Updated Successfully!</div>
 					</div>
 					<?php
 					}
 					if($mscid==3)
 					{?>
 					<div class="alert alert-danger" role="alert">
-						<div class="alert-text">Out Pass / On Duty Inactive Successfully!</div>
+						<div class="alert-text">Regularisation Inactive Successfully!</div>
 					</div>
 					<?php
 					}

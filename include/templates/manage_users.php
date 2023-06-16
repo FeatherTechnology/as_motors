@@ -378,10 +378,10 @@ if($idupd>0)
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($basic_creation==0){echo'checked';}} ?> tabindex="14"class="custom-control-input master-sub-checkbox" id="basic_creation" name="basic_creation" disabled>
                                 <label class="custom-control-label" for="basic_creation">Basic Creation</label>
                             </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($tag_creation==0){echo'checked';}} ?> tabindex="14"class="custom-control-input master-sub-checkbox" id="tag_creation" name="tag_creation" disabled>
+                            <!-- <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php #if($idupd > 0){ if($tag_creation==0){echo'checked';}} ?> tabindex="14"class="custom-control-input master-sub-checkbox" id="tag_creation" name="tag_creation" disabled>
                                 <label class="custom-control-label" for="tag_creation">Tag Creation</label>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
