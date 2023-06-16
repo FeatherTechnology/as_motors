@@ -146,6 +146,20 @@ foreach ($result as $row) {
     // $sub_array[] = $row['leave_date'];
     // $sub_array[] = $row['leave_reason'];
 
+    $leave_status  = $row['leave_status'];
+    if($leave_status == 0)
+	{
+	    $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Requested</span></span>";
+	}
+	elseif($leave_status == 1)
+	{
+        $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Approved</span></span>";
+	}
+	elseif($leave_status == 2)
+	{
+        $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Rejected</span></span>";
+	}
+
     $status  = $row['status'];
     if($status == 1)
 	{

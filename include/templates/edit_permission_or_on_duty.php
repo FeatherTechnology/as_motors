@@ -56,6 +56,7 @@
 								<th>Staff Code</th>
 								<th>Reporting</th>
 								<th>Reason</th>
+								<th>Leave Status</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
