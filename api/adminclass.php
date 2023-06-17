@@ -5773,45 +5773,54 @@
 			if(isset($_POST['category_id'])){
 				$category_id = $_POST['category_id'];
 			}
-			if(isset($_POST['checklist'])){
-				$checklist = $_POST['checklist'];
+
+			if(isset($_POST['checklist_add'])){
+				$checklist = $_POST['checklist_add'];
 			}
-			if(isset($_POST['type_of_checklist'])){
-				$type_of_checklist = $_POST['type_of_checklist'];
+			if(isset($_POST['type_of_checklist_add'])){
+				$type_of_checklist = $_POST['type_of_checklist_add'];
 			}
-			if(isset($_POST['yes_no_na'])){
-				$yes_no_na = $_POST['yes_no_na'];
+			if(isset($_POST['yes_no_type'])){
+				$yes_no_na = $_POST['yes_no_type'];
 			}
-			if(isset($_POST['no_of_option'])){
-				$no_of_option = $_POST['no_of_option'];
+			if(isset($_POST['no_option_type'])){
+				$no_of_option = $_POST['no_option_type'];
 			}
-			if(isset($_POST['option1'])){
-				$option1 = $_POST['option1'];
+			if(isset($_POST['option1_type'])){
+				$option1 = $_POST['option1_type'];
 			}
-			if(isset($_POST['option2'])){
-				$option2 = $_POST['option2'];
+			if(isset($_POST['option2_type'])){
+				$option2 = $_POST['option2_type'];
 			}
-			if(isset($_POST['option3'])){
-				$option3 = $_POST['option3'];
+			if(isset($_POST['option3_type'])){
+				$option3 = $_POST['option3_type'];
 			}
-			if(isset($_POST['option4'])){
-				$option4 = $_POST['option4'];
+			if(isset($_POST['option4_type'])){
+				$option4 = $_POST['option4_type'];
 			}
+			if(isset($_POST['table_rating'])){
+				$rating = $_POST['table_rating'];
+			} 
+
 			if(isset($_POST['frequency'])){
 				$frequency = $_POST['frequency'];
 			}
 			if(isset($_POST['frequency_applicable'])){
 				$frequency_applicable = $_POST['frequency_applicable'];
 			}
-			if(isset($_POST['rating'])){
-				$rating = $_POST['rating'];
-			} 
 
-			$insertQry="INSERT INTO pm_checklist(company_id, category_id, checklist, type_of_checklist, yes_no_na, no_of_option, option1, option2, option3, option4, frequency, 
-			frequency_applicable, rating, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($checklist)."', '".strip_tags($type_of_checklist)."', 
-			'".strip_tags($yes_no_na)."', '".strip_tags($no_of_option)."', '".strip_tags($option1)."', '".strip_tags($option2)."', '".strip_tags($option3)."', 
-			'".strip_tags($option4)."', '".strip_tags($frequency)."', '".strip_tags($frequency_applicable)."', '".strip_tags($rating)."', '".strip_tags($userid)."')";
+			$insertQry="INSERT INTO pm_checklist(company_id, category_id, frequency, frequency_applicable, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."','".strip_tags($frequency)."', '".strip_tags($frequency_applicable)."', '".strip_tags($userid)."')";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+
+			$findMaxId = $mysqli->query("Select max(pm_checklist_id) as max_pm_id from pm_checklist ");
+			$maxid = $findMaxId->fetch_assoc();
+			$pmChkId = $maxid['max_pm_id'];
+
+			for($i=0; $i < count($checklist); $i++){
+
+				$insertchecklist =$mysqli->query("INSERT INTO `pm_checklist_multiple`(`pm_checklist_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `rating`, `insert_login_id`, `created_date`) VALUES ('".strip_tags($pmChkId)."','".strip_tags($checklist[$i])."','".strip_tags($type_of_checklist[$i])."','".strip_tags($yes_no_na[$i])."','".strip_tags($no_of_option[$i])."','".strip_tags($option1[$i])."','".strip_tags($option2[$i])."','".strip_tags($option3[$i])."','".strip_tags($option4[$i])."','".strip_tags($rating[$i])."', '".strip_tags($userid)."', now() )") or die("Error ".$mysqli->error);
+
+			}
 		}
 
 		// Get PM Checklist
@@ -5842,6 +5851,34 @@
 			return $detailrecords;
 		}
 
+		// Get PM Checklist Multiple
+		public function getPMcheckListDetails($mysqli, $id){
+
+			$selectQry = $mysqli->query("SELECT * FROM  pm_checklist_multiple WHERE pm_checklist_id = '".$id."' "); 
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$cnt =0;
+				while($row = $selectQry->fetch_assoc()){
+				$detailrecords[$cnt]['id']      	= $row['id'];  
+				$detailrecords[$cnt]['pmchecklistid']      	= $row['pm_checklist_id'];  
+			    $detailrecords[$cnt]['checklist_add']  = $row['checklist'];
+			    $detailrecords[$cnt]['type_of_checklist_add']  = $row['type_of_checklist'];
+			    $detailrecords[$cnt]['yes_no_na_add']  = $row['yes_no_na'];
+			    $detailrecords[$cnt]['no_of_option_add']  = $row['no_of_option'];
+			    $detailrecords[$cnt]['option1_add']  = $row['option1'];
+			    $detailrecords[$cnt]['option2_add']  = $row['option2'];
+			    $detailrecords[$cnt]['option3_add']  = $row['option3'];
+			    $detailrecords[$cnt]['option4_add']  = $row['option4'];
+			    $detailrecords[$cnt]['rating_add']  = $row['rating'];
+			$cnt++;
+				}
+				$detailrecords['cnt']  = $cnt;
+			}
+			
+			return $detailrecords;
+		}
+
 		// Update PM Checklist
 		public function updatePMChecklist($mysqli, $id, $userid){ 
 
@@ -5851,46 +5888,66 @@
 			if(isset($_POST['category_id'])){
 				$category_id = $_POST['category_id'];
 			}
-			if(isset($_POST['checklist'])){
-				$checklist = $_POST['checklist'];
+
+			$checklist='';
+			if(isset($_POST['checklist_add'])){
+				$checklist = $_POST['checklist_add'];
 			}
-			if(isset($_POST['type_of_checklist'])){
-				$type_of_checklist = $_POST['type_of_checklist'];
+			$type_of_checklist='';
+			if(isset($_POST['type_of_checklist_add'])){
+				$type_of_checklist = $_POST['type_of_checklist_add'];
 			}
-			if(isset($_POST['yes_no_na'])){
-				$yes_no_na = $_POST['yes_no_na'];
+			$yes_no_na='';
+			if(isset($_POST['yes_no_type'])){
+				$yes_no_na = $_POST['yes_no_type'];
 			}
-			if(isset($_POST['no_of_option'])){
-				$no_of_option = $_POST['no_of_option'];
+			$no_of_option='';
+			if(isset($_POST['no_option_type'])){
+				$no_of_option = $_POST['no_option_type'];
 			}
-			if(isset($_POST['option1'])){
-				$option1 = $_POST['option1'];
+			$option1='';
+			if(isset($_POST['option1_type'])){
+				$option1 = $_POST['option1_type'];
 			}
-			if(isset($_POST['option2'])){
-				$option2 = $_POST['option2'];
+			$option2 ='';
+			if(isset($_POST['option2_type'])){
+				$option2 = $_POST['option2_type'];
 			}
-			if(isset($_POST['option3'])){
-				$option3 = $_POST['option3'];
+			$option3='';
+			if(isset($_POST['option3_type'])){
+				$option3 = $_POST['option3_type'];
 			}
-			if(isset($_POST['option4'])){
-				$option4 = $_POST['option4'];
+			$option4='';
+			if(isset($_POST['option4_type'])){
+				$option4 = $_POST['option4_type'];
 			}
+			$rating='';
+			if(isset($_POST['table_rating'])){
+				$rating = $_POST['table_rating'];
+			} 
+
+
 			if(isset($_POST['frequency'])){
 				$frequency = $_POST['frequency'];
 			}
 			if(isset($_POST['frequency_applicable'])){
 				$frequency_applicable = $_POST['frequency_applicable'];
 			}
-			if(isset($_POST['rating'])){
-				$rating = $_POST['rating'];
-			} 
 
-			$updateQry = 'UPDATE pm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'", 
-			checklist = "'.strip_tags($checklist).'", type_of_checklist = "'.strip_tags($type_of_checklist).'", yes_no_na = "'.strip_tags($yes_no_na).'", 
-			no_of_option = "'.strip_tags($no_of_option).'", option1 = "'.strip_tags($option1).'", option2 = "'.strip_tags($option2).'", option3 = "'.strip_tags($option3).'", 
-			option4 = "'.strip_tags($option4).'", frequency = "'.strip_tags($frequency).'", frequency_applicable = "'.strip_tags($frequency_applicable).'", rating = "'.strip_tags($rating).'", status = "0" 
-			WHERE pm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
+			if(isset($_POST['id'])){
+				$pmChkId = $_POST['id'];
+			}
+
+			$updateQry = 'UPDATE pm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'",  frequency = "'.strip_tags($frequency).'", frequency_applicable = "'.strip_tags($frequency_applicable).'"  WHERE pm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
+
+			$mysqli->query("DELETE FROM `pm_checklist_multiple` WHERE `pm_checklist_id`='$pmChkId'");
+
+			for($i=0; $i < count($checklist); $i++){
+				$insertchecklist =$mysqli->query("INSERT INTO `pm_checklist_multiple`(`pm_checklist_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `rating`, `update_login_id`, `updated_date`) VALUES ('".strip_tags($pmChkId)."','".strip_tags($checklist[$i])."','".strip_tags($type_of_checklist[$i])."','".strip_tags($yes_no_na[$i])."','".strip_tags($no_of_option[$i])."','".strip_tags($option1[$i])."','".strip_tags($option2[$i])."','".strip_tags($option3[$i])."','".strip_tags($option4[$i])."','".strip_tags($rating[$i])."', '".strip_tags($userid)."', now() )") or die("Error ".$mysqli->error);
+
+			}
+			
 		}
 
 		//  Delete PM Checklist
@@ -5909,16 +5966,30 @@
 			if(isset($_POST['category_id'])){
 				$category_id = $_POST['category_id'];
 			}
-			if(isset($_POST['checklist'])){
-				$checklist = $_POST['checklist'];
+
+			if(isset($_POST['category_val'])){
+				$category_val = $_POST['category_val'];
 			}
-			if(isset($_POST['rating'])){
-				$rating = $_POST['rating'];
+			if(isset($_POST['checklist_add'])){
+				$checklist_add = $_POST['checklist_add'];
+			}
+			if(isset($_POST['table_rating'])){
+				$table_rating = $_POST['table_rating'];
 			} 
 
-			$rrInsert="INSERT INTO bm_checklist(company_id, category_id, checklist, rating, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', 
-			'".strip_tags($checklist)."', '".strip_tags($rating)."', '".strip_tags($userid)."')";
+
+			$rrInsert="INSERT INTO bm_checklist(company_id, category_id, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($userid)."')";
 			$insresult=$mysqli->query($rrInsert) or die("Error ".$mysqli->error);
+
+			$findMaxId = $mysqli->query("SELECT max(bm_checklist_id) as max_bm_id FROM bm_checklist ");
+			$maxid = $findMaxId->fetch_assoc();
+			$bmChkId = $maxid['max_bm_id'];
+
+			for($i=0; $i < count($checklist_add); $i++){
+
+				$insertchecklist =$mysqli->query("INSERT INTO `bm_checklist_multiple`( `bm_checklist_id`, `cat_id`, `checklist`, `rating`, `insert_login_id`, `created_date`) VALUES ('".strip_tags($bmChkId)."', '".strip_tags($category_id)."', '".strip_tags($checklist_add[$i])."','".strip_tags($table_rating[$i])."', '".strip_tags($userid)."', now() )") or die("Error ".$mysqli->error);
+
+			}
 		}
 
 		// Get BM Checklist
@@ -5949,16 +6020,23 @@
 			if(isset($_POST['category_id'])){
 				$category_id = $_POST['category_id'];
 			}
-			if(isset($_POST['checklist'])){
-				$checklist = $_POST['checklist'];
+			if(isset($_POST['checklist_add'])){
+				$checklist_add = $_POST['checklist_add'];
 			}
-			if(isset($_POST['rating'])){
-				$rating = $_POST['rating'];
+			if(isset($_POST['table_rating'])){
+				$table_rating = $_POST['table_rating'];
 			} 
 
-			$updateQry = 'UPDATE bm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'", 
-			checklist = "'.strip_tags($checklist).'", rating = "'.strip_tags($rating).'", status = "0" WHERE bm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
+			$updateQry = 'UPDATE bm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'", status = "0" WHERE bm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
+
+			$mysqli->query("DELETE FROM `bm_checklist_multiple` WHERE `bm_checklist_id`='$id'");
+
+			for($i=0; $i < count($checklist_add); $i++){
+				$insertchecklist =$mysqli->query("INSERT INTO `bm_checklist_multiple`( `bm_checklist_id`, `cat_id`, `checklist`, `rating`, `insert_login_id`, `created_date`) VALUES ('".strip_tags($id)."', '".strip_tags($category_id)."', '".strip_tags($checklist_add[$i])."','".strip_tags($table_rating[$i])."', '".strip_tags($userid)."', now() )") or die("Error ".$mysqli->error);
+
+			}
+
 		}
 
 		//  Delete BM Checklist
@@ -5968,6 +6046,28 @@
 			$runQry = $mysqli->query($rrDelete) or die("Error in delete query".$mysqli->error);
 		}
 
+		// Get BM Checklist Multiple
+		public function getBMcheckListDetails($mysqli, $id){
+
+			$selectQry = $mysqli->query("SELECT a.id, a.bm_checklist_id, a.cat_id, a.checklist, a.rating, b.category_creation_name FROM bm_checklist_multiple a join category_creation b on a.cat_id = b.category_creation_id WHERE bm_checklist_id = '".$id."' "); 
+			$detailrecords = array();
+			if ($mysqli->affected_rows>0)
+			{
+				$cnt =0;
+				while($row = $selectQry->fetch_assoc()){
+				$detailrecords[$cnt]['id']      	= $row['id'];  
+				$detailrecords[$cnt]['bmchecklistid']      	= $row['bm_checklist_id'];  
+				$detailrecords[$cnt]['cat_id']      	= $row['cat_id'];  
+				$detailrecords[$cnt]['checklist_add']  = $row['checklist'];
+				$detailrecords[$cnt]['rating_add']  = $row['rating'];
+				$detailrecords[$cnt]['category_name']  = $row['category_creation_name'];
+			$cnt++;
+				}
+				$detailrecords['cnt']  = $cnt;
+			}
+			
+			return $detailrecords;
+		}
 
 		// Add approval line
 		public function addApprovalLine($mysqli, $userid){

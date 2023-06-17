@@ -52,10 +52,10 @@
 								<th>Company Name</th>
 								<th>Branch Name</th>
 								<th>Category</th>
-								<th>Checklist</th>
-								<th>Type Of Checklist</th>
+								<!-- <th>Checklist</th>
+								<th>Type Of Checklist</th> -->
 								<th>Frequency</th>
-								<th>Rating</th>
+								<!-- <th>Rating</th> -->
 								<th>Status</th>
 								<th>Action</th>
 							</tr>

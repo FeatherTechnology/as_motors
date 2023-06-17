@@ -45,7 +45,7 @@ if($checklist == 'pm_checklist'){ ?>
                 $frequency = array();          
                 $rating = array();          
             
-                $selectPMChecklist = $con->query("SELECT * FROM pm_checklist WHERE maintenance_checklist = '0' AND status = '0' ");
+                $selectPMChecklist = $con->query("SELECT a.pm_checklist_id,a.category_id,a.frequency,a.frequency_applicable,b.id,b.checklist,b.type_of_checklist,b.yes_no_na,b.no_of_option,b.option1,b.option2,b.option3,b.option4,b.rating FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id WHERE b.maintenance_checklist = '0' AND a.status = '0' ");
                 while($row = $selectPMChecklist->fetch_assoc()){
 
                     $pm_checklist_id[] 	= $row["pm_checklist_id"];
@@ -61,6 +61,7 @@ if($checklist == 'pm_checklist'){ ?>
                     $frequency[]	= $row["frequency"];
                     $rating[]	= $row["rating"];
                     $frequency_applicable[]	= $row["frequency_applicable"];
+                    $pm_add_id[]	= $row["id"];
                 } ?>
 
                 <table class="table custom-table" id="sstable">
@@ -83,13 +84,13 @@ if($checklist == 'pm_checklist'){ ?>
                     </tr>
                     <?php
                     $sno = 1;   
-                    if(isset($pm_checklist_id)){
-                        for($o=0; $o<=sizeof($pm_checklist_id)-1; $o++){ ?>
+                    if(isset($pm_add_id)){
+                        for($o=0; $o<=sizeof($pm_add_id)-1; $o++){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
-                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
-                                    <td><input tabindex="9" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_checklist_id[$o]; ?>" ></td>
+                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" data-id="<?php echo $pm_checklist_id[$o]; ?>" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
+                                    <td><input tabindex="9" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_add_id[$o]; ?>" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist_textarea[]" id="checklist_textarea" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $type_of_checklist[$o]; ?>" name="type_of_checklist[]" id="type_of_checklist" ></td>
@@ -118,14 +119,16 @@ if($checklist == 'pm_checklist'){ ?>
                 $category_id = array();          
                 $checklist = array();               
                 $rating = array();          
+                $id = array();          
             
-                $selectPMChecklist = $con->query("SELECT * FROM bm_checklist WHERE maintenance_checklist = '0' AND status = '0' ");
+                $selectPMChecklist = $con->query("SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id WHERE b.maintenance_checklist = '0' AND a.status = '0' ");
                 while($row = $selectPMChecklist->fetch_assoc()){
 
                     $bm_checklist_id[] = $row["bm_checklist_id"];
                     $category_id[] = $row["category_id"];
                     $checklist[] = $row["checklist"];
                     $rating[]	= $row["rating"];
+                    $id[]	= $row["id"];
                 } ?>
 
                 <table class="table custom-table" id="sstable">
@@ -145,7 +148,7 @@ if($checklist == 'pm_checklist'){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
-                                    <td><input tabindex="3" type="checkbox" name="bm_checklist_id[]" id="bm_checklist_id" class="bm_checklist_id" value="<?php echo $bm_checklist_id[$o]; ?>" /></td>
+                                    <td><input tabindex="3" type="checkbox" name="bm_checklist_id[]" id="bm_checklist_id" class="bm_checklist_id" data-id="<?php echo $bm_checklist_id[$o]; ?>" value="<?php echo $id[$o]; ?>" /></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist[]" id="checklist" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $rating[$o]; ?>" name="rating[]" id="rating" ></td>

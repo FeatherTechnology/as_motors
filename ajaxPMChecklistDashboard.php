@@ -21,7 +21,7 @@ $column = array(
     'status	',
 );
 
-$query = "SELECT * FROM pm_checklist where 1";
+$query = "SELECT a.pm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id WHERE 1";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -30,30 +30,26 @@ if($sbranch_id == 'Overall'){
             
             if($_POST['search']=="Active")
             {
-                $query .=" and status=0 "; 
+                $query .=" and b.status=0 "; 
             }
             else if($_POST['search']=="Inactive")
             {
-                $query .=" and status=1 ";
+                $query .=" and b.status=1 ";
             }
             
             else{	
                 
                 $query .= "
-                OR pm_checklist_id LIKE '%".$_POST['search']."%'
-                OR company_id LIKE  '%".$_POST['search']."%'
-                OR category_id LIKE '%".$_POST['search']."%'
-                OR checklist LIKE '%".$_POST['search']."%'
-                OR type_of_checklist LIKE  '%".$_POST['search']."%'
-                OR frequency LIKE  '%".$_POST['search']."%'
-                OR rating	 LIKE  '%".$_POST['search']."%'
-                OR status LIKE '%".$_POST['search']."%' ";
+                OR a.pm_checklist_id LIKE '%".$_POST['search']."%'
+                OR a.category_id LIKE '%".$_POST['search']."%'
+                OR b.checklist LIKE '%".$_POST['search']."%'
+                OR b.rating	 LIKE  '%".$_POST['search']."%' ";
             }
         }
     }
     
 }else{
-    $query .=" and company_id= '".$sbranch_id."' ";
+    $query .=" and a.company_id= '".$sbranch_id."' ";
 }
 
 
@@ -86,24 +82,10 @@ foreach ($result as $row) {
 
     if($row['rating'] == 'High' && $row['status'] == 0){
         $sub_array   = array();
-  
+        
         if($sno!="")
         {
             $sub_array[] = $sno;
-        }
-
-        $branch_name='';
-        $company_name='';
-        $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
-        $res = $con->query($qry);
-        while($row5 = $res->fetch_assoc())
-        {
-            $branch_name = $row5['branch_name'];
-            $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
-            $res1 = $con->query($getname) ;
-            while ($row52 = $res1->fetch_assoc()) {
-                $company_name = $row52['company_name'];
-            }
         }
         
         $category_creation_name='';
@@ -114,13 +96,9 @@ foreach ($result as $row) {
         {
         $category_creation_name = $row13["category_creation_name"];        
         }
-        
-        // $sub_array[] = $company_name;
-        // $sub_array[] = $branch_name;
+
         $sub_array[] = $category_creation_name;
         $sub_array[] = $row['checklist'];
-        // $sub_array[] = $row['type_of_checklist'];
-        // $sub_array[] = $row['frequency'];
         $sub_array[] = $row['rating'];
         $status      = $row['status'];
         if($status == 1)

@@ -72,6 +72,8 @@ if($idupd>0)
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
+
+    $getPMChecklistDetails = $userObj->getPMcheckListDetails($mysqli, $pm_checklist_id);
     ?>
 
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
@@ -266,6 +268,33 @@ if($idupd>0)
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
+											<label for="disabledInput">Frequency</label>
+                                            <select type="text" class="form-control frequency" id="frequency" name="frequency" tabindex="15" >
+                                                <option value="">Select Frequency</option> 
+                                                <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
+                                                <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
+                                                <option <?php if(isset($frequency)) { if('Monthly' == $frequency) echo 'selected';  ?> value="<?php echo 'Monthly' ?>">
+                                                <?php echo 'Monthly'; }else{ ?> <option value="Monthly">Monthly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Quaterly' == $frequency) echo 'selected';  ?> value="<?php echo 'Quaterly' ?>">
+                                                <?php echo 'Quaterly'; }else{ ?> <option value="Quaterly">Quaterly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Half Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Half Yearly' ?>">
+                                                <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
+                                                <?php echo 'Yearly'; }else{ ?> <option value="Yearly">Yearly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency) echo 'selected';  ?> value="<?php echo 'Event Driven' ?>">
+                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option>  
+                                            </select> 
+										</div>
+									</div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-4" >
+										<div class="form-group">
+                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for all months</label>
+										</div>
+									</div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+										<div class="form-group">
 											<label for="disabledInput">Type Of Checklist</label>
                                             <select tabindex="6" type="text" class="form-control" id="type_of_checklist" name="type_of_checklist" >
                                                 <option value="">Select Type Of Checklist</option> 
@@ -318,16 +347,16 @@ if($idupd>0)
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <input tabindex="11" type="text" readonly name="option1" id="option1" class="form-control" value="<?php if(isset($option1)) echo $option1; ?>" >
+                                                <input tabindex="11" type="text" readonly name="option1" id="option1" class="form-control optionclear" value="<?php if(isset($option1)) echo $option1; ?>" >
                                             </td>
                                             <td>
-                                                <input tabindex="12" type="text" readonly name="option2" id="option2" class="form-control" value="<?php if(isset($option2)) echo $option2; ?>" >
+                                                <input tabindex="12" type="text" readonly name="option2" id="option2" class="form-control optionclear" value="<?php if(isset($option2)) echo $option2; ?>" >
                                             </td>
                                             <td>
-                                                <input tabindex="13" type="text" readonly name="option3" id="option3" class="form-control" value="<?php if(isset($option3)) echo $option3; ?>" >
+                                                <input tabindex="13" type="text" readonly name="option3" id="option3" class="form-control optionclear" value="<?php if(isset($option3)) echo $option3; ?>" >
                                             </td>
                                             <td>
-                                                <input tabindex="14" type="text" readonly name="option4" id="option4" class="form-control" value="<?php if(isset($option4)) echo $option4; ?>" >
+                                                <input tabindex="14" type="text" readonly name="option4" id="option4" class="form-control optionclear" value="<?php if(isset($option4)) echo $option4; ?>" >
                                             </td>
                                         </tr>
                                     </tbody>
@@ -340,34 +369,6 @@ if($idupd>0)
                             <!--Fields -->
                            <div class="col-md-12 "> 
                               <div class="row">
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-										<div class="form-group">
-											<label for="disabledInput">Frequency</label>
-                                            <select type="text" class="form-control frequency" id="frequency" name="frequency" tabindex="15" >
-                                                <option value="">Select Frequency</option> 
-                                                <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
-                                                <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
-                                                <option <?php if(isset($frequency)) { if('Monthly' == $frequency) echo 'selected';  ?> value="<?php echo 'Monthly' ?>">
-                                                <?php echo 'Monthly'; }else{ ?> <option value="Monthly">Monthly</option> <?php } ?></option> 
-                                                <option <?php if(isset($frequency)) { if('Quaterly' == $frequency) echo 'selected';  ?> value="<?php echo 'Quaterly' ?>">
-                                                <?php echo 'Quaterly'; }else{ ?> <option value="Quaterly">Quaterly</option> <?php } ?></option> 
-                                                <option <?php if(isset($frequency)) { if('Half Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Half Yearly' ?>">
-                                                <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
-                                                <option <?php if(isset($frequency)) { if('Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
-                                                <?php echo 'Yearly'; }else{ ?> <option value="Yearly">Yearly</option> <?php } ?></option> 
-                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency) echo 'selected';  ?> value="<?php echo 'Event Driven' ?>">
-                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option>  
-                                            </select> 
-										</div>
-									</div>
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-4" >
-										<div class="form-group">
-                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for all months</label>
-										</div>
-									</div>
-
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
 										<div class="form-group">
 											<label for="disabledInput">Rating</label>
@@ -383,9 +384,65 @@ if($idupd>0)
 										</div>
 									</div>
 
+                                    <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" >
+                                        <div class="form-group">
+                                        <label class="label" style="visibility: hidden;">Add</label>
+                                        <button type="button"  tabindex="5" class="btn btn-primary" id="add_pmchecklistDetails" name="add_pmchecklistDetails" style="padding: 7px 35px;">Add</button>
+                                        </div>
+                                    </div>
                                     
 
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="row">
+                                <div class="card-header">List</div>
+                                <label><span class="text-danger" id="checkRowAppend" style="display:none;"> Please fill all the fields </span></label>
+                                <table id="pm_checklist_row_append" class="table custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Checklist</th>
+                                            <th>Type Of Checklist</th>
+                                            <th>Rating</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if($idupd > 0){ 
+                                        
+                                            if(isset($getPMChecklistDetails)){
+                                                $cnt = $getPMChecklistDetails['cnt']; //Directly Getting Count from while loop , Based on count for will run.
+
+                                                for($i = 0; $i < $cnt ; $i++){  ?>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="hidden" readonly name="add_id[]" id="add_id" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['id']; ?>" >
+                                                                <input type="text" readonly name="checklist_add[]" id="checklist_add" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['checklist_add']; ?>" >
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" readonly name="type_of_checklist_add[]" id="type_of_checklist_add" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['type_of_checklist_add']; ?>" >
+                                                                <input type="hidden" name="yes_no_type[]" id="yes_no_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['yes_no_na_add']; ?>">
+                                                                <input type="hidden" name="no_option_type[]" id="no_option_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['no_of_option_add']; ?>">
+                                                                <input type="hidden" name="option1_type[]" id="option1_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['option1_add']; ?>">
+                                                                <input type="hidden" name="option2_type[]" id="option2_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['option2_add']; ?>">
+                                                                <input type="hidden" name="option3_type[]" id="option3_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['option3_add']; ?>">
+                                                                <input type="hidden" name="option4_type[]" id="option4_type" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['option4_add']; ?>">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" readonly name="table_rating[]" id="table_rating" class="form-control" value="<?php echo $getPMChecklistDetails[$i]['rating_add']; ?>" >
+                                                            </td>
+                                                            <td>
+                                                                <span onclick='onDelete(this);' class='icon-trash-2'></span>
+                                                            </td>
+                                                        </tr>
+                                                    <?php }
+                                                } 
+                                            } 
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
