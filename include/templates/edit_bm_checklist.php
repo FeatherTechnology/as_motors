@@ -52,8 +52,8 @@
 								<th>Company Name</th>
 								<th>Branch Name</th>
 								<th>Category</th>
-								<th>Checklist</th>
-								<th>Rating</th>
+								<!-- <th>Checklist</th>
+								<th>Rating</th> -->
 								<th>Status</th>
 								<th>Action</th>
 							</tr>

@@ -113,8 +113,8 @@ foreach ($result as $row) {
     $sub_array[] = $company_name;
     $sub_array[] = $branch_name;
     $sub_array[] = $category_creation_name;
-    $sub_array[] = $row['checklist'];
-    $sub_array[] = $row['rating'];
+    // $sub_array[] = $row['checklist'];
+    // $sub_array[] = $row['rating'];
     $status      = $row['status'];
     if($status == 1)
 	{

@@ -278,111 +278,105 @@ $("#no_of_option").change(function() {
 
 
 // Add Customer Info temprorary
-// $("#add_pmchecklistDetails").click(function(){ 
-//     addpmchecklisttable();
-// });
+$("#add_bmchecklistDetails").click(function(){ 
+    addbmchecklisttable();
+});
         
-// var selectedRow = null;
-// function addpmchecklisttable(){ 
-//     var pmchecklistFormData = readpmchecklist(); 
-//     if(selectedRow == null){
-//     var partnumberval = []; 
-//     partnumberval = document.getElementById("category_id").value; 
-//     var productarray = document.getElementsByName("category_id[]");
-//     var choosen = 0;
-//     for(var i=0; i<productarray.length; i++){
-//         if(partnumberval == productarray[i].value){
-//         choosen++;
-//         }
-//     }
-//     if(choosen == 0){
-//         insertpmchecklist(pmchecklistFormData);
-//         resetpmchecklistForm();
-//     }
-//     else{
-//         insertpmchecklist(pmchecklistFormData);
-//         resetpmchecklistForm();
-//     }
-//     } else {
-//         partnumberval = document.getElementById("category_id").value;  
-//         var productarray = document.getElementsByName("category_id[]");
-//         var choosen = 0;
-//         for(var i=0; i<productarray.length; i++){
-//             if(partnumberval == productarray[i].value){
-//             choosen++;
-//             }
-//         }
-//         if(choosen == 0){
-//             updatepmchecklist(pmchecklistFormData);
-//             resetpmchecklistForm();
-//         }
-//         else{
-//             updatepmchecklist(pmchecklistFormData);
-//             resetpmchecklistForm();
-//         }
-//     }
-// }
+var selectedRow = null;
+function addbmchecklisttable(){ 
+    var bmchecklistFormData = readbmchecklist(); 
+    if(selectedRow == null){
+    var partnumberval = []; 
+    partnumberval = document.getElementById("category_id").value; 
+    var productarray = document.getElementsByName("category_id[]");
+    var choosen = 0;
+    for(var i=0; i<productarray.length; i++){
+        if(partnumberval == productarray[i].value){
+        choosen++;
+        }
+    }
+    if(choosen == 0){
+        insertbmchecklist(bmchecklistFormData);
+        resetbmchecklistForm();
+    }
+    else{
+        insertbmchecklist(bmchecklistFormData);
+        resetbmchecklistForm();
+    }
+    } else {
+        // partnumberval = document.getElementById("category_id").value;  
+        // var productarray = document.getElementsByName("category_id[]");
+        // var choosen = 0;
+        // for(var i=0; i<productarray.length; i++){
+        //     if(partnumberval == productarray[i].value){
+        //     choosen++;
+        //     }
+        // }
+        // if(choosen == 0){
+        //     updatepmchecklist(bmchecklistFormData);
+        //     resetbmchecklistForm();
+        // }
+        // else{
+        //     updatepmchecklist(bmchecklistFormData);
+        //     resetbmchecklistForm();
+        // }
+    }
+}
     
-// function readpmchecklist() {  
+function readbmchecklist() {  
 
-//     var pmchecklistFormData = {};
-//     pmchecklistFormData["category_id"] = document.getElementById("category_id").value;
-//     var selCategoryName = document.getElementById("category_id");
-//     pmchecklistFormData["category_val"] = selCategoryName.options[selCategoryName.selectedIndex].text; 
-//     pmchecklistFormData["checklist"] = document.getElementById("checklist").value;
-//     pmchecklistFormData["type_of_checklist"] = document.getElementById("type_of_checklist").value;
-//     pmchecklistFormData["no_of_option"] = document.getElementById("no_of_option").value;
-//     return pmchecklistFormData;
-// }
+    var bmchecklistFormData = {};
+    bmchecklistFormData["category_id"] = document.getElementById("category_id").value;
+    var selCategoryName = document.getElementById("category_id");
+    bmchecklistFormData["category_val"] = selCategoryName.options[selCategoryName.selectedIndex].text; 
+    bmchecklistFormData["checklist"] = document.getElementById("checklist").value;
+    bmchecklistFormData["rating"] = document.getElementById("rating").value;
+    return bmchecklistFormData;
+}
     
-// function insertpmchecklist(data){ 
+function insertbmchecklist(data){ 
 
-//     var table = document.getElementById("pmchecklistTable").getElementsByTagName('tbody')[0];
-//     var newRow = table.insertRow(table.length);
-//     if(data.checklist != ""  && data.category_id != "" && data.type_of_checklist != "" && data.no_of_option != ""){
+    var table = document.getElementById("bm_checklist_row_append").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow(table.length);
+    if(data.checklist != ""  && data.category_id != "" && data.rating != "" ){
 
-//         cell0=newRow.insertCell(0);
-//         cell0.innerHTML='<input type="text" readonly name="category_val[]" id="category_val" class="form-control" value="'+data.category_val+'">'+'<input type="hidden" readonly name="category_id[]" id="category_id" class="form-control" value="'+data.category_id+'"></input>';
+        cell0=newRow.insertCell(0);
+        cell0.innerHTML='<input type="text" readonly name="category_val[]" id="category_val" class="form-control" value="'+data.category_val+'">'+'<input type="hidden" readonly name="category_id_add[]" id="category_id_add" class="form-control" value="'+data.category_id+'"></input>';
 
-//         cell1=newRow.insertCell(1);
-//         cell1.innerHTML='<input type="text" readonly name="checklist[]" id="checklist" class="form-control" value="'+data.checklist+'">';
+        cell1=newRow.insertCell(1);
+        cell1.innerHTML='<input type="text" readonly name="checklist_add[]" id="checklist_add" class="form-control" value="'+data.checklist+'">';
         
-//         cell2=newRow.insertCell(2);
-//         cell2.innerHTML='<input type="text" readonly name="type_of_checklist[]" id="type_of_checklist" class="form-control" value="'+data.type_of_checklist+'">';
+        cell2=newRow.insertCell(2);
+        cell2.innerHTML='<input type="text" readonly name="table_rating[]" id="table_rating" class="form-control" value="'+data.rating+'">';
 
-//         cell3=newRow.insertCell(3);
-//         cell3.innerHTML='<input type="text" readonly name="no_of_option[]" id="no_of_option" class="form-control" value="'+data.no_of_option+'">';
-
-//         cell4=newRow.insertCell(4);
-//         cell4.innerHTML="<a onclick='onDelete(this);'><span class='icon-trash-2'></span></a>";
-//     }
-// }
+        cell3=newRow.insertCell(3);
+        cell3.innerHTML="<a onclick='onDelete(this);'><span class='icon-trash-2'></span></a>";
+    }
+}
 
 // function onUpdate(td){
 //     selectedRow=td.parentElement.parentElement;
 //     document.getElementById("category_id").value=selectedRow.cells[2].querySelector('input').value;
 //     document.getElementById("checklist").value=selectedRow.cells[1].querySelector('input').value;
-//     document.getElementById("type_of_checklist").value=selectedRow.cells[1].querySelector('input').value;
+//     document.getElementById("rating").value=selectedRow.cells[1].querySelector('input').value;
 //     document.getElementById("no_of_option").value=selectedRow.cells[1].querySelector('input').value;
 // }
 
 // function updatepmchecklist(data){
 //     selectedRow.cells[2].innerHTML='<input type="text" readonly name="category_id[]" id="category_id" class="form-control" value="'+data.category_id+'">';
 //     selectedRow.cells[1].innerHTML='<input type="text" readonly name="checklist[]" id="checklist" class="form-control" value="'+data.checklist+'">';
-//     selectedRow.cells[1].innerHTML='<input type="text" readonly name="type_of_checklist[]" id="type_of_checklist" class="form-control" value="'+data.type_of_checklist+'">';
+//     selectedRow.cells[1].innerHTML='<input type="text" readonly name="rating[]" id="rating" class="form-control" value="'+data.rating+'">';
 //     selectedRow.cells[1].innerHTML='<input type="text" readonly name="no_of_option[]" id="no_of_option" class="form-control" value="'+data.no_of_option+'">';
 // }
 
-// function onDelete(td){ 
-//     row = td.parentElement.parentElement;
-//     document.getElementById("pmchecklistTable").deleteRow(row.rowIndex);
-//     resetpmchecklistForm();
-// }
+function onDelete(td){ 
+    row = td.parentElement.parentElement;
+    document.getElementById("bm_checklist_row_append").deleteRow(row.rowIndex);
+    resetbmchecklistForm();
+}
 
-// function resetpmchecklistForm(){
-//     document.getElementById("category_id").value="";
-//     document.getElementById("checklist").value="";
-//     document.getElementById("type_of_checklist").value="";
-//     document.getElementById("no_of_option").value="";
-//     selectedRow = null;
-// }
+function resetbmchecklistForm(){
+    document.getElementById("checklist").value="";
+    document.getElementById("rating").value="";
+    selectedRow = null;
+}

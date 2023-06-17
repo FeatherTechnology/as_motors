@@ -13,16 +13,17 @@ $branchName = $userObj->getBranchName($mysqli);
 $departmentList = $userObj->getDepartment($mysqli); 
 $companyList = $userObj->getCompanyName($mysqli);
 
-$id=0;
-if(isset($_POST['submitMaintenanceChecklistBtn']) && $_POST['submitMaintenanceChecklistBtn'] != '')
-{
-    if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
-        $id = $_POST['id']; 	
-        $updateMaintenanceChecklist = $userObj->updateMaintenanceChecklist($mysqli,$id,$userid);  
+// $id=0;
+// if(isset($_POST['submitMaintenanceChecklistBtn']) && $_POST['submitMaintenanceChecklistBtn'] != '')
+// {
+//     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
+//         $id = $_POST['id']; 	
+//         $updateMaintenanceChecklist = $userObj->updateMaintenanceChecklist($mysqli,$id,$userid);  
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_maintenance_checklist&msc=2';</script> 
-    <?php }
-}   
+        <!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_maintenance_checklist&msc=2';</script>  -->
+    <?php
+//     }
+// }   
 
 $del=0;
 if(isset($_GET['del']))
@@ -33,7 +34,7 @@ if($del>0)
 {
 	$deleteMaintenanceChecklist = $userObj->deleteMaintenanceChecklist($mysqli,$del,$userid); 
 	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>edit_maintenance_checklist&msc=3';</script>
+	<!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_maintenance_checklist&msc=3';</script> -->
     <?php	
 }
 

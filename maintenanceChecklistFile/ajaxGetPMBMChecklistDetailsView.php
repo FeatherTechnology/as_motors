@@ -61,14 +61,14 @@ if($checklist == 'pm_checklist'){ ?>
                 while($row1 = $getPMChecklistId->fetch_assoc()){
                     $maintenance_checklist_idArr[] 	= $row1["maintenance_checklist_id"];
                     $maintenance_checklist_ref_idArr[] 	= $row1["maintenance_checklist_ref_id"];
-                    $pm_checklist_idArr[] 	= $row1["pm_checklist_id"];
+                    $pm_checklist_idArr[] 	= $row1["pm_checklist_id"]; //pm_checklist_multiple
                     $remarksArr[] 	= $row1["remarks"];
                     $fileArr[] 	= $row1["file"];
                     $responder_reasonArr[] 	= $row1["responder_reason"];
                 }   
 
                 for($i=0; $i<=sizeof($pm_checklist_idArr)-1; $i++){ 
-                    $selectPMChecklist = $con->query("SELECT * FROM pm_checklist WHERE pm_checklist_id = '".strip_tags($pm_checklist_idArr[$i])."' AND status = 0 ");
+                    $selectPMChecklist = $con->query("SELECT a.pm_checklist_id,a.category_id,a.frequency,a.frequency_applicable,b.id,b.checklist,b.type_of_checklist,b.yes_no_na,b.no_of_option,b.option1,b.option2,b.option3,b.option4,b.rating FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id WHERE b.id = '".strip_tags($pm_checklist_idArr[$i])."' AND b.status = 0 ");
                     while($row = $selectPMChecklist->fetch_assoc()){
 
                         $pm_checklist_id[] 	= $row["pm_checklist_id"];
@@ -129,7 +129,7 @@ if($checklist == 'pm_checklist'){ ?>
 <?php }else if($checklist == 'bm_checklist'){ ?>
 
     <div class="card" id="stockinformation">
-        <div class="card-header">PM Checklist</div>
+        <div class="card-header">BM Checklist</div>
         <div class="card-body ">
         <br> 
             <div style="overflow-x: auto; white-space: nowrap;" >
@@ -157,11 +157,11 @@ if($checklist == 'pm_checklist'){ ?>
                 }   
 
                 for($i=0; $i<=sizeof($bm_checklist_idArr)-1; $i++){ 
-                    $selectPMChecklist = $con->query("SELECT * FROM bm_checklist WHERE bm_checklist_id = '".strip_tags($bm_checklist_idArr[$i])."' AND status = 0 ");
+                    $selectPMChecklist = $con->query(" SELECT a.id, a.bm_checklist_id, a.cat_id, a.checklist, a.rating, b.category_creation_name FROM bm_checklist_multiple a join category_creation b on a.cat_id = b.category_creation_id WHERE a.id = '".strip_tags($bm_checklist_idArr[$i])."' AND b.status = 0 ");
                     while($row = $selectPMChecklist->fetch_assoc()){
 
                         $bm_checklist_id[] 	= $row["bm_checklist_id"];
-                        $category_id[]	= $row["category_id"];
+                        $category_id[]	= $row["cat_id"];
                         $checklist[]	= $row["checklist"];
                         $rating[]	= $row["rating"];
                     }   

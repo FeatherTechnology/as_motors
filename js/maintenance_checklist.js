@@ -120,7 +120,8 @@ $("#executeBtn").click(function(){
 });
 
 // insert and update
-$("#submitMaintenanceChecklistBtn").click(function(){
+$("#submitMaintenanceChecklistBtn").click(function(e){
+    e.preventDefault();
 
     var totalCheckboxCount = $(':checkbox:checked').length;
     if(totalCheckboxCount > 0 ){
@@ -140,6 +141,7 @@ $("#submitMaintenanceChecklistBtn").click(function(){
         var checkedid = [];
         var frequency = [];          
         var frequency_applicable = [];          
+        var checkListId = [];          
         var remarks = [];          
         var maintenanceChceklistRefId = [];  
         var file = [];
@@ -150,6 +152,7 @@ $("#submitMaintenanceChecklistBtn").click(function(){
             checklist_textarea[i] = $(this).parents('tr').find('td #checklist_textarea').val();   
             frequency[i] = $(this).parents('tr').find('td #frequency').val();   
             frequency_applicable[i] = $(this).parents('tr').find('td #frequency_applicable').val();   
+            checkListId[i] = $(this).parents('tr').find('td [data-id]').attr('data-id');
             remarks[i] = $(this).parents('tr').find('td #remarks').val();   
             maintenanceChceklistRefId[i] = $(this).parents('tr').find('td #maintenanceChceklistRefId').val(); 
             file[i] = $(this).closest('tr').find('input[type="file"]').prop('files')[0];
@@ -168,6 +171,7 @@ $("#submitMaintenanceChecklistBtn").click(function(){
         formData.append('checkedid[]', checkedid);
         formData.append('frequency[]', frequency);
         formData.append('frequency_applicable[]', frequency_applicable);
+        formData.append('checkListId[]', checkListId); // pm_checklist Table id.
         formData.append('remarks[]', remarks);
         formData.append('checklist_textarea[]', checklist_textarea);
        

@@ -54,6 +54,11 @@ if(isset($_POST['frequency_applicable'])){
     $frequency_applicable = $_POST['frequency_applicable']; 
     $frequency_applicableStr = implode(',', $frequency_applicable);
 }
+if(isset($_POST['checkListId'])){ // pm_checklist Table id.
+    $checkListId = $_POST['checkListId']; 
+    print_r($checkListId);
+    $checkListIdStr = implode(',', $checkListId);
+}
 if(isset($_POST['checklist_textarea'])){
     $checklist_textarea = $_POST['checklist_textarea'];
     $checklist_textareaStr = implode(',', $checklist_textarea);
@@ -80,7 +85,8 @@ if(isset($_FILES['file'])){
     $file=[];
 }
 
-$checkedidArr = array_map('intval', explode(',', $checkedidStr)); 
+$checkListIdArr = array_map('intval', explode(',', $checkListIdStr));  //pm_checklist table id.
+$checkedidArr = array_map('intval', explode(',', $checkedidStr));  //pm_checklist_multiple table id.
 $remarksArr = array_map('strval', explode(',', $remarksStr)); 
 $maintenanceChceklistRefIdArr = array_map('strval', explode(',', $maintenanceChceklistRefIdStr));
 $frequencyArr = array_map('strval', explode(',', $frequencyStr)); 

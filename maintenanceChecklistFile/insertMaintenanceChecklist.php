@@ -43,6 +43,11 @@ if(isset($_POST['frequency_applicable'])){
     $frequency_applicable = $_POST['frequency_applicable']; 
     $frequency_applicableStr = implode(',', $frequency_applicable);
 }
+if(isset($_POST['checkListId'])){ // pm_checklist Table id.
+    $checkListId = $_POST['checkListId']; 
+    print_r($checkListId);
+    $checkListIdStr = implode(',', $checkListId);
+}
 if(isset($_POST['remarks'])){
     $remarks = $_POST['remarks'];
     $remarksStr = implode(',', $remarks);
@@ -74,7 +79,8 @@ if(isset($_FILES['file'])){
     $file=[];
 }
 
-$checkedidArr = array_map('intval', explode(',', $checkedidStr)); 
+$checkListIdArr = array_map('intval', explode(',', $checkListIdStr));  //pm_checklist table id.
+$checkedidArr = array_map('intval', explode(',', $checkedidStr));  //pm_checklist_multiple table id.
 $frequencyArr = array_map('strval', explode(',', $frequencyStr)); 
 $remarksArr = array_map('strval', explode(',', $remarksStr)); 
 $frequency_applicableArr = array_map('strval', explode(',', $frequency_applicableStr)); 
@@ -103,7 +109,9 @@ if($checklist == 'pm_checklist'){
         $insertChecklistRefRun = $con->query($insertChecklistRef);
         $checklistRefId = $con->insert_id;
 
-        $updateQry = 'UPDATE pm_checklist SET maintenance_checklist = 1 WHERE pm_checklist_id = "'.strip_tags($checkedidArr[$i]).'" ';
+        $updateQry = 'UPDATE pm_checklist SET maintenance_checklist = 1 WHERE pm_checklist_id = "'.strip_tags($checkListIdArr[$i]).'" ';
+        $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
+        $updateQry = 'UPDATE  pm_checklist_multiple SET maintenance_checklist = 1 WHERE id = "'.strip_tags($checkedidArr[$i]).'" ';
         $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
         if($frequency_applicableArr[$i] == 'frequency_applicable'){ 

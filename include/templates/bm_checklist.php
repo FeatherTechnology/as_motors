@@ -63,6 +63,8 @@ if($idupd>0)
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
+
+    $getBMChecklistDetails = $userObj->getBMcheckListDetails($mysqli, $bm_checklist_id);
     ?>
 
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
@@ -216,10 +218,62 @@ if($idupd>0)
 										</div>
 									</div>
 
+                                    <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" >
+                                        <div class="form-group">
+                                        <label class="label" style="visibility: hidden;">Add</label>
+                                        <button type="button"  tabindex="5" class="btn btn-primary" id="add_bmchecklistDetails" name="add_bmchecklistDetails" style="padding: 7px 35px;">Add</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
+                        <br>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="row">
+                                <div class="card-header">List</div>
+                                <label><span class="text-danger" id="checkRowAppend" style="display:none;"> Please fill all the fields </span></label>
+                                <table id="bm_checklist_row_append" class="table custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Checklist</th>
+                                            <th>Rating</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if($idupd > 0){ 
+                                        
+                                            if(isset($getBMChecklistDetails)){
+                                                $cnt = $getBMChecklistDetails['cnt']; //Directly Getting Count from while loop , Based on count for will run.
+
+                                                for($i = 0; $i < $cnt ; $i++){  ?>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="hidden" readonly name="add_id[]" id="add_id" class="form-control" value="<?php echo $getBMChecklistDetails[$i]['id']; ?>" >
+                                                                <input type="text" readonly name="category_val[]" id="category_val" class="form-control" value="<?php echo $getBMChecklistDetails[$i]['category_name']; ?>" >
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" readonly name="checklist_add[]" id="checklist_add" class="form-control" value="<?php echo $getBMChecklistDetails[$i]['checklist_add']; ?>" >
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" readonly name="table_rating[]" id="table_rating" class="form-control" value="<?php echo $getBMChecklistDetails[$i]['rating_add']; ?>" >
+                                                            </td>
+                                                            <td>
+                                                                <span onclick='onDelete(this);' class='icon-trash-2'></span>
+                                                            </td>
+                                                        </tr>
+                                                    <?php }
+                                                } 
+                                            } 
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <br>
 
                         <div class="col-md-12">
