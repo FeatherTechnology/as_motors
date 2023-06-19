@@ -5,7 +5,7 @@ if(isset($_SESSION["userid"])){
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
-    $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+    $sCompanyBranchDetail = $userObj->getCompanyBranchDetail($mysqli, $sbranch_id);
 } 
 
 $companyName = $userObj->getcompanyName($mysqli);
@@ -72,7 +72,7 @@ if($idupd>0)
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
     <input type="text" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
     <input type="text" id="staffIdEdit" name="staffIdEdit" value="<?php print_r($staff_code); ?>" >
-    <input type="text" id="reasonEdit" name="reasonEdit" value="<?php print_r($reason); ?>" >
+    <input type="text" id="reasonEdit" name="reasonEdit" value="<?php if(isset($reason))print_r($reason); ?>" >
 
     <script language='javascript'>
         window.onload=editPermissionOnDuty;
@@ -227,7 +227,7 @@ if($idupd>0)
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
                                                 <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
                                                 <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
+                                                    <option value="<?php echo $sCompanyBranchDetail['branch_id']; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
                                                 </select> 
                                             <?php } ?>
                                         </div>
@@ -317,16 +317,6 @@ if($idupd>0)
                                             <label for="disabledInput">Transfer Location</label>
                                             <select id="transfer_location" name="transfer_location" class="form-control" tabindex="6">
                                                 <option value="">Select Transfer Location</option>
-                                                <?php if (sizeof($branchName)>0) { 
-                                                        for($j=0;$j<count($branchName);$j++) { ?>
-                                                        <option <?php if(isset($transfer_location)) { if($branchName[$j]['branch_id'] == $transfer_location)  echo 'selected'; }  ?> 
-                                                            value="<?php echo $branchName[$j]['branch_id']; ?>" >
-                                                            <?php
-                                                            for($k=0;$k<count($companyName);$k++) {
-                                                                if($branchName[$j]['company_id'] == $companyName[$k]['company_id']) echo $companyName[$k]['company_name']; }
-                                                            echo ' - ' . $branchName[$j]['branch_name']; ?>
-                                                        </option>
-                                                    <?php }} ?> 
                                             </select> 
                                         </div>
                                     </div>

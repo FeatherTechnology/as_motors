@@ -28,14 +28,14 @@ $(document).ready(function () {
 
     // Get branch based on Department
     $("#branch_id").change(function(){
-        var company_id = $("#branch_id").val();
-        if(company_id.length==''){
+        var branch_id = $("#branch_id").val(); //Branch id
+        if(branch_id.length==''){
             $("#branch_id").val('');
         }else{
             $.ajax({
                 url: 'StaffFile/ajaxStaffDepartmentDetails.php',
                 type: 'post',
-                data: { "company_id":company_id },
+                data: { "company_id":branch_id },
                 dataType: 'json',
                 success:function(response){ 
 
@@ -47,10 +47,21 @@ $(document).ready(function () {
                     }
                 }
             });
+
+            getTransferLocation(branch_id);
         }
     });
  
 });
+
+$(function(){
+    var transfered_branch_id = $('#id').val();
+    if(transfered_branch_id != undefined || transfered_branch_id != ''){
+        var branch_id = $("#branchIdEdit").val();
+        getTransferLocation(branch_id);
+    }
+
+})
 
 // Get Department based on designation
 $("#department").change(function(){ 
@@ -94,7 +105,7 @@ $("#department").change(function(){
             dataType: 'json',
             success:function(response){
                 $('#staff_code').empty();
-                $('#staff_code').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+                $('#staff_code').prepend("<option value=''>" + 'Select Staff Code' + "</option>");
                 var i = 0;
                 for (i = 0; i <= response.staff_id.length - 1; i++) { 
                     $('#staff_code').append("<option value='" + response['staff_id'][i] + "'>" + response['emp_code'][i] + "</option>");
@@ -164,4 +175,25 @@ function print_transfer_location(id){
     });
 }
 
-
+//Get Transfer Location Based on Branch , Except Selected branch has to show in list.
+function getTransferLocation(branch_id){
+    var transfered_branch_id = $('#id').val();
+    $.ajax({
+        type: 'POST',
+        data: {"branch_id": branch_id},
+        cache: false,
+        url: 'transferLocationFile/getTransferLocation.php',
+        dataType: 'json',
+        success: function(response){
+            $('#transfer_location').empty();
+            $('#transfer_location').append('<option value=""> Select Transfer Location </option>');
+            for(var i=0; i<response.length; i++){
+                var selected ='';
+                if(response[i]['branch_id'] == transfered_branch_id){
+                    selected = 'Selected';
+                }
+                $('#transfer_location').append('<option value="'+response[i]['branch_id'] +'" '+selected+'>'+ response[i]['branch_name'] +'</option>')
+            }
+        }
+    })
+}
