@@ -4507,6 +4507,38 @@
         }
 
 		// get company and branch name based on session id
+		public function getCompanyBranchDetail($mysqli, $branch_id){
+			$qry = "SELECT * FROM branch_creation WHERE branch_id = '".$branch_id."' AND status=0 ORDER BY branch_id ASC";
+			$res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+
+			$detailrecords = array();
+			$i=0;
+			if ($mysqli->affected_rows>0)
+			{
+				while($row = $res->fetch_object())
+				{
+					
+					$detailrecords['branch_id']          = strip_tags($row->branch_id);
+					$detailrecords['branch_name']          = strip_tags($row->branch_name);
+					$detailrecords['company_id']          = strip_tags($row->company_id);
+					$detailrecords['address1']          = strip_tags($row->address1);
+					$detailrecords['address2']          = strip_tags($row->address2);
+					$detailrecords['state']          = strip_tags($row->state);
+					$detailrecords['city']          = strip_tags($row->city);
+					
+					$getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
+					$res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
+					while ($row2 = $res1->fetch_object()) {
+						$company_name = $row2->company_name;
+					}
+					$detailrecords['company_name'] = $company_name;
+					$i++;
+				}
+			}
+			return $detailrecords;
+		}
+
+		// get company and branch name based on session id
 		public function getsBranchBasedCompanyName($mysqli, $sbranch_id){
             $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
             $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
@@ -5977,8 +6009,15 @@
 				$table_rating = $_POST['table_rating'];
 			} 
 
+			if(isset($_POST['frequency'])){
+				$frequency = $_POST['frequency'];
+			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
 
-			$rrInsert="INSERT INTO bm_checklist(company_id, category_id, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($userid)."')";
+
+			$rrInsert="INSERT INTO bm_checklist(company_id, category_id, frequency, frequency_applicable, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($category_id)."', '".strip_tags($frequency)."','".strip_tags($frequency_applicable)."','".strip_tags($userid)."')";
 			$insresult=$mysqli->query($rrInsert) or die("Error ".$mysqli->error);
 
 			$findMaxId = $mysqli->query("SELECT max(bm_checklist_id) as max_bm_id FROM bm_checklist ");
@@ -6006,6 +6045,8 @@
 			    $detailrecords['category_id']  = $row->category_id;
 			    $detailrecords['checklist']  = $row->checklist;
 			    $detailrecords['rating']  = $row->rating;
+			    $detailrecords['frequency']  = $row->frequency; 
+			    $detailrecords['frequency_applicable']  = $row->frequency_applicable; 
 			}
 			
 			return $detailrecords;
@@ -6027,7 +6068,14 @@
 				$table_rating = $_POST['table_rating'];
 			} 
 
-			$updateQry = 'UPDATE bm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'", status = "0" WHERE bm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
+			if(isset($_POST['frequency'])){
+				$frequency = $_POST['frequency'];
+			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
+
+			$updateQry = 'UPDATE bm_checklist SET company_id = "'.strip_tags($company_id).'", category_id = "'.strip_tags($category_id).'",frequency= "'.strip_tags($frequency).'", frequency_applicable= "'.strip_tags($frequency_applicable).'", status = "0" WHERE bm_checklist_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
 			$mysqli->query("DELETE FROM `bm_checklist_multiple` WHERE `bm_checklist_id`='$id'");
