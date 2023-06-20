@@ -79,8 +79,8 @@ if(isset($_FILES['file'])){
     $file=[];
 }
 
-$checkListIdArr = array_map('intval', explode(',', $checkListIdStr));  //pm_checklist table id.
-$checkedidArr = array_map('intval', explode(',', $checkedidStr));  //pm_checklist_multiple table id.
+$checkListIdArr = array_map('intval', explode(',', $checkListIdStr));  //pm_checklist table id. bm_checklist table id.
+$checkedidArr = array_map('intval', explode(',', $checkedidStr));  //pm_checklist_multiple table id. bm_checklist_multiple table id.
 $frequencyArr = array_map('strval', explode(',', $frequencyStr)); 
 $remarksArr = array_map('strval', explode(',', $remarksStr)); 
 $frequency_applicableArr = array_map('strval', explode(',', $frequency_applicableStr)); 
@@ -273,8 +273,155 @@ if($checklist == 'pm_checklist'){
         VALUES ('".strip_tags($checklistId)."', '".strip_tags($checkedidArr[$i])."', '".strip_tags($remarksArr[$i])."', '".strip_tags($file[$i])."')"; 
         $insertChecklistRefRun = $con->query($insertChecklistRef);
 
-        $updateQry = 'UPDATE bm_checklist SET maintenance_checklist = 1 WHERE bm_checklist_id = "'.strip_tags($checkedidArr[$i]).'" ';
+        $updateQry = 'UPDATE bm_checklist SET maintenance_checklist = 1 WHERE bm_checklist_id = "'.strip_tags($checkListIdArr[$i]).'" ';
         $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
+        $updateQry = 'UPDATE  bm_checklist_multiple SET maintenance_checklist = 1 WHERE id = "'.strip_tags($checkedidArr[$i]).'" ';
+        $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
+
+        if($frequency_applicableArr[$i] == 'frequency_applicable'){ 
+
+            if($frequencyArr[$i] == 'Fortnightly'){
+    
+                $end_of_year = date('Y-12-31');
+                $current_from_date = date('Y-m-d', strtotime($from_date1));
+                $current_to_date = date('Y-m-d', strtotime($to_date1));
+            
+                $from_dates = array();
+                $to_dates = array();
+            
+                while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+                    // Check if current_from_date is a Sunday or holiday
+                    while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                        $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+                    }
+                    
+                    // Check if current_to_date is a Sunday or holiday
+                    while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+                        $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+                    }
+                
+                    $from_dates[] = $current_from_date;
+                    $to_dates[] = $current_to_date;
+                
+                    $current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+                    $current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+                
+                    if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+                        break;
+                    }
+                }
+
+            } else if($frequencyArr[$i] == 'Monthly'){
+    
+                $end_of_year = date('Y-12-31');
+                $current_from_date = date('Y-m-d', strtotime($from_date1));
+                $current_to_date = date('Y-m-d', strtotime($to_date1));
+            
+                $from_dates = array();
+                $to_dates = array();
+            
+                while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+                    // Check if current_from_date is a Sunday or holiday
+                    while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                        $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+                    }
+                    
+                    // Check if current_to_date is a Sunday or holiday
+                    while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+                        $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+                    }
+                
+                    $from_dates[] = $current_from_date;
+                    $to_dates[] = $current_to_date;
+                
+                    $current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
+                    $current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
+                
+                    if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+                        break;
+                    }
+                }
+
+            }  else if($frequencyArr[$i] == 'Quaterly'){
+    
+                $end_of_year = date('Y-12-31');
+                $current_from_date = date('Y-m-d', strtotime($from_date1));
+                $current_to_date = date('Y-m-d', strtotime($to_date1));
+            
+                $from_dates = array();
+                $to_dates = array();
+            
+                while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+                    // Check if current_from_date is a Sunday or holiday
+                    while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                        $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+                    }
+                    
+                    // Check if current_to_date is a Sunday or holiday
+                    while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+                        $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+                    }
+                
+                    $from_dates[] = $current_from_date;
+                    $to_dates[] = $current_to_date;
+                
+                    $current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+                    $current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+                
+                    if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+                        break;
+                    }
+                }
+                
+            } else if($frequencyArr[$i] == 'Half Yearly'){
+    
+                $end_of_year = date('Y-12-31');
+                $current_from_date = date('Y-m-d', strtotime($from_date1));
+                $current_to_date = date('Y-m-d', strtotime($to_date1));
+            
+                $from_dates = array();
+                $to_dates = array();
+            
+                while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+                    // Check if current_from_date is a Sunday or holiday
+                    while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                        $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+                    }
+                    
+                    // Check if current_to_date is a Sunday or holiday
+                    while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+                        $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+                    }
+                
+                    $from_dates[] = $current_from_date;
+                    $to_dates[] = $current_to_date;
+                
+                    $current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+                    $current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+                
+                    if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+                        break;
+                    }
+                }
+            } 
+
+            for($j=0; $j<=sizeof($from_dates)-1; $j++){
+
+                $insertQry="INSERT INTO bm_checklist_ref(bm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
+                role2) VALUES ('".strip_tags($checkedidArr[$i])."', '".strip_tags($checklistId)."', '".strip_tags($insertChecklistRefRun)."', 
+                '".strip_tags($checklist_textareaArr[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', '".strip_tags($to_dates[$j].' '.$current_time)."', 
+                '".strip_tags($role1)."', '".strip_tags($role2)."' )";
+                $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+            } 
+            
+        } else {
+    
+            $insertQry="INSERT INTO bm_checklist_ref(bm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
+            role2) VALUES ('".strip_tags($checkedidArr[$i])."', '".strip_tags($checklistId)."', '".strip_tags($insertChecklistRefRun)."', 
+            '".strip_tags($checklist_textareaArr[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($role1)."', '".strip_tags($role2)."' )";
+            $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+        }
+
     }
 }
 

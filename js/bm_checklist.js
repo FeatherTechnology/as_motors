@@ -148,6 +148,18 @@ $(document).ready(function () {
         });
     });
 
+        // enable and disable frequency
+        $(document).on("change",".frequency",function(){ 
+            var frequency1 = $(this).children(":selected").text();
+            var frequency = frequency1.trim(); 
+            if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
+                $('#frequency_applicable').attr("disabled",false);
+            } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+                $('#frequency_applicable').prop('checked', false);
+                $('#frequency_applicable').attr("disabled",true);
+            }
+        });
+
 });
 
 function DropDownCourse(){

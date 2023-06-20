@@ -324,7 +324,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
                 p++;
             }
-         
+
+            //BM Checklist
+            q = p;
+            var maintenanceCount = data.filter(item => item.hasOwnProperty('maintenance_checklist_ref_checklist_bm')).length;
+            for(var i=0;i<maintenanceCount;i++){
+
+                var maintenance_checklist_ref_work_status = '';
+                if(data[i]['maintenance_checklist_ref_work_status_bm'] != ''){
+                    maintenance_checklist_ref_work_status = ' - '+ data[i]['maintenance_checklist_ref_work_status_bm']; 
+                }
+                var startDate = moment(data[i]['maintenance_checklist_ref_from_date_bm']);
+                var endDate = moment(data[i]['maintenance_checklist_ref_to_date_bm']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var d = 0; d < duration; d++) {
+                    var currentDay = startDate.clone().add(d, 'days');
+                    if ( currentDay.day() !== 0) {
+                events.push({ 
+                    title:  data[i]['maintenance_checklist_ref_checklist_bm'] + maintenance_checklist_ref_work_status,
+                    description: data[i]['maintenance_checklist_ref_checklist_bm'],
+                    maintenance_checklist_ref_id_bm:data[i]['maintenance_checklist_ref_id_bm'],
+                    start: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(d, 'days').format('YYYY-MM-DD'),
+                    enddate: data[i]['maintenance_checklist_ref_to_date_bm'],
+                    work_sts: data[i]['maintance_work_sts_bm'] 
+                });
+                // Based on work Status color will change in calendar.
+                if(data[i]['maintenance_checklist_ref_work_status_bm']=='Pending' ){
+                    events[events.length - 1].backgroundColor = 'red';
+                }
+                if(data[i]['maintenance_checklist_ref_work_status_bm']=='In Progress' ){
+                    events[events.length - 1].backgroundColor = 'orange';
+                    events[events.length - 1].border = '0px solid';
+                }
+                if(data[i]['maintenance_checklist_ref_work_status_bm']=='Completed' ){
+                    events[events.length - 1].backgroundColor = 'green';
+                }
+            }
+            }
+                q++;
+            }
+        
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 
                 headerToolbar: {
@@ -353,6 +396,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     else if(arg.event._def.extendedProps.maintenance_checklist_ref_id != undefined){
                         work_id = 'maintenance ' + arg.event._def.extendedProps.maintenance_checklist_ref_id;
+                    }
+                    else if(arg.event._def.extendedProps.maintenance_checklist_ref_id_bm != undefined){
+                        work_id = 'BM ' + arg.event._def.extendedProps.maintenance_checklist_ref_id_bm;
                     }
                     else if(arg.event._def.extendedProps.campaign_ref_id != undefined){
                         work_id = 'campaign ' + arg.event._def.extendedProps.campaign_ref_id;

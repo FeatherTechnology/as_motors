@@ -619,7 +619,7 @@ if($view>0)
 
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
-                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing tha inspection </span>
+                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing that inspection </span>
                                                 <select id="role1" name="role1" class="form-control" tabindex="7">
                                                     <option value="">Select Role 1</option>
                                                 </select> 
@@ -762,7 +762,7 @@ if($view>0)
 
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
-                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing tha inspection </span>
+                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing that inspection </span>
                                                 <select disabled id="role1" name="role1" class="form-control" tabindex="7">
                                                     <option value="">Select Role 1</option>
                                                 </select> 
@@ -944,7 +944,7 @@ if($view>0)
 
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
-                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing tha inspection </span>
+                                                <label for="disabledInput">Role 1</label> <span style="color:green;font-weight: bold;">* Who is doing that inspection </span>
                                                 <select id="role1" name="role1" class="form-control" tabindex="7">
                                                     <option value="">Select Role 1</option>
                                                 </select> 
