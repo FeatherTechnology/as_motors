@@ -151,7 +151,7 @@ while($row4 = $res4->fetch_assoc())
     $i++;
 }
 
-// get maintenance checklist list
+// get maintenance checklist list - PM
 $getqry5 = "SELECT pm_checklist_ref.pm_checklist_ref_id, pm_checklist_ref.maintenance_checklist_id,  pm_checklist_ref.pm_checklist_id, pm_checklist_ref.checklist, 
 pm_checklist_ref.from_date, pm_checklist_ref.to_date, pm_checklist_ref.work_status FROM pm_checklist_ref LEFT JOIN maintenance_checklist 
 ON pm_checklist_ref.maintenance_checklist_id = maintenance_checklist.maintenance_checklist_id WHERE maintenance_checklist.status = 0 
@@ -179,6 +179,37 @@ while($row5 = $res5->fetch_assoc())
     if ($work_status1 == 2) {$work_status = 'Pending';}
     if ($work_status1 == 3) {$work_status = 'Completed';}
     $detailRecords[$i]['maintenance_checklist_ref_work_status'] = $work_status;   
+    $i++;
+}
+
+// get maintenance checklist list -BM
+$getqry8 = "SELECT bcr.bm_checklist_ref_id, bcr.maintenance_checklist_id,  bcr.bm_checklist_id, bcr.checklist, 
+bcr.from_date, bcr.to_date, bcr.work_status FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc 
+ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id WHERE mc.status = 0 
+AND ((bcr.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(bcr.from_date) AND MONTH(bcr.to_date)) OR bcr.work_status IN (0, 1, 2)) AND mc.calendar = 'Yes' AND (mc.role1 = '".$designation."' 
+OR mc.role2 = '".$designation."') "; 
+$res8 = $con->query($getqry8);
+$i=0;
+while($row8 = $res8->fetch_assoc())
+{
+    $detailRecords[$i]['maintenance_checklist_ref_id_bm'] = $row8["bm_checklist_ref_id"];
+    $detailRecords[$i]['maintenance_checklist_ref_checklist_bm'] = $row8["checklist"];
+
+    $checkFromDate = date('m', strtotime($row8["from_date"]));
+    $checkToDate = date('m', strtotime($row8["to_date"]));
+
+    // if ($checkFromDate == $current_date) {
+
+        $detailRecords[$i]['maintenance_checklist_ref_from_date_bm'] = $row8["from_date"];      
+        $detailRecords[$i]['maintenance_checklist_ref_to_date_bm'] = $row8["to_date"];  
+    // }        
+    $detailRecords[$i]['maintance_work_sts_bm'] = $row8["work_status"]; 
+    $work_status1 = $row8["work_status"];
+    if ($work_status1 == 0) {$work_status = '';}
+    if ($work_status1 == 1) {$work_status = 'In Progress';}
+    if ($work_status1 == 2) {$work_status = 'Pending';}
+    if ($work_status1 == 3) {$work_status = 'Completed';}
+    $detailRecords[$i]['maintenance_checklist_ref_work_status_bm'] = $work_status;   
     $i++;
 }
 

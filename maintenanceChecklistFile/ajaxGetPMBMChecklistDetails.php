@@ -120,8 +120,10 @@ if($checklist == 'pm_checklist'){ ?>
                 $checklist = array();               
                 $rating = array();          
                 $id = array();          
+                $frequency = array();          
+                $frequency_applicable = array();          
             
-                $selectPMChecklist = $con->query("SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id WHERE b.maintenance_checklist = '0' AND a.status = '0' ");
+                $selectPMChecklist = $con->query("SELECT a.bm_checklist_id,a.category_id,a.frequency,a.frequency_applicable,b.id,b.checklist,b.rating FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id WHERE b.maintenance_checklist = '0' AND a.status = '0' ");
                 while($row = $selectPMChecklist->fetch_assoc()){
 
                     $bm_checklist_id[] = $row["bm_checklist_id"];
@@ -129,6 +131,8 @@ if($checklist == 'pm_checklist'){ ?>
                     $checklist[] = $row["checklist"];
                     $rating[]	= $row["rating"];
                     $id[]	= $row["id"];
+                    $frequency[]	= $row["frequency"];
+                    $frequency_applicable[]	= $row["frequency_applicable"];
                 } ?>
 
                 <table class="table custom-table" id="sstable">
@@ -137,6 +141,7 @@ if($checklist == 'pm_checklist'){ ?>
                         <th></th>
                         <th>Category</th>
                         <th>Checklist</th>
+                        <th>Frequency</th>
                         <th>Rating</th>
                         <th>Remarks</th>
                         <th>File Attachment</th>
@@ -148,9 +153,11 @@ if($checklist == 'pm_checklist'){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
+                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable"  value="<?php echo $frequency_applicable[$o]; ?>" ></td>
                                     <td><input tabindex="3" type="checkbox" name="bm_checklist_id[]" id="bm_checklist_id" class="bm_checklist_id" data-id="<?php echo $bm_checklist_id[$o]; ?>" value="<?php echo $id[$o]; ?>" /></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist[]" id="checklist" ></td>
+                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist_textarea[]" id="checklist_textarea" ></td>
+                                    <td><input type="text" readonly class="form-control" value="<?php echo $frequency[$o]; ?>" name="frequency[]" id="frequency" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $rating[$o]; ?>" name="rating[]" id="rating" ></td>
                                     <td ><textarea disabled id="remarks" name="remarks[]" rows="3" cols="30" ></textarea></td>
                                     <td ><input disabled type="file" name="file[]" id="file" ></td>

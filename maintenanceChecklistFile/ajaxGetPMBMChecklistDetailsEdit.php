@@ -105,10 +105,10 @@ if($checklist == 'pm_checklist'){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
-                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
+                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" data-id="<?php echo $pm_checklist_id[$o]; ?>" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
                                     <input type="hidden" name="maintenanceChceklistId" id="maintenanceChceklistId" value="<?php echo $maintenance_checklist_idArr[$o]; ?>" />
                                     <td style="display: none;"><input type="text" readonly class="form-control" value="<?php echo $maintenance_checklist_ref_idArr[$o]; ?>" name="maintenanceChceklistRefId[]" id="maintenanceChceklistRefId" ></td>
-                                    <td><input tabindex="3" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_checklist_id[$o]; ?>" /></td>
+                                    <td><input tabindex="3" type="checkbox" name="pm_checklist_id[]" id="pm_checklist_id" class="pm_checklist_id" value="<?php echo $pm_checklist_id[$o]; ?>" checked/></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist_textarea[]" id="checklist_textarea" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $type_of_checklist[$o]; ?>" name="type_of_checklist[]" id="type_of_checklist" ></td>
@@ -137,6 +137,9 @@ if($checklist == 'pm_checklist'){ ?>
                 $category_id = array();          
                 $checklist = array();          
                 $rating = array();  
+                $id = array(); 
+                $frequency = array();          
+                $frequency_applicable = array();   
 
                 $maintenance_checklist_idArr = array();          
                 $maintenance_checklist_ref_idArr = array();          
@@ -154,13 +157,16 @@ if($checklist == 'pm_checklist'){ ?>
                 }   
 
                 for($i=0; $i<=sizeof($bm_checklist_idArr)-1; $i++){ 
-                    $selectPMChecklist = $con->query("SELECT a.id, a.bm_checklist_id, a.cat_id, a.checklist, a.rating, b.category_creation_name FROM bm_checklist_multiple a join category_creation b on a.cat_id = b.category_creation_id WHERE a.id = '".strip_tags($bm_checklist_idArr[$i])."' AND b.status = 0 ");
+                    $selectPMChecklist = $con->query("SELECT a.id, a.bm_checklist_id, a.cat_id, a.checklist, a.rating, b.category_creation_name,c.frequency,c.frequency_applicable FROM bm_checklist_multiple a join bm_checklist c on a.bm_checklist_id=c.bm_checklist_id join category_creation b on a.cat_id = b.category_creation_id WHERE a.bm_checklist_id = '".strip_tags($bm_checklist_idArr[$i])."' AND  a.maintenance_checklist = 1 ");
                     while($row = $selectPMChecklist->fetch_assoc()){
 
+                        $id[] 	= $row["id"];
                         $bm_checklist_id[] 	= $row["bm_checklist_id"];
                         $category_id[]	= $row["cat_id"];
                         $checklist[]	= $row["checklist"];
                         $rating[]	= $row["rating"];
+                        $frequency[]	= $row["frequency"];
+                        $frequency_applicable[]	= $row["frequency_applicable"];
                     }   
                 } 
                 ?>
@@ -171,22 +177,25 @@ if($checklist == 'pm_checklist'){ ?>
                         <th></th>
                         <th>Category</th>
                         <th>Checklist</th>
+                        <th>Frequency</th>
                         <th>Rating</th>
                         <th>Remarks</th>
                         <th>File Attachment</th>
                     </tr>
                     <?php
                     $sno = 1;   
-                    if(isset($bm_checklist_id)){
+                    if(isset($bm_checklist_id)){ //BM Table id. 
                         for($o=0; $o<=sizeof($bm_checklist_id)-1; $o++){ ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $sno; ?></td>
+                                    <td style="display: none;"><input tabindex="9" type="text" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="<?php echo $frequency_applicable[$o]; ?>" ></td>
                                     <input type="hidden" name="maintenanceChceklistId" id="maintenanceChceklistId" value="<?php echo $maintenance_checklist_idArr[$o]; ?>" />
                                     <td style="display: none;"><input type="text" readonly class="form-control" value="<?php echo $maintenance_checklist_ref_idArr[$o]; ?>" name="maintenanceChceklistRefId[]" id="maintenanceChceklistRefId" ></td>
-                                    <td><input tabindex="3" type="checkbox" name="bm_checklist_id[]" id="bm_checklist_id" class="bm_checklist_id" value="<?php echo $bm_checklist_id[$o]; ?>" /></td>
+                                    <td><input tabindex="3" type="checkbox" name="bm_checklist_id[]" id="bm_checklist_id" class="bm_checklist_id" data-id="<?php echo $bm_checklist_id[$o]; ?>"  value="<?php echo $id[$o]; ?>" checked/></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo getCategoryName($con, $category_id[$o]); ?>" name="category_id[]" id="category_id"></td>
-                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist[]" id="checklist" ></td>
+                                    <td><input type="text" readonly class="form-control" value="<?php echo $checklist[$o]; ?>" name="checklist_textarea[]" id="checklist_textarea" ></td>
+                                    <td><input type="text" readonly class="form-control" value="<?php echo $frequency[$o]; ?>" name="frequency[]" id="frequency" ></td>
                                     <td><input type="text" readonly class="form-control" value="<?php echo $rating[$o]; ?>" name="rating[]" id="rating" ></td>
                                     <td ><textarea disabled id="remarks" name="remarks[]" rows="3" cols="30" ><?php echo $remarksArr[$o]; ?></textarea></td>
                                     <td ><input disabled type="file" name="file[]" id="file" value="<?php echo $fileArr[$o]; ?>" ></td>

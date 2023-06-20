@@ -59,6 +59,8 @@ if($idupd>0)
             $company_id                	     = $getBMChecklist['company_id'];
 			$category_id                	 = $getBMChecklist['category_id'];
 			$checklist    	     = $getBMChecklist['checklist'];
+            $frequency    	     = $getBMChecklist['frequency'];
+            $frequency_applicable    	     = $getBMChecklist['frequency_applicable'];
 			$rating    	     = $getBMChecklist['rating'];
 		}
 	} 
@@ -68,6 +70,7 @@ if($idupd>0)
     ?>
 
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
+    <input type="hidden" id="frequencyEdit" name="frequencyEdit" value="<?php print_r($frequency); ?>" >
 
     <script language='javascript'>
         window.onload=editCompanyBasedBranch;
@@ -97,6 +100,15 @@ if($idupd>0)
                     }
                 }
             });
+
+            // enable and disable frequency
+            var frequency = $('#frequencyEdit').val(); 
+            if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){
+                $('#frequency_applicable').attr("disabled",false);
+            } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+                $('#frequency_applicable').prop('checked', false);
+                $('#frequency_applicable').attr("disabled",true);
+            }
         }
     </script>
 
@@ -201,6 +213,33 @@ if($idupd>0)
                                             value="<?php if(isset($checklist)) echo $checklist; ?>" placeholder="Enter Checklist"><?php if(isset($checklist)) echo $checklist; ?></textarea>
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+										<div class="form-group">
+											<label for="disabledInput">Frequency</label>
+                                            <select type="text" class="form-control frequency" id="frequency" name="frequency" tabindex="15" >
+                                                <option value="">Select Frequency</option> 
+                                                <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
+                                                <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
+                                                <option <?php if(isset($frequency)) { if('Monthly' == $frequency) echo 'selected';  ?> value="<?php echo 'Monthly' ?>">
+                                                <?php echo 'Monthly'; }else{ ?> <option value="Monthly">Monthly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Quaterly' == $frequency) echo 'selected';  ?> value="<?php echo 'Quaterly' ?>">
+                                                <?php echo 'Quaterly'; }else{ ?> <option value="Quaterly">Quaterly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Half Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Half Yearly' ?>">
+                                                <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
+                                                <?php echo 'Yearly'; }else{ ?> <option value="Yearly">Yearly</option> <?php } ?></option> 
+                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency) echo 'selected';  ?> value="<?php echo 'Event Driven' ?>">
+                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option>  
+                                            </select> 
+										</div>
+									</div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-4" >
+										<div class="form-group">
+                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for all months</label>
+										</div>
+									</div>
 
                                     <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"></div> -->
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
