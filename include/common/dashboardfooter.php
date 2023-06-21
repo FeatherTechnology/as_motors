@@ -934,6 +934,36 @@
                 [10, 25, 50, "All"]
             ]
         });
+        //Permission Approval 
+		var permission_approval = $('#permission_approval').DataTable({
+
+            "order": [[ 0, "desc" ]],
+			// "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxPermissionApproval.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+        });
 
 		// Transfer Location
 		var transfer_location_info = $('#transfer_location_info').DataTable({
@@ -2159,6 +2189,7 @@ buttons: [
 		rgp_table.draw();
 		rgpExtendedTable.draw();
 		permission_on_duty_table.draw();
+		permission_approval.draw();
 		transfer_location_info.draw();
 		pmChecklist_info.draw();
 		bmChecklist_info.draw();
@@ -2329,6 +2360,10 @@ if($current_page == 'approval_requisition') { ?>
 
 if($current_page == 'permission_or_on_duty') { ?>
 	<script src="js/permission_or_on_duty.js"></script>
+	<?php }
+
+if($current_page == 'permission_approval') { ?>
+	<script src="js/permission_approval.js"></script>
 	<?php }
 
 if($current_page == 'transfer_location') { ?>

@@ -77,6 +77,26 @@ $(document).ready(function () {
 
 });
 
+//Function OnLoad.
+$(function(){
+autoGenRegNo(); //Auto Generation of Regularisation Number.
+});
+
+function autoGenRegNo(){
+    let reg_id = $('#id').val();
+    $.ajax({
+        url: 'permissionOrOnDutyFile/reg_id_autoGen.php',
+        type: "post",
+        dataType: "json",
+        data: { "id": reg_id },
+        cache: false,
+        success: function (response) {
+            var regId = response;
+            $('#reg_auto_gen_no').val(regId);
+        }
+    })
+}
+
 // Get Department based on designation
 $("#department").change(function(){ 
 

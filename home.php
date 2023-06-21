@@ -364,6 +364,14 @@ include('api/main.php'); // Database Connection File
             <?php include "include/templates/edit_permission_or_on_duty.php" ?>
             <?php } ?>
 
+            <?php if($current_page == 'edit_permission_approval') { ?>
+            <?php include "include/templates/edit_permission_approval.php" ?>
+            <?php } ?>
+            
+			<?php if($current_page == 'permission_approval') { ?>
+            <?php include "include/templates/permission_approval.php" ?>
+            <?php } ?>
+
 			<!-- Transfer location -->
             <?php if($current_page == 'transfer_location') { ?>
             <?php include "include/templates/transfer_location.php" ?>

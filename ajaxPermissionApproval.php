@@ -140,13 +140,6 @@ foreach ($result as $row) {
     $sub_array[] = $row['reporting'];   
     $sub_array[] = $reason;
 
-    // $sub_array[] = $row['permission_from_time'];
-    // $sub_array[] = $row['permission_to_time'];
-    // $sub_array[] = $row['permission_date'];
-    // $sub_array[] = $row['on_duty_place'];
-    // $sub_array[] = $row['leave_date'];
-    // $sub_array[] = $row['leave_reason'];
-
     $leave_status  = $row['leave_status'];
     if($leave_status == 0)
 	{
@@ -172,13 +165,11 @@ foreach ($result as $row) {
 	}
 	$id   = $row['permission_on_duty_id'];
 	
-    $action='';
+    $action  = '';
     if($leave_status == 0)
 	{
-        $action ="<a href='permission_or_on_duty&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-        <a href='permission_or_on_duty&del=$id' title='Delete details' class='delete_permission_on_duty'><span class='icon-trash-2'></span></a>";
+        $action="<a href='permission_approval&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp;";
 	}
-    
 
 	$sub_array[] = $action;
     $data[]      = $sub_array;
