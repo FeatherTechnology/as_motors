@@ -13,20 +13,14 @@ $departmentList = $userObj->getDepartment($mysqli);
 $companyList = $userObj->getCompanyName($mysqli);
 
 $id=0;
-if(isset($_POST['submittag_creation']) && $_POST['submittag_creation'] != '')
+if(isset($_POST['submit_approve_reject']) && $_POST['submit_approve_reject'] != '')
 {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	
-        $updatePermissionOnDuty = $userObj->updatePermissionOnDuty($mysqli,$id,$userid);  
+        $updatePermissionOnDuty = $userObj->updateApproval($mysqli,$id,$userid);  
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_permission_or_on_duty&msc=2';</script> 
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_permission_approval&msc=2';</script> 
     <?php }
-    else{   
-        $addPermissionOnDuty = $userObj->addPermissionOnDuty($mysqli,$userid);   
-        ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_permission_or_on_duty&msc=1';</script>
-        <?php
-    }
 }   
 
 $del=0;
@@ -67,6 +61,7 @@ if($idupd>0)
 			$on_duty_place    	     = $getPermissionOnDuty['on_duty_place'];
 			$leave_date    	     = $getPermissionOnDuty['leave_date'];
 			$leave_reason    	     = $getPermissionOnDuty['leave_reason'];
+			$regularisation_id    	     = $getPermissionOnDuty['regularisation_id'];
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
@@ -190,7 +185,7 @@ if($idupd>0)
         <li class="breadcrumb-item">AS - Regularisation </li>
     </ol>
 
-    <a href="edit_permission_or_on_duty">
+    <a href="edit_permission_approval">
         <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
     </a>
 </div>
@@ -219,14 +214,14 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Regularisation Number</label>
-                                            <input type="text" name="reg_auto_gen_no" id="reg_auto_gen_no" class="form-control" readonly>
+                                            <input type="text" name="reg_auto_gen_no" id="reg_auto_gen_no" class="form-control" value="<?php if(isset($regularisation_id)) echo $regularisation_id; ?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Company Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id" >
+                                                <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id" disabled>
                                                     <option value="">Select Company Name</option>   
                                                         <?php if (sizeof($companyName)>0) { 
                                                         for($j=0;$j<count($companyName);$j++) { ?>
@@ -248,7 +243,7 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Branch Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
+                                                <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" disabled>
                                                     <option value="" disabled selected>Select Branch Name</option> 
                                                 </select> 
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
@@ -293,7 +288,7 @@ if($idupd>0)
                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Department</label>
-                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" disabled>
                                                     <option value="">Select Department</option>   
                                                 </select>
                                             </div>
@@ -303,7 +298,7 @@ if($idupd>0)
                                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Department</label>
-                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" disabled>
                                                     <option value="">Select Department</option>
                                                     <?php if (sizeof($departmentList)>0) { 
                                                     for($j=0;$j<count($departmentList);$j++) { ?>
@@ -319,7 +314,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Name</label>
-                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="4">
+                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="4" disabled>
                                                 <option value="">Select Staff Name</option>
                                             </select>   
                                         </div>
@@ -345,7 +340,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Type</label>
-                                            <select tabindex="3" type="text" class="form-control" id="reason" name="reason" >
+                                            <select tabindex="3" type="text" class="form-control" id="reason" name="reason" disabled>
                                                 <option value="">Select Type</option>   
                                                 <option <?php if(isset($reason)) { if('Permission' == $reason) echo 'selected'; ?> value="<?php echo 'Permission' ?>">
                                                 <?php echo 'Permission'; }else{ ?> <option value="Permission">Permission</option> <?php } ?></option>
@@ -361,8 +356,8 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="permission_from_time">Start Time & End Time</label> 
                                             <div class="form-inline">
-                                                <input type="time" tabindex = "8" name="permission_from_time" id="permission_from_time" class="form-control" value="<?php if (isset($permission_from_time)) echo $permission_from_time;?>">&nbsp;&nbsp;
-                                                <span>To</span>&nbsp;&nbsp;<input type="time" tabindex = "9" name="permission_to_time" id="permission_to_time" class="form-control"  value="<?php if (isset($permission_to_time)) echo $permission_to_time;?>">
+                                                <input type="time" tabindex = "8" name="permission_from_time" id="permission_from_time" class="form-control" value="<?php if (isset($permission_from_time)) echo $permission_from_time;?>" readonly>&nbsp;&nbsp;
+                                                <span>To</span>&nbsp;&nbsp;<input type="time" tabindex = "9" name="permission_to_time" id="permission_to_time" class="form-control"  value="<?php if (isset($permission_to_time)) echo $permission_to_time;?>" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -370,28 +365,53 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 permissionCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="permission_date">Permission Date</label> 
-                                            <input type="date" tabindex = "8" name="permission_date" id="permission_date" class="form-control"  value="<?php if (isset($permission_date)) echo $permission_date;?>">
+                                            <input type="date" tabindex = "8" name="permission_date" id="permission_date" class="form-control"  value="<?php if (isset($permission_date)) echo $permission_date;?>" readonly>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 on_dutyCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Place</label> 
-                                            <input type="text" id="on_duty_place" name="on_duty_place" class="form-control" value="<?php if(isset($on_duty_place)) echo $on_duty_place; ?>" placeholder="Enter On Duty Place">  
+                                            <input type="text" id="on_duty_place" name="on_duty_place" class="form-control" value="<?php if(isset($on_duty_place)) echo $on_duty_place; ?>" placeholder="Enter On Duty Place" readonly>  
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="leave_date">Leave Date</label> 
-                                            <input type="date" tabindex = "8" name="leave_date" id="leave_date" class="form-control"  value="<?php if (isset($leave_date)) echo $leave_date;?>">
+                                            <input type="date" tabindex = "8" name="leave_date" id="leave_date" class="form-control"  value="<?php if (isset($leave_date)) echo $leave_date;?>" readonly>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Reason</label> 
-                                            <textarea tabindex="1" id="leave_reason" name="leave_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="50" value="<?php if(isset($leave_reason)) echo $leave_reason; ?>"><?php if(isset($leave_reason)) echo $leave_reason; ?></textarea>
+                                            <textarea tabindex="1" id="leave_reason" name="leave_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="50" value="<?php if(isset($leave_reason)) echo $leave_reason; ?>" readonly><?php if(isset($leave_reason)) echo $leave_reason; ?></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+
+                                <div class="row mt-2">
+                              
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Approval / Reject</label>
+                                            <select tabindex="3" type="text" class="form-control" id="approve_or_reject" name="approve_or_reject" >
+                                                <option value="">Select Type</option> 
+                                                <option value="1">Approve</option> 
+                                                <option value="2">Reject</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 rejectReason" style="display: none;" >
+                                        <div class="form-group">
+                                            <label for="permission_from_time">Reason For Reject</label> 
+                                            <div class="form-inline">
+                                            <textarea  id="reject_reason" name="reject_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="70" ></textarea>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -404,7 +424,7 @@ if($idupd>0)
                         <div class="col-md-12">
                             <br><br>
                             <div class="text-right">
-                                <button type="submit" name="submittag_creation" id="submittag_creation" class="btn btn-primary" value="Submit" tabindex="11">Submit</button>
+                                <button type="submit" name="submit_approve_reject" id="submit_approve_reject" class="btn btn-primary" value="Submit" tabindex="11">Submit</button>
                                 <button type="reset" class="btn btn-outline-secondary" tabindex="12">Cancel</button>
                             </div>
                         </div>

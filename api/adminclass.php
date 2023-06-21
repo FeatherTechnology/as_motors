@@ -5523,6 +5523,9 @@
 		//Add Permission On Dury
 		public function addPermissionOnDuty($mysqli,$userid){
 
+			if(isset($_POST['reg_auto_gen_no'])){
+				$reg_auto_gen_no = $_POST['reg_auto_gen_no'];
+			}
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
@@ -5560,9 +5563,9 @@
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$insertQry="INSERT INTO permission_or_on_duty(company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, 
+			$insertQry="INSERT INTO permission_or_on_duty(regularisation_id, company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, 
 			permission_date, on_duty_place, leave_date, leave_reason, insert_login_id)
-			VALUES('".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', 
+			VALUES('".strip_tags($reg_auto_gen_no)."','".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', 
 			 '".strip_tags($reason)."', '".strip_tags($permission_from_time)."', '".strip_tags($permission_to_time)."', '".strip_tags($permission_date)."', 
 			 '".strip_tags($on_duty_place)."', '".strip_tags($leave_date)."', '".strip_tags($leave_reason)."', '".$userid."' )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
@@ -5571,6 +5574,9 @@
 		//Update Permission On Dury
 		 public function updatePermissionOnDuty($mysqli,$id,$userid){
 
+			if(isset($_POST['reg_auto_gen_no'])){
+				$reg_auto_gen_no = $_POST['reg_auto_gen_no'];
+			}
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
@@ -5608,14 +5614,28 @@
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$updQry="UPDATE permission_or_on_duty set company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
+			$updQry="UPDATE permission_or_on_duty set regularisation_id='".strip_tags($reg_auto_gen_no)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
 			staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', reporting = '".strip_tags($reporting)."', reason = '".strip_tags($reason)."',
 			permission_from_time = '".strip_tags($permission_from_time)."', permission_to_time = '".strip_tags($permission_to_time)."', 
 			permission_date = '".strip_tags($permission_date)."', on_duty_place = '".strip_tags($on_duty_place)."', leave_date = '".strip_tags($leave_date)."', 
 			leave_reason = '".strip_tags($leave_reason)."', status = 0, update_login_id = '".$userid."' WHERE permission_on_duty_id= '".strip_tags($id)."' "; 
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
-		
+		// Update Leave Approval
+		public function updateApproval($mysqli,$id,$userid){
+
+			if(isset($_POST['id'])){
+				$id = $_POST['id'];
+			}
+			if(isset($_POST['approve_or_reject'])){
+				$approve_or_reject = $_POST['approve_or_reject'];
+			}
+			$reject_reason='';
+			if(isset($_POST['reject_reason'])){
+				$reject_reason = $_POST['reject_reason'];
+			}
+			$updresult=$mysqli->query("UPDATE permission_or_on_duty set leave_status='".strip_tags($approve_or_reject)."', reject_reason = '".strip_tags($reject_reason)."' WHERE permission_on_duty_id= '".strip_tags($id)."' ") or die("Error ".$mysqli->error);
+		}
 		// Get Permission On Dury
 		public function getPermissionOnDuty($mysqli, $id){
 
@@ -5639,6 +5659,7 @@
 				$detailrecords['on_duty_place']       = $row->on_duty_place;		
 				$detailrecords['leave_date']       = $row->leave_date;		
 				$detailrecords['leave_reason']       = $row->leave_reason;		
+				$detailrecords['regularisation_id']       = $row->regularisation_id;		
 			}
 			
 			return $detailrecords;
@@ -9447,6 +9468,12 @@
 			}else{
 				$permission_or_onduty=1;
 			}
+			if(isset($_POST['regularisation_approval']) &&    $_POST['regularisation_approval'] == 'Yes')		
+			{
+				$regularisation_approval=0;
+			}else{
+				$regularisation_approval=1;
+			}
 			if(isset($_POST['transfer_location']) &&    $_POST['transfer_location'] == 'Yes')		
 			{
 				$transfer_location=0;
@@ -9537,7 +9564,7 @@
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
 			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
 			memo_sub_module, campaign,assign_work, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
-			maintenance_checklist, manpower_in_out_module, permission_or_onduty, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
+			maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
 			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
 			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', 
 			'".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', 
@@ -9547,7 +9574,7 @@
 			$audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, 
 			$promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $todo, $assigned_work, 
 			$memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, 
-			$permission_or_onduty, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
+			$permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
 			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, 
 			$minutes_of_meeting)"; // echo $userInsert; die;
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
@@ -9632,6 +9659,7 @@
 				$detailrecords['maintenance_checklist']     = strip_tags($row->maintenance_checklist);
 				$detailrecords['manpower_in_out_module'] = strip_tags($row->manpower_in_out_module);
 				$detailrecords['permission_or_onduty']    = strip_tags($row->permission_or_onduty);
+				$detailrecords['regularisation_approval']    = strip_tags($row->regularisation_approval);
 				$detailrecords['transfer_location']    = strip_tags($row->transfer_location);
 				$detailrecords['target_fixing_module']  = strip_tags($row->target_fixing_module);
 				$detailrecords['goal_setting']      = strip_tags($row->goal_setting);
@@ -9962,6 +9990,12 @@
 		}else{
 			$permission_or_onduty=1;
 		}
+		if(isset($_POST['regularisation_approval']) &&    $_POST['regularisation_approval'] == 'Yes')		
+		{
+			$regularisation_approval=0;
+		}else{
+			$regularisation_approval=1;
+		}
 		if(isset($_POST['transfer_location']) &&    $_POST['transfer_location'] == 'Yes')		
 		{
 			$transfer_location=0;
@@ -10103,6 +10137,7 @@
 		maintenance_checklist     = $maintenance_checklist,
 		manpower_in_out_module = $manpower_in_out_module,
 		permission_or_onduty    = $permission_or_onduty,
+		regularisation_approval    = $regularisation_approval,
 		transfer_location    = $transfer_location,
 		target_fixing_module  = $target_fixing_module,
 		goal_setting      = $goal_setting,

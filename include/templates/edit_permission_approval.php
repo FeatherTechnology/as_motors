@@ -1,11 +1,8 @@
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Regularisation Form List</li>
+		<li class="breadcrumb-item">Regularisation Approval List</li>
 	</ol>
-	<a href="permission_or_on_duty">
-		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp; Add Regularisation</button>
-	</a>
 </div>
 <!-- Page header end -->
 
@@ -45,7 +42,7 @@
 					}
 					}
 					?>
-					<table id="permission_on_duty_table" class="table custom-table">
+					<table id="permission_approval" class="table custom-table">
 						<thead>
 							<tr>
 								<th>S. No.</th>

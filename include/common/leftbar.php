@@ -58,6 +58,7 @@ $bm_checklist   = '';
 $maintenance_checklist     = '';
 $manpower_in_out_module = '';
 $permission_or_onduty    = '';
+$regularisation_approval    = '';
 $transfer_location    = '';
 $target_fixing_module  = '';
 $goal_setting      = '';
@@ -133,6 +134,7 @@ if (sizeof($getuser)>0) {
 		$maintenance_checklist     = $getuser['maintenance_checklist'];
 		$manpower_in_out_module = $getuser['manpower_in_out_module'];
 		$permission_or_onduty    = $getuser['permission_or_onduty'];
+		$regularisation_approval    = $getuser['regularisation_approval'];
 		$transfer_location    = $getuser['transfer_location'];
 		$target_fixing_module  = $getuser['target_fixing_module'];
 		$goal_setting      = $getuser['goal_setting'];
@@ -559,6 +561,11 @@ if (sizeof($getuser)>0) {
 								<?php if($permission_or_onduty == 0 && $permission_or_onduty != '' && $permission_or_onduty != NULL) { ?>
 									<li>
 										<a href="edit_permission_or_on_duty"><i class="icon-receipt"></i>Regularisation</a>	
+									</li>
+								<?php } ?>
+								<?php if($regularisation_approval == 0 && $regularisation_approval != '' && $regularisation_approval != NULL) { ?>
+									<li>
+										<a href="edit_permission_approval"><i class="icon-receipt"></i>Regularisation Approval</a>	
 									</li>
 								<?php } ?>
 								<?php if($transfer_location == 0 && $transfer_location != '' && $transfer_location != NULL) { ?>

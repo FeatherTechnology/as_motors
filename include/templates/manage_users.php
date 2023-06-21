@@ -60,6 +60,7 @@ $bm_checklist   = '';
 $maintenance_checklist     = '';
 $manpower_in_out_module = '';
 $permission_or_onduty    = '';
+$regularisation_approval    = '';
 $transfer_location    = '';
 $target_fixing_module  = '';
 $goal_setting      = '';
@@ -173,6 +174,7 @@ if($idupd>0)
             $maintenance_checklist     = $getuser['maintenance_checklist'];
             $manpower_in_out_module = $getuser['manpower_in_out_module'];
             $permission_or_onduty    = $getuser['permission_or_onduty'];
+            $regularisation_approval    = $getuser['regularisation_approval'];
             $transfer_location    = $getuser['transfer_location'];
             $target_fixing_module  = $getuser['target_fixing_module'];
             $goal_setting      = $getuser['goal_setting'];
@@ -604,7 +606,13 @@ if($idupd>0)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($permission_or_onduty==0){echo'checked';}} ?> tabindex="37" class="custom-control-input manpower-checkbox" id="permission_or_onduty" name="permission_or_onduty" disabled>
-                                <label class="custom-control-label" for="permission_or_onduty">Permission / On Duty</label>
+                                <label class="custom-control-label" for="permission_or_onduty">Regularisation</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($regularisation_approval==0){echo'checked';}} ?> tabindex="37" class="custom-control-input manpower-checkbox" id="regularisation_approval" name="regularisation_approval" disabled>
+                                <label class="custom-control-label" for="regularisation_approval">Regularisation Approval</label>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
