@@ -159,7 +159,7 @@ $("#designation").change(function(){
           url: 'StaffFile/ajaxStaffUpload.php',
           type: 'POST',
           data: staff,
-          dataType: 'json',
+          // dataType: 'json',
           contentType: false,
           cache: false,
           processData:false,
@@ -168,7 +168,7 @@ $("#designation").change(function(){
               $('#submitstaffbulkbtn').attr("disabled", true);
           },
           success: function(data){
-              console.log(data)
+              // console.log(data)
               if(data == 0){
                   $("#notinsertsuccess").hide();
                   $("#insertsuccess").show();
