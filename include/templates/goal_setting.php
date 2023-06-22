@@ -4,9 +4,17 @@
        $userid = $_SESSION["userid"];
    } 
    if(isset($_SESSION["branch_id"])){
+
        $sbranch_id = $_SESSION["branch_id"];
        $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-       $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
+       $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+       for($j=0;$j<count($CompanyroleDetail);$j++) {
+               $logrole = $CompanyroleDetail['role'];
+               $logtitle = $CompanyroleDetail['title'];
+               $company_id         = $CompanyroleDetail['company_id'];
+					$company_name         = $CompanyroleDetail['company_name'];
+       }
+    $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
    }
    $audit_area_list = $userObj->getgoalsettingTable($mysqli);
    // $goalsetyear = $userObj->getgoalsettingdata($mysqli);
@@ -116,11 +124,19 @@
       <input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
       <input type="hidden" class="form-control" value="<?php if(isset($year_id)) echo $year_id; ?>"  id="year_idup" name="year_idup">
       <input type="hidden" class="form-control" value="<?php if(isset($audit_area_id)) echo $audit_area_id ?>"  id="audit_area_id" name="audit_area_id" aria-describedby="id" placeholder="Enter id">
+      <input type="hidden" class="form-control" value="<?php if(isset($logrole)) echo $logrole; ?>"  id="logrole" name="logrole">
+      <input type="hidden" class="form-control" value="<?php if(isset($logtitle)) echo $logtitle; ?>"  id="logtitle" name="logtitle">
+      <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="logcomp" name="logcomp">
+      <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="logcname" name="logcname">
+        
+
+      
       <!-- Row start -->
       <div class="row gutters">
          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
                <div class="card-header">
+                 
                   <!-- <div class="card-title">General Info</div> -->
                </div>
                <div class="card-body">

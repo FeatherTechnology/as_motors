@@ -11,7 +11,7 @@ if(isset($_POST["designation_id"])){
 	$designation_id  = $_POST["designation_id"];
 }
 $emp_data = "SELECT * FROM staff_creation WHERE company_id='$company_id' AND designation='$designation_id' AND department='$department_id' AND status='0'";
-	
+	// print_r($emp_data);
 		$res = $mysqli->query($emp_data) or die("Error in Get All Records".$mysqli->error);
 		$emp_data_list = array();
 		$i=0;

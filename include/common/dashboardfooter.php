@@ -2050,6 +2050,7 @@
             'data': function(data){
                 var search = $('#search').val();
                 data.search = search;
+                
             }
         },
         // dom: 'lBfrtip',

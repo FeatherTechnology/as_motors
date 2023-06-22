@@ -1,15 +1,17 @@
 // Document is ready
 $(function(){
     var idupd = $('#id').val();
+    // console.log("idupd",idupd);
     if(parseInt(idupd) > 0){
         var company_id_upd = $('#company_id_upd').val();
         insertData(company_id_upd);
         
     }
+   
 })
 
 $(document).ready(function () {
-
+   
      $('#delete_row:last').filter(':last').attr('id', '');
      $(document).on("click", '#execute', function () {
 
@@ -273,4 +275,42 @@ function insertData(prev_company){
         });
         getyear();
 }
+$(document).ready(function () {
+    var logrole = $('#logrole').val();
+    var logtitle= $('#logtitle').val();
+    if(logtitle == 'Super Admin'){
 
+    }else{
+    $('.backb').css('display', 'none');
+    if(logrole == '4'){
+       
+        var idupd = $('#id').val();
+    
+        if(idupd == '0'){ 
+           
+            $('#prev').prop('disabled', true);
+            var prev_company = $('#prev').val();
+            insertData(prev_company);
+        
+        }else{
+            // $('#prev').prop('disabled', true);
+            // $('#dept').prop('disabled', true);
+            // $('#designation').prop('disabled', true);
+            // $('#dept').prop('disabled', true);
+            // $('#syear').prop('disabled', true);
+            $('#add_row_0').prop('disabled', true);
+            $('#yes').prop('disabled', true);
+            $('.form-control').prop('disabled', true);
+            $('.add_row').prop('disabled', true);
+            $('.icon-trash-2').prop('disabled', true);
+            $('#execute').css('display', 'none');
+             $('#submit_audit_checklist').css('display', 'none');
+            
+            
+        }
+    }else{
+        
+     }
+    }       
+    
+});

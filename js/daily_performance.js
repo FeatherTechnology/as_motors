@@ -362,9 +362,9 @@ function insertData(prev_company){
                 var designation_id=$('#designation_id').val();
                  var emp_idup = $('#emp_idup').val();
 
-                console.log("company_id",company_id);
-                console.log("department_id",department_id);
-                console.log("designation_id",designation_id);
+                // console.log("company_id",company_id);
+                // console.log("department_id",department_id);
+                // console.log("designation_id",designation_id);
 
 
                 $.ajax({
@@ -403,3 +403,27 @@ function insertData(prev_company){
    
 }
 
+$(document).ready(function () {
+    var logrole = $('#logrole').val();
+if(logrole == '4'){
+    var idupd = $('#id').val();
+ 
+    if(idupd == '0'){ 
+        $('#company').prop('disabled', true);
+        var prev_company = $('#company').val();
+        insertData(prev_company);
+    
+    }else{
+        $('#company').prop('disabled', true);
+        $('#department_id').prop('disabled', true);
+        $('#designation_id').prop('disabled', true);
+        $('#staff_id').prop('disabled', true);
+         $('#month').prop('disabled', true);
+         $('.back').prop('disabled', true);
+         
+    }
+   
+}else{
+   
+}
+});
