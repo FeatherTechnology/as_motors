@@ -189,7 +189,7 @@ $("#submitMaintenanceChecklistBtn").click(function(e){
                 contentType: false,
                 processData: false,
                 success:function(response){
-                    // window.location.href = "edit_maintenance_checklist&msc=2";
+                    window.location.href = "edit_maintenance_checklist&msc=2";
                 }
             });
     
@@ -201,7 +201,7 @@ $("#submitMaintenanceChecklistBtn").click(function(e){
                 contentType: false,
                 processData: false,
                 success:function(response){
-                    // window.location.href = "edit_maintenance_checklist&msc=1";
+                    window.location.href = "edit_maintenance_checklist&msc=1";
                 }
             });
         }
