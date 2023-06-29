@@ -14,7 +14,7 @@ function getPreviousKM($con, $vehicle_number){
     $previous_km='';
     $getPreviousKM = $con->query("SELECT * FROM daily_km_ref WHERE vehicle_number = '".strip_tags($vehicle_number)."' ");
     while($row = $getPreviousKM->fetch_assoc()){
-        $previous_km 	= $row["start_km"];
+        $previous_km 	= $row["end_km"];
     } 
     return $previous_km;
 }
@@ -28,6 +28,7 @@ function getPreviousKM($con, $vehicle_number){
         <div style="overflow-x: auto; white-space: nowrap;" >
             <?php
             $vehicle_details_id = array();          
+            $vehicle_typeArr = array();          
             $vehicle_numberArr = array();         
             $daily_km_id = array();         
             $vehicle_numberArr2 = array();         
@@ -36,6 +37,7 @@ function getPreviousKM($con, $vehicle_number){
             while($row = $selectAllVehicle->fetch_assoc()){
 
                 $vehicle_details_id[] 	= $row["vehicle_details_id"];
+                $vehicle_typeArr[]	= $row["vehicle_type"];
                 $vehicle_numberArr[]	= $row["vehicle_number"];
             } 
 
@@ -57,6 +59,7 @@ function getPreviousKM($con, $vehicle_number){
                 <tr>
                     <th>S. No.</th>
                     <th></th>
+                    <th>Vehicle Type</th>
                     <th>Vehicle Number</th>
                     <th>Start KM</th>
                     <th>End KM</th>
@@ -64,18 +67,35 @@ function getPreviousKM($con, $vehicle_number){
                 <?php
                 $sno = 1;   
                 if(isset($vehicle_details_id)){
-                    for($o=0; $o<=sizeof($vehicle_details_id)-1; $o++){ ?>
+                    for($o=0; $o<=sizeof($vehicle_details_id)-1; $o++){ 
+                        $vehicle_type = '';
+                        if($vehicle_typeArr[$o] == '1'){
+                            $vehicle_type = 'Own Vehicle';
+                        }elseif($vehicle_typeArr[$o] == '2'){
+                            $vehicle_type = 'Rental Vehicle';
+                        }
+                        ?>
                         <tbody>
                             <tr>
                                 <td><?php echo $sno; ?></td>
+
                                 <td><input tabindex="4" type="checkbox" name="vehicle_details_id[]" id="vehicle_details_id" class="vehicle_details_id" value="<?php echo $vehicle_details_id[$o]; ?>" /></td>
+
+                                <td><input type="text" readonly class="form-control" value="<?php echo $vehicle_type; ?>" name="vehicle_type[]" id="vehicle_type" ></td>
+
                                 <td><input type="text" readonly class="form-control" value="<?php echo $vehicle_numberArr[$o]; ?>" name="vehicle_number[]" id="vehicle_number" ></td>
-                                <?php if(!in_array($vehicle_numberArr[$o], $vehicle_numberArr2)){ ?>
+
+                                <?php if($vehicle_typeArr[$o] == '1'){ 
+                                if(!in_array($vehicle_numberArr[$o], $vehicle_numberArr2)){ ?>
                                     <td><input tabindex="5" readonly type="number" class="form-control" name="start_km[]" id="start_km" placeholder="Enter Start KM" ></td>
                                 <?php }else{ ?>
                                     <td><input tabindex="5" readonly type="number" class="form-control" name="start_km[]" id="start_km" value="<?php echo getPreviousKM($con, $vehicle_numberArr[$o]); ?>" ></td>
+                                <?php } }else{ ?>
+                                    <td><input tabindex="5" type="number" class="form-control validate_start_km" name="start_km[]" id="start_km" placeholder="Enter Start KM" value="<?php echo getPreviousKM($con, $vehicle_numberArr[$o]); ?>" data-id="<?php echo getPreviousKM($con, $vehicle_numberArr[$o]); ?>"></td>
                                 <?php } ?>
-                                <td><input tabindex="6" readonly type="number" class="form-control" name="end_km[]" id="end_km" placeholder="Enter End KM" ></td>
+
+                                <td><input tabindex="6" readonly type="number" class="form-control validate_end_km" name="end_km[]" id="end_km" placeholder="Enter End KM" ></td>
+
                             </tr>
                         </tbody>
                     <?php $sno = $sno + 1; }

@@ -51,6 +51,7 @@
 								<th>Company Name</th>
 								<th>Branch Name</th>
 								<th>Vehicle Code</th>
+								<th>Vehicle Type</th>
 								<th>Vehicle Name</th>
 								<th>Vehicle Number</th>
 								<th>Date Of Purchase</th>

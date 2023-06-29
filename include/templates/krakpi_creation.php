@@ -119,7 +119,9 @@ if($idupd>0)
 					<div class="card-header">
 						<!-- <div class="card-title">General Info</div> -->
 					</div>
-                    <div class="card-header">KRA & KPI Info<span class="required">*</span></div>
+                    <div class="card-header">KRA & KPI Info  <span class="required" style="font-size: 12px;">* KRA - Key Result Area, KPI - key Performance Indicator </span> </div>
+                    <!-- <span class="required" style="font-size: 12px;">*Note: Individual Task Assign of the employee which is nothing but Roles & Responsibility </span> -->
+                    <span class="required" style="font-size: 12px;">*Note: Individual Task Assign of the employee which is nothing but Roles & Responsibility.</span>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
