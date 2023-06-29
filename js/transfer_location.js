@@ -56,10 +56,16 @@ $(document).ready(function () {
 
 $(function(){
     var transfered_branch_id = $('#id').val();
-    if(transfered_branch_id != undefined || transfered_branch_id != ''){
+    if(transfered_branch_id != undefined && transfered_branch_id != ''){
         var branch_id = $("#branchIdEdit").val();
         getTransferLocation(branch_id);
     }
+    
+    var checkID = $('#checkID').val();
+    if(checkID != 'Overall' && checkID != ''){
+        getTransferLocation(checkID);
+    }
+    
 
 })
 

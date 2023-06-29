@@ -7,6 +7,11 @@ if(isset($_SESSION["userid"])){
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
+    if($sbranch_id >0){
+        $company = $con->query("SELECT company_id FROM branch_creation WHERE branch_id = '$sbranch_id' ");
+        $companyDetails = $company->fetch_assoc();
+        $company_id = $companyDetails['company_id'];
+    }
 }
 if(isset($_SESSION["staffid"])){
     $sstaffid = $_SESSION["staffid"];
@@ -58,7 +63,7 @@ if($sbranch_id == 'Overall'){
     }
 }else{
 
-    $query .=" and company_id= '".$sbranch_id."' and emp_id = '".$sstaffid."' and status = '0' ";
+    $query .=" and company_id= '".$company_id."' and emp_id = '".$sstaffid."' and status = '0' ";
 }
 
 if (isset($_POST['order'])) {

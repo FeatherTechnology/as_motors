@@ -71,7 +71,7 @@ $(document).ready(function () {
   // execute daily performance
   $("#executeTargetFixingDetails").click(function(){
 
-    var company_name = $('#company_name :selected').val();
+    var company_name = $('#company_name').val();
     var goal_year = $('#goal_year :selected').val();
     var month = $('#month :selected').val();
     var staff_id = $('#staff_id :selected').val();
@@ -91,7 +91,7 @@ $(document).ready(function () {
   $(function(){
 
     // super admin login
-    var idupd = $("#company_name :selected").val();
+    var idupd = $("#company_name").val();
     var department_upd = $('#department_upd').val();
     if(idupd > 0 ){
 

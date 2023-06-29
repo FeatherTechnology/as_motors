@@ -135,9 +135,8 @@ if($idupd>0)
                                                 <?php }} ?>  
                                         </select>  
                                     <?php } else if($sbranch_id != 'Overall'){ ?>
-                                        <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name"  >
-                                            <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
-                                        </select> 
+                                        <input type="hidden" id="company_name" name="company_name" value="<?php echo $sCompanyBranchDetail['company_id']; ?>">
+                                        <input type="text" class="form-control" id="company" name="company" value="<?php echo $sCompanyBranchDetail['company_name']; ?>" readonly>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -148,12 +147,13 @@ if($idupd>0)
                                     window.onload=getdepartmentLoad; 
                                     
                                     // get department details
-                                    function getdepartmentLoad(){ 
+                                    function getdepartmentLoad(){
+                                      var company_id = $('#company_name').val();
                                       var department_upd = $('#department_upd').val();
                                       $.ajax({
                                         url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
                                         type: 'post',
-                                        data: {},
+                                        data: {"company_id": company_id},
                                         dataType: 'json',
                                         success:function(response){ 
 

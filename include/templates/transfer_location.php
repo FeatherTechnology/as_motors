@@ -180,6 +180,7 @@ if($idupd>0)
 <!--------form start-->
     <form id = "permission_or_on_duty" name="permission_or_on_duty" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($transfer_location_id)) echo $transfer_location_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
+    <input type="hidden" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>" id="checkID" name="checkID" >
  		<!-- Row start -->
          <div class="row gutters">
 

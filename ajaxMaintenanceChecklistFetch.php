@@ -49,7 +49,7 @@ if($sbranch_id == 'Overall'){
     }
     
 }else{
-    $query .=" WHERE company_id= '".$sbranch_id."' ";
+    $query .=" and company_id= '".$sbranch_id."' ";
 }
 
 if (isset($_POST['order'])) {

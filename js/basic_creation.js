@@ -209,6 +209,9 @@ $(document).ready(function () {
             }
         });
 
+        DropDownStock(); // Department Dropdown ,Get department initially based on branch when add basic creation using Manager or staff login.
+        DropDownDesignation(); // Designation Dropdown ,Get Designation initially based on branch when add basic creation using Manager or staff login.  
+
     });
     
     //to select departments dropdown based on company name

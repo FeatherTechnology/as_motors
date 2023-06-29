@@ -360,7 +360,7 @@ function DropDownCourse(){
 $(function(){
 
   // super admin login
-	var idupd = $("#company_name :selected").val();
+	var idupd = $("#company_name").val();
 	var department_upd = $('#department_upd').val();
 	if(idupd > 0 ){
 		

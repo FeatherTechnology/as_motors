@@ -7,6 +7,11 @@ if(isset($_SESSION["userid"])){
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
+    if($sbranch_id >0){
+        $company = $con->query("SELECT company_id FROM branch_creation WHERE branch_id = '$sbranch_id' ");
+        $companyDetails = $company->fetch_assoc();
+        $company_id = $companyDetails['company_id'];
+    }
 }
 
 $column = array(
@@ -42,7 +47,7 @@ if($sbranch_id == 'Overall'){
         }
     }
 }else{
-    $query .=" and company_name= '".$sbranch_id."' ";
+    $query .=" and company_name= '".$company_id."' ";
 }
 
 if (isset($_POST['order'])) {
@@ -56,7 +61,6 @@ $query1 = '';
 if ($_POST['length'] != -1) {
     $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 }
-
 $statement = $connect->prepare($query);
 $statement->execute();
 $number_filter_row = $statement->rowCount();

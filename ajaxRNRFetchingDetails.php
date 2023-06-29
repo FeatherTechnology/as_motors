@@ -8,6 +8,9 @@ if(isset($_SESSION["userid"])){
 if(isset($_POST["company_id"])){
     $company_id = $_POST["company_id"];
 }
+if(isset($_POST["designation"])){
+    $designation = $_POST["designation"];
+}
 
 $rr_id = array();
 $rr_ref_id = array();
@@ -26,7 +29,7 @@ while ($row = $getInstName->fetch_assoc()) {
     $rr_id[] = $row["rr_id"];
 }
 for ($i = 0; $i <= sizeof($rr_id) - 1; $i++) {
-    $getrrName = $con->query("SELECT * FROM rr_creation_ref WHERE rr_reff_id ='" . strip_tags($rr_id[$i]) . "' ORDER BY rr_ref_id DESC ");
+    $getrrName = $con->query("SELECT * FROM rr_creation_ref WHERE rr_reff_id ='" . strip_tags($rr_id[$i]) . "' && designation ='".$designation. "' ORDER BY rr_ref_id DESC ");
     while ($row1 = $getrrName->fetch_assoc()) {
         $rr_ref_id[] = $row1["rr_ref_id"];
         $rr[] = $row1["rr"];
@@ -34,7 +37,7 @@ for ($i = 0; $i <= sizeof($rr_id) - 1; $i++) {
 }
 
 // get kra details
-$getInstName1=$con->query("SELECT kra_id FROM kra_creation WHERE status = 0 AND company_id = $company_id ");
+$getInstName1=$con->query("SELECT kra_id FROM kra_creation WHERE status = 0 AND company_id = $company_id AND designation_id = $designation");
 while ($row2 = $getInstName1->fetch_assoc()) {
     $kra_id[] = $row2["kra_id"];
 }
