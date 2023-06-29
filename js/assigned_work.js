@@ -458,6 +458,7 @@ $(document).ready(function(){
         $('#inprogressgbtn').hide();
         $('#pendingbtn').hide();
         $('#completedbtn').hide();
+        $('#remarkviewbtn').hide();
         
         $('#work_des_label').hide();
         $('#work_id').hide();
@@ -474,6 +475,7 @@ $(document).ready(function(){
         $('#inprogressgbtn').hide();
         $('#pendingbtn').hide();
         $('#completedbtn').hide();
+        $('#remarkviewbtn').hide();
         
         $('#work_des_label').hide();
         $('#work_id').hide();
@@ -492,10 +494,20 @@ $(document).ready(function(){
         $('#inprogressgbtn').hide();
         $('#pendingbtn').hide();
         $('#completedbtn').hide();
+        $('#remarkviewbtn').hide();
         
         $('#work_des_label').hide();
         $('#work_id').hide();
         $('#work_name').hide();
+    });
+
+    $('#remarkviewbtn').on('click', function(){
+
+        $("#completedRemark").addClass("show");
+        $("#completedRemark").removeAttr("aria-hidden");
+        $("#completedRemark").css("display","block");
+        $("#completedRemark").css("width","500px");
+
     });
 
     $('#cancel_progress').on('click',function(event){
@@ -511,6 +523,7 @@ $(document).ready(function(){
         $('#inprogressgbtn').show();
         $('#pendingbtn').show();
         $('#completedbtn').show();
+        $('#remarkviewbtn').show();
         //work descriptions
         $('#work_des_label').show();
         $('#work_id').show();
@@ -530,6 +543,7 @@ $(document).ready(function(){
         $('#inprogressgbtn').show();
         $('#pendingbtn').show();
         $('#completedbtn').show();
+        $('#remarkviewbtn').show();
         //work descriptions
         $('#work_des_label').show();
         $('#work_id').show();
@@ -551,6 +565,7 @@ $(document).ready(function(){
         $('#inprogressgbtn').show();
         $('#pendingbtn').show();
         $('#completedbtn').show();
+        $('#remarkviewbtn').show();
         //work descriptions
         $('#work_des_label').show();
         $('#work_id').show();
@@ -585,6 +600,7 @@ $('#submit_progress').click(function(event){
             $('#inprogressgbtn').show();
             $('#pendingbtn').show();
             $('#completedbtn').show();
+            $('#remarkviewbtn').show();
             //work descriptions
             $('#work_des_label').show();
             $('#work_id').show();
@@ -625,6 +641,7 @@ $('#submit_pending').click(function(event){
             $('#inprogressgbtn').show();
             $('#pendingbtn').show();
             $('#completedbtn').show();
+            $('#remarkviewbtn').show();
 
             // work descriptions
             $('#work_des_label').show();
@@ -673,6 +690,7 @@ $('#submit_completed').click(function(event){
             $('#inprogressgbtn').show();
             $('#pendingbtn').show();
             $('#completedbtn').show();
+            $('#remarkviewbtn').show();
             
             //work descriptions
             $('#work_des_label').show();
@@ -726,18 +744,7 @@ $('#submit_outdated').click(function(event){
 // edit work status modal show
 function editStatus(work_id,work_des,end_date,wrk_sts){ 
     if(wrk_sts == 3){
-        $.ajax({
-            url: 'WorkCalendar/getCompletedRemark.php',
-            type: 'post',
-            data: {'work_id':work_id},
-            dataType: 'json',
-            cache: false,
-            success: function(response){
-                $('#completed_Remark').text(response['remark']);
-                $('#com_file').attr('href',"uploads/completedTaskFile/"+response['completedFile'])
-                $('#com_file').children().text(response['completedFile'])
-            }
-        });
+        
 
         $("#completedRemark").addClass("show");
         $("#completedRemark").removeAttr("aria-hidden");
@@ -776,6 +783,44 @@ function editStatus(work_id,work_des,end_date,wrk_sts){
         $('#work_name').val(work_des);
     }
 }
+
+$.ajax({
+    url: 'WorkCalendar/getInProgressRemark.php',
+    type: 'post',
+    data: {'work_id':work_id},
+    // dataType: 'json',
+    cache: false,
+    success: function(response){
+        $("#inprogress_sts").empty();
+        $("#inprogress_sts").html(response);
+    }
+});
+$.ajax({
+    url: 'WorkCalendar/getPendingRemark.php',
+    type: 'post',
+    data: {'work_id':work_id},
+    cache: false,
+    success: function(response){
+        $("#pending_sts").empty();
+        $("#pending_sts").html(response);
+    }
+});
+$.ajax({
+    url: 'WorkCalendar/getCompletedRemark.php',
+    type: 'post',
+    data: {'work_id':work_id},
+    // dataType: 'json',
+    cache: false,
+    success: function(response){
+
+        $('#complete_sts').empty();
+        $('#complete_sts').html(response);
+        // $('#completed_Remark').text(response['remark']);
+        // $('#com_file').attr('href',"uploads/completedTaskFile/"+response['completedFile'])
+        // $('#com_file').children().text(response['completedFile'])
+    }
+});
+
 }
 
 // reset modal contents while close modal 
@@ -789,6 +834,7 @@ function closeStatusModal(){
     $('#inprogressgbtn').show();
     $('#pendingbtn').show();
     $('#completedbtn').show();
+    $('#remarkviewbtn').show();
 
     // work descriptions
     $('#work_des_label').show();
@@ -834,6 +880,10 @@ function closeRemarkModal(){
     $("#completedRemark").removeClass("show");
     $("#completedRemark").attr("aria-hidden", "true");
     $("#completedRemark").css("display","none");
+
+    $('#completed_Remark').text('');
+    $('#com_file').attr('href','')
+    $('#com_file').children().text('')
 
 }
 
