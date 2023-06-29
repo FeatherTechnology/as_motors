@@ -65,8 +65,8 @@ if(isset($_POST["daily_km_id"])){
                                 <td><?php echo $sno; ?></td>
                                 <td><input tabindex="3" type="checkbox" name="vehicle_details_id[]" id="vehicle_details_id" class="vehicle_details_id" value="<?php echo $vehicle_details_id[$o]; ?>" /></td>
                                 <td><input type="text" readonly class="form-control" value="<?php echo $vehicle_number[$o]; ?>" name="vehicle_number[]" id="vehicle_number" ></td>
-                                <td><input readonly type="number" readonly class="form-control" name="start_km[]" id="start_km" value="<?php echo $start_kmArr[$o]; ?>" placeholder="Enter Start KM" ></td>
-                                <td><input readonly type="number" readonly class="form-control" name="end_km[]" id="end_km" value="<?php echo $end_kmArr[$o]; ?>" placeholder="Enter End KM" ></td>
+                                <td><input readonly type="number" readonly class="form-control validate_start_km" name="start_km[]" id="start_km" value="<?php echo $start_kmArr[$o]; ?>" data-id="<?php echo $start_kmArr[$o]; ?>" placeholder="Enter Start KM" ></td>
+                                <td><input readonly type="number" readonly class="form-control validate_end_km" name="end_km[]" id="end_km" value="<?php echo $end_kmArr[$o]; ?>" placeholder="Enter End KM" ></td>
                             </tr>
                         </tbody>
                     <?php $sno = $sno + 1; }
@@ -89,6 +89,8 @@ if(isset($_POST["daily_km_id"])){
             $(this).parents('tr').find('td #end_km').attr("readonly",true);
             // $(this).parents('tr').find('td #start_km').val('');
             // $(this).parents('tr').find('td #end_km').val('');
+            var branch_id = $("#branchIdEdit").val();
+            editVehicleKM(branch_id)
         }
     });
 </script>

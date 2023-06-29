@@ -109,6 +109,16 @@ foreach ($result as $row) {
     $sub_array[] = $company_name;
     $sub_array[] = $branch_name;
     $sub_array[] = $row['vehicle_code'];
+
+    $vehicle_type = $row['vehicle_type'];
+    if($vehicle_type == '1'){
+        $v_type = 'Own Vehicle';
+    }elseif($vehicle_type == '2'){
+        $v_type = 'Rental Vehicle';
+    }else{
+        $v_type = '';
+    }
+    $sub_array[] = $v_type;
     $sub_array[] = $row['vehicle_name'];
     $sub_array[] = $row['vehicle_number'];
     $sub_array[] = $row['date_of_purchase'];

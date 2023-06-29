@@ -7112,6 +7112,9 @@
 			if(isset($_POST['vehicle_code'])){
 				$vehicle_code = $_POST['vehicle_code'];
 			}
+			if(isset($_POST['vehicle_type'])){
+				$vehicle_type = $_POST['vehicle_type'];
+			}
 			if(isset($_POST['vehicle_name'])){
 				$vehicle_name = $_POST['vehicle_name'];
 			}
@@ -7134,8 +7137,8 @@
 				$book_value_as_on = $_POST['book_value_as_on'];
 			}
 
-			$insertQry="INSERT INTO vehicle_details(company_id, vehicle_code, vehicle_name, vehicle_number, date_of_purchase, fitment_upto, insurance_upto, asset_value, 
-			book_value_as_on, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($vehicle_code)."', '".strip_tags($vehicle_name)."', 
+			$insertQry="INSERT INTO vehicle_details(company_id, vehicle_code, vehicle_type, vehicle_name, vehicle_number, date_of_purchase, fitment_upto, insurance_upto, asset_value, 
+			book_value_as_on, insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($vehicle_code)."', '".strip_tags($vehicle_type)."', '".strip_tags($vehicle_name)."', 
 			'".strip_tags($vehicle_number)."', '".strip_tags($date_of_purchase)."', '".strip_tags($fitment_upto)."', '".strip_tags($insurance_upto)."', 
 			'".strip_tags($asset_value)."', '".strip_tags($book_value_as_on)."', '".strip_tags($userid)."')";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
@@ -7153,6 +7156,7 @@
 				$detailrecords['vehicle_details_id']  = $row->vehicle_details_id;  
 			    $detailrecords['company_id']  = $row->company_id;
 			    $detailrecords['vehicle_code']  = $row->vehicle_code;
+			    $detailrecords['vehicle_type']  = $row->vehicle_type;
 			    $detailrecords['vehicle_name']  = $row->vehicle_name;
 			    $detailrecords['vehicle_number']  = $row->vehicle_number;
 			    $detailrecords['date_of_purchase']  = $row->date_of_purchase;
@@ -7174,6 +7178,9 @@
 			if(isset($_POST['vehicle_code_edit'])){
 				$vehicle_code = $_POST['vehicle_code_edit'];
 			}
+			if(isset($_POST['vehicle_type'])){
+				$vehicle_type = $_POST['vehicle_type'];
+			}
 			if(isset($_POST['vehicle_name'])){
 				$vehicle_name = $_POST['vehicle_name'];
 			}
@@ -7196,10 +7203,7 @@
 				$book_value_as_on = $_POST['book_value_as_on'];
 			}
 
-			$updateQry = 'UPDATE vehicle_details SET company_id = "'.strip_tags($company_id).'", vehicle_code = "'.strip_tags($vehicle_code).'", 
-			vehicle_name = "'.strip_tags($vehicle_name).'", vehicle_number = "'.strip_tags($vehicle_number).'", date_of_purchase = "'.strip_tags($date_of_purchase).'", 
-			fitment_upto = "'.strip_tags($fitment_upto).'", insurance_upto = "'.strip_tags($insurance_upto).'", asset_value = "'.strip_tags($asset_value).'", 
-			book_value_as_on = "'.strip_tags($book_value_as_on).'", status = "0" WHERE vehicle_details_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
+			$updateQry = 'UPDATE vehicle_details SET company_id = "'.strip_tags($company_id).'", vehicle_code = "'.strip_tags($vehicle_code).'", vehicle_type = "'.strip_tags($vehicle_type).'", vehicle_name = "'.strip_tags($vehicle_name).'", vehicle_number = "'.strip_tags($vehicle_number).'", date_of_purchase = "'.strip_tags($date_of_purchase).'", fitment_upto = "'.strip_tags($fitment_upto).'", insurance_upto = "'.strip_tags($insurance_upto).'", asset_value = "'.strip_tags($asset_value).'", book_value_as_on = "'.strip_tags($book_value_as_on).'", status = "0" WHERE vehicle_details_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 		}
 

@@ -53,6 +53,7 @@ if($idupd>0)
             $vehicle_details_id       = $getVehicleDetails['vehicle_details_id']; 
             $company_id              = $getVehicleDetails['company_id'];
 			$vehicle_code        	 = $getVehicleDetails['vehicle_code'];
+			$vehicle_type    	     = $getVehicleDetails['vehicle_type'];
 			$vehicle_name    	     = $getVehicleDetails['vehicle_name'];
 			$vehicle_number    	     = $getVehicleDetails['vehicle_number'];
 			$date_of_purchase    	     = $getVehicleDetails['date_of_purchase'];
@@ -191,6 +192,16 @@ if($idupd>0)
                                         
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
+                                            <label for="vehicle_type">Vehicle Type</label>
+                                            <select id="vehicle_type" name="vehicle_type" class="form-control">
+                                                <option value=""> Select Vehicle Type </option>
+                                                <option value="1" <?php if($vehicle_type == '1'){ echo 'selected';} ?> > Own Vehicle </option>
+                                                <option value="2" <?php if($vehicle_type == '2'){ echo 'selected';} ?> > Rental Vehicle </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
                                             <label for="disabledInput">Vehicle Name</label>
                                             <input type="text" tabindex="3" id="vehicle_name" name="vehicle_name" class="form-control" value="<?php if(isset($vehicle_name)) echo $vehicle_name; ?>" placeholder="Enter Vehicle Name">
                                         </div>
@@ -199,7 +210,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Vehicle Number</label>
-                                            <input type="text" tabindex="4" id="vehicle_number" name="vehicle_number" class="form-control" value="<?php if(isset($vehicle_number)) echo $vehicle_number; ?>" placeholder="Enter Vehicle Number">
+                                            <input type="text" tabindex="4" id="vehicle_number" name="vehicle_number" class="form-control" value="<?php if(isset($vehicle_number)) echo $vehicle_number; ?>" placeholder="Enter Vehicle Number" oninput="convertToUppercase(this)">
                                         </div>
                                     </div>
 

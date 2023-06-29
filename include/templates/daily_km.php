@@ -108,7 +108,31 @@ if($idupd>0)
                     $("#vehicleListAppend").empty();
                     $("#vehicleListAppend").html(html);
                 }
-            });
+            }).then(function(){
+                //Check Start KM is greater than previous end KM.
+                $('.validate_start_km').change(function(){
+                    var previousKM = ($(this).attr('data-id')) ? parseInt($(this).attr('data-id')) : 0 ;
+                    var startkm = ($(this).val()) ? parseInt($(this).val()) : 0 ;
+
+                    if(startkm < previousKM){
+                        alert('Please Enter Start KM higher than Previous End KM')
+                        $(this).val('');
+                    }
+
+                })
+
+                $('.validate_end_km').change(function(){
+                    var start_km =  $(this).parents('tr').find('td #start_km').val();
+                    var startkilometer = (start_km) ? parseInt(start_km) : 0 ;
+                    var endkilometer = ($(this).val()) ? parseInt($(this).val()) : 0 ;
+
+                    if(endkilometer < startkilometer){
+                        alert('Please Enter End KM higher than Start KM')
+                        $(this).val('');
+                    }
+
+                })
+            }) //then end
         }
 
     </script>
