@@ -22,12 +22,28 @@ if(isset($_POST['work_id'])){
     
 // }
 
-    $workDescription = array();
+    // $workDescription = array();
         $getqry = "SELECT `remarks`, `completed_file` FROM `work_status` WHERE `work_id` = '$work_id' && `work_status` = 3 "; // Work id is from task table id , it comes from multiple table so differentiate by table name or task name in work_id column.
         $res3 = $con->query($getqry);
-        $row3 = $res3->fetch_assoc();      
-            $workDescription['remark'] = $row3["remarks"]; 
-            $workDescription['completedFile'] = $row3["completed_file"]; 
+        if(mysqli_num_rows($res3)>0){
+            $row3 = $res3->fetch_assoc();      
+            // $workDescription['remark'] = $row3["remarks"]; 
+            // $workDescription['completedFile'] = $row3["completed_file"]; 
+            ?>
+            <div class="form-group ">
+                <label class="label" id="over_due_label" >Completed File</label>
+                <a href='uploads/completedTaskFile/<?php echo $row3["completed_file"];?>' download id="com_file"><li><?php echo $row3["completed_file"];?></li></a><br>
+                <label class="label">Completed Remark</label>
+                <textarea name="completed_Remark" id="completed_Remark" class="form-control" style="height:100px ; width: 350px" readonly><?php echo $row3["remarks"];?></textarea><br>
+            </div>
+            <?php
+        }else{ ?>
+        <div class="form-group ">
+            <label class="label">Completed Remark</label>
+            <label class="required"> No Completed Remark Uploaded </label> <br><br>
+        </div>
+        <?php
+        }
 
-echo json_encode($workDescription);
+// echo json_encode($workDescription);
 ?>

@@ -195,8 +195,8 @@ if($idupd>0)
                                             <label for="vehicle_type">Vehicle Type</label>
                                             <select id="vehicle_type" name="vehicle_type" class="form-control">
                                                 <option value=""> Select Vehicle Type </option>
-                                                <option value="1" <?php if($vehicle_type == '1'){ echo 'selected';} ?> > Own Vehicle </option>
-                                                <option value="2" <?php if($vehicle_type == '2'){ echo 'selected';} ?> > Rental Vehicle </option>
+                                                <option value="1" <?php if(isset($vehicle_type) && $vehicle_type == '1'){ echo 'selected';} ?> > Own Vehicle </option>
+                                                <option value="2" <?php if(isset($vehicle_type) && $vehicle_type == '2'){ echo 'selected';} ?> > Rental Vehicle </option>
                                             </select>
                                         </div>
                                     </div>

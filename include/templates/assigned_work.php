@@ -185,11 +185,12 @@ body {
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-12"></div>
-                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12">
                                     <button type="button" tabindex="2" name="inprogressgbtn" id="inprogressgbtn" class="btn btn-primary">In Progress</button>
                                     <button type="button" tabindex="2" name="pendingbtn" id="pendingbtn" class="btn btn-danger">Pending</button>
                                     <button type="button" tabindex="2" name="completedbtn" id="completedbtn" class="btn btn-success">Completed</button>
+                                    <button type="button" tabindex="2" name="remarkviewbtn" id="remarkviewbtn" class="btn btn-warning" onclick="closeStatusModal()">Remark View</button>
                                 </div>
                             </div>
                         </div>
@@ -246,42 +247,58 @@ body {
                 </div>
             </div>
 
+    </form>
+</div>
 
-            <!-- After Completed Show Remark Modal START -->
-            <div class="modal fade" id="completedRemark" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content" style="background-color: white">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeRemarkModal()">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- alert messages -->
-                            <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
-                            </div>
-                            <br>
+
+    <!-- After Completed Show Remark Modal START -->
+    <div class="modal fade" id="completedRemark" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeRemarkModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="overflow-y: scroll; height: 450px;">
+                    <!-- alert messages -->
+                    <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="inprogress_sts">
                             
-                            <div class="row">
-                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group ">
-                                        <label class="label" id="over_due_label" >Completed File</label>
-                                <a href='' download id="com_file"><li></li></a><br>
-                                        <label class="label">Completed Remark</label>
-                                        <textarea name="completed_Remark" id="completed_Remark" class="form-control" style="height:100px ; width: 350px" readonly></textarea><br>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeRemarkModal()">Close</button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="pending_sts">
+                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="complete_sts">
+                        
                         </div>
                     </div>
                 </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeRemarkModal()">Close</button>
+                </div>
             </div>
-            <!-- After Completed Show Remark Modal END -->
-
-    </form>
-</div>
+        </div>
+    </div>
+                <!-- After Completed Show Remark Modal END -->
+                
+                <!-- <div class="form-group ">
+                    <label class="label" id="over_due_label" >Completed File</label>
+                    <a href='' download id="com_file"><li></li></a><br>
+                    <label class="label">Completed Remark</label>
+                    <textarea name="completed_Remark" id="completed_Remark" class="form-control" style="height:100px ; width: 350px" readonly></textarea><br>
+                </div> -->
