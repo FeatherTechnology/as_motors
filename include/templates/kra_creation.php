@@ -156,9 +156,8 @@ if($idupd>0)
                                                         <?php }} ?>  
                                                 </select>  
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name"  >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
-                                                </select> 
+                                                <input type="hidden" id="company_id" name="company_id" value="<?php echo $sCompanyBranchDetail['company_id']; ?>">
+                                                <input type="text" class="form-control" id="company" name="company" value="<?php echo $sCompanyBranchDetail['company_name']; ?>" readonly>
                                             <?php } ?>
                                         </div>
                                     </div>

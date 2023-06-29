@@ -117,3 +117,65 @@ $(document).ready(function () {
 
 });
 
+$(function(){
+    
+    var idupd = $('#idupd').val();
+    if(idupd>0 && idupd !=''){
+        editCompanyBasedBranch();
+    }else{
+        var branch_id = $('#branch_id').val();
+        getdepartmentLoad(branch_id);
+    }
+
+});
+
+function editCompanyBasedBranch(){  
+    var branch_id = $('#company_nameEdit').val();
+    $.ajax({
+        url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
+        type:'post',
+        data: {'branch_id': branch_id},
+        dataType: 'json',
+        success: function(response){
+            
+            $("#branch_id").empty();
+            $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
+            var r = 0;
+            for (r = 0; r <= response.branch_id.length - 1; r++) { 
+                var selected = "";
+                if(response['branch_id'][r] == branch_id)
+                {
+                    selected = "selected";
+                }
+                $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + response['branch_name'][r] + "</option>");
+            }
+        }
+    });
+
+    getdepartmentLoad(branch_id);
+}
+
+// get department details
+function getdepartmentLoad(branch_id){ 
+
+    var to_dept = $('#to_deptEdit').val(); 
+    $.ajax({
+        url: 'memoFile/ajaxR&RDepartmentDetailsLoad.php',
+        type: 'post',
+        data: {'branch_id': branch_id},
+        dataType: 'json',
+        success:function(response){     
+            
+            $("#to_department").empty();
+            $("#to_department").prepend("<option value=''>"+'To Department'+"</option>");
+            var i = 0; 
+            for (i = 0; i <= response.department_id.length - 1; i++) {   
+                var selected = "";
+                if(to_dept == response['department_id'][i]){  
+                    selected = "selected";
+                }
+                $('#to_department').append("<option value='" + response['department_id'][i] + "' "+selected+">" + response['department_name'][i] + "</option>");
+            }
+        }
+    });
+};

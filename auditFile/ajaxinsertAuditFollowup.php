@@ -13,9 +13,10 @@ if(!empty($_FILES['file'])){
     $exp = explode(".", $file_name);
     $ext = end($exp);
     $file = time().'.'.$ext;
-    $location = "../uploads/followup/".$file;
+    $location = "uploads/followup/".$file;
 
     move_uploaded_file($file_temp, $location);
+}
     mysqli_query($con, "UPDATE audit_assign_ref SET auditee_followup_status = '1' WHERE audit_assign_ref_id = '$assignrefid' AND audit_assign_id = '$assignid'");
 
     $qry1="INSERT INTO audit_followup (audit_assign_id, audit_assign_ref_id, remarks, completed_date, files,insert_login_id)
@@ -26,6 +27,5 @@ if(!empty($_FILES['file'])){
 
     
 return $insert_assign;
-}
 
 ?>

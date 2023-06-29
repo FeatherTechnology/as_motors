@@ -70,20 +70,28 @@ $(document).ready(function () {
 
     // Get address based on branch
     $('#branch_id').on('change', function(){
-		var branch_id = $('#branch_id :selected').val();
-		$.ajax({
-			url: 'ajaxFetchBranchAddressDetails.php',
-			type:'post',
-			data: {'branch_id': branch_id},
-			dataType: 'json',
-			success: function(response){
-                $('#company_address').val(response.address1+', '+response.address2);
-                $('#company_address1').val(response.city);
-                $('#company_address2').val(response.state);
-			}
-		});
+        getBranchAddress();
 	});
 
 
 });
+
+$(function(){
+    getBranchAddress();
+})
+
+function getBranchAddress(){
+var branch_id = $('#branch_id').val();
+$.ajax({
+    url: 'ajaxFetchBranchAddressDetails.php',
+    type:'post',
+    data: {'branch_id': branch_id},
+    dataType: 'json',
+    success: function(response){
+        $('#company_address').val(response.address1+', '+response.address2);
+        $('#company_address1').val(response.city);
+        $('#company_address2').val(response.state);
+    }
+});
+}
 

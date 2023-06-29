@@ -2,16 +2,20 @@
 $(document).ready(function () { 
 
 	// auto generate doc no
-	$.ajax({
-		url: "approvalrequisitionFile/ajaxGetDocNo.php",
-		data: {},
-		cache: false,
-		type: "post",
-		dataType: "json",
-		success: function (data) {
-			$("#doc_no").val(data);
-		}
-	});
+	var inserted_doc_no = $('#inserted_doc_no').val();
+	console.log(inserted_doc_no)
+	if(inserted_doc_no == 0){
+		$.ajax({
+			url: "approvalrequisitionFile/ajaxGetDocNo.php",
+			data: {},
+			cache: false,
+			type: "post",
+			dataType: "json",
+			success: function (data) {
+				$("#doc_no").val(data);
+			}
+		});
+	}
 
 	// Get Filename Before Uploading
 	updateList = function() {
@@ -31,8 +35,8 @@ $(document).ready(function () {
 		data: {},
 		dataType: 'json',
 		success: function(response){ 
-			$("#department").val(response["department"]);
-			$("#staff_name").val(response["staff_name"]);
+			$("#drafter_name").val(response["staff_name"]);
+			$("#drafter_department").val(response["department"]);
 		}
 	});
 		

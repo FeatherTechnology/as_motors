@@ -60,7 +60,7 @@ $(document).ready(function () {
 // execute target
 $("#executeGoalSettingDetails").click(function(){
 
-  var company_name = $('#company_name :selected').val();
+  var company_name = $('#company_name').val();
   var department = $('#department :selected').val();
   var designation = $('#designation :selected').val();
   var goal_year = $('#goal_year :selected').val();
@@ -80,7 +80,7 @@ $("#executeGoalSettingDetails").click(function(){
 $(function(){
 
   // super admin login
-	var idupd = $("#company_name :selected").val();
+	var idupd = $("#company_name").val();
 	var department_upd = $('#department_upd').val();
 	if(idupd > 0 ){
 		

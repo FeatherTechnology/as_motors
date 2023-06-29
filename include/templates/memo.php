@@ -41,7 +41,7 @@ if($del>0)
     <script>location.href='<?php echo $HOSTPATH; ?>edit_memo&msc=3';</script>
     <?php   
 }
-
+$idupd=0;
 if(isset($_GET['upd']))
 {
     $idupd=$_GET['upd'];
@@ -64,66 +64,6 @@ if($idupd>0)
 
     $assignEmployeeName = $userObj->getAssignEmployeeName($mysqli, $to_department);  
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
-    ?>
-
-    <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
-    <input type="hidden" id="to_deptEdit" name="to_deptEdit" value="<?php print_r($to_department); ?>" >
-
-    <script>
-        window.onload=editCompanyBasedBranch;
-        function editCompanyBasedBranch(){  
-            var branch_id = $('#company_nameEdit').val();
-            $.ajax({
-                url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
-                type:'post',
-                data: {'branch_id': branch_id},
-                dataType: 'json',
-                success: function(response){
-                    
-                    $("#branch_id").empty();
-                    $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-                    var r = 0;
-                    for (r = 0; r <= response.branch_id.length - 1; r++) { 
-                        var selected = "";
-                        if(response['branch_id'][r] == branch_id)
-                        {
-                            selected = "selected";
-                        }
-                        $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + response['branch_name'][r] + "</option>");
-                    }
-                }
-            });
-
-            getdepartmentLoad(branch_id);
-        }
-
-        // get department details
-        function getdepartmentLoad(branch_id){ 
-
-            var to_dept = $('#to_deptEdit').val(); 
-            $.ajax({
-                url: 'memoFile/ajaxR&RDepartmentDetailsLoad.php',
-                type: 'post',
-                data: {'branch_id': branch_id},
-                dataType: 'json',
-                success:function(response){     
-                    
-                    $("#to_department").empty();
-                    $("#to_department").prepend("<option value=''>"+'To Department'+"</option>");
-                    var i = 0; 
-                    for (i = 0; i <= response.department_id.length - 1; i++) {   
-                        var selected = "";
-                        if(to_dept == response['department_id'][i]){  
-                            selected = "selected";
-                        }
-                        $('#to_department').append("<option value='" + response['department_id'][i] + "' "+selected+">" + response['department_name'][i] + "</option>");
-                    }
-                }
-            });
-        };
-    </script>
-
-<?php
 }
 ?>
 
@@ -144,6 +84,9 @@ if($idupd>0)
 <!--------form start-->
     <form id = "edit_memo" name="edit_memo" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($memo_id)) echo $memo_id ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+    <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php if(isset($company_id)) echo $company_id ; ?>" >
+    <input type="hidden" id="to_deptEdit" name="to_deptEdit" value="<?php if(isset($to_department)) echo $to_department ; ?>" >
+    <input type="hidden" id="idupd" name="idupd" value="<?php if(isset($idupd)) echo $idupd ; ?>" >
         <!-- Row start -->
          <div class="row gutters">
 

@@ -71,85 +71,6 @@ if($idupd>0)
 	}
 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
-    ?>
-
-    <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
-    <input type="hidden" id="staffEdit" name="staffEdit" value="<?php print_r($assign_to); ?>" >
-    <!-- <input type="hidden" id="tagEdit" name="tagEdit" value="" > -->
-    <input type="hidden" id="criteriaEdit" name="criteriaEdit" value="<?php print_r($criteria); ?>" >
-    <script>
-        window.onload=editCompanyBasedBranch;
-        function editCompanyBasedBranch(){  
-
-            var branch_id = $('#company_nameEdit').val();
-            // var tagEdit = $('#tagEdit').val(); 
-            var staffEdit = $('#staffEdit').val().split(',');  
-
-            $.ajax({
-                url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
-                type:'post',
-                data: {'branch_id': branch_id},
-                dataType: 'json',
-                success: function(response){
-                    
-                    $("#branch_id").empty();
-                    $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-                    var r = 0;
-                    for (r = 0; r <= response.branch_id.length - 1; r++) { 
-                        var selected = "";
-                        if(response['branch_id'][r] == branch_id)
-                        {
-                            selected = "selected";
-                        }
-                        $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + 
-                        response['branch_name'][r] + "</option>");
-                    }
-                }
-            });
-
-            editBranchBasedTagAssignTo(branch_id, staffEdit);
-
-            // enable and disable project
-            var criteria = $('#criteriaEdit').val();
-            if(criteria == 'Event'){ 
-                $('#project_id').attr("readonly",true);
-                $('#add_CategoryDetails').attr("disabled",true);
-            } else if(criteria == 'Project'){ 
-                $('#project_id').attr("readonly",false);
-                $('#add_CategoryDetails').attr("disabled",false);
-            }
-      
-        }
-
-            // get department details
-        // function editBranchBasedDepartment(){ 
-
-        //     var company_id = $('#company_nameEdit').val(); 
-        //     var department_upd = $('#departmentEdit').val();
-
-        //     $.ajax({
-        //     url: 'KRA&KPIFile/ajaxKra&KpiDepartmentDetails.php',
-        //     type: 'post',
-        //     data: { "company_id":company_id },
-        //     dataType: 'json',
-        //     success:function(response){ 
-
-        //         $('#department_id').empty();
-        //         $('#department_id').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-        //         var r = 0;
-        //         for (r = 0; r <= response.department_id.length - 1; r++) { 
-        //         var selected = "";
-        //         if(department_upd == response['department_id'][r]){
-        //             selected = "selected";
-        //         }
-        //         $('#department_id').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
-        //         }
-        //     }
-        //     });
-        // };
-    </script>
-
-<?php
 }
 ?>
    
@@ -171,6 +92,12 @@ if($idupd>0)
 <!--------form start-->
 <form id = "todo" name="todo" action="" method="post" enctype="multipart/form-data"> 
 <input type="hidden" class="form-control" value="<?php if(isset($todo_id)) echo $todo_id; ?>"  id="id" name="id" placeholder="Enter id">
+
+<input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php if(isset($company_id)) echo $company_id; ?>" >
+<input type="hidden" id="staffEdit" name="staffEdit" value="<?php if(isset($assign_to)) echo $assign_to; ?>" >
+<!-- <input type="hidden" id="tagEdit" name="tagEdit" value="" > -->
+<input type="hidden" id="criteriaEdit" name="criteriaEdit" value="<?php if(isset($criteria)) echo $criteria; ?>" >
+<input type="hidden" id="idupd" name="idupd" value="<?php if(isset($idupd)) echo $idupd; ?>" >
 
  		<!-- Row start -->
          <div class="row gutters">

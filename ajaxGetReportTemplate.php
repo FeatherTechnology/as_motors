@@ -90,7 +90,7 @@ foreach ($result as $row) {
     
     $sub_array[] = $company_name;
     $sub_array[] = $row['report_name'];
-    $sub_array[] = $row['report_file'];
+    $sub_array[] = "<a href='uploads/report_file/".$row['report_file']."' download='".$row['report_file']."' title='Download File'>".$row['report_file']."</a> ";
 
     $status      = $row['status'];
     if($status == 1)

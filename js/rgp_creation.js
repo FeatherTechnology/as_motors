@@ -1,8 +1,12 @@
 $(document).ready(function(){
 
     $('#company_id').change(function(){
-        var company_id = $('#company_id :selected').val();
+        var company_id = $(this).val();
         getBranchdropdown(company_id);
+    });
+    $('#company_to').change(function(){
+        var company_id = $(this).val();
+        getBranchdropdownForTo(company_id);
     });
     $('#branch_from').change(function(){
         var branch_id = $('#branch_from').val();
@@ -101,11 +105,15 @@ $(function(){
     var idupd = $('#id').val();
     if(idupd > 0){
         var company_id_upd = $('#company_id_upd').val();
+        var company_to_upd = $('#company_to_upd').val();
         var asset_class_upd = $('#asset_class_upd').val();
         // getBranchdropdown(company_id_upd);
         getAssetdropdown(asset_class_upd);
         getBranchNamewithCompany(company_id_upd);
         setalltoReadonly();
+
+        getBranchdropdownForTo(company_to_upd);
+
     }
 
 });
@@ -160,6 +168,31 @@ function getBranchdropdown(company_id){
 
     });
 }
+function getBranchdropdownForTo(company_id){
+    var branch_to_upd = $('#branch_to_upd').val();
+    $.ajax({
+        url: 'RGP_ajax/ajaxgetBranchName.php',
+        type: 'POST',
+        data: {'company_id':company_id},
+        dataType: 'json',
+        success:function(response){
+            var len = response.length;
+            $('#branch_to').empty();
+            $("#branch_to").prepend("<option value=''>Select Branch Name</option>");
+
+            for(var i = 0; i<len; i++){
+                var branch_id = response[i]['branch_id'];
+                var branch_name = response[i]['branch_name'];
+                var selected = '';
+                if(branch_to_upd == branch_id){
+                    selected = "selected";
+                }
+                $("#branch_to").append("<option value='"+branch_id+"' "+selected+" >"+branch_name+"</option>");
+            }
+        }
+
+    });
+}
 
 function getAssetdropdown(asset_class){
     var asset_name_id_upd = $('#asset_name_id_upd').val();
@@ -195,6 +228,7 @@ function setalltoReadonly(){
     $('#asset_class').prop('disabled', true)
     $('#company_id').prop('disabled', true)
     $('#branch_from').prop('disabled', true)
+    $('#company_to').prop('disabled', true)
     $('#branch_to').prop('disabled', true)
     $('#asset_name').prop('disabled', true)
     $('#asset_value').attr('readonly',true);

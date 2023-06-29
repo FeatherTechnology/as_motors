@@ -1155,7 +1155,7 @@
         }
 
 		// get donor list
-        public function getkrakpicompany($mysqli, $sbranch_id) {
+        public function getkrakpicompany($mysqli, $sbranch_id, $company) {
 
 			$company_id=array();
 			$designation_id = array();
@@ -1191,7 +1191,7 @@
 
 			}else{
 				
-				$qry = "SELECT krakpi_id, company_name, designation FROM krakpi_creation WHERE company_name = '".$sbranch_id."' AND status=0 ORDER BY designation ASC";
+				$qry = "SELECT krakpi_id, company_name, designation FROM krakpi_creation WHERE company_name = '".$company."' AND status=0 ORDER BY designation ASC";
 				$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 				$j=0;
 				while($fetchInstitute = $res->fetch_assoc()){
@@ -4097,7 +4097,6 @@
 				$reportimage_folder="uploads/memo/".$attachment ;
 				move_uploaded_file($report_file_temp, $reportimage_folder);
 			}
-			
 			$insertQry="INSERT INTO memo(company_id, to_department, inquiry, suggestion, attachment, insert_login_id)
 			VALUES('".strip_tags($company_id)."', '".strip_tags($to_department)."', 
 			'".strip_tags($inquiry)."', '".strip_tags($suggestion)."', '".strip_tags($attachment)."', '".$userid."' )";
@@ -4476,7 +4475,7 @@
 
 		// get company and branch name based on session id
 		public function getsCompanyBranchDetail($mysqli, $sbranch_id){
-            $qry = "SELECT * FROM branch_creation WHERE company_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
+            $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$sbranch_id."' AND status=0 ORDER BY branch_id ASC";
             $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 
             $detailrecords = array();
@@ -5195,6 +5194,9 @@
 			if(isset($_POST['branch_from'])){
 				$branch_from = $_POST['branch_from'];
 			}
+			if(isset($_POST['company_to'])){
+				$company_to = $_POST['company_to'];
+			}
 			if(isset($_POST['branch_to'])){
 				$branch_to = $_POST['branch_to'];
 			}
@@ -5221,9 +5223,9 @@
 			}
 			
 			
-			$insertQry="INSERT INTO rgp_creation(rgp_date,return_date,asset_class,company_id,branch_from,branch_to,from_comm_line1,from_comm_line2,to_comm_line1,to_comm_line2,asset_name_id,asset_value,reason_rgp,created_date)
+			$insertQry="INSERT INTO rgp_creation(rgp_date,return_date,asset_class,company_id,branch_from,company_to,branch_to,from_comm_line1,from_comm_line2,to_comm_line1,to_comm_line2,asset_name_id,asset_value,reason_rgp,created_date)
 			VALUES('".strip_tags($rgp_date)."', '".strip_tags($return_date)."', '".strip_tags($asset_class)."', 
-			'".strip_tags($company_id)."', '".strip_tags($branch_from)."', '".strip_tags($branch_to)."', '".strip_tags($from_comm_line1)."', '".strip_tags($from_comm_line2)."', 
+			'".strip_tags($company_id)."', '".strip_tags($branch_from)."','".strip_tags($company_to)."', '".strip_tags($branch_to)."', '".strip_tags($from_comm_line1)."', '".strip_tags($from_comm_line2)."', 
 			'".strip_tags($to_comm_line1)."','".strip_tags($to_comm_line2)."','".strip_tags($asset_name)."','".strip_tags($asset_value)."', '".strip_tags($reason_rgp)."',current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			
@@ -5306,6 +5308,7 @@
 			$detailrecords1['return_date'] = $row12["return_date"];  
 			$detailrecords1['asset_class'] = strip_tags($row12["asset_class"]);  
 			$detailrecords1['branch_from'] = $row12["branch_from"];  
+			$detailrecords1['company_to'] = $row12["company_to"];  
 			$detailrecords1['branch_to'] = $row12["branch_to"];  
 			$detailrecords1['company_id'] = $row12["company_id"];  
 			$detailrecords1['from_comm_line1'] = $row12["from_comm_line1"];  
@@ -8236,7 +8239,7 @@
 			{
 				while($row = $res->fetch_object())
 				{
-					// $detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
+					$detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
 
 					$selectYear = "SELECT * FROM year_creation WHERE year_id = '".strip_tags($row->year)."' ";
 					$res1 = $mysqli->query($selectYear) or die("Error in Get All Records".$mysqli->error);
@@ -8784,7 +8787,7 @@
 	// Get appdeb
 	public function getAppDep($mysqli, $id){
 
-		$appDep = "SELECT * FROM appreciation_depreciation WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $id)."' ";  echo $appDep; die;
+		$appDep = "SELECT * FROM appreciation_depreciation WHERE appreciation_depreciation_id='".mysqli_real_escape_string($mysqli, $id)."' ";  //echo $appDep; die;
 		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
 		$detailrecords = array();
 		if ($mysqli->affected_rows>0)

@@ -162,6 +162,7 @@ if($idupd>0)
         <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>" id="company_id_upd" name="company_id_upd"  >
         <input type="hidden" class="form-control" value="<?php if(isset($department))  echo (implode(',',$department)); ?>"  id="department_id_upd" name="department_id_upd"  >
         <input type="hidden" class="form-control" value="<?php if(isset($designation)) echo (implode(',',$designation)); ?>"  id="designation_id_upd" name="designation_id_upd"  >
+        <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
  		<!-- Row start -->
         <div class="row gutters">
             <div class="col-xl-12">
@@ -186,9 +187,8 @@ if($idupd>0)
                                                 <?php }} ?>  
                                             </select>  
                                         <?php } else if($sbranch_id != 'Overall'){ ?>
-                                            <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name"  >
-                                                <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
-                                            </select> 
+                                            <input type="hidden" id="company_name" name="company_name" value="<?php echo $sCompanyBranchDetail['company_id']; ?>">
+                                            <input type="text" class="form-control" id="company" name="company" value="<?php echo $sCompanyBranchDetail['company_name']; ?>" readonly>
                                         <?php } ?>
 
                                     </div>
@@ -235,11 +235,11 @@ if($idupd>0)
                                             window.onload=getdepartmentLoad;
                                             
                                             function getdepartmentLoad(){  
-                                                var company_id = $("#branch_id").val();
+                                                var company_id = $("#branch_id").val(); 
                                                 $.ajax({
                                                     url: 'R&RFile/ajaxR&RDepartmentDetails.php',
                                                     type: 'post',
-                                                    data: { "company_id":company_id },
+                                                    data: { "company_id":company_id }, // Branch id passing but variable name company id.
                                                     dataType: 'json',
                                                     success:function(response){ 
                                                 

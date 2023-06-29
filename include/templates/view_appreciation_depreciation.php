@@ -377,11 +377,11 @@ if($viewId>0)
                                     <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
                                     <select disabled tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
                                         <option value="">Select Overall Rating</option>  
-                                        <option value="1" <?php if(isset($month )) { if($month == "1") echo "selected"; } ?>>Poor Performance</option>
-                                        <option value="2" <?php if(isset($month )) { if($month == "2") echo "selected"; } ?>>Below Expectation</option>
-                                        <option value="3" <?php if(isset($month )) { if($month == "3") echo "selected"; } ?>>More Expectation</option>
-                                        <option value="4" <?php if(isset($month )) { if($month == "4") echo "selected"; } ?>>Exceeding Expectation</option>
-                                        <option value="5" <?php if(isset($month )) { if($month == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
+                                        <option value="1" <?php if(isset($overall_rating )) { if($overall_rating == "1") echo "selected"; } ?>>Poor Performance</option>
+                                        <option value="2" <?php if(isset($overall_rating )) { if($overall_rating == "2") echo "selected"; } ?>>Below Expectation</option>
+                                        <option value="3" <?php if(isset($overall_rating )) { if($overall_rating == "3") echo "selected"; } ?>>More Expectation</option>
+                                        <option value="4" <?php if(isset($overall_rating )) { if($overall_rating == "4") echo "selected"; } ?>>Exceeding Expectation</option>
+                                        <option value="5" <?php if(isset($overall_rating )) { if($overall_rating == "5") echo "selected"; } ?>>Far Exceeding Expectation</option>
                                     </select>
                                 </div>
                             </div>

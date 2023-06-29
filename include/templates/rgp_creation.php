@@ -61,6 +61,7 @@ if($idupd>0)
             $return_date                  = $getRGPTable['return_date']; 
 			$asset_class                	 = $getRGPTable['asset_class'];
 			$branch_from                	 = $getRGPTable['branch_from'];
+			$company_to                	 = $getRGPTable['company_to'];
 			$branch_to                	 = $getRGPTable['branch_to'];
 			$company_id                	 = $getRGPTable['company_id'];
 			$from_comm_line1                	 = $getRGPTable['from_comm_line1'];
@@ -100,6 +101,8 @@ if($idupd>0)
 <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
 <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd" aria-describedby="id" placeholder="Enter id">
 <input type="hidden" class="form-control" value="<?php if(isset($branch_from)) echo $branch_from; ?>"  id="branch_from_upd" name="branch_from_upd" aria-describedby="id" placeholder="Enter id">
+<input type="hidden" class="form-control" value="<?php if(isset($company_to)) echo $company_to; ?>"  id="company_to_upd" name="company_to_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($branch_to)) echo $branch_to; ?>"  id="branch_to_upd" name="branch_to_upd" >
 <input type="hidden" class="form-control" value="<?php if(isset($asset_class)) echo $asset_class; ?>"  id="asset_class_upd" name="asset_class_upd" aria-describedby="id" placeholder="Enter id">
 <input type="hidden" class="form-control" value="<?php if(isset($asset_name_id)) echo $asset_name_id; ?>"  id="asset_name_id_upd" name="asset_name_id_upd" aria-describedby="id" placeholder="Enter id">
  		<!-- Row start -->
@@ -128,6 +131,69 @@ if($idupd>0)
                                             <input tabindex="2" type="date" class="form-control" id="return_date" name="return_date" value="<?php if(isset($return_date)) echo $return_date; ?>"  >
                                         </div>
                                     </div>
+                                
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                            <label for="disabledInput">Company Name [Sending]</label>
+                                            <select tabindex="4" type="text" class="form-control" id="company_id" name="company_id" >
+                                                <option value="">Select Company Name</option>   
+                                                    <?php if (sizeof($companyName)>0) { 
+                                                    for($j=0;$j<count($companyName);$j++) { ?>
+                                                    <option <?php if(isset($company_id)) { if($companyName[$j]['company_id'] == $company_id)  echo 'selected'; }  ?> 
+                                                    value="<?php echo $companyName[$j]['company_id']; ?>">
+                                                    <?php echo $companyName[$j]['company_name'];?></option>
+                                                    <?php }} ?>  
+                                            </select>
+                                    </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                            <label for="disabledInput">Company Name [To]</label>
+                                            <select tabindex="4" type="text" class="form-control" id="company_to" name="company_to" >
+                                                <option value="">Select Company Name</option>   
+                                                    <?php if (sizeof($companyName)>0) { 
+                                                    for($j=0;$j<count($companyName);$j++) { ?>
+                                                    <option <?php if(isset($company_id)) { if($companyName[$j]['company_id'] == $company_to)  echo 'selected'; }  ?> 
+                                                    value="<?php echo $companyName[$j]['company_id']; ?>">
+                                                    <?php echo $companyName[$j]['company_name'];?></option>
+                                                    <?php }} ?>  
+                                            </select>
+                                    </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="inputReadOnly">Branch Name [Sending]</label>
+                                                <select tabindex="5" type="text" class="form-control" id="branch_from" name="branch_from"  >
+                                                <option value="">Select Branch Name</option>   
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                        <label for="inputReadOnly">Branch Name [To]</label>
+                                            <select tabindex="6" type="text" class="form-control" id="branch_to" name="branch_to"  >
+                                                <option value="">Select Branch Name</option>   
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="inputReadOnly">Address for Communication</label>
+                                                <input type="text" class="form-control" id="from_comm_line1" name="from_comm_line1" 
+                                                value="<?php if(isset($from_comm_line1)) echo $from_comm_line1; ?>" readonly>
+                                                <input type="text" class="form-control" id="from_comm_line2" name="from_comm_line2" 
+                                                value="<?php if(isset($from_comm_line2)) echo $from_comm_line2; ?>" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="inputReadOnly">Address for Communication</label>
+                                            <input type="text" class="form-control" id="to_comm_line1" name="to_comm_line1" 
+                                            value="<?php if(isset($to_comm_line1)) echo $to_comm_line1; ?>" readonly>
+                                            <input type="text" class="form-control" id="to_comm_line2" name="to_comm_line2" 
+                                            value="<?php if(isset($to_comm_line2)) echo $to_comm_line2; ?>" readonly>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Asset Classification</label>
@@ -149,79 +215,6 @@ if($idupd>0)
                                                 <?php }} ?>   -->
 
                                             </select> 
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <?php if($sbranch_id == 'Overall'){ ?>
-                                            <label for="disabledInput">Company Name</label>
-                                            <select tabindex="4" type="text" class="form-control" id="company_id" name="company_id" >
-                                                <option value="">Select Asset Classification</option>   
-                                                    <?php if (sizeof($companyName)>0) { 
-                                                    for($j=0;$j<count($companyName);$j++) { ?>
-                                                    <option <?php if(isset($company_id)) { if($companyName[$j]['company_id'] == $company_id)  echo 'selected'; }  ?> 
-                                                    value="<?php echo $companyName[$j]['company_id']; ?>">
-                                                    <?php echo $companyName[$j]['company_name'];?></option>
-                                                    <?php }} ?>  
-                                            </select> 
-                                        <?php } else { ?>
-                                            <input type="hidden" class="form-control" value="<?php echo $sCompanyBranchDetail['company_id']?>" id="company_id" name="company_id" >
-                                        <?php }?>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="inputReadOnly">Branch Name [Sending]</label>
-                                            <?php if ($sbranch_id == 'Overall') { ?>
-                                                <select tabindex="5" type="text" class="form-control" id="branch_from" name="branch_from"  >
-                                                <option value="">Select Branch Name</option>   
-                                                </select>
-                                            <?php } else { ?>
-                                            <select tabindex="5" type="text" class="form-control" id="branch_from" name="branch_from"  >
-                                            <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name'].' - '.$sCompanyBranchDetail['branch_name'];?></option>   
-                                            </select>  
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                        <label for="inputReadOnly">Branch Name [To]</label>
-                                            <select tabindex="6" type="text" class="form-control" id="branch_to" name="branch_to"  >
-                                                <option value="">Select Branch Name</option>   
-                                                    <?php if (sizeof($branchName)>0) { 
-                                                        for($j=0;$j<count($branchName);$j++) { ?>
-                                                        <option <?php if(isset($branch_to)) { if($branchName[$j]['branch_id'] == $branch_to)  echo 'selected'; }  ?> 
-                                                            value="<?php echo $branchName[$j]['branch_id']; ?>" >
-                                                            <?php
-                                                            for($k=0;$k<count($companyName);$k++) {
-                                                                if($branchName[$j]['company_id'] == $companyName[$k]['company_id']) echo $companyName[$k]['company_name']; }
-                                                            echo ' - ' . $branchName[$j]['branch_name']; ?>
-                                                        </option>
-                                                    <?php }} ?> 
-                                            </select> 
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="inputReadOnly">Address for Communication</label>
-                                            <?php if ($sbranch_id == 'Overall') {?>
-                                                <input type="text" class="form-control" id="from_comm_line1" name="from_comm_line1" 
-                                                value="<?php if(isset($from_comm_line1)) echo $from_comm_line1; ?>" readonly>
-                                                <input type="text" class="form-control" id="from_comm_line2" name="from_comm_line2" 
-                                                value="<?php if(isset($from_comm_line2)) echo $from_comm_line2; ?>" readonly>
-                                            <?php } else { ?>
-                                                <input type="text" class="form-control" id="from_comm_line1" name="from_comm_line1" 
-                                                value="<?php if (isset($from_comm_line1)) { echo $from_comm_line1;}else{echo $sCompanyBranchDetail['address1'];} ?>" readonly>
-                                                <input type="text" class="form-control" id="from_comm_line2" name="from_comm_line2" 
-                                                value="<?php if(isset($from_comm_line2)) {echo $from_comm_line2;}else{echo $sCompanyBranchDetail['address2'];} ?>" readonly>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="inputReadOnly">Address for Communication</label>
-                                            <input type="text" class="form-control" id="to_comm_line1" name="to_comm_line1" 
-                                            value="<?php if(isset($to_comm_line1)) echo $to_comm_line1; ?>" readonly>
-                                            <input type="text" class="form-control" id="to_comm_line2" name="to_comm_line2" 
-                                            value="<?php if(isset($to_comm_line2)) echo $to_comm_line2; ?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">

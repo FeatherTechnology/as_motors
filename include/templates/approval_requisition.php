@@ -60,6 +60,7 @@ if(isset($_GET['upd']))
                 data: {},
                 dataType: 'json',
                 success: function(response){ 
+                    console.log('tetst');
                     $("#drafter_name").val(response["staff_name"]);
                     $("#drafter_nameApp").val(response["staff_name"]);
                     $("#drafter_department").val(response["department"]);
@@ -221,6 +222,7 @@ function getDeptName($mysqli, $department_id){
         <form id="customer" name="customer" action="" method="post" enctype="multipart/form-data">	
             <input type="hidden" class="form-control" value="<?php if(isset($dashupd)) echo $dashupd; ?>" id="idupd" name="idupd" aria-describedby="id" placeholder="Enter id">
             <input type="hidden" class="form-control" value="<?php if(isset($approval_line_id)) echo $approval_line_id; ?>" id="approval_line_id" name="approval_line_id" aria-describedby="id" placeholder="Enter id">
+            <input type="hidden" class="form-control" value="<?php if(isset($doc_no)){ echo $doc_no; }else{ echo '0';} ?>" id="inserted_doc_no" name="inserted_doc_no" >
            
             <div class="card">
                 <div class="card-body">
@@ -495,6 +497,7 @@ function getDeptName($mysqli, $department_id){
         <?php }
         ?>
         <input type="hidden" class="form-control" value="<?php if(isset($approval_line_id)) echo $approval_line_id; ?>" id="approval_line_id" name="approval_line_id" aria-describedby="id" placeholder="Enter id">
+        <input type="hidden" class="form-control" value="<?php if(isset($doc_no)){ echo $doc_no; }else{ echo '0';} ?>" id="inserted_doc_no" name="inserted_doc_no" >
         <div class="card">
             <div class="card-body">
                 <div class="row">

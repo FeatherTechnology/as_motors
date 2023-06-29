@@ -6,11 +6,12 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
     $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+    $company = $sCompanyBranchDetail['company_id'];
 }
 
 $companyName = $userObj->getCompanyName($mysqli);
 $designationList = $userObj->getDesignation($mysqli);
-$krakpicompanyList = $userObj->getkrakpicompany($mysqli, $sbranch_id);
+$krakpicompanyList = $userObj->getkrakpicompany($mysqli, $sbranch_id,$company);
 $staffList = $userObj->getStaff($mysqli); 
 
 $id=0;
@@ -75,6 +76,7 @@ if($idupd>0)
 
     <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_id); ?>" >
     <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
+    <input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation); ?>" >
     <input type="hidden" id="reportingEdit" name="reportingEdit" value="<?php print_r($reporting); ?>" >
 
     <script>
@@ -138,16 +140,16 @@ if($idupd>0)
         function editDepartmentBasedReporting(){ 
 
             var company_id = $('#company_nameEdit').val(); 
-            var department_id = $('#departmentEdit').val();
+            var desgn_id = $('#designationEdit').val();
             var reporting = $('#reportingEdit').val();
 
-            if(department_id.length==''){ 
+            if(desgn_id.length==''){ 
                 $("#department").val('');
             }else{
                 $.ajax({
-                    url: 'StaffFile/ajaxGetDeptBasedStaff.php',
+                    url: 'StaffFile/ajaxGetDeptBasedForStaff.php',
                     type: 'post',
-                    data: { "company_id":company_id, "department_id":department_id },
+                    data: { "company_id":company_id, "desgn_id":desgn_id },
                     dataType: 'json',
                     success:function(response){
                         
@@ -220,9 +222,8 @@ if($idupd>0)
                                                         <?php }} ?>  
                                                 </select>  
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name"  >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
-                                                </select> 
+                                                <input type="hidden" id="company_id" name="company_id" value="<?php echo $sCompanyBranchDetail['company_id']; ?>">
+                                                <input type="text" class="form-control" id="company" name="company" value="<?php echo $sCompanyBranchDetail['company_name']; ?>" readonly>
                                             <?php } ?>
                                         </div>
                                     </div>

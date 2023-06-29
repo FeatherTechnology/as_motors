@@ -232,6 +232,8 @@ $("body").on("click","#delete_project", function(){
     }
 });
 
+});//document ready end
+
 $(function(){
     $('#projectTable').DataTable({
         'iDisplayLength': 5,
@@ -240,10 +242,90 @@ $(function(){
         "info": "Showing Page _PAGE_ of _PAGES_",
         }
     });
+
+    // var idupd = $('#idupd').val();
+
+    // if(idupd>0 && idupd !=''){
+        editCompanyBasedBranch();
+    // }
+
+            // get department details
+        // function editBranchBasedDepartment(){ 
+
+        //     var company_id = $('#company_nameEdit').val(); 
+        //     var department_upd = $('#departmentEdit').val();
+
+        //     $.ajax({
+        //     url: 'KRA&KPIFile/ajaxKra&KpiDepartmentDetails.php',
+        //     type: 'post',
+        //     data: { "company_id":company_id },
+        //     dataType: 'json',
+        //     success:function(response){ 
+
+        //         $('#department_id').empty();
+        //         $('#department_id').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+        //         var r = 0;
+        //         for (r = 0; r <= response.department_id.length - 1; r++) { 
+        //         var selected = "";
+        //         if(department_upd == response['department_id'][r]){
+        //             selected = "selected";
+        //         }
+        //         $('#department_id').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
+        //         }
+        //     }
+        //     });
+        // };
+    
+
 });
 
+function editCompanyBasedBranch(){ 
+    var idupd = $('#idupd').val(); 
 
-});//document ready end
+    if(idupd >0 && idupd !=''){
+        var branch_id = $('#company_nameEdit').val();
+    }else{
+        var branch_id = $('#branch_id').val();
+    }
+    
+    var staffEdit = $('#staffEdit').val().split(',');  
+
+    $.ajax({
+        url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
+        type:'post',
+        data: {'branch_id': branch_id},
+        dataType: 'json',
+        success: function(response){
+            
+            $("#branch_id").empty();
+            $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
+            var r = 0;
+            for (r = 0; r <= response.branch_id.length - 1; r++) { 
+                var selected = "";
+                if(response['branch_id'][r] == branch_id)
+                {
+                    selected = "selected";
+                }
+                $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + 
+                response['branch_name'][r] + "</option>");
+            }
+        }
+    });
+
+    editBranchBasedTagAssignTo(branch_id, staffEdit);
+
+    // enable and disable project
+    var criteria = $('#criteriaEdit').val();
+    if(criteria == 'Event'){ 
+        $('#project_id').attr("readonly",true);
+        $('#add_CategoryDetails').attr("disabled",true);
+    } else if(criteria == 'Project'){ 
+        $('#project_id').attr("readonly",false);
+        $('#add_CategoryDetails').attr("disabled",false);
+    }
+
+}
+
 
 function DropDownCourse(){
     $.ajax({
