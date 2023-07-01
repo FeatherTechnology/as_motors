@@ -260,6 +260,11 @@ include('api/main.php'); // Database Connection File
             <?php include "include/templates/edit_assign_work.php" ?>
             <?php } ?>
 			
+			<!-- Daily Task Update -->
+            <?php if($current_page == 'daily_task_update') { ?>
+            <?php include "include/templates/daily_task_update.php" ?>
+            <?php } ?>
+			
 			<!-- Assigned Work Calendar view -->
             <?php if($current_page == 'assigned_work') { ?>
             <?php include "include/templates/assigned_work.php" ?>
@@ -473,6 +478,10 @@ include('api/main.php'); // Database Connection File
 			<!-- Vehicle Details -->
             <?php if($current_page == 'vehicle_details') { ?>
             <?php include "include/templates/vehicle_details.php" ?>
+            <?php } ?>
+
+            <?php if($current_page == 'vehicle_fc_insurance') { ?>
+            <?php include "include/templates/vehicle_fc_insurance.php" ?>
             <?php } ?>
 
             <?php if($current_page == 'edit_vehicle_details') { ?>

@@ -476,6 +476,11 @@ if (sizeof($getuser)>0) {
 														<a href="edit_assign_work"><i class="icon-archive"></i>Assign Work</a>
 													</li>
 												<?php } ?>
+												<?php if($assign_work == 0 && $assign_work != '' && $assign_work != NULL) { ?>
+													<li>
+														<a href="daily_task_update"><i class="icon-archive"></i>Daily Task</a>
+													</li>
+												<?php } ?>
 												<?php if($todo == 0 && $todo != '' && $todo != NULL) { ?>
 													<li>
 														<a href="edit_todo"><i class="icon-today"></i>To Do</a>

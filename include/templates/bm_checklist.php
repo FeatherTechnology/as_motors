@@ -105,7 +105,7 @@ if($idupd>0)
             var frequency = $('#frequencyEdit').val(); 
             if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){
                 $('#frequency_applicable').attr("disabled",false);
-            } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+            } else  if(frequency == 'Daily Task' || frequency == 'Yearly'){ 
                 $('#frequency_applicable').prop('checked', false);
                 $('#frequency_applicable').attr("disabled",true);
             }
@@ -229,8 +229,8 @@ if($idupd>0)
                                                 <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
                                                 <option <?php if(isset($frequency)) { if('Yearly' == $frequency) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
                                                 <?php echo 'Yearly'; }else{ ?> <option value="Yearly">Yearly</option> <?php } ?></option> 
-                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency) echo 'selected';  ?> value="<?php echo 'Event Driven' ?>">
-                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option>  
+                                                <option <?php if(isset($frequency)) { if('Daily Task' == $frequency) echo 'selected';  ?> value="<?php echo 'Daily Task' ?>">
+                                                <?php echo 'Daily Task'; }else{ ?> <option value="Daily Task">Daily Task</option> <?php } ?></option>  
                                             </select> 
 										</div>
 									</div>

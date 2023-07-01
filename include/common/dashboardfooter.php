@@ -512,7 +512,6 @@
                 [10, 25, 50, "All"]
             ]
         });
-		
 		//Asset Register Fetching
         var assign_work_table = $('#asset_register_table').DataTable({
             "order": [[ 0, "desc" ]],
@@ -2065,6 +2064,68 @@ buttons: [
         ]
     });
 
+    // approved List - Regularaisation dashboard
+    var regularisation_approved_info_dashboard = $('#regularisation_approved_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxRegularisationApprovedList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
+    // Vehicle Management dashboard
+    var fc_insurance_info_dashboard = $('#fc_insurance_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxFCinsuranceinfoList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ]
+    });
+
 
     // Target fixing
     var targetFixing_info = $('#targetFixing_info').DataTable({
@@ -2276,6 +2337,10 @@ if($current_page == 'kra_creation') { ?>
 if($current_page == 'assign_work') { ?>
 	<script src="js/assign_work.js"></script>
 	<?php }
+
+if($current_page == 'daily_task_update') { ?>
+	<script src="js/daily_task_update.js"></script>
+	<?php }
 	
 if($current_page == 'assigned_work') { ?>
 	<script src="dist/index.global.js"></script>
@@ -2404,6 +2469,10 @@ if($current_page == 'periodic_level') { ?>
 
 if($current_page == 'vehicle_details') { ?>
 	<script src="js/vehicle_details.js"></script>
+	<?php }
+
+if($current_page == 'vehicle_fc_insurance') { ?>
+	<script src="js/vehicle_fc_insurance.js"></script>
 	<?php }
 
 if($current_page == 'daily_km') { ?>

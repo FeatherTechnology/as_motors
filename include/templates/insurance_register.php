@@ -53,6 +53,9 @@ if($idupd>0)
             $ins_reg_id                      = $getInsuranceRegisterList[$i]['ins_reg_id'];
 			$company_id              	 = $getInsuranceRegisterList[$i]['company_id'];
 			$insurance_id          		 = $getInsuranceRegisterList[$i]['insurance_id'];
+			$policy_company          		 = $getInsuranceRegisterList[$i]['policy_company'];
+			$policy_number          		 = $getInsuranceRegisterList[$i]['policy_number'];
+			$policy_upload          		 = $getInsuranceRegisterList[$i]['policy_upload'];
 			$dept_id      			             = $getInsuranceRegisterList[$i]['dept_id'];
 			$freq_id		             = $getInsuranceRegisterList[$i]['freq_id'];
 			$department_id		             = $getInsuranceRegisterList[$i]['department_id'];
@@ -308,7 +311,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Name</label>
-                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="4">
+                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="5">
                                                 <option value="">Select Staff Name</option>
                                             </select>   
                                         </div>
@@ -317,7 +320,7 @@ if($idupd>0)
                                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Insurance Name</label>
-                                            <select tabindex="3" type="text" class="form-control" name="ins_name" id="ins_name">
+                                            <select tabindex="6" type="text" class="form-control" name="ins_name" id="ins_name">
                                                 <option value="" disabled selected>Select Insurance Name</option>
                                             </select>
                                         </div>
@@ -325,7 +328,7 @@ if($idupd>0)
 
                                     <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" style="margin-top: 20px">
                                         <div class="form-group">
-                                            <button type="button"  tabindex="4" class="btn btn-primary" id="add_insuranceDetails" name="add_insuranceDetails"  style="padding: 5px 30px;" >
+                                            <button type="button"  tabindex="7" class="btn btn-primary" id="add_insuranceDetails" name="add_insuranceDetails"  style="padding: 5px 30px;" >
                                                 <span class="icon-add"></span>
                                             </button>
                                         </div>
@@ -333,8 +336,33 @@ if($idupd>0)
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
+                                            <label for="disabledInput">Policy Company</label>
+                                            <input tabindex="8" type="text" class="form-control" name="policy_company" id="policy_company" placeholder="Enter Policy Company" value="<?php if(isset($policy_company)) echo $policy_company; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Policy Number</label>
+                                            <input tabindex="9" type="text" class="form-control" name="policy_number" id="policy_number" placeholder="Enter Policy Number" onkeydown="return /^[0-9\W_]+$/.test(event.key) || event.key === 'Backspace'" value="<?php if(isset($policy_number)) echo $policy_number; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Policy Upload</label>
+                                            <input tabindex="10" type="file" class="form-control" name="policy_upload" id="policy_upload">
+                                            <?php if(isset($policy_upload)){ ?>
+                                            <a href='uploads/insurance_policy/<?php if(isset($policy_upload)) echo $policy_upload; ?>' download><li><?php if(isset($policy_upload)) echo $policy_upload; ?></li></a>
+                                            <?php } ?>
+                                            <input type="hidden" class="form-control" name="policy_upload_upd" id="policy_upload_upd" value="<?php if(isset($policy_upload)) echo $policy_upload; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
                                             <label for="disabledInput">Responsibile Department</label>
-                                            <select tabindex="5" type="text" class="form-control" name="dept" id="dept">
+                                            <select tabindex="11" type="text" class="form-control" name="dept" id="dept">
                                                 <option value="" disabled selected>Select Department Name</option>
                                             </select>
                                         </div>
@@ -343,7 +371,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Frequency</label>
-                                            <select tabindex="6" type="text" class="form-control frequency" name="frequency" id="frequency">
+                                            <select tabindex="12" type="text" class="form-control frequency" name="frequency" id="frequency">
                                                 <option value="" >Select Frequency</option>
                                                 <option value="1" <?php if(isset($freq_id )){if($freq_id == "1") echo "selected";} ?>>Half Yearly</option>
                                                 <option value="2" <?php if(isset($freq_id )){if($freq_id == "2") echo "selected"; }?>>Yearly</option>  
@@ -353,14 +381,14 @@ if($idupd>0)
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mt-4" >
 										<div class="form-group">
-                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for next 6 months</label>
+                                            <input disabled type="checkbox" tabindex="13" name="frequency_applicable" id="frequency_applicable" value="frequency_applicable" <?php if($idupd > 0){ if($frequency_applicable== 'frequency_applicable'){ echo'checked'; }} ?>> &nbsp;&nbsp; <label for="frequency_applicable">Is it applicable for next 6 months</label>
 										</div>
 									</div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Calendar</label>
-                                            <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar" >
+                                            <select tabindex="14" type="text" class="form-control calendar" id="calendar" name="calendar" >
                                                 <option value=''>Select Calendar</option>
                                                 <option <?php if(isset($calendar)) { if('Yes' == $calendar) echo 'selected';  ?> value="<?php echo 'Yes' ?>">
                                                 <?php echo 'Yes'; } else { ?> <option value="Yes">Yes</option> <?php } ?></option>
@@ -374,8 +402,8 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="from_date">Start Date & End Date</label>
                                             <div class="form-inline">
-                                                <input readonly type="date" tabindex = "8" name="from_date" id="from_date" placeholder="From" class="form-control"  value="<?php if (isset($from_date)) echo $from_date; ?>">&nbsp;&nbsp;
-                                                <span>To</span>&nbsp;&nbsp;<input readonly type="date" tabindex = "9" name="to_date" id="to_date" placeholder="To" class="form-control"  value="<?php if (isset($to_date)) echo $to_date; ?>">
+                                                <input readonly type="date" tabindex = "15" name="from_date" id="from_date" placeholder="From" class="form-control"  value="<?php if (isset($from_date)) echo $from_date; ?>">&nbsp;&nbsp;
+                                                <span>To</span>&nbsp;&nbsp;<input readonly type="date" tabindex = "16" name="to_date" id="to_date" placeholder="To" class="form-control"  value="<?php if (isset($to_date)) echo $to_date; ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -385,8 +413,8 @@ if($idupd>0)
                             
                             <div class="col-md-12">
                                 <div class="text-right">
-                                    <button type="submit" name="submitInsurance_register" id="submitInsurance_register" class="btn btn-primary" value="Submit" tabindex="7">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary" tabindex="8" id='reset'>Cancel</button>
+                                    <button type="submit" name="submitInsurance_register" id="submitInsurance_register" class="btn btn-primary" value="Submit" tabindex="17">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary" tabindex="18" id='reset'>Cancel</button>
                                 </div>
                                 <br><br>
                             </div>

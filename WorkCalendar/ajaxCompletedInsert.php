@@ -32,6 +32,7 @@ $ifhas3 = "maintenance";
 $ifhas4 = "campaign";
 $ifhas5 = "insurance";
 $ifhas6 = "BM";
+$ifhas7 = "FC_INS_renew";
 
 if (strstr($workdes_id, $ifhas)) {
     //"The substring was found in the string";
@@ -68,6 +69,11 @@ if (strstr($workdes_id, $ifhas)) {
     $maintenance_checklist_id_bm = preg_replace('/BM /', '', $workdes_id);
     $qry = "UPDATE bm_checklist_ref set work_status = 3 where bm_checklist_ref_id = '".$maintenance_checklist_id_bm."' ";
     $result = $con->query($qry) or die("Error Not able to update BM Checklist ref table");
+} else if(strstr($workdes_id, $ifhas7)) {
+    //"The substring was found in the string";
+    $Fc_insurance_renew_id = preg_replace('/FC_INS_renew /', '', $workdes_id);
+    $qry = "UPDATE fc_insurance_renew set work_status = 3 where Fc_insurance_renew_id = '".$Fc_insurance_renew_id."' ";
+    $result = $con->query($qry) or die("Error Not able to update FC Insurance Renew table");
 } else {
     //"The substring was not found in the string";
     $assign_wrk_ref_id = preg_replace('/assign_work /', '', $workdes_id);

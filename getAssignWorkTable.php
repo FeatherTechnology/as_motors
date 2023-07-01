@@ -80,8 +80,7 @@ while($row1 = $res1->fetch_assoc())
 // get KRA & KPI list
 $getqry2 = "SELECT krakpi_calendar_map.krakpi_calendar_map_id, krakpi_calendar_map.krakpi_ref_id, krakpi_calendar_map.kra_category, krakpi_calendar_map.from_date, 
 krakpi_calendar_map.to_date, krakpi_calendar_map.work_status 
-FROM krakpi_calendar_map LEFT JOIN krakpi_creation ON krakpi_calendar_map.krakpi_id = krakpi_creation.krakpi_id WHERE krakpi_creation.status = 0 
-AND krakpi_creation.designation = '".$designation."' AND krakpi_calendar_map.calendar = 'Yes' AND ((krakpi_calendar_map.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(krakpi_calendar_map.from_date) AND MONTH(krakpi_calendar_map.to_date)) OR krakpi_calendar_map.work_status IN (0, 1, 2)) ";
+FROM krakpi_calendar_map LEFT JOIN krakpi_creation ON krakpi_calendar_map.krakpi_id = krakpi_creation.krakpi_id LEFT JOIN krakpi_creation_ref ON krakpi_calendar_map.krakpi_ref_id = krakpi_creation_ref.krakpi_ref_id WHERE krakpi_creation.status = 0 AND krakpi_creation_ref.frequency != 'Daily Task' AND krakpi_creation.designation = '".$designation."' AND krakpi_calendar_map.calendar = 'Yes' AND ((krakpi_calendar_map.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(krakpi_calendar_map.from_date) AND MONTH(krakpi_calendar_map.to_date)) OR krakpi_calendar_map.work_status IN (0, 1, 2)) ";
 $res2 = $con->query($getqry2);
 $i=0;
 while($row2 = $res2->fetch_assoc())
@@ -123,8 +122,7 @@ while($row2 = $res2->fetch_assoc())
 // get audit area creation list
 $getqry4 = "SELECT audit_area_creation_ref.audit_area_creation_ref_id, audit_area_creation_ref.audit_area_id, audit_area_creation_ref.from_date, 
 audit_area_creation_ref.to_date, audit_area_creation_ref.work_status, audit_area_creation.audit_area  
-FROM audit_area_creation_ref LEFT JOIN audit_area_creation  ON audit_area_creation_ref.audit_area_id = audit_area_creation.audit_area_id WHERE audit_area_creation.status = 0 
-AND ((audit_area_creation_ref.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(audit_area_creation_ref.from_date) AND MONTH(audit_area_creation_ref.to_date)) OR audit_area_creation_ref.work_status IN (0, 1, 2)) AND audit_area_creation.calendar = 'Yes' AND (audit_area_creation.role1 = '".$designation."' 
+FROM audit_area_creation_ref LEFT JOIN audit_area_creation  ON audit_area_creation_ref.audit_area_id = audit_area_creation.audit_area_id WHERE audit_area_creation.status = 0 AND audit_area_creation.frequency != 'Daily Task' AND ((audit_area_creation_ref.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(audit_area_creation_ref.from_date) AND MONTH(audit_area_creation_ref.to_date)) OR audit_area_creation_ref.work_status IN (0, 1, 2)) AND audit_area_creation.calendar = 'Yes' AND (audit_area_creation.role1 = '".$designation."' 
 OR audit_area_creation.role2 = '".$designation."') "; 
 $res4 = $con->query($getqry4);
 $i=0;
@@ -154,7 +152,7 @@ while($row4 = $res4->fetch_assoc())
 // get maintenance checklist list - PM
 $getqry5 = "SELECT pm_checklist_ref.pm_checklist_ref_id, pm_checklist_ref.maintenance_checklist_id,  pm_checklist_ref.pm_checklist_id, pm_checklist_ref.checklist, 
 pm_checklist_ref.from_date, pm_checklist_ref.to_date, pm_checklist_ref.work_status FROM pm_checklist_ref LEFT JOIN maintenance_checklist 
-ON pm_checklist_ref.maintenance_checklist_id = maintenance_checklist.maintenance_checklist_id WHERE maintenance_checklist.status = 0 
+ON pm_checklist_ref.maintenance_checklist_id = maintenance_checklist.maintenance_checklist_id LEFT JOIN pm_checklist_multiple ON pm_checklist_ref.pm_checklist_id = pm_checklist_multiple.id LEFT JOIN pm_checklist ON pm_checklist_multiple.pm_checklist_id = pm_checklist.pm_checklist_id WHERE maintenance_checklist.status = 0 AND pm_checklist.frequency != 'Daily Task'
 AND ((pm_checklist_ref.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(pm_checklist_ref.from_date) AND MONTH(pm_checklist_ref.to_date)) OR pm_checklist_ref.work_status IN (0, 1, 2)) AND maintenance_checklist.calendar = 'Yes' AND (maintenance_checklist.role1 = '".$designation."' 
 OR maintenance_checklist.role2 = '".$designation."') "; 
 $res5 = $con->query($getqry5);
@@ -185,9 +183,7 @@ while($row5 = $res5->fetch_assoc())
 // get maintenance checklist list -BM
 $getqry8 = "SELECT bcr.bm_checklist_ref_id, bcr.maintenance_checklist_id,  bcr.bm_checklist_id, bcr.checklist, 
 bcr.from_date, bcr.to_date, bcr.work_status FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc 
-ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id WHERE mc.status = 0 
-AND ((bcr.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(bcr.from_date) AND MONTH(bcr.to_date)) OR bcr.work_status IN (0, 1, 2)) AND mc.calendar = 'Yes' AND (mc.role1 = '".$designation."' 
-OR mc.role2 = '".$designation."') "; 
+ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND bc.frequency != 'Daily Task' AND ((bcr.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(bcr.from_date) AND MONTH(bcr.to_date)) OR bcr.work_status IN (0, 1, 2)) AND mc.calendar = 'Yes' AND (mc.role1 = '".$designation."' OR mc.role2 = '".$designation."') "; 
 $res8 = $con->query($getqry8);
 $i=0;
 while($row8 = $res8->fetch_assoc())
@@ -242,7 +238,16 @@ $getqry7 = "SELECT insurance_register_ref.ins_reg_ref_id, insurance_register_ref
 insurance_register_ref.to_date, insurance_register_ref.work_status 
 FROM insurance_register_ref LEFT JOIN insurance_register 
 ON insurance_register_ref.ins_reg_id = insurance_register.ins_reg_id 
-WHERE insurance_register.status = 0 AND ((insurance_register_ref.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(insurance_register_ref.from_date) AND MONTH(insurance_register_ref.to_date)) OR insurance_register_ref.work_status IN (0, 1, 2)) AND insurance_register.staff_id = '".$staff_id."' ";  
+WHERE insurance_register.status = 0 
+AND (
+    (insurance_register_ref.work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(insurance_register_ref.from_date) AND MONTH(insurance_register_ref.to_date)) OR insurance_register_ref.work_status IN (0, 1, 2)
+    ) 
+AND (
+        insurance_register_ref.to_date >= CURDATE()
+        AND 
+        insurance_register_ref.to_date <= CURDATE() + INTERVAL 30 DAY
+    ) 
+AND  insurance_register.staff_id = '".$staff_id."' ";  
 $res7 = $con->query($getqry7);
 $i=0;
 while($row7 = $res7->fetch_assoc())
@@ -271,6 +276,30 @@ while($row7 = $res7->fetch_assoc())
     $detailRecords[$i]['insurance_work_status'] = $work_status;   
     $i++;
 }
+
+// get Todo list
+$getqry1 = "SELECT * FROM fc_insurance_renew WHERE status = 0 AND ((work_status = 3 AND MONTH(CURDATE()) BETWEEN month(from_date) AND month(to_date)) OR work_status IN (0, 1, 2)) AND FIND_IN_SET('$staff_id', assign_staff_name) > 0  ";
+$res1 = $con->query($getqry1);
+$i=0;
+while($row1 = $res1->fetch_assoc())
+{
+    $detailRecords[$i]['Fc_insurance_renew_id'] = $row1["fc_insurance_renew_id"];      
+    $detailRecords[$i]['Fc_branch_id'] = $row1["branch_id"];      
+    $detailRecords[$i]['Fc_assign_remark'] = $row1["assign_remark"];     
+    $detailRecords[$i]['Fc_assign_to'] = $row1["assign_staff_name"];      
+    $detailRecords[$i]['Fc_from_date'] = $row1["from_date"];      
+    $detailRecords[$i]['Fc_to_date'] = $row1["to_date"];  
+    $detailRecords[$i]['Fc_work_sts'] = $row1["work_status"];  
+    
+    $work_status1 = $row1["work_status"];
+    if ($work_status1 == 0) {$work_status = '';}
+    if ($work_status1 == 1) {$work_status = 'In Progress';}
+    if ($work_status1 == 2) {$work_status = 'Pending';}
+    if ($work_status1 == 3) {$work_status = 'Completed';}
+    $detailRecords[$i]['Fc_work_status'] = $work_status;   
+    $i++;
+}
+
 
 echo json_encode($detailRecords);
 ?>

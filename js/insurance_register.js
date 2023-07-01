@@ -23,25 +23,27 @@ $(document).ready(function(){
     // Get branch based on Department
     $("#branch_id").change(function(){
         var company_id = $("#branch_id").val();
-        if(company_id.length==''){
-            $("#branch_id").val('');
-        }else{
-            $.ajax({
-                url: 'StaffFile/ajaxStaffDepartmentDetails.php',
-                type: 'post',
-                data: { "company_id":company_id },
-                dataType: 'json',
-                success:function(response){ 
+        getDeptName(company_id);
+        
+        // if(company_id.length==''){
+        //     $("#branch_id").val('');
+        // }else{
+        //     $.ajax({
+        //         url: 'StaffFile/ajaxStaffDepartmentDetails.php',
+        //         type: 'post',
+        //         data: { "company_id":company_id },
+        //         dataType: 'json',
+        //         success:function(response){ 
 
-                $('#department').empty();
-                $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-                var r = 0;
-                for (r = 0; r <= response.department_id.length - 1; r++) { 
-                    $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
-                }
-                }
-            });
-        }
+        //         $('#department').empty();
+        //         $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+        //         var r = 0;
+        //         for (r = 0; r <= response.department_id.length - 1; r++) { 
+        //             $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
+        //         }
+        //         }
+        //     });
+        // }
     });
 
 
@@ -271,6 +273,9 @@ $(function(){
     DropDownInsuranceLoad();
     DropDownDepartmentLoad();
 
+    var company_id = $("#branch_id").val();
+    getDeptName(company_id);
+
     // super admin login
 
     if($('#branch_id_session').val() != 'Overall'){
@@ -310,7 +315,7 @@ function resetinsuranceTable(company_id){
 
 //Dropdown for insurance
 function DropDownInsurance(){
-    var company_id = $("#branch_id :selected").val(); 
+    var company_id = $("#branch_id").val(); 
     var insurance_upd = $('#insurance_id_upd').val();
     $.ajax({
         url: 'insuranceFile/ajaxgetinsurancedropdown.php',
@@ -477,4 +482,26 @@ function DropDownDepartmentLoad(){
             }
         }
     });
+}
+
+function getDeptName(company_id){
+    if(company_id.length==''){
+        $("#branch_id").val('');
+    }else{
+        $.ajax({
+            url: 'StaffFile/ajaxStaffDepartmentDetails.php',
+            type: 'post',
+            data: { "company_id":company_id },
+            dataType: 'json',
+            success:function(response){ 
+
+            $('#department').empty();
+            $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+            var r = 0;
+            for (r = 0; r <= response.department_id.length - 1; r++) { 
+                $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
+            }
+            }
+        });
+    }
 }

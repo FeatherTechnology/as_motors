@@ -154,7 +154,7 @@ $(document).ready(function () {
             var frequency = frequency1.trim(); 
             if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
                 $('#frequency_applicable').attr("disabled",false);
-            } else  if(frequency == 'Event Driven' || frequency == 'Yearly'){ 
+            } else  if(frequency == 'Daily Task' || frequency == 'Yearly'){ 
                 $('#frequency_applicable').prop('checked', false);
                 $('#frequency_applicable').attr("disabled",true);
             }

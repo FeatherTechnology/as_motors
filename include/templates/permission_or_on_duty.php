@@ -60,6 +60,7 @@ if($idupd>0)
 			$staff_id    	     = $getPermissionOnDuty['staff_id'];
 			$staff_code    	     = $getPermissionOnDuty['staff_code'];
 			$reporting    	     = $getPermissionOnDuty['reporting'];
+			$reporting_name    	     = $getPermissionOnDuty['reporting_name'];
 			$reason    	     = $getPermissionOnDuty['reason'];
 			$permission_from_time    	     = $getPermissionOnDuty['permission_from_time'];
 			$permission_to_time    	     = $getPermissionOnDuty['permission_to_time'];
@@ -335,7 +336,8 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Reporting</label>
-                                            <input type="text" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting)) echo $reporting; ?>" placeholder="Enter Reporting Staff">  
+                                            <input type="hidden" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting)) echo $reporting; ?>">  
+                                            <input type="text" readonly id="reporting_name" name="reporting_name" class="form-control" value="<?php if(isset($reporting_name)) echo $reporting_name; ?>" placeholder="Enter Reporting Staff">  
                                         </div>
                                     </div>
                                 </div>

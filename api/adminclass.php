@@ -3645,6 +3645,23 @@
 			if(isset($_POST['ins_name'])){
 				$insurance_id = $_POST['ins_name'];
 			}
+			if(isset($_POST['policy_company'])){
+				$policy_company = $_POST['policy_company'];
+			}
+			if(isset($_POST['policy_number'])){
+				$policy_number = $_POST['policy_number'];
+			}
+			$policy_upload = '';
+			if(!empty($_FILES['policy_upload']['name']))
+			{
+				$policy_upload = $_FILES['policy_upload']['name'];
+				$report_file_temp = $_FILES['policy_upload']['tmp_name'];
+				$reportimage_folder="uploads/insurance_policy/".$policy_upload ;
+				move_uploaded_file($report_file_temp, $reportimage_folder);
+			}else{
+				$policy_upload = $_POST['policy_upload_upd'];
+			}
+
 			if(isset($_POST['dept'])){
 				$dept_id = $_POST['dept'];
 			}
@@ -3686,8 +3703,8 @@
 				$to_date = $to_date1.' '.$current_time;
 			}
 
-			$insertQry="INSERT INTO insurance_register(company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, 
-			frequency_applicable, created_date) VALUES ('".strip_tags($company_id)."','".strip_tags($insurance_id)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', 
+			$insertQry="INSERT INTO insurance_register(company_id, insurance_id, policy_company, policy_number, policy_upload, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, 
+			frequency_applicable, created_date) VALUES ('".strip_tags($company_id)."','".strip_tags($insurance_id)."', '".strip_tags($policy_company)."', '".strip_tags($policy_number)."', '".strip_tags($policy_upload)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', 
 			'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."', 
 			'".strip_tags($to_date)."', '".strip_tags($frequency_applicable)."', current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
@@ -3736,20 +3753,13 @@
 	
 					for($i=0; $i<=sizeof($from_dates)-1; $i++){
 	
-						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
-						calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
-						'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
-						'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', 
-						'".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
+						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, policy_company, policy_number, policy_upload, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', '".strip_tags($policy_company)."', '".strip_tags($policy_number)."', '".strip_tags($policy_upload)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
 				} 
 			} else {
 
-				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
-				calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
-				'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
-				'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
+				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, policy_company, policy_number, policy_upload, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, created_date) VALUES ('".strip_tags($last_id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', '".strip_tags($policy_company)."', '".strip_tags($policy_number)."', '".strip_tags($policy_upload)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
 				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			}
 
@@ -3763,6 +3773,22 @@
 			}
 			if(isset($_POST['ins_name'])){
 				$insurance_id = $_POST['ins_name'];
+			}
+			if(isset($_POST['policy_company'])){
+				$policy_company = $_POST['policy_company'];
+			}
+			if(isset($_POST['policy_number'])){
+				$policy_number = $_POST['policy_number'];
+			}
+			$policy_upload = '';
+			if(!empty($_FILES['policy_upload']['name']))
+			{
+				$policy_upload = $_FILES['policy_upload']['name'];
+				$report_file_temp = $_FILES['policy_upload']['tmp_name'];
+				$reportimage_folder="uploads/insurance_policy/".$policy_upload ;
+				move_uploaded_file($report_file_temp, $reportimage_folder);
+			}else{
+				$policy_upload = $_POST['policy_upload_upd'];
 			}
 			if(isset($_POST['dept'])){
 				$dept_id = $_POST['dept'];
@@ -3805,11 +3831,7 @@
 				$to_date = $to_date1.' '.$current_time;
 			}
 
-			$updQry="UPDATE insurance_register set company_id = '".strip_tags($company_id)."', insurance_id = '".strip_tags($insurance_id)."', 
-			dept_id = '".strip_tags($dept_id)."', freq_id = '".strip_tags($freq_id)."', department_id = '".strip_tags($department_id)."', 
-			designation_id = '".strip_tags($designation_id)."', staff_id = '".strip_tags($staff_id)."', calendar = '".strip_tags($calendar)."', 
-			from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', frequency_applicable = '".strip_tags($frequency_applicable)."',  
-			status = 0 WHERE ins_reg_id  = '".strip_tags($id)."' ";
+			$updQry="UPDATE insurance_register set company_id = '".strip_tags($company_id)."', insurance_id = '".strip_tags($insurance_id)."', policy_company='".strip_tags($policy_company)."',policy_number='".strip_tags($policy_number)."',policy_upload='".strip_tags($policy_upload)."', dept_id = '".strip_tags($dept_id)."', freq_id = '".strip_tags($freq_id)."', department_id = '".strip_tags($department_id)."', designation_id = '".strip_tags($designation_id)."', staff_id = '".strip_tags($staff_id)."', calendar = '".strip_tags($calendar)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', frequency_applicable = '".strip_tags($frequency_applicable)."', status = 0 WHERE ins_reg_id  = '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 
 			// delete insurance ref
@@ -3858,20 +3880,13 @@
 
 					for($i=0; $i<=sizeof($from_dates)-1; $i++){
 
-						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
-						calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
-						'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
-						'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', 
-						'".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
+						$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, policy_company, policy_number, policy_upload, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', '".strip_tags($policy_company)."', '".strip_tags($policy_number)."', '".strip_tags($policy_upload)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."', current_timestamp() )";
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
 				} 
 			} else {
 
-				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, dept_id, freq_id, department_id, designation_id, staff_id, 
-				calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', 
-				'".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', 
-				'".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
+				$insertQry="INSERT INTO insurance_register_ref(ins_reg_id, company_id, insurance_id, policy_company, policy_number, policy_upload, dept_id, freq_id, department_id, designation_id, staff_id, calendar, from_date, to_date, created_date) VALUES ('".strip_tags($id)."', '".strip_tags($company_id)."', '".strip_tags($insurance_id)."', '".strip_tags($policy_company)."', '".strip_tags($policy_number)."', '".strip_tags($policy_upload)."', '".strip_tags($dept_id)."', '".strip_tags($freq_id)."', '".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($staff_id)."', '".strip_tags($calendar)."', '".strip_tags($from_date)."',	'".strip_tags($to_date)."', current_timestamp() )";
 				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			}
 		}
@@ -3890,6 +3905,9 @@
 					$detailrecords[$i]['ins_reg_id'] = $row->ins_reg_id;
 					$detailrecords[$i]['company_id'] = $row->company_id;
 					$detailrecords[$i]['insurance_id']= $row->insurance_id;
+					$detailrecords[$i]['policy_company']= $row->policy_company;
+					$detailrecords[$i]['policy_number']= $row->policy_number;
+					$detailrecords[$i]['policy_upload']= $row->policy_upload;
 					$detailrecords[$i]['dept_id']= $row->dept_id;
 					$detailrecords[$i]['freq_id']= $row->freq_id;
 					$detailrecords[$i]['department_id']= $row->department_id;
@@ -4433,7 +4451,8 @@
 			{
 				$detailrecords[$j]['work_id'] = $row12["assign_work_reff_id"];  
 				$detailrecords[$j]['work_des_text'] = $row12["work_des_text"];  
-				$detailrecords[$j]['assign_to'] = $row12["assign_to"];  
+				// $detailrecords[$j]['assign_to'] = $row12["assign_to"];  
+				$detailrecords[$j]['assign_to'] = '';  
 				$to_date = $row12["to_date"];
 				$detailrecords[$j]['to_date'] = $to_date ;  
 				
@@ -5637,7 +5656,11 @@
 			if(isset($_POST['reject_reason'])){
 				$reject_reason = $_POST['reject_reason'];
 			}
-			$updresult=$mysqli->query("UPDATE permission_or_on_duty set leave_status='".strip_tags($approve_or_reject)."', reject_reason = '".strip_tags($reject_reason)."' WHERE permission_on_duty_id= '".strip_tags($id)."' ") or die("Error ".$mysqli->error);
+			$res_staff_name='';
+			if(isset($_POST['res_staff_name'])){
+				$res_staff_name = $_POST['res_staff_name'];
+			}
+			$updresult=$mysqli->query("UPDATE permission_or_on_duty set leave_status='".strip_tags($approve_or_reject)."', reject_reason = '".strip_tags($reject_reason)."', responsible_staff = '".$res_staff_name."' WHERE permission_on_duty_id= '".strip_tags($id)."' ") or die("Error ".$mysqli->error);
 		}
 		// Get Permission On Dury
 		public function getPermissionOnDuty($mysqli, $id){
@@ -5662,7 +5685,16 @@
 				$detailrecords['on_duty_place']       = $row->on_duty_place;		
 				$detailrecords['leave_date']       = $row->leave_date;		
 				$detailrecords['leave_reason']       = $row->leave_reason;		
-				$detailrecords['regularisation_id']       = $row->regularisation_id;		
+				$detailrecords['regularisation_id']       = $row->regularisation_id;	
+				
+				$getname = $mysqli->query("SELECT staff_name FROM staff_creation WHERE staff_id = '".$row->reporting."' ");
+				if ($mysqli->affected_rows>0)
+				{
+					$report_name = $getname->fetch_assoc();
+					$detailrecords['reporting_name'] = $report_name["staff_name"];
+				}else{
+					$detailrecords['reporting_name'] = '';
+				}
 			}
 			
 			return $detailrecords;
@@ -10433,6 +10465,63 @@ public function adddailyperformance($mysqli,$userid){
 				$i++;
 			}
 		}
+		return $detailrecords;
+	}
+
+	// Add Todo
+	public function addfcinsurancerenew($mysqli,$userid){
+
+		date_default_timezone_set('Asia/Calcutta');
+		$current_time = date('H:i:s');
+
+		if(isset($_POST['branch_id'])){
+			$branch_id = $_POST['branch_id'];
+		}
+		if(isset($_POST['id'])){
+			$vehicle_details_id = $_POST['id'];
+		}
+		if(isset($_POST['assign_staff_name'])){
+			$assign_staff_name = $_POST['assign_staff_name']; 
+		}
+		if(isset($_POST['assign_remark'])){
+			$assign_remark = $_POST['assign_remark'];
+		}
+		if(isset($_POST['from_date'])){
+			$from_date = $_POST['from_date'].' '.$current_time;
+		}
+		if(isset($_POST['to_date'])){
+			$to_date = $_POST['to_date'].' '.$current_time;
+		}
+		if(isset($_POST['fc_insurance_renew_id'])){
+			$fc_insurance_renew_id = $_POST['fc_insurance_renew_id'];
+		}
+		if($fc_insurance_renew_id ==''){
+			$insertQry="INSERT INTO `fc_insurance_renew`(`branch_id`, `vehicle_details_id`, `assign_staff_name`, `assign_remark`, `from_date`, `to_date`, `insert_login_id`) 
+			VALUES('".strip_tags($branch_id)."', '".strip_tags($vehicle_details_id)."','".strip_tags($assign_staff_name)."', '".strip_tags($assign_remark)."', 
+			'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".$userid."' )"; 
+			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+		}else{
+			$upd = $mysqli->query("UPDATE `fc_insurance_renew` SET `assign_staff_name`='$assign_staff_name',`assign_remark`='$assign_remark',`from_date`='$from_date',`to_date`='$to_date',`updated_date`= now(), `update_login_id`='$userid' WHERE `fc_insurance_renew_id`='$fc_insurance_renew_id'");
+		}
+	}
+
+	// Get Fc Renew Details
+	public function getFCInsDetails($mysqli, $id){
+
+		$selectQry = "SELECT * FROM fc_insurance_renew WHERE vehicle_details_id='".mysqli_real_escape_string($mysqli, $id)."' "; 
+		$res = $mysqli->query($selectQry) or die("Error in Get All Records".$mysqli->error);
+		$detailrecords = array();
+		if ($mysqli->affected_rows>0)
+		{
+			$row = $res->fetch_object();
+			$detailrecords['vehicle_details_id']  = $row->vehicle_details_id;  
+			$detailrecords['fc_insurance_renew_id']  = $row->fc_insurance_renew_id;  
+			$detailrecords['assign_staff_name']  = $row->assign_staff_name;  
+			$detailrecords['assign_remark']  = $row->assign_remark;  
+			$detailrecords['from_date']  = $row->from_date;  
+			$detailrecords['to_date']  = $row->to_date;  
+		}
+		
 		return $detailrecords;
 	}
 

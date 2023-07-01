@@ -367,6 +367,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
                 q++;
             }
+
+            z = q;
+            var FcCount = data.filter(item => item.hasOwnProperty('Fc_assign_remark')).length;
+            for(var i=0;i<FcCount;i++){
+
+                var Fc_work_status = '';
+                if(data[i]['Fc_work_status'] != ''){
+                    Fc_work_status = ' - '+ data[i]['Fc_work_status']; 
+                }
+                var startDate = moment(data[i]['Fc_from_date']);
+                var endDate = moment(data[i]['Fc_to_date']);
+            
+                var duration = endDate.diff(startDate, 'days') + 1;
+
+                // Generate individual events for each day of the task
+                for (var b = 0; b < duration; b++) {
+                    var currentDay = startDate.clone().add(b, 'days');
+                    if ( currentDay.day() !== 0) {
+                events.push({ 
+                    title:  data[i]['Fc_assign_remark'] + Fc_work_status,
+                    description: data[i]['Fc_assign_remark'],
+                    Fc_insurance_renew_id:data[i]['Fc_insurance_renew_id'],
+                    start: startDate.clone().add(b, 'days').format('YYYY-MM-DD'),
+                    end: startDate.clone().add(b, 'days').format('YYYY-MM-DD'), 
+                    enddate: data[i]['Fc_to_date'],
+                    work_sts: data[i]['Fc_work_sts']   
+                });
+
+                // Based on work Status color will change in calendar.
+                if(data[i]['Fc_work_status']=='Pending' ){
+                    events[events.length - 1].backgroundColor = 'red';
+                }
+                if(data[i]['Fc_work_status']=='In Progress' ){
+                    events[events.length - 1].backgroundColor = 'orange';
+                    events[events.length - 1].border = '0px solid';
+                }
+                if(data[i]['Fc_work_status']=='Completed' ){
+                    events[events.length - 1].backgroundColor = 'green';
+                }
+
+            }
+            }
+                z++;
+            }
         
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 
@@ -405,6 +449,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     else if(arg.event._def.extendedProps.ins_reg_id != undefined){
                         work_id = 'insurance ' + arg.event._def.extendedProps.ins_reg_id;
+                    }
+                    else if(arg.event._def.extendedProps.Fc_insurance_renew_id != undefined){
+                        work_id = 'FC_INS_renew ' + arg.event._def.extendedProps.Fc_insurance_renew_id;
                     }
                     var work_des = arg.event._def.extendedProps.description;
                     var end_date = arg.event._def.extendedProps.enddate;
