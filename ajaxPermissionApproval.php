@@ -2,8 +2,8 @@
 include('ajaxconfig.php');
 @session_start();
 
-if(isset($_SESSION["userid"])){
-    $userid = $_SESSION["userid"];
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
@@ -27,7 +27,7 @@ $column = array(
     'status'
 );
 
-$query = "SELECT * FROM permission_or_on_duty WHERE 1";
+$query = "SELECT * FROM permission_or_on_duty WHERE reporting = '$staffid'";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -137,7 +137,16 @@ foreach ($result as $row) {
     $sub_array[] = $department_name;
     $sub_array[] = $staffName;
     $sub_array[] = $row['staff_code'];
-    $sub_array[] = $row['reporting'];   
+
+    $reportingstaffName='';
+    $report_to = $row['reporting'];   
+    $getreportname = $con->query("SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($report_to)."' and status = 0");
+    if(mysqli_num_rows($getreportname)>0){
+        $reporto = $getreportname->fetch_assoc();
+        $reportingstaffName = $reporto["staff_name"];        
+    }   
+
+    $sub_array[] = $reportingstaffName;   
     $sub_array[] = $reason;
 
     $leave_status  = $row['leave_status'];

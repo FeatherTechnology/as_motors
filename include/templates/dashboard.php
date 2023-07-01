@@ -18,6 +18,9 @@
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 } 
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
+} 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
     $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
@@ -1845,7 +1848,105 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
-             </div>
+                <!-- Regularisation Approved List Start-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Approved List - Regularisation</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="regularisation_approved_info_dashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S. No.</th>
+                                                                    <th>Staff Name</th>
+                                                                    <th>Responsibile Staff Name</th>
+                                                                    <th>Type</th>
+                                                                    <th>Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Regularisation Approved List END -->
+
+                <!-- Vehicle Management Start-->
+                <?php if($role =='3'){  ?>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">FC & Insurance Reminder - Vehicle Management</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                <?php
+                                                    $returnid=0;
+                                                    if(isset($_GET['msc']))
+                                                    {
+                                                    $returnid=$_GET['msc'];
+                                                    if($returnid==1)
+                                                    {?>
+                                                    <div class="alert alert-success" role="alert">
+                                                        <div class="alert-text">Assigned Successfully!</div>
+                                                    </div> 
+                                                    <?php
+                                                    }
+                                                    if($returnid==2)
+                                                    {?>
+                                                        <div class="alert alert-danger" role="alert">
+                                                        <div class="alert-text">Assign Updated Successfully!</div>
+                                                    </div>
+                                                    <?php
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <div class="table">
+                                                        <table id="fc_insurance_info_dashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S. No.</th>
+                                                                    <th>Vehicle Type</th>
+                                                                    <th>Vehicle Number</th>
+                                                                    <th>Fitment Upto</th>
+                                                                    <th>Insurance Upto</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php }  ?>
+                <!-- Vehicle Management END -->
+
+            </div>
         </div>
     </form>
 </div>

@@ -25,6 +25,7 @@ if(isset($_POST['lusername'])) {
 			$_SESSION['username']    = $result['user_name']; 
 			$_SESSION['userid']      = $result['user_id']; 
 			$_SESSION['fullname']    = $result['fullname']; 
+			$_SESSION['role']    	= $result['role']; 
 			$_SESSION['staffid']     = $result['staff_id']; 
 			$_SESSION['designation_id']     = $result['designation_id']; 
 			?>

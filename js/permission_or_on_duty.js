@@ -169,7 +169,8 @@ $("#staff_name").change(function(){
             success:function(response){
             
                 $('#staff_code').val(response.emp_code);
-                $('#reporting').val(response.reporting);
+                $('#reporting_name').val(response.reporting);
+                $('#reporting').val(response.reporting_id);
             }
         });
     }

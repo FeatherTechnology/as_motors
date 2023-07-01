@@ -54,6 +54,7 @@ if($idupd>0)
 			$staff_id    	     = $getPermissionOnDuty['staff_id'];
 			$staff_code    	     = $getPermissionOnDuty['staff_code'];
 			$reporting    	     = $getPermissionOnDuty['reporting'];
+            $reporting_name    	     = $getPermissionOnDuty['reporting_name'];
 			$reason    	     = $getPermissionOnDuty['reason'];
 			$permission_from_time    	     = $getPermissionOnDuty['permission_from_time'];
 			$permission_to_time    	     = $getPermissionOnDuty['permission_to_time'];
@@ -330,7 +331,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Reporting</label>
-                                            <input type="text" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting)) echo $reporting; ?>" placeholder="Enter Reporting Staff">  
+                                            <input type="text" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting_name)) echo $reporting_name; ?>" placeholder="Enter Reporting Staff">  
                                         </div>
                                     </div>
                                 </div>
@@ -412,6 +413,15 @@ if($idupd>0)
                                             <div class="form-inline">
                                             <textarea  id="reject_reason" name="reject_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="70" ></textarea>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 reponsibleStaff" style="display: none;" >
+                                        <div class="form-group">
+                                            <label for="res_staff_name">Responsible Staff</label> 
+                                            <select class="form-control" id="res_staff_name" name="res_staff_name" >
+                                                <option value=''> Select Staff </option>
+                                            </select>
                                         </div>
                                     </div>
 

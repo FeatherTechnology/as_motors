@@ -350,7 +350,7 @@ if($idupd>0)
                                                     <option value='Quaterly'>Quaterly</option>
                                                     <option value='Half Yearly'>Half Yearly</option>
                                                     <option value='yearly'>Yearly</option>
-                                                    <option value='Event Driven'>Event Driven</option>
+                                                    <option value='Daily Task'>Daily Task</option>
                                                 </select>
                                             </td>
                                             <td>
@@ -442,8 +442,8 @@ if($idupd>0)
                                                                 <?php echo 'Half Yearly'; }else{ ?> <option value="Half Yearly">Half Yearly</option> <?php } ?></option> 
                                                                 <option <?php if(isset($frequency)) { if('Yearly' == $frequency[$i]) echo 'selected';  ?> value="<?php echo 'Yearly' ?>">
                                                                 <?php echo 'Yearly'; }else{ ?> <option value="Yearly">yearly</option> <?php } ?></option> 
-                                                                <option <?php if(isset($frequency)) { if('Event Driven' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Event Driven' ?>">
-                                                                <?php echo 'Event Driven'; }else{ ?> <option value="Event Driven">Event Driven</option> <?php } ?></option> 
+                                                                <option <?php if(isset($frequency)) { if('Daily Task' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Daily Task' ?>">
+                                                                <?php echo 'Daily Task'; }else{ ?> <option value="Daily Task">Daily Task</option> <?php } ?></option> 
                                                             </select>
                                                         </td>
                                                         
@@ -451,7 +451,7 @@ if($idupd>0)
                                                         <td>
                                                             <input type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
                                                         </td>
-                                                        <?php } else if($frequency[$i] == 'Event Driven' || $frequency[$i] == 'Yearly'){  ?>
+                                                        <?php } else if($frequency[$i] == 'Daily Task' || $frequency[$i] == 'Yearly'){  ?>
                                                             <td>
                                                                 <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
                                                             </td>
