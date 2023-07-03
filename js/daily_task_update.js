@@ -1,5 +1,3 @@
-
-// var newdes = false;
 $(document).ready(function(){
 
     // get company based branch name
@@ -22,19 +20,18 @@ $(document).ready(function(){
         });
     });
     
-    // get department details
+    // get Staff details
     $('#branch_id').change(function(){
         var branch_id = $(this).val();
-        var track = '1';
-        getStaffLoad(branch_id ,track);
+        getStaffLoad(branch_id);
     });
     
 
-    $('#dailytask_update').click(function(){
+    $('#dailytask_update').click(function(){ //View Daily Task Update.
         getDailyTaskUpdate();
     });
 
-    $('#submit_daily_task_update').click(function(){
+    $('#submit_daily_task_update').click(function(){ //Update Work_status.
         event.preventDefault();
 
         var workid = $('#daily_task :selected').data('value');
@@ -75,22 +72,20 @@ $(document).ready(function(){
 
     })
 
-});
+}); //Document END.
 
-// get details on edit
+//Function On Load.
 $(function(){
-    var idupd = $('#id').val();
-    if(idupd >0){
-        setalltoReadonly();
-    }
-
+    var staffid = $('#staffid').val();
     var branch_id = $('#branch_id').val();
-    var track = '2';
-    getStaffLoad(branch_id,track);
+    if(staffid !='Overall'){ // For Staff Login.
+        setalltoReadonly();
+        getStaffLoad(branch_id);
+    }
 });
 
 // get staff details
-function getStaffLoad(branch_id,track){ 
+function getStaffLoad(branch_id){ 
 $.ajax({
     url: 'todoFile/getStaffNamebasedBranch.php',
     type: 'post',
@@ -109,19 +104,18 @@ $.ajax({
         }
         $('#employee').append("<option value='" + response['staff_id'][r] + "'"+selected+" data-value='"+ response['designation'][r] +"'>" + response['staff_name'][r] + "</option>");
     }
-    if(track == '2'){
-        $("#employee").attr('disabled',true);
-    }
     }
 });
 }
 
+//Set Readonly all Field if user is staff.
 function setalltoReadonly(){
-
     $('#company_id').attr('readonly',true);
     $('#branch_id').attr('readonly',true);
+    $("#employee").attr('disabled',true);
 }
 
+//Get Daily task List.
 function getDailyTaskUpdate(){
     var desgn_id = $('#employee :selected').data('value');
     $.ajax({
@@ -132,7 +126,6 @@ function getDailyTaskUpdate(){
         success:function(response){ 
         $('#dailyTaskTable').empty();
         $('#dailyTaskTable').html(response);
-
         }
     });
 }
