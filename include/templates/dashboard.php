@@ -1956,4 +1956,13 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
 	setTimeout(function() {
 		$('.alert').fadeOut('slow');
 	}, 2000);
+
+    function pagepassing(){
+        $('.pagepassing').off('click');
+        $('.pagepassing').click(function(){
+            event.preventDefault();
+            var id = $(this).data('value');
+            window.location.href = "vehicle_fc_insurance&upd="+id;
+        });
+    }
 </script>
