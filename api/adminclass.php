@@ -9441,6 +9441,12 @@
 			}else{
 				$assign_work=1;
 			}
+			if(isset($_POST['daily_task_update']) &&    $_POST['daily_task_update'] == 'Yes')		
+			{
+				$daily_task_update=0;
+			}else{
+				$daily_task_update=1;
+			}
 			if(isset($_POST['todo']) &&    $_POST['todo'] == 'Yes')		
 			{
 				$todo=0;
@@ -9602,7 +9608,7 @@
 			company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
 			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
-			memo_sub_module, campaign,assign_work, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
+			memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
 			maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
 			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
 			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', 
@@ -9611,7 +9617,7 @@
 			$master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, 
 			$kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, 
 			$audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, 
-			$promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $todo, $assigned_work, 
+			$promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, 
 			$memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, 
 			$permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
 			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, 
@@ -9687,6 +9693,7 @@
 				$detailrecords['memo_sub_module']      = strip_tags($row->memo_sub_module);
 				$detailrecords['campaign']        = strip_tags($row->campaign);
 				$detailrecords['assign_work'] = strip_tags($row->assign_work);
+				$detailrecords['daily_task_update'] = strip_tags($row->daily_task_update);
 				$detailrecords['todo'] = strip_tags($row->todo);
 				$detailrecords['assigned_work']    = strip_tags($row->assigned_work);
 				$detailrecords['memo_initiate']        = strip_tags($row->memo_initiate);
@@ -9963,6 +9970,12 @@
 		}else{
 			$assign_work=1;
 		}
+		if(isset($_POST['daily_task_update']) &&    $_POST['daily_task_update'] == 'Yes')		
+		{
+			$daily_task_update=0;
+		}else{
+			$daily_task_update=1;
+		}
 		if(isset($_POST['todo']) &&    $_POST['todo'] == 'Yes')		
 		{
 			$todo=0;
@@ -10165,6 +10178,7 @@
 		memo_sub_module      = $memo_sub_module,
 		campaign        = $campaign,
 		assign_work = $assign_work,
+		daily_task_update = $daily_task_update,
 		todo = $todo,
 		assigned_work    = $assigned_work,
 		memo_initiate        = $memo_initiate,
