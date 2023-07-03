@@ -104,9 +104,9 @@ foreach ($result as $row) {
 	
     $assign_employee_details = $con->query("SELECT vehicle_details_id FROM `fc_insurance_renew` WHERE `vehicle_details_id` = '$id' ");
     if(mysqli_num_rows($assign_employee_details)>0){
-        $action="<button class='btn btn-success'><a href='vehicle_fc_insurance&upd=$id' style='color: #ffffff;'>Employee Assigned</a</button>&nbsp;&nbsp;";
+        $action="<button class='btn btn-success pagepassing' data-value='$id'>Employee Assigned</button>&nbsp;&nbsp;";
     }else{
-        $action="<button class='btn btn-primary'><a href='vehicle_fc_insurance&upd=$id' style='color: #ffffff;'>Assign Employee</a</button>&nbsp;&nbsp;";
+        $action="<button class='btn btn-primary pagepassing' data-value='$id'>Assign Employee</button>&nbsp;&nbsp;";
     }
 
 	$sub_array[] = $action;
