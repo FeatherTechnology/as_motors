@@ -49,6 +49,7 @@ $schedule_task_sub_module        = '';
 $memo_sub_module      = '';
 $campaign        = '';
 $assign_work = '';
+$daily_task_update = '';
 $todo ='';
 $assigned_work    = '';
 $memo_initiate        = '';
@@ -163,6 +164,7 @@ if($idupd>0)
             $memo_sub_module      = $getuser['memo_sub_module'];
             $campaign        = $getuser['campaign'];
             $assign_work = $getuser['assign_work'];
+            $daily_task_update = $getuser['daily_task_update'];
             $todo = $getuser['todo'];
             $assigned_work    = $getuser['assigned_work'];
             $memo_initiate        = $getuser['memo_initiate'];
@@ -531,6 +533,10 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($assign_work==0){echo'checked';}} ?> tabindex="14"class="custom-control-input scheduletask-sub-checkbox" id="assign_work" name="assign_work" disabled>
                                 <label class="custom-control-label" for="assign_work">Assign Work</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($daily_task_update==0){echo'checked';}} ?> tabindex="14"class="custom-control-input scheduletask-sub-checkbox" id="daily_task_update" name="daily_task_update" disabled>
+                                <label class="custom-control-label" for="daily_task_update">Daily Task Update</label>
                             </div>
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($todo==0){echo'checked';}} ?> tabindex="14"class="custom-control-input scheduletask-sub-checkbox" id="todo" name="todo" disabled>

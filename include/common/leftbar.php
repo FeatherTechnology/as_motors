@@ -47,6 +47,7 @@ $schedule_task_sub_module        = '';
 $memo_sub_module      = '';
 $campaign        = '';
 $assign_work = '';
+$daily_task_update = '';
 $todo ='';
 $assigned_work    = '';
 $memo_initiate        = '';
@@ -123,6 +124,7 @@ if (sizeof($getuser)>0) {
 		$memo_sub_module      = $getuser['memo_sub_module'];
 		$campaign        = $getuser['campaign'];
 		$assign_work = $getuser['assign_work'];
+		$daily_task_update = $getuser['daily_task_update'];
 		$todo = $getuser['todo'];
 		$assigned_work    = $getuser['assigned_work'];
 		$memo_initiate        = $getuser['memo_initiate'];
@@ -476,9 +478,9 @@ if (sizeof($getuser)>0) {
 														<a href="edit_assign_work"><i class="icon-archive"></i>Assign Work</a>
 													</li>
 												<?php } ?>
-												<?php if($assign_work == 0 && $assign_work != '' && $assign_work != NULL) { ?>
+												<?php if($daily_task_update == 0 && $daily_task_update != '' && $daily_task_update != NULL) { ?>
 													<li>
-														<a href="daily_task_update"><i class="icon-archive"></i>Daily Task</a>
+														<a href="daily_task_update"><i class="fa fa-tasks"></i>Daily Task Update</a>
 													</li>
 												<?php } ?>
 												<?php if($todo == 0 && $todo != '' && $todo != NULL) { ?>
