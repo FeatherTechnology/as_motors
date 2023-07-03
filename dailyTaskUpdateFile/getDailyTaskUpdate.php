@@ -29,7 +29,7 @@ if(isset($_POST['desgn_id'])){
         <?php
 
 $rr = array();$kpi = array();
-$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2);");
+$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2)");
 while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
