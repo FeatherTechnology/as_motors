@@ -45,13 +45,11 @@ foreach($rr as $val){
     if($val == 'New'){
         
         $qry .= "SELECT 'krakpi_ref ' as work_id, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts, kcr.kpi as title 
-                FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2)
-                UNION ALL";
+                FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2)";
     }else{
         $qry .= "SELECT 'krakpi_ref ' as work_id, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts, rrr.rr as title 
                 FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
-                JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2)
-                UNION ALL";
+                JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id WHERE kc.status = 0 AND kcr.frequency = 'Daily Task' AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2)";
     }
 }
 $krakpiInfo = $connect->query($qry);
