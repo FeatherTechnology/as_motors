@@ -110,13 +110,18 @@ function getPreviousKM($con, $vehicle_number){
     $(".vehicle_details_id").on('click', function() { 
         var checkbox = $(this).parents('tr').find('td #vehicle_details_id').is(":checked");
         var startKM = $(this).parents('tr').find('td #start_km').val();
+        var vehicleType = $(this).parents('tr').find('td #vehicle_type').val();
         if (checkbox) { 
             if(startKM == ''){
                 $(this).parents('tr').find('td #start_km').attr("readonly",false);
             }
             $(this).parents('tr').find('td #end_km').attr("readonly",false);
         } else { 
-            $(this).parents('tr').find('td #start_km').attr("readonly",true);
+            if(vehicleType =='Rental Vehicle'){
+                $(this).parents('tr').find('td #start_km').attr("readonly",false);
+            }else{
+                $(this).parents('tr').find('td #start_km').attr("readonly",true);
+            }
             $(this).parents('tr').find('td #end_km').attr("readonly",true);
         }
     });
