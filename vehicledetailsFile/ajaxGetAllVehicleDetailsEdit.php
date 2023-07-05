@@ -15,6 +15,7 @@ if(isset($_POST["daily_km_id"])){
 
 <div class="card" id="stockinformation">
     <div class="card-header">All Vehicle List</div>
+    <span class="required" style="font-size: 12px;">* Select checkbox if you want to enter KM of vehicle</span>
     <div class="card-body">
     <br> 
         <div style="overflow-x: auto; white-space: nowrap;" >
