@@ -192,29 +192,29 @@ if($idupd>0)
             });
         }
 
-        function getDesignationBasedStaffEdit(company_id, department_id, designation_id, staffEdit){  
+        // function getDesignationBasedStaffEdit(company_id, department_id, designation_id, staffEdit){  
 
-            $.ajax({
-                url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
-                type: 'post',
-                data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
-                dataType: 'json',
-                success:function(response){
+        //     $.ajax({
+        //         url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
+        //         type: 'post',
+        //         data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
+        //         dataType: 'json',
+        //         success:function(response){
                 
-                    $('#staff_name').empty();
-                    $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
-                    var i = 0;
-                    for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                        var selected = "";
-                        if(response['staff_id'][i] == staffEdit) 
-                        { 
-                            selected = "selected";
-                        }
-                        $('#staff_name').append("<option value='" + response['staff_id'][i] + "' "+selected+">" + response['staff_name'][i] + "</option>");
-                    }
-                }
-            });
-        }
+        //             $('#staff_name').empty();
+        //             $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+        //             var i = 0;
+        //             for (i = 0; i <= response.staff_id.length - 1; i++) { 
+        //                 var selected = "";
+        //                 if(response['staff_id'][i] == staffEdit) 
+        //                 { 
+        //                     selected = "selected";
+        //                 }
+        //                 $('#staff_name').append("<option value='" + response['staff_id'][i] + "' "+selected+">" + response['staff_name'][i] + "</option>");
+        //             }
+        //         }
+        //     });
+        // }
     </script>
 
  <?php 
@@ -308,14 +308,14 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Name</label>
                                             <select id="staff_name" name="staff_name" class="form-control" tabindex="5">
                                                 <option value="">Select Staff Name</option>
                                             </select>   
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">

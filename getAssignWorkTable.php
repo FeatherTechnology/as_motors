@@ -247,7 +247,7 @@ AND (
         AND 
         insurance_register_ref.to_date <= CURDATE() + INTERVAL 30 DAY
     ) 
-AND  insurance_register.staff_id = '".$staff_id."' ";  
+AND  insurance_register.designation_id = '".$designation."' ";  
 $res7 = $con->query($getqry7);
 $i=0;
 while($row7 = $res7->fetch_assoc())

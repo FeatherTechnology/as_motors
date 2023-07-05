@@ -75,33 +75,33 @@ $(document).ready(function(){
     });
 
     // Get Department based reporting person
-    $("#designation").change(function(){ 
+    // $("#designation").change(function(){ 
 
-        var company_id = $("#branch_id").val();
-        var department_id = $("#department").val();
-        var designation_id = $("#designation").val();
+    //     var company_id = $("#branch_id").val();
+    //     var department_id = $("#department").val();
+    //     var designation_id = $("#designation").val();
 
-        if(designation_id.length==''){ 
-            $("#designation").val('');
-        }else{
-            $.ajax({
-                url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
-                type: 'post',
-                data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
-                dataType: 'json',
-                success:function(response){
+    //     if(designation_id.length==''){ 
+    //         $("#designation").val('');
+    //     }else{
+    //         $.ajax({
+    //             url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
+    //             type: 'post',
+    //             data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
+    //             dataType: 'json',
+    //             success:function(response){
                 
-                    $('#staff_name').empty();
-                    $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
-                    var i = 0;
-                    for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                        $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
-                    }
+    //                 $('#staff_name').empty();
+    //                 $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+    //                 var i = 0;
+    //                 for (i = 0; i <= response.staff_id.length - 1; i++) { 
+    //                     $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
+    //                 }
 
-                }
-            });
-        }
-    });
+    //             }
+    //         });
+    //     }
+    // });
     
     // Modal Submission for Insurance Name
     $("#insurancenameCheck").hide();
