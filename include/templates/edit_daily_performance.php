@@ -1,8 +1,9 @@
-<?php if(isset($_SESSION["branch_id"])){
+<?php 
+@session_start();
+if(isset($_SESSION["userid"])){
+    $userid = $_SESSION["userid"];
 
-$sbranch_id = $_SESSION["branch_id"];
-// $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
 for($j=0;$j<count($CompanyroleDetail);$j++) {
 		$logrole            = $CompanyroleDetail['role'];
 		$logtitle           = $CompanyroleDetail['title'];

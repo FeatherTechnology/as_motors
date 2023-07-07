@@ -22,7 +22,7 @@ if (empty($_POST["id"])) {
 	echo json_encode($insert_assign);
 
 } else {
-    $qry = "UPDATE year_creation y SET y.year = '$insertedyear' WHERE y.year_id = '$id' AND y.company_id = '$insertedcompany'";
+    $qry = "UPDATE year_creation y SET y.year = '$insertedyear',status='0' WHERE y.year_id = '$id' AND y.company_id = '$insertedcompany'";
 
     $insert_assign = $mysqli->query($qry) or die("Error " . $mysqli->error);
 	echo json_encode($insert_assign);
