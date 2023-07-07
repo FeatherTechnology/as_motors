@@ -12,7 +12,7 @@ if(isset($_SESSION["branch_id"])){
 $get_company = $userObj->get_daily_performance($mysqli);
 $get_dept = $userObj->get_dept_performance($mysqli);
 $get_role = $userObj->get_role_performance($mysqli);
-$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
 for($j=0;$j<count($CompanyroleDetail);$j++) {
     $logrole = $CompanyroleDetail['role'];
     $company_id         = $CompanyroleDetail['company_id'];

@@ -8,7 +8,7 @@ $year_id = array();
 $year = array();
 $prevyear = array();
 
-$qry1=$con->query("SELECT year_id,year FROM year_creation  WHERE company_id = '$insertedcompany'");
+$qry1=$con->query("SELECT year_id,year FROM year_creation  WHERE company_id = '$insertedcompany' and status = '0'");
 
 while($row1=$qry1->fetch_assoc()){
     $year_id[] = $row1['year_id'];

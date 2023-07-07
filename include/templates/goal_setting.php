@@ -7,11 +7,11 @@
 
        $sbranch_id = $_SESSION["branch_id"];
        $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-       $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+       $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
        for($j=0;$j<count($CompanyroleDetail);$j++) {
                $logrole = $CompanyroleDetail['role'];
                $logtitle = $CompanyroleDetail['title'];
-               $company_id         = $CompanyroleDetail['company_id'];
+               $user_company_id         = $CompanyroleDetail['company_id'];
 					$company_name         = $CompanyroleDetail['company_name'];
        }
     $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
@@ -126,7 +126,7 @@
       <input type="hidden" class="form-control" value="<?php if(isset($audit_area_id)) echo $audit_area_id ?>"  id="audit_area_id" name="audit_area_id" aria-describedby="id" placeholder="Enter id">
       <input type="hidden" class="form-control" value="<?php if(isset($logrole)) echo $logrole; ?>"  id="logrole" name="logrole">
       <input type="hidden" class="form-control" value="<?php if(isset($logtitle)) echo $logtitle; ?>"  id="logtitle" name="logtitle">
-      <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="logcomp" name="logcomp">
+      <input type="hidden" class="form-control" value="<?php if(isset($user_company_id)) echo $user_company_id; ?>"  id="logcomp" name="logcomp">
       <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="logcname" name="logcname">
         
 
@@ -156,12 +156,12 @@
                                            if($company_id == $areaid){
                                        
                                         ?>
-                                    <option value="<?php echo $areaid; ?>"><?php echo  $areaname;?>
+                                    <!-- <option value="<?php echo $areaid; ?>"><?php echo  $areaname;?> -->
                                        <?php for($j=0;$j<count($audit_area_list);$j++) { 
                                           $areaid = $audit_area_list[$j]['company_id'];
-                                          if($areaid != $company_id){ ?>
+                                          // if($areaid != $company_id){ ?>
                                     <option value="<?php echo $audit_area_list[$j]['company_id']; ?>"><?php echo $audit_area_list[$j]['company_name'];?></option>
-                                    <?php } }}}}else{ ?> 
+                                    <?php } }}}else{ ?> 
                                     <option value="0">Select Company</option>
                                     <?php for($j=0;$j<count($audit_area_list);$j++) { ?>
                                        
@@ -287,7 +287,7 @@
         <div class="modal-content" style="background-color: white">
             <div class="modal-header">
                 <h5 class="modal-title" id="myLargeModalLabel">Add Year</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                <button type="button" class="close closebtn" data-dismiss="modal" aria-label="Close" >
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -320,7 +320,7 @@
                         <button type="button" tabindex="2" name="insert" id="insert" class="btn btn-primary" style="margin-top: 20px;">Submit</button>
                     </div>
                 </div>
-                <div id="updatedagentgroupTable">
+                <div id="yearcreationTable">
                     <table class="table custom-table" id="year_infoDashboard">
                         <thead>
                             <tr>

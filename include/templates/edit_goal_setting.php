@@ -1,13 +1,14 @@
-<?php if(isset($_SESSION["branch_id"])){
+<?php 
+@session_start();
+if(isset($_SESSION["userid"])){
+    $userid = $_SESSION["userid"];
 
-$sbranch_id = $_SESSION["branch_id"];
-// $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $sbranch_id);
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
 for($j=0;$j<count($CompanyroleDetail);$j++) {
 		$logrole            = $CompanyroleDetail['role'];
 		$logtitle           = $CompanyroleDetail['title'];
 		$company_id         = $CompanyroleDetail['company_id'];
-	  $company_name         = $CompanyroleDetail['company_name'];
+		$company_name         = $CompanyroleDetail['company_name'];
 }
 } 
 
@@ -21,7 +22,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Goal Setting List</li>
 	</ol>
-<?php if($logtitle == 'Super Admin'){ ?>
+<?php if($logrole == '1' or $logrole == '3'){ ?>
 	<a href="goal_setting">
 		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Goal Setting Creation</button>
     </a>
