@@ -4,7 +4,8 @@ $(function(){
     if(parseInt(idupd) > 0){
         var company_id_upd = $('#company_id_upd').val();
         insertData(company_id_upd);
-        
+        var dept_id_upd = $('#dept_id_upd').val();
+        getDesignationList(dept_id_upd);
     }
 })
 
@@ -169,31 +170,8 @@ $(document).ready(function () {
     
 
 $('#dept').change(function() { 
-    var company_id=$('#prev').val();
-    var department_id =$(this).val();
-    var role_id_up = $('#role_id_up').val();
-
-    $.ajax({
-        url: 'R&RFile/ajaxR&RDesignationDetails.php',
-        type: 'post',
-        data: { "company_id":company_id, "department_id":department_id },
-        dataType: 'json',
-        success:function(response){
-            
-            $('#designation').text('');
-            $('#designation').val('');
-            var option = $('<option></option>').val('').text('Select Designation');
-            $('#designation').append(option);
-            var i = 0;
-            for (i = 0; i <= response.designation_id.length - 1; i++) { 
-            var selected = "";
-            if(role_id_up == response['designation_id'][i]){
-                selected = "selected";
-            }
-            $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
-            }
-        }
-        });       
+    var department_id =$('#dept').val();
+    getDesignationList(department_id);
 });
 
         $("body").on("click", "#edpage", function () {
@@ -216,6 +194,10 @@ $('#dept').change(function() {
 
 
         $("body").on("click", "#delete_year_setting", function () {
+            var isok = confirm("Do you want In-Active this Year?");
+            if (isok == false) {
+                return false;
+            } else {
         var id = $(this).attr('value');
         $.ajax({
             url: 'ajaxdeleteyeartablebyid.php',
@@ -243,6 +225,7 @@ $('#dept').change(function() {
             setTimeout(function(){
                 getyeardatatable();
             }, 1000);
+        }
         });
 
 
@@ -391,8 +374,8 @@ function insertData(prev_company){
             
             var option4 = $('<option></option>').val('').text('Select Department');
             $('#dept').append(option4);
-            var option5 = $('<option></option>').val('').text('Select Designation');
-            $('#designation').append(option5);
+            // var option5 = $('<option></option>').val('').text('Select Designation');
+            // $('#designation').append(option5);
         
             for(var a=0; a<=data.length-1; a++){
                 
@@ -404,7 +387,7 @@ function insertData(prev_company){
                 var option1 = $('<option '+selected+'></option>').val(data[a]['department_id']).text(data[a]['department_name']);
                 $('#dept').append(option1);
 
-                var dept = data[a]['department_id']
+                // var dept = data[a]['department_id']
             }
             
         }
@@ -425,4 +408,30 @@ function getyeardatatable(){
     });
 }
 
+function getDesignationList(department_id){
+    var company_id=$('#prev').val();
+    var role_id_up = $('#role_id_up').val();
+
+    $.ajax({
+        url: 'R&RFile/ajaxR&RDesignationDetails.php',
+        type: 'post',
+        data: { "company_id":company_id, "department_id":department_id },
+        dataType: 'json',
+        success:function(response){
+            
+            $('#designation').text('');
+            $('#designation').val('');
+            var option = $('<option></option>').val('').text('Select Designation');
+            $('#designation').append(option);
+            var i = 0;
+            for (i = 0; i <= response.designation_id.length - 1; i++) { 
+            var selected = "";
+            if(role_id_up == response['designation_id'][i]){
+                selected = "selected";
+            }
+            $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
+            }
+        }
+        }); 
+}
 

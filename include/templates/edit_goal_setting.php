@@ -50,21 +50,21 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 					if($mscid==1)
 					{?>
 					<div class="alert alert-success" role="alert">
-						<div class="alert-text">Audit Assign Added Successfully!</div>
+						<div class="alert-text">Goal Setting Added Successfully!</div>
 					</div> 
 					<?php
 					}
 					if($mscid==2)
 					{?>
 						<div class="alert alert-success" role="alert">
-						<div class="alert-text">Audit Assign Updated Successfully!</div>
+						<div class="alert-text">Goal Setting Updated Successfully!</div>
 					</div>
 					<?php
 					}
 					if($mscid==3)
 					{?>
 					<div class="alert alert-danger" role="alert">
-						<div class="alert-text">Audit Assign Inactive Successfully!</div>
+						<div class="alert-text">Goal Setting Inactive Successfully!</div>
 					</div>
 					<?php
 					}
@@ -76,7 +76,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 								<th>S. No.</th>
 								<th>Company Name</th>
 								<th>Department Name</th>
-								 <th>Role</th>
+								<th>Role</th>
 								<th>year</th>
 								<th>Status</th>
 								<th colspan="1">Action</th>

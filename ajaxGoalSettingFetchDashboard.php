@@ -48,7 +48,7 @@ if($_POST['search']!="");
 }
 
 if (isset($_POST['order'])) {
-    $query .= ' ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+    $query .= ' ORDER BY gs.goal_setting_id desc ';
 } else {
     $query .= ' ';
 }

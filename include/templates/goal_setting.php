@@ -120,7 +120,7 @@
    <form id = "audit_checklist" name="audit_checklist" action="" method="post" enctype="multipart/form-data">
       <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
       <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd">
-      <input type="hidden" class="form-control" value="<?php if(isset($dept_id)) echo $dept_id; ?>"  id="dept_id_upd" name="dept_id_upd">
+      <input type="hidden" class="form-control" value="<?php if(isset($dept_id)){ echo $dept_id; }else{ echo '0';} ?>"  id="dept_id_upd" name="dept_id_upd">
       <input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
       <input type="hidden" class="form-control" value="<?php if(isset($year_id)) echo $year_id; ?>"  id="year_idup" name="year_idup">
       <input type="hidden" class="form-control" value="<?php if(isset($audit_area_id)) echo $audit_area_id ?>"  id="audit_area_id" name="audit_area_id" aria-describedby="id" placeholder="Enter id">
