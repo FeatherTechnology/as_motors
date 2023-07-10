@@ -15,8 +15,8 @@ $get_role = $userObj->get_role_performance($mysqli);
 $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
 for($j=0;$j<count($CompanyroleDetail);$j++) {
     $logrole = $CompanyroleDetail['role'];
-    $company_id         = $CompanyroleDetail['company_id'];
-    $company_name         = $CompanyroleDetail['company_name'];
+    $user_company_id         = $CompanyroleDetail['company_id'];
+    $user_company_name         = $CompanyroleDetail['company_name'];
 }
 $id=0;
 $idupd=0;
@@ -116,8 +116,8 @@ if($idupd>0)
       <input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
       <input type="hidden" class="form-control" value="<?php if(isset($emp_id)) echo $emp_id; ?>"  id="emp_idup" name="emp_idup">
       <input type="hidden" class="form-control" value="<?php if(isset($logrole)) echo $logrole; ?>"  id="logrole" name="logrole">
-      <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="logcomp" name="logcomp">
-      <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="logcname" name="logcname">
+      <input type="hidden" class="form-control" value="<?php if(isset($user_company_id)) echo $user_company_id; ?>"  id="logcomp" name="logcomp">
+      <input type="hidden" class="form-control" value="<?php if(isset($user_company_name)) echo $user_company_name; ?>"  id="logcname" name="logcname">
         
  		<!-- Row start -->
          <div class="row gutters">
@@ -136,12 +136,11 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly"id="audit_err" >Company Name</label>
-                                                <?php if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="1" type="text" class="form-control" name="company_id" id="company">
                                                     <option value="">Select Company</option>
                                                    
                                                    <?php if (sizeof($get_company)>0) { 
-                                                    for($j=0;$j<count($get_company);$j++) { print_r($get_company); ?>
+                                                    for($j=0;$j<count($get_company);$j++) { #print_r($get_company); ?>
 
                                                     <option <?php if(isset($company_id) and $company_id == $get_company[$j]['company_id']){ echo "selected";  } ?>
                                                     value="<?php echo $get_company[$j]['company_id']; ?>">
@@ -152,20 +151,6 @@ if($idupd>0)
 
 
                                                 </select>
-
-
-                                                <?php } else if($sbranch_id != 'Overall'){ ?>
-
-                                                    <select tabindex="1" type="text" class="form-control" name="company_id" id="company">
-                                                        <option value="">Select Company</option>
-                                                        <?php if (sizeof($get_company)>0) { 
-                                                        for($j=0;$j<count($get_company);$j++) { ?>
-                                                        <option <?php if(isset($company_id) and $company_id == $get_company[$j]['company_id']){ echo "selected";  } ?>
-                                                        value="<?php echo $get_company[$j]['company_id']; ?>">
-                                                        <?php echo $get_company[$j]['company_name'];?></option>
-                                                        <?php } } ?>  
-                                                    </select>
-                                            <?php } ?>
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">

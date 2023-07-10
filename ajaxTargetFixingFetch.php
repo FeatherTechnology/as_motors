@@ -2,8 +2,8 @@
 include('ajaxconfig.php');
 @session_start();
 
-if(isset($_SESSION["userid"])){
-    $userid = $_SESSION["userid"];
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
@@ -30,7 +30,7 @@ $column = array(
 );
 
 $query = "SELECT * FROM target_fixing WHERE 1";
-if($sbranch_id == 'Overall'){
+if($role == '1' || $role == '3'){
     $query .= '';
     if($_POST['search']!="");
     {

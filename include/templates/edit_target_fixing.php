@@ -1,11 +1,25 @@
+<?php 
+if(isset($_SESSION["userid"])){
+    $userid = $_SESSION["userid"];
+
+$CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
+for($j=0;$j<count($CompanyroleDetail);$j++) {
+		$logrole            = $CompanyroleDetail['role'];
+}
+} 
+?>
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Target Fixing List</li>
 	</ol>
+
+	<?php if($logrole == '1' or $logrole == '3'){ ?>
 	<a href="target_fixing">
 		<button type="button" tabindex="1"  class="btn btn-primary"><span class="icon-add"></span>&nbsp Add Target Fixing</button>
 	</a>
+	<?php } ?>
+
 </div>
 <!-- Page header end -->
 
