@@ -8340,6 +8340,9 @@
 			if(isset($_POST['target'])){
 				$target = $_POST['target'];
 			}
+			if(isset($_POST['monthly_conversion'])){
+				$monthly_conversion = $_POST['monthly_conversion'];
+			}
 			if(isset($_POST['iid'])){
 				$iid = $_POST['iid'];
 			}
@@ -8352,8 +8355,8 @@
 				$last_id  = $mysqli->insert_id;
 
 				for($j=0; $j<=sizeof($assertion)-1; $j++){
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,insert_login_id)
-					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($userid)."')";
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,monthly_conversion_required,insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($monthly_conversion[$j])."','".strip_tags($userid)."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
 				}
@@ -8373,8 +8376,8 @@
 					// print_r($qry3);
 					// $update_assign_ref1=$mysqli->query($qry3) or die("Error ".$mysqli->error);
 
-                    $qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,update_login_id)
-					VALUES('$id', '$assertion[$i]','$target[$i]','$userid')";
+                    $qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,monthly_conversion_required,update_login_id)
+					VALUES('$id', '$assertion[$i]','$target[$i]','$monthly_conversion[$i]','$userid')";
 
 					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
                 }
@@ -8402,6 +8405,7 @@
 			$auditChecklist2[$i]['goal_setting_id'] = $row2['goal_setting_id'];
 			$auditChecklist2[$i]['assertion'] = $row2['assertion'];
 			$auditChecklist2[$i]['target']=$row2['target'];
+			$auditChecklist2[$i]['monthly_conversion']=$row2['monthly_conversion_required'];
 			
 			$i++;
 			}

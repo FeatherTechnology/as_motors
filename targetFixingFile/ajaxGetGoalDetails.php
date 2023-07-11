@@ -29,12 +29,13 @@ if(isset($_POST["no_of_months"])){
             $goal_setting_ref_id = array();          
             $assertion = array();         
             $target = array();         
+            $monthly_conversion = array();         
             $vehicle_numberArr2 = array();         
             $kra_creation_ref_id = array();         
             $kra_category = array();         
         
             // get goal setting details
-            $selectGoalSettingDetails = $con->query("SELECT goal_setting_ref.goal_setting_ref_id, goal_setting_ref.assertion, goal_setting_ref.target FROM goal_setting_ref 
+            $selectGoalSettingDetails = $con->query("SELECT goal_setting_ref.goal_setting_ref_id, goal_setting_ref.assertion, goal_setting_ref.target, goal_setting_ref.monthly_conversion_required FROM goal_setting_ref 
             LEFT JOIN goal_setting ON goal_setting_ref.goal_setting_id = goal_setting.goal_setting_id WHERE goal_setting.year = '".$goal_year."' 
             AND goal_setting.company_name = '".$company_name."' AND goal_setting.department = '".$department."' AND goal_setting.role = '".$designation."' 
             AND goal_setting.status = 0 ");
@@ -42,6 +43,7 @@ if(isset($_POST["no_of_months"])){
                 $goal_setting_ref_id[] 	= $row["goal_setting_ref_id"];
                 $assertion[]	= $row["assertion"];
                 $target[]	= $row["target"];
+                $monthly_conversion[]	= $row["monthly_conversion_required"];
             }
 
             // get kra cetails
@@ -81,7 +83,7 @@ if(isset($_POST["no_of_months"])){
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $ids[$o]; ?>" name="id[]" id="id" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertions[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <?php 
-                                if (strpos($ids[$o], $subString) !== false) { ?>
+                                if (strpos($ids[$o], $subString) !== false || $monthly_conversion[$o] == '1') { ?>
                                     <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <?php } else { ?>
                                     <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]/$no_of_months); ?>" name="target[]" id="target" ></td>

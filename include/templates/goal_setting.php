@@ -94,6 +94,7 @@
                $goal_setting_id[$j]    	                = $getGoalSettingfet[$j]['goal_setting_id'];
                $assertion[$j]    	                = $getGoalSettingfet[$j]['assertion'];
                $target[$j]    	                = $getGoalSettingfet[$j]['target'];
+               $monthly_conversion[$j]    	                = $getGoalSettingfet[$j]['monthly_conversion'];
               
    		}
    	}
@@ -147,7 +148,7 @@
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                               <label for="inputReadOnly">Company Name</label>
-                                 <select type="text" tabindex="2" name="cname" id="prev" class="form-control"  >
+                                 <select type="text" tabindex="1" name="cname" id="prev" class="form-control"  >
                                     <?php if ($company_id <>'') {  ?>
                                     <?php  if(isset($company_id)) echo $company_id;
                                        for($j=0;$j<count($audit_area_list);$j++) {
@@ -182,7 +183,7 @@
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="inputReadOnly">Designation</label>
-                                 <select type="text" tabindex="2" name="designation" id="designation" class="form-control"  >
+                                 <select type="text" tabindex="3" name="designation" id="designation" class="form-control"  >
                                 
                                  </select>                              
                               </div>
@@ -190,7 +191,7 @@
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label class="label">Year</label>
-                                    <select type="text" tabindex="2" name="syear" id="syear" class="form-control syear"  >
+                                    <select type="text" tabindex="4" name="syear" id="syear" class="form-control syear"  >
                                     
                                  </select>           
                                 </div>
@@ -199,17 +200,17 @@
                                 <div class="form-group">
                                     <label class="label" style="visibility: hidden;">Add Year</label>
                                     <!-- <button type="button" tabindex="4" class="btn btn-primary" id="add_departmentDetails" name="add_departmentDetails" style="padding: 5px 35px;"><span class="icon-add"></span></button> -->
-                                    <button type="button" tabindex="" class="btn btn-primary" id="add_group" name="add_group" data-toggle="modal" data-target=".addGroup" style="padding: 5px 35px;" ><span class="icon-add"></span></button>
+                                    <button type="button" tabindex="" class="btn btn-primary" id="add_group" name="add_group" data-toggle="modal" data-target=".addGroup" style="padding: 5px 35px;" tabindex="5"><span class="icon-add"></span></button>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-4">
                                 <div class="form-group yes">
-                                    <input type="checkbox" tabindex="7" name="preyear" id="yes" value="Yes"> &nbsp;&nbsp; <label for="yes">Use Previous Year Setting</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" tabindex="6" name="preyear" id="yes" value="Yes"> &nbsp;&nbsp; <label for="yes">Use Previous Year Setting</label> &nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
                             </div>
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 mt-4">
                                 <div class="form-group">
-                                    <input type="button" tabindex="7"  name="execute" id="execute" class="btn btn-primary" value="Execute">
+                                    <input type="button" tabindex="8"  name="execute" id="execute" class="btn btn-primary" value="Execute">
                                     
                                 </div>
                             </div>
@@ -225,6 +226,7 @@
                                        
                                        <th>Assertion</th>
                                        <th>Target</th>
+                                       <th>Monthly Conversion Required </th>
                                        <th colspan="2" >Action</th>
                                     </tr>
                                  </thead>
@@ -232,11 +234,16 @@
                                  <tbody>
                                     <tr>
                                        <td>
-                                          <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]" ></input> 
+                                          <input tabindex="9" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]" ></input> 
                                        </td>
-                                       <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
-                                       <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
-                                       <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
+                                       <td><input tabindex="10" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
+                                       <td><select tabindex="11" class="form-control" id="monthly_conversion" name="monthly_conversion[]">
+                                          <option value=''>Select Monthly Conversion Required</option>
+                                          <option value='0'>Yes</option>
+                                          <option value='1'>No</option>
+                                       </select></td>
+                                       <td><button type="button" tabindex="12" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                       <td><span class='icon-trash-2' tabindex="13" id="delete_row"></span></td>
                                     </tr>
                                  </tbody>
                                  <?php } if($idupd>0){ 
@@ -247,11 +254,16 @@
                                       
                                     <tr>
                                     <td>
-                                    <input tabindex="4" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
+                                    <input tabindex="9" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"  value="<?php echo $assertion[$g]; ?>"></input>  <input  type="hidden" class="form-control" id="iid"  name="iid[]"  value="<?php echo $goal_setting_ref_id[$g]; ?>"></input> 
                                        </td>
-                                       <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
-                                       <td><button type="button" tabindex="9" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
-                                       <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
+                                       <td><input tabindex="10" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target" value="<?php echo $target[$g]; ?>"></td>
+                                       <td><select tabindex="11" class="form-control" id="monthly_conversion" name="monthly_conversion[]" >
+                                          <option value=''>Select Monthly Conversion Required</option>
+                                          <option value='0' <?php if(isset($monthly_conversion[$g]) && $monthly_conversion[$g] == '0'){echo 'Selected';} ?>>Yes</option>
+                                          <option value='1' <?php if(isset($monthly_conversion[$g]) && $monthly_conversion[$g] == '1'){echo 'Selected';} ?>>No</option>
+                                       </select></td>
+                                       <td><button type="button" tabindex="12" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                       <td><span class='icon-trash-2' tabindex="13" id="delete_row"></span></td>
                                     </tr>
                                  
                                     <?php } ?>
@@ -271,7 +283,7 @@
                <br><br>
                <div class="text-right">
                   <!-- <button type="button" class="btn btn-outline-secondary" tabindex="15">Save</button> -->
-                  <button type="submit" name="submit_audit_checklist" id="submit_audit_checklist" class="btn btn-primary" value="Submit" tabindex="10">Submit</button>
+                  <button type="submit" name="submit_audit_checklist" id="submit_audit_checklist" class="btn btn-primary" value="Submit" tabindex="13">Submit</button>
                </div>
             </div>
          </div>
@@ -311,7 +323,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                         <div class="form-group">
                         <label for="year">Year</label>
-                        <input type="number" name="iyear" id="iyear" class="form-control" pattern="\d{4}" title="Please enter a Year">
+                        <input type="number" name="iyear" id="iyear" class="form-control" pattern="\d{4}" title="Please enter a Year" tabindex="1">
                         <input type="hidden" name="iyearid" id="iyearid" class="form-control" pattern="\d{4}" title="">
                        
                         </div>
