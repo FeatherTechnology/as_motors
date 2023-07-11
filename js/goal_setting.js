@@ -89,10 +89,10 @@ $(document).ready(function () {
                         $('#tables').removeClass('hidden');
                         
                                 for(var a=0; a<=data.length-1; a++){
-                                    var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' value="+ data[a]['assertion'] + " name='assertion[]'></td>"+
-                                    "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['target'] + " ></td>"+
-                                    "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
-                                    "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
+                                    var appendTxt = "<tr><td><input tabindex='9' type='text' class='form-control' id='assertion' value="+ data[a]['assertion'] + " name='assertion[]'></td>"+
+                                    "<td><input tabindex='10' type='text' class='form-control' id='target' name='target[]' value="+ data[a]['target'] + " ></td>"+"<td><select tabindex='11' class='form-control' id='monthly_conversion' name='monthly_conversion[]'><option value=''>Select Monthly Conversion Required</option><option value='0'>Yes</option><option value='1'>No</option></select></td>"+
+                                    "<td> <button type='button' tabindex='12' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
+                                    "<td> <span class='icon-trash-2' tabindex='13' id='delete_row'></span></td></tr>";
                                     $('#moduleTable').find('tbody').append(appendTxt);
                                 }
                             }
@@ -143,7 +143,7 @@ $(document).ready(function () {
     // Add new row
     $(document).on('click','#add_row',(function(){
         var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' placeholder='Enter Assertion' name='assertion[]'></td>"+
-         "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' placeholder='Enter Target'></td>"+
+         "<td><input tabindex='6' type='text' class='form-control' id='target' name='target[]' placeholder='Enter Target'></td>"+"<td><select tabindex='11' class='form-control' id='monthly_conversion' name='monthly_conversion[]'><option value=''>Select Monthly Conversion Required</option><option value='0'>Yes</option><option value='1'>No</option></select></td>"+
          "<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" +
          "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
         $('#moduleTable').find('tbody').append(appendTxt);

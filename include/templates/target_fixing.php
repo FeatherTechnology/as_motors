@@ -222,7 +222,7 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">Department</label>
-                                    <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                    <select tabindex="2" type="text" class="form-control" id="department" name="department" >
                                         <option value="">Select Department</option>   
                                     </select>
                                 </div>
@@ -231,7 +231,7 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">Designation</label>
-                                    <select tabindex="4" type="text" class="form-control" id="designation" name="designation" >
+                                    <select tabindex="3" type="text" class="form-control" id="designation" name="designation" >
                                             <option value="">Select Designation</option>   
                                     </select>
                                 </div>
@@ -249,7 +249,7 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">Year</label>
-                                    <select tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
+                                    <select tabindex="5" type="text" class="form-control" id="goal_year" name="goal_year" >
                                         <option value="">Select Year</option>    
                                         <?php if (sizeof($goalYear)>0) { 
                                         for($j=0;$j<count($goalYear);$j++) { ?>
@@ -264,14 +264,14 @@ if($idupd>0)
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="disabledInput">No. of Months</label>
-                                    <input type="number" tabindex = "8" name="no_of_months" id="no_of_months" class="form-control" value="<?php if (isset($no_of_months)) echo $no_of_months; ?>">
+                                    <input type="number" tabindex = "6" name="no_of_months" id="no_of_months" class="form-control" value="<?php if (isset($no_of_months)) echo $no_of_months; ?>">
                                 </div>
                             </div>
 
                             <?php if($idupd<=0){ ?>
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right" style="margin-top: 19px;">
                                     <div class="form-group">
-                                        <button tabindex="3" type="button" class="btn btn-primary" id="executeGoalSettingDetails" name="executeGoalSettingDetails" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
+                                        <button tabindex="7" type="button" class="btn btn-primary" id="executeGoalSettingDetails" name="executeGoalSettingDetails" data-toggle="modal" style="padding: 5px 35px;">Execute</button>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -312,64 +312,64 @@ if($idupd>0)
                                                 <tbody>
                                                     <tr>
                                                         <td><?php echo $sno; ?></td>
-                                                        <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $target_fixing_ref_id[$o]; ?>" name="target_fixing_ref_id[]" id="target_fixing_ref_id" ></td>
+                                                        <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $target_fixing_ref_id[$o]; ?>" name="target_fixing_ref_id[]" id="target_fixing_ref_id" tabindex="8"></td>
                                                         <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $goal_setting_and_kra_id[$o]; ?>" name="id[]" id="id" ></td>
-                                                        <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
+                                                        <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" tabindex="9"></td>
                                                         <?php 
                                                         if (strpos($goal_setting_and_kra_id[$o], $subString) !== false) { ?>
-                                                            <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
+                                                            <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" tabindex="10"></td>
                                                         <?php } else { ?>
-                                                            <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
+                                                            <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" tabindex="10"></td>
                                                         <?php } ?>
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
                                                                 <input type="checkbox" checked id="edit_assertion" name="edit_assertion[]" class="edit_assertion" value="edit">
-                                                                <label for="edit_assertion"> EDIT</label> &nbsp;&nbsp;
+                                                                <label for="edit_assertion" tabindex="11"> EDIT</label> &nbsp;&nbsp;
                                                             <?php } else { ?>
                                                                 <input type="checkbox" id="edit_assertion" name="edit_assertion[]" class="edit_assertion" value="edit">
-                                                                <label for="edit_assertion"> EDIT</label> &nbsp;&nbsp;
+                                                                <label for="edit_assertion" tabindex="11"> EDIT</label> &nbsp;&nbsp;
                                                             <?php } ?>
                                                             <?php if($deleted_date[$o] != ''){ ?>
                                                                 <input type="checkbox" checked id="delete_assertion" name="delete_assertion[]" class="delete_assertion" value="delete">
-                                                                <label for="delete_assertion"> DELETE</label><br>
+                                                                <label for="delete_assertion" tabindex="11"> DELETE</label><br>
                                                             <?php } else { ?>
                                                                 <input type="checkbox" id="delete_assertion" name="delete_assertion[]" class="delete_assertion" value="delete">
-                                                                <label for="delete_assertion"> DELETE</label><br>
+                                                                <label for="delete_assertion" tabindex="11"> DELETE</label><br>
                                                             <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
-                                                                <input type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" >
+                                                                <input type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" tabindex="12">
                                                             <?php } else { ?>
-                                                                <input readonly type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" >
+                                                                <input readonly type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" tabindex="12">
                                                             <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
-                                                                <input type="number" class="form-control" name="new_target[]" id="new_target" value="<?php echo $new_target[$o]; ?>" >
+                                                                <input type="number" class="form-control" name="new_target[]" id="new_target" value="<?php echo $new_target[$o]; ?>" tabindex="13">
                                                             <?php } else { ?>
-                                                                <input readonly type="number" class="form-control" name="new_target[]" id="new_target" value="<?php echo $new_target[$o]; ?>" >
+                                                                <input readonly type="number" class="form-control" name="new_target[]" id="new_target" value="<?php echo $new_target[$o]; ?>" tabindex="13">
                                                             <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
-                                                                <input type="text" class="form-control" name="applicability[]" id="applicability" value="<?php echo $applicability[$o]; ?>" >
+                                                                <input type="text" class="form-control" name="applicability[]" id="applicability" value="<?php echo $applicability[$o]; ?>" tabindex="14">
                                                             <?php } else { ?>
-                                                                <input readonly type="text" class="form-control" name="applicability[]" id="applicability" value="<?php echo $applicability[$o]; ?>" >
+                                                                <input readonly type="text" class="form-control" name="applicability[]" id="applicability" value="<?php echo $applicability[$o]; ?>" tabindex="14">
                                                             <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if($deleted_date[$o] != ''){ ?>
-                                                                <input  type="text" class="form-control" name="deleted_date[]" id="deleted_date" value="<?php echo $deleted_date[$o]; ?>" >
+                                                                <input  type="text" class="form-control" name="deleted_date[]" id="deleted_date" value="<?php echo $deleted_date[$o]; ?>" tabindex="15">
                                                             <?php } else { ?>
-                                                                <input readonly type="text" class="form-control" name="deleted_date[]" id="deleted_date" value="<?php echo $deleted_date[$o]; ?>" >
+                                                                <input readonly type="text" class="form-control" name="deleted_date[]" id="deleted_date" value="<?php echo $deleted_date[$o]; ?>" tabindex="15">
                                                             <?php } ?>
                                                         </td>
                                                         <td>
                                                             <?php if($deleted_date[$o] != ''){ ?>
-                                                                <textarea id="deleted_remarks" name="deleted_remarks[]" class="form-control" rows="2" cols="40" ><?php echo $deleted_remarks[$o]; ?></textarea>
+                                                                <textarea id="deleted_remarks" name="deleted_remarks[]" class="form-control" rows="2" cols="40" tabindex="16"><?php echo $deleted_remarks[$o]; ?></textarea>
                                                             <?php } else { ?>
-                                                                <textarea readonly id="deleted_remarks" name="deleted_remarks[]" class="form-control" rows="2" cols="40" ><?php echo $deleted_remarks[$o]; ?></textarea>
+                                                                <textarea readonly id="deleted_remarks" name="deleted_remarks[]" class="form-control" rows="2" cols="40" tabindex="16"><?php echo $deleted_remarks[$o]; ?></textarea>
                                                             <?php } ?>
                                                             
                                                         </td>
@@ -386,8 +386,8 @@ if($idupd>0)
 
                     <div class="col-md-12">
                         <div class="text-right">
-                            <button type="submit" tabindex="13" id="submitTargetFixing" name="submitTargetFixing" value="Submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" tabindex="14" id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
+                            <button type="submit" tabindex="17" id="submitTargetFixing" name="submitTargetFixing" value="Submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" tabindex="18" id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary">Cancel</button><br /><br />
                         </div>
                     </div>  
                 
