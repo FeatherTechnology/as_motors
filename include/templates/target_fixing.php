@@ -66,6 +66,7 @@ if($idupd>0)
 			$goal_setting_and_kra_id                   = $getTargetFixing['goal_setting_and_kra_id'];	
 			$assertion            = $getTargetFixing['assertion'];
 			$target            = $getTargetFixing['target'];
+			$monthly_conversion            = $getTargetFixing['monthly_conversion'];
 			$new_assertion            = $getTargetFixing['new_assertion'];
 			$new_target            = $getTargetFixing['new_target'];
             $applicability        = $getTargetFixing['applicability']; 
@@ -314,13 +315,14 @@ if($idupd>0)
                                                         <td><?php echo $sno; ?></td>
                                                         <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $target_fixing_ref_id[$o]; ?>" name="target_fixing_ref_id[]" id="target_fixing_ref_id" tabindex="8"></td>
                                                         <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $goal_setting_and_kra_id[$o]; ?>" name="id[]" id="id" ></td>
-                                                        <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" tabindex="9"></td>
+                                                        <td><textarea readonly type="text" class="form-control" name="assertion[]" id="assertion" tabindex="9"><?php echo $assertion[$o]; ?></textarea></td>
                                                         <?php 
                                                         if (strpos($goal_setting_and_kra_id[$o], $subString) !== false) { ?>
                                                             <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" tabindex="10"></td>
                                                         <?php } else { ?>
                                                             <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" tabindex="10"></td>
                                                         <?php } ?>
+                                                        <input type="hidden" class="form-control" value="<?php echo $monthly_conversion[$o]; ?>" name="monthly_conversion[]" id="monthly_conversion" >
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
                                                                 <input type="checkbox" checked id="edit_assertion" name="edit_assertion[]" class="edit_assertion" value="edit">
@@ -339,9 +341,9 @@ if($idupd>0)
                                                         </td>
                                                         <td>
                                                             <?php if($new_assertion[$o] != ''){ ?>
-                                                                <input type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" tabindex="12">
+                                                                <textarea type="text" class="form-control" name="new_assertion[]" id="new_assertion" tabindex="12"><?php echo $new_assertion[$o]; ?></textarea>
                                                             <?php } else { ?>
-                                                                <input readonly type="text" class="form-control" name="new_assertion[]" id="new_assertion" value="<?php echo $new_assertion[$o]; ?>" tabindex="12">
+                                                                <textarea readonly type="text" class="form-control" name="new_assertion[]" id="new_assertion" tabindex="12"><?php echo $new_assertion[$o]; ?></textarea>
                                                             <?php } ?>
                                                         </td>
                                                         <td>

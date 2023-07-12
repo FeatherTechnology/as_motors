@@ -233,8 +233,8 @@ if($idupd>0)
                                             <tr>
                                                
                                                 <td>
-                                                    <input tabindex="7" type="text" class="form-control" id="assertion" name="assertion[]"  readonly>
-                                                    </input> 
+                                                    <textarea tabindex="7" type="text" class="form-control" id="assertion" name="assertion[]"  readonly>
+                                                    </textarea> 
                                                 </td>
                                                 <td >
                                                     <input tabindex="8" type="text" class="form-control" id="target" name="target[]" readonly>
@@ -307,6 +307,11 @@ if($idupd>0)
                                                                         <option value=" ">Select Work Status</option>
                                                                         <option value="statisfied">Statisfied</option>
                                                                         <option value="not_done">Not Done</option>
+                                                                    <?php }else{ ?>
+                                                                        <option value=" ">Select Work Status</option>
+                                                                        <option value="statisfied">Statisfied</option>
+                                                                        <option value="not_done">Not Done</option>
+                                                                        <option value="carry_forward">Carry Forward</option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </td>

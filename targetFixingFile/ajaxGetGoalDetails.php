@@ -75,19 +75,21 @@ if(isset($_POST["no_of_months"])){
                 $sno = 1;   
                 if(isset($ids)){
                     for($o=0; $o<=sizeof($ids)-1; $o++){ 
-                        $subString = "_kra";
+                        // $subString = "_kra";
                         ?>
                         <tbody>
                             <tr>
                                 <td><?php echo $sno; ?></td>
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $ids[$o]; ?>" name="id[]" id="id" ></td>
-                                <td><input readonly type="text" class="form-control" value="<?php echo $assertions[$o]; ?>" name="assertion[]" id="assertion" ></td>
+                                <td><textarea readonly type="text" class="form-control"  name="assertion[]" id="assertion" ><?php echo $assertions[$o]; ?></textarea></td>
                                 <?php 
-                                if (strpos($ids[$o], $subString) !== false || $monthly_conversion[$o] == '1') { ?>
+                                // if (strpos($ids[$o], $subString) !== false || $monthly_conversion[$o] == '1') {
+                                if ($monthly_conversion[$o] == '1') { ?>
                                     <td><input type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <?php } else { ?>
                                     <td><input readonly type="number" class="form-control" value="<?php echo round($target[$o]/$no_of_months); ?>" name="target[]" id="target" ></td>
                                 <?php } ?>
+                                <input type="hidden" class="form-control" value="<?php echo $monthly_conversion[$o]; ?>" name="monthly_conversion[]" id="monthly_conversion" >
                                 <td>
                                     <input type="checkbox" id="edit_assertion" name="edit_assertion[]" class="edit_assertion" value="edit">
                                     <label for="edit_assertion"> EDIT</label> &nbsp;&nbsp;

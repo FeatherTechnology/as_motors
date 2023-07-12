@@ -8341,7 +8341,7 @@
 				$target = $_POST['target'];
 			}
 			if(isset($_POST['monthly_conversion'])){
-				$monthly_conversion = $_POST['monthly_conversion'];
+				$monthly_conversion = $_POST['monthly_conversion']; // 0 -YES, 1 -No;
 			}
 			if(isset($_POST['iid'])){
 				$iid = $_POST['iid'];
@@ -8571,6 +8571,9 @@
 		if(isset($_POST['target'])){
 			$target = $_POST['target'];
 		} 
+		if(isset($_POST['monthly_conversion'])){
+			$monthly_conversion = $_POST['monthly_conversion'];
+		} 
 		if(isset($_POST['new_assertion'])){
 			$new_assertion = $_POST['new_assertion'];
 		} 
@@ -8595,8 +8598,8 @@
 
 		for($i=0; $i<=sizeof($id)-1; $i++){
 
-			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
-			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, monthly_conversion_required, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($lastId)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($monthly_conversion[$i])."', '".strip_tags($new_assertion[$i])."', 
 			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -8634,6 +8637,7 @@
 				$goal_setting_and_kra_id[]          = $row1->goal_setting_and_kra_id; 
 				$assertion[]                        = $row1->assertion;
 				$target[]                           = $row1->target;
+				$monthly_conversion[]               = $row1->monthly_conversion_required;
 				$new_assertion[]                    = $row1->new_assertion;
 				$new_target[]                       = $row1->new_target;
 				$applicability[]                    = $row1->applicability;
@@ -8647,6 +8651,7 @@
 			$detailrecords['goal_setting_and_kra_id']          = $goal_setting_and_kra_id;
 			$detailrecords['assertion']                        = $assertion;  	
 			$detailrecords['target']                           = $target;  	
+			$detailrecords['monthly_conversion']               = $monthly_conversion;  	
 			$detailrecords['new_assertion']                    = $new_assertion;  	
 			$detailrecords['new_target']                       = $new_target;  	
 			$detailrecords['applicability']                    = $applicability;  	
@@ -8659,6 +8664,7 @@
 			$detailrecords['goal_setting_and_kra_id']        = array();
 			$detailrecords['assertion']                      = array(); 
 			$detailrecords['target']                         = array(); 
+			$detailrecords['monthly_conversion']             = array(); 
 			$detailrecords['new_assertion']                  = array(); 
 			$detailrecords['new_target']                     = array(); 
 			$detailrecords['applicability']                  = array(); 
@@ -8700,6 +8706,9 @@
 		if(isset($_POST['target'])){
 			$target = $_POST['target'];
 		} 
+		if(isset($_POST['monthly_conversion'])){
+			$monthly_conversion = $_POST['monthly_conversion'];
+		} 
 		if(isset($_POST['new_assertion'])){
 			$new_assertion = $_POST['new_assertion'];
 		} 
@@ -8725,8 +8734,8 @@
 
 		for($i=0; $i<=sizeof($id)-1; $i++){
 
-			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
-			VALUES('".strip_tags($upd_id)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($new_assertion[$i])."', 
+			$refQry="INSERT INTO target_fixing_ref(target_fixing_id, goal_setting_and_kra_id, assertion, target, monthly_conversion_required, new_assertion, new_target, applicability, deleted_date, deleted_remarks)
+			VALUES('".strip_tags($upd_id)."', '".strip_tags($id[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($monthly_conversion[$i])."', '".strip_tags($new_assertion[$i])."', 
 			'".strip_tags($new_target[$i])."', '".strip_tags($applicability[$i])."', '".strip_tags($deleted_date[$i])."', '".strip_tags($deleted_remarks[$i])."')"; 
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
