@@ -55,7 +55,7 @@ if($_POST['search']!="");
 }
 
 if (isset($_POST['order'])) {
-    $query .= ' ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+    $query .= ' ORDER BY dp.daily_performance_id DESC ';
 } else {
     $query .= ' ';
 }
