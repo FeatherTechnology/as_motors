@@ -184,7 +184,7 @@ if($idupd>0)
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">AS - Appreciation VS Depreciatione</li>
+        <li class="breadcrumb-item">AS - Appreciation Vs Depreciation</li>
     </ol>
 
     <a href="edit_appreciation_depreciation">
