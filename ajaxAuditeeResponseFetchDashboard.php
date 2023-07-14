@@ -8,6 +8,11 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 }
+if(isset($_SESSION["designation_id"])){
+    $designation_id = $_SESSION["designation_id"];
+}else{
+    $designation_id = 0;
+}
 
 $column = array(
 
@@ -22,33 +27,35 @@ $column = array(
 $query = "SELECT * FROM audit_assign WHERE 1";
 // if($sbranch_id == 'Overall'){
     $query .= '';
-    if($_POST['search']!="");
-    {
-        if (isset($_POST['search'])) {
+    // if($_POST['search']!="");
+    // {
+    //     if (isset($_POST['search'])) {
 
-            if($_POST['search']=="Active")
-            {
-                $query .="and status=0 "; 
-            }
-            else if($_POST['search']=="Inactive")
-            {
-                $query .="and status=1 ";
-            }
+    //         if($_POST['search']=="Active")
+    //         {
+    //             $query .="and status=0 "; 
+    //         }
+    //         else if($_POST['search']=="Inactive")
+    //         {
+    //             $query .="and status=1 ";
+    //         }
 
-            else {	
-                $query .= "
-                OR date_of_audit LIKE '%".$_POST['search']."%'
-                OR department_id LIKE  '%".$_POST['search']."%'
-                OR role1 LIKE  '%".$_POST['search']."%'
-                OR role2 LIKE  '%".$_POST['search']."%'
-                OR status LIKE '%".$_POST['search']."%' ";
-            }
-        }
-    }
+    //         else {	
+    //             $query .= "
+    //             OR date_of_audit LIKE '%".$_POST['search']."%'
+    //             OR department_id LIKE  '%".$_POST['search']."%'
+    //             OR role1 LIKE  '%".$_POST['search']."%'
+    //             OR role2 LIKE  '%".$_POST['search']."%'
+    //             OR status LIKE '%".$_POST['search']."%' ";
+    //         }
+    //     }
+    // }
 
 // }else{
 //     $query .=" and company_id= '".$sbranch_id."' ";
 // }
+
+    $query .=" and (role1 = '".$designation_id."' || role2 = '".$designation_id."' )";
 
 if (isset($_POST['order'])) {
     $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';

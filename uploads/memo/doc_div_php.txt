@@ -1,0 +1,359 @@
+if(isset($_POST['submit_documentation']) && $_POST['submit_documentation'] != ''){
+
+	$addDocVerification = $userObj->addDocumentation($mysqli, $userid);
+?>
+
+<script>
+
+alert('Documentation Details Saved');
+
+</script>
+
+<?php
+}
+
+
+
+///Before $getRequestData = $userObj->getRequestForVerification($mysqli, $idupd);
+
+
+
+////////  Document Customer Info ///// 
+$getcusInfoForDoc = $userObj->getcusInfoForDoc($mysqli, $idupd); 
+
+if (sizeof($getcusInfoForDoc) > 0) {
+
+	$cus_profile_id = $getcusInfoForDoc['cus_profile_id'];
+	$doc_cus_id = $getcusInfoForDoc['cus_id'];
+	$doc_cus_name = $getcusInfoForDoc['cus_name'];
+	$doc_area_name = $getcusInfoForDoc['area_name'];
+	$doc_sub_area_name = $getcusInfoForDoc['sub_area_name'];
+	$customer_profile_sts = $getcusInfoForDoc['cus_status'];
+}
+
+////   Documentation ////////////
+$documentationInfo = $userObj->getDocument($mysqli,$req_id);
+
+if(sizeof($documentationInfo)>0){
+	$document_table_id = $documentationInfo['doc_Tableid'];
+	$document_sts = $documentationInfo['cus_status'];
+	$mortgage_process = $documentationInfo['mortgage_process'];
+	$Propertyholder_type = $documentationInfo['Propertyholder_type'];
+	$Propertyholder_name = $documentationInfo['Propertyholder_name'];
+	$Propertyholder_relationship_name = $documentationInfo['Propertyholder_relationship_name'];
+	$doc_property_relation = $documentationInfo['doc_property_relation'];
+	$doc_property_type = $documentationInfo['doc_property_type'];
+	$doc_property_measurement = $documentationInfo['doc_property_measurement'];
+	$doc_property_location = $documentationInfo['doc_property_location'];
+	$doc_property_value = $documentationInfo['doc_property_value'];
+	$mortgage_name = $documentationInfo['mortgage_name'];
+	$mortgage_dsgn = $documentationInfo['mortgage_dsgn'];
+	$mortgage_nuumber = $documentationInfo['mortgage_nuumber'];
+	$reg_office = $documentationInfo['reg_office'];
+	$mortgage_value = $documentationInfo['mortgage_value'];
+	$mortgage_document = $documentationInfo['mortgage_document'];
+	$endorsement_process = $documentationInfo['endorsement_process'];
+	$owner_type = $documentationInfo['owner_type'];
+	$owner_name = $documentationInfo['owner_name'];
+	$ownername_relationship_name = $documentationInfo['ownername_relationship_name'];
+	$en_relation = $documentationInfo['en_relation'];
+	$vehicle_type = $documentationInfo['vehicle_type'];
+	$vehicle_process = $documentationInfo['vehicle_process'];
+	$en_Company = $documentationInfo['en_Company'];
+	$en_Model = $documentationInfo['en_Model'];
+	$vehicle_reg_no = $documentationInfo['vehicle_reg_no'];
+	$endorsement_name = $documentationInfo['endorsement_name'];
+	$en_RC = $documentationInfo['en_RC'];
+	$en_Key = $documentationInfo['en_Key'];
+	$gold_info = $documentationInfo['gold_info'];
+	$gold_sts = $documentationInfo['gold_sts'];
+	$gold_type = $documentationInfo['gold_type'];
+	$Purity = $documentationInfo['Purity'];
+	$gold_Count = $documentationInfo['gold_Count'];
+	$gold_Weight = $documentationInfo['gold_Weight'];
+	$gold_Value = $documentationInfo['gold_Value'];
+	$document_name = $documentationInfo['document_name'];
+	$document_details = $documentationInfo['document_details'];
+	$document_type = $documentationInfo['document_type'];
+	$document_holder = $documentationInfo['document_holder'];
+	$docholder_name = $documentationInfo['docholder_name'];
+	$docholder_relationship_name = $documentationInfo['docholder_relationship_name'];
+	$doc_relation = $documentationInfo['doc_relation'];
+
+}
+
+
+
+
+
+
+
+
+
+
+<!-- Add Signed Doc info Modal  START -->
+<div class="modal fade addSignDoc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="background-color: white">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myLargeModalLabel">Add Signed Doc Info</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetsigninfoList()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- alert messages -->
+				<div id="signInsertOk" class="successalert"> Signed Doc Info Added Successfully
+					<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="signUpdateok" class="successalert"> Signed Doc Info Updated Succesfully! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="signNotOk" class="unsuccessalert"> Something Went Wrong! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="signDeleteOk" class="unsuccessalert"> Signed Doc Info Deleted
+					<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="signDeleteNotOk" class="unsuccessalert"> Signed Doc Info not Deleted <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<br />
+
+				<div class="row">
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="DocName "> Doc Name </label> <span class="required">&nbsp;*</span>
+							<select type="text" class="form-control" id="doc_name" name="doc_name">
+								<option value=""> Select Doc Name </option>
+								<option value="0"> Promissory Note </option>
+								<option value="1"> Stamp Paper </option>
+								<option value="2"> P Additional </option>
+								<option value="3"> S Additional </option>
+							</select>
+							<span class="text-danger" id="docNameCheck"> Select Doc Name </span>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="SignType"> Sign Type </label> <span class="required">&nbsp;*</span>
+							<select type="text" class="form-control" id="sign_type" name="sign_type">
+								<option value=""> Select Sign Type </option>
+								<option value="0"> Customer </option>
+								<option value="1"> Guarantor </option>
+								<option value="2"> Combined </option>
+								<option value="3"> Family Members </option>
+							</select>
+							<span class="text-danger" id="signTypeCheck"> Select Sign Type </span>
+						</div>
+					</div>
+
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" style="display: none;" id="relation_doc">
+						<div class="form-group">
+							<label for="signRelationship"> Relationship </label>
+							<select type="text" class="form-control" id="signType_relationship" name="signType_relationship">
+								<option value=""> Select Relationship </option>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="Count"> Count </label> <span class="required">&nbsp;*</span>
+							<input type="number" class="form-control" id="doc_Count" name="doc_Count" placeholder="Enter Count">
+							<span class="text-danger" id="docCountCheck"> Enter Count </span>
+						</div>
+					</div>
+
+					<div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+						<input type="hidden" name="signedID" id="signedID">
+						<button type="button" name="signInfoBtn" id="signInfoBtn" class="btn btn-primary" style="margin-top: 19px;">Submit</button>
+					</div>
+
+				</div>
+				</br>
+
+				<div id="signTable">
+					<table class="table custom-table modalTable">
+						<thead>
+							<tr>
+								<th width="15%"> S.No </th>
+								<th> Doc Name </th>
+								<th> Sign Type </th>
+								<th> Relationship </th>
+								<th> Count </th>
+								<th> ACTION </th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetsigninfoList()">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END  Add Signed Doc Info Modal -->
+
+<!-- Add Cheque info Modal  START -->
+<div class="modal fade addCheque" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" style="background-color: white">
+			<div class="modal-header">
+				<h5 class="modal-title" id="myLargeModalLabel">Add Cheque Info</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="chequeinfoList()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- alert messages -->
+				<div id="chequeInsertOk" class="successalert"> Cheque Info Added Successfully
+					<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="chequeUpdateok" class="successalert"> Cheque Info Updated Succesfully! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="chequeNotOk" class="unsuccessalert"> Something Went Wrong! <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="chequeDeleteOk" class="unsuccessalert"> Cheque Info Deleted
+					<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<div id="chequeDeleteNotOk" class="unsuccessalert"> Cheque Info not Deleted <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+				</div>
+
+				<br />
+
+				<div class="row">
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="Holdertype "> Holder type </label> <span class="required">&nbsp;*</span>
+							<select type="text" class="form-control" id="holder_type" name="holder_type">
+								<option value=""> Select Holder type </option>
+								<option value="0"> Customer </option>
+								<option value="1"> Guarantor </option>
+								<option value="2"> Family Members </option>
+							</select>
+							<span class="text-danger" id="holdertypeCheck"> Select Holder type </span>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="HolderName "> Holder Name </label>
+							<input type="text" class="form-control" id="holder_name" name="holder_name" readonly>
+
+							<select type="text" class="form-control" id="holder_relationship_name" name="holder_relationship_name" style="display: none;">
+								<option value=""> Select Holder Name </option>
+							</select>
+						</div>
+					</div>
+
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="chequeRelationship"> Relationship </label>
+							<input type="text" class="form-control" id="cheque_relation" name="cheque_relation" readonly>
+
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="BankName"> Bank Name </label> <span class="required">&nbsp;*</span>
+							<input type="text" class="form-control" id="chequebank_name" name="chequebank_name" placeholder="Enter Bank Name" onkeydown="return /[a-z ]/i.test(event.key)">
+							<span class="text-danger" id="chequebankCheck"> Enter Bank Name </span>
+						</div>
+					</div>
+
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+						<div class="form-group">
+							<label for="chequeNo"> Cheque Count </label> <span class="required">&nbsp;*</span>
+							<input type="number" class="form-control" id="cheque_count" name="cheque_count" placeholder="Enter Cheque Count">
+							<span class="text-danger" id="chequeCountCheck"> Enter Cheque Count </span>
+						</div>
+					</div>
+
+					<!-- </br> -->
+
+					<!-- <div class="row "> -->
+					<!--Fields -->
+					<!-- <div class="col-md-12 ">
+						<div class="row">
+							<div class="col-md-12">
+
+								<table id="moduleTable" class="table custom-table">
+									<thead>
+										<tr>
+											<th>Cheque No</th>
+											<th></th>
+											<th>Action</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr>
+											<td>
+												<input type="text" tabindex="2" name="cheque_no[]" id="cheque_no" class="form-control">
+											</td>
+											<td>
+												<button type="button" tabindex="2" id="add_checqueNo[]" name="add_checqueNo" value="Submit" class="btn btn-primary add_checqueNo">Add</button>
+											</td>
+											<td>
+												<span class='icon-trash-2' tabindex="2"></span>
+											</td>
+										</tr>
+									</tbody>
+
+								</table>
+							</div>
+						</div>
+
+					</div> -->
+
+					<div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+						<input type="hidden" name="chequeID" id="chequeID">
+						<button type="button" name="chequeInfoBtn" id="chequeInfoBtn" class="btn btn-primary" style="margin-top: 19px;">Submit</button>
+					</div>
+				</div>
+				</br>
+
+
+				<div id="chequeTable">
+					<table class="table custom-table">
+						<thead>
+							<tr>
+								<th width="15%"> S.No </th>
+								<th> Holder type </th>
+								<th> Holder Name </th>
+								<th> Relationship </th>
+								<th> Bank Name </th>
+								<th> Cheque No </th>
+								<th> ACTION </th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="chequeinfoList();">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END  Add Cheque Info Modal -->

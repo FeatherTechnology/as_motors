@@ -8,6 +8,9 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 }
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+}
 
 $column = array(
 
@@ -44,7 +47,7 @@ if($sbranch_id == 'Overall'){
         }
     }
 }else{
-    $query .=" and company_id= '".$sbranch_id."' ";
+    $query .=" and (assign_employee = '".$staffid."' || initial_phase = '".$staffid."' || final_phase = '".$staffid."')";
 }
 
 if (isset($_POST['order'])) {
@@ -70,7 +73,7 @@ $data = array();
 $sno = 1;
 foreach ($result as $row) {
 
-    if($row['date_of_completion'] == ''){
+    // if($row['date_of_completion'] == ''){
 
         $sub_array = array();
         if($sno!="")
@@ -121,7 +124,7 @@ foreach ($result as $row) {
         $sno = $sno + 1;
     }
     
-}
+// }
 
 function count_all_data($connect)
 {

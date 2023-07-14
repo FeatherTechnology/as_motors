@@ -5,6 +5,18 @@ $(document).ready(function(){
 
 });//document ready end
 
+$(function(){ //Onload Function
+    var userRole = $('#user_role').val();
+    if(userRole == '3' || userRole == '4'){ // 3- Manager, 4 -Staff.
+        $('.staff_manager_login').show();
+        getTableValues(); //To show TODO List.
+    }else{
+        $('.staff_manager_login').hide();
+    }
+
+
+});// Onload Function END.
+
 function approve(rgp_id){
     var dlt = confirm("Are you sure to want to Approve this RGP?");
     if(dlt){
@@ -37,4 +49,17 @@ function reject(rgp_id){
         }else{
             return false;
         }
+}
+
+function getTableValues(){
+    var staff_id = $('#id').val();
+    $.ajax({
+        type: 'POST',
+        data: {'staff_id': staff_id},
+        url: 'dashboardAjaxFile/ajaxToDoDashboard.php',
+        success: function(response){
+            $('#todo_infoDashboard').empty();
+            $('#todo_infoDashboard').html(response);
+        }
+    })
 }
