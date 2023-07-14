@@ -292,7 +292,8 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
 <div class="main-container">
 <!--------form start-->
     <form id = "dashboard" name="dashboard" action="" method="post" enctype="multipart/form-data"> 
-        <input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+        <input type="hidden" class="form-control" value="<?php if(isset($sstaffid)) echo $sstaffid; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+        <input type="hidden" class="form-control" value="<?php if(isset($role)) echo $role; ?>"  id="user_role" name="user_role">
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -1401,10 +1402,48 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
+                <!-- TODO List Start -->
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">TODO</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Fields -->
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="todo_infoDashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width='70'>S. No.</th>
+                                                                    <th>Priority</th>
+                                                                    <th>Start Date</th>
+                                                                    <th>End Date</th>
+                                                                    <th>Work Description</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- TODO List END -->
+
                 <!-- memo Initiate -->
                 <?php 
-                if($memoInitiateDashboard > 0){ ?>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                // if($memoInitiateDashboard > 0){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">Memo Initiate</div>
@@ -1420,7 +1459,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <table id="memo_infoDashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>S. No.</th>
+                                                                    <th width='20'>S. No.</th>
                                                                     <th>Company Name</th>
                                                                     <th>To Department</th>
                                                                     <th>Action</th>
@@ -1438,12 +1477,12 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                <?php #} ?>
 
                 <!-- memo Assigned -->
                 <?php 
-                if($memoAssignDashboard > 0){ ?>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                // if($memoAssignDashboard > 0){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">Memo Assigned</div>
@@ -1459,7 +1498,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <table id="memo_assigned_infoDashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>S. No.</th>
+                                                                    <th width='20'>S. No.</th>
                                                                     <th>Company Name</th>
                                                                     <th>To Department</th>
                                                                     <th>Assign Employee</th>
@@ -1478,13 +1517,13 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                <?php #} ?>
 
 
                 <!-- audit assign -->
                 <?php 
-                if($auditAssignDashboard > 0){ ?>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                // if($auditAssignDashboard > 0){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">Audit Assign</div>
@@ -1500,7 +1539,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <table id="audit_assign_infoDashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>S. No.</th>
+                                                                    <th width='50'>S. No.</th>
                                                                     <th>Date Of Audit</th>
                                                                     <th>Department</th>
                                                                     <th>Role 1</th>
@@ -1520,12 +1559,12 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                <?php #} ?>
 
                 <!-- auditee response -->
                 <?php 
-                if($auditeeResponseDashboard > 0){ ?>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                // if($auditeeResponseDashboard > 0){ ?>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">Auditee Response</div>
@@ -1541,7 +1580,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <table id="auditee_response_infoDashboard" class="table custom-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>S. No.</th>
+                                                                    <th width='40'>S. No.</th>
                                                                     <th>Date Of Audit</th>
                                                                     <th>Department</th>
                                                                     <th>Role 1</th>
@@ -1561,7 +1600,82 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                <?php #} ?>
+                <!-- Auditee response END -->
+
+            <!-- PM, BM checklist -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">PM Checklist</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                    <table id="pmChecklist_dashboard" class="table custom-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width='30'>S. No.</th>
+                                                                <th>Category</th>
+                                                                <th>Checklist</th>
+                                                                <th>Rating</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">BM Checklist</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="bmChecklist_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                        <th width='30'>S. No.</th>
+                                                        <th>Category</th>
+                                                        <th>Checklist</th>
+                                                        <th>Rating</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- PM,BM checklist -->
 
                 <!-- meeting minutes -->
                 <?php 
