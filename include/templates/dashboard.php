@@ -1317,51 +1317,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
-                <!-- Maintenance Checklist -->
-                <?php 
-                if(sizeof($maintenanceChecklistResponder) > 0){ ?>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Maintenance Checklist </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <!-- Fields -->
-                                    <div class="col-md-12 "> 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group" >
-                                                    <div class="table">
-                                                        <table id="maintenanceChecklist_infoDashboard" class="table custom-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>S. No.</th>
-                                                                    <!-- <th>Company Name</th>
-                                                                    <th>Branch Name</th> -->
-                                                                    <th>Category</th>
-                                                                    <th>Checklist</th>
-                                                                    <th>Type Of Checklist</th>
-                                                                    <th>Frequency</th>
-                                                                    <th>Rating</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
-
-
                 <!-- Periodic Level -->
                 <?php 
                 if($periodicLevelDashboard > 0){ ?>
@@ -1402,11 +1357,49 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
+                <!-- Today's Task List Start -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Today's Task</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- Fields -->
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="todays_task_info" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width='20'>S. No.</th>
+                                                                    <th>Task Title</th>
+                                                                    <th>Work Description</th>
+                                                                    <th>Work Status</th>
+                                                                    <!-- <th>Action</th> -->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Today's Task List END -->
+
                 <!-- TODO List Start -->
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">TODO</div>
+                                <div class="card-title">ToDo</div>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -1610,31 +1603,25 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                         <div class="card-title">PM Checklist</div>
                     </div>
                     <div class="card-body">
-                        <div class="customScroll5">
-                            <ul class="project-activity">
-                                <div class="col-md-12 "> 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group" >
-                                                <div class="table">
-                                                    <table id="pmChecklist_dashboard" class="table custom-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th width='30'>S. No.</th>
-                                                                <th>Category</th>
-                                                                <th>Checklist</th>
-                                                                <th>Rating</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" >
+                                    <div class="table">
+                                        <table id="pmChecklist_dashboard" class="table custom-table">
+                                            <thead>
+                                                <tr>
+                                                    <th width='30'>S. No.</th>
+                                                    <th>Category</th>
+                                                    <th>Checklist</th>
+                                                    <th>Rating</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1646,36 +1633,68 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                         <div class="card-title">BM Checklist</div>
                     </div>
                     <div class="card-body">
-                        <div class="customScroll5">
-                            <ul class="project-activity">
-                                <div class="col-md-12 "> 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group" >
-                                                <div class="table">
-                                                <table id="bmChecklist_dashboard" class="table custom-table">
-                                                    <thead>
-                                                        <tr>
-                                                        <th width='30'>S. No.</th>
-                                                        <th>Category</th>
-                                                        <th>Checklist</th>
-                                                        <th>Rating</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" >
+                                    <div class="table">
+                                    <table id="bmChecklist_dashboard" class="table custom-table">
+                                        <thead>
+                                            <tr>
+                                            <th width='30'>S. No.</th>
+                                            <th>Category</th>
+                                            <th>Checklist</th>
+                                            <th>Rating</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                     </div>
                                 </div>
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- PM,BM checklist -->
+
+            <!-- Maintenance Checklist -->
+            <?php 
+                // if(sizeof($maintenanceChecklistResponder) > 0){ ?>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Maintenance Checklist </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12"> 
+                                <div class="form-group">
+                                    <div class="table">
+                                        <table id="maintenanceChecklist_infoDashboard" class="table custom-table">
+                                            <thead>
+                                                <tr>
+                                                    <th width='20'>S. No.</th>
+                                                    <th>Date Of Inspection</th>
+                                                    <th>Asset Details</th>
+                                                    <th>Checklist</th>
+                                                    <th>Role 1</th>
+                                                    <th>Role 2</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <?php #} ?>
+                <!-- Maintance Checklist END -->
 
                 <!-- meeting minutes -->
                 <?php 
