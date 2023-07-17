@@ -19,7 +19,7 @@ $column = array(
     'status'
 );
 
-$query = "SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id join bm_checklist_ref c on b.id = c.bm_checklist_id WHERE c.work_status != '3' AND c.to_date <= CURDATE() ";
+$query = "SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id join bm_checklist_ref c on b.id = c.bm_checklist_id WHERE c.work_status != '3' AND CURDATE() <= c.to_date ";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -49,7 +49,7 @@ if($sbranch_id == 'Overall'){
     }
     
 }else{
-    $query .=" and company_id= '".$sbranch_id."' ";
+    $query .=" and a.company_id= '".$sbranch_id."' ";
 }
 
 
