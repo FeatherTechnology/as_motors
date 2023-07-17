@@ -9,57 +9,63 @@ if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 
 } 
+if(isset($_SESSION["designation_id"])){
+    $designation_id = $_SESSION["designation_id"];
+}else{
+    $designation_id = 0;
+}
+
 $column = array(
     
-    'maintenance_checklist_id',
-    'company_id',
     'date_of_inspection',
-    'ins_person',
     'asset_details',
     'checklist',
-    'responder',
-    'status'
+    'role1',
+    'role2',
+    'action'
 );
 
 $query = "SELECT * FROM maintenance_checklist WHERE 1";
 // if($sbranch_id == 'Overall'){
-    $query .= '';
-    if($_POST['search']!="");
-    {
-        if (isset($_POST['search'])) {
+    // $query .= '';
+    // if($_POST['search']!="");
+    // {
+    //     if (isset($_POST['search'])) {
             
-            if($_POST['search']=="Active")
-            {
-                $query .=" and status=0 "; 
-            }
-            else if($_POST['search']=="Inactive")
-            {
-                $query .=" and status=1 ";
-            }
+    //         if($_POST['search']=="Active")
+    //         {
+    //             $query .=" and status=0 "; 
+    //         }
+    //         else if($_POST['search']=="Inactive")
+    //         {
+    //             $query .=" and status=1 ";
+    //         }
             
-            else{	
+    //         else{	
                 
-                $query .= "
-                OR maintenance_checklist_id LIKE '%".$_POST['search']."%'
-                OR company_id LIKE '%".$_POST['search']."%'
-                OR date_of_inspection LIKE '%".$_POST['search']."%'
-                OR ins_person LIKE '%".$_POST['search']."%'
-                OR asset_details LIKE '%".$_POST['search']."%'
-                OR checklist LIKE '%".$_POST['search']."%'
-                OR responder LIKE '%".$_POST['search']."%'
-                OR status LIKE '%".$_POST['search']."%' ";
-            }
-        }
-    }
+    //             $query .= "
+    //             OR maintenance_checklist_id LIKE '%".$_POST['search']."%'
+    //             OR company_id LIKE '%".$_POST['search']."%'
+    //             OR date_of_inspection LIKE '%".$_POST['search']."%'
+    //             OR ins_person LIKE '%".$_POST['search']."%'
+    //             OR asset_details LIKE '%".$_POST['search']."%'
+    //             OR checklist LIKE '%".$_POST['search']."%'
+    //             OR responder LIKE '%".$_POST['search']."%'
+    //             OR status LIKE '%".$_POST['search']."%' ";
+    //         }
+    //     }
+    // }
     
 // }else{
 //     $query .=" and company_id= '".$sbranch_id."' ";
 // }
 
+$query .=" and (role1 = '".$designation_id."' || role2 = '".$designation_id."' )";
+
 if (isset($_POST['order'])) {
     $query .= 'ORDER BY ' . $column[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
 } else {
-    $query .= ' ';
+    $query .= '';
 }
 
 $query1 = '';
@@ -82,7 +88,7 @@ $sno = 1;
 foreach ($result as $row) {
     $sub_array   = array();
     $maintenance_checklist_idCheck   = '';
-  
+
     if($sno!="")
     {
         $sub_array[] = $sno;
@@ -113,15 +119,6 @@ foreach ($result as $row) {
                 $company_name = $row52['company_name'];
             }
         }
-        
-        $ins_person='';
-        $insPerson = $row['ins_person'];   
-        $getqry6 = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($insPerson)."' and status = 0";
-        $res6 = $con->query($getqry6);
-        while($row6 = $res6->fetch_assoc())
-        {
-        $ins_person = $row6["staff_name"];        
-        }
 
         $asset_name='';
         $assetDetails = $row['asset_details'];   
@@ -131,35 +128,32 @@ foreach ($result as $row) {
         {
         $asset_name = $row7["asset_name"];        
         }
-
-        $responder_name='';
-        $responder = $row['responder'];   
-        $getqry6 = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($responder)."' and status = 0";
-        $res6 = $con->query($getqry6);
-        while($row6 = $res6->fetch_assoc())
-        {
-        $responder_name = $row6["staff_name"];        
-        }
         
         if($row['checklist'] == "pm_checklist"){$checklist = "PM Checklist";}
         if($row['checklist'] == "bm_checklist"){$checklist = "BM Checklist";}
         
-        // $sub_array[] = $company_name;
-        // $sub_array[] = $branch_name;
+            $role1Name='';
+            $getAuditorName = "SELECT designation_name FROM designation_creation WHERE designation_id ='".strip_tags($row['role1'])."' and status = 0";
+            $res12 = $con->query($getAuditorName);
+            while($row12 = $res12->fetch_assoc())
+            {
+            $role1Name = $row12["designation_name"];        
+            }
+            
+            $role2Name='';
+            $getAuditeeName = "SELECT designation_name FROM designation_creation WHERE designation_id ='".strip_tags($row['role2'])."' and status = 0";
+            $res14 = $con->query($getAuditeeName);
+            while($row14 = $res14->fetch_assoc())
+            {
+            $role2Name = $row14["designation_name"];        
+            }
+
         $sub_array[] = $row['date_of_inspection'];
-        $sub_array[] = $ins_person;
         $sub_array[] = $asset_name;
         $sub_array[] = $checklist;
-        $sub_array[] = $responder_name;
-        // $status      = $row['status'];
-        // if($status == 1)
-        // {
-        // $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Inactive</span></span>";
-        // }
-        // else
-        // {
-        // $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Active</span></span>";
-        // }
+        $sub_array[] = $role1Name;
+        $sub_array[] = $role2Name;
+
         $id   = $row['maintenance_checklist_id'];
         
         $action="<a href='maintenance_checklist&dashupd=$id' title='view details'><span class='btn btn-info'>View</span></a>";

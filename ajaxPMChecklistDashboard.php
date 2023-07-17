@@ -21,7 +21,7 @@ $column = array(
     'status	',
 );
 
-$query = "SELECT a.pm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id WHERE 1";
+$query = "SELECT a.pm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id join pm_checklist_ref c on b.id = c.pm_checklist_id WHERE c.work_status != '3' ";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");
@@ -80,7 +80,7 @@ $data = array();
 $sno = 1;
 foreach ($result as $row) {
 
-    if($row['rating'] == 'High' && $row['status'] == 0){
+    if($row['rating'] == 'High' && $row['work_status'] != 3){
         $sub_array   = array();
         
         if($sno!="")
