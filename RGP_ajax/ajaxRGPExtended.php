@@ -20,7 +20,11 @@ $column = array(
     'extend_reason'
 );
 
+$curdate = date('Y-m-d');
+$enddate = date('Y-m-d',strtotime($curdate.'+5 days'));
+
 $query = "SELECT * FROM rgp_creation WHERE 1 ";
+
 if ($sbranch_id == 'Overall') {
     $query .= '';
     if($_POST['search']!="");
@@ -74,89 +78,99 @@ $data = array();
 
 $sno = 1;
 foreach ($result as $row) {
+    $checkqry = "SELECT * FROM rgp_creation WHERE rgp_id= '".$row['rgp_id']."' ";
+    $checkrun = $con->query($checkqry);
+    $checkrow = $checkrun->fetch_assoc();
+    $checkdate = $checkrow['updated_date'];
+    $checkstatus = $checkrow['extend_status'];
+    if($checkdate <= $enddate or ($checkstatus == '' and $checkstatus == null) ){
 
-    if($row['extended_date'] != ''){
+    
 
-        $sub_array   = array();
 
-        if($sno!="")
-        {
-            $sub_array[] = $sno;
-        }
-        
-        $branch_from='';
-        $getBranchName = $row['branch_from'];   
-        $getqry2 = "SELECT * FROM branch_creation WHERE branch_id ='".strip_tags($getBranchName)."' and status = 0";
-        $res2 = $con->query($getqry2);
-        while($row2 = $res2->fetch_assoc())
-        {
-        $branch_from = $row2["branch_name"];        
-        $company_id_from = $row2["company_id"];        
-        }
-        
-        $company_name_from='';
-        $getqry = "SELECT * FROM company_creation WHERE company_id ='".strip_tags($company_id_from)."' and status = 0";
-        $res3 = $con->query($getqry);
-        while($row3 = $res3->fetch_assoc())
-        {
-        $company_name_from = $row3["company_name"];        
-        }
+        if($row['extended_date'] != ''){
 
-        $branch_to='';
-        $getBranchName = $row['branch_to'];   
-        $getqry4 = "SELECT * FROM branch_creation WHERE branch_id ='".strip_tags($getBranchName)."' and status = 0";
-        $res4 = $con->query($getqry4);
-        while($row4 = $res4->fetch_assoc())
-        {
-        $branch_to = $row4["branch_name"];        
-        $company_id_to = $row4["company_id"];        
-        }
+            $sub_array   = array();
 
-        $company_name_to='';
-        $getqry = "SELECT * FROM company_creation WHERE company_id ='".strip_tags($company_id_to)."' and status = 0";
-        $res5 = $con->query($getqry);
-        while($row5 = $res5->fetch_assoc())
-        {
-        $company_name_to = $row5["company_name"];        
-        }
-        
-        $asset_name='';
-        $getAssetName = $row['asset_name_id'];   
-        $getqry6 = "SELECT * FROM asset_register WHERE asset_id ='".strip_tags($getAssetName)."' and status = 0";
-        $res6 = $con->query($getqry6);
-        while($row6 = $res6->fetch_assoc())
-        {
-        $asset_name = $row6["asset_name"];        
-        }
+            if($sno!="")
+            {
+                $sub_array[] = $sno;
+            }
+            
+            $branch_from='';
+            $getBranchName = $row['branch_from'];   
+            $getqry2 = "SELECT * FROM branch_creation WHERE branch_id ='".strip_tags($getBranchName)."' and status = 0";
+            $res2 = $con->query($getqry2);
+            while($row2 = $res2->fetch_assoc())
+            {
+            $branch_from = $row2["branch_name"];        
+            $company_id_from = $row2["company_id"];        
+            }
+            
+            $company_name_from='';
+            $getqry = "SELECT * FROM company_creation WHERE company_id ='".strip_tags($company_id_from)."' and status = 0";
+            $res3 = $con->query($getqry);
+            while($row3 = $res3->fetch_assoc())
+            {
+            $company_name_from = $row3["company_name"];        
+            }
 
-        $rgp_date = date('d-m-Y',strtotime($row['rgp_date']));
-        $extended_date = $row['extended_date']; 
-        $return_date = $row['return_date'];
+            $branch_to='';
+            $getBranchName = $row['branch_to'];   
+            $getqry4 = "SELECT * FROM branch_creation WHERE branch_id ='".strip_tags($getBranchName)."' and status = 0";
+            $res4 = $con->query($getqry4);
+            while($row4 = $res4->fetch_assoc())
+            {
+            $branch_to = $row4["branch_name"];        
+            $company_id_to = $row4["company_id"];        
+            }
 
-        // $sub_array[] = $company_name;
-        $sub_array[] = $branch_from .' - '. $company_name_from;
-        $sub_array[] = $branch_to .' - '. $company_name_to ;
-        $sub_array[] = $asset_name;
-        // $sub_array[] = $return_date;
-        // $sub_array[] = $extended_date;
-        // $sub_array[] = $row['extend_reason'];
-        $id   = $row['rgp_id'];
-        $extend_status = $row['extend_status'];
-        $action = "
-            <button onclick = 'approve($id)' title='Approve RGP' class='btn btn-success' style='padding: 5px 5px'><span class='icon-done'> Approve</span></button>&nbsp;&nbsp;
-            <button onclick = 'reject($id)' title='Reject RGP' class='btn btn-danger' style='padding: 5px 5px'><span class='icon-cancel'> Reject</span></button>";
-        if($extend_status == 'Approved'){
+            $company_name_to='';
+            $getqry = "SELECT * FROM company_creation WHERE company_id ='".strip_tags($company_id_to)."' and status = 0";
+            $res5 = $con->query($getqry);
+            while($row5 = $res5->fetch_assoc())
+            {
+            $company_name_to = $row5["company_name"];        
+            }
+            
+            $asset_name='';
+            $getAssetName = $row['asset_name_id'];   
+            $getqry6 = "SELECT * FROM asset_register WHERE asset_id ='".strip_tags($getAssetName)."' and status = 0";
+            $res6 = $con->query($getqry6);
+            while($row6 = $res6->fetch_assoc())
+            {
+            $asset_name = $row6["asset_name"];        
+            }
+
+            $rgp_date = date('d-m-Y',strtotime($row['rgp_date']));
+            $extended_date = $row['extended_date']; 
+            $return_date = $row['return_date'];
+
+            // $sub_array[] = $company_name;
+            $sub_array[] = $branch_from .' - '. $company_name_from;
+            $sub_array[] = $branch_to .' - '. $company_name_to ;
+            $sub_array[] = $asset_name;
+            // $sub_array[] = $return_date;
+            // $sub_array[] = $extended_date;
+            // $sub_array[] = $row['extend_reason'];
+            $id   = $row['rgp_id'];
+            $extend_status = $row['extend_status'];
             $action = "
-            <button type='button' title='Approve RGP' class='btn btn-success disabled' style='padding: 5px 5px'><span class=''> Approved</span></button>";
+                <button onclick = 'approve($id)' title='Approve RGP' class='btn btn-success' style='padding: 5px 5px'><span class='icon-done'> Approve</span></button>&nbsp;&nbsp;
+                <button onclick = 'reject($id)' title='Reject RGP' class='btn btn-danger' style='padding: 5px 5px'><span class='icon-cancel'> Reject</span></button>";
+            if($extend_status == 'Approved'){
+                $action = "
+                <button type='button' title='Approve RGP' class='btn btn-success disabled' style='padding: 5px 5px'><span class=''> Approved</span></button>";
+            }
+            elseif($extend_status == 'Rejected'){
+                $action = "
+                <button type='button' title='Reject RGP' class='btn btn-danger disabled' style='padding: 5px 5px'><span class=''> Rejected</span></button>";
+            }
+            
+            $sub_array[] = $action;
+            $data[]      = $sub_array;
+            $sno = $sno + 1;
         }
-        elseif($extend_status == 'Rejected'){
-            $action = "
-            <button type='button' title='Reject RGP' class='btn btn-danger disabled' style='padding: 5px 5px'><span class=''> Rejected</span></button>";
-        }
-        
-        $sub_array[] = $action;
-        $data[]      = $sub_array;
-        $sno = $sno + 1;
     }
 }
 

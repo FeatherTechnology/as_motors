@@ -1357,6 +1357,97 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 <?php } ?>
 
+                <!-- Approval Table Start -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">RGP Date Extended Requests</div>
+                    </div>
+                    <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <!-- <div class="table-responsive"> -->
+                                                    <?php
+                                                    $mscid=0;
+                                                    if(isset($_GET['msc']))
+                                                    {
+                                                    $mscid=$_GET['msc'];
+                                                    if($mscid==1)
+                                                    {?>
+                                                    <div class="alert alert-success" role="alert">
+                                                        <div class="alert-text">RGP Extention Approved Successfully!</div>
+                                                    </div> 
+                                                    <?php
+                                                    }
+                                                    if($mscid==2)
+                                                    {?>
+                                                        <div class="alert alert-danger" role="alert">
+                                                        <div class="alert-text">RGP Extention Rejected Successfully!</div>
+                                                    </div>
+                                                    <?php
+                                                    }
+                                                    }
+                                                    ?>
+                                                    <table id="rgpExtendedTable" class="table custom-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width='20'>S.No</th>
+                                                                <th>Branch From</th>
+                                                                <th>Branch To</th>
+                                                                <th>Asset Name</th>
+                                                                <!-- <th>Old Return Date</th>
+                                                                <th>Extended Date</th>
+                                                                <th>Extended Reason</th> -->
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                    </div>
+                <!-- Approval Table END -->
+
+                <!-- Regularaisation approval List Start -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Regularisation Approval</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" >
+                                        <div class="table">
+                                            <table id="regularisation_approval_info" class="table custom-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width='20'>S. No.</th>
+                                                        <th>Regularisation Number</th>
+                                                        <th>Department</th>
+                                                        <th>Staff Name</th>
+                                                        <th>Reason</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Regularaisation approval List END -->
+                
                 <!-- Today's Task List Start -->
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
                         <div class="card">
