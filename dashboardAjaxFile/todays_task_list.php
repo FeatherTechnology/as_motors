@@ -33,6 +33,8 @@ $column = array(
 //audit
 //maintance
 //bm
+//Campaign
+//Assign Work
 
 $workid = array();
 $mapid = array();
@@ -112,7 +114,7 @@ while ($bmtask = $bmInfo->fetch()) {
 }
 
 // get campaign ref list
-$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts FROM campaign_ref cf LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id WHERE c.status = 0 AND cf.work_status IN (0, 1, 2) AND FIND_IN_SET('$staffid', employee_name) > 0 AND ( CURDATE() >= DATE(cf.from_date) AND CURDATE() <= DATE(cf.to_date) )";
+$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts FROM campaign_ref cf LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id WHERE c.status = 0 AND cf.work_status IN (0, 1, 2) AND FIND_IN_SET('$staffid', employee_name) > 0 AND ( CURDATE() >= DATE(cf.start_date) AND CURDATE() <= DATE(cf.end_date) )";
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
 while($campaigntask = $campaignInfo->fetch_assoc())
@@ -121,6 +123,19 @@ while($campaigntask = $campaignInfo->fetch_assoc())
     $workid[]['work_id'] = $campaigntask['work_id'];
     $tasktitle[]['title'] = $campaigntask['title'];
     $worksts[]['sts'] = $campaigntask['sts'];
+}
+}
+
+// get assign work list and to_date > '".$today."'
+$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title FROM assign_work_ref WHERE status = 0 AND work_status IN (0, 1, 2) AND designation_id = '".$designation."' AND ( CURDATE() >= DATE(start_date) AND CURDATE() <= DATE(end_date) ) "; 
+$assignInfo = $con->query($assignedTaskInfo);
+if($assignInfo){
+while($assignTask = $assignInfo->fetch_assoc())
+{
+    $mapid[]['id'] = $assignTask['id'];
+    $workid[]['work_id'] = $assignTask['work_id'];
+    $tasktitle[]['title'] = $assignTask['title'];
+    $worksts[]['sts'] = $assignTask['sts'];
 }
 }
 

@@ -1,4 +1,5 @@
 <?php
+//High Priority Checklist only show in PM & BM list.
 include('ajaxconfig.php');
 @session_start();
 
@@ -80,7 +81,7 @@ $data = array();
 $sno = 1;
 foreach ($result as $row) {
 
-    if($row['rating'] == 'High' && $row['work_status'] == 0){
+    if($row['rating'] == 'High' && $row['work_status'] != 3){
         $sub_array   = array();
     
         if($sno!="")
