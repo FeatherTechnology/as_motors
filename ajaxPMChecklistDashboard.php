@@ -1,4 +1,5 @@
 <?php
+//High Priority Checklist only show in PM & BM list.
 include('ajaxconfig.php');
 @session_start();
 
