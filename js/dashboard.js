@@ -1,3 +1,5 @@
+//Dashboard Approval screens are:-
+//RGP extended
 $(document).ready(function(){
 
 
@@ -12,6 +14,12 @@ $(function(){ //Onload Function
         getTableValues(); //To show TODO List.
     }else{
         $('.staff_manager_login').hide();
+    }
+    //Manager Login 
+    if(userRole == '3'){ // 3- Manager.
+        $('.manager_login').show();
+    }else{
+        $('.manager_login').hide();
     }
 
 
@@ -62,4 +70,9 @@ function getTableValues(){
             $('#todo_infoDashboard').html(response);
         }
     })
+}
+
+function regularisation_approve(upd){
+    event.preventDefault();
+    window.location.href='permission_approval&upd='+upd;
 }
