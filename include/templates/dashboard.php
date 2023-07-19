@@ -40,6 +40,7 @@ if(isset($_SESSION["designation_id"])){
 $outdateList = $userObj->getOverDueTask($mysqli);
 $outdateList1 = $userObj->getOverDueTask1($mysqli);
 $staffList = $userObj->getStaff($mysqli);
+$designationList = $userObj->getDesignation($mysqli);
 
 //RGP
 $expiredRGPList = $userObj->getexpiredRGP($mysqli);
@@ -474,7 +475,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <th>S.No</th>
                                                         <th>Task</th>
                                                         <th>Expire Date</th>
-                                                        <th>Staff Name</th>
+                                                        <th>Designation / Staff Name</th>
                                                         <?php 
                                                         if ($sbranch_id == 'Overall') {
                                                         if (sizeof($outdateList) > 0) {
@@ -489,14 +490,14 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                                 ?></span>
                                                             </td>
                                                             <td>
-                                                                <?php echo $outdateList[$i]['to_date'];?>
+                                                                <?php echo date('d-m-Y',strtotime($outdateList[$i]['to_date']));?>
                                                             </td>
                                                             <td>
                                                                 <?php
-                                                                        if (isset($staffList)) {
-                                                                            for($k = 0; $k < count($staffList); $k++){
-                                                                                if($staffList[$k]['staff_id'] == $outdateList[$i]['assign_to']){
-                                                                                    echo $staffList[$k]['staff_name'];
+                                                                        if (isset($designationList)) {
+                                                                            for($k = 0; $k < count($designationList); $k++){
+                                                                                if($designationList[$k]['designation_id'] == $outdateList[$i]['designation_id']){
+                                                                                    echo $designationList[$k]['designation_name'];
                                                                                 }
                                                                             }
                                                                         }?>
@@ -518,14 +519,17 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                                 ?></span>
                                                             </td>
                                                             <td>
-                                                                <?php echo $outdateList1[$i]['to_date'];?>
+                                                                <?php echo date('d-m-Y',strtotime($outdateList1[$i]['to_date']));?>
                                                             </td>
                                                             <td>
                                                                 <?php
                                                                         if (isset($staffList)) {
+                                                                            $assign = explode(',', $outdateList1[$i]['assign_to']);
+                                                                            
                                                                             for($k = 0; $k < count($staffList); $k++){
-                                                                                if($staffList[$k]['staff_id'] == $outdateList1[$i]['assign_to']){
-                                                                                    echo $staffList[$k]['staff_name'];
+                                                                                // if($staffList[$k]['staff_id'] == $outdateList1[$i]['assign_to']){
+                                                                                if(in_array($staffList[$k]['staff_id'],$assign)){
+                                                                                    echo $staffList[$k]['staff_name'], ', ';
                                                                                 }
                                                                             }
                                                                         }?>
@@ -549,14 +553,14 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                                 ?></span>
                                                             </td>
                                                             <td>
-                                                                <?php echo $outdateList[$i]['to_date']; ?>
+                                                                <?php echo date('d-m-Y',strtotime($outdateList[$i]['to_date'])); ?>
                                                             </td>
                                                             <td>
                                                                 <?php
-                                                                if (isset($staffList)) {
-                                                                    for ($k = 0; $k < count($staffList); $k++) {
-                                                                        if ($staffList[$k]['staff_id'] == $outdateList[$i]['assign_to']) {
-                                                                            echo $staffList[$k]['staff_name'];
+                                                                if (isset($designationList)) {
+                                                                    for ($k = 0; $k < count($designationList); $k++) {
+                                                                        if ($designationList[$k]['designation_id'] == $outdateList[$i]['designation_id']) {
+                                                                            echo $designationList[$k]['designation_name'];
                                                                         }
                                                                     }
                                                                 } ?>
@@ -581,14 +585,16 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                                 ?></span>
                                                             </td>
                                                             <td>
-                                                                <?php echo $outdateList1[$i]['to_date']; ?>
+                                                                <?php echo date('d-m-Y',strtotime($outdateList1[$i]['to_date'])); ?>
                                                             </td>
                                                             <td>
                                                                 <?php
                                                                 if (isset($staffList)) {
+                                                                    $assign = explode(',', $outdateList1[$i]['assign_to']);
                                                                     for ($k = 0; $k < count($staffList); $k++) {
-                                                                        if ($staffList[$k]['staff_id'] == $outdateList1[$i]['assign_to']) {
-                                                                            echo $staffList[$k]['staff_name'];
+                                                                        // if ($staffList[$k]['staff_id'] == $outdateList1[$i]['assign_to']) {
+                                                                            if(in_array($staffList[$k]['staff_id'],$assign)){
+                                                                                echo $staffList[$k]['staff_name'], ', ';
                                                                         }
                                                                     }
                                                                 } ?>
@@ -609,6 +615,45 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 </div>
             </div>
+
+            <!-- Pending Task START -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pending Task</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="pending_task_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No.</th>
+                                                            <th>Task Title</th>
+                                                            <th>Task</th>
+                                                            <th>End Date</th>
+                                                            <th>Designation / Staff Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pending Task END -->
 
             <!-- PM, BM checklist -->
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -2110,7 +2155,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                 <!-- Regularisation Approved List END -->
 
                 <!-- Vehicle Management Start-->
-                <?php if($role =='3'){  ?>
+                <?php if($role =='3' || $role == '1'){ // 3-Manager, 1-Overall  ?>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="card">
                             <div class="card-header">

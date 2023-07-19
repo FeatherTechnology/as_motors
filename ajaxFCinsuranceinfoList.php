@@ -28,29 +28,29 @@ OR
 )";
 if($sbranch_id == 'Overall'){
     $query .= '';
-    if($_POST['search']!="");
-    {
-        if (isset($_POST['search'])) {
+    // if($_POST['search']!="");
+    // {
+    //     if (isset($_POST['search'])) {
             
-            if($_POST['search']=="Active")
-            {
-                $query .=" and status=0 "; 
-            }
-            else if($_POST['search']=="Inactive")
-            {
-                $query .=" and status=1 ";
-            }
+    //         if($_POST['search']=="Active")
+    //         {
+    //             $query .=" and status=0 "; 
+    //         }
+    //         else if($_POST['search']=="Inactive")
+    //         {
+    //             $query .=" and status=1 ";
+    //         }
             
-            else{	
+    //         else{	
                 
-                $query .= "
-                OR vehicle_details_id LIKE '%".$_POST['search']."%'
-                OR vehicle_number LIKE '%".$_POST['search']."%'
-                OR fitment_upto LIKE '%".$_POST['search']."%'
-                OR insurance_upto LIKE '%".$_POST['search']."%' ";
-            }
-        }
-    }
+    //             $query .= "
+    //             OR vehicle_details_id LIKE '%".$_POST['search']."%'
+    //             OR vehicle_number LIKE '%".$_POST['search']."%'
+    //             OR fitment_upto LIKE '%".$_POST['search']."%'
+    //             OR insurance_upto LIKE '%".$_POST['search']."%' ";
+    //         }
+    //     }
+    // }
     
 }else{
     $query .=" and company_id= '".$sbranch_id."' ";
@@ -61,8 +61,6 @@ if (isset($_POST['order'])) {
 } else {
     $query .= ' ';
 }
-
-$query1 = '';
 
 $query1 = '';
 

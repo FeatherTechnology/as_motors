@@ -53,6 +53,10 @@ if($idupd>0)
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
+    $cmpny_name = $sCompanyBranchDetailEdit['company_name'];
+    $cmpny_id = $sCompanyBranchDetailEdit['company_id'];
+    $brnch_name = $sCompanyBranchDetailEdit['branch_name'];
+    $brnch_id = $sCompanyBranchDetailEdit['branch_id'];
     ?>
 
     <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
@@ -121,16 +125,20 @@ if($idupd>0)
 					</div>
                     <div class="card-body">
 
-                    	 <div class="row ">
+                            <div class="row ">
                             <!--Fields -->
-                           <div class="col-md-12 "> 
-                              <div class="row">
+                            <div class="col-md-12 "> 
+                                <div class="row">
                             
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Company Name</label>
                                                 <select disabled tabindex="1" type="text" class="form-control" id="company_id" name="company_id"  >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
+                                                    <?php if($sbranch_id == 'Overall'){ ?>    
+                                                        <option value="<?php echo $cmpny_id; ?>"><?php echo $cmpny_name; ?></option> 
+                                                    <?php }else{ ?>   
+                                                            <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
+                                                    <?php } ?>
                                                 </select> 
                                         </div>
                                     </div>
@@ -140,7 +148,11 @@ if($idupd>0)
                                             <label for="disabledInput">Branch Name</label>
                                                 <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
                                                 <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
+                                                    <?php if($sbranch_id == 'Overall'){ ?>
+                                                        <option value="<?php echo $brnch_id; ?>"><?php echo $brnch_name; ?></option> 
+                                                    <?php }else{ ?>
+                                                        <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
+                                                    <?php } ?>
                                                 </select> 
                                         </div>
                                     </div>

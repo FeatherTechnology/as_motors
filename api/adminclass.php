@@ -4455,6 +4455,7 @@
 				$to_date = $row12["to_date"];
 				$detailrecords[$j]['to_date'] = $to_date ;  
 				
+				$detailrecords[$j]['designation_id'] = $row12["designation_id"];  
 				$detailrecords[$j]['department_id'] = $row12["department_id"];  
 				$getbranch = "SELECT * FROM department_creation where department_id = '".$detailrecords[$j]['department_id']."' ";
 				$res2 = $mysqli->query($getbranch);
