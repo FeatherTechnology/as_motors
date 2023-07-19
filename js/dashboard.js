@@ -1,5 +1,5 @@
 //Dashboard Approval screens are:-
-//RGP extended
+//RGP extended,Regularisation Approval
 $(document).ready(function(){
 
 

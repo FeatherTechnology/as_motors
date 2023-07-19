@@ -1057,6 +1057,36 @@
             ]
         });
 
+        // Pending Task dashboard
+		var pending_task_dashboard = $('#pending_task_dashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'dashboardAjaxFile/ajaxPendingTaskList.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+        });
         // PM Checklist dashboard
 		var pmChecklist_dashboard = $('#pmChecklist_dashboard').DataTable({
 
