@@ -2629,6 +2629,10 @@ if($current_page == 'appreciation_depreciation') { ?>
 if($current_page == 'manage_users') { ?>
 	<script src="js/manage_users.js"></script>
     <?php }
+
+if($current_page == 'work_status_report') { ?>
+	<script src="js/work_status_report.js"></script>
+    <?php }
     
 ?> 
 

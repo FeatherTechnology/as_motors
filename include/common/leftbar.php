@@ -275,6 +275,11 @@ if (sizeof($getuser)>0) {
 										<a href="dashboard"><i class="icon-devices_other"></i>Dashboard</a>
 									</li>
 								<?php } ?>
+								<?php if($dashboard == 0 && $dashboard != '' && $dashboard != NULL){ ?>				
+									<li>									
+										<a href="work_status_report"><i class="icon-devices_other"></i>Report</a>
+									</li>
+								<?php } ?>
 								<?php if($company_creation == 0 && $company_creation != '' && $company_creation != NULL) { ?>
 									<li>									
 										<a href="edit_company_creation"><i class="icon-store_mall_directory"></i>Company Creation</a>
