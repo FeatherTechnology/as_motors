@@ -594,6 +594,11 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'edit_user') { ?>
 			<?php include "include/templates/edit_user.php" ?>
 			<?php } ?>
+
+			<!-- Work Status Report -->
+			<?php if($current_page == 'work_status_report') { ?>
+			<?php include "include/templates/work_status_report.php" ?>
+			<?php } ?>
 			
 		</div>
 		<!-- Page content end -->
