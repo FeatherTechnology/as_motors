@@ -38,6 +38,9 @@ $(document).ready(function(){ //Document Ready Start.
             $('#work_sts_report').hide();
 
         }
+
+        clearValueforAll(); //Clear all value when change type.
+
     });//report_type END.
 
     $('#dept_type').change(function(){
@@ -94,7 +97,14 @@ $(document).ready(function(){ //Document Ready Start.
 
     });//staff list based on dep_name END. 
 
-    $('#view_report').click(function(){
+    //set To date is greater than from date
+    $('.validateToDate').change(function(){
+        var fromdate = $(this).val();
+        // Set Minimum date
+        $('.setvaltodate').attr("min", fromdate);
+    });
+
+    $('#view_report').click(function(){ //view report in the table.
         var reportType = $('#report_type').val();
         var departmentType = $('#dept_type').val();
 
@@ -168,8 +178,12 @@ $(document).ready(function(){ //Document Ready Start.
             }
 
         }
-
     }); //view_report END.
+
+    $('.clearvalue, .emptyTable').change(function(){ //when change any value then empty the table.
+        tableEmpty();
+    });
+
 }); //Document Ready End.
 
 
@@ -292,4 +306,9 @@ function getWorkStatusDeptReport(work_status,wrk_dept_id,work_from_date,work_to_
 
 function tableEmpty(){
     $("#report_view_table").empty(); //if validation false then table will empty.
+}
+
+//Clear value when change type.
+function clearValueforAll(){
+    $('.clearvalue').val('');
 }

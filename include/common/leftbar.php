@@ -15,6 +15,7 @@ if(isset($_SESSION["userid"])){
 
 $administration_module = '';
 $dashboard             = '';
+$reports             = '';
 $company_creation      = '';
 $branch_creation       = '';
 $holiday_creation      = '';
@@ -92,6 +93,7 @@ if (sizeof($getuser)>0) {
 
 		$administration_module    = $getuser['administration_module']; 
 		$dashboard      = $getuser['dashboard']; 
+		$reports      = $getuser['reports']; 
 		$company_creation = $getuser['company_creation']; 
 		$branch_creation = $getuser['branch_creation'];
 		$holiday_creation = $getuser['holiday_creation'];
@@ -275,9 +277,9 @@ if (sizeof($getuser)>0) {
 										<a href="dashboard"><i class="icon-devices_other"></i>Dashboard</a>
 									</li>
 								<?php } ?>
-								<?php if($dashboard == 0 && $dashboard != '' && $dashboard != NULL){ ?>				
+								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
 									<li>									
-										<a href="work_status_report"><i class="icon-devices_other"></i>Report</a>
+										<a href="work_status_report"><i class="fa fa-file"></i>Report</a>
 									</li>
 								<?php } ?>
 								<?php if($company_creation == 0 && $company_creation != '' && $company_creation != NULL) { ?>

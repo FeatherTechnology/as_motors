@@ -17,6 +17,7 @@ $role           = '';
 
 $administration_module = '';
 $dashboard             = '';
+$reports             = '';
 $company_creation      = '';
 $branch_creation       = '';
 $holiday_creation      = '';
@@ -132,6 +133,7 @@ if($idupd>0)
 
             $administration_module    = $getuser['administration_module'];
             $dashboard      = $getuser['dashboard'];
+            $reports      = $getuser['reports'];
             $company_creation = $getuser['company_creation'];
             $branch_creation = $getuser['branch_creation'];
             $holiday_creation = $getuser['holiday_creation'];
@@ -335,6 +337,12 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($dashboard==0){ echo'checked'; }} ?>  class="custom-control-input admin-checkbox" id="dashboard" name="dashboard" disabled>
                                 <label class="custom-control-label" for="dashboard">Dashborad</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($reports==0){ echo'checked'; }} ?>  class="custom-control-input admin-checkbox" id="reports" name="reports" disabled>
+                                <label class="custom-control-label" for="reports">Reports</label>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
