@@ -25,7 +25,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="report_type">Report Type</label>
-                                                <select tabindex="1" type="text" class="form-control" id="report_type" name="report_type">
+                                                <select tabindex="1" type="text" class="form-control emptyTable" id="report_type" name="report_type">
                                                     <option value=''>Select Report Type</option>
                                                     <option value='1'>Staff</option>
                                                     <option value='2'>Department</option>
@@ -44,7 +44,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="staff_name">Staff Name</label>
-                                                <select tabindex="2" type="text" class="form-control" id="staff_name" name="staff_name">
+                                                <select tabindex="2" type="text" class="form-control clearvalue" id="staff_name" name="staff_name">
                                                     <option value=''>Select Staff Name</option>
                                                 </select>
                                         </div>
@@ -53,14 +53,14 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="staff_from_date">From Date</label>
-                                                <input tabindex="3" type="date" class="form-control" id="staff_from_date" name="staff_from_date">
+                                                <input tabindex="3" type="date" class="form-control validateToDate clearvalue" id="staff_from_date" name="staff_from_date">
                                         </div>
                                     </div>
                                     
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="staff_to_date">To Date</label>
-                                                <input tabindex="4" type="date" class="form-control" id="staff_to_date" name="staff_to_date">
+                                                <input tabindex="4" type="date" class="form-control setvaltodate clearvalue" id="staff_to_date" name="staff_to_date">
                                         </div>
                                     </div>
 
@@ -74,7 +74,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_type">Type</label>
-                                                <select tabindex="5" type="text" class="form-control" id="dept_type" name="dept_type">
+                                                <select tabindex="5" type="text" class="form-control clearvalue" id="dept_type" name="dept_type">
                                                     <option value=''>Select Type</option>
                                                     <option value='1'>Department</option>
                                                     <option value='2'>Staff</option>
@@ -88,7 +88,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_name">Department Name</label>
-                                                <select tabindex="6" type="text" class="form-control" id="dept_name" name="dept_name">
+                                                <select tabindex="6" type="text" class="form-control clearvalue" id="dept_name" name="dept_name">
                                                     <option value=''>Select Department</option>
                                                 </select>
                                         </div>
@@ -97,14 +97,14 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_from_date">From Date</label>
-                                            <input tabindex="7" type="date" class="form-control" id="dept_from_date" name="dept_from_date">
+                                            <input tabindex="7" type="date" class="form-control validateToDate clearvalue" id="dept_from_date" name="dept_from_date">
                                         </div>
                                     </div>
                                     
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_to_date">To Date</label>
-                                            <input tabindex="8" type="date" class="form-control" id="dept_to_date" name="dept_to_date">
+                                            <input tabindex="8" type="date" class="form-control setvaltodate clearvalue" id="dept_to_date" name="dept_to_date">
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dep_name">Department Name</label>
-                                                <select tabindex="9" type="text" class="form-control" id="dep_name" name="dep_name">
+                                                <select tabindex="9" type="text" class="form-control clearvalue" id="dep_name" name="dep_name">
                                                     <option value=''>Select Department</option>
                                                 </select>
                                         </div>
@@ -123,7 +123,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_staff_name">Staff Name</label>
-                                                <select tabindex="10" type="text" class="form-control" id="dept_staff_name" name="dept_staff_name">
+                                                <select tabindex="10" type="text" class="form-control clearvalue" id="dept_staff_name" name="dept_staff_name">
                                                     <option value=''>Select Staff Name</option>
                                                 </select>
                                         </div>
@@ -132,14 +132,14 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_staff_from_date">From Date</label>
-                                            <input tabindex="11" type="date" class="form-control" id="dept_staff_from_date" name="dept_staff_from_date">
+                                            <input tabindex="11" type="date" class="form-control validateToDate clearvalue" id="dept_staff_from_date" name="dept_staff_from_date">
                                         </div>
                                     </div>
                                     
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="dept_staff_to_date">To Date</label>
-                                            <input tabindex="12" type="date" class="form-control" id="dept_staff_to_date" name="dept_staff_to_date">
+                                            <input tabindex="12" type="date" class="form-control setvaltodate clearvalue" id="dept_staff_to_date" name="dept_staff_to_date">
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="task_name">Task Name</label>
-                                                <select tabindex="2" type="text" class="form-control" id="task_name" name="task_name">
+                                                <select tabindex="2" type="text" class="form-control clearvalue" id="task_name" name="task_name">
                                                     <option value=''>Select Task Name</option>
                                                     <option value='1'>KRAKPI</option>
                                                     <option value='2'>AUDIT</option>
@@ -178,7 +178,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="work_status">Work Status</label>
-                                                <select tabindex="2" type="text" class="form-control" id="work_status" name="work_status">
+                                                <select tabindex="2" type="text" class="form-control clearvalue" id="work_status" name="work_status">
                                                     <option value=''>Select Work Status</option>
                                                     <option value='1'>All</option>
                                                     <option value='2'>In-Progress</option>
@@ -191,7 +191,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="wrk_dept_name">Department Name</label>
-                                                <select tabindex="9" type="text" class="form-control" id="wrk_dept_name" name="wrk_dept_name">
+                                                <select tabindex="9" type="text" class="form-control clearvalue" id="wrk_dept_name" name="wrk_dept_name">
                                                     <option value=''>Select Department</option>
                                                 </select>
                                         </div>
@@ -200,14 +200,14 @@
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="work_from_date">From Date</label>
-                                            <input tabindex="11" type="date" class="form-control" id="work_from_date" name="work_from_date">
+                                            <input tabindex="11" type="date" class="form-control validateToDate clearvalue" id="work_from_date" name="work_from_date">
                                         </div>
                                     </div>
                                     
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="work_to_date">To Date</label>
-                                            <input tabindex="12" type="date" class="form-control" id="work_to_date" name="work_to_date">
+                                            <input tabindex="12" type="date" class="form-control setvaltodate clearvalue" id="work_to_date" name="work_to_date">
                                         </div>
                                     </div>
 
@@ -218,7 +218,7 @@
                             <!--Report View Button Start -->
                             <div class="col-12">
                                 <div class="form-group text-right">
-                                    <span class="required validate" style="display: none;">*Please Fill All the Fields</span>
+                                    <span class="required validate" style="display: none;">*Please Fill All the Field</span>
                                     <button type="button" tabindex="10" class="btn btn-primary" id="view_report" name="view_report" >View Report</button>
                                 </div>
                             </div>

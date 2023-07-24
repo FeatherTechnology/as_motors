@@ -9262,6 +9262,12 @@
 			}else{
 				$dashboard=1;
 			}
+			if(isset($_POST['reports']) &&    $_POST['reports'] == 'Yes')		
+			{
+				$reports=0;
+			}else{
+				$reports=1;
+			}
 			if(isset($_POST['company_creation']) &&    $_POST['company_creation'] == 'Yes')		
 			{
 				$company_creation=0;
@@ -9617,7 +9623,7 @@
 				$minutes_of_meeting=1;
 			}
 		
-			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, 
+			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, reports, 
 			company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
 			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
@@ -9626,7 +9632,7 @@
 			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
 			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', 
 			'".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', 
-			'".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, 
+			'".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $reports, $company_creation, $branch_creation, $holiday_creation, $manage_users, 
 			$master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, 
 			$kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, 
 			$audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, 
@@ -9674,6 +9680,7 @@
 
 				$detailrecords['administration_module']    = strip_tags($row->administration_module);
 				$detailrecords['dashboard']      = strip_tags($row->dashboard);
+				$detailrecords['reports']      = strip_tags($row->reports);
 				$detailrecords['company_creation'] = strip_tags($row->company_creation);
 				$detailrecords['branch_creation'] = strip_tags($row->branch_creation);
 				$detailrecords['holiday_creation'] = strip_tags($row->holiday_creation);
@@ -9790,6 +9797,12 @@
 			$dashboard=0;
 		}else{
 			$dashboard=1;
+		}
+		if(isset($_POST['reports']) &&    $_POST['reports'] == 'Yes')		
+		{
+			$reports=0;
+		}else{
+			$reports=1;
 		}
 		if(isset($_POST['company_creation']) &&    $_POST['company_creation'] == 'Yes')		
 		{
@@ -10159,6 +10172,7 @@
 
 		administration_module    = $administration_module,
 		dashboard      = $dashboard,
+		reports      = $reports,
 		company_creation = $company_creation,
 		branch_creation = $branch_creation,
 		holiday_creation = $holiday_creation,

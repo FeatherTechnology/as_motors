@@ -15,6 +15,8 @@ include '../ajaxconfig.php';
     <thead>
         <tr>
             <th width="15%">S.No</th>
+            <th>Staff Code</th>
+            <th>Staff Name</th>
             <th>Work Description</th>
             <th>Start Date</th>
             <th>End Date</th>
@@ -78,29 +80,28 @@ $worksts = array();
 $fromdt = array();
 $todt = array();
 $completedFile = array();
+$staffCode = array();
+$staffName = array();
 
 //KRAKPI start//
 $qry = "";
 
-$qry = "SELECT 'KRA & KPI' as work_id, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts,DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date,
-            CASE
-                WHEN kcr.rr = 'New' THEN kcr.kpi
-                ELSE rrr.rr
-            END as title
-        FROM krakpi_calendar_map kcm
-        LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id
-        LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id
-        LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id
-        WHERE kc.status = 0 
-        AND kc.department = '".$wrk_dept_id."' AND FIND_IN_SET(kcm.work_status, '".$wrksts."') > 0
-        AND 
-	( 
-        DATE(kcm.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) 
+$qry = "SELECT 'KRA & KPI' as work_id, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts, DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, CASE 
+    WHEN kcr.rr = 'New' THEN kcr.kpi 
+    ELSE rrr.rr 
+END as title, 
+sc.staff_name, sc.emp_code 
+FROM krakpi_calendar_map kcm 
+LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id 
+LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
+LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
+LEFT JOIN staff_creation sc ON kc.designation = sc.designation
+WHERE kc.status = 0 
 AND 
-	(
-        DATE(kcm.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    )";
+kc.department = '".$wrk_dept_id."' 
+AND FIND_IN_SET(kcm.work_status, '".$wrksts."') > 0
+AND ( DATE(kcm.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(kcm.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo){
@@ -123,20 +124,34 @@ while ($krakpitask = $krakpiInfo->fetch()) {
     $fromdt[]['f_date'] = $krakpitask['f_date'];
     $todt[]['t_date'] = $krakpitask['t_date'];
     $completedFile[]['com_file'] = $krakpi_completed_file;
+    $staffCode[]['emp_code'] = $krakpitask['emp_code'];
+    $staffName[]['staff_name'] = $krakpitask['staff_name'];
     }
 }
 //KRAKPI END//
 
 //Audit start//
-$auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_status as sts, ac.audit_area  as title, DATE(acr.from_date) as f_date, DATE(acr.to_date) as t_date FROM audit_area_creation_ref acr LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id WHERE ac.status = 0 AND FIND_IN_SET(ac.department_id, '$wrk_dept_id') > 0 AND FIND_IN_SET(acr.work_status, '".$wrksts."') > 0
-AND 
-	( 
-        DATE(acr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) 
-AND 
-	(
-        DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) ";
+$auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_status as sts, ac.audit_area as title, DATE(acr.from_date) as f_date, DATE(acr.to_date) as t_date, sc.staff_name, sc.emp_code
+FROM audit_area_creation_ref acr 
+LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id 
+LEFT JOIN staff_creation sc ON ac.role1 = sc.designation
+WHERE ac.status = 0 
+AND FIND_IN_SET(ac.department_id, '$wrk_dept_id') > 0 
+AND FIND_IN_SET(acr.work_status, '".$wrksts."') > 0 
+AND (DATE(acr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."')) 
+AND (DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."'))
+
+UNION
+
+SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_status as sts, ac.audit_area as title, DATE(acr.from_date) as f_date, DATE(acr.to_date) as t_date, sc.staff_name, sc.emp_code
+FROM audit_area_creation_ref acr 
+LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id 
+LEFT JOIN staff_creation sc ON ac.role2 = sc.designation
+WHERE ac.status = 0 
+AND FIND_IN_SET(ac.department_id, '$wrk_dept_id') > 0 
+AND FIND_IN_SET(acr.work_status, '".$wrksts."') > 0
+AND (DATE(acr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."'))
+AND (DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."')) ";
 
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){
@@ -158,20 +173,39 @@ while ($audittask = $auditInfo->fetch()) {
     $fromdt[]['f_date'] = $audittask['f_date'];
     $todt[]['t_date'] = $audittask['t_date'];
     $completedFile[]['com_file'] = $audit_completed_file;
+    $staffCode[]['emp_code'] = $audittask['emp_code'];
+    $staffName[]['staff_name'] = $audittask['staff_name'];
 }   
 } 
 //Audit END//
 
 //Maintance start//          
-$maintanceTaskInfo = "SELECT 'MAINTENANCE '  as work_id, pcr.pm_checklist_ref_id as id, pcr.work_status as sts, pcr.checklist as title, DATE(pcr.from_date) as f_date, DATE(pcr.to_date) as t_date FROM pm_checklist_ref pcr LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id WHERE mc.status = 0 AND FIND_IN_SET('$branch_id', mc.company_id) > 0 AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
-AND 
-( 
-    DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) 
-AND 
-(
-    DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-)";
+$maintanceTaskInfo = "SELECT 'MAINTENANCE ' as work_id, pcr.pm_checklist_ref_id as id, pcr.work_status as sts, pcr.checklist as title, DATE(pcr.from_date) as f_date, DATE(pcr.to_date) as t_date, sc.staff_name, sc.emp_code 
+FROM pm_checklist_ref pcr 
+LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id 
+LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id 
+LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
+LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
+WHERE mc.status = 0 
+AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
+AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+
+UNION
+
+SELECT 'MAINTENANCE ' as work_id, pcr.pm_checklist_ref_id as id, pcr.work_status as sts, pcr.checklist as title, DATE(pcr.from_date) as f_date, DATE(pcr.to_date) as t_date, sc.staff_name, sc.emp_code 
+FROM pm_checklist_ref pcr 
+LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id 
+LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id 
+LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
+LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
+WHERE mc.status = 0 
+AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
+AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+";
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
 while ($maintancetask = $maintanceInfo->fetch()) { 
@@ -192,21 +226,39 @@ while ($maintancetask = $maintanceInfo->fetch()) {
     $fromdt[]['f_date'] = $maintancetask['f_date'];
     $todt[]['t_date'] = $maintancetask['t_date'];
     $completedFile[]['com_file'] = $maintance_completed_file;
+    $staffCode[]['emp_code'] = $maintancetask['emp_code'];
+    $staffName[]['staff_name'] = $maintancetask['staff_name'];
 }
 } 
 //Maintance END//
 
 //BM Start//
-$bmTaskInfo = "SELECT 'BM ' as work_id, bcr.bm_checklist_ref_id as id, bcr.work_status as sts, bcr.checklist as title, DATE(bcr.from_date) as f_date, DATE(bcr.to_date) as t_date 
-FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND FIND_IN_SET('$branch_id', mc.company_id) > 0 AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
-AND 
-( 
-    DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) 
-AND 
-(
-    DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-)";
+$bmTaskInfo = "SELECT 'BM ' as work_id, bcr.bm_checklist_ref_id as id, bcr.work_status as sts, bcr.checklist as title, DATE(bcr.from_date) as f_date, DATE(bcr.to_date) as t_date,sc.staff_name, sc.emp_code
+FROM bm_checklist_ref bcr 
+LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id 
+LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
+LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
+LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
+WHERE mc.status = 0 
+AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
+AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+
+UNION
+
+SELECT 'BM ' as work_id, bcr.bm_checklist_ref_id as id, bcr.work_status as sts, bcr.checklist as title, DATE(bcr.from_date) as f_date, DATE(bcr.to_date) as t_date, sc.staff_name, sc.emp_code
+FROM bm_checklist_ref bcr 
+LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id 
+LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
+LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
+LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
+WHERE mc.status = 0 
+AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
+AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
 while ($bmtask = $bmInfo->fetch()) { 
@@ -227,20 +279,23 @@ while ($bmtask = $bmInfo->fetch()) {
     $fromdt[]['f_date'] = $bmtask['f_date'];
     $todt[]['t_date'] = $bmtask['t_date'];
     $completedFile[]['com_file'] = $bm_completed_file;
+    $staffCode[]['emp_code'] = $bmtask['emp_code'];
+    $staffName[]['staff_name'] = $bmtask['staff_name'];
 }
 }
 //BM END//
 
 //campaign Start//
-$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts, DATE(cf.start_date) as f_date, DATE(cf.end_date) as t_date FROM campaign_ref cf LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id WHERE c.status = 0 AND FIND_IN_SET(employee_name, '$staffid') > 0 AND FIND_IN_SET(cf.work_status, '".$wrksts."') > 0
-AND 
-	( 
-        DATE(cf.start_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) 
-AND 
-	(
-        DATE(cf.end_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) ";
+$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts, DATE(cf.start_date) as f_date, DATE(cf.end_date) as t_date, sc.staff_name, sc.emp_code
+FROM campaign_ref cf 
+LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id 
+LEFT JOIN staff_creation sc ON cf.employee_name = sc.staff_id
+WHERE c.status = 0 
+AND FIND_IN_SET(cf.employee_name, '$staffid') > 0 
+AND FIND_IN_SET(cf.work_status, '".$wrksts."') > 0
+AND ( DATE(cf.start_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(cf.end_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
 while($campaigntask = $campaignInfo->fetch_assoc())
@@ -261,20 +316,22 @@ while($campaigntask = $campaignInfo->fetch_assoc())
     $fromdt[]['f_date'] = $campaigntask['f_date'];
     $todt[]['t_date'] = $campaigntask['t_date'];
     $completedFile[]['com_file'] = $campaign_completed_file;
+    $staffCode[]['emp_code'] = $campaigntask['emp_code'];
+    $staffName[]['staff_name'] = $campaigntask['staff_name'];
 }
 }
 //campaign END//
 
 //assign work list Start//
-$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title, DATE(from_date) as f_date, DATE(to_date) as t_date FROM assign_work_ref WHERE status = 0 AND department_id = '".$wrk_dept_id."' AND  FIND_IN_SET(work_status, '".$wrksts."') > 0
-AND 
-	( 
-        DATE(from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) 
-AND 
-	(
-        DATE(to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-    ) "; 
+$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, awf.ref_id as id, awf.work_status as sts, awf.work_des_text as title, DATE(awf.from_date) as f_date, DATE(awf.to_date) as t_date,sc.staff_name, sc.emp_code
+FROM assign_work_ref awf
+LEFT JOIN staff_creation sc ON awf.designation_id = sc.designation
+WHERE awf.status = 0 
+AND awf.department_id = '".$wrk_dept_id."' 
+AND  FIND_IN_SET(awf.work_status, '".$wrksts."') > 0
+AND ( DATE(awf.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(awf.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
 while($assignTask = $assignInfo->fetch_assoc())
@@ -295,20 +352,22 @@ while($assignTask = $assignInfo->fetch_assoc())
     $fromdt[]['f_date'] = $assignTask['f_date'];
     $todt[]['t_date'] = $assignTask['t_date'];
     $completedFile[]['com_file'] = $assign_completed_file;
+    $staffCode[]['emp_code'] = $assignTask['emp_code'];
+    $staffName[]['staff_name'] = $assignTask['staff_name'];
 }
 }
 //assign work list END//
 
 //Todo Start //
-$todoqry = "SELECT 'TODO ' as work_id, todo_id as id, work_status as sts, work_des as title, DATE(from_date) as f_date, DATE(to_date) as t_date FROM todo_creation WHERE status = 0 AND FIND_IN_SET(assign_to, '$staffid') > 0 AND  FIND_IN_SET(work_status, '".$wrksts."') > 0
-AND
-( 
-    DATE(from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) 
-AND 
-(
-    DATE(to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-)  ";
+$todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, tc.work_des as title, DATE(tc.from_date) as f_date, DATE(tc.to_date) as t_date, sc.staff_name, sc.emp_code
+FROM todo_creation tc 
+LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
+WHERE tc.status = 0 
+AND FIND_IN_SET(tc.assign_to, '$staffid') > 0 
+AND FIND_IN_SET(tc.work_status, '".$wrksts."') > 0 
+AND ( DATE(tc.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(tc.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+
 $gettodoinfo = $con->query($todoqry);
 if($gettodoinfo){
 while($todoinfo = $gettodoinfo->fetch_assoc())
@@ -329,24 +388,22 @@ while($todoinfo = $gettodoinfo->fetch_assoc())
     $fromdt[]['f_date'] = $todoinfo['f_date'];
     $todt[]['t_date'] = $todoinfo['t_date'];
     $completedFile[]['com_file'] = $todo_completed_file;
+    $staffCode[]['emp_code'] = $todoinfo['emp_code'];
+    $staffName[]['staff_name'] = $todoinfo['staff_name'];
 }
 }
 //ToDo END //
 
 //Insurance Register Start //
-$insqry = "SELECT 'INSURANCE REGISTER ' as work_id, irr.ins_reg_ref_id as id, irr.work_status as sts, DATE(irr.from_date) as f_date, DATE(irr.to_date) as t_date,ir.insurance_id as ins_id
-FROM insurance_register_ref irr LEFT JOIN insurance_register ir
-ON irr.ins_reg_id = ir.ins_reg_id 
+$insqry = "SELECT 'INSURANCE REGISTER ' as work_id, irr.ins_reg_ref_id as id, irr.work_status as sts, DATE(irr.from_date) as f_date, DATE(irr.to_date) as t_date,ir.insurance_id as ins_id,sc.staff_name, sc.emp_code 
+FROM insurance_register_ref irr 
+LEFT JOIN insurance_register ir ON irr.ins_reg_id = ir.ins_reg_id 
+LEFT JOIN staff_creation sc ON ir.designation_id = sc.designation
 WHERE ir.status = 0 
-AND ir.department_id = '".$wrk_dept_id."' AND  FIND_IN_SET(irr.work_status, '".$wrksts."') > 0
-AND 
-( 
-    DATE(irr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) 
-AND 
-(
-    DATE(irr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-)  ";  
+AND ir.department_id = '".$wrk_dept_id."'  
+AND FIND_IN_SET(irr.work_status, '".$wrksts."') > 0
+AND ( DATE(irr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(irr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";  
 
 $insdeatils = $con->query($insqry);
 if($insdeatils){
@@ -372,20 +429,22 @@ while($insInfo = $insdeatils->fetch_assoc())
     $fromdt[]['f_date'] = $insInfo['f_date'];
     $todt[]['t_date'] = $insInfo['t_date'];
     $completedFile[]['com_file'] = $insurance_completed_file;
+    $staffCode[]['emp_code'] = $insInfo['emp_code'];
+    $staffName[]['staff_name'] = $insInfo['staff_name'];
 }
 }
 //Insurance Register END //
 
 //FC Ins Start //
-$fc_ins_details = $con->query("SELECT 'FC INSURANCE RENEWAL ' as work_id, fc_insurance_renew_id as id, work_status as sts, assign_remark as title, DATE(from_date) as f_date, DATE(to_date) as t_date FROM fc_insurance_renew WHERE status = 0 AND FIND_IN_SET(assign_staff_name,'$staffid') > 0  AND FIND_IN_SET(work_status, '".$wrksts."') > 0
-AND 
-( 
-    DATE(from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) 
-AND 
-(
-    DATE(to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') 
-) ");
+$fc_ins_details = $con->query("SELECT 'FC INSURANCE RENEWAL ' as work_id, fir.fc_insurance_renew_id as id, fir.work_status as sts, fir.assign_remark as title, DATE(fir.from_date) as f_date, DATE(fir.to_date) as t_date,sc.staff_name, sc.emp_code 
+FROM fc_insurance_renew fir
+LEFT JOIN staff_creation sc ON fir.assign_staff_name = sc.staff_id
+WHERE fir.status = 0 
+AND FIND_IN_SET(fir.assign_staff_name,'$staffid') > 0  
+AND FIND_IN_SET(fir.work_status, '".$wrksts."') > 0
+AND ( DATE(fir.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND ( DATE(fir.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ");
+
 if(mysqli_num_rows($fc_ins_details)>0){
 while($fcInfo = $fc_ins_details->fetch_assoc())
 {
@@ -405,6 +464,8 @@ while($fcInfo = $fc_ins_details->fetch_assoc())
     $fromdt[]['f_date'] = $fcInfo['f_date'];
     $todt[]['t_date'] = $fcInfo['t_date'];
     $completedFile[]['com_file'] = $fcins_completed_file;
+    $staffCode[]['emp_code'] = $fcInfo['emp_code'];
+    $staffName[]['staff_name'] = $fcInfo['staff_name'];
 }
 }
 //FC Ins END //
@@ -427,6 +488,8 @@ for ($i=0; $i<count($mapid); $i++) {
 
     <tr>
         <td><?php echo $i+1; ?></td>
+        <td><?php echo $staffCode[$i]['emp_code']; ?></td>
+        <td><?php echo $staffName[$i]['staff_name']; ?></td>
         <td><?php echo $tasktitle[$i]['title']; ?></td>
         <td><?php echo $fromdt[$i]['f_date']; ?></td>
         <td><?php echo $todt[$i]['t_date']; ?></td>
@@ -456,6 +519,7 @@ for ($i=0; $i<count($mapid); $i++) {
                     cell.innerHTML = i + 1;
                 });
             },
+            "order": [[1, 'asc']] // Order by the second column (staff name) in ascending order
         });
     });
 </script>
