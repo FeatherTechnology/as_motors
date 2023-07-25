@@ -1826,7 +1826,7 @@
 				$insresult=$mysqli->query($krakpiInsert) or die("Error ".$mysqli->error); 
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable[$i] == 'frequency_applicable'){
+				if($frequency_applicable[$i] == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
 					if ($frequency[$i] == 'Fortnightly'){ 
 
@@ -1957,7 +1957,7 @@
 						'".strip_tags($to_dates[$j].' '.$current_time)."' )";
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
-				} else {
+				} else if($calendar[$i] == "Yes"){
 
 					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
 					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
