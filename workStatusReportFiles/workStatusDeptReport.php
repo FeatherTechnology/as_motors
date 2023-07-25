@@ -52,16 +52,20 @@ if(isset($_POST["wrk_dept_id"])){
         $branch_id = '';
     }
 //Get Staff id based on department.
-    $getstaffDetails = $con->query("SELECT staff_id FROM staff_creation WHERE department = '$wrk_dept_id' ");
+    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$wrk_dept_id' ");
     if(mysqli_num_rows($getstaffDetails)>0){
         $staff_id = array();
+        $designation = array();
         while($staffDetail = $getstaffDetails->fetch_assoc()){
             $staff_id[] = $staffDetail['staff_id'];
+            $designation[] = $staffDetail['designation'];
         }
     }else{
         $staff_id[] = '';
+        $designation[] = '';
     }
     $staffid = implode(',', $staff_id);
+    $desgn_id = implode(',', $designation);
 
 
 }
@@ -187,7 +191,7 @@ LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
@@ -201,7 +205,7 @@ LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
@@ -240,7 +244,7 @@ LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
@@ -254,7 +258,7 @@ LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0 
+AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
