@@ -38,16 +38,20 @@ if(isset($_POST["dept_name"])){
         $branch_id = '';
     }
 //Get Staff id based on department.
-    $getstaffDetails = $con->query("SELECT staff_id FROM staff_creation WHERE department = '$dept_name' ");
+    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$dept_name' ");
     if(mysqli_num_rows($getstaffDetails)>0){
         $staff_id = array();
+        $designation = array();
         while($staffDetail = $getstaffDetails->fetch_assoc()){
             $staff_id[] = $staffDetail['staff_id'];
+            $designation[] = $staffDetail['designation'];
         }
     }else{
         $staff_id[] = '';
+        $designation[] = '';
     }
     $staffid = implode(',', $staff_id);
+    $desgn_id = implode(',', $designation);
 
     $todoStaffid = array();
     foreach($staff_id as $ids){
@@ -177,7 +181,7 @@ LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0
+AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
 
@@ -190,7 +194,7 @@ LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
 WHERE mc.status = 0 
-AND FIND_IN_SET('$branch_id', mc.company_id) > 0
+AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )";
 
@@ -227,7 +231,7 @@ LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
-WHERE mc.status = 0 AND FIND_IN_SET('$branch_id', mc.company_id) > 0
+WHERE mc.status = 0 AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
 
@@ -239,7 +243,7 @@ LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
-WHERE mc.status = 0 AND FIND_IN_SET('$branch_id', mc.company_id) > 0
+WHERE mc.status = 0 AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) ";
 
@@ -470,16 +474,6 @@ for ($i=0; $i<count($mapid); $i++) {
         <td><?php echo $sts; ?></td>
         <td> <a href="uploads\completedTaskFile\<?php echo $comFile; ?>" target="_blank"> <?php echo $comFile; ?> </a> </td>
     </tr>
-    <!-- if(){
-        <tr>
-            <td><?php echo $i+1; ?></td>
-            <td><?php echo $tasktitle[$i]['title']; ?></td>
-            <td><?php echo $fromdt[$i]['f_date']; ?></td>
-            <td><?php echo $todt[$i]['t_date']; ?></td>
-            <td><?php echo $sts; ?></td>
-            <td> <a href="uploads\completedTaskFile\<?php echo $comFile; ?>" target="_blank"> <?php echo $comFile; ?> </a> </td>
-        </tr>
-    } -->
 
 <?php }  ?>
     </tbody>
