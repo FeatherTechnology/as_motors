@@ -356,7 +356,7 @@ if($idupd>0)
 
                     </div>
                     
-                    <div class="col-md-12 reporting_person_view" <?php if(isset($update_login_id) && $update_login_id == ''){ echo 'style="display: none;"' ;} ?> > 
+                    <div class="col-md-12 reporting_person_view" <?php if(!isset($update_login_id)){ echo 'style="display: none;"' ;} ?> > 
 
                         <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
