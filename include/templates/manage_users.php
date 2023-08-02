@@ -66,7 +66,7 @@ $regularisation_approval    = '';
 $transfer_location    = '';
 $target_fixing_module  = '';
 $goal_setting      = '';
-$target_fixing    = '';
+// $target_fixing    = '';
 $daily_performance    = '';
 $appreciation_depreciation    = '';
 $vehicle_management_module    = '';
@@ -182,7 +182,7 @@ if($idupd>0)
             $transfer_location    = $getuser['transfer_location'];
             $target_fixing_module  = $getuser['target_fixing_module'];
             $goal_setting      = $getuser['goal_setting'];
-            $target_fixing    = $getuser['target_fixing'];
+            // $target_fixing    = $getuser['target_fixing'];
             $daily_performance    = $getuser['daily_performance'];
             $appreciation_depreciation    = $getuser['appreciation_depreciation'];
             $vehicle_management_module    = $getuser['vehicle_management_module'];
@@ -653,12 +653,12 @@ if($idupd>0)
                                 <label class="custom-control-label" for="goal_setting">Goal Setting</label>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($target_fixing==0){echo'checked';}} ?> tabindex="40" class="custom-control-input targetfixing-checkbox" id="target_fixing" name="target_fixing" disabled>
                                 <label class="custom-control-label" for="target_fixing">Target Fixing</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($daily_performance==0){echo'checked';}} ?> tabindex="40" class="custom-control-input targetfixing-checkbox" id="daily_performance" name="daily_performance" disabled>

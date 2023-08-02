@@ -64,7 +64,7 @@ $regularisation_approval    = '';
 $transfer_location    = '';
 $target_fixing_module  = '';
 $goal_setting      = '';
-$target_fixing    = '';
+// $target_fixing    = '';
 $daily_performance    = '';
 $appreciation_depreciation    = '';
 $vehicle_management_module    = '';
@@ -142,7 +142,7 @@ if (sizeof($getuser)>0) {
 		$transfer_location    = $getuser['transfer_location'];
 		$target_fixing_module  = $getuser['target_fixing_module'];
 		$goal_setting      = $getuser['goal_setting'];
-		$target_fixing    = $getuser['target_fixing'];
+		// $target_fixing    = $getuser['target_fixing'];
 		$daily_performance    = $getuser['daily_performance'];
 		$appreciation_depreciation    = $getuser['appreciation_depreciation'];
 		$vehicle_management_module    = $getuser['vehicle_management_module'];
