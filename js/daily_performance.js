@@ -311,6 +311,7 @@ $('.actual_achieve').keyup(function(){
         $(this).parent().parent().find('.wstatus').val('1')
         $(this).parent().parent().find('.status').css("background-color", "green");
     }else{
+        $(this).parent().parent().find('.wstatus').val('')
         $(this).parent().parent().find('.status').css("background-color", "transparent");
     }
 });
