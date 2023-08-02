@@ -2,14 +2,10 @@
 @session_start();
 include '../ajaxconfig.php';
 
-if(isset($_POST["company_name"])){
-	$company_name = $_POST["company_name"];
-}
-if(isset($_POST["goal_year"])){
-	$goal_year = $_POST["goal_year"];
-}
 if(isset($_POST["month"])){
-	$month = $_POST["month"];
+	$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
+    $month = intval($yearmonthsplit[1]);
+
 }
 if(isset($_POST["staff_id"])){
 	$staff_id = $_POST["staff_id"];
@@ -25,41 +21,62 @@ if(isset($_POST["staff_id"])){
             $daily_performance_id = array();          
             $assertion = array();         
             $target = array();         
+            $actual_achieved = array();         
             $vehicle_numberArr2 = array();         
         
             // get Daily Performance details
-            $selectGoalSettingDetails = $con->query("SELECT daily_performance_ref.daily_performance_id, daily_performance_ref.daily_performance_ref_id, daily_performance_ref.assertion, 
-            daily_performance_ref.target FROM daily_performance_ref LEFT JOIN daily_performance ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id 
-            WHERE daily_performance.emp_id = '".$staff_id."' AND daily_performance.month = '".$month."' AND daily_performance.status = 0 ");
+            $selectGoalSettingDetails = $con->query("SELECT dpr.daily_performance_id, dpr.daily_performance_ref_id, dpr.assertion, 
+            dpr.target,dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
+            WHERE dp.emp_id = '".$staff_id."' AND dp.month = '".$month."' AND dp.status = 0  group by dpr.assertion ");
             while($row = $selectGoalSettingDetails->fetch_assoc()){
                 $daily_performance_id[] 	= $row["daily_performance_id"];
                 $daily_performance_ref_id[] 	= $row["daily_performance_ref_id"];
                 $assertion[]	= $row["assertion"];
-                $target[]	= $row["target"];
+                // $target[]	= $row["target"];
+                $assertion_table_sno	= $row["assertion_table_sno"];
+
+                $goaltargetQry = $mysqli->query(" SELECT sum(gsr.target) as total_target
+                FROM goal_setting_ref gsr 
+                LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
+                WHERE gsr.monthly_conversion_required = '1'
+                AND gsr.assertion_table_sno = '$assertion_table_sno' "); 
+                $goal_target = $goaltargetQry->fetch_assoc();
+                $target[] = $goal_target['total_target'];
+
+                $actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE assertion_table_sno = '$assertion_table_sno' ");
+                $actualAchieveinfo = $actualAchieveDetials->fetch_assoc();
+                $actual_achieved[] = $actualAchieveinfo['actual_achieve'];
+
             }
 
             // get satisfied count
-            $selectGoalSettingDetails1 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
-            AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'statisfied' ");
-            while($row1 = $selectGoalSettingDetails1->fetch_assoc()){
-                $statisfiedCount	= $row1["statusCount"];
+            $selectstatisfiedDetails = $con->query("SELECT COUNT(dpr.status) AS statusCount FROM daily_performance_ref dpr LEFT JOIN daily_performance dp
+            ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id = '".$staff_id."' 
+            AND dp.month = '".$month."' AND dp.status = 0 AND dpr.status = '1' ");
+            while($statisfiedinfo = $selectstatisfiedDetails->fetch_assoc()){
+                $statisfiedCount	= $statisfiedinfo["statusCount"];
             }
 
             // get not done and carry farward count
-            $selectGoalSettingDetails1 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
-            AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'not_done' ");
-            while($row1 = $selectGoalSettingDetails1->fetch_assoc()){
-                $not_doneCount	= $row1["statusCount"];
+            $selectnotdoneDetails = $con->query("SELECT (dpr.status) AS statusCount, dpr.target, dpr.actual_achieve FROM daily_performance_ref dpr LEFT JOIN daily_performance dp 
+            ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id = '".$staff_id."' 
+            AND dp.month = '".$month."' AND dp.status = 0 AND dpr.status = '2' ");
+            $notdone_target_total =0;
+            while($notdoneinfo = $selectnotdoneDetails->fetch_assoc()){
+                $not_doneCount	= $notdoneinfo["statusCount"];
+                $notdone_target	= $notdoneinfo["target"] - $notdoneinfo["actual_achieve"];
+                $notdone_target_total	= $notdone_target + $notdone_target_total;
             }
 
             // get not done and carry farward count
-            $selectGoalSettingDetails2 = $con->query("SELECT COUNT(daily_performance_ref.status) AS statusCount FROM daily_performance_ref LEFT JOIN daily_performance 
-            ON daily_performance_ref.daily_performance_id = daily_performance.daily_performance_id WHERE daily_performance.emp_id = '".$staff_id."' 
-            AND daily_performance.month = '".$month."' AND daily_performance.status = 0 AND daily_performance_ref.status = 'carry_forward' ");
-            while($row2 = $selectGoalSettingDetails2->fetch_assoc()){
-                $carry_forwardCount	= $row2["statusCount"];
+            $selectcarryforwardDetails = $con->query("SELECT (dpr.status) AS statusCount, dpr.target, dpr.actual_achieve FROM daily_performance_ref dpr LEFT JOIN daily_performance dp 
+            ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id = '".$staff_id."' 
+            AND dp.month = '".$month."' AND dp.status = 0 AND dpr.status = '3' ");
+            $carryforward_target_total =0;
+            while($carryforwardinfo = $selectcarryforwardDetails->fetch_assoc()){
+                $carry_forwardCount	= $carryforwardinfo["statusCount"];
+                $carry_forward_target	= $carryforwardinfo["target"] - $carryforwardinfo["actual_achieve"];
+                $carryforward_target_total	= $carry_forward_target + $carryforward_target_total;
             }
 
             ?>
@@ -77,6 +94,7 @@ if(isset($_POST["staff_id"])){
                 <?php
                 $sno = 1;   
                 if(isset($daily_performance_ref_id)){
+                    $total_achieved = 0;
                     for($o=0; $o<=sizeof($daily_performance_ref_id)-1; $o++){ 
                         ?>
                         <tbody>
@@ -85,7 +103,7 @@ if(isset($_POST["staff_id"])){
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
-                                <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" ></td>
+                                <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" value="<?php echo $actual_achieved[$o]; ?>" readonly></td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
                                         <option value="">Select Employee Rating</option>  
@@ -98,17 +116,19 @@ if(isset($_POST["staff_id"])){
                                 </td>
                             </tr>
                         </tbody>
-                    <?php $sno = $sno + 1; } ?>
+                    <?php $sno = $sno + 1; 
+                    $total_achieved = $actual_achieved[$o] + $total_achieved;
+                    } ?>
 
                     <tbody>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$statisfiedCount; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
+                            <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$total_achieved; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
                             <td>
-                                <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_doneCount; ?>" name="not_done" id="not_done" >
-                                <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forwardCount; ?>" name="carry_forward" id="carry_forward"  >
+                                <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$notdone_target_total; ?>" name="not_done" id="not_done" >
+                                <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carryforward_target_total; ?>" name="carry_forward" id="carry_forward"  >
                             </td> 
                         </tr>
                     </tbody>

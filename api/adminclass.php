@@ -8316,13 +8316,16 @@
 
 
 		// Add Goal Setting
-		public function addgoalsetting($mysqli,$userid,$id){
+		public function addgoalsetting($mysqli,$userid){
 
-			if(isset($_POST['id'])){
-				$id = $_POST['id'];
+			if(isset($_POST['goal_setting_id'])){
+				$goal_setting_id = $_POST['goal_setting_id'];
 			}
-			if(isset($_POST['cname'])){
-				$cname = $_POST['cname'];
+			if(isset($_POST['company_name'])){
+				$company_name = $_POST['company_name'];
+			}
+			if(isset($_POST['branch_name'])){
+				$branch_name = $_POST['branch_name'];
 			}
 			if(isset($_POST['dept'])){
 				$dept = $_POST['dept'];
@@ -8330,58 +8333,127 @@
 			if(isset($_POST['designation'])){
 				$designation = $_POST['designation'];
 			}
-			if(isset($_POST['syear'])){
-				$syear = $_POST['syear'];
-			}
-
 
 			if(isset($_POST['assertion'])){
 				$assertion = $_POST['assertion'];
 			}
+			if(isset($_POST['rowcnt'])){
+				$rowcnt = $_POST['rowcnt'];
+			}
 			if(isset($_POST['target'])){
 				$target = $_POST['target'];
 			}
+			if(isset($_POST['goal_month'])){
+				$goal_month = $_POST['goal_month'];
+			}
 			if(isset($_POST['monthly_conversion'])){
-				$monthly_conversion = $_POST['monthly_conversion']; // 0 -YES, 1 -No;
+				$monthly_conversion = $_POST['monthly_conversion']; // 0 -Month, 1 -Daily;
 			}
 			if(isset($_POST['iid'])){
 				$iid = $_POST['iid'];
 			}
 
-			if($id == '0'){
+			if($goal_setting_id == ''){ 
 
-				$qry1="INSERT INTO goal_setting (goal_setting_id, company_name, department, role, year, insert_login_id, status)
-				VALUES (NULL, '$cname', '$dept', '$designation', '$syear','$userid', '0')";
+				$qry1="INSERT INTO goal_setting (goal_setting_id, company_name, branch_id, department, role, insert_login_id, status)
+				VALUES (NULL, '$company_name', '$branch_name', '$dept', '$designation', '$userid', '0')";
 				$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 				$last_id  = $mysqli->insert_id;
 
 				for($j=0; $j<=sizeof($assertion)-1; $j++){
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,monthly_conversion_required,insert_login_id)
-					VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($monthly_conversion[$j])."','".strip_tags($userid)."')";
+
+					if($monthly_conversion[$j] == '1'){  //1= Daily, If Daily means enter full month date except sunday and holiday creation date.
+					//checking whether the date in holiday creation or not. 
+					$holidayCreationDetails = $mysqli->query("SELECT holiday_date FROM holiday_creation_ref WHERE DATE_FORMAT(holiday_date, '%Y-%m') = '$goal_month[$j]' ");
+					$holidayDates = array();
+					while($holidays = $holidayCreationDetails->fetch_assoc()){
+						$holidayDates[] = $holidays['holiday_date'];
+					}
+					//Holiday Creation END///
+
+					//Count the total days in the month by using selected goal month and also store the date except holidays and sundays. 
+					$totalDays = date('t', strtotime("$goal_month[$j]-01"));
+					$workingDays = array();
+
+					for ($day = 1; $day <= $totalDays; $day++) {
+						$date = "$goal_month[$j]-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+						$dayOfWeek = date('N', strtotime($date)); // 1 (Monday) to 7 (Sunday)
+
+						if ($dayOfWeek != 7 && !in_array($date,$holidayDates)) { // Exclude Sundays (dayOfWeek = 7)
+							$workingDays[] = $date;
+						}
+					}
+					//Total Days count END///
+
+					//Inserting the goal_setting_ref table based on the assertion and month date.
+					foreach ($workingDays as $day) {
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$day."', '".strip_tags($monthly_conversion[$j])."','".strip_tags($userid)."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
+					} //Foreach END///
+					//Insertion END///
+
+					}else{ 
+
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$goal_month[$j]."', '".strip_tags($monthly_conversion[$j])."','".strip_tags($userid)."')";
+					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+
+					} 
 				}
 
-			} else {
+			} else { //Goal Setting
 				
-				$qry1="UPDATE goal_setting set company_name = '$cname', department = '$dept' , role = '$designation',year = '$syear', status ='0',update_login_id='$userid' WHERE goal_setting_id = '$id' ";
+				$qry1="UPDATE goal_setting set company_name = '$company_name', branch_id = '$branch_name',department = '$dept' , role = '$designation', status ='0',update_login_id='$userid' WHERE goal_setting_id = '$goal_setting_id' ";
                 $update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
                 $last_id  = $mysqli->insert_id;
 
-				$deleteqry = " DELETE FROM goal_setting_ref WHERE goal_setting_id = '".$id."' ";
+				$deleteqry = " DELETE FROM goal_setting_ref WHERE goal_setting_id = '".$goal_setting_id."' ";
 				$delete=$mysqli->query($deleteqry) or die("Error on delete query ".$mysqli->error);
 
 
                 for($i=0;$i<=sizeof($assertion)-1;$i++){
-                    // $qry3 = "DELETE FROM goal_setting_ref WHERE goal_setting_ref_id = '$iid[$i]'"; 
-					// print_r($qry3);
-					// $update_assign_ref1=$mysqli->query($qry3) or die("Error ".$mysqli->error);
 
-                    $qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion,target,monthly_conversion_required,update_login_id)
-					VALUES('$id', '$assertion[$i]','$target[$i]','$monthly_conversion[$i]','$userid')";
+				if($monthly_conversion[$i] == '1'){  //1= Daily, If Daily means enter full month date except sunday and holiday creation date.
+					//checking whether the date in holiday creation or not. 
+					$holidayCreationDetails = $mysqli->query("SELECT holiday_date FROM holiday_creation_ref WHERE DATE_FORMAT(holiday_date, '%Y-%m') = '$goal_month[$i]' ");
+					$holidayDates = array();
+					while($holidays = $holidayCreationDetails->fetch_assoc()){
+						$holidayDates[] = $holidays['holiday_date'];
+					}
+					//Holiday Creation END///
 
+					//Count the total days in the month by using selected goal month and also store the date except holidays and sundays. 
+					$totalDays = date('t', strtotime("$goal_month[$i]-01"));
+					$workingDays = array();
+
+					for ($day = 1; $day <= $totalDays; $day++) {
+						$date = "$goal_month[$i]-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+						$dayOfWeek = date('N', strtotime($date)); // 1 (Monday) to 7 (Sunday)
+
+						if ($dayOfWeek != 7 && !in_array($date,$holidayDates)) { // Exclude Sundays (dayOfWeek = 7)
+							$workingDays[] = $date;
+						}
+					}
+					//Total Days count END///
+
+					//Inserting the goal_setting_ref table based on the assertion and month date.
+					foreach ($workingDays as $day) {
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, update_login_id)
+					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$day', '$monthly_conversion[$i]','$userid')";
 					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
-                }
+
+					} //Foreach END///
+					//Insertion END///
+
+					}else{ 
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, update_login_id)
+					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$goal_month[$i]', '$monthly_conversion[$i]','$userid')";
+					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+
+					} 
+			}
 			}
 		}
 		// Delete goal setting
@@ -8414,50 +8486,84 @@
 		return $auditChecklist2;
 	}
 
+	// get getGoalSettingfetch list table   
+	// public function getGoalSettingfetch($mysqli,$id){  //Version1
+	// 	if($id>0){
+	// 		$checklistSelect = "SELECT gs.company_name AS company_id,c.company_name AS company, gs.branch_id, bc.branch_name, gs.department AS dept_id,dc.department_name AS dept,gs.role AS role_id,ds.designation_name  AS role,gs.year AS year_id,y.year AS year,gs.status FROM goal_setting gs 
+	// 		LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+	// 		LEFT JOIN company_creation c ON c.company_id=gs.company_name 
+	// 		LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
+	// 		LEFT JOIN department_creation dc ON dc.department_id=gs.department 
+	// 		LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
+	// 		LEFT JOIN year_creation y ON y.year_id=gs.year WHERE gs.goal_setting_id = '$id' GROUP BY gs.company_name";
+			
+	// 	} else {
+	// 		$checklistSelect = "SELECT gs.company_name,c.company_name, gs.branch_id, bc.branch_name, gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
+	// 		LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
+	// 		LEFT JOIN company_creation c ON c.company_id=gs.company_name 
+	// 		LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
+	// 		LEFT JOIN department_creation dc ON dc.department_id=gs.department 
+	// 		LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
+	// 		LEFT JOIN year_creation y ON y.year_id=gs.year GROUP BY gs.company_name";
+			
+	// 	}
+
+	// 	$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
+
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		while($row = $res->fetch_object()){
+	// 		$auditChecklist['company_id'] = $row->company_id;
+	// 		$auditChecklist['company'] = $row->company;
+	// 		$auditChecklist['branch_id'] = $row->branch_id;
+	// 		$auditChecklist['branch_name'] = $row->branch_name;
+	// 		$auditChecklist['dept_id'] = $row->dept_id;
+	// 		$auditChecklist['dept'] = $row->dept;
+	// 		$auditChecklist['role_id'] = $row->role_id;
+	// 		$auditChecklist['role'] = $row->role;
+	// 		$auditChecklist['year_id'] = $row->year_id;
+	// 		$auditChecklist['year'] = $row->year;
+	// 		// $auditareaid =  $auditChecklist['area_id'];
+	// 		// $dept = $auditChecklist['department'];
+	// 		// $auditor = $auditChecklist['auditor'];
+	// 		// $auditee = $auditChecklist['auditee'];
+	// 	}
+
+	// 	//change value into new variable
+	// 	}
+		
+		
+	// 	return $auditChecklist;
+	// }
+
+
 	// get getGoalSettingfetch list table
 	public function getGoalSettingfetch($mysqli,$id){
 		if($id>0){
-			$checklistSelect = "SELECT gs.company_name AS company_id,c.company_name AS company,gs.department AS dept_id,dc.department_name AS dept,gs.role AS role_id,ds.designation_name  AS role,gs.year AS year_id,y.year AS year,gs.status FROM goal_setting gs 
-			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
-			LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-			LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-			LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-			LEFT JOIN year_creation y ON y.year_id=gs.year WHERE gs.goal_setting_id = '$id' GROUP BY gs.company_name";
+			$goalsettingsQry = "SELECT gs.company_name AS company_id, gs.branch_id, gs.department AS dept_id, gs.role AS role_id, gs.status FROM goal_setting gs 
+			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id = gs.goal_setting_id WHERE gs.goal_setting_id = '$id' GROUP BY gs.company_name";
 			
 		} else {
-			$checklistSelect = "SELECT gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
-			LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-			LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-			LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-			LEFT JOIN year_creation y ON y.year_id=gs.year GROUP BY gs.company_name";
-			
+			$goalsettingsQry = "SELECT gs.company_name AS company_id, gs.branch_id, gs.department AS dept_id, gs.role AS role_id, gs.status FROM goal_setting gs 
+			LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id = gs.goal_setting_id GROUP BY gs.company_name";	
 		}
 
-		$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
+		$goalSettingDetails = $mysqli->query($goalsettingsQry) or die("Error in Get All checklist ".$mysqli->error);
 
 		if ($mysqli->affected_rows>0)
 		{
-			while($row = $res->fetch_object()){
-			$auditChecklist['company_id'] = $row->company_id;
-			$auditChecklist['company'] = $row->company;
-			$auditChecklist['dept_id'] = $row->dept_id;
-			$auditChecklist['dept'] = $row->dept;
-			$auditChecklist['role_id'] = $row->role_id;
-			$auditChecklist['role'] = $row->role;
-			$auditChecklist['year_id'] = $row->year_id;
-			$auditChecklist['year'] = $row->year;
-			// $auditareaid =  $auditChecklist['area_id'];
-			// $dept = $auditChecklist['department'];
-			// $auditor = $auditChecklist['auditor'];
-			// $auditee = $auditChecklist['auditee'];
+			while($goalInfo = $goalSettingDetails->fetch_object()){
+			$goalsettings['company_id'] = $goalInfo->company_id;
+			$goalsettings['branch_id'] = $goalInfo->branch_id;
+			$goalsettings['dept_id'] = $goalInfo->dept_id;
+			$goalsettings['role_id'] = $goalInfo->role_id;
 		}
 
 		//change value into new variable
 		}
 		
 		
-		return $auditChecklist;
+		return $goalsettings;
 	}
 
 
@@ -8768,13 +8874,14 @@
 		if(isset($_POST['staff_id'])){
 			$emp_id = $_POST['staff_id'];
 		}
-		if(isset($_POST['goal_year'])){
-			$year_id = $_POST['goal_year'];
-		}
+		// if(isset($_POST['goal_year'])){
+		// 	$year_id = $_POST['goal_year'];
+		// }
 		if(isset($_POST['month'])){
-			$month = $_POST['month'];
+			$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
+    		$month = intval($yearmonthsplit[1]);
+    		$year_id = intval($yearmonthsplit[0]);
 		} 
-
 		if(isset($_POST['daily_performance_ref_id'])){
 			$daily_performance_ref_id = $_POST['daily_performance_ref_id'];
 		} 
@@ -8815,8 +8922,8 @@
 			$overall_rating = $_POST['overall_rating'];
 		} 
 
-		$qry="INSERT INTO appreciation_depreciation(review, company_id, department_id, designation_id, emp_id, year_id, month, overall_performance, not_done, carry_forward, 
-		strength, weakness, need_for_improvement, overall_rating, insert_login_id) VALUES('".strip_tags($review)."', '".strip_tags($company_id)."', 
+		$qry="INSERT INTO appreciation_depreciation( company_id, department_id, designation_id, emp_id, year_id, month, overall_performance, not_done, carry_forward, 
+		strength, weakness, need_for_improvement, overall_rating, insert_login_id) VALUES('".strip_tags($company_id)."', 
 		'".strip_tags($department_id)."', '".strip_tags($designation_id)."', '".strip_tags($emp_id)."', '".strip_tags($year_id)."', '".strip_tags($month)."', 
 		'".strip_tags($overall_performance)."', '".strip_tags($not_done)."', '".strip_tags($carry_forward)."', '".strip_tags($strength)."', '".strip_tags($weakness)."', 
 		'".strip_tags($need_for_improvement)."', '".strip_tags($overall_rating)."', '".strip_tags($userid)."' )";
@@ -8825,8 +8932,8 @@
 
 		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
 
-			$refQry="INSERT INTO appreciation_depreciation_ref(review, appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
-			achievement, employee_rating) VALUES ('".strip_tags($review)."', '".strip_tags($lastId)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			$refQry="INSERT INTO appreciation_depreciation_ref(appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($lastId)."', '".strip_tags($daily_performance_ref_id[$i])."', 
 			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -8858,6 +8965,7 @@
 			$detailrecords['weakness']                      = $row->weakness; 	
 			$detailrecords['need_for_improvement']          = $row->need_for_improvement; 	
 			$detailrecords['overall_rating']                = $row->overall_rating; 	
+			$detailrecords['update_login_id']                = $row->update_login_id; 	
 		}
 
 		$appreciationDepreciationRefId = 0;
@@ -8916,12 +9024,14 @@
 		if(isset($_POST['staff_id'])){
 			$emp_id = $_POST['staff_id'];
 		}
-		if(isset($_POST['goal_year'])){
-			$year_id = $_POST['goal_year'];
-		}
+		// if(isset($_POST['goal_year'])){
+		// 	$year_id = $_POST['goal_year'];
+		// }
 		if(isset($_POST['month'])){
-			$month = $_POST['month'];
-		} 
+			$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
+    		$month = intval($yearmonthsplit[1]);
+    		$year_id = intval($yearmonthsplit[0]);
+		}  
 
 		if(isset($_POST['daily_performance_ref_id'])){
 			$daily_performance_ref_id = $_POST['daily_performance_ref_id']; 
@@ -8963,7 +9073,7 @@
 			$overall_rating = $_POST['overall_rating'];
 		} 
 
-		$qry = "UPDATE appreciation_depreciation SET review = '".strip_tags($review)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
+		$qry = "UPDATE appreciation_depreciation SET company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
 		designation_id = '".strip_tags($designation_id)."', emp_id = '".strip_tags($emp_id)."', year_id = '".strip_tags($year_id)."', month = '".strip_tags($month)."', 
 		overall_performance = '".strip_tags($overall_performance)."', not_done = '".strip_tags($not_done)."', carry_forward = '".strip_tags($carry_forward)."', 
 		strength = '".strip_tags($strength)."', weakness = '".strip_tags($weakness)."', need_for_improvement = '".strip_tags($need_for_improvement)."', 
@@ -8974,8 +9084,8 @@
 
 		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
 
-			$refQry="INSERT INTO appreciation_depreciation_ref(review, appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
-			achievement, employee_rating) VALUES ('".strip_tags($review)."', '".strip_tags($id)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			$refQry="INSERT INTO appreciation_depreciation_ref( appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($id)."', '".strip_tags($daily_performance_ref_id[$i])."', 
 			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -10322,7 +10432,7 @@ public function get_role_performance($mysqli){
 }
 	// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
 	public function getsroleDetail ($mysqli, $userid){
-		$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.user_id ='$userid' AND u.status=0 ORDER BY u.branch_id ASC";
+		$qry = "SELECT u.role,u.title,b.company_id,c.company_name, u.designation_id, sc.department, u.staff_id FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id LEFT JOIN staff_creation sc ON u.staff_id = sc.staff_id WHERE u.user_id ='$userid' AND u.status=0 ORDER BY u.branch_id ASC";
 		$res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 		$detailrecords = array();
 	   
@@ -10331,10 +10441,13 @@ public function get_role_performance($mysqli){
 		{
 			while($row = $res->fetch_object())
 			{
-				$detailrecords['role']          = strip_tags($row->role);
-				$detailrecords['title']          = strip_tags($row->title);
-				$detailrecords['company_id']          = strip_tags($row->company_id);
-				$detailrecords['company_name']          = strip_tags($row->company_name);
+				$detailrecords['role']          	= strip_tags($row->role);
+				$detailrecords['title']          	= strip_tags($row->title);
+				$detailrecords['company_id']        = strip_tags($row->company_id);
+				$detailrecords['company_name']      = strip_tags($row->company_name);
+				$detailrecords['department']        = strip_tags($row->department);
+				$detailrecords['designation_id']    = strip_tags($row->designation_id);
+				$detailrecords['staff_id']    = strip_tags($row->staff_id);
 				$i++;
 			}
 		}
@@ -10344,7 +10457,7 @@ public function get_role_performance($mysqli){
 	// get dailyperformance table
       public function getdailyperformance($mysqli,$id){
 
-		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
+		$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name, dp.branch_id, bc.branch_name, dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN branch_creation bc ON dp.branch_id = bc.branch_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
 		
 		$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list = array();
@@ -10357,6 +10470,8 @@ public function get_role_performance($mysqli){
 				$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
 				$dailyperform_list[$i]['company_id']      = $row->company_id;
 				$dailyperform_list[$i]['company_name']      = $row->company_name;
+				$dailyperform_list[$i]['branch_id']      = $row->branch_id;
+				$dailyperform_list[$i]['branch_name']      = $row->branch_name;
 				$dailyperform_list[$i]['department_id']      = $row->department_id;
 				$dailyperform_list[$i]['department_name']      = $row->department_name;
 				$dailyperform_list[$i]['role_id']      = $row->role_id;
@@ -10365,14 +10480,13 @@ public function get_role_performance($mysqli){
 				$dailyperform_list[$i]['staff_name']      = $row->staff_name;
                 $dailyperform_list[$i]['month']      = $row->month;
 				$dailyperform_list[$i]['status']      = $row->status;
-				
-                
+				$emp_id      = $row->emp_id;
 				
 				$i++;
 			}
 		}
 
-        $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
+        $dailyperform1 = "SELECT dpr.daily_performance_ref_id, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.old_target, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$emp_id' order by dpr.system_date";
 		
 		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list1 = array();
@@ -10385,18 +10499,19 @@ public function get_role_performance($mysqli){
 				$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
 				$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
 				$dailyperform_list1[$i]['target']      = $row1->target;	
+				$dailyperform_list1[$i]['actual_achieve']      = $row1->actual_achieve;	
 				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
 				$dailyperform_list1[$i]['old_target']      = $row1->old_target;
-				$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
-				$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
+				$dailyperform_list1[$i]['goal_setting_id']      = $row1->goal_setting_id;
+				$dailyperform_list1[$i]['goal_setting_ref_id']      = $row1->goal_setting_ref_id;
 				$dailyperform_list1[$i]['status']      = $row1->status;
 				
 				$i++;
 			}
 		}
         $response = array(
-            'departments' => $dailyperform_list,
-            'designations' => $dailyperform_list1
+            'daily_performance_list' => $dailyperform_list,
+            'daily_performance_ref_list' => $dailyperform_list1
           );
         
       
@@ -10405,17 +10520,20 @@ public function get_role_performance($mysqli){
 
 public function adddailyperformance($mysqli,$userid){
 
-		if(isset($_POST['id'])){
-			$id = $_POST['id'];
+		if(isset($_POST['idupd'])){
+			$idupd = $_POST['idupd'];
 		}
-		if(isset($_POST['company_id'])){
-			$company_id = $_POST['company_id'];
+		if(isset($_POST['company_name'])){
+			$company_id = $_POST['company_name'];
 		}
-		if(isset($_POST['department_id'])){
-			$department_id = $_POST['department_id'];
+		if(isset($_POST['branch_name'])){
+			$branch_id = $_POST['branch_name'];
 		}
-		if(isset($_POST['designation_id'])){
-			$designation_id = $_POST['designation_id'];
+		if(isset($_POST['dept'])){
+			$department_id = $_POST['dept'];
+		}
+		if(isset($_POST['designation'])){
+			$designation_id = $_POST['designation'];
 		}
 		if(isset($_POST['staff_id'])){
 			$staff_id = $_POST['staff_id'];
@@ -10430,56 +10548,76 @@ public function adddailyperformance($mysqli,$userid){
 		if (isset($_POST['target'])) {
 			$target = $_POST['target'];
 		} 
+		if (isset($_POST['actual_achieve'])) {
+			$actual_achieve = $_POST['actual_achieve'];
+		} 
 		if(isset($_POST['sdate'])){
 			$sdate = $_POST['sdate'];
 		}
 		if (isset($_POST['wstatus'])) {
 			$wstatus = $_POST['wstatus'];
 		}
-		if(isset($_POST['userid'])){
-			$userid = $_POST['userid'];
+		// if (isset($_POST['old_target'])) {
+		// 	$old_target = $_POST['old_target'];
+		// }
+		if (isset($_POST['goal_setting_id'])) {
+			$goal_setting_id = $_POST['goal_setting_id'];
+		}
+		if (isset($_POST['goal_setting_ref_id'])) {
+			$goal_setting_ref_id = $_POST['goal_setting_ref_id'];
+		}
+		if (isset($_POST['assertion_table_sno'])) {
+			$assertion_table_sno = $_POST['assertion_table_sno'];
 		}
 
-		if (isset($_POST['old_target'])) {
-			$old_target = $_POST['old_target'];
-		}
-		if (isset($_POST['target_fixing_id'])) {
-			$target_fixing_id = $_POST['target_fixing_id'];
-		}
-		if (isset($_POST['target_fixing_ref_id'])) {
-			$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
+		if (isset($_POST['daily_ref_id'])) {
+			$daily_ref_id = $_POST['daily_ref_id'];
 		}
 		
-		if($id == '0'){
+		if($idupd == '0'){
 
-			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
-			VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, branch_id, department_id, role_id, emp_id, month, insert_login_id, status)
+			VALUES (NULL, '$company_id', '$branch_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
 
 			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 
 			for($j=0; $j<=sizeof($assertion)-1; $j++){
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
-				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, actual_achieve, system_date, goal_setting_id,goal_setting_ref_id, assertion_table_sno, status)
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".strip_tags($actual_achieve[$j])."', '".strip_tags($sdate[$j])."', '".strip_tags($goal_setting_id[$j])."','".strip_tags($goal_setting_ref_id[$j])."', '".strip_tags($assertion_table_sno[$j])."', '".strip_tags($wstatus[$j])."')";
 				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
+
+				$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='$wstatus[$j]' WHERE `goal_setting_ref_id`='$goal_setting_ref_id[$j]' ") or die("Error ".$mysqli->error);
+
+				if($wstatus[$j] == '1'){
+					$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='1'  WHERE  `assertion_table_sno`='$assertion_table_sno[$j]' && DATE_FORMAT(goal_month, '%Y-%m-%d') < '$sdate[$j]'") or die("Error ".$mysqli->error); //AFter Statisfied all Task the  status will changes as statisfied.
+				}
 			}
 
 			}
 		else {
 			
-			$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
+			// $qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id', month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$idupd' ";
+
+			$qry1="UPDATE daily_performance set status ='0', update_login_id='$userid' WHERE daily_performance_id = '$idupd' ";
 			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 
-			$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
+			// $deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$idupd."' "); 
 
 			for($i=0;$i<=sizeof($assertion)-1;$i++){
 				
+				// $qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target, actual_achieve, system_date, goal_setting_id,goal_setting_ref_id, assertion_table_sno,status)
+				// VALUES('$idupd', '$assertion[$i]','$target[$i]', '$actual_achieve[$i]', '$sdate[$i]', '$goal_setting_id[$i]','$goal_setting_ref_id[$i]', '$assertion_table_sno[$i]', '$wstatus[$i]')";
 
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
-				VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
-
+				$qry2="UPDATE `daily_performance_ref` SET `actual_achieve`='$actual_achieve[$i]',`status`='$wstatus[$i]' WHERE `daily_performance_ref_id` = '$daily_ref_id[$i]' ";
 				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
+
+				$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='$wstatus[$i]' WHERE `goal_setting_ref_id`='$goal_setting_ref_id[$i]' ") or die("Error ".$mysqli->error);
+
+				if($wstatus[$i] == '1'){
+					$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='1'  WHERE  `assertion_table_sno`='$assertion_table_sno[$i]' && DATE_FORMAT(goal_month, '%Y-%m-%d') < '$sdate[$i]'") or die("Error ".$mysqli->error); //AFter Statisfied all Task the  status will changes as statisfied.
+				}
 			}
 			
 		}

@@ -3,6 +3,9 @@
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 } 
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+} 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
     $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
@@ -70,6 +73,7 @@ if($idupd>0)
             $weakness                                      = $getAppDep['weakness']; 
             $need_for_improvement                          = $getAppDep['need_for_improvement']; 
             $overall_rating                                = $getAppDep['overall_rating']; 
+            $update_login_id                                = $getAppDep['update_login_id']; 
 
             $appreciation_depreciation_ref_id              = $getAppDep['appreciation_depreciation_ref_id']; 
             $daily_performance_ref_id                      = $getAppDep['daily_performance_ref_id']; 
@@ -77,6 +81,9 @@ if($idupd>0)
             $target                                        = $getAppDep['target']; 
             $achievement                                   = $getAppDep['achievement']; 
             $employee_rating                               = $getAppDep['employee_rating']; 
+
+            $num_padded = sprintf("%02d", $month);
+            $yearmonth                                     = $year_id.'-'.$num_padded;
 	    }
     }
 
@@ -197,8 +204,9 @@ if($idupd>0)
 <div class="main-container">
 <!--------form start-->
     <form id = "appreciation_depreciation" name="appreciation_depreciation" action="" method="post" enctype="multipart/form-data"> 
-        <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
-        <input type="hidden" class="form-control" value="<?php if(isset($appreciation_depreciation_id)) echo $appreciation_depreciation_id ?>"  id="appreciation_depreciation_id" name="appreciation_depreciation_id" aria-describedby="id" placeholder="Enter id">
+        <input type="hidden" class="form-control" value="<?php if(isset($staffid)) echo $staffid; ?>"  id="staffid" name="staffid" >
+        <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" >
+        <input type="hidden" class="form-control" value="<?php if(isset($appreciation_depreciation_id)) echo $appreciation_depreciation_id ?>"  id="appreciation_depreciation_id" name="appreciation_depreciation_id" >
  		<!-- Row start -->
          <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -206,17 +214,6 @@ if($idupd>0)
 					<div class="card-header">
 					</div>
                     <div class="card-body">
-
-                        <div class="form-group">
-							<center><table>
-								<tr>
-									<td><input type="radio" checked name="review" id="midterm_review" value="midterm_review" <?php if(isset($review)) echo ($review=='midterm_review')?'checked':'' ?>></td>
-									<td><label for="midterm_review">Midterm Review</label></td>
-									<td><input type="radio" name="review" id="final_review" value="final_review" <?php if(isset($review)) echo ($review=='final_review')?'checked':'' ?> ></td>
-									<td><label for="final_review">Final Review</label></td>
-								</tr>
-							</table></center>
-						</div><hr>
 
                     	 <div class="row midtermDiv">
                            <div class="col-md-12 "> 
@@ -268,40 +265,11 @@ if($idupd>0)
                                         </select>
                                     </div>
                                 </div>
-                                
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Year</label>
-                                        <select tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
-                                            <option value="">Select Year</option>    
-                                            <?php if (sizeof($goalYear)>0) { 
-                                            for($j=0;$j<count($goalYear);$j++) { ?>
-                                            <option <?php if(isset($year_id)) { if($goalYear[$j]['year_id'] == $year_id) echo 'selected'; } ?>
-                                            value="<?php echo $goalYear[$j]['year_id']; ?>">
-                                            <?php echo $goalYear[$j]['year'];?></option>
-                                            <?php }} ?>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Month</label>
-                                        <select tabindex="4" type="text" class="form-control" id="month" name="month" >
-                                            <option value="">Select Month</option>  
-                                            <option value="1" <?php if(isset($month )){if($month == "1") echo "selected";} ?>>January</option>
-                                            <option value="2" <?php if(isset($month )){if($month == "2") echo "selected";} ?>>February</option>
-                                            <option value="3" <?php if(isset($month )){if($month == "3") echo "selected";} ?>>March</option>
-                                            <option value="4" <?php if(isset($month )){if($month == "4") echo "selected";} ?>>April</option>
-                                            <option value="5" <?php if(isset($month )){if($month == "5") echo "selected";} ?>>May</option>
-                                            <option value="6" <?php if(isset($month )){if($month == "6") echo "selected";} ?>>June</option>
-                                            <option value="7" <?php if(isset($month )){if($month == "7") echo "selected";} ?>>July</option>
-                                            <option value="8" <?php if(isset($month )){if($month == "8") echo "selected";} ?>>August</option>
-                                            <option value="9" <?php if(isset($month )){if($month == "9") echo "selected";} ?>>September</option>
-                                            <option value="10" <?php if(isset($month )){if($month == "10") echo "selected";} ?>>October</option>
-                                            <option value="11" <?php if(isset($month )){if($month == "11") echo "selected";} ?>>November</option>
-                                            <option value="12" <?php if(isset($month )){if($month == "12") echo "selected";} ?>>December</option>
-                                        </select>
+                                        <input tabindex="4" type="month" class="form-control" id="month" name="month" value="<?php if(isset($yearmonth)) echo $yearmonth; ?>">
                                     </div>
                                 </div>
                                 
@@ -383,40 +351,41 @@ if($idupd>0)
                                     </div>
                                 </div>
                             <?php } ?>
-
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Strength</label>
-                                        <textarea id="strength" name="strength" class="form-control" rows="4" cols="40" ><?php if (isset($strength)) echo $strength; ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Weakness</label>
-                                        <textarea id="weakness" name="weakness" class="form-control" rows="4" cols="40" ><?php if (isset($weakness)) echo $weakness; ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="disabledInput">Need For Improvement</label>
-                                        <textarea id="need_for_improvement" name="need_for_improvement" class="form-control" rows="4" cols="40" ><?php if (isset($need_for_improvement)) echo $need_for_improvement; ?></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
                     </div>
                     
-                    <div class="col-md-12 midtermDiv2"> 
+                    <div class="col-md-12 reporting_person_view" <?php if(isset($update_login_id) && $update_login_id == ''){ echo 'style="display: none;"' ;} ?> > 
+
                         <div class="row">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="inputReadOnly"id="audit_err" >Overall Rating</label>
+                                    <label for="disabledInput">Strength</label>
+                                    <textarea id="strength" name="strength" class="form-control" rows="4" cols="40" ><?php if (isset($strength)) echo $strength; ?></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="disabledInput">Weakness</label>
+                                    <textarea id="weakness" name="weakness" class="form-control" rows="4" cols="40" ><?php if (isset($weakness)) echo $weakness; ?></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="disabledInput">Need For Improvement</label>
+                                    <textarea id="need_for_improvement" name="need_for_improvement" class="form-control" rows="4" cols="40" ><?php if (isset($need_for_improvement)) echo $need_for_improvement; ?></textarea>
+                                </div>
+                            </div>    
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="inputReadOnly">Overall Rating</label>
                                     <select tabindex="4" type="text" class="form-control" id="overall_rating" name="overall_rating" >
                                         <option value="">Select Overall Rating</option>  
                                         <option value="1" <?php if(isset($overall_rating )) { if($overall_rating == "1") echo "selected"; } ?>>Poor Performance</option>
@@ -430,22 +399,14 @@ if($idupd>0)
 
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="inputReadOnly" id="audit_err" >Memo If Required</label> <br>
+                                    <label for="inputReadOnly">Memo If Required</label> <br>
                                     <a href="memo"> <button disabled type="button" name="memoBtn" id="memoBtn" class="btn btn-outline-secondary" value="Submit" tabindex="10">Go to memo</button></a>
                                 </div>
                             </div>
-
-                            <?php if($midtermReview > 0){ ?>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="inputReadOnly" id="audit_err" >Midterm Review</label> <br>
-                                        <a href="view_midterm_review&last_view_midterm_review" target="_blank"><button type="button" class="btn btn-outline-secondary" value="Submit" tabindex="10">View</button></a>
-                                    </div>
-                                </div>
-                            <?php } ?>
                             
                         </div>
                     </div>
+
                 </div>
                 <div class="col-md-12">
                     <br><br>

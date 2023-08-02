@@ -8,7 +8,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 		$logrole            = $CompanyroleDetail['role'];
 		$logtitle           = $CompanyroleDetail['title'];
 		$company_id         = $CompanyroleDetail['company_id'];
-	  $company_name         = $CompanyroleDetail['company_name'];
+		$company_name         = $CompanyroleDetail['company_name'];
 }
 } ?>
 <input type="hidden" id="logrole" class="logrole" value="<?php 	echo $logrole;       ?>" >
@@ -24,11 +24,15 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 		<a href="daily_performance">
 		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Daily Performance Creation</button>
 	</a>
-	<?php echo '<style>.View_goal_setting { display: none; }</style>'; ?>
-	<?php }else{ ?>
-<?php echo '<style>.edpage { display: none; }</style>'; echo '<style>.icon-trash-2 { display: none; }</style>'; ?>
+	<?php }
 
-		<?php } ?>
+	if($logrole == '1'){ 
+		echo '<style>.View_goal_setting { display: none; }</style>'; 
+		
+	}else{
+		echo '<style>.edpage { display: none; }</style>'; 
+		echo '<style>.icon-trash-2 { display: none; }</style>'; 
+	} ?>
 	
 </div>
 <!-- Page header end -->
@@ -75,7 +79,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 								<th>S. No.</th>
 								<th>Company Name</th>
 								<th>Department Name</th>
-								 <th>Role</th>
+								<th>Role</th>
 								<th>Employee Name</th>
 								<th>Month</th>
 								<th>Status</th>

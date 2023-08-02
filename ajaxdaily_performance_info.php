@@ -5,6 +5,15 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
+}
 
 $column = array(
     'company_name',
@@ -25,7 +34,13 @@ LEFT JOIN
 designation_creation dsc ON dsc.designation_id = dp.role_id
 LEFT JOIN
 staff_creation s ON s.staff_id = dp.emp_id
-WHERE 1";
+WHERE ";
+
+if ($staffid != 'Overall'){
+    $query .= "dp.department_id = '$user_dept_id' ";
+}else{
+    $query.= "1";
+}
 
 if($_POST['search']!="");
 {
@@ -41,25 +56,24 @@ if($_POST['search']!="");
         }
 
         else{	
-            $query .= "
+            // $query .= "
             
-            OR c.company_name LIKE  '%".$_POST['search']."%'
-            OR dc.department_name LIKE '%".$_POST['search']."%'
-            OR dsc.designation_name LIKE '%".$_POST['search']."%'
-            OR s.staff_name LIKE '%".$_POST['search']."%'
-            OR dp.month LIKE '%".$_POST['search']."%'
-            OR dp.status LIKE '%".$_POST['search']."%'";
-           
+            // OR c.company_name LIKE  '%".$_POST['search']."%'
+            // OR dc.department_name LIKE '%".$_POST['search']."%'
+            // OR dsc.designation_name LIKE '%".$_POST['search']."%'
+            // OR s.staff_name LIKE '%".$_POST['search']."%'
+            // OR dp.month LIKE '%".$_POST['search']."%'
+            // OR dp.status LIKE '%".$_POST['search']."%'";
         }
     }
 }
 
 if (isset($_POST['order'])) {
-    $query .= ' ORDER BY dp.daily_performance_id DESC ';
+    $query .= ' GROUP BY dp.emp_id,dp.month ORDER BY dp.daily_performance_id DESC ';
 } else {
     $query .= ' ';
 }
-// print_r($query);
+// echo $query;
 $query1 = '';
 
 if ($_POST['length'] != -1) {

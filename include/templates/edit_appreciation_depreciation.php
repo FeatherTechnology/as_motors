@@ -49,12 +49,12 @@
 						<thead>
                             <tr>
                                 <th>S. No.</th>
-                                <th>Review</th>
+                                <!-- <th>Review</th> -->
                                 <th>Company Name</th>
                                 <th>Department</th>
                                 <th>Designation</th>
                                 <th>Staff Name</th>
-                                <th>Year</th>
+                                <!-- <th>Year</th> -->
                                 <th>Month</th>
                                 <th>Status</th>
                                 <th>Action</th>

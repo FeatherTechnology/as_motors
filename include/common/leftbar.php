@@ -605,11 +605,11 @@ if (sizeof($getuser)>0) {
 										<a href="edit_goal_setting"><i class="icon-receipt"></i>Goal Setting</a>	
 									</li>
 								<?php } ?>
-								<?php if($target_fixing == 0 && $target_fixing != '' && $target_fixing != NULL) { ?>
-									<li>
+								<?php #if($target_fixing == 0 && $target_fixing != '' && $target_fixing != NULL) { ?>
+									<!-- <li>
 										<a href="edit_target_fixing"><i class="icon-recent_actors"></i>Target Fixing</a>	
-									</li>
-								<?php } ?>
+									</li> -->
+								<?php #} ?>
 								<?php if($daily_performance == 0 && $daily_performance != '' && $daily_performance != NULL) { ?>
 									<li>
 										<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	

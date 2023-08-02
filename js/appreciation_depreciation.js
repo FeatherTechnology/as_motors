@@ -71,18 +71,19 @@ $(document).ready(function () {
   // execute daily performance
   $("#executeTargetFixingDetails").click(function(){
 
-    var company_name = $('#company_name').val();
-    var goal_year = $('#goal_year :selected').val();
-    var month = $('#month :selected').val();
+    var month = $('#month').val();
     var staff_id = $('#staff_id :selected').val();
 
     $.ajax({
       url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
-      data: { 'company_name': company_name, 'goal_year': goal_year, 'month': month, 'staff_id': staff_id },
+      data: { 'month': month, 'staff_id': staff_id },
       success:function(html){
         $("#dailyPerformanceDetailsAppend").empty();
         $("#dailyPerformanceDetailsAppend").html(html);
+
+        getReportingPerson(staff_id);
+
       }
     });
   });
@@ -93,10 +94,12 @@ $(document).ready(function () {
     // super admin login
     var idupd = $("#company_name").val();
     var department_upd = $('#department_upd').val();
+    var staff_id = $('#empEdit').val();
     if(idupd > 0 ){
 
       getdepartment(idupd);
       getdesignation(department_upd);
+      getReportingPerson(staff_id);
     }
   });
 
@@ -180,3 +183,22 @@ $(".delete_assertion").on('click', function() {
     $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
   }
 });
+
+function getReportingPerson(staff_id){
+  // Nested AJAX call to getreportingPersonDetails.php
+  $.ajax({
+    url: "targetFixingFile/getreportingPersonDetails.php",
+    method: "post",
+    data: { 'staff_id': staff_id },
+    dataType: 'json',
+    success: function(result){
+      var user_staff_id = $('#staffid').val();
+      if(result['reporting_id'] == user_staff_id || user_staff_id == 'Overall'){
+        $(".reporting_person_view").show()
+      }
+      // else{
+      //   $(".reporting_person_view").hide()
+      // }
+    }
+  });
+}

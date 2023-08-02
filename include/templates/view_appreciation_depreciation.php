@@ -45,6 +45,9 @@ if($viewId>0)
             $target                  = $getAppDep['target']; 
             $achievement                  = $getAppDep['achievement']; 
             $employee_rating                  = $getAppDep['employee_rating']; 
+
+            $num_padded = sprintf("%02d", $month);
+            $yearmonth                                     = $year_id.'-'.$num_padded;
 	    }
     }
 
@@ -175,7 +178,7 @@ if($viewId>0)
 					</div>
                     <div class="card-body">
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
 							<center><table>
 								<tr>
 									<td><input disabled type="radio" checked name="review" id="midterm_review" value="midterm_review" <?php if(isset($review)) echo ($review=='midterm_review')?'checked':'' ?>></td>
@@ -184,7 +187,7 @@ if($viewId>0)
 									<td><label for="final_review">Final Review</label></td>
 								</tr>
 							</table></center>
-						</div><hr>
+						</div><hr> -->
 
                     	 <div class="row midtermDiv">
                            <div class="col-md-12 "> 
@@ -236,7 +239,7 @@ if($viewId>0)
                                     </div>
                                 </div>
                                 
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Year</label>
                                         <select disabled tabindex="4" type="text" class="form-control" id="goal_year" name="goal_year" >
@@ -249,26 +252,12 @@ if($viewId>0)
                                             <?php }} ?>
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Month</label>
-                                        <select disabled tabindex="4" type="text" class="form-control" id="month" name="month" >
-                                            <option value="">Select Month</option>  
-                                            <option value="1" <?php if(isset($month )){if($month == "1") echo "selected";} ?>>January</option>
-                                            <option value="2" <?php if(isset($month )){if($month == "2") echo "selected";} ?>>February</option>
-                                            <option value="3" <?php if(isset($month )){if($month == "3") echo "selected";} ?>>March</option>
-                                            <option value="4" <?php if(isset($month )){if($month == "4") echo "selected";} ?>>April</option>
-                                            <option value="5" <?php if(isset($month )){if($month == "5") echo "selected";} ?>>May</option>
-                                            <option value="6" <?php if(isset($month )){if($month == "6") echo "selected";} ?>>June</option>
-                                            <option value="7" <?php if(isset($month )){if($month == "7") echo "selected";} ?>>July</option>
-                                            <option value="8" <?php if(isset($month )){if($month == "8") echo "selected";} ?>>August</option>
-                                            <option value="9" <?php if(isset($month )){if($month == "9") echo "selected";} ?>>September</option>
-                                            <option value="10" <?php if(isset($month )){if($month == "10") echo "selected";} ?>>October</option>
-                                            <option value="11" <?php if(isset($month )){if($month == "11") echo "selected";} ?>>November</option>
-                                            <option value="12" <?php if(isset($month )){if($month == "12") echo "selected";} ?>>December</option>
-                                        </select>
+                                        <input tabindex="4" type="month" class="form-control" id="month" name="month"  value="<?php if(isset($yearmonth))echo $yearmonth;?>" readonly>
                                     </div>
                                 </div>
 
