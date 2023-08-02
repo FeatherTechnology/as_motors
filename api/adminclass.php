@@ -9666,12 +9666,12 @@
 			}else{
 				$goal_setting=1;
 			}
-			if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
-			{
-				$target_fixing=0;
-			}else{
-				$target_fixing=1;
-			}
+			// if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
+			// {
+			// 	$target_fixing=0;
+			// }else{
+			// 	$target_fixing=1;
+			// }
 			if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
 			{
 				$daily_performance=0;
@@ -9738,7 +9738,7 @@
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
 			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, 
 			memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, 
-			maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, target_fixing, daily_performance, 
+			maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, 
 			appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, 
 			business_communication_outgoing, minutes_of_meeting) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', 
 			'".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', 
@@ -9748,7 +9748,7 @@
 			$audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, 
 			$promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, 
 			$memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, 
-			$permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $target_fixing, $daily_performance, $appreciation_depreciation, 
+			$permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $appreciation_depreciation, 
 			$vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip, $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, 
 			$minutes_of_meeting)"; // echo $userInsert; die;
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
@@ -9839,7 +9839,7 @@
 				$detailrecords['transfer_location']    = strip_tags($row->transfer_location);
 				$detailrecords['target_fixing_module']  = strip_tags($row->target_fixing_module);
 				$detailrecords['goal_setting']      = strip_tags($row->goal_setting);
-				$detailrecords['target_fixing']    = strip_tags($row->target_fixing);
+				// $detailrecords['target_fixing']    = strip_tags($row->target_fixing);
 				$detailrecords['daily_performance']    = strip_tags($row->daily_performance);
 				$detailrecords['appreciation_depreciation']    = strip_tags($row->appreciation_depreciation);
 				$detailrecords['vehicle_management_module']    = strip_tags($row->vehicle_management_module);
@@ -10202,12 +10202,12 @@
 		}else{
 			$goal_setting=1;
 		}
-		if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
-		{
-			$target_fixing=0;
-		}else{
-			$target_fixing=1;
-		}
+		// if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
+		// {
+		// 	$target_fixing=0;
+		// }else{
+		// 	$target_fixing=1;
+		// }
 		if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
 		{
 			$daily_performance=0;
@@ -10331,7 +10331,6 @@
 		transfer_location    = $transfer_location,
 		target_fixing_module  = $target_fixing_module,
 		goal_setting      = $goal_setting,
-		target_fixing    = $target_fixing,
 		daily_performance    = $daily_performance,
 		appreciation_depreciation    = $appreciation_depreciation,
 		vehicle_management_module    = $vehicle_management_module,
