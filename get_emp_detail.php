@@ -1,16 +1,10 @@
 <?php
 include('ajaxconfig.php');
 
-if(isset($_POST["company_id"])){
-	$company_id  = $_POST["company_id"];
-}
-if(isset($_POST["department_id"])){
-	$department_id  = $_POST["department_id"];
-}
 if(isset($_POST["designation_id"])){
 	$designation_id  = $_POST["designation_id"];
 }
-$emp_data = "SELECT * FROM staff_creation WHERE  designation='$designation_id' AND department='$department_id' AND status='0'";
+$emp_data = "SELECT * FROM staff_creation WHERE  designation='$designation_id' AND status='0'";
 	
 		$res = $mysqli->query($emp_data) or die("Error in Get All Records".$mysqli->error);
 		$emp_data_list = array();

@@ -5,6 +5,15 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
+}
 
 $column = array(
     'c.company_name',
@@ -14,12 +23,19 @@ $column = array(
     'status'
 );
 
-$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
+$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,bc.branch_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
 LEFT JOIN company_creation c ON c.company_id=gs.company_name 
+LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
 LEFT JOIN department_creation dc ON dc.department_id=gs.department 
 LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
 LEFT JOIN year_creation y ON y.year_id=gs.year
- WHERE 1";
+WHERE ";
+
+if ($staffid != 'Overall'){
+    $query .= "gs.department = '$user_dept_id' ";
+}else{
+    $query.= "1";
+}
 
 if($_POST['search']!="");
 {
@@ -35,13 +51,13 @@ if($_POST['search']!="");
         }
 
         else{	
-            $query .= "
+            // $query .= "
             
-            OR c.company_name LIKE  '%".$_POST['search']."%'
-            OR dc.department_name LIKE '%".$_POST['search']."%'
-            OR ds.designation_name LIKE '%".$_POST['search']."%'
-            OR y.year LIKE '%".$_POST['search']."%'
-            OR gs.status LIKE '%".$_POST['search']."%'";
+            // OR c.company_name LIKE  '%".$_POST['search']."%'
+            // OR dc.department_name LIKE '%".$_POST['search']."%'
+            // OR ds.designation_name LIKE '%".$_POST['search']."%'
+            // OR y.year LIKE '%".$_POST['search']."%'
+            // OR gs.status LIKE '%".$_POST['search']."%'";
            
         }
     }
@@ -77,9 +93,9 @@ foreach ($result as $row) {
     }
                         
     $sub_array[] = $row['company_name'];
+    $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['department_name'];
     $sub_array[] = $row['designation_name'];
-    $sub_array[] = $row['year'];
     $status    = $row['status'];
     
     

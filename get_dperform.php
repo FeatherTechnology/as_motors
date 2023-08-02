@@ -57,7 +57,7 @@ if (!empty($result)) {
 	CASE WHEN(dpr.status = 'statisfied') THEN '' ELSE CASE WHEN (tfr.deleted_date <> '') THEN  '' ELSE CURDATE() END END AS cdate
 	FROM daily_performance dp 
 	LEFT JOIN daily_performance_ref dpr ON dpr.daily_performance_id=dp.daily_performance_id
-	LEFT JOIN target_fixing_ref tfr ON tfr.target_fixing_ref_id = dpr.target_fixing_ref_id
+	LEFT JOIN target_fixing_ref tfr ON tfr.target_fixing_ref_id = dpr.goal_setting_ref_id
 	LEFT JOIN target_fixing tf ON tf.target_fixing_id=tfr.target_fixing_id
 	
 	WHERE dp.company_id ='$company_id'

@@ -5,6 +5,9 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
+}
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
     if($sbranch_id >0){
@@ -15,6 +18,12 @@ if(isset($_SESSION["branch_id"])){
 }
 if(isset($_SESSION["staffid"])){
     $sstaffid = $_SESSION["staffid"];
+
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$sstaffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
 }
 
 $column = array(
@@ -63,7 +72,7 @@ if($sbranch_id == 'Overall'){
     }
 }else{
 
-    $query .=" and company_id= '".$company_id."' and emp_id = '".$sstaffid."' and status = '0' ";
+    $query .=" and company_id= '".$company_id."' and ( department_id = '".$user_dept_id."' or emp_id = '".$sstaffid."') and status = '0' ";
 }
 
 if (isset($_POST['order'])) {
@@ -134,23 +143,23 @@ foreach ($result as $row) {
        $staff_name = $row3["staff_name"];        
     }
 
-    $year='';
-    $year_id = $row['year_id'];   
-    $qry4 = "SELECT year FROM year_creation WHERE year_id ='".strip_tags($year_id)."' and status = 0";
-    $res4 = $con->query($qry4);
-    while($row4 = $res4->fetch_assoc())
-    {
-       $year = $row4["year"];        
-    }
+    // $year='';
+    // $year_id = $row['year_id'];   
+    // $qry4 = "SELECT year FROM year_creation WHERE year_id ='".strip_tags($year_id)."' and status = 0";
+    // $res4 = $con->query($qry4);
+    // while($row4 = $res4->fetch_assoc())
+    // {
+    //    $year = $row4["year"];        
+    // }
     
-    if($row['review'] == 'midterm_review') { $review = 'Midterm Review'; } else if($row['review'] == 'final_review') { $review = 'Final Review'; }
+    // if($row['review'] == 'midterm_review') { $review = 'Midterm Review'; } else if($row['review'] == 'final_review') { $review = 'Final Review'; }else{ $review = '';}
 
-    $sub_array[] = $review;
+    // $sub_array[] = $review;
     $sub_array[] = $company_name;
     $sub_array[] = $department_name;
     $sub_array[] = $designation_name;
     $sub_array[] = $staff_name;
-    $sub_array[] = $year;
+    // $sub_array[] = $year;
     $sub_array[] = $row['month'];
     
     $status      = $row['status'];
@@ -164,12 +173,12 @@ foreach ($result as $row) {
 	}
 	$id   = $row['appreciation_depreciation_id'];
 	
-  if($sstaffid == 'Overall'){
-      $action="<a href='appreciation_depreciation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
+    if($sstaffid == 'Overall' || $role == '3'){
+        $action="<a href='appreciation_depreciation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
     <a href='appreciation_depreciation&del=$id' title='Delete details' class='delete_appreciation_depreciation'><span class='icon-trash-2'></span></a>";
-  }else{
-      $action="<a href='view_appreciation_depreciation&view=$id' title='View details'><span class='icon-eye'></span></a>";
-  }
+    }else{
+        $action="<a href='view_appreciation_depreciation&view=$id' title='View details'><span class='icon-eye'></span></a>";
+    }
 
 
 	$sub_array[] = $action;

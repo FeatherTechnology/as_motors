@@ -1,4 +1,5 @@
 <?php
+///Using in goal_setting.js page also. To Get Branch name based on company.
 include '../ajaxconfig.php';
 
 if(isset($_POST['company_id'])){
