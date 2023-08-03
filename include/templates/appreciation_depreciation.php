@@ -13,7 +13,7 @@ if(isset($_SESSION["branch_id"])){
 }
 $companyName = $userObj->getCompanyName($mysqli);
 $goalYear = $userObj->getGoalYear($mysqli);
-$midtermReview = $userObj->getmidtermReview($mysqli);
+// $midtermReview = $userObj->getmidtermReview($mysqli);
 
 $id=0;
 $idupd=0;

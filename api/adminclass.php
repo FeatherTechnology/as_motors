@@ -8930,10 +8930,10 @@
 		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
 		$lastId = $mysqli->insert_id; 
 
-		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
+		for($i=0; $i<=sizeof($review)-1; $i++){
 
-			$refQry="INSERT INTO appreciation_depreciation_ref(appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
-			achievement, employee_rating) VALUES ('".strip_tags($lastId)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			$refQry="INSERT INTO appreciation_depreciation_ref(appreciation_depreciation_id, review, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($lastId)."', '".$review[$i]."', '".strip_tags($daily_performance_ref_id[$i])."', 
 			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -9082,10 +9082,10 @@
 
 		$deleteRef = $mysqli->query("DELETE FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id = '".$id."' "); 
 
-		for($i=0; $i<=sizeof($daily_performance_ref_id)-1; $i++){
+		for($i=0; $i<=sizeof($review)-1; $i++){
 
-			$refQry="INSERT INTO appreciation_depreciation_ref( appreciation_depreciation_id, daily_performance_ref_id, assertion, target, 
-			achievement, employee_rating) VALUES ('".strip_tags($id)."', '".strip_tags($daily_performance_ref_id[$i])."', 
+			$refQry="INSERT INTO appreciation_depreciation_ref( appreciation_depreciation_id, review, daily_performance_ref_id, assertion, target, 
+			achievement, employee_rating) VALUES ('".strip_tags($id)."', '".$review[$i]."', '".strip_tags($daily_performance_ref_id[$i])."', 
 			'".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')";  
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -9100,18 +9100,18 @@
 	}
 
 	// view app dep
-	public function getmidtermReview($mysqli){
+	// public function getmidtermReview($mysqli){
 
-		$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1"; 
-		$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
-		if ($mysqli->affected_rows>0)
-		{
-			$detailrecords = 1;
-		}
+	// 	$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1"; 
+	// 	$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
+	// 	if ($mysqli->affected_rows>0)
+	// 	{
+	// 		$detailrecords = 1;
+	// 	}
 		
-		return $detailrecords;
+	// 	return $detailrecords;
 	
-	}
+	// }
 
 	// view app dep
 	public function viewAppDep($mysqli){

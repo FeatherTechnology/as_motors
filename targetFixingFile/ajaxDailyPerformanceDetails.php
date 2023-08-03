@@ -3,9 +3,13 @@
 include '../ajaxconfig.php';
 
 if(isset($_POST["month"])){
+	$yearmonth = $_POST["month"]; //format('yyyy-mm'); // we want month only so split month here.
 	$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
     $month = intval($yearmonthsplit[1]);
 
+}
+if(isset($_POST["designation"])){
+	$designation_id = $_POST["designation"];
 }
 if(isset($_POST["staff_id"])){
 	$staff_id = $_POST["staff_id"];
@@ -99,7 +103,8 @@ if(isset($_POST["staff_id"])){
                         ?>
                         <tbody>
                             <tr>
-                                <td><?php echo $sno; ?></td>
+                                <td><?php echo $sno; ?>
+                                <input type="hidden" class="form-control" value="1" name="review[]" id="review" ></td> <!-- 1=Daily Task -->
                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
@@ -135,6 +140,57 @@ if(isset($_POST["staff_id"])){
 
                 <?php } ?>
             </table>
+            <!-- Daily achievement END -->
+            
+            <!-- Monthly achievement START -->
+            <h5>Monthly Goal Details</h5>
+            <table class="table custom-table" id="sstable">
+                <tr>
+                    <th>S. No.</th>
+                    <th>Assertion</th>
+                    <th>Target</th>
+                    <th>Achievement</th>
+                    <th>Employee Rating</th>
+                </tr>
+                <?php
+                //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
+                //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is.
+                $goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+                FROM goal_setting_ref gsr 
+                LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
+                WHERE gs.role = '$designation_id' 
+                AND gsr.monthly_conversion_required = '0' 
+                AND gsr.goal_month = '$yearmonth' ";
+
+                $goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
+                if(mysqli_num_rows($goalsettingDetails) > 0){
+                $sno = 1;
+                while($goalsettinginfo = $goalsettingDetails->fetch_object()){
+                ?>
+                <tbody>
+                    <tr>
+                        <td><?php echo $sno; ?>
+                        <input type="hidden" class="form-control" value="0" name="review[]" id="review" ></td> <!-- 0=Monthly Task -->
+                        <td><input readonly type="text" class="form-control" value="<?php echo $goalsettinginfo->assertion; ?>" name="assertion[]" id="assertion" ></td>
+                        <td><input readonly type="number" class="form-control" value="<?php echo $goalsettinginfo->target; ?>" name="target[]" id="target" ></td>
+                        <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" ></td>
+                        <td>
+                            <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
+                                <option value="">Select Employee Rating</option>  
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>   
+                        </td>
+                    </tr>
+                </tbody>
+                    <?php $sno = $sno + 1; 
+                    } } ?>
+            </table>
+            <!-- Monthly achievement END -->
+
         </div>
     </div>
 </div>
