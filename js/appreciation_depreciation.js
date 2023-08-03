@@ -72,12 +72,13 @@ $(document).ready(function () {
   $("#executeTargetFixingDetails").click(function(){
 
     var month = $('#month').val();
+    var designation = $('#designation').val();
     var staff_id = $('#staff_id :selected').val();
 
     $.ajax({
       url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
-      data: { 'month': month, 'staff_id': staff_id },
+      data: { 'month': month, 'designation': designation, 'staff_id': staff_id },
       success:function(html){
         $("#dailyPerformanceDetailsAppend").empty();
         $("#dailyPerformanceDetailsAppend").html(html);
