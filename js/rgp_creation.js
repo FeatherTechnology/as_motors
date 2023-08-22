@@ -18,10 +18,13 @@ $(document).ready(function(){
             success:function(response){
                 $('#from_comm_line1').val(response['address1']);
                 $('#from_comm_line2').val(response['address2']);
-            }
 
+                getStaffNameList(); //Get stafflist based on both  branch id).
+            }
         })
+
     });
+
     $('#branch_to').change(function(){
         var branch_id = $('#branch_to').val();
         var branch_id_from = $('#branch_from').val();
@@ -39,6 +42,8 @@ $(document).ready(function(){
                 success:function(response){
                     $('#to_comm_line1').val(response['address1']);
                     $('#to_comm_line2').val(response['address2']);
+
+                    getStaffNameList(); //Get stafflist based on both  branch id).
                 }
 
             });
@@ -113,6 +118,10 @@ $(function(){
         setalltoReadonly();
 
         getBranchdropdownForTo(company_to_upd);
+
+        setTimeout(function(){
+            getStaffNameList();
+        },1000);
 
     }
 
@@ -233,4 +242,39 @@ function setalltoReadonly(){
     $('#asset_name').prop('disabled', true)
     $('#asset_value').attr('readonly',true);
     $('#reason_rgp').attr('readonly',true);
+    $('#rgp_staff').attr('readonly',true);
+}
+
+function getStaffNameList(){
+    var branch_id_from = $('#branch_from').val();
+    var branch_id_to = $('#branch_to').val();
+    var rgp_staff_id = $('#rgp_staff_id').val();
+    $.ajax({ //from branch
+        url: 'RGP_ajax/ajaxgetrgpStafflist.php',
+        type: 'POST',
+        data: {'branch_id_from':branch_id_from, 'branch_id_to':branch_id_to},
+        dataType: 'json',
+        success:function(response){
+            $("#rgp_staff").empty();
+            $("#rgp_staff").append("<option value=''>" + 'Select Staff Name' + "</option>");
+            var len = response.staff_id.length;
+            for (var i = 0; i < len; i++) {
+                var staff_id = response['staff_id'][i];
+                var staff_name = response['staff_name'][i];
+                var branch_name = response['branch_name'][i];
+                var selected = '';
+                if(rgp_staff_id == staff_id){
+                    selected = 'selected';
+                }
+                $("#rgp_staff").append("<option value='" + staff_id + "' "+ selected +">" + staff_name + " - "+ branch_name +"</option>");
+            }
+            {//To Order staffName Alphabetically
+                var firstOption = $("#rgp_staff option:first-child");
+                $("#rgp_staff").html($("#rgp_staff option:not(:first-child)").sort(function (a, b) {
+                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+                }));
+                $("#rgp_staff").prepend(firstOption);
+            }
+        }
+    })
 }

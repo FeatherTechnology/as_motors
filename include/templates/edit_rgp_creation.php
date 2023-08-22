@@ -59,6 +59,7 @@
 								<th width='6%'>Asset Classification</th>
 								<th width='8%'>From Branch</th>
 								<th width='8%'>To Branch</th>
+								<th width='8%'>Staff Name</th>
 								<th width='6%'>RGP Date</th>
 								<th width='6%'>Return Date</th>
 								<th width='4%'>Asset Name</th>

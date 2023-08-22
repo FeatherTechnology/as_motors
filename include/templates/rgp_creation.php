@@ -68,6 +68,7 @@ if($idupd>0)
 			$from_comm_line2                	 = $getRGPTable['from_comm_line2'];
 			$to_comm_line1                	 = $getRGPTable['to_comm_line1'];
 			$to_comm_line2                	 = $getRGPTable['to_comm_line2'];
+			$rgp_staff_id                	 = $getRGPTable['rgp_staff_id'];
 			$asset_name_id                	 = $getRGPTable['asset_name_id'];
 			$asset_value                	 = $getRGPTable['asset_value'];
 			$extended_date                	 = $getRGPTable['extended_date'];
@@ -105,6 +106,7 @@ if($idupd>0)
 <input type="hidden" class="form-control" value="<?php if(isset($branch_to)) echo $branch_to; ?>"  id="branch_to_upd" name="branch_to_upd" >
 <input type="hidden" class="form-control" value="<?php if(isset($asset_class)) echo $asset_class; ?>"  id="asset_class_upd" name="asset_class_upd" aria-describedby="id" placeholder="Enter id">
 <input type="hidden" class="form-control" value="<?php if(isset($asset_name_id)) echo $asset_name_id; ?>"  id="asset_name_id_upd" name="asset_name_id_upd" aria-describedby="id" placeholder="Enter id">
+<input type="hidden" class="form-control" value="<?php if(isset($rgp_staff_id)) echo $rgp_staff_id; ?>"  id="rgp_staff_id" name="rgp_staff_id" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -192,6 +194,14 @@ if($idupd>0)
                                             value="<?php if(isset($to_comm_line1)) echo $to_comm_line1; ?>" readonly>
                                             <input type="text" class="form-control" id="to_comm_line2" name="to_comm_line2" 
                                             value="<?php if(isset($to_comm_line2)) echo $to_comm_line2; ?>" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                        <label for="inputReadOnly">Staff Name</label>
+                                            <select tabindex="6" type="text" class="form-control" id="rgp_staff" name="rgp_staff">
+                                                <option value="">Select Staff Name</option>   
+                                            </select> 
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
