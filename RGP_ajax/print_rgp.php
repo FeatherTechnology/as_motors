@@ -20,6 +20,7 @@ while($row=$getRgp->fetch_assoc()){
 	$to_comm_line1=$row["to_comm_line1"];
 	$to_comm_line2=$row["to_comm_line2"];
 	$asset_name_id=$row["asset_name_id"];
+	$rgp_staff_id=$row["rgp_staff_id"];
 	$asset_value=$row["asset_value"];
 	$reason_rgp=$row["reason_rgp"];
 }
@@ -53,6 +54,13 @@ while ($assetRow = $getasset->fetch_assoc()) {
 	$asset_name = $assetRow["asset_name"];
 }
 
+
+$staffqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($rgp_staff_id)."' and status = 0";
+$staffdetails = $con->query($staffqry);
+while($staffinfo = $staffdetails->fetch_assoc())
+{
+	$staff_name = $staffinfo["staff_name"];        
+}
 
 
 ?>
@@ -91,6 +99,7 @@ while ($assetRow = $getasset->fetch_assoc()) {
 			<th style="background-color: white;color: black">Date of RGP</th>
 			<th style="background-color: white;color: black">Branch [Sending] Address</th>
 			<th style="background-color: white;color: black">Branh [To] Address</th>
+			<th style="background-color: white;color: black">Staff Name</th>
 			<th style="background-color: white;color: black">Asset Name</th>
 			<th style="background-color: white;color: black">Asset Value</th>
 			<th style="background-color: white;color: black">Reason for RGP</th>
@@ -121,6 +130,9 @@ while ($assetRow = $getasset->fetch_assoc()) {
 				<?php
 				echo $branch_to_city. '.';
 				?>
+			</td>
+			<td style="text-align: center">
+				<?php echo $staff_name; ?>
 			</td>
 			<td style="text-align: center">
 				<?php echo $asset_name; ?>

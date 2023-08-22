@@ -5231,6 +5231,9 @@
 			if(isset($_POST['to_comm_line2'])){
 				$to_comm_line2 = $_POST['to_comm_line2'];
 			}
+			if(isset($_POST['rgp_staff'])){
+				$rgp_staff = $_POST['rgp_staff'];
+			}
 			if(isset($_POST['asset_name'])){
 				$asset_name = $_POST['asset_name'];
 			}
@@ -5242,10 +5245,10 @@
 			}
 			
 			
-			$insertQry="INSERT INTO rgp_creation(rgp_date,return_date,asset_class,company_id,branch_from,company_to,branch_to,from_comm_line1,from_comm_line2,to_comm_line1,to_comm_line2,asset_name_id,asset_value,reason_rgp,created_date)
+			$insertQry="INSERT INTO rgp_creation(rgp_date,return_date,asset_class,company_id,branch_from,company_to,branch_to,from_comm_line1,from_comm_line2,to_comm_line1,to_comm_line2, rgp_staff_id, asset_name_id,asset_value,reason_rgp,created_date)
 			VALUES('".strip_tags($rgp_date)."', '".strip_tags($return_date)."', '".strip_tags($asset_class)."', 
 			'".strip_tags($company_id)."', '".strip_tags($branch_from)."','".strip_tags($company_to)."', '".strip_tags($branch_to)."', '".strip_tags($from_comm_line1)."', '".strip_tags($from_comm_line2)."', 
-			'".strip_tags($to_comm_line1)."','".strip_tags($to_comm_line2)."','".strip_tags($asset_name)."','".strip_tags($asset_value)."', '".strip_tags($reason_rgp)."',current_timestamp() )";
+			'".strip_tags($to_comm_line1)."','".strip_tags($to_comm_line2)."','".strip_tags($rgp_staff)."','".strip_tags($asset_name)."','".strip_tags($asset_value)."', '".strip_tags($reason_rgp)."',current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			
 			$insertAsset = "UPDATE asset_register set rgp_status ='inward' where asset_id = '" . strip_tags($asset_name) . "' ";
@@ -5334,6 +5337,7 @@
 			$detailrecords1['from_comm_line2'] = $row12["from_comm_line2"];  
 			$detailrecords1['to_comm_line1'] = $row12["to_comm_line1"];  
 			$detailrecords1['to_comm_line2'] = $row12["to_comm_line2"];  
+			$detailrecords1['rgp_staff_id'] = $row12["rgp_staff_id"];  
 			$detailrecords1['asset_name_id'] = $row12["asset_name_id"];  
 			$detailrecords1['asset_value'] = $row12["asset_value"];  
 			$detailrecords1['extended_date'] = $row12["extended_date"];  

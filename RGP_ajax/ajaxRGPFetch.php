@@ -161,6 +161,15 @@ foreach ($result as $row) {
        $asset_name = $row6["asset_name"];        
     }
 
+    $staff_name='';
+    $getstafftName = $row['rgp_staff_id'];   
+    $staffqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($getstafftName)."' and status = 0";
+    $staffdetails = $con->query($staffqry);
+    while($staffinfo = $staffdetails->fetch_assoc())
+    {
+        $staff_name = $staffinfo["staff_name"];        
+    }
+
     $rgp_date = date('d-m-Y',strtotime($row['rgp_date']));
     $extended_date = $row['extended_date']; 
     $return_date = date('d-m-Y',strtotime($row['return_date']));
@@ -178,6 +187,7 @@ foreach ($result as $row) {
     $sub_array[] = $asset_class_name;
     $sub_array[] = $branch_from .' - '. $company_name_from;
     $sub_array[] = $branch_to .' - '. $company_name_to ;
+    $sub_array[] = $staff_name;
     $sub_array[] = $rgp_date;
         
     $sub_array[] = $return_date;
