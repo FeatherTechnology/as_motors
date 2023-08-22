@@ -1552,10 +1552,10 @@
         }
 
 		// get r&r
-        public function getRNRDepartmentBased($mysqli, $company_id, $department_id) {
+        public function getRNRDepartmentBased($mysqli, $designation) {
 
 			$qry = "SELECT rr_ref_id, rr FROM rr_creation_ref LEFT JOIN rr_creation ON rr_creation_ref.rr_reff_id = rr_creation.rr_id 
-			WHERE rr_creation.company_name = '".$company_id."' AND rr_creation.status = 0 ";
+			WHERE rr_creation_ref.designation = '".$designation."' AND rr_creation.status = 0 ";
 
             // $qry = "SELECT * FROM rr_creation_ref WHERE 1 AND status=0 ORDER BY rr_ref_id ASC";
             $res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
@@ -3343,10 +3343,10 @@
 		}
 
 		// get kra category
-		public function kraCategoryDepartmentBased($mysqli, $company_id, $department_id) {
+		public function kraCategoryDepartmentBased($mysqli, $designation) {
 
 			$qry = "SELECT kra_creation_ref_id, kra_category FROM kra_creation_ref LEFT JOIN kra_creation ON kra_creation_ref.kra_id = kra_creation.kra_id 
-			WHERE kra_creation.company_id = '".$company_id."' AND kra_creation.status = 0 ";
+			WHERE kra_creation.designation_id = '".$designation."' AND kra_creation.status = 0 ";
 			$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 			$detailrecords = array();
 			$i=0;
