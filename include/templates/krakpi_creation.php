@@ -75,8 +75,8 @@ if($idupd>0)
     }
 
     $sCompanyBranchDetailEdit = $userObj->getsCompanyBranchDetail($mysqli, $company_name);
-    $kraCategory = $userObj->kraCategoryDepartmentBased($mysqli, $company_name, $department);
-    $rrList = $userObj->getRNRDepartmentBased($mysqli, $company_name, $department);
+    $kraCategory = $userObj->kraCategoryDepartmentBased($mysqli, $designation);
+    $rrList = $userObj->getRNRDepartmentBased($mysqli, $designation);
 
     $editDepartment = $userObj->getEditDepartment($mysqli, $company_name);
     $editDesignation = $userObj->getEditDesignationKRAKPI($mysqli, $department);
