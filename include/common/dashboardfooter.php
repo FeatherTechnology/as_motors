@@ -44,6 +44,8 @@
 <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
 <!-- CSV Format Export END -->
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="text/javascript" language="javascript">
 
 
@@ -3022,6 +3024,21 @@ if($current_page == 'work_status_report') { ?>
             return false;
         }
     });
+
+    window.alert = function(message) {// this will prevent normal window.alert messages to set it as swal
+        Swal.fire({
+            text: message,
+            target: 'body',
+            toast: true,
+            position: 'top-right',
+            // background: '#00E2CD',
+            timer: 5000,
+            showConfirmButton: true,
+            confirmButtonColor: '#1b6aaa',
+            timerProgressBar: true,
+        })
+        return false;
+    };
 
 </script>
 

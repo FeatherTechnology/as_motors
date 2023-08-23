@@ -5,8 +5,11 @@ if(isset($_SESSION["userid"])){
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
-    $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
-    $company = $sCompanyBranchDetail['company_id'];
+    $company = '';
+    if($sbranch_id != 'Overall'){
+        $sCompanyBranchDetail = $userObj->getsCompanyBranchDetail($mysqli, $sbranch_id);
+        $company = $sCompanyBranchDetail['company_id'];
+    }
 }
 
 $companyName = $userObj->getCompanyName($mysqli);
@@ -14,22 +17,23 @@ $designationList = $userObj->getDesignation($mysqli);
 $krakpicompanyList = $userObj->getkrakpicompany($mysqli, $sbranch_id,$company);
 $staffList = $userObj->getStaff($mysqli); 
 
-$id=0;
- if(isset($_POST['submitstaff_creation']) && $_POST['submitstaff_creation'] != '')
- {
-    if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
-        $id = $_POST['id']; 	
-    $updateStaffCreationmaster = $userObj->updateStaffCreation($mysqli,$id,$userid);  
-    ?>
-   <script>location.href='<?php echo $HOSTPATH; ?>edit_staff_creation&msc=2';</script> 
-    <?php }
-    else{   
-		$addStaffCreation = $userObj->addStaffCreation($mysqli,$userid);   
+// $id=0;
+//  if(isset($_POST['submitstaff_creation']) && $_POST['submitstaff_creation'] != '')
+//  {
+//     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
+//         $id = $_POST['id']; 	
+//     $updateStaffCreationmaster = $userObj->updateStaffCreation($mysqli,$id,$userid);  
+//     ?>
+   <!-- <script> location.href='<?php echo $HOSTPATH; ?>edit_staff_creation&msc=2';</script>  -->
+    <?php 
+    // }
+    // else{   
+	// 	$addStaffCreation = $userObj->addStaffCreation($mysqli,$userid);   
         ?>
-     <script>location.href='<?php echo $HOSTPATH; ?>edit_staff_creation&msc=1';</script>
+     <!-- <script> location.href='<?php echo $HOSTPATH; ?>edit_staff_creation&msc=1';</script> -->
     <?php
-    }
- }   
+//     }
+//  }   
 
 $del=0;
 if(isset($_GET['del']))
@@ -193,7 +197,8 @@ if($idupd>0)
 <div class="main-container">
 <!--------form start-->
 <form id = "staff_creation" name="staff_creation" action="" method="post" enctype="multipart/form-data"> 
-<input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+<input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" >
+<input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="idupd" name="idupd" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -270,13 +275,13 @@ if($idupd>0)
                                             <div class="form-group">
                                                 <label for="disabledInput">Designation</label>
                                                 <select tabindex="4" type="text" class="form-control" id="designation" name="designation" >
-                                                    <option value="">Select Designation</option>   
+                                                    <!-- <option value="">Select Designation</option>   
                                                     <?php if (sizeof($designationList)>0) { 
                                                     for($j=0;$j<count($designationList);$j++) { ?>
                                                     <option <?php if(isset($designation)) { if($designationList[$j]['designation_id'] == $designation) echo 'selected'; } ?>
                                                     value="<?php echo $designationList[$j]['designation_id']; ?>">
                                                     <?php echo $designationList[$j]['designation_name'];?></option>
-                                                    <?php }} ?>
+                                                    <?php }} ?> -->
                                                 </select>
                                             </div>
                                         </div>

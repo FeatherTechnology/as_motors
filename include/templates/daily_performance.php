@@ -223,8 +223,9 @@ table {
 
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3"></div>
 
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
-                                            <div class="form-group" style="float: right;">
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
+                                        <div class="form-group" style="float: right;">
+                                            <input type="button" name="page_excel" id="page_excel" class="btn btn-primary print-hide" value="Excel" tabindex="8">
                                             <input type="button" name="page_print" id="page_print" class="btn btn-danger print-hide" value="PRINT" tabindex="8">
                                             </div>
                                         </div>

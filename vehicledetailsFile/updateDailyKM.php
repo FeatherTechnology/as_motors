@@ -24,6 +24,10 @@ if(isset($_POST['end_km'])){
     $end_km = $_POST['end_km'];
     $endKMStr = implode(',', $end_km);
 }
+if(isset($_POST['employee_name'])){
+    $employee_name = $_POST['employee_name'];
+    $employee_nameStr = implode(',', $employee_name);
+}
 if(isset($_POST['dailyKMId'])){
     $dailyKMId = $_POST['dailyKMId'];
 }
@@ -32,6 +36,7 @@ $vehicleDetailIdArr = array_map('intval', explode(',', $vehicleDetailIdStr));
 $vehicleNoArr = array_map('intval', explode(',', $vehicleNoStr)); 
 $startKMArr = array_map('intval', explode(',', $startKMStr)); 
 $endKMArr = array_map('intval', explode(',', $endKMStr)); 
+$employee_nameStrArr = array_map('intval', explode(',', $employee_nameStr)); 
 
 // update
 $updateQry = 'UPDATE daily_km SET company_id = "'.strip_tags($company_id).'", date = "'.strip_tags($date).'" 
@@ -43,9 +48,10 @@ $deleteQryRef = $mysqli->query("DELETE FROM daily_km_ref WHERE daily_km_id = '".
 
 // insert
 for($i=0; $i<=sizeof($vehicleDetailIdArr)-1; $i++){
-    $dailyKMIdRef = "INSERT INTO daily_km_ref(vehicle_details_id, vehicle_number, start_km, end_km, daily_km_id)
+    $dailyKMIdRef = "INSERT INTO daily_km_ref(vehicle_details_id, vehicle_number, start_km, end_km, daily_km_id, employee_name)
     VALUES ('".strip_tags($vehicleDetailIdArr[$i])."', '".strip_tags($vehicleNoArr[$i])."', '".strip_tags($startKMArr[$i])."', '".strip_tags($endKMArr[$i])."', 
-    '".strip_tags($dailyKMId)."')"; 
+    '".strip_tags($dailyKMId)."', '".strip_tags($employee_nameStrArr[$i])."')"; 
+    echo $dailyKMIdRef;
     $dailyKMIdRefRun = $con->query($dailyKMIdRef);
 }
 

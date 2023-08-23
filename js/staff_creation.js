@@ -51,30 +51,47 @@ $(document).ready(function () {
     }
   });
 
-// auto run 
-  var company_id = $("#branch_id").val();
-  if(company_id.length==''){
-    $("#branch_id").val('');
-  }else{
-    
+$('#submitstaff_creation').click(function(e){
+  e.preventDefault();
+    var idupd = $('#idupd').val();
+    var designationEdit = $('#designationEdit').val();
+
     $.ajax({
-      url: 'StaffFile/ajaxStaffDepartmentDetails.php',
       type: 'post',
-      data: { "company_id":company_id },
+      data: { "idupd":idupd, "designationEdit":designationEdit },
+      url: 'StaffFile/getdesignationValidation.php',
       dataType: 'json',
       success:function(response){ 
+        if(response == '1'){
+          e.preventDefault();
+          alert('The same designation has already been inserted. Please note that only one staff member can be assigned to each designation.');
+        }else{
 
-        $('#department').empty();
-        $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-        var r = 0;
-        for (r = 0; r <= response.department_id.length - 1; r++) { 
-          $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
+          var FormData = $("form").serialize();
+          $.ajax({
+            type: 'post',
+            data:  FormData,
+            url: 'StaffFile/staffSubmit.php',
+            dataType: 'json',
+            success:function(response){ 
+
+              if(response =='0'){ //insert
+                window.location.href = 'edit_staff_creation&msc=1';
+              }else if(response =='1'){ //Update
+                window.location.href='edit_staff_creation&msc=2'; 
+              }
+
+            }
+          });
+
         }
+
       }
     });
-  }
 
 });
+
+}); //Document END
 
 // Get Department based on designation
 $("#department").change(function(){ 
@@ -84,22 +101,8 @@ $("#department").change(function(){
   if(department_id.length==''){ 
     $("#department").val('');
   }else{
-    $.ajax({
-      url: 'StaffFile/ajaxStaffDesignationDetails.php',
-      type: 'post',
-      data: { "company_id":company_id, "department_id":department_id },
-      dataType: 'json',
-      success:function(response){
-        
-        $('#designation').empty();
-        $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
-        var i = 0;
-        for (i = 0; i <= response.designation_id.length - 1; i++) { 
-          $('#designation').append("<option value='" + response['designation_id'][i] + "'>" + response['designation_name'][i] + "</option>");
-        }
-
-      }
-    });
+    getDesignationList();//designation List.
+    
   }
 });
 
@@ -185,3 +188,42 @@ $("#designation").change(function(){
           }
       });
   });
+
+  $(function(){
+    var idupd = $('#idupd').val();
+    // console.log(idupd)
+    if(idupd > '0' ){
+      setTimeout(function(){
+        getDesignationList();
+      }, 1000);
+
+    }
+  });
+
+  function getDesignationList(){
+    var company_id = $("#branch_id").val();
+    var department_id = $("#department").val();
+    var designationEdit = $("#designationEdit").val();
+    
+    $.ajax({
+      url: 'StaffFile/getStaffDesignationValidation.php',
+      type: 'post',
+      data: { "company_id":company_id, "department_id":department_id, "designationEdit":designationEdit },
+      dataType: 'json',
+      success:function(response){
+        
+        $('#designation').empty();
+        $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
+        var i = 0;
+        for (i = 0; i <= response.designation_id.length - 1; i++) { 
+          var selected = '';
+          if(designationEdit == response['designation_id'][i]){
+            selected='selected';
+          }
+          $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+">" + response['designation_name'][i] + "</option>");
+        }
+
+      }
+    });
+
+  }

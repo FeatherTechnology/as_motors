@@ -150,6 +150,7 @@ $("#submitDailyKMBtn").click(function(){
             start_km[i] = $(this).parents('tr').find('td #start_km').val();   
             end_km[i] = $(this).parents('tr').find('td #end_km').val();   
             dailyKMRefId[i] = $(this).parents('tr').find('td #dailyKMRefId').val();   
+            employee_name[i] = $(this).parents('tr').find('td #employee_name :selected').val();   
         });
         
         var updid = $("#id").val(); 
@@ -169,7 +170,7 @@ $("#submitDailyKMBtn").click(function(){
             $.ajax({
                 type: "POST",
                 url: 'vehicledetailsFile/insertDailyKM.php',
-                data: { "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km },
+                data: { "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km, "employee_name":employee_name },
                 success:function(response){
                     window.location.href = "edit_daily_km&msc=1";
                 }
