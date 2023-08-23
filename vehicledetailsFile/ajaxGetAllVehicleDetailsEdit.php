@@ -28,6 +28,7 @@ if(isset($_POST["daily_km_id"])){
             $vehicle_details_idArr = array();  
             $start_kmArr = array();  
             $end_kmArr = array();  
+            $employee_nameArr = array();  
             
             $getPMChecklistId = $con->query("SELECT * FROM daily_km_ref WHERE daily_km_id = '".strip_tags($daily_km_id)."' ");
             while($row1 = $getPMChecklistId->fetch_assoc()){
@@ -36,6 +37,7 @@ if(isset($_POST["daily_km_id"])){
                 $vehicle_details_idArr[] 	= $row1["vehicle_details_id"];
                 $start_kmArr[] 	= $row1["start_km"];
                 $end_kmArr[] 	= $row1["end_km"];
+                $employee_nameArr[] 	= $row1["employee_name"];
             }
         
             for($i=0; $i<=sizeof($vehicle_details_idArr)-1; $i++){  
@@ -54,6 +56,7 @@ if(isset($_POST["daily_km_id"])){
                     <th>Vehicle Number</th>
                     <th>Start KM</th>
                     <th>End KM</th>
+                    <th>Employee Name</th>
                 </tr>
                 <?php
                 $sno = 1;   
@@ -61,6 +64,8 @@ if(isset($_POST["daily_km_id"])){
                     for($o=0; $o<=sizeof($vehicle_details_id)-1; $o++){ ?>
                         <tbody>
                             <tr>
+                                <input type="hidden" name="empArr" id="empArr" value="<?php echo $employee_nameArr[$o]; ?>" />
+                                <input type="hidden" name="branch_id" id="branch_id" value="<?php if(isset($branch_id))echo $branch_id; ?>" />
                                 <input type="hidden" name="dailyKMId" id="dailyKMId" value="<?php echo $daily_km_idArr[$o]; ?>" />
                                 <td style="display: none;"><input type="text" readonly class="form-control" name="dailyKMRefId[]" id="dailyKMRefId" value="<?php echo $daily_km_ref_idArr[$o]; ?>" ></td>
                                 <td><?php echo $sno; ?></td>
@@ -68,6 +73,9 @@ if(isset($_POST["daily_km_id"])){
                                 <td><input type="text" readonly class="form-control" value="<?php echo $vehicle_number[$o]; ?>" name="vehicle_number[]" id="vehicle_number" ></td>
                                 <td><input readonly type="number" readonly class="form-control validate_start_km" name="start_km[]" id="start_km" value="<?php echo $start_kmArr[$o]; ?>" data-id="<?php echo $start_kmArr[$o]; ?>" placeholder="Enter Start KM" ></td>
                                 <td><input readonly type="number" readonly class="form-control validate_end_km" name="end_km[]" id="end_km" value="<?php echo $end_kmArr[$o]; ?>" placeholder="Enter End KM" ></td>
+                                <td>
+                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
+                                </td>
                             </tr>
                         </tbody>
                     <?php $sno = $sno + 1; }
@@ -93,5 +101,29 @@ if(isset($_POST["daily_km_id"])){
             var branch_id = $("#branchIdEdit").val();
             editVehicleKM(branch_id)
         }
+    });
+
+    $(function(){
+        var branchId = $('#branch_id').val();
+        var empArr = $('#empArr').val();
+        $.ajax({
+            url: 'vehicledetailsFile/getBranchStaffList.php',
+            type: 'post',
+            data: {"branch_id": branchId},
+            dataType: 'json',
+            success:function(response){
+            
+            $('.employee_name').empty();
+            $('.employee_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
+            var i = 0;
+            for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                var selected = '';
+                if(response['staff_id'][i] == empArr[i]){
+                    selected = 'selected';
+                }
+                $('.employee_name').append("<option value='" + response['staff_id'][i] + "'"+selected+">" + response['staff_name'][i] + "</option>");
+            }
+            }
+        });
     });
 </script>

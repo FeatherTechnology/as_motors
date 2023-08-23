@@ -157,20 +157,24 @@ if($idupd>0)
             var reason = $("#reasonEdit").val(); 
             if(reason == "Permission"){
                 $(".permissionCls").css("display", "block");
+                $(".staffreason").css("display", "block");
                 $(".on_dutyCls").css("display", "none");
                 $(".leaveCls").css("display", "none");
             }else if(reason == "On Duty"){
                 $(".permissionCls").css("display", "none");
                 $(".on_dutyCls").css("display", "block");
                 $(".leaveCls").css("display", "none");
+                $(".staffreason").css("display", "none");
             }else if(reason == "Leave"){
                 $(".permissionCls").css("display", "none");
                 $(".on_dutyCls").css("display", "none");
                 $(".leaveCls").css("display", "block");
+                $(".staffreason").css("display", "block");
             }else if(reason == ""){
                 $(".permissionCls").css("display", "none");
                 $(".on_dutyCls").css("display", "none");
                 $(".leaveCls").css("display", "none");
+                $(".staffreason").css("display", "none");
             }
         }
 
@@ -384,7 +388,7 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 staffreason" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Reason</label> 
                                             <textarea tabindex="1" id="leave_reason" name="leave_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="50" value="<?php if(isset($leave_reason)) echo $leave_reason; ?>" readonly><?php if(isset($leave_reason)) echo $leave_reason; ?></textarea>

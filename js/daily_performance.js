@@ -382,7 +382,68 @@ function printContent() {
     printWindow.close();
 }
 
+function exportFormAndTable() {
+    var formData = {
+        CompanyName: $('#company_name :selected').text(),
+        BranchName: $('#branch_name :selected').text(),
+        DepartmentName: $('#dept :selected').text(),
+        DesignationName: $('#designation :selected').text(),
+        Staffname: $('#staff_id :selected').text(),
+        Month: $('#month').val(),
+        // Add more form fields as needed
+    };
+
+    var tableData = [];
+    var $table = $('#moduleTable'); // Replace with your table ID using jQuery selector
+    var $rows = $table.find('tr');
+    $rows.each(function () {
+        var $row = $(this);
+        var rowData = [];
+        var $cols = $row.find("td");
+        $cols.each(function () {
+            var $input = $(this).find("input");
+            var $select = $(this).find("select");
+            
+            if ($input.length > 0) {
+                rowData.push($input.val().trim());
+            } else if ($select.length > 0) {
+                var selectedOption = $select.find(':selected').text();
+                rowData.push(selectedOption);
+            } else {
+                rowData.push($(this).text().trim());
+            }
+        });
+        tableData.push(rowData.join(","));
+    });
+
+    var csvContent = "Daily Performance Report\n";
+    // csvContent += "Form Data\n";
+    $.each(formData, function (field, value) {
+        csvContent += field + "," + value + "\n";
+    });
+    csvContent += "\nAssertion,Target,Actual Achieve,System Date,Work Status\n";
+    csvContent += tableData.join("\n");
+
+    var csvBlob = new Blob([csvContent], { type: "text/csv" });
+    var csvUrl = URL.createObjectURL(csvBlob);
+
+    var $downloadLink = $('<a>')
+        .attr('href', csvUrl)
+        .attr('download', 'form_and_table_data.csv')
+        .css('display', 'none');
+    
+    $('body').append($downloadLink);
+    $downloadLink[0].click();
+    $downloadLink.remove();
+}
+
+
+
 // Attach click event to the print button
 document.getElementById('page_print').addEventListener('click', function () {
     printContent();
+});
+// Attach click event to the print button
+document.getElementById('page_excel').addEventListener('click', function () {
+    exportFormAndTable();
 });

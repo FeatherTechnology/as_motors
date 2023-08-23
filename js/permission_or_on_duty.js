@@ -57,20 +57,24 @@ $(document).ready(function () {
 
         if(reason == "Permission"){
             $(".permissionCls").css("display", "block");
+            $(".staffreason").css("display", "block");
             $(".on_dutyCls").css("display", "none");
             $(".leaveCls").css("display", "none");
         }else if(reason == "On Duty"){
             $(".permissionCls").css("display", "none");
             $(".on_dutyCls").css("display", "block");
             $(".leaveCls").css("display", "none");
+            $(".staffreason").css("display", "none");
         }else if(reason == "Leave"){
             $(".permissionCls").css("display", "none");
             $(".on_dutyCls").css("display", "none");
             $(".leaveCls").css("display", "block");
+            $(".staffreason").css("display", "block");
         }else if(reason == ""){
             $(".permissionCls").css("display", "none");
             $(".on_dutyCls").css("display", "none");
             $(".leaveCls").css("display", "none");
+            $(".staffreason").css("display", "none");
         }
     });
 

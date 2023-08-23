@@ -64,6 +64,7 @@ function getPreviousKM($con, $vehicle_number){
                     <th>Vehicle Number</th>
                     <th>Start KM</th>
                     <th>End KM</th>
+                    <th>Employee Name</th>
                 </tr>
                 <?php
                 $sno = 1;   
@@ -78,7 +79,9 @@ function getPreviousKM($con, $vehicle_number){
                         ?>
                         <tbody>
                             <tr>
-                                <td><?php echo $sno; ?></td>
+                                <td><?php echo $sno; ?>
+                                <input type="hidden" name="branch_id" id="branch_id" value="<?php if(isset($branch_id))echo $branch_id; ?>" />
+                            </td>
 
                                 <td><input tabindex="4" type="checkbox" name="vehicle_details_id[]" id="vehicle_details_id" class="vehicle_details_id" value="<?php echo $vehicle_details_id[$o]; ?>" /></td>
 
@@ -96,6 +99,9 @@ function getPreviousKM($con, $vehicle_number){
                                 <?php } ?>
 
                                 <td><input tabindex="6" readonly type="number" class="form-control validate_end_km" name="end_km[]" id="end_km" placeholder="Enter End KM" ></td>
+                                <td>
+                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
+                                </td>
 
                             </tr>
                         </tbody>
@@ -125,5 +131,24 @@ function getPreviousKM($con, $vehicle_number){
             }
             $(this).parents('tr').find('td #end_km').attr("readonly",true);
         }
+    });
+
+    $(function(){
+        var branchId = $('#branch_id').val();
+        $.ajax({
+            url: 'vehicledetailsFile/getBranchStaffList.php',
+            type: 'post',
+            data: {"branch_id": branchId},
+            dataType: 'json',
+            success:function(response){
+            
+            $('.employee_name').empty();
+            $('.employee_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
+            var i = 0;
+            for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                $('.employee_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
+            }
+            }
+        });
     });
 </script>
