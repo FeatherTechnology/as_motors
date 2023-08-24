@@ -1,3 +1,8 @@
+// choices js for multi select dropdown:
+const branch = new Choices('#branch_name', {
+	removeItemButton: true,
+});
+
 $(document).ready(function () {
 
     // auto generate vehicle code
@@ -95,10 +100,11 @@ $("#viewBtn").click(function(){
     
     var project_id = $('#project_id').val();
     var actual_start_date = $('#actual_start_date').val();
+    var branch_name = $('#branch_name').val();
     $.ajax({
         url:"campaignlFile/ajaxGetPromotionalActivityDetails.php",
         method:"post",
-        data: {'project_id': project_id, 'actual_start_date': actual_start_date},
+        data: {'project_id': project_id, 'actual_start_date': actual_start_date, 'branch_name': branch_name},
         success:function(html){
             $("#projectDetailsAppend").empty();
             $("#projectDetailsAppend").html(html);
@@ -134,3 +140,45 @@ actualStartDateInput.addEventListener('change', function() {
         endDateInputs[i].value = endDate.toISOString().slice(0, 10);
     }
 });
+
+$(function(){
+
+    getbranchName();
+})
+
+function getbranchName(){
+
+    var branch_id_edit = $('#branch_id_edit').val().split(',');
+    $.ajax({
+        type: 'POST',
+        url:'ajaxFetch/ajaxGetAllBranchList.php' ,
+        dataType: 'json',
+        success: function(response){
+            branch.clearStore();
+            for (var r = 0; r < response.length; r++) {     
+                var branch_id = response[r]['branch_id'];  
+                var branch_name = response[r]['branch_name']; 
+                var selected = '';
+                if(branch_id_edit != ''){
+                
+                    for(var i=0; i < branch_id_edit.length; i++){
+                        if(branch_id_edit[i] == branch_id){ 
+                            selected = 'selected'; 
+                        }
+                    }
+                }
+
+                var items = [
+                    {
+                        value: branch_id,
+                        label: branch_name,
+                        selected: selected,
+                    }
+                ];
+
+                branch.setChoices(items);
+                branch.init();
+            }
+        }
+    })
+}
