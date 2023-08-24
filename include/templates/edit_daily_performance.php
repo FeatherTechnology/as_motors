@@ -20,11 +20,12 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Daily Performance List</li>
 	</ol>
-	<?php if($logrole == '1' || $logrole == '3'){ ?>
+	<?php #if($logrole == '1' || $logrole == '3'){ ?>
 		<a href="daily_performance">
 		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Daily Performance Creation</button>
 	</a>
-	<?php }
+	<?php 
+	// }
 
 	if($logrole == '1'){ 
 		echo '<style>.View_goal_setting { display: none; }</style>'; 

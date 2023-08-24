@@ -27,7 +27,15 @@ while($row = $getTransferDetails->fetch_assoc()){
     $res12 = $con->query($getqry);
     while($row12 = $res12->fetch_assoc())
     {
-       $vehicle_number = $row12["vehicle_number"];
+        $vehicle_number = $row12["vehicle_number"];
+    }
+
+    $staff_name='';
+    $staffqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($row["staff_id"])."' and status = 0";
+    $staffDetails = $con->query($staffqry);
+    while($staffinfo = $staffDetails->fetch_assoc())
+    {
+        $staff_name = $staffinfo["staff_name"];
     }
 
 	$previous_km = $row["previous_km"];
@@ -78,6 +86,7 @@ while($row = $getTransferDetails->fetch_assoc()){
                 <th style="background-color: white;color: black">Present KM Date</th>
                 <th style="background-color: white;color: black">Total KM</th>
                 <th style="background-color: white;color: black">Diesel Litre</th>
+                <th style="background-color: white;color: black">Staff Name</th>
             </tr>
             <tr>
                 <td style="text-align: center">
@@ -103,6 +112,9 @@ while($row = $getTransferDetails->fetch_assoc()){
                 </td>
                 <td style="text-align: center">
                     <?php echo $diesel_amount; ?>
+                </td>
+                <td style="text-align: center">
+                    <?php echo $staff_name; ?>
                 </td>
             </tr>
         </table>

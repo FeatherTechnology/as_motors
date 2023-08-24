@@ -7334,10 +7334,13 @@
 			if(isset($_POST['diesel_amount'])){
 				$diesel_amount = $_POST['diesel_amount'];
 			}
+			if(isset($_POST['staff_name'])){
+				$staff_name = $_POST['staff_name'];
+			}
 
-			$insertQry="INSERT INTO diesel_slip(company_id, vehicle_number, previous_km, previous_km_date, present_km, present_km_date, total_km_run, diesel_amount, 
+			$insertQry="INSERT INTO diesel_slip(company_id, vehicle_number, previous_km, previous_km_date, present_km, present_km_date, total_km_run, diesel_amount, staff_id,
 			insert_login_id) VALUES('".strip_tags($company_id)."', '".strip_tags($vehicle_number)."', '".strip_tags($previous_km)."', '".strip_tags($previous_km_date)."',  
-			 '".strip_tags($present_km)."', '".strip_tags($present_km_date)."', '".strip_tags($total_km_run)."', '".strip_tags($diesel_amount)."', '".strip_tags($userid)."')";
+			 '".strip_tags($present_km)."', '".strip_tags($present_km_date)."', '".strip_tags($total_km_run)."', '".strip_tags($diesel_amount)."', '".strip_tags($staff_name)."', '".strip_tags($userid)."')";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 		}
 
@@ -7359,6 +7362,7 @@
 			    $detailrecords['present_km_date']  = $row->present_km_date;
 			    $detailrecords['total_km_run']  = $row->total_km_run;
 			    $detailrecords['diesel_amount']  = $row->diesel_amount;
+			    $detailrecords['staff_id']  = $row->staff_id;
 			}
 			
 			return $detailrecords;
@@ -7391,11 +7395,13 @@
 			if(isset($_POST['diesel_amount'])){
 				$diesel_amount = $_POST['diesel_amount'];
 			}
+			if(isset($_POST['staff_name'])){
+				$staff_name = $_POST['staff_name'];
+			}
 
 			$updateQry = 'UPDATE diesel_slip SET company_id = "'.strip_tags($company_id).'", vehicle_number = "'.strip_tags($vehicle_number).'", 
 			previous_km = "'.strip_tags($previous_km).'", previous_km_date = "'.strip_tags($previous_km_date).'", present_km = "'.strip_tags($present_km).'", 
-			present_km_date = "'.strip_tags($present_km_date).'", total_km_run = "'.strip_tags($total_km_run).'", diesel_amount = "'.strip_tags($diesel_amount).'", 
-			status = "0" WHERE diesel_slip_id = "'.mysqli_real_escape_string($mysqli, $id).'" '; 
+			present_km_date = "'.strip_tags($present_km_date).'", total_km_run = "'.strip_tags($total_km_run).'", diesel_amount = "'.strip_tags($diesel_amount).'", staff_id = "'.strip_tags($staff_name).'", status = "0" WHERE diesel_slip_id = "'.mysqli_real_escape_string($mysqli, $id).'" '; 
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 		}
 

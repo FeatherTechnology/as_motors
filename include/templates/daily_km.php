@@ -9,21 +9,24 @@ if(isset($_SESSION["branch_id"])){
 } 
 $companyName = $userObj->getCompanyName($mysqli);
 
-$id=0;
-if(isset($_POST['submitDailyKMBtn']) && $_POST['submitDailyKMBtn'] != '')
-{
-    if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){     
-        $id = $_POST['id'];     
+
+
+
+// $id=0;
+// if(isset($_POST['submitDailyKMBtn']) && $_POST['submitDailyKMBtn'] != '')
+// {
+//     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){     
+//         $id = $_POST['id'];     
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_km&msc=2';</script> 
+        <!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_km&msc=2';</script>  -->
         <?php   
-    }
-    else{   
+    // }
+    // else{   
         ?>
-        <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_km&msc=1';</script>
+        <!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_km&msc=1';</script> -->
         <?php
-    }
-}  
+//     }
+// }  
  
 
 $del=0;

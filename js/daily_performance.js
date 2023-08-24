@@ -129,6 +129,7 @@ $(function(){
 
     }else{
         $('#page_print').hide(); //hide print btn when add daily performance.
+        $('#page_excel').hide(); //hide print btn when add daily performance.
 
         var role = $('#user_role').val();
         if(role != '1'){ //if staff or manager login then the details will come automatically.

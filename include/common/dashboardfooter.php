@@ -2655,17 +2655,22 @@ if($current_page == 'work_status_report') { ?>
 <script type="text/javascript">
 	// Company delete
     $(document).on("click", '.delete_company_creation', function(){
-        var dlt = confirm("Do you want to delete this Company ?");
+        var dlt = prompt("Please enter remark before delete this Company ?");
         if(dlt){
-                return true;
-            }else{
+            var id  = $(this).data('value'); //row id.
+            inActiveRemark('company_id',id,'company_creation',dlt,'edit_company_creation'); //call function to add in active remark.
+            return true;
+        }else{
+                console.log('aaaaaaa'+dlt);
                 return false;
             }
     });
   //Branch delete
 	$(document).on("click", '.delete_branch_creation', function(){
-        var dlt = confirm("Do you want to delete this Branch ?");
+        var dlt = prompt("Please enter remark before delete this Branch ?");
         if(dlt){
+            var id  = $(this).data('value'); //row id.
+            inActiveRemark('branch_id',id,'branch_creation',dlt,'edit_branch_creation'); //('column name,row id, table name, remark, return page ')//call function to add in active remark.
                 return true;
             }else{
                 return false;
@@ -3040,6 +3045,22 @@ if($current_page == 'work_status_report') { ?>
         return false;
     };
 
+    function inActiveRemark(idColumn,id,table,remark,returnPage){
+        $.ajax({
+            type: 'POST',
+            data:{'idColumn': idColumn, 'rowId': id, 'tableName': table, 'remark': remark},
+            url:'ajaxFetch/addInActiveRemark.php',
+            cache: false,
+            dataType: 'json',
+            success: function(response){
+                if(response == 1){
+                    window.location.href= returnPage+'&msc=3';
+                }else{
+                    window.location.href= returnPage+'&msc=4';
+                }
+            }
+        })
+    }
 </script>
 
 

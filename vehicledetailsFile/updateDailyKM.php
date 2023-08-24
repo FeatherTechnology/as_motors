@@ -28,34 +28,33 @@ if(isset($_POST['employee_name'])){
     $employee_name = $_POST['employee_name'];
     $employee_nameStr = implode(',', $employee_name);
 }
+if(isset($_POST['dailyKMRefId'])){
+    $dailyKMRefId = $_POST['dailyKMRefId'];
+    $dailyKMRefIdStr = implode(',', $dailyKMRefId);
+}
 if(isset($_POST['dailyKMId'])){
     $dailyKMId = $_POST['dailyKMId'];
 }
 
 $vehicleDetailIdArr = array_map('intval', explode(',', $vehicleDetailIdStr)); 
-$vehicleNoArr = array_map('intval', explode(',', $vehicleNoStr)); 
+$vehicleNoArr = array_map('strval', explode(',', $vehicleNoStr)); 
 $startKMArr = array_map('intval', explode(',', $startKMStr)); 
 $endKMArr = array_map('intval', explode(',', $endKMStr)); 
 $employee_nameStrArr = array_map('intval', explode(',', $employee_nameStr)); 
+$dailyKMRefIdStrArr = array_map('intval', explode(',', $dailyKMRefIdStr)); 
 
 // update
 $updateQry = 'UPDATE daily_km SET company_id = "'.strip_tags($company_id).'", date = "'.strip_tags($date).'" 
 WHERE daily_km_id = "'.mysqli_real_escape_string($mysqli, $dailyKMId).'" ';
 $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
-// delete
-$deleteQryRef = $mysqli->query("DELETE FROM daily_km_ref WHERE daily_km_id = '".$dailyKMId."' "); 
-
-// insert
+//update
 for($i=0; $i<=sizeof($vehicleDetailIdArr)-1; $i++){
-    $dailyKMIdRef = "INSERT INTO daily_km_ref(vehicle_details_id, vehicle_number, start_km, end_km, daily_km_id, employee_name)
-    VALUES ('".strip_tags($vehicleDetailIdArr[$i])."', '".strip_tags($vehicleNoArr[$i])."', '".strip_tags($startKMArr[$i])."', '".strip_tags($endKMArr[$i])."', 
-    '".strip_tags($dailyKMId)."', '".strip_tags($employee_nameStrArr[$i])."')"; 
-    echo $dailyKMIdRef;
-    $dailyKMIdRefRun = $con->query($dailyKMIdRef);
+
+    $dailyKMIdRefRun = $con->query("UPDATE `daily_km_ref` SET `vehicle_details_id`='$vehicleDetailIdArr[$i]',`vehicle_number`='$vehicleNoArr[$i]',`start_km`='$startKMArr[$i]',`end_km`='$endKMArr[$i]',`daily_km_id`='$dailyKMId',`employee_name`='$employee_nameStrArr[$i]' WHERE `daily_km_ref_id`='$dailyKMRefIdStrArr[$i]' "); 
 }
 
-if($updateQry && $dailyKMIdRef){
+if($res && $dailyKMIdRefRun){
 	$message = 1;
 }else{
 	$message = 0;

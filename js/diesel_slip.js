@@ -40,6 +40,8 @@ $(document).ready(function () {
             $("#branch_id").val('');
         }else{
             getVehicleNo(company_id);
+
+            getBranchStaffList(company_id);
         }
     });
 
@@ -138,10 +140,43 @@ function print_diesel_slip(id){
 
 $(function(){ 
 
-    var company_id = $("#branch_id").val();
-    if(company_id.length==''){
-        $("#branch_id").val('');
-    }else{
-        getVehicleNo(company_id);
-    }
+    setTimeout(function(){
+
+        var company_id = $("#branch_id").val();
+                
+        var branchcheck = $('#session_branch_id').val();
+        if(branchcheck != 'Overall'){
+            getBranchStaffList(company_id);
+            getVehicleNo(company_id);
+        }
+        
+        var idupd = $('#idupd').val();
+        if(idupd > 0){
+            getBranchStaffList(company_id);
+        }
+    }, 1000)
+
 });
+
+function getBranchStaffList(branchId){
+    var staff_id = $('#staff_id').val();
+        $.ajax({
+            url: 'vehicledetailsFile/getBranchStaffList.php',
+            type: 'post',
+            data: {"branch_id": branchId},
+            dataType: 'json',
+            success:function(response){
+            
+            $('#staff_name').empty();
+            $('#staff_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
+            var i = 0;
+            for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                var selected = '';
+                if(response['staff_id'][i] == staff_id){
+                    selected = 'selected';
+                }
+                $('#staff_name').append("<option value='" + response['staff_id'][i] + "'"+selected+">" + response['staff_name'][i] + "</option>");
+            }
+            }
+        });
+}

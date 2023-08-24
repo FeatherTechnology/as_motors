@@ -21,18 +21,18 @@ $id=0;
     }
  }   
 
-$del=0;
-if(isset($_GET['del']))
-{
-$del=$_GET['del'];
-}
-if($del>0)
-{
-	$deleteBranchCreation = $userObj->deleteBranchCreation($mysqli,$del,$userid); 
+// $del=0;
+// if(isset($_GET['del']))
+// {
+// $del=$_GET['del'];
+// }
+// if($del>0)
+// {
+// 	$deleteBranchCreation = $userObj->deleteBranchCreation($mysqli,$del,$userid); 
 	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>edit_branch_creation&msc=3';</script>
+	<!-- <script>location.href='<?php echo $HOSTPATH; ?>edit_branch_creation&msc=3';</script> -->
 <?php	
-}
+// }
 
 if(isset($_GET['upd']))
 {

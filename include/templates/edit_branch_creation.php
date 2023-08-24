@@ -43,6 +43,13 @@
 					</div>
 					<?php
 					}
+					if($mscid==4)
+					{?>
+					<div class="alert alert-danger" role="alert">
+						<div class="alert-text">Branch Inactive UnSuccessful!</div>
+					</div>
+					<?php
+					}
 					}
 					?>
 					<table id="branchCreation_info" class="table custom-table">
