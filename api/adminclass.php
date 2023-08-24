@@ -1116,6 +1116,48 @@
 			return $detailrecords;
 		}
 
+		// get Department Based on Multiple Branch id
+		// public function getBranchBasedDepartment($mysqli, $sbranch_id) {
+
+		// 	$qry = "SELECT * FROM department_creation WHERE company_id in('$sbranch_id') AND status=0 ORDER BY department_id ASC"; 
+		// 	$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
+		// 	$detailrecords = array();
+		// 	$i=0;
+		// 	if ($mysqli->affected_rows>0)
+		// 	{
+		// 		while($row = $res->fetch_object())
+		// 		{
+		// 			$detailrecords[$i]['department_id']            = $row->department_id; 
+		// 			$detailrecords[$i]['department_name']       	= strip_tags($row->department_name);
+		// 			$detailrecords[$i]['company_id']       	= strip_tags($row->company_id);
+		// 			$i++;
+		// 		}
+		// 	}
+		// 	return $detailrecords;
+		// }
+
+		public function getBranchBasedDepartment($mysqli, $sbranch_ids) {
+			$detailrecords = array();
+			
+			foreach ($sbranch_ids as $sbranch_id) {
+				$qry = "SELECT * FROM department_creation WHERE company_id = '$sbranch_id' AND status = 0 ORDER BY department_id ASC"; 
+				$res = $mysqli->query($qry) or die("Error in Get All Records" . $mysqli->error);
+				
+				if ($res->num_rows > 0) {
+					while ($row = $res->fetch_object()) {
+						$detailrecord = array();
+						$detailrecord['department_id'] = $row->department_id; 
+						$detailrecord['department_name'] = strip_tags($row->department_name);
+						$detailrecord['company_id'] = strip_tags($row->company_id);
+						
+						$detailrecords[$sbranch_id][] = $detailrecord;
+					}
+				}
+			}
+			
+			return $detailrecords;
+		}
+
 		// get Staff
 		public function getStaff($mysqli) {
             $qry = "SELECT * FROM staff_creation WHERE 1 AND status=0 ORDER BY company_id DESC";
@@ -7675,6 +7717,7 @@
                 $promotional_activities_id                       = $row->promotional_activities_id;
                 $detailrecords['promotional_activities_id']      = $row->promotional_activities_id;
                 $detailrecords['actual_start_date']              = $row->actual_start_date;
+                $detailrecords['branch_id']              		= $row->branch_id;
             }
 
 			$selectDetails = "SELECT * FROM promotional_activities_ref WHERE promotional_activities_id = '".strip_tags($promotional_activities_id)."' ";

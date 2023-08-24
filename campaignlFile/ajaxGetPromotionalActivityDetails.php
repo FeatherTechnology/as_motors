@@ -1,6 +1,7 @@
 <?php
 @session_start();
 include '../ajaxconfig.php';
+include("../api/main.php");
 
 if(isset($_POST["project_id"])){
 	$project_id = $_POST["project_id"];
@@ -8,6 +9,11 @@ if(isset($_POST["project_id"])){
 if(isset($_POST["actual_start_date"])){
 	$actual_start_date = $_POST["actual_start_date"];
 }
+if(isset($_POST["branch_name"])){
+	$branch_name = $_POST["branch_name"];
+}
+
+$getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_name); //get department List with Active Status based on branch. 
 ?>
 
 <br><br><br>
@@ -40,6 +46,7 @@ if(isset($_POST["actual_start_date"])){
                     <th>Duration</th>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Department</th>
                     <th>Employee Name</th>
                 </tr>
                 <?php
@@ -61,6 +68,17 @@ if(isset($_POST["actual_start_date"])){
                                 <td><input type="text" readonly class="form-control duration" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
                                 <td><input type="date" class="form-control start_date" name="start_date[]" id="start_date" value="<?php echo $start_date; ?>" ></td>
                                 <td><input type="date" class="form-control end_date" name="end_date[]" id="end_date" value="<?php echo $end_date; ?>" ></td>
+                                <td>
+                                    <select class="form-control" id="department" name="department[]" >
+                                        <option value="">Select Department Name</option>   
+                                        <?php if (sizeof($getBranchDept)>0) { 
+                                            for($j=0;$j<count($getBranchDept);$j++) { ?>
+                                            <option <?php if(isset($employee_nameArr)) { if($getBranchDept[$j]['department_id'] == $employee_nameArr[$o]) echo 'selected'; } ?>
+                                            value="<?php echo $getBranchDept[$j]['department_id']; ?>">
+                                            <?php echo $getBranchDept[$j]['department_name'] .' - '. $getBranchDept[$j]['department_name'];?></option>
+                                        <?php }} ?>
+                                    </select>
+                                </td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
                                 </td>

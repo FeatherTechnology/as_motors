@@ -56,6 +56,7 @@ if($idupd>0)
             $promotional_activities_id      = $getCampaign['promotional_activities_id'];
             $promotional_activities_ref_id      = $getCampaign['promotional_activities_ref_id'];
 			$actual_start_date        	    = $getCampaign['actual_start_date'];
+			$branch_id        	    = $getCampaign['branch_id'];
 			$activity_involved        	    = $getCampaign['activity_involved'];
 			$time_frame_start        	    = $getCampaign['time_frame_start'];
 			$duration        	    = $getCampaign['duration'];
@@ -110,6 +111,7 @@ if($idupd>0)
     <input type="hidden" class="form-control" value="<?php if(isset($campaign_id)) echo $campaign_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
     <input type="hidden" id="old_project_id" name="old_project_id" value="<?php print_r($promotional_activities_id); ?>" >
     <input type="hidden" id="old_promotional_activity_ref_id" name="old_promotional_activity_ref_id" value="<?php print_r($promotional_activities_ref_id); ?>" >
+    <input type="hidden" id="branch_id_edit" name="branch_id_edit" value="<?php if(isset($branch_id)) echo $branch_id; ?>" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -161,6 +163,13 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Actual Start Date</label>
                                             <input type="date" name="actual_start_date" id="actual_start_date" class="form-control" value="<?php if(isset($actual_start_date)) echo $actual_start_date; ?>" >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group" id='designation_div'>
+                                            <label class="label">Branch Name</label>
+                                            <select type="text" class="form-control" id="branch_name" name="branch_name[]" multiple ></select>
                                         </div>
                                     </div>
 

@@ -79,7 +79,7 @@ $staffNameList = $userObj->getemployeecode($mysqli); //All Staff List with Activ
                                 <td><input readonly type="number" readonly class="form-control validate_end_km" name="end_km[]" id="end_km" value="<?php echo $end_kmArr[$o]; ?>" placeholder="Enter End KM" ></td>
                                 <td>
                                     <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
-                                        <option value="">Select Staff Nameee</option>   
+                                        <option value="">Select Staff Name</option>   
                                         <?php if (sizeof($staffNameList)>0) { 
                                             for($j=0;$j<count($staffNameList);$j++) { ?>
                                             <option <?php if(isset($employee_nameArr)) { if($staffNameList[$j]['staff_id'] == $employee_nameArr[$o]) echo 'selected'; } ?>
