@@ -97,7 +97,7 @@ foreach ($result as $row) {
 	$id   = $row['branch_id'];
 	
 	$action="<a href='branch_creation&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
-	<a href='branch_creation&del=$id' title='Delete details' class='delete_branch_creation'><span class='icon-trash-2'></span></a>";
+	<a title='Delete details' class='delete_branch_creation' data-value='$id'><span class='icon-trash-2'></span></a>";
 
 	$sub_array[] = $action;
     $data[]      = $sub_array;

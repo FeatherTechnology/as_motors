@@ -42,6 +42,20 @@
                         </div>
                         <?php
                         }
+                        if($mscid==4)
+                        {?>
+                        <div class="alert alert-danger" role="alert">
+                            <div class="alert-text">Daily KM Update UnSuccessful!</div>
+                        </div>
+                        <?php
+                        }
+                        if($mscid==5)
+                        {?>
+                        <div class="alert alert-danger" role="alert">
+                            <div class="alert-text">Daily KM Added UnSuccessful!</div>
+                        </div>
+                        <?php
+                        }
 					}
 					?>
 					<table id="dailyKM_info" class="table custom-table">

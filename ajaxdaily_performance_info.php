@@ -5,6 +5,9 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
+}
 if(isset($_SESSION["staffid"])){
     $staffid = $_SESSION["staffid"];
 
@@ -37,7 +40,12 @@ staff_creation s ON s.staff_id = dp.emp_id
 WHERE ";
 
 if ($staffid != 'Overall'){
-    $query .= "dp.department_id = '$user_dept_id' ";
+    if($role == '3'){
+        $query .= "dp.department_id = '$user_dept_id' ";
+        
+    }else if($role == '4'){
+        $query .= "dp.emp_id = '$staffid' ";
+    }
 }else{
     $query.= "1";
 }

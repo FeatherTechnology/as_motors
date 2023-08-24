@@ -132,6 +132,7 @@ $("#displayAllVehicleBtn").click(function(){
 
 // insert and update
 $("#submitDailyKMBtn").click(function(){
+    event.preventDefault();
 
     var totalCheckboxCount = $(':checkbox:checked').length;
     if(totalCheckboxCount > 0 ){
@@ -144,6 +145,7 @@ $("#submitDailyKMBtn").click(function(){
         var start_km = [];
         var end_km = [];
         var dailyKMRefId = [];
+        var employee_name = [];
         $(':checkbox:checked').each(function(i){
             vehicle_details_id[i] = $(this).val(); 
             vehicle_number[i] = $(this).parents('tr').find('td #vehicle_number').val();   
@@ -160,9 +162,13 @@ $("#submitDailyKMBtn").click(function(){
             $.ajax({
                 type: "POST",
                 url: 'vehicledetailsFile/updateDailyKM.php',
-                data: { "dailyKMId":dailyKMId, "dailyKMRefId":dailyKMRefId, "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km },
+                data: { "dailyKMId":dailyKMId, "dailyKMRefId":dailyKMRefId, "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km, "employee_name":employee_name },
                 success:function(response){
-                    window.location.href = "edit_daily_km&msc=2";
+                    if(response == 1){
+                        window.location.href = "edit_daily_km&msc=2";
+                    }else{
+                        window.location.href = "edit_daily_km&msc=4";
+                    }
                 }
             });
     
@@ -172,11 +178,15 @@ $("#submitDailyKMBtn").click(function(){
                 url: 'vehicledetailsFile/insertDailyKM.php',
                 data: { "company_id":company_id, "date":date, "vehicle_details_id":vehicle_details_id, "vehicle_number":vehicle_number, "start_km":start_km, "end_km":end_km, "employee_name":employee_name },
                 success:function(response){
-                    window.location.href = "edit_daily_km&msc=1";
+                    if(response == 1){
+                        window.location.href = "edit_daily_km&msc=1";
+                    }else{
+                        window.location.href = "edit_daily_km&msc=5";
+                    }
                 }
             });
         }
-     
+    
     }else{
         alert('Select any one checkbox to submit')
         return false;

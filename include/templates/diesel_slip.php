@@ -59,6 +59,7 @@ if($idupd>0)
 			$present_km_date    	     = $getDieselSlip['present_km_date'];
 			$total_km_run    	     = $getDieselSlip['total_km_run'];
 			$diesel_amount    	     = $getDieselSlip['diesel_amount'];
+			$staff_id    	     = $getDieselSlip['staff_id'];
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
@@ -121,6 +122,9 @@ if($idupd>0)
 <!--------form start-->
     <form id = "diesel_slip" name="diesel_slip" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($diesel_slip_id)) echo $diesel_slip_id ?>" id="id" name="id" aria-describedby="id" >
+    <input type="hidden" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id ?>" id="session_branch_id" name="session_branch_id">
+    <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd ?>" id="idupd" name="idupd">
+    <input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id ?>" id="staff_id" name="staff_id">
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -197,7 +201,14 @@ if($idupd>0)
                                         </div>
                                     </div>
                                     
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"> </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12"> 
+                                        <div class="form-group">
+                                            <label for="staff_name">Staff Name</label>
+                                            <select type="text" class="form-control" id="staff_name" name="staff_name" >
+                                                <option value="">Select Staff Name</option> 
+                                            </select> 
+                                        </div>
+                                    </div>
                                     
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">

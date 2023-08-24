@@ -43,6 +43,13 @@
 					</div>
 					<?php
 					}
+					if($mscid==4)
+					{?>
+					<div class="alert alert-danger" role="alert">
+						<div class="alert-text">Company Inactive UnSuccessful</div>
+					</div>
+					<?php
+					}
 					}
 					?>
 					<table id="companyCreation_info" class="table custom-table">

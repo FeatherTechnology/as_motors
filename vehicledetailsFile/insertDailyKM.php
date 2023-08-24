@@ -46,7 +46,7 @@ for($i=0; $i<=sizeof($vehicleDetailIdArr)-1; $i++){
     $dailyKMIdRefRun = $con->query($dailyKMIdRef);
 }
 
-if($insertChecklist){
+if($dailyKMIdRun & $dailyKMIdRefRun){
 	$message = 1;
 }else{
 	$message = 0;

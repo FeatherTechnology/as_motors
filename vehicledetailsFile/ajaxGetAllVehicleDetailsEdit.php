@@ -1,6 +1,7 @@
 <?php
 @session_start();
 include '../ajaxconfig.php';
+include("../api/main.php");
 
 if(isset($_SESSION["userid"])){
 	$userid = $_SESSION["userid"];
@@ -11,6 +12,9 @@ if(isset($_SESSION["branch_id"])){
 if(isset($_POST["daily_km_id"])){
 	$daily_km_id = $_POST["daily_km_id"];
 }
+
+$staffNameList = $userObj->getemployeecode($mysqli); //All Staff List with Active Status. 
+
 ?>
 
 <div class="card" id="stockinformation">
@@ -74,7 +78,15 @@ if(isset($_POST["daily_km_id"])){
                                 <td><input readonly type="number" readonly class="form-control validate_start_km" name="start_km[]" id="start_km" value="<?php echo $start_kmArr[$o]; ?>" data-id="<?php echo $start_kmArr[$o]; ?>" placeholder="Enter Start KM" ></td>
                                 <td><input readonly type="number" readonly class="form-control validate_end_km" name="end_km[]" id="end_km" value="<?php echo $end_kmArr[$o]; ?>" placeholder="Enter End KM" ></td>
                                 <td>
-                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
+                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
+                                        <option value="">Select Staff Nameee</option>   
+                                        <?php if (sizeof($staffNameList)>0) { 
+                                            for($j=0;$j<count($staffNameList);$j++) { ?>
+                                            <option <?php if(isset($employee_nameArr)) { if($staffNameList[$j]['staff_id'] == $employee_nameArr[$o]) echo 'selected'; } ?>
+                                            value="<?php echo $staffNameList[$j]['staff_id']; ?>">
+                                            <?php echo $staffNameList[$j]['staff_name'] .' - '. $staffNameList[$j]['emp_code'];?></option>
+                                        <?php }} ?>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,27 +115,4 @@ if(isset($_POST["daily_km_id"])){
         }
     });
 
-    $(function(){
-        var branchId = $('#branch_id').val();
-        var empArr = $('#empArr').val();
-        $.ajax({
-            url: 'vehicledetailsFile/getBranchStaffList.php',
-            type: 'post',
-            data: {"branch_id": branchId},
-            dataType: 'json',
-            success:function(response){
-            
-            $('.employee_name').empty();
-            $('.employee_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
-            var i = 0;
-            for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                var selected = '';
-                if(response['staff_id'][i] == empArr[i]){
-                    selected = 'selected';
-                }
-                $('.employee_name').append("<option value='" + response['staff_id'][i] + "'"+selected+">" + response['staff_name'][i] + "</option>");
-            }
-            }
-        });
-    });
 </script>
