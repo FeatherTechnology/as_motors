@@ -9,11 +9,11 @@ if(isset($_POST["project_id"])){
 if(isset($_POST["actual_start_date"])){
 	$actual_start_date = $_POST["actual_start_date"];
 }
-if(isset($_POST["branch_name"])){
+if(isset($_POST["branch_name"]) && $_POST["branch_name"] != null){
 	$branch_name = $_POST["branch_name"];
+    $getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_name); //get department List with Active Status based on branch. 
 }
 
-$getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_name); //get department List with Active Status based on branch. 
 ?>
 
 <br><br><br>
@@ -69,18 +69,24 @@ $getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_name); //get
                                 <td><input type="date" class="form-control start_date" name="start_date[]" id="start_date" value="<?php echo $start_date; ?>" ></td>
                                 <td><input type="date" class="form-control end_date" name="end_date[]" id="end_date" value="<?php echo $end_date; ?>" ></td>
                                 <td>
-                                    <select class="form-control" id="department" name="department[]" >
+
+                                    <select class="form-control department" id="department" name="department[]" >
                                         <option value="">Select Department Name</option>   
-                                        <?php if (sizeof($getBranchDept)>0) { 
-                                            for($j=0;$j<count($getBranchDept);$j++) { ?>
-                                            <option <?php if(isset($employee_nameArr)) { if($getBranchDept[$j]['department_id'] == $employee_nameArr[$o]) echo 'selected'; } ?>
-                                            value="<?php echo $getBranchDept[$j]['department_id']; ?>">
-                                            <?php echo $getBranchDept[$j]['department_name'] .' - '. $getBranchDept[$j]['department_name'];?></option>
-                                        <?php }} ?>
+                                        <?php if (sizeof($getBranchDept) > 0) { 
+                                            foreach ($getBranchDept as $branchId => $departments) {
+                                                foreach ($departments as $department) { ?>
+                                                    <option value="<?php echo $department['department_id']; ?>"> 
+                                                    <?php echo $department['department_name'] . ' - ' . $department['branch_name']; ?></option>
+                                                <?php }
+                                            }
+                                        } ?>
                                     </select>
+
                                 </td>
                                 <td>
-                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" ></select>
+                                    <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
+                                        <option value=''>Select Staff Name</option>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>
@@ -92,21 +98,21 @@ $getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_name); //get
 </div>
     
 <script>
-    $(function(){
-        $.ajax({
-            url: 'campaignlFile/ajaxGetAllStaff.php',
-            type: 'post',
-            data: {},
-            dataType: 'json',
-            success:function(response){
+    // $(function(){
+    //     $.ajax({
+    //         url: 'campaignlFile/ajaxGetAllStaff.php',
+    //         type: 'post',
+    //         data: {},
+    //         dataType: 'json',
+    //         success:function(response){
             
-            $('.employee_name').empty();
-            $('.employee_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
-            var i = 0;
-            for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                $('.employee_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
-            }
-            }
-        });
-    });
+    //         $('.employee_name').empty();
+    //         $('.employee_name').prepend("<option value=''>" + 'Select Employee Name' + "</option>");
+    //         var i = 0;
+    //         for (i = 0; i <= response.staff_id.length - 1; i++) { 
+    //             $('.employee_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
+    //         }
+    //         }
+    //     });
+    // });
 </script>

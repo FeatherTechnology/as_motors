@@ -1140,15 +1140,16 @@
 			$detailrecords = array();
 			
 			foreach ($sbranch_ids as $sbranch_id) {
-				$qry = "SELECT * FROM department_creation WHERE company_id = '$sbranch_id' AND status = 0 ORDER BY department_id ASC"; 
+				$qry = "SELECT dc.department_id, dc.department_name,dc.company_id, bc.branch_name FROM department_creation dc LEFT JOIN branch_creation bc ON dc.company_id = bc.branch_id WHERE dc.company_id = '$sbranch_id' AND dc.status = 0"; 
 				$res = $mysqli->query($qry) or die("Error in Get All Records" . $mysqli->error);
 				
 				if ($res->num_rows > 0) {
 					while ($row = $res->fetch_object()) {
 						$detailrecord = array();
 						$detailrecord['department_id'] = $row->department_id; 
-						$detailrecord['department_name'] = strip_tags($row->department_name);
-						$detailrecord['company_id'] = strip_tags($row->company_id);
+						$detailrecord['department_name'] = $row->department_name;
+						$detailrecord['company_id'] = $row->company_id;
+						$detailrecord['branch_name'] = $row->branch_name;
 						
 						$detailrecords[$sbranch_id][] = $detailrecord;
 					}
@@ -4377,7 +4378,7 @@
 		// Get Assign Employee table
         public function getAssignEmployeeName($mysqli, $to_department){
 
-            $getQry = "SELECT * FROM staff_creation WHERE department ='".strip_tags($to_department)."' ";
+            $getQry = "SELECT * FROM staff_creation WHERE department ='".strip_tags($to_department)."' AND status = 0 ";
             $res = $mysqli->query($getQry) or die("Error in Get All Records".$mysqli->error);
             $detailrecords = array();
             $j=0;
@@ -7651,6 +7652,10 @@
 			if(isset($_POST['actual_start_date'])){
 				$actual_start_date = $_POST['actual_start_date'];
 			}
+			if(isset($_POST['branch_name'])){
+				$branch_name = $_POST['branch_name'];
+				$branch_id = implode(",", $branch_name);
+			}
 			if(isset($_POST['promotional_activities_ref_id'])){
 				$promotional_activities_ref_id = $_POST['promotional_activities_ref_id'];
 			}
@@ -7669,6 +7674,9 @@
 			if(isset($_POST['end_date'])){
 				$end_date = $_POST['end_date'];
 			}
+			if(isset($_POST['department'])){
+				$department = $_POST['department'];
+			}
 			if(isset($_POST['employee_name'])){
 				$employee_name = $_POST['employee_name'];
 			}
@@ -7677,8 +7685,7 @@
 			$current_time = date('H:i:s');
 
 			// insert campaign
-			$insertQry="INSERT INTO campaign(promotional_activities_id, actual_start_date, insert_login_id) VALUES('".strip_tags($project_id)."', '".strip_tags($actual_start_date)."', 
-			'".strip_tags($userid)."')";
+			$insertQry="INSERT INTO campaign(promotional_activities_id, actual_start_date, branch_id, insert_login_id) VALUES('".strip_tags($project_id)."', '".strip_tags($actual_start_date)."', '".strip_tags($branch_id)."', '".strip_tags($userid)."')";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 
@@ -7689,10 +7696,10 @@
 			for($j=0; $j<=sizeof($promotional_activities_ref_id)-1; $j++){
 
 				// insert campaign ref
-				$insertQryRef="INSERT INTO campaign_ref(campaign_id, promotional_activities_ref_id, activity_involved, time_frame_start, duration, start_date, end_date, 
+				$insertQryRef="INSERT INTO campaign_ref(campaign_id, promotional_activities_ref_id, activity_involved, time_frame_start, duration, start_date, end_date, department_id,
 				employee_name) VALUES ('".strip_tags($last_id)."', '".strip_tags($promotional_activities_ref_id[$j])."', '".strip_tags($activity_involved[$j])."', 
 				'".strip_tags($time_frame_start[$j])."','".strip_tags($duration[$j])."','".strip_tags($start_date[$j].' '.$current_time)."',
-				'".strip_tags($end_date[$j].' '.$current_time)."', '".strip_tags($employee_name[$j])."' )";
+				'".strip_tags($end_date[$j].' '.$current_time)."', '".strip_tags($department[$j])."', '".strip_tags($employee_name[$j])."' )";
 				$insert_ref=$mysqli->query($insertQryRef) or die("Error ".$mysqli->error);
 
 				// update promotional activity ref
@@ -7755,6 +7762,7 @@
 						$campaign_ref_id[] = $row2->campaign_ref_id;
 						$start_date[] = $row2->start_date; 
 						$end_date[] = $row2->end_date;
+						$department_id[] = $row2->department_id;
 						$staff_name[] = $row2->employee_name;
 						
 						if($campaign_refId > 0){
@@ -7762,11 +7770,13 @@
 							$detailrecords['start_date'] = $start_date;
 							$detailrecords['end_date'] = $end_date;
 							$detailrecords['staff_name'] = $staff_name;
+							$detailrecords['department_id'] = $department_id;
 						} else {
 							$detailrecords['campaign_ref_id'] = array();
 							$detailrecords['start_date'] = array();
 							$detailrecords['end_date'] = array();
 							$detailrecords['staff_name'] = array();
+							$detailrecords['department_id'] = array();
 						}
 					}
 					
@@ -7785,8 +7795,15 @@
 			if(isset($_POST['actual_start_date'])){
 				$actual_start_date = $_POST['actual_start_date'];
 			}
+			if(isset($_POST['branch_name'])){
+				$branch_name = $_POST['branch_name'];
+				$branch_id = implode(",", $branch_name);
+			}
 			if(isset($_POST['promotional_activities_ref_id'])){
 				$promotional_activities_ref_id = $_POST['promotional_activities_ref_id'];
+			}
+			if(isset($_POST['campaign_ref_id'])){
+				$campaign_ref_id = $_POST['campaign_ref_id'];
 			}
 			if(isset($_POST['activity_involved'])){
 				$activity_involved = $_POST['activity_involved'];
@@ -7803,6 +7820,9 @@
 			if(isset($_POST['end_date'])){
 				$end_date = $_POST['end_date'];
 			}
+			if(isset($_POST['department'])){
+				$department = $_POST['department'];
+			}
 			if(isset($_POST['employee_name'])){
 				$employee_name = $_POST['employee_name'];
 			}
@@ -7813,23 +7833,20 @@
 				$old_promotional_activity_ref_id = $_POST['old_promotional_activity_ref_id'];
 			}
 
-            $updateQry = 'UPDATE campaign SET promotional_activities_id = "'.strip_tags($project_id).'", actual_start_date = "'.strip_tags($actual_start_date).'", 
-			update_login_id = "'.strip_tags($userid).'", status = "0" WHERE campaign_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
+            $updateQry = 'UPDATE campaign SET promotional_activities_id = "'.strip_tags($project_id).'", actual_start_date = "'.strip_tags($actual_start_date).'", branch_id = "'.strip_tags($branch_id).'", update_login_id = "'.strip_tags($userid).'", status = "0" WHERE campaign_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
             $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error);
 
 			// delete ref
-            $DeleterrRef = $mysqli->query("DELETE FROM campaign_ref WHERE campaign_id = '".$id."' ");
+            // $DeleterrRef = $mysqli->query("DELETE FROM campaign_ref WHERE campaign_id = '".$id."' ");
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
-			for($j=0; $j<=sizeof($promotional_activities_ref_id)-1; $j++){
-				// insert campaign ref
-				$insertQryRef="INSERT INTO campaign_ref(campaign_id, promotional_activities_ref_id, activity_involved, time_frame_start, duration, start_date, end_date, 
-				employee_name) VALUES ('".strip_tags($id)."', '".strip_tags($promotional_activities_ref_id[$j])."', '".strip_tags($activity_involved[$j])."', 
-				'".strip_tags($time_frame_start[$j])."','".strip_tags($duration[$j])."','".strip_tags($start_date[$j].' '.$current_time)."', 
-				'".strip_tags($end_date[$j].' '.$current_time)."', '".strip_tags($employee_name[$j])."' )";
-				$insert_ref=$mysqli->query($insertQryRef) or die("Error ".$mysqli->error);
+			for($j=0; $j < count($campaign_ref_id); $j++){
+				// Update campaign ref
+				$UpdateCampaignRef = "UPDATE `campaign_ref` SET `campaign_id`='$id',`promotional_activities_ref_id`='$promotional_activities_ref_id[$j]',`activity_involved`='$activity_involved[$j]',`time_frame_start`='$time_frame_start[$j]',`duration`='$duration[$j]',`start_date`='$start_date[$j].' '.$current_time',`end_date`='$end_date[$j].' '.$current_time',`department_id`='$department[$j]',`employee_name`='$employee_name[$j]' WHERE `campaign_ref_id`='$campaign_ref_id[$j]' ";
+
+				$insert_ref = $mysqli->query($UpdateCampaignRef) or die("Error ".$mysqli->error);
 
 				// update promotional activity ref
 				$updateQryRef = 'UPDATE promotional_activities_ref SET start_date = "'.strip_tags($start_date[$j]).'", end_date = "'.strip_tags($end_date[$j]).'", 

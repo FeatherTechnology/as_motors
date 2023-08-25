@@ -24,7 +24,7 @@ if(isset($_POST['submitCampaignBtn']) && $_POST['submitCampaignBtn'] != '')
         
         $addAuditAreaCreation = $userObj->addCampaign($mysqli, $userid);   
         ?>
-     <script>location.href='<?php echo $HOSTPATH; ?>edit_campaign&msc=1';</script>
+        <script>location.href='<?php echo $HOSTPATH; ?>edit_campaign&msc=1';</script>
         <?php
     }
 }  
@@ -63,36 +63,35 @@ if($idupd>0)
 			$campaign_ref_id        	    = $getCampaign['campaign_ref_id'];
 			$start_date        	    = $getCampaign['start_date'];
 			$end_date        	    = $getCampaign['end_date'];
+			$department_id        	    = $getCampaign['department_id'];
 			$staff_name        	    = $getCampaign['staff_name'];
 		}
-	} 
-    ?>
+        $branch_idArr = explode(",", $branch_id);
+        $getBranchDept = $userObj->getBranchBasedDepartment($mysqli,$branch_idArr); //get department List with Active Status based on branch. 
 
-    <input type="hidden" id="campaignIdEdit" name="campaignIdEdit" value="<?php print_r($company_id); ?>" >
-    <input type="hidden" id="promotionalActivityIdEdit" name="promotionalActivityIdEdit" value="<?php print_r($promotional_activities_id); ?>" >
-
-    <!-- <script language='javascript'>
-        window.onload=editCampaignRef;
-        function editCampaignRef(){  
-
-            var campaign_id = $('#campaignIdEdit').val();
-            var promotional_activities_id = $('#promotionalActivityIdEdit').val();
-            $.ajax({
-                url:"campaignlFile/ajaxGetPromotionalActivityUpdateDetails.php",
-                method:"post",
-                data: {'campaign_id': campaign_id, 'promotional_activities_id': promotional_activities_id},
-                success:function(html){
-                    $("#projectDetailsAppend").empty();
-                    $("#projectDetailsAppend").html(html);
+        function getCategoryName($mysqli, $dept_id, $staff_names){ //Staff List based on department in edit option.
+    
+            $dept_staff_name = array();
+            $getqry = "SELECT staff_id, staff_name FROM staff_creation WHERE department ='$dept_id' AND status = '0' ";
+            $res = $mysqli->query($getqry);
+            $j=0;
+            while($row = $res->fetch_object())
+            {
+                $selected = '';
+                if (isset($staff_names) && $row->staff_id == $staff_names) {
+                    $selected = 'selected';
                 }
-            });
-        }
-    </script> -->
+            ?>
+            <option <?php echo $selected; ?> value="<?php echo $row->staff_id; ?>"> <?php echo $row->staff_name;?> </option>
+            <?php
+            }
+            return $dept_staff_name;
+        } //Function END.
 
-<?php
+	} 
 }
 ?>
-   
+
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
@@ -108,6 +107,7 @@ if($idupd>0)
 <div class="main-container">
 <!--------form start-->
     <form id = "campaign" name="campaign" action="" method="post" enctype="multipart/form-data"> 
+    <input type="hidden" id="promotionalActivityIdEdit" name="promotionalActivityIdEdit" value="<?php print_r($promotional_activities_id); ?>" >
     <input type="hidden" class="form-control" value="<?php if(isset($campaign_id)) echo $campaign_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
     <input type="hidden" id="old_project_id" name="old_project_id" value="<?php print_r($promotional_activities_id); ?>" >
     <input type="hidden" id="old_promotional_activity_ref_id" name="old_promotional_activity_ref_id" value="<?php print_r($promotional_activities_ref_id); ?>" >
@@ -167,7 +167,7 @@ if($idupd>0)
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group" id='designation_div'>
+                                        <div class="form-group">
                                             <label class="label">Branch Name</label>
                                             <select type="text" class="form-control" id="branch_name" name="branch_name[]" multiple ></select>
                                         </div>
@@ -191,13 +191,13 @@ if($idupd>0)
 
                         <?php if($idupd>0){ ?>
 
-                            <div class="card" id="stockinformation">
+                            <div class="card">
                                 <div class="card-header">Promotional Activity Details</div>
                                 <div class="card-body ">
                                 <br> 
                                     <div style="overflow-x: auto; white-space: nowrap;" >
-                                       
-                                        <table class="table custom-table" id="sstable">
+                                    
+                                        <table class="table custom-table">
                                             <tr>
                                                 <th>S. No.</th>
                                                 <th>Activity</th>
@@ -205,30 +205,51 @@ if($idupd>0)
                                                 <th>Duration</th>
                                                 <th>Start Date</th>
                                                 <th>End Date</th>
+                                                <th>Department</th>
                                                 <th>Employee Name</th>
                                             </tr>
                                             <?php
                                             $sno = 1;   
-                                            if(isset($promotional_activities_ref_id)){ 
-                                                for($o=0; $o<=sizeof($promotional_activities_ref_id)-1; $o++){ ?>
+                                            if(isset($campaign_ref_id)){ 
+                                                for($o=0; $o<=sizeof($campaign_ref_id)-1; $o++){ ?>
                                                     <tbody>
                                                         <tr>
-                                                            <td width="5%;"><?php echo $sno; ?></td>
-                                                            <td style="display: none;"><input tabindex="4" name="promotional_activities_ref_id[]" id="promotional_activities_ref_id" class="promotional_activities_ref_id" value="<?php echo $promotional_activities_ref_id[$o]; ?>" /></td>
-                                                            <td width="10%;"><input type="text" readonly class="form-control" name="activity_involved[]" id="activity_involved" value="<?php echo $activity_involved[$o]; ?>" ></td>
-                                                            <td width="10%;"><input type="text" readonly class="form-control" name="time_frame_start[]" id="time_frame_start" value="<?php echo $time_frame_start[$o]; ?>" ></td>
-                                                            <td width="10%;"><input type="text" readonly class="form-control" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
-                                                            <td width="10%;"><input type="date" class="form-control" name="start_date[]" id="start_date" value="<?php echo date('Y-m-d',strtotime($start_date[$o])); ?>" ></td>
-                                                            <td width="10%;"><input type="date" class="form-control" name="end_date[]" id="end_date" value="<?php echo date('Y-m-d',strtotime($end_date[$o])); ?>" ></td>
-                                                            <td width="10%;">
-                                                                <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
-                                                                <option value="">Select Employee Name</option>   
-                                                                    <?php if (sizeof($staffList)>0) { 
-                                                                    for($j=0;$j<count($staffList);$j++) { ?>
-                                                                    <option <?php if(isset($staff_name)) { if($staffList[$j]['staff_id'] == $staff_name[$o])  echo 'selected'; }  ?> value="<?php echo $staffList[$j]['staff_id']; ?>">
-                                                                    <?php echo $staffList[$j]['staff_name'];?></option>
-                                                                    <?php }} ?>   
+                                                            <td><?php echo $sno; ?></td>
+                                                            <td style="display: none;">
+                                                            <input tabindex="4" name="promotional_activities_ref_id[]" id="promotional_activities_ref_id" class="promotional_activities_ref_id" value="<?php echo $promotional_activities_ref_id[$o]; ?>" />
+                                                            <input tabindex="4" name="campaign_ref_id[]" id="campaign_ref_id" class="campaign_ref_id" value="<?php echo $campaign_ref_id[$o]; ?>" />
+                                                        </td>
+                                                            <td><input type="text" readonly class="form-control" name="activity_involved[]" id="activity_involved" value="<?php echo $activity_involved[$o]; ?>" ></td>
+                                                            <td><input type="text" readonly class="form-control" name="time_frame_start[]" id="time_frame_start" value="<?php echo $time_frame_start[$o]; ?>" ></td>
+                                                            <td><input type="text" readonly class="form-control" name="duration[]" id="duration" value="<?php echo $duration[$o]; ?>" ></td>
+                                                            <td><input type="date" class="form-control" name="start_date[]" id="start_date" value="<?php echo date('Y-m-d',strtotime($start_date[$o])); ?>" ></td>
+                                                            <td><input type="date" class="form-control" name="end_date[]" id="end_date" value="<?php echo date('Y-m-d',strtotime($end_date[$o])); ?>" ></td>
+                                                            <td>
+
+                                                                <select class="form-control department" id="department" name="department[]" >
+                                                                    <option value="">Select Department Name</option>   
+                                                                    <?php if (sizeof($getBranchDept) > 0) { 
+                                                                        foreach ($getBranchDept as $branchId => $departments) {
+                                                                            foreach ($departments as $department) { ?>
+                                                                                <option <?php if (isset($department_id)) {
+                                                                                    if ($department['department_id'] == $department_id[$o]) echo 'selected';
+                                                                                } ?>
+                                                                                value="<?php echo $department['department_id']; ?>">
+                                                                                <?php echo $department['department_name'] . ' - ' . $department['branch_name']; ?></option>
+                                                                            <?php }
+                                                                        }
+                                                                    } ?>
                                                                 </select>
+
+                                                            </td>
+
+                                                            <td>
+
+                                                                <select tabindex="4" type="text" class="form-control employee_name" id="employee_name" name="employee_name[]" >
+                                                                    <option value="">Select Employee Name</option>   
+                                                                    <?php getCategoryName($mysqli, $department_id[$o], $staff_name[$o]); //Using a function to list out the staff name based on department. ?>  
+                                                                </select>
+
                                                             </td>
                                                         </tr>
                                                     </tbody>
