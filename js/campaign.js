@@ -5,97 +5,7 @@ const branch = new Choices('#branch_name', {
 
 $(document).ready(function () {
 
-    // auto generate vehicle code
-    $.ajax({
-        url: "vehicledetailsFile/ajaxGetVehicleCode.php",
-        data: {},
-        cache: false,
-        type: "post",
-        dataType: "json",
-        success: function (data) {
-            $("#vehicle_code").val(data);
-        }
-    });
-
-    // get company based branch name
-	$('#company_id').on('change', function(){
-		var company_id = $('#company_id :selected').val();
-		$.ajax({
-			url: 'basicFile/ajaxFetchBranchDetails.php',
-			type:'post',
-			data: {'company_id': company_id},
-			dataType: 'json',
-			success: function(response){
-				
-				$("#branch_id").empty();
-				$("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-				var r = 0;
-				for (r = 0; r <= response.branch_id.length - 1; r++) { 
-					$('#branch_id').append("<option value='" + response['branch_id'][r] + "'>" + response['branch_name'][r] + "</option>");
-				}
-			}
-		});
-	});
-
-    // Download button
-    $('#vehicleDetailsDownload').click(function () {
-        $.ajax({
-            url: 'ajaxVehicleDetailsBulkUpload.php',
-            catch: false,
-            success: function(){
-                window.location.href='uploads/downloadfiles/vehicledetailsbulksample.xlsx';
-            }
-        });
-    });
-
-    
-    $("#insertsuccess").hide();
-    $("#notinsertsuccess").hide();
-    //bulk upload
-    $("#submitVehicleDetailsUploadBtn").click(function(){
-    
-        var file_data = $('#file').prop('files')[0];   
-        var vehicle = new FormData();                  
-        vehicle.append('file', file_data);
-
-        if(file.files.length == 0 ){
-            alert("Please Select File");
-            return false;
-        }
-        $.ajax({
-            url: 'vehicledetailsFile/ajaxVehicleDetailsUpload.php',
-            type: 'POST',
-            data: vehicle,
-            dataType: 'json',
-            contentType: false,
-            cache: false,
-            processData:false,
-            beforeSend: function(){
-                $('#file').attr("disabled",  true);
-                $('#submitVehicleDetailsUploadBtn').attr("disabled", true);
-            },
-            success: function(data){
-                console.log(data)
-                if(data == 0){
-                    $("#notinsertsuccess").hide();
-                    $("#insertsuccess").show();
-                    $("#file").val('');
-                }else if(data == 1){
-                    $("#insertsuccess").hide();
-                    $("#notinsertsuccess").show();
-                    $("#file").val('');
-                }
-            },
-            complete: function(){
-                $('#file').attr("disabled",  false);
-                $('#submitVehicleDetailsUploadBtn').attr("disabled", false);         
-            }
-        });
-    });
-
-});
-
-// append all vehicle
+    // append all vehicle
 $("#viewBtn").click(function(){
     
     var project_id = $('#project_id').val();
@@ -109,7 +19,9 @@ $("#viewBtn").click(function(){
             $("#projectDetailsAppend").empty();
             $("#projectDetailsAppend").html(html);
         }
-    });
+    }).then(function(){
+        getfunction();
+        });//then END
 });
 
 // Get the actual start date input element
@@ -141,9 +53,35 @@ actualStartDateInput.addEventListener('change', function() {
     }
 });
 
+$('#branch_name').change(function(){
+    var branchId = $(this).val();
+    $.ajax({
+        type: 'POST',
+        data: {'branchId': branchId},
+        url:'ajaxFetch/ajaxGetBranchBasedDept.php' ,
+        dataType: 'json',
+        success: function(response){
+
+            $('.employee_name').empty();
+            $('.employee_name').append("<option value=''>Select Staff Name</option>");
+            $('.department').empty();
+            $('.department').append("<option value=''>Select Department Name</option>");
+            
+            for(var i=0; i < response.length; i++){
+                $('.department').append("<option value='"+response[i]['department_id']+"'>"+response[i]['department_name']+"</option>");
+            }
+        }
+    })
+
+});
+
+
+});  //Document END///
+
 $(function(){
 
     getbranchName();
+    getfunction();
 })
 
 function getbranchName(){
@@ -180,5 +118,28 @@ function getbranchName(){
                 branch.init();
             }
         }
+    })
+}
+
+function getfunction(){
+    $('.department').change(function(){
+        var deptID = $(this).val();
+        var empcolumn = $(this).closest('tr').find('.employee_name');
+        $.ajax({
+            type: 'POST',
+            data: {'department_id': deptID },
+            url: 'StaffFile/getDeptBasedStaffDetails.php',
+            dataType: 'json',
+            success:function(response){
+
+                empcolumn.empty();
+                empcolumn.append("<option value=''>Select Employee Name</option>");
+
+                for(var i = 0; i < response.length; i++){
+                    empcolumn.append("<option value='"+response[i]['staff_id']+"'>"+response[i]['staff_name']+"</option>");
+                }
+
+            }
+        })
     })
 }

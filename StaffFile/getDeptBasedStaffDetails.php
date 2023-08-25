@@ -1,5 +1,6 @@
 <?php
 include '../ajaxconfig.php';
+// Also using in Campaign.js page
 
 if(isset($_POST["department_id"])){
 	$department_id = $_POST["department_id"];

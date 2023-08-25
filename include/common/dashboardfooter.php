@@ -1193,7 +1193,6 @@
         'ajax': {
             'url':'ajaxApprovalRequisitionListFetch.php',
             'data': function(data){
-                console.log("data",data);
                 var search = $('#search').val();
                 data.search = search;
             }
@@ -1351,7 +1350,7 @@
         'ajax': {
             'url':'ajaxBusinessComOutListFetch.php',
             'data': function(data){
-                console.log("data",data);
+                
                 var search = $('#search').val();
                 data.search = search;
             }
@@ -1793,7 +1792,7 @@
         'ajax': {
             'url':'ajaxAuditAssignFetch.php',
             'data': function(data){
-                console.log("data",data);
+                
                 var search = $('#search').val();
                 data.search = search;
             }
@@ -1823,7 +1822,7 @@
         'ajax': {
             'url':'ajaxCampaignFetch.php',
             'data': function(data){
-                console.log("data",data);
+                
                 var search = $('#search').val();
                 data.search = search;
             }
@@ -1854,7 +1853,7 @@
         'ajax': {
             'url':'ajaxpromoactivitiesFetch.php',
             'data': function(data){
-                console.log("data",data);
+                
                 var search = $('#search').val();
                 data.search = search;
             }
@@ -1947,7 +1946,6 @@
         'ajax': {
             'url':'ajaxMeetingMinutesListFetch.php',
             'data': function(data){
-                console.log("data",data);
                 var search = $('#search').val();
                 data.search = search;
             }
