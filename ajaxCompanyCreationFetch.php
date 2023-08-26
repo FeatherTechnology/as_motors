@@ -94,6 +94,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['tan_number'];
     $sub_array[] = $row['pf_number'];  
     $sub_array[] = $row['fax_number'];
+    $sub_array[] = $row['in_active_remark'];
     
     $status      = $row['status'];
     if($status == 1)

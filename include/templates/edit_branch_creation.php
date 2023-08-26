@@ -60,6 +60,7 @@
 								<th>Company Name</th>
 								<th>E-Mail Id</th>
 								<th>key Personal</th>
+								<th>In-Active Remark</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>
