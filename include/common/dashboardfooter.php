@@ -1,4 +1,10 @@
-<?php $current_page = isset($_GET['page']) ? $_GET['page'] : null; ?>
+<?php $current_page = isset($_GET['page']) ? $_GET['page'] : null; 
+
+if(isset($_SESSION['role'])){
+    $user_role = $_SESSION['role']; 
+}
+?>
+<input type="hidden" name='user_role_dashboard_use' id='user_role_dashboard_use' value='<?php if(isset($user_role))echo $user_role; ?>'>
 <!-- Required jQuery first, then Bootstrap Bundle JS -->
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
@@ -52,6 +58,54 @@
 	// $('select').selectpicker();
 
     $(document).ready(function() {
+//"Max-User-Connection" exceeded when more than 10 DB connection made, All ajax are run at a time to getting a data for dashboard so connection exceeded bug are coming in alert, so calling the particular function based on the login. Now the function run one by one so the connection exceed will not reach.
+// here we call the function and in this function ajax will run and end of the each ajax "drawCallBack" function will run to call next function.  
+        var user_role_dashboard_use = $('#user_role_dashboard_use').val();
+        if(user_role_dashboard_use == '1'){ //Overall
+            commonDashboard();
+            setTimeout(function(){
+                overallManagerLoginDashboard();
+            },2000);
+            
+        }else if(user_role_dashboard_use == '3'){ //Manager
+            commonDashboard();
+            
+
+            var i=0;
+            var dashboardDelay = setInterval(function(){
+
+                for(; i< 3; ){
+                    if(i == 0){
+                        managerStaffLoginDashboard();
+                        i++
+                        return;
+
+                    }else if(i == 1){
+                        overallManagerLoginDashboard();
+                        i++
+                        return;
+
+                    }else if(i == 2){
+                        regularisationApprovalDashboard();
+                        i++
+                        return;
+
+                    }
+                }
+                
+            },1000)
+            setTimeout(function(){
+            
+                    clearInterval(dashboardDelay);
+                
+            },3500)
+        }else if(user_role_dashboard_use == '4'){ //Staff
+            commonDashboard();
+            setTimeout(function(){
+                managerStaffLoginDashboard();
+            },2000)
+
+        }
 
 		var companyCreation_info = $('#companyCreation_info').DataTable({
 		"order": [[ 0, "desc" ]],
@@ -695,66 +749,6 @@
             ]
         });
 
-        // memo initiate dashboard
-		var memo_infoDashboard = $('#memo_infoDashboard').DataTable({
-            "order": [[ 0, "desc" ]],
-			//"ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            //'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'memoFile/ajaxMemoFetchDashboard.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ]
-        });
-
-        // memo assigned dashboard
-		var memo_assigned_infoDashboard = $('#memo_assigned_infoDashboard').DataTable({
-            "order": [[ 0, "desc" ]],
-			//"ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            //'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'memoFile/ajaxMemoAssignedFetchDashboard.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ]
-        });
-
 		// Service Indent
 		var service_indent_info = $('#service_indent_info').DataTable({
             "order": [[ 0, "desc" ]],
@@ -859,38 +853,6 @@
                 }
             },
             dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ]
-        });
-		
-
-		// RGP Extended
-		var rgpExtendedTable = $('#rgpExtendedTable').DataTable({
-
-            "order": [[ 0, "desc" ]],
-			//"ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            //'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'RGP_ajax/ajaxRGPExtended.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
             buttons: [
                 {
                     extend: 'csv',
@@ -1089,69 +1051,7 @@
                 [10, 25, 50, "All"]
             ]
         });
-        // PM Checklist dashboard
-		var pmChecklist_dashboard = $('#pmChecklist_dashboard').DataTable({
-
-            "order": [[ 0, "desc" ]],
-            // "ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            // 'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'ajaxPMChecklistDashboard.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ]
-        });
-
-    // BM Checklist dashboard
-    var bmChecklist_dashboard = $('#bmChecklist_dashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxBMChecklistDashboard.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-    });
-
-
+    
     // approval line - approval requisition
     var approvalLine_info = $('#approvalLine_info').DataTable({
 
@@ -1530,38 +1430,6 @@
         ]
     });
 
-    // after maintenance checklist
-    var maintenanceChecklist_infoDashboard = $('#maintenanceChecklist_infoDashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxMaintenanceChecklistDashboard.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-    });
-
-
     // Periodic Level
     var periodicLevel_info = $('#periodicLevel_info').DataTable({
 
@@ -1717,70 +1585,6 @@
             [10, 25, 50, "All"]
         ]
     });
-
-
-    // audit assign dashboard
-    var audit_assign_infoDashboard = $('#audit_assign_infoDashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        //"ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        //'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxAuditAssignFetchDashboard.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-    });
-
-    // auditee response dashboard
-    var auditee_response_infoDashboard = $('#auditee_response_infoDashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        //"ordering": false, // removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        //'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxAuditeeResponseFetchDashboard.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-    });
-
 
     // audit assign Creation Fetching
     var auditassignCreation_info = $('#auditassignCreation_info').DataTable({
@@ -2094,133 +1898,6 @@ buttons: [
         ]
     });
 
-    // approved List - Regularaisation dashboard
-    var regularisation_approved_info_dashboard = $('#regularisation_approved_info_dashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxRegularisationApprovedList.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-    });
-
-    // Vehicle Management dashboard
-    var fc_insurance_info_dashboard = $('#fc_insurance_info_dashboard').DataTable({
-
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'ajaxFCinsuranceinfoList.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "drawCallback": function(){pagepassing();}
-    });
-
-    // Today's Task List dashboard
-    var todays_task_info = $('#todays_task_info').DataTable({
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'dashboardAjaxFile/todays_task_list.php',
-            'cache': false,
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-        });
-    // Today's Task List dashboard END/////
-
-    // Regularisation Approval List dashboard
-    var regularisation_approval_info = $('#regularisation_approval_info').DataTable({
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'dashboardAjaxFile/regularisationApprovalDashboard.php',
-            'cache': false,
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ]
-        });
-    // Regularisation Approval List dashboard END/////
-
     // Target fixing
     var targetFixing_info = $('#targetFixing_info').DataTable({
 
@@ -2316,6 +1993,449 @@ buttons: [
 			[10, 25, 50, "All"]
 		]
 	});
+
+
+///////////////////////////////////////////////////////////////////////// Overall & Manager & Staff Login Dashboard  //////////////////////////////////////////////////////
+
+     // PM Checklist dashboard
+    function commonDashboard(){
+        var pmChecklist_dashboard = $('#pmChecklist_dashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxPMChecklistDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeBMChecklistDashboard();
+            }
+        });
+    }
+
+    // BM Checklist dashboard
+    function initializeBMChecklistDashboard(){
+
+        var bmChecklist_dashboard = $('#bmChecklist_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+        'url':'ajaxBMChecklistDashboard.php',
+        'data': function(data){
+            var search = $('#search').val();
+            data.search = search;
+        }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+        {
+            extend: 'csv',
+            exportOptions: {
+                columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+            }
+        }
+        ],
+        "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+        ],
+        "drawCallback":function(){
+            // After the first DataTable is loaded, proceed to the next one
+            initializeRegularisationApprovedDashboard();
+        }
+        });
+    }//Function END.
+
+    // approved List - Regularaisation dashboard
+    function initializeRegularisationApprovedDashboard(){
+        var regularisation_approved_info_dashboard = $('#regularisation_approved_info_dashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxRegularisationApprovedList.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+            });
+    } //Function END.
+///////////////////////////////////////////////////////////////////////// Overall & Manager & Staff Login Dashboard  END //////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////// Overall & Manager Login Dashboard  //////////////////////////////////////////////////////
+    // RGP Extended
+    function overallManagerLoginDashboard(){
+        var rgpExtendedTable = $('#rgpExtendedTable').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        //"ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        //'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'RGP_ajax/ajaxRGPExtended.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback":function(){
+            // After the first DataTable is loaded, proceed to the next one
+            initializeFcInsuranceDashboard();
+        }
+        });
+    }//Function END///
+
+    // Vehicle Management dashboard
+    function initializeFcInsuranceDashboard(){
+        var fc_insurance_info_dashboard = $('#fc_insurance_info_dashboard').DataTable({
+
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'ajaxFCinsuranceinfoList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback": function(){pagepassing();}
+        });
+    } //Function END.
+/////////////////////////////////////////////////////////////////////////Overall & Manager Login Dashboard END //////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////////////////////////// Manager & Staff Login Dashboard ///////////////////////////////////////////////////////////
+
+    // Today's Task List dashboard
+    function managerStaffLoginDashboard(){
+        var todays_task_info = $('#todays_task_info').DataTable({
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'dashboardAjaxFile/todays_task_list.php',
+                'cache': false,
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeMemoDashboard();
+            }
+            });
+    }
+    // Today's Task List dashboard END/////
+
+    // memo initiate dashboard
+    function initializeMemoDashboard(){
+		var memo_infoDashboard = $('#memo_infoDashboard').DataTable({
+            "order": [[ 0, "desc" ]],
+			//"ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            //'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'memoFile/ajaxMemoFetchDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeMemoAssignedDashboard();
+            }
+        });
+    }
+
+    // memo assigned dashboard
+    function initializeMemoAssignedDashboard(){
+		var memo_assigned_infoDashboard = $('#memo_assigned_infoDashboard').DataTable({
+            "order": [[ 0, "desc" ]],
+			//"ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            //'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'memoFile/ajaxMemoAssignedFetchDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeAuditAssignDashboard();
+            }
+        });
+    } //Function END///
+
+    // audit assign dashboard
+    function initializeAuditAssignDashboard(){
+        var audit_assign_infoDashboard = $('#audit_assign_infoDashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            //"ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            //'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxAuditAssignFetchDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeAuditResponseDashboard();
+            }
+        });
+    }//Function END///
+
+    // auditee response dashboard
+    function initializeAuditResponseDashboard(){
+        var auditee_response_infoDashboard = $('#auditee_response_infoDashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            //"ordering": false, // removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            //'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxAuditeeResponseFetchDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            "drawCallback":function(){
+                // After the first DataTable is loaded, proceed to the next one
+                initializeMaintenanceCheckListDashboard();
+            }
+        });
+    }//Function END///
+
+    // after maintenance checklist
+    function initializeMaintenanceCheckListDashboard(){
+        var maintenanceChecklist_infoDashboard = $('#maintenanceChecklist_infoDashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'ajaxMaintenanceChecklistDashboard.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+        });
+    } //Function END///
+///////////////////////////////////////////////////////////////////////// Manager & Staff Login Dashboard END///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////// Manager Login Dashboard ///////////////////////////////////////////////////////////
+    // Regularisation Approval List dashboard
+    function regularisationApprovalDashboard(){
+        var regularisation_approval_info = $('#regularisation_approval_info').DataTable({
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'dashboardAjaxFile/regularisationApprovalDashboard.php',
+                'cache': false,
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+        });
+    }
+    // Regularisation Approval List dashboard END/////
+///////////////////////////////////////////////////////////////////////// Manager Login Dashboard END///////////////////////////////////////////////////////////
 
 
 	$('#search').change(function(){
