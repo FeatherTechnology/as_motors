@@ -66,6 +66,7 @@
 								<th>TAN Number</th>
 								<th>PF Number</th>
 								<th>FAX Number</th>
+								<th>In-Active Remark</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>

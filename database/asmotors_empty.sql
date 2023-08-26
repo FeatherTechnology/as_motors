@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2023 at 09:47 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.26
+-- Generation Time: Aug 25, 2023 at 03:00 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `as_motors`
+-- Database: `asmotors_empty`
 --
 
 -- --------------------------------------------------------
@@ -33,34 +33,7 @@ CREATE TABLE `accountsgroup` (
   `ParentId` int(11) DEFAULT 0,
   `status` int(11) DEFAULT 0,
   `order_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `accountsgroup`
---
-
-INSERT INTO `accountsgroup` (`Id`, `AccountsName`, `ParentId`, `status`, `order_id`) VALUES
-(1, 'Capital Account', 0, 0, 1),
-(2, 'Current Liabilities', 0, 0, 2),
-(3, 'Current Assets', 0, 0, 4),
-(4, 'Purchase Accounts', 0, 0, 5),
-(5, 'Direct Income', 0, 0, 6),
-(6, 'Direct Expenses', 0, 0, 7),
-(7, 'Indirect Income', 0, 0, 8),
-(8, 'Indirect Expenses', 0, 0, 9),
-(9, 'Profit & Loss A/c', 0, 0, 10),
-(10, 'Diff. in Opening Balances', 0, 0, 11),
-(11, 'Reserve & Surplus', 1, 0, 12),
-(12, 'Sundry Creditors', 2, 0, 13),
-(13, 'Loans(Liability)', 2, 0, 14),
-(14, 'Bank OD', 2, 0, 15),
-(15, 'Opening Stock', 3, 0, 16),
-(16, 'Cash-in-hand', 3, 0, 17),
-(17, 'Bank Accounts', 3, 0, 18),
-(18, 'Investments', 3, 0, 19),
-(19, 'Loans and Advances', 3, 0, 20),
-(40, 'Sundry Debtors', 3, 0, 35),
-(42, 'Fixed Assets', 0, 0, 3);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -90,7 +63,7 @@ CREATE TABLE `appreciation_depreciation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -107,7 +80,7 @@ CREATE TABLE `appreciation_depreciation_ref` (
   `target` varchar(255) DEFAULT NULL,
   `achievement` varchar(255) DEFAULT NULL,
   `employee_rating` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -135,15 +108,7 @@ CREATE TABLE `approval_line` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `approval_line`
---
-
-INSERT INTO `approval_line` (`approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '1', '1', '1', '1', '2023-05-12', '2023-05-12', '2023-05-12', 0, 20, NULL, NULL, '2023-05-12 18:38:43', '2023-05-12 18:38:43'),
-(2, '1', '1', '2,3,4', '2,3,4', '2,3,4', '2', '0', '0', '0', NULL, NULL, NULL, 0, 20, NULL, NULL, '2023-05-15 10:04:36', '2023-05-15 10:04:36');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -166,15 +131,7 @@ CREATE TABLE `approval_requisition` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `approval_requisition`
---
-
-INSERT INTO `approval_requisition` (`approval_requisition_id`, `approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'DOCNUM1', '12-05-2023', 'test', 'testst', '', 0, 20, NULL, NULL, '2023-05-12 18:39:01', '2023-05-12 18:39:01'),
-(2, '2', '1', 'ARDOCNUM2', '15-05-2023', 'test', 'et', '', 0, 20, NULL, NULL, '2023-05-15 10:23:47', '2023-05-15 10:23:47');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -190,19 +147,7 @@ CREATE TABLE `approval_requisition_parallel_agree_disagree` (
   `agree_disagree_date` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `approval_requisition_parallel_agree_disagree`
---
-
-INSERT INTO `approval_requisition_parallel_agree_disagree` (`approval_requisition_agree_disagree_id`, `approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
-(11, '1', '2', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
-(12, '1', '3', 1, '2023-05-12', 0, '2023-05-12 18:38:43'),
-(13, '1', '4', 0, NULL, 0, '2023-05-12 18:38:43'),
-(14, '2', '2', 1, '2023-05-15', 0, '2023-05-15 10:04:36'),
-(15, '2', '3', 0, NULL, 0, '2023-05-15 10:04:36'),
-(16, '2', '4', 0, NULL, 0, '2023-05-15 10:04:36');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -226,14 +171,7 @@ CREATE TABLE `asset_details` (
   `updated_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `asset_details`
---
-
-INSERT INTO `asset_details` (`asset_details_id`, `company_id`, `branch_id`, `classification`, `asset_name`, `asset_value`, `dou`, `depreciation`, `as_on`, `spare_names`, `status`, `created_id`, `updated_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '3', '1', '60000', '2023-05-05', '2023-05-05', '50000', '1', 0, NULL, NULL, '2023-05-05 12:17:51', '2023-05-05 12:17:51');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -244,16 +182,9 @@ INSERT INTO `asset_details` (`asset_details_id`, `company_id`, `branch_id`, `cla
 CREATE TABLE `asset_details_ref` (
   `ref_id` int(11) NOT NULL,
   `asset_details_reff_id` int(11) DEFAULT NULL,
-  `modal_no` int(11) DEFAULT NULL,
+  `modal_no` varchar(100) DEFAULT NULL,
   `warranty_upto` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `asset_details_ref`
---
-
-INSERT INTO `asset_details_ref` (`ref_id`, `asset_details_reff_id`, `modal_no`, `warranty_upto`) VALUES
-(2, 1, 111111, '2023-05-05');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -277,14 +208,7 @@ CREATE TABLE `asset_register` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `asset_register`
---
-
-INSERT INTO `asset_register` (`asset_id`, `company_id`, `asset_classification`, `asset_name`, `dop`, `asset_nature`, `asset_value`, `maintenance`, `rgp_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '3', 'Dell System', '2023-05-05', 2, 60000, '1', 'inward', 0, 1, NULL, NULL, '2023-05-05 12:15:39', '2023-05-05 12:15:39');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -300,7 +224,7 @@ CREATE TABLE `assign_work` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_id` int(11) DEFAULT NULL,
   `updated_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -320,7 +244,7 @@ CREATE TABLE `assign_work_ref` (
   `to_date` datetime DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -347,14 +271,7 @@ CREATE TABLE `audit_area_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_area_creation`
---
-
-INSERT INTO `audit_area_creation` (`audit_area_id`, `audit_area`, `department_id`, `frequency`, `frequency_applicable`, `calendar`, `from_date`, `to_date`, `role1`, `role2`, `check_list`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Area1', '1,2', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 15:30:57', '2023-06-02 15:30:57', '1', '3', 'Yes', 0, 0, 1, NULL, NULL, '2023-06-01 15:30:57', '2023-06-01 15:30:57');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -368,28 +285,7 @@ CREATE TABLE `audit_area_creation_ref` (
   `from_date` varchar(100) DEFAULT NULL,
   `to_date` varchar(100) DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_area_creation_ref`
---
-
-INSERT INTO `audit_area_creation_ref` (`audit_area_creation_ref_id`, `audit_area_id`, `from_date`, `to_date`, `work_status`) VALUES
-(1, '1', '2023-06-01 15:30:57', '2023-06-02 15:30:57', 0),
-(2, '1', '2023-06-16 15:30:57', '2023-06-17 15:30:57', 0),
-(3, '1', '2023-07-01 15:30:57', '2023-07-03 15:30:57', 0),
-(4, '1', '2023-07-17 15:30:57', '2023-07-18 15:30:57', 0),
-(5, '1', '2023-08-01 15:30:57', '2023-08-02 15:30:57', 0),
-(6, '1', '2023-08-16 15:30:57', '2023-08-17 15:30:57', 0),
-(7, '1', '2023-08-31 15:30:57', '2023-09-01 15:30:57', 0),
-(8, '1', '2023-09-15 15:30:57', '2023-09-16 15:30:57', 0),
-(9, '1', '2023-09-30 15:30:57', '2023-10-02 15:30:57', 0),
-(10, '1', '2023-10-16 15:30:57', '2023-10-17 15:30:57', 0),
-(11, '1', '2023-10-31 15:30:57', '2023-11-01 15:30:57', 0),
-(12, '1', '2023-11-15 15:30:57', '2023-11-16 15:30:57', 0),
-(13, '1', '2023-11-30 15:30:57', '2023-12-01 15:30:57', 0),
-(14, '1', '2023-12-15 15:30:57', '2023-12-16 15:30:57', 0),
-(15, '1', '2023-12-30 15:30:57', '2024-01-01 15:30:57', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -411,14 +307,7 @@ CREATE TABLE `audit_assign` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_assign`
---
-
-INSERT INTO `audit_assign` (`audit_assign_id`, `date_of_audit`, `department_id`, `role1`, `role2`, `audit_area_id`, `auditee_response_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-06-01', '1,2', '1', '3', '1', 1, 0, 1, NULL, NULL, '2023-06-01 15:31:51', '2023-06-01 15:31:51');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -440,15 +329,7 @@ CREATE TABLE `audit_assign_ref` (
   `target_date` varchar(100) DEFAULT NULL,
   `auditee_response_status` int(11) NOT NULL DEFAULT 0,
   `auditee_followup_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_assign_ref`
---
-
-INSERT INTO `audit_assign_ref` (`audit_assign_ref_id`, `audit_assign_id`, `major_area`, `assertion`, `audit_status`, `recommendation`, `attachment`, `audit_remarks`, `auditee_response`, `action_plan`, `target_date`, `auditee_response_status`, `auditee_followup_status`) VALUES
-(1, '1', 'chennai', 'test', '1', '', '', 'test2', NULL, NULL, NULL, 0, 0),
-(2, '1', 'Pondy', 'test1', '0', 'test rec', '', 'test3', 'test', 'test', '2023-06-03', 1, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -463,14 +344,7 @@ CREATE TABLE `audit_checklist` (
   `auditor` varchar(200) DEFAULT NULL,
   `auditee` varchar(200) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_checklist`
---
-
-INSERT INTO `audit_checklist` (`audit_checklist_id`, `audit_area_id`, `department`, `auditor`, `auditee`, `status`) VALUES
-(1, 1, '1,2', '1', '3', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -485,15 +359,7 @@ CREATE TABLE `audit_checklist_ref` (
   `sub_area` varchar(200) DEFAULT NULL,
   `assertion` varchar(200) DEFAULT NULL,
   `weightage` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `audit_checklist_ref`
---
-
-INSERT INTO `audit_checklist_ref` (`audit_checklist_ref_id`, `audit_area_id`, `major_area`, `sub_area`, `assertion`, `weightage`) VALUES
-(1, 1, 'chennai', NULL, 'test', ''),
-(2, 1, 'Pondy', NULL, 'test1', '');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -510,7 +376,7 @@ CREATE TABLE `audit_followup` (
   `files` varchar(200) DEFAULT NULL,
   `insert_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -548,7 +414,7 @@ CREATE TABLE `bankmaster` (
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `createddate` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -571,20 +437,7 @@ CREATE TABLE `basic_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `basic_creation`
---
-
-INSERT INTO `basic_creation` (`basic_creation_id`, `type`, `company_id`, `department_code`, `designation_code`, `department`, `designation`, `report_to`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, NULL, '1', 'Dev-1/Pondicherry', 'DESIG-1/Pondicherry', '1', '1', '', 0, 1, NULL, NULL, '2023-05-04 18:24:28', '2023-05-04 18:24:28'),
-(2, NULL, '1', 'Dev-2/Pondicherry', 'DESIG-2/Pondicherry', '1', '2', '1', 0, 1, NULL, NULL, '2023-05-04 18:24:40', '2023-05-04 18:24:40'),
-(3, NULL, '1', 'Dev-3/Pondicherry', 'DESIG-3/Pondicherry', '1', '3', '2', 0, 1, NULL, NULL, '2023-05-04 18:24:51', '2023-05-04 18:24:51'),
-(4, NULL, '1', 'Mar-4/Pondicherry', 'DESIG-4/Pondicherry', '2', '4', '', 0, 1, NULL, NULL, '2023-05-04 18:25:39', '2023-05-04 18:25:39'),
-(5, NULL, '1', 'Mar-5/Pondicherry', 'DESIG-5/Pondicherry', '2', '5', '4', 0, 1, NULL, NULL, '2023-05-04 18:25:49', '2023-05-04 18:25:49'),
-(6, NULL, '2', 'HR-6/Vandavasi', 'DESIG-6/Vandavasi', '3', '6', '', 0, 1, NULL, NULL, '2023-05-04 18:27:18', '2023-05-04 18:27:18'),
-(7, NULL, '2', 'HR-7/Vandavasi', 'DESIG-7/Vandavasi', '3', '7', '6', 0, 1, NULL, NULL, '2023-05-04 18:27:27', '2023-05-04 18:27:27');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -598,6 +451,8 @@ CREATE TABLE `bm_checklist` (
   `category_id` varchar(255) DEFAULT NULL,
   `checklist` text DEFAULT NULL,
   `rating` varchar(255) DEFAULT NULL,
+  `frequency` varchar(255) DEFAULT NULL,
+  `frequency_applicable` varchar(50) DEFAULT NULL,
   `maintenance_checklist` int(11) NOT NULL DEFAULT 0,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
@@ -605,14 +460,47 @@ CREATE TABLE `bm_checklist` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `bm_checklist`
+-- Table structure for table `bm_checklist_multiple`
 --
 
-INSERT INTO `bm_checklist` (`bm_checklist_id`, `company_id`, `category_id`, `checklist`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'test', 'High', 0, 0, 1, NULL, NULL, '2023-05-05 13:34:01', '2023-05-05 13:34:01');
+CREATE TABLE `bm_checklist_multiple` (
+  `id` int(11) NOT NULL,
+  `bm_checklist_id` int(11) NOT NULL,
+  `cat_id` int(11) DEFAULT NULL,
+  `checklist` text DEFAULT NULL,
+  `rating` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `maintenance_checklist` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bm_checklist_ref`
+--
+
+CREATE TABLE `bm_checklist_ref` (
+  `bm_checklist_ref_id` int(11) NOT NULL,
+  `bm_checklist_id` varchar(50) DEFAULT NULL,
+  `maintenance_checklist_id` varchar(50) DEFAULT NULL,
+  `maintenance_checklist_ref_id` varchar(200) DEFAULT NULL,
+  `checklist` text DEFAULT NULL,
+  `from_date` varchar(50) DEFAULT NULL,
+  `to_date` varchar(50) DEFAULT NULL,
+  `work_status` int(11) NOT NULL DEFAULT 0,
+  `role1` varchar(200) DEFAULT NULL,
+  `role2` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -638,21 +526,14 @@ CREATE TABLE `branch_creation` (
   `esi_number` varchar(250) DEFAULT NULL,
   `tan_number` varchar(255) DEFAULT NULL,
   `company_logo` varchar(255) DEFAULT NULL,
+  `in_active_remark` varchar(250) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `branch_creation`
---
-
-INSERT INTO `branch_creation` (`branch_id`, `branch_name`, `company_id`, `address1`, `address2`, `key_personal`, `city`, `state`, `email_id`, `website`, `pan_number`, `pf_number`, `fax_number`, `office_number`, `esi_number`, `tan_number`, `company_logo`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Pondicherry', 1, 'Bussy Street', 'Chinnakadai', 'Shanmuga Priyan', 'Chennai', 'TamilNadu', 'support@feathertechnology.in', 'www.feathertechnology.com', 'ABCTY1234D', 'MH/BAN/0000064/000/0000123', '', '', '31/00/123456/000/0001', 'PDES03028F', NULL, 0, 1, NULL, NULL, '2023-05-04 18:21:40', '2023-05-04 18:21:40'),
-(2, 'Vandavasi', 2, 'Gandhi Street', 'Vandavasi', 'Prabakaran', 'Tiruvannamalai', 'TamilNadu', 'marudham@gmail.com', 'www.marudham.com', 'ABCTY1234D', '', '', '', '31/00/123456/000/0001', 'PDES03028E', NULL, 0, 1, NULL, NULL, '2023-05-04 18:22:14', '2023-05-04 18:22:14');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -681,14 +562,7 @@ CREATE TABLE `business_com_line` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `business_com_line`
---
-
-INSERT INTO `business_com_line` (`business_com_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `recipient_id`, `receiving_branch_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '3', '2', '1', '1', '1', '2023-05-13', '2023-05-13', '2023-05-13', 0, 20, NULL, NULL, '2023-05-13 14:34:53', '2023-05-13 14:34:53');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -711,14 +585,7 @@ CREATE TABLE `business_com_out` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `business_com_out`
---
-
-INSERT INTO `business_com_out` (`business_com_out_id`, `business_com_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'DOCNUM1', '13-05-2023', 'test', 'test', '', 0, 20, NULL, NULL, '2023-05-13 14:35:11', '2023-05-13 14:35:11');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -734,16 +601,7 @@ CREATE TABLE `business_com_parallel_agree_disagree` (
   `agree_disagree_date` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `business_com_parallel_agree_disagree`
---
-
-INSERT INTO `business_com_parallel_agree_disagree` (`business_com_parallel_agree_disagree_id`, `business_com_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
-(1, '1', '2', 1, '2023-05-13', 0, '2023-05-13 14:34:53'),
-(2, '1', '3', 1, '2023-05-13', 0, '2023-05-13 14:34:53'),
-(3, '1', '4', 1, '2023-05-13', 0, '2023-05-13 14:34:53');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -755,13 +613,14 @@ CREATE TABLE `campaign` (
   `campaign_id` int(11) NOT NULL,
   `promotional_activities_id` varchar(50) DEFAULT NULL,
   `actual_start_date` varchar(255) DEFAULT NULL,
+  `branch_id` varchar(50) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -778,9 +637,10 @@ CREATE TABLE `campaign_ref` (
   `duration` varchar(255) DEFAULT NULL,
   `start_date` varchar(255) DEFAULT NULL,
   `end_date` varchar(255) DEFAULT NULL,
+  `department_id` varchar(50) DEFAULT NULL,
   `employee_name` varchar(255) DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -797,15 +657,7 @@ CREATE TABLE `category_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `category_creation`
---
-
-INSERT INTO `category_creation` (`category_creation_id`, `category_creation_name`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Category1', 0, NULL, NULL, NULL, '2023-05-05 01:03:16', '2023-05-05 01:03:16'),
-(2, 'Category2', 0, NULL, NULL, NULL, '2023-05-05 01:03:55', '2023-05-05 01:03:55');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -832,21 +684,14 @@ CREATE TABLE `company_creation` (
   `esi_number` varchar(250) DEFAULT NULL,
   `tan_number` varchar(255) DEFAULT NULL,
   `company_logo` varchar(255) DEFAULT NULL,
+  `in_active_remark` varchar(250) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `company_creation`
---
-
-INSERT INTO `company_creation` (`company_id`, `company_name`, `company_status`, `cin`, `address1`, `address2`, `key_personal`, `city`, `state`, `email_id`, `website`, `pan_number`, `pf_number`, `fax_number`, `office_number`, `esi_number`, `tan_number`, `company_logo`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Feather Technology', 'Partnership', '', 'Car Street', 'Chinnakadai', 'Ram', 'Chennai', 'TamilNadu', 'support@feathertechnology.in', 'www.feathertechnology.com', 'ABCTY1234D', 'MH/BAN/0000064/000/0000123', '', '', '31/00/123456/000/0001', 'PDES03028F', '', 0, 1, 1, NULL, '2023-05-04 18:19:24', '2023-05-04 18:19:24'),
-(2, 'Marutham', 'Partnership', '', 'Gandhi Street', 'Vandavasi', '', 'Tiruvannamalai', 'TamilNadu', 'marudham@gmail.com', 'www.marudham.com', '', 'MH/BAN/0000064/000/0000123', '', '', '31/00/123456/000/0001', 'PDES03028F', '', 0, 1, NULL, NULL, '2023-05-04 18:20:55', '2023-05-04 18:20:55');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -858,7 +703,7 @@ CREATE TABLE `costcentre` (
   `costcentreid` int(11) NOT NULL,
   `costcentrename` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -876,16 +721,7 @@ CREATE TABLE `daily_km` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_km`
---
-
-INSERT INTO `daily_km` (`daily_km_id`, `company_id`, `date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '2023-05-05', 0, NULL, NULL, NULL, '2023-05-05 02:05:23', '2023-05-05 02:05:23'),
-(2, '1', '2023-05-05', 0, NULL, NULL, NULL, '2023-05-05 14:43:13', '2023-05-05 14:43:13'),
-(3, '1', '2023-06-02', 0, NULL, NULL, NULL, '2023-06-02 12:42:23', '2023-06-02 12:42:23');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -899,17 +735,9 @@ CREATE TABLE `daily_km_ref` (
   `vehicle_number` varchar(255) DEFAULT NULL,
   `start_km` varchar(255) DEFAULT NULL,
   `end_km` varchar(255) DEFAULT NULL,
-  `daily_km_id` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_km_ref`
---
-
-INSERT INTO `daily_km_ref` (`daily_km_ref_id`, `vehicle_details_id`, `vehicle_number`, `start_km`, `end_km`, `daily_km_id`) VALUES
-(2, '1', '111', '50', '500', '1'),
-(3, '1', '111', '50', '100', '2'),
-(4, '1', '111', '50', '500', '3');
+  `daily_km_id` varchar(255) DEFAULT NULL,
+  `employee_name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -920,6 +748,7 @@ INSERT INTO `daily_km_ref` (`daily_km_ref_id`, `vehicle_details_id`, `vehicle_nu
 CREATE TABLE `daily_performance` (
   `daily_performance_id` int(11) NOT NULL,
   `company_id` int(11) DEFAULT NULL,
+  `branch_id` varchar(50) DEFAULT NULL,
   `department_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `emp_id` int(11) DEFAULT NULL,
@@ -930,14 +759,7 @@ CREATE TABLE `daily_performance` (
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_performance`
---
-
-INSERT INTO `daily_performance` (`daily_performance_id`, `company_id`, `department_id`, `role_id`, `emp_id`, `month`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`, `status`) VALUES
-(1, 1, 1, 1, 1, 6, 1, NULL, NULL, '2023-06-02 12:03:53', '2023-06-02 12:03:53', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -950,20 +772,14 @@ CREATE TABLE `daily_performance_ref` (
   `daily_performance_id` int(11) DEFAULT NULL,
   `assertion` varchar(200) DEFAULT NULL,
   `target` varchar(100) DEFAULT NULL,
+  `actual_achieve` varchar(50) DEFAULT NULL,
   `system_date` date DEFAULT NULL,
   `old_target` varchar(200) DEFAULT NULL,
-  `target_fixing_id` int(11) DEFAULT NULL,
-  `target_fixing_ref_id` int(11) DEFAULT NULL,
+  `goal_setting_id` int(11) DEFAULT NULL,
+  `goal_setting_ref_id` int(11) DEFAULT NULL,
+  `assertion_table_sno` varchar(50) DEFAULT NULL,
   `status` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `daily_performance_ref`
---
-
-INSERT INTO `daily_performance_ref` (`daily_performance_ref_id`, `daily_performance_id`, `assertion`, `target`, `system_date`, `old_target`, `target_fixing_id`, `target_fixing_ref_id`, `status`) VALUES
-(1, 1, 'demo1', '3', '2023-06-02', '90', 1, 1, 'statisfied'),
-(2, 1, 'test1', '8', '2023-06-02', '200', 1, 2, 'not_done');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -978,17 +794,7 @@ CREATE TABLE `department_creation` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `department_creation`
---
-
-INSERT INTO `department_creation` (`department_id`, `department_name`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
-(1, 'Development', 1, 0, '2023-05-04 05:53:47', '2023-05-04 05:53:47'),
-(2, 'Marketing', 1, 0, '2023-05-04 05:53:56', '2023-05-04 05:53:56'),
-(3, 'HR', 2, 0, '2023-05-04 05:56:01', '2023-05-04 05:56:01'),
-(4, 'Accounts', 2, 0, '2023-05-04 05:56:08', '2023-05-04 05:56:08');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1003,20 +809,7 @@ CREATE TABLE `designation_creation` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `designation_creation`
---
-
-INSERT INTO `designation_creation` (`designation_id`, `designation_name`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
-(1, 'TL', 1, 0, '2023-05-04 05:54:06', '2023-05-04 05:54:06'),
-(2, 'Senior Developer', 1, 0, '2023-05-04 05:54:12', '2023-05-04 05:54:12'),
-(3, 'Junior Developer', 1, 0, '2023-05-04 05:54:18', '2023-05-04 05:54:18'),
-(4, 'Marketing Manager', 1, 0, '2023-05-04 05:55:19', '2023-05-04 05:55:19'),
-(5, 'Marketing Executive', 1, 0, '2023-05-04 05:55:32', '2023-05-04 05:55:32'),
-(6, 'Senior HR', 2, 0, '2023-05-04 05:56:46', '2023-05-04 05:56:46'),
-(7, 'Junior HR', 2, 0, '2023-05-04 05:56:55', '2023-05-04 05:56:55');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1034,20 +827,36 @@ CREATE TABLE `diesel_slip` (
   `present_km_date` varchar(255) DEFAULT NULL,
   `total_km_run` int(11) DEFAULT NULL,
   `diesel_amount` int(11) DEFAULT NULL,
+  `staff_id` varchar(50) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `diesel_slip`
+-- Table structure for table `fc_insurance_renew`
 --
 
-INSERT INTO `diesel_slip` (`diesel_slip_id`, `company_id`, `vehicle_number`, `previous_km`, `previous_km_date`, `present_km`, `present_km_date`, `total_km_run`, `diesel_amount`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 100, '2023-05-05', 500, '2023-05-10', 400, 50, 0, 1, NULL, NULL, '2023-05-10 12:44:51', '2023-05-10 12:44:51');
+CREATE TABLE `fc_insurance_renew` (
+  `fc_insurance_renew_id` int(11) NOT NULL,
+  `branch_id` varchar(50) DEFAULT NULL,
+  `vehicle_details_id` varchar(50) DEFAULT NULL,
+  `assign_staff_name` varchar(50) DEFAULT NULL,
+  `assign_remark` varchar(250) DEFAULT NULL,
+  `from_date` datetime DEFAULT NULL,
+  `to_date` datetime DEFAULT NULL,
+  `work_status` int(11) DEFAULT 0,
+  `status` int(11) DEFAULT 0,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` varchar(50) DEFAULT NULL,
+  `insert_login_id` varchar(50) DEFAULT NULL,
+  `update_login_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1058,6 +867,7 @@ INSERT INTO `diesel_slip` (`diesel_slip_id`, `company_id`, `vehicle_number`, `pr
 CREATE TABLE `goal_setting` (
   `goal_setting_id` int(11) NOT NULL,
   `company_name` varchar(11) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
   `department` varchar(255) DEFAULT NULL,
   `role` varchar(250) DEFAULT NULL,
   `year` varchar(200) DEFAULT NULL,
@@ -1067,15 +877,7 @@ CREATE TABLE `goal_setting` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `goal_setting`
---
-
-INSERT INTO `goal_setting` (`goal_setting_id`, `company_name`, `department`, `role`, `year`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', '7', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
-(2, '1', '1', '2', '7', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1086,25 +888,18 @@ INSERT INTO `goal_setting` (`goal_setting_id`, `company_name`, `department`, `ro
 CREATE TABLE `goal_setting_ref` (
   `goal_setting_ref_id` int(11) NOT NULL,
   `goal_setting_id` int(11) DEFAULT NULL,
+  `assertion_table_sno` varchar(50) DEFAULT NULL,
   `assertion` varchar(255) DEFAULT NULL,
   `target` varchar(255) DEFAULT NULL,
+  `goal_month` varchar(50) DEFAULT NULL,
+  `monthly_conversion_required` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `goal_setting_ref`
---
-
-INSERT INTO `goal_setting_ref` (`goal_setting_ref_id`, `goal_setting_id`, `assertion`, `target`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, 'test', '1000', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
-(2, 1, 'test1', '2000', 0, 1, NULL, NULL, '2023-05-26 18:30:03', '2023-05-26 18:30:03'),
-(3, 2, 'test', '3000', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26'),
-(4, 2, 'test1', '4000', 0, 1, NULL, NULL, '2023-05-26 18:30:26', '2023-05-26 18:30:26');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1124,7 +919,7 @@ CREATE TABLE `hierarchy_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1142,14 +937,7 @@ CREATE TABLE `holiday_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `holiday_creation`
---
-
-INSERT INTO `holiday_creation` (`holiday_id`, `calendar_year`, `company_id`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-2024', '1,2', 0, 1, NULL, NULL, '2023-05-04 18:23:04', '2023-05-04 18:23:04');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1168,15 +956,7 @@ CREATE TABLE `holiday_creation_ref` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `holiday_creation_ref`
---
-
-INSERT INTO `holiday_creation_ref` (`holiday_ref_id`, `holiday_reff_id`, `holiday_date`, `holiday_description`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(3, 1, '2023-05-29', 'Holiday 1', 0, 1, NULL, NULL, '2023-05-04 18:23:09', '2023-05-04 18:23:09'),
-(4, 1, '2023-05-25', 'Holiday 2', 0, 1, NULL, NULL, '2023-05-04 18:23:09', '2023-05-04 18:23:09');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1191,14 +971,7 @@ CREATE TABLE `insurance_creation` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `insurance_creation`
---
-
-INSERT INTO `insurance_creation` (`insurance_id`, `insurance_name`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
-(1, 'Health Insurance', 1, 0, '2023-05-04 23:46:10', '2023-05-04 23:46:10');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1210,6 +983,9 @@ CREATE TABLE `insurance_register` (
   `ins_reg_id` int(11) NOT NULL,
   `company_id` int(11) DEFAULT NULL,
   `insurance_id` int(11) DEFAULT NULL,
+  `policy_company` varchar(250) DEFAULT NULL,
+  `policy_number` varchar(250) DEFAULT NULL,
+  `policy_upload` varchar(250) DEFAULT NULL,
   `dept_id` int(11) DEFAULT NULL,
   `freq_id` int(11) DEFAULT NULL,
   `department_id` varchar(255) DEFAULT NULL,
@@ -1223,14 +999,7 @@ CREATE TABLE `insurance_register` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `insurance_register`
---
-
-INSERT INTO `insurance_register` (`ins_reg_id`, `company_id`, `insurance_id`, `dept_id`, `freq_id`, `department_id`, `designation_id`, `staff_id`, `calendar`, `from_date`, `to_date`, `frequency_applicable`, `work_status`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-06-01 15:02:12', '2023-06-02 15:02:12', 'frequency_applicable', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1243,6 +1012,9 @@ CREATE TABLE `insurance_register_ref` (
   `ins_reg_id` int(11) DEFAULT NULL,
   `company_id` int(11) DEFAULT NULL,
   `insurance_id` int(11) DEFAULT NULL,
+  `policy_company` varchar(250) DEFAULT NULL,
+  `policy_number` varchar(250) DEFAULT NULL,
+  `policy_upload` varchar(250) DEFAULT NULL,
   `dept_id` int(11) DEFAULT NULL,
   `freq_id` int(11) DEFAULT NULL,
   `department_id` varchar(255) DEFAULT NULL,
@@ -1255,15 +1027,7 @@ CREATE TABLE `insurance_register_ref` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `insurance_register_ref`
---
-
-INSERT INTO `insurance_register_ref` (`ins_reg_ref_id`, `ins_reg_id`, `company_id`, `insurance_id`, `dept_id`, `freq_id`, `department_id`, `designation_id`, `staff_id`, `calendar`, `from_date`, `to_date`, `work_status`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-06-01 15:02:12', '2023-06-02 15:02:12', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12'),
-(2, 1, 1, 1, 1, 1, '1', '1', '1', 'Yes', '2023-12-01 15:02:12', '2023-12-02 15:02:12', 0, 0, '2023-06-01 15:02:12', '2023-06-01 15:02:12');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1280,37 +1044,7 @@ CREATE TABLE `krakpi_calendar_map` (
   `from_date` varchar(50) DEFAULT NULL,
   `to_date` varchar(50) DEFAULT NULL,
   `work_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `krakpi_calendar_map`
---
-
-INSERT INTO `krakpi_calendar_map` (`krakpi_calendar_map_id`, `krakpi_id`, `krakpi_ref_id`, `kra_category`, `calendar`, `from_date`, `to_date`, `work_status`) VALUES
-(1, '1', '1', '2', 'Yes', '2023-06-01 15:12:51', '2023-06-02 15:12:51', 0),
-(2, '1', '1', '2', 'Yes', '2023-06-16 15:12:51', '2023-06-17 15:12:51', 0),
-(3, '1', '1', '2', 'Yes', '2023-07-01 15:12:51', '2023-07-03 15:12:51', 0),
-(4, '1', '1', '2', 'Yes', '2023-07-17 15:12:51', '2023-07-18 15:12:51', 0),
-(5, '1', '1', '2', 'Yes', '2023-08-01 15:12:51', '2023-08-02 15:12:51', 0),
-(6, '1', '1', '2', 'Yes', '2023-08-16 15:12:51', '2023-08-17 15:12:51', 0),
-(7, '1', '1', '2', 'Yes', '2023-08-31 15:12:51', '2023-09-01 15:12:51', 0),
-(8, '1', '1', '2', 'Yes', '2023-09-15 15:12:51', '2023-09-16 15:12:51', 0),
-(9, '1', '1', '2', 'Yes', '2023-09-30 15:12:51', '2023-10-02 15:12:51', 0),
-(10, '1', '1', '2', 'Yes', '2023-10-16 15:12:51', '2023-10-17 15:12:51', 0),
-(11, '1', '1', '2', 'Yes', '2023-10-31 15:12:51', '2023-11-01 15:12:51', 0),
-(12, '1', '1', '2', 'Yes', '2023-11-15 15:12:51', '2023-11-16 15:12:51', 0),
-(13, '1', '1', '2', 'Yes', '2023-11-30 15:12:51', '2023-12-01 15:12:51', 0),
-(14, '1', '1', '2', 'Yes', '2023-12-15 15:12:51', '2023-12-16 15:12:51', 0),
-(15, '1', '1', '2', 'Yes', '2023-12-30 15:12:51', '2024-01-01 15:12:51', 0),
-(16, '1', '2', '1', 'Yes', '2023-06-15 15:12:51', '2023-06-16 15:12:51', 0),
-(17, '1', '2', '1', 'Yes', '2023-07-15 15:12:51', '2023-07-17 15:12:51', 0),
-(18, '1', '2', '1', 'Yes', '2023-08-15 15:12:51', '2023-08-17 15:12:51', 0),
-(19, '1', '2', '1', 'Yes', '2023-09-15 15:12:51', '2023-09-18 15:12:51', 0),
-(20, '1', '2', '1', 'Yes', '2023-10-16 15:12:51', '2023-10-18 15:12:51', 0),
-(21, '1', '2', '1', 'Yes', '2023-11-16 15:12:51', '2023-11-18 15:12:51', 0),
-(22, '1', '2', '1', 'Yes', '2023-12-16 15:12:51', '2023-12-18 15:12:51', 0),
-(23, '2', '3', '2', 'No', '', '', 0),
-(24, '2', '4', '1', 'No', '', '', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1329,15 +1063,7 @@ CREATE TABLE `krakpi_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `krakpi_creation`
---
-
-INSERT INTO `krakpi_creation` (`krakpi_id`, `company_name`, `department`, `designation`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
-(2, '1', '1', '1', 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1365,17 +1091,7 @@ CREATE TABLE `krakpi_creation_ref` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `krakpi_creation_ref`
---
-
-INSERT INTO `krakpi_creation_ref` (`krakpi_ref_id`, `krakpi_reff_id`, `kra_category`, `rr`, `kpi`, `frequency`, `frequency_applicable`, `calendar`, `from_date`, `to_date`, `criteria`, `project_id`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, '2', '4', '', 'Fortnightly', 'frequency_applicable', 'Yes', '2023-06-01 15:12:51', '2023-06-02 15:12:51', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
-(2, 1, '1', '3', '', 'Monthly', 'frequency_applicable', 'Yes', '2023-06-15 15:12:51', '2023-06-16 15:12:51', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 15:12:51', '2023-06-01 15:12:51'),
-(3, 2, '2', '4', '', 'Fortnightly', '', 'No', '', '', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24'),
-(4, 2, '1', '3', '', 'Monthly', '', 'No', '', '', 'Event', '', 0, 0, 1, NULL, NULL, '2023-06-01 16:39:24', '2023-06-01 16:39:24');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1394,20 +1110,7 @@ CREATE TABLE `kra_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `kra_creation`
---
-
-INSERT INTO `kra_creation` (`kra_id`, `company_id`, `department_id`, `designation_id`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 0, 1, NULL, NULL, '2023-05-04 18:35:26', '2023-05-04 18:35:26'),
-(2, '1', '1', '2', 0, 1, NULL, NULL, '2023-05-04 18:35:40', '2023-05-04 18:35:40'),
-(3, '1', '1', '3', 0, 1, NULL, NULL, '2023-05-04 18:35:53', '2023-05-04 18:35:53'),
-(4, '1', '2', '4', 0, 1, NULL, NULL, '2023-05-04 18:36:07', '2023-05-04 18:36:07'),
-(5, '1', '2', '5', 0, 1, NULL, NULL, '2023-05-04 18:36:20', '2023-05-04 18:36:20'),
-(6, '2', '3', '6', 0, 1, NULL, NULL, '2023-05-04 18:36:31', '2023-05-04 18:36:31'),
-(7, '2', '3', '7', 0, 1, NULL, NULL, '2023-05-04 18:36:42', '2023-05-04 18:36:42');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1420,21 +1123,7 @@ CREATE TABLE `kra_creation_ref` (
   `kra_category` varchar(255) DEFAULT NULL,
   `weightage` varchar(255) DEFAULT NULL,
   `kra_id` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `kra_creation_ref`
---
-
-INSERT INTO `kra_creation_ref` (`kra_creation_ref_id`, `kra_category`, `weightage`, `kra_id`) VALUES
-(1, 'kra1', '50', '1'),
-(2, 'kra2', '50', '1'),
-(3, 'kra3', '100', '2'),
-(4, 'kra4', '100', '3'),
-(5, 'kra5', '100', '4'),
-(6, 'kra6', '100', '5'),
-(7, 'kra7', '100', '6'),
-(8, 'kra8', '100', '7');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1468,7 +1157,7 @@ CREATE TABLE `ledger` (
   `ServiceTaxNumber` varchar(255) DEFAULT NULL,
   `ExciseDutyReg` varchar(255) DEFAULT NULL,
   `DebitCredit` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1495,16 +1184,7 @@ CREATE TABLE `maintenance_checklist` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `maintenance_checklist`
---
-
-INSERT INTO `maintenance_checklist` (`maintenance_checklist_id`, `company_id`, `date_of_inspection`, `asset_details`, `checklist`, `calendar`, `from_date`, `to_date`, `role1`, `role2`, `responder_status`, `work_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-01 15:33:38', '2023-04-02 15:33:38', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:33:20', '2023-05-31 15:33:20'),
-(2, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-03 15:36:23', '2023-04-04 15:36:23', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:36:23', '2023-05-31 15:36:23'),
-(3, '1', '2023-05-31', '1', 'pm_checklist', 'Yes', '2023-04-01 15:39:33', '2023-04-02 15:39:33', '1', '2', 0, 0, 0, NULL, NULL, NULL, '2023-05-31 15:38:35', '2023-05-31 15:38:35');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1521,19 +1201,7 @@ CREATE TABLE `maintenance_checklist_ref` (
   `file` varchar(255) DEFAULT NULL,
   `responder_reason` text DEFAULT NULL,
   `responder_status_ref` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `maintenance_checklist_ref`
---
-
-INSERT INTO `maintenance_checklist_ref` (`maintenance_checklist_ref_id`, `maintenance_checklist_id`, `pm_checklist_id`, `bm_checklist_id`, `remarks`, `file`, `responder_reason`, `responder_status_ref`) VALUES
-(3, '1', '1', NULL, 'test12', '', NULL, 0),
-(4, '1', '2', NULL, 'test22', '', NULL, 0),
-(5, '2', '1', NULL, 'asdf', '', NULL, 0),
-(6, '2', '2', NULL, 'asdf1', '', NULL, 0),
-(9, '3', '1', NULL, 'test2323', '', NULL, 0),
-(10, '3', '2', NULL, 'test12323', '', NULL, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1550,14 +1218,7 @@ CREATE TABLE `media_creation` (
   `to_period` varchar(255) DEFAULT NULL,
   `platform` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `media_creation`
---
-
-INSERT INTO `media_creation` (`media_id`, `company_id`, `media_name`, `media_file`, `from_period`, `to_period`, `platform`, `status`) VALUES
-(1, 1, 'Media 1', 'ZR_106418_CAND.pdf', '2023-05-05', '2023-05-15', 'Facebook', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1580,14 +1241,7 @@ CREATE TABLE `meeting_minutes` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `meeting_minutes`
---
-
-INSERT INTO `meeting_minutes` (`meeting_minutes_id`, `meeting_minutes_approval_line_id`, `staff_id`, `doc_no`, `auto_generation_date`, `title`, `comments`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'MMDOCNUM1', '15-05-2023', 'test', 'test', 'ZR_106418_CAND (1).pdf', 0, 20, NULL, NULL, '2023-05-15 10:40:13', '2023-05-15 10:40:13');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1615,14 +1269,7 @@ CREATE TABLE `meeting_minutes_approval_line` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `meeting_minutes_approval_line`
---
-
-INSERT INTO `meeting_minutes_approval_line` (`meeting_minutes_approval_line_id`, `company_id`, `staff_id`, `approval_staff_id`, `agree_par_staff_id`, `after_notified_staff_id`, `receiving_dept_id`, `checker_approval`, `reviewer_approval`, `final_approval`, `checker_approval_date`, `reviewer_approval_date`, `final_approval_date`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '2,3,4', '2,3,4', '2,3,4', '2', '1', '1', '1', '2023-05-15', '2023-05-15', '2023-05-15', 0, 20, NULL, NULL, '2023-05-15 10:37:19', '2023-05-15 10:37:19');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1638,16 +1285,7 @@ CREATE TABLE `meeting_minutes_parallel_agree_disagree` (
   `agree_disagree_date` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `meeting_minutes_parallel_agree_disagree`
---
-
-INSERT INTO `meeting_minutes_parallel_agree_disagree` (`meeting_minutes_agree_disagree_id`, `meeting_minutes_approval_line_id`, `agree_disagree_staff_id`, `agree_disagree`, `agree_disagree_date`, `status`, `created_date`) VALUES
-(1, '1', '2', 1, '2023-05-15', 0, '2023-05-15 10:37:19'),
-(2, '1', '3', 1, '2023-05-15', 0, '2023-05-15 10:37:19'),
-(3, '1', '4', 1, '2023-05-15', 0, '2023-05-15 10:37:19');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1677,15 +1315,7 @@ CREATE TABLE `memo` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `memo`
---
-
-INSERT INTO `memo` (`memo_id`, `company_id`, `from_department`, `to_department`, `assign_employee`, `priority`, `inquiry`, `suggestion`, `attachment`, `completion_target_date`, `initial_phase`, `final_phase`, `date_of_completion`, `update_attachment`, `narration`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', NULL, '1', '1', '1', 'test', 'test', 'ZR_106418_CAND.pdf', '2023-05-11', '', '', '2023-05-14', '', 'test', 0, 1, 1, NULL, '2023-05-05 13:32:03', '2023-05-05 13:32:03'),
-(2, '1', NULL, '1', '1', '1', 'test', 'test', '', '2023-06-15', '', '', NULL, NULL, NULL, 0, 1, 1, NULL, '2023-06-01 17:01:35', '2023-06-01 17:01:35');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1705,7 +1335,7 @@ CREATE TABLE `memo_status` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1724,7 +1354,7 @@ CREATE TABLE `periodic_level` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1734,6 +1364,7 @@ CREATE TABLE `periodic_level` (
 
 CREATE TABLE `permission_or_on_duty` (
   `permission_on_duty_id` int(11) NOT NULL,
+  `regularisation_id` varchar(250) DEFAULT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `department_id` varchar(255) DEFAULT NULL,
   `staff_id` varchar(255) DEFAULT NULL,
@@ -1747,19 +1378,15 @@ CREATE TABLE `permission_or_on_duty` (
   `leave_date` varchar(255) DEFAULT NULL,
   `leave_reason` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
+  `leave_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=request 1=accepted 2=rejected',
+  `reject_reason` varchar(255) DEFAULT NULL,
+  `responsible_staff` int(11) DEFAULT NULL,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `permission_or_on_duty`
---
-
-INSERT INTO `permission_or_on_duty` (`permission_on_duty_id`, `company_id`, `department_id`, `staff_id`, `staff_code`, `reporting`, `reason`, `permission_from_time`, `permission_to_time`, `permission_date`, `on_duty_place`, `leave_date`, `leave_reason`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', '111', '', 'Permission', '03:34', '04:35', '2023-05-05', '', '', '', 0, 1, NULL, NULL, '2023-05-05 14:33:37', '2023-05-05 14:33:37');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1789,14 +1416,34 @@ CREATE TABLE `pm_checklist` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `pm_checklist`
+-- Table structure for table `pm_checklist_multiple`
 --
 
-INSERT INTO `pm_checklist` (`pm_checklist_id`, `company_id`, `category_id`, `checklist`, `type_of_checklist`, `yes_no_na`, `no_of_option`, `option1`, `option2`, `option3`, `option4`, `frequency`, `frequency_applicable`, `rating`, `maintenance_checklist`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'test', 'Option', '', '2', 'option1', 'option2', '', '', 'Fortnightly', 'frequency_applicable', 'High', 0, 0, 1, NULL, NULL, '2023-06-01 14:18:48', '2023-06-01 14:18:48');
+CREATE TABLE `pm_checklist_multiple` (
+  `id` int(11) NOT NULL,
+  `pm_checklist_id` int(11) NOT NULL,
+  `checklist` text DEFAULT NULL,
+  `type_of_checklist` varchar(255) DEFAULT NULL,
+  `yes_no_na` varchar(255) DEFAULT NULL,
+  `no_of_option` varchar(255) DEFAULT NULL,
+  `option1` varchar(255) DEFAULT NULL,
+  `option2` varchar(255) DEFAULT NULL,
+  `option3` varchar(255) DEFAULT NULL,
+  `option4` varchar(255) DEFAULT NULL,
+  `rating` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `maintenance_checklist` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1815,7 +1462,7 @@ CREATE TABLE `pm_checklist_ref` (
   `work_status` int(11) NOT NULL DEFAULT 0,
   `role1` varchar(200) DEFAULT NULL,
   `role2` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1832,16 +1479,7 @@ CREATE TABLE `project_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `project_creation`
---
-
-INSERT INTO `project_creation` (`project_id`, `project_name`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'project1', 0, NULL, NULL, NULL, '2023-05-04 06:08:10', '2023-05-04 06:08:10'),
-(2, 'project2', 0, NULL, NULL, NULL, '2023-05-04 06:12:14', '2023-05-04 06:12:14'),
-(3, 'project3', 0, NULL, NULL, NULL, '2023-05-05 01:01:09', '2023-05-05 01:01:09');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1859,15 +1497,7 @@ CREATE TABLE `promotional_activities` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `promotional_activities`
---
-
-INSERT INTO `promotional_activities` (`promotional_activities_id`, `project`, `campaign_status`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'project1', 0, 0, 1, NULL, NULL, '2023-05-10 15:58:48', '2023-05-10 15:58:48'),
-(2, 'project2', 0, 0, 1, NULL, NULL, '2023-05-10 16:04:59', '2023-05-10 16:04:59');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1879,22 +1509,12 @@ CREATE TABLE `promotional_activities_ref` (
   `promotional_activities_ref_id` int(11) NOT NULL,
   `promotional_activities_id` int(11) DEFAULT NULL,
   `activity_involved` varchar(200) DEFAULT NULL,
-  `time_frame_start` int(50) DEFAULT NULL,
-  `duration` int(50) DEFAULT NULL,
+  `time_frame_start` int(11) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
   `start_date` varchar(50) DEFAULT NULL,
   `end_date` varchar(50) DEFAULT NULL,
   `employee_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `promotional_activities_ref`
---
-
-INSERT INTO `promotional_activities_ref` (`promotional_activities_ref_id`, `promotional_activities_id`, `activity_involved`, `time_frame_start`, `duration`, `start_date`, `end_date`, `employee_name`) VALUES
-(1, 1, 'act 1', 10, 3, '2023-05-25', '2023-05-26', '1'),
-(2, 1, 'act 2', 5, 2, '2023-05-11', '2023-05-17', '2'),
-(4, 3, 'act 3', 20, 5, NULL, NULL, NULL),
-(5, 3, 'act 4', 15, 2, NULL, NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1908,14 +1528,7 @@ CREATE TABLE `report_creation` (
   `report_name` varchar(200) DEFAULT NULL,
   `report_file` varchar(200) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `report_creation`
---
-
-INSERT INTO `report_creation` (`report_id`, `company_id`, `report_name`, `report_file`, `status`) VALUES
-(1, 1, 'Template 1', 'Prasanth (2) (1) (1).pdf', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1930,11 +1543,13 @@ CREATE TABLE `rgp_creation` (
   `asset_class` varchar(255) DEFAULT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `branch_from` varchar(255) DEFAULT NULL,
+  `company_to` int(11) DEFAULT NULL,
   `branch_to` varchar(255) DEFAULT NULL,
   `from_comm_line1` varchar(255) DEFAULT NULL,
   `from_comm_line2` varchar(255) DEFAULT NULL,
   `to_comm_line1` varchar(255) DEFAULT NULL,
   `to_comm_line2` varchar(255) DEFAULT NULL,
+  `rgp_staff_id` varchar(50) DEFAULT NULL,
   `asset_name_id` varchar(255) DEFAULT NULL,
   `asset_value` varchar(255) DEFAULT NULL,
   `reason_rgp` varchar(255) DEFAULT NULL,
@@ -1947,14 +1562,7 @@ CREATE TABLE `rgp_creation` (
   `updated_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `rgp_creation`
---
-
-INSERT INTO `rgp_creation` (`rgp_id`, `rgp_date`, `return_date`, `asset_class`, `company_id`, `branch_from`, `branch_to`, `from_comm_line1`, `from_comm_line2`, `to_comm_line1`, `to_comm_line2`, `asset_name_id`, `asset_value`, `reason_rgp`, `extended_date`, `extend_reason`, `extend_status`, `rgp_status`, `status`, `created_id`, `updated_id`, `created_date`, `updated_date`) VALUES
-(1, '2023-05-05', '2023-05-07', '3', '1', '1', '2', 'Bussy Street', 'Chinnakadai', 'Gandhi Street', 'Vandavasi', '1', '60000', 'test', '2023-05-13', 'test', 'Approved', 'inward', 1, NULL, NULL, '2023-05-05 12:18:32', '2023-05-05 12:18:32');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1971,16 +1579,7 @@ CREATE TABLE `rr_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `rr_creation`
---
-
-INSERT INTO `rr_creation` (`rr_id`, `company_name`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', 0, 1, NULL, NULL, '2023-05-04 18:29:57', '2023-05-04 18:29:57'),
-(2, '2', 0, 1, NULL, NULL, '2023-05-04 18:30:53', '2023-05-04 18:30:53'),
-(3, '1', 0, 1, NULL, NULL, '2023-05-05 14:55:13', '2023-05-05 14:55:13');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2003,20 +1602,7 @@ CREATE TABLE `rr_creation_ref` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `rr_creation_ref`
---
-
-INSERT INTO `rr_creation_ref` (`rr_ref_id`, `rr_reff_id`, `department`, `designation`, `rr`, `frequency`, `code_ref`, `applicability`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 'Website Creation', 'Fortnightly', '111', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:29:57', '2023-05-04 18:29:57'),
-(2, '1', '1', '2', 'Webapp Creation', 'Monthly', '112', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:29:57', '2023-05-04 18:29:57'),
-(3, '1', '2', '4', 'Market sw', 'Quaterly', '113', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:29:57', '2023-05-04 18:29:57'),
-(4, '1', '2', '5', 'Market smm', 'Half Yearly', '114', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:29:57', '2023-05-04 18:29:57'),
-(5, '2', '3', '6', 'Hiring', 'Fortnightly', '222', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:30:53', '2023-05-04 18:30:53'),
-(6, '2', '3', '7', 'Attendance Work', 'Monthly', '223', 'Common', 0, 1, NULL, NULL, '2023-05-04 18:30:53', '2023-05-04 18:30:53'),
-(8, '3', '1', '3', 'test1', 'Fortnightly', NULL, NULL, 0, 1, NULL, NULL, '2023-05-05 14:55:49', '2023-05-05 14:55:49');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2046,14 +1632,7 @@ CREATE TABLE `service_indent` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `service_indent`
---
-
-INSERT INTO `service_indent` (`service_indent_id`, `company_id`, `date_of_indent`, `asset_class`, `asset_name1`, `asset_value`, `vendor_address`, `vendor_address1`, `vendor_address2`, `company_address`, `company_address1`, `company_address2`, `reason_for_indent`, `expected_to_arrive`, `stock_in_out`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '2023-05-05', '3', '1', '60000', 'test1', 'test2', 'tes3', 'Bussy Street, Chinnakadai', 'Chennai', 'TamilNadu', 'test', '2023-05-05', 2, 0, 1, 1, NULL, '2023-05-05 12:17:08', '2023-05-05 12:17:08');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2069,14 +1648,7 @@ CREATE TABLE `spare_creation` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `spare_creation`
---
-
-INSERT INTO `spare_creation` (`spare_id`, `spare_name`, `branch_id`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
-(1, 'Keyboard', 1, 1, 0, '2023-05-04 23:47:47', '2023-05-04 23:47:47');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2104,17 +1676,7 @@ CREATE TABLE `staff_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `staff_creation`
---
-
-INSERT INTO `staff_creation` (`staff_id`, `staff_name`, `company_id`, `designation`, `emp_code`, `department`, `doj`, `krikpi`, `dob`, `key_skills`, `contact_number`, `email_id`, `reporting`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 'Suresh', 1, 1, '111', 1, '2023-05-04', '1', '2023-05-04', 'coding', '2121212121', 'test@gmail.com', '', 0, 1, NULL, NULL, '2023-05-04 18:55:47', '2023-05-04 18:55:47'),
-(2, 'Barath', 1, 2, '112', 1, '2023-05-04', '1', '2023-05-04', 'coding', '1111111111', 'test@gmail.com1', '1', 0, 1, NULL, NULL, '2023-05-04 18:56:13', '2023-05-04 18:56:13'),
-(3, 'Ram', 1, 3, '113', 1, '2023-05-04', '1', '2023-05-04', 'coding', '3333333333', 'test1@gmail.com', '2', 0, 1, NULL, NULL, '2023-05-04 18:56:43', '2023-05-04 18:56:43'),
-(4, 'Kumar', 1, 3, '114', 1, '2023-05-12', '1', '2023-05-12', 'coding', '1222211111', 'test@gmail.com', '3', 0, 1, NULL, NULL, '2023-05-12 18:02:35', '2023-05-12 18:02:35');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2133,16 +1695,7 @@ CREATE TABLE `tag_creation` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tag_creation`
---
-
-INSERT INTO `tag_creation` (`tag_id`, `department_id`, `company_id`, `tag_classification`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', 'Development Tag', 0, 1, NULL, NULL, '2023-05-04 18:27:43', '2023-05-04 18:27:43'),
-(2, '2', '1', 'Marketing Tag', 0, 1, NULL, NULL, '2023-05-04 18:27:54', '2023-05-04 18:27:54'),
-(3, '3', '2', 'HR Tag', 0, 1, NULL, NULL, '2023-05-04 18:28:03', '2023-05-04 18:28:03');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2164,14 +1717,7 @@ CREATE TABLE `target_fixing` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `target_fixing`
---
-
-INSERT INTO `target_fixing` (`target_fixing_id`, `company_id`, `department_id`, `designation_id`, `emp_id`, `year_id`, `no_of_months`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, 1, 1, 1, 1, 7, 10, 0, 1, NULL, NULL, '2023-06-02 11:39:04', '2023-06-02 11:39:04');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2185,20 +1731,13 @@ CREATE TABLE `target_fixing_ref` (
   `goal_setting_and_kra_id` varchar(50) DEFAULT NULL,
   `assertion` varchar(200) DEFAULT NULL,
   `target` varchar(100) DEFAULT NULL,
+  `monthly_conversion_required` int(11) DEFAULT NULL,
   `new_assertion` varchar(200) DEFAULT NULL,
   `new_target` varchar(100) DEFAULT NULL,
   `applicability` varchar(250) DEFAULT NULL,
   `deleted_date` varchar(100) DEFAULT NULL,
   `deleted_remarks` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `target_fixing_ref`
---
-
-INSERT INTO `target_fixing_ref` (`target_fixing_ref_id`, `target_fixing_id`, `goal_setting_and_kra_id`, `assertion`, `target`, `new_assertion`, `new_target`, `applicability`, `deleted_date`, `deleted_remarks`) VALUES
-(1, 1, '1', 'test', '100', 'demo1', '90', 'test', '', ''),
-(2, 1, '2', 'test1', '200', '', '', '', '', '');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2223,7 +1762,7 @@ CREATE TABLE `todo_creation` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_id` int(11) DEFAULT NULL,
   `updated_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2247,14 +1786,7 @@ CREATE TABLE `transfer_location` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `transfer_location`
---
-
-INSERT INTO `transfer_location` (`transfer_location_id`, `company_id`, `department_id`, `staff_code`, `staff_id`, `dot`, `transfer_location`, `transfer_effective_from`, `file`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', '1', '1', 'Suresh', '2023-05-05', '2', '2023-05-05', 'ZR_106418_CAND.pdf', 0, 1, 1, NULL, '2023-05-05 14:34:17', '2023-05-05 14:34:17');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2274,10 +1806,13 @@ CREATE TABLE `user` (
   `role` varchar(50) DEFAULT NULL,
   `staff_id` varchar(255) DEFAULT NULL,
   `branch_id` varchar(255) DEFAULT NULL,
+  `designation_id` varchar(50) DEFAULT NULL,
+  `mobile_number` varchar(50) DEFAULT NULL,
   `status` varchar(255) DEFAULT '0',
   `Createddate` datetime NOT NULL DEFAULT current_timestamp(),
   `administration_module` varchar(11) DEFAULT NULL,
   `dashboard` varchar(11) DEFAULT NULL,
+  `reports` int(11) DEFAULT 1,
   `company_creation` varchar(11) DEFAULT NULL,
   `branch_creation` varchar(11) DEFAULT NULL,
   `holiday_creation` varchar(11) DEFAULT NULL,
@@ -2310,6 +1845,7 @@ CREATE TABLE `user` (
   `memo_sub_module` varchar(11) DEFAULT NULL,
   `campaign` varchar(11) DEFAULT NULL,
   `assign_work` varchar(11) DEFAULT NULL,
+  `daily_task_update` int(11) DEFAULT 1,
   `todo` varchar(11) DEFAULT NULL,
   `assigned_work` varchar(11) DEFAULT NULL,
   `memo_initiate` varchar(11) DEFAULT NULL,
@@ -2321,6 +1857,7 @@ CREATE TABLE `user` (
   `maintenance_checklist` varchar(11) DEFAULT NULL,
   `manpower_in_out_module` varchar(11) DEFAULT NULL,
   `permission_or_onduty` varchar(11) DEFAULT NULL,
+  `regularisation_approval` int(11) DEFAULT NULL,
   `transfer_location` varchar(11) DEFAULT NULL,
   `target_fixing_module` varchar(11) DEFAULT NULL,
   `goal_setting` varchar(11) DEFAULT NULL,
@@ -2335,20 +1872,7 @@ CREATE TABLE `user` (
   `approval_requisition` varchar(11) DEFAULT NULL,
   `business_communication_outgoing` varchar(11) DEFAULT NULL,
   `minutes_of_meeting` varchar(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(19, 'Manager', 'Manager', 'Manager', 'Manager', 'manager@feathertechnology.in', 'manager@feathertechnology.in', 'admin@123', '3', NULL, '1', '0', '2023-01-31 16:52:54', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(20, 'Employee', 'Employee', 'Employee', 'Employee', 'employee@feathertechnology.in', 'employee@feathertechnology.in', 'admin@123', '4', '1', '1', '0', '2023-03-10 16:33:04', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(21, 'Employee1', 'Employee1', 'Employee1', 'Employee1', 'employee1@feathertechnology.in', 'employee1@feathertechnology.in', 'admin@123', '4', '2', '1', '0', '2023-03-14 13:09:26', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(22, 'Employee2', 'Employee2', 'Employee2', 'Employee2', 'employee2@feathertechnology.in', 'employee2@feathertechnology.in', 'admin@123', '4', '3', '1', '0', '2023-03-15 10:48:41', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(23, 'Employee3', 'Employee3', 'Employee3', 'Employee3', 'employee3@feathertechnology.in', 'employee3@feathertechnology.in', 'admin@123', '4', '4', '1', '0', '2023-03-16 16:34:10', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(24, 'Employee4', 'Employee4', 'Employee4', 'Employee4', 'employee4@feathertechnology.in', 'employee4@feathertechnology.in', 'admin@123', '4', '5', '2', '0', '2023-03-22 09:40:51', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2360,6 +1884,7 @@ CREATE TABLE `vehicle_details` (
   `vehicle_details_id` int(11) NOT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `vehicle_code` varchar(255) DEFAULT NULL,
+  `vehicle_type` int(11) DEFAULT NULL,
   `vehicle_name` varchar(255) DEFAULT NULL,
   `vehicle_number` varchar(255) DEFAULT NULL,
   `date_of_purchase` varchar(255) DEFAULT NULL,
@@ -2373,14 +1898,7 @@ CREATE TABLE `vehicle_details` (
   `delete_login_id` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `vehicle_details`
---
-
-INSERT INTO `vehicle_details` (`vehicle_details_id`, `company_id`, `vehicle_code`, `vehicle_name`, `vehicle_number`, `date_of_purchase`, `fitment_upto`, `insurance_upto`, `asset_value`, `book_value_as_on`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date`) VALUES
-(1, '1', 'VC1', 'Car', '111', '2023-05-05', '2023-05-07', '2023-05-12', '60000', '30000', 0, 1, NULL, NULL, '2023-05-05 14:35:08', '2023-05-05 14:35:08');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2401,30 +1919,7 @@ CREATE TABLE `work_status` (
   `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
   `created_id` int(11) DEFAULT NULL,
   `updated_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `work_status`
---
-
-INSERT INTO `work_status` (`status_id`, `work_id`, `work_des`, `work_status`, `remarks`, `completed_file`, `outdated_completed_date`, `status`, `created_date`, `updated_date`, `created_id`, `updated_id`) VALUES
-(1, '', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 17:52:42', '2023-05-30 17:52:42', NULL, NULL),
-(2, 'insurance 1', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 17:58:03', '2023-05-30 17:58:03', NULL, NULL),
-(3, 'insurance 1', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 18:01:30', '2023-05-30 18:01:30', NULL, NULL),
-(4, 'insurance 2', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:01:40', '2023-05-30 18:01:40', NULL, NULL),
-(5, 'insurance 2', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:05:09', '2023-05-30 18:05:09', NULL, NULL),
-(6, 'insurance 18', 'Health Insurance', '1', '', NULL, NULL, 0, '2023-05-30 18:12:49', '2023-05-30 18:12:49', NULL, NULL),
-(7, 'insurance 18', 'Health Insurance', '2', '', NULL, NULL, 0, '2023-05-30 18:12:55', '2023-05-30 18:12:55', NULL, NULL),
-(8, 'insurance 18', 'Health Insurance', '3', NULL, '', NULL, 0, '2023-05-30 18:12:59', '2023-05-30 18:12:59', NULL, NULL),
-(9, '', 'test', '3', NULL, NULL, '2023-05-31', 0, '2023-05-31 15:59:25', '2023-05-31 15:59:25', NULL, NULL),
-(10, 'maintenance 1', 'test', '3', NULL, NULL, '', 0, '2023-05-31 16:03:32', '2023-05-31 16:03:32', NULL, NULL),
-(11, 'maintenance 4', 'testing', '1', '', NULL, NULL, 0, '2023-05-31 16:04:19', '2023-05-31 16:04:19', NULL, NULL),
-(12, 'maintenance 4', 'testing', '2', '', NULL, NULL, 0, '2023-05-31 16:04:26', '2023-05-31 16:04:26', NULL, NULL),
-(13, 'audit_area 1', 'Area1', '1', '', NULL, NULL, 0, '2023-05-31 17:03:42', '2023-05-31 17:03:42', NULL, NULL),
-(14, 'audit_area 1', 'Area1', '2', '', NULL, NULL, 0, '2023-05-31 17:03:48', '2023-05-31 17:03:48', NULL, NULL),
-(15, 'audit_area 1', 'Area1', '3', NULL, '', NULL, 0, '2023-05-31 17:03:54', '2023-05-31 17:03:54', NULL, NULL),
-(16, 'krakpi_ref 1', 'Market smm', '1', '', NULL, NULL, 0, '2023-06-01 11:37:50', '2023-06-01 11:37:50', NULL, NULL),
-(17, 'krakpi_ref 1', 'Market smm', '3', NULL, '', NULL, 0, '2023-06-01 11:37:56', '2023-06-01 11:37:56', NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2439,20 +1934,7 @@ CREATE TABLE `year_creation` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `year_creation`
---
-
-INSERT INTO `year_creation` (`year_id`, `year`, `company_id`, `status`, `created_date`, `updated_date`) VALUES
-(1, '1959', 0, 0, '2023-05-15 17:45:38', '2023-05-15 17:45:38'),
-(2, '1956', 0, 0, '2023-05-15 18:05:58', '2023-05-15 18:05:58'),
-(3, '1958', 1, 0, '2023-05-15 18:21:03', '2023-05-15 18:21:03'),
-(4, '1955', 1, 0, '2023-05-15 18:22:55', '2023-05-15 18:22:55'),
-(5, '1959', 2, 0, '2023-05-15 18:29:49', '2023-05-15 18:29:49'),
-(6, '2022', 2, 0, '2023-05-15 18:31:34', '2023-05-15 18:31:34'),
-(7, '2023', 1, 0, '2023-05-26 18:29:33', '2023-05-26 18:29:33');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -2585,6 +2067,18 @@ ALTER TABLE `bm_checklist`
   ADD PRIMARY KEY (`bm_checklist_id`);
 
 --
+-- Indexes for table `bm_checklist_multiple`
+--
+ALTER TABLE `bm_checklist_multiple`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bm_checklist_ref`
+--
+ALTER TABLE `bm_checklist_ref`
+  ADD PRIMARY KEY (`bm_checklist_ref_id`);
+
+--
 -- Indexes for table `branch_creation`
 --
 ALTER TABLE `branch_creation`
@@ -2679,6 +2173,12 @@ ALTER TABLE `designation_creation`
 --
 ALTER TABLE `diesel_slip`
   ADD PRIMARY KEY (`diesel_slip_id`);
+
+--
+-- Indexes for table `fc_insurance_renew`
+--
+ALTER TABLE `fc_insurance_renew`
+  ADD PRIMARY KEY (`fc_insurance_renew_id`);
 
 --
 -- Indexes for table `goal_setting`
@@ -2831,6 +2331,12 @@ ALTER TABLE `pm_checklist`
   ADD PRIMARY KEY (`pm_checklist_id`);
 
 --
+-- Indexes for table `pm_checklist_multiple`
+--
+ALTER TABLE `pm_checklist_multiple`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pm_checklist_ref`
 --
 ALTER TABLE `pm_checklist_ref`
@@ -2930,8 +2436,7 @@ ALTER TABLE `transfer_location`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `vehicle_details`
@@ -2959,7 +2464,7 @@ ALTER TABLE `year_creation`
 -- AUTO_INCREMENT for table `accountsgroup`
 --
 ALTER TABLE `accountsgroup`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `appreciation_depreciation`
@@ -2977,37 +2482,37 @@ ALTER TABLE `appreciation_depreciation_ref`
 -- AUTO_INCREMENT for table `approval_line`
 --
 ALTER TABLE `approval_line`
-  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `approval_line_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition`
 --
 ALTER TABLE `approval_requisition`
-  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `approval_requisition_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `approval_requisition_parallel_agree_disagree`
 --
 ALTER TABLE `approval_requisition_parallel_agree_disagree`
-  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `asset_details`
 --
 ALTER TABLE `asset_details`
-  MODIFY `asset_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `asset_details_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `asset_details_ref`
 --
 ALTER TABLE `asset_details_ref`
-  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `asset_register`
 --
 ALTER TABLE `asset_register`
-  MODIFY `asset_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `asset_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `assign_work`
@@ -3025,37 +2530,37 @@ ALTER TABLE `assign_work_ref`
 -- AUTO_INCREMENT for table `audit_area_creation`
 --
 ALTER TABLE `audit_area_creation`
-  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `audit_area_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_area_creation_ref`
 --
 ALTER TABLE `audit_area_creation_ref`
-  MODIFY `audit_area_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `audit_area_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_assign`
 --
 ALTER TABLE `audit_assign`
-  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `audit_assign_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_assign_ref`
 --
 ALTER TABLE `audit_assign_ref`
-  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `audit_assign_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist`
 --
 ALTER TABLE `audit_checklist`
-  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `audit_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_checklist_ref`
 --
 ALTER TABLE `audit_checklist_ref`
-  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `audit_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `audit_followup`
@@ -3073,37 +2578,49 @@ ALTER TABLE `bankmaster`
 -- AUTO_INCREMENT for table `basic_creation`
 --
 ALTER TABLE `basic_creation`
-  MODIFY `basic_creation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `basic_creation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bm_checklist`
 --
 ALTER TABLE `bm_checklist`
-  MODIFY `bm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `bm_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bm_checklist_multiple`
+--
+ALTER TABLE `bm_checklist_multiple`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `bm_checklist_ref`
+--
+ALTER TABLE `bm_checklist_ref`
+  MODIFY `bm_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `branch_creation`
 --
 ALTER TABLE `branch_creation`
-  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `business_com_line`
 --
 ALTER TABLE `business_com_line`
-  MODIFY `business_com_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `business_com_line_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `business_com_out`
 --
 ALTER TABLE `business_com_out`
-  MODIFY `business_com_out_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `business_com_out_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `business_com_parallel_agree_disagree`
 --
 ALTER TABLE `business_com_parallel_agree_disagree`
-  MODIFY `business_com_parallel_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `business_com_parallel_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `campaign`
@@ -3121,13 +2638,13 @@ ALTER TABLE `campaign_ref`
 -- AUTO_INCREMENT for table `category_creation`
 --
 ALTER TABLE `category_creation`
-  MODIFY `category_creation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `category_creation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `company_creation`
 --
 ALTER TABLE `company_creation`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `costcentre`
@@ -3139,55 +2656,61 @@ ALTER TABLE `costcentre`
 -- AUTO_INCREMENT for table `daily_km`
 --
 ALTER TABLE `daily_km`
-  MODIFY `daily_km_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `daily_km_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daily_km_ref`
 --
 ALTER TABLE `daily_km_ref`
-  MODIFY `daily_km_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `daily_km_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daily_performance`
 --
 ALTER TABLE `daily_performance`
-  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `daily_performance_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `daily_performance_ref`
 --
 ALTER TABLE `daily_performance_ref`
-  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `daily_performance_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `department_creation`
 --
 ALTER TABLE `department_creation`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `designation_creation`
 --
 ALTER TABLE `designation_creation`
-  MODIFY `designation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `designation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `diesel_slip`
 --
 ALTER TABLE `diesel_slip`
-  MODIFY `diesel_slip_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `diesel_slip_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fc_insurance_renew`
+--
+ALTER TABLE `fc_insurance_renew`
+  MODIFY `fc_insurance_renew_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `goal_setting`
 --
 ALTER TABLE `goal_setting`
-  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `goal_setting_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `goal_setting_ref`
 --
 ALTER TABLE `goal_setting_ref`
-  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `goal_setting_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hierarchy_creation`
@@ -3199,61 +2722,61 @@ ALTER TABLE `hierarchy_creation`
 -- AUTO_INCREMENT for table `holiday_creation`
 --
 ALTER TABLE `holiday_creation`
-  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `holiday_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `holiday_creation_ref`
 --
 ALTER TABLE `holiday_creation_ref`
-  MODIFY `holiday_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `holiday_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `insurance_creation`
 --
 ALTER TABLE `insurance_creation`
-  MODIFY `insurance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `insurance_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `insurance_register`
 --
 ALTER TABLE `insurance_register`
-  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ins_reg_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `insurance_register_ref`
 --
 ALTER TABLE `insurance_register_ref`
-  MODIFY `ins_reg_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ins_reg_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `krakpi_calendar_map`
 --
 ALTER TABLE `krakpi_calendar_map`
-  MODIFY `krakpi_calendar_map_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `krakpi_calendar_map_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation`
 --
 ALTER TABLE `krakpi_creation`
-  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `krakpi_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `krakpi_creation_ref`
 --
 ALTER TABLE `krakpi_creation_ref`
-  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `krakpi_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kra_creation`
 --
 ALTER TABLE `kra_creation`
-  MODIFY `kra_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `kra_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kra_creation_ref`
 --
 ALTER TABLE `kra_creation_ref`
-  MODIFY `kra_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `kra_creation_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ledger`
@@ -3265,43 +2788,43 @@ ALTER TABLE `ledger`
 -- AUTO_INCREMENT for table `maintenance_checklist`
 --
 ALTER TABLE `maintenance_checklist`
-  MODIFY `maintenance_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `maintenance_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `maintenance_checklist_ref`
 --
 ALTER TABLE `maintenance_checklist_ref`
-  MODIFY `maintenance_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `maintenance_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `media_creation`
 --
 ALTER TABLE `media_creation`
-  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meeting_minutes`
 --
 ALTER TABLE `meeting_minutes`
-  MODIFY `meeting_minutes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `meeting_minutes_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meeting_minutes_approval_line`
 --
 ALTER TABLE `meeting_minutes_approval_line`
-  MODIFY `meeting_minutes_approval_line_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `meeting_minutes_approval_line_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meeting_minutes_parallel_agree_disagree`
 --
 ALTER TABLE `meeting_minutes_parallel_agree_disagree`
-  MODIFY `meeting_minutes_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `meeting_minutes_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `memo`
 --
 ALTER TABLE `memo`
-  MODIFY `memo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `memo_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `memo_status`
@@ -3319,13 +2842,19 @@ ALTER TABLE `periodic_level`
 -- AUTO_INCREMENT for table `permission_or_on_duty`
 --
 ALTER TABLE `permission_or_on_duty`
-  MODIFY `permission_on_duty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `permission_on_duty_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pm_checklist`
 --
 ALTER TABLE `pm_checklist`
-  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pm_checklist_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pm_checklist_multiple`
+--
+ALTER TABLE `pm_checklist_multiple`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pm_checklist_ref`
@@ -3337,79 +2866,79 @@ ALTER TABLE `pm_checklist_ref`
 -- AUTO_INCREMENT for table `project_creation`
 --
 ALTER TABLE `project_creation`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `promotional_activities`
 --
 ALTER TABLE `promotional_activities`
-  MODIFY `promotional_activities_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `promotional_activities_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `promotional_activities_ref`
 --
 ALTER TABLE `promotional_activities_ref`
-  MODIFY `promotional_activities_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `promotional_activities_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `report_creation`
 --
 ALTER TABLE `report_creation`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rgp_creation`
 --
 ALTER TABLE `rgp_creation`
-  MODIFY `rgp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `rgp_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rr_creation`
 --
 ALTER TABLE `rr_creation`
-  MODIFY `rr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `rr_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rr_creation_ref`
 --
 ALTER TABLE `rr_creation_ref`
-  MODIFY `rr_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `rr_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `service_indent`
 --
 ALTER TABLE `service_indent`
-  MODIFY `service_indent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `service_indent_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `spare_creation`
 --
 ALTER TABLE `spare_creation`
-  MODIFY `spare_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `spare_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `staff_creation`
 --
 ALTER TABLE `staff_creation`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tag_creation`
 --
 ALTER TABLE `tag_creation`
-  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `target_fixing`
 --
 ALTER TABLE `target_fixing`
-  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `target_fixing_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `target_fixing_ref`
 --
 ALTER TABLE `target_fixing_ref`
-  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `target_fixing_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `todo_creation`
@@ -3421,31 +2950,31 @@ ALTER TABLE `todo_creation`
 -- AUTO_INCREMENT for table `transfer_location`
 --
 ALTER TABLE `transfer_location`
-  MODIFY `transfer_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `transfer_location_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
 --
 ALTER TABLE `vehicle_details`
-  MODIFY `vehicle_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `vehicle_details_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `work_status`
 --
 ALTER TABLE `work_status`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `year_creation`
 --
 ALTER TABLE `year_creation`
-  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `year_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -84,6 +84,7 @@ foreach ($result as $row) {
     $sub_array[] = $company_name;
     $sub_array[] = $row['email_id'];
     $sub_array[] = $row['key_personal'];
+    $sub_array[] = $row['in_active_remark'];
     
     $status      = $row['status'];
     if($status == 1)
