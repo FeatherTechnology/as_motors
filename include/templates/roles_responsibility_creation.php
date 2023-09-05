@@ -182,7 +182,7 @@ if($idupd>0)
                                                 <option value="" disabled selected>Select Company Name</option>   
                                                 <?php if(sizeof($companyName)>0) { 
                                                 for($j=0;$j<count($companyName);$j++) { ?>
-                                                <option <?php if(isset($sCompanyBranchDetailEdit['company_id'])) { if($companyName[$j]['company_id'] == $sCompanyBranchDetailEdit['company_id'])  echo 'selected'; }  ?> value="<?php echo $companyName[$j]['company_id']; ?>">
+                                                <option <?php if(isset($company_name)) { if($companyName[$j]['company_id'] == $company_name)  echo 'selected'; }  ?> value="<?php echo $companyName[$j]['company_id']; ?>">
                                                 <?php echo $companyName[$j]['company_name'];?></option>
                                                 <?php }} ?>  
                                             </select>  
