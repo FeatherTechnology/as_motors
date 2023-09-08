@@ -374,7 +374,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                         <div class="col-md-12">
                                             <div class="form-group" >
                                                 <div class="table">
-                                                    <table id="rgpExtendedExpiredTable" class="table custom-table">
+                                                    <table id="rgpExtendedTable" class="table custom-table">
                                                         <thead>
                                                             <tr>
                                                                 <th>S.No</th>
