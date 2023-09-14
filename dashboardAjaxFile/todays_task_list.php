@@ -127,7 +127,7 @@ while($campaigntask = $campaignInfo->fetch_assoc())
 }
 
 // get assign work list and to_date > '".$today."'
-$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title FROM assign_work_ref WHERE status = 0 AND work_status IN (0, 1, 2) AND designation_id = '".$designation."' AND ( CURDATE() >= DATE(start_date) AND CURDATE() <= DATE(end_date) ) "; 
+$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title FROM assign_work_ref WHERE status = 0 AND work_status IN (0, 1, 2) AND designation_id = '".$designation."' AND ( CURDATE() >= DATE(from_date) AND CURDATE() <= DATE(to_date) ) "; 
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
 while($assignTask = $assignInfo->fetch_assoc())

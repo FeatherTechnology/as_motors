@@ -45,8 +45,6 @@ $(document).ready(function () {
       $("#company_name").val('');
     }else{
       getdepartment(company_id);
-      // getkradropdown(company_id);
-      // getrrdropdown(company_id);
     }
   });
 
@@ -55,6 +53,14 @@ $(document).ready(function () {
     if(designation_id.length !=''){
       getkradropdown(designation_id);
       getrrdropdown(designation_id);
+
+      $('.kpi').val('');
+      $('.project').val('');
+      $('.frequency').val('');
+      $('.frequency_applicable').prop('checked', false);
+      $('.calendar').val('');
+      $('.from_date').val('');
+      $('.to_date').val('');
     }
   });
 
@@ -366,8 +372,6 @@ $(function(){
 		
 		getdepartment(idupd);
 		getdesignation(department_upd);
-		// getkradropdown(idupd);
-    // getrrdropdown(idupd);
 	}else{
 	}
 });
@@ -424,8 +428,14 @@ function getdesignation(department_id){
 }
 
 //get kra dropdown based on company name
-function getkradropdown(designation_id){   
-  var kra_id_upd = $('#kra_id_upd').val().split(','); 
+function getkradropdown(designation_id){ 
+  var id = $('#id').val();
+  if(id > 0){
+    var kra_id_upd = $('#kra_id_upd').val().split(',');  //KRA&KPI creation id using in edit option.
+  }else{
+    var kra_id_upd = ''; //passing null When add new KRA&KPI creation. 
+
+  } 
   
   $.ajax({
     url: 'KRA&KPIFile/ajaxKraDetails.php',
@@ -434,8 +444,8 @@ function getkradropdown(designation_id){
     dataType: 'json',
     success:function(response){
       
-      $('#kra_category').empty();
-      $('#kra_category').prepend("<option value=''>" + 'Select KRA Category' + "</option>");
+      $('.kra_category').empty();
+      $('.kra_category').prepend("<option value=''>" + 'Select KRA Category' + "</option>");
       var i = 0;
       for (i = 0; i <= response.kra_creation_ref_id.length - 1; i++) {
 
@@ -447,7 +457,7 @@ function getkradropdown(designation_id){
               }
           }
         }
-        $('#kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
+        $('.kra_category').append("<option value='" + response['kra_creation_ref_id'][i] + "' "+selected+" >" + response['kra_category'][i] + "</option>");
       }
 
     }
@@ -465,9 +475,9 @@ function getrrdropdown(designation_id){
     dataType: 'json',
     success:function(response){
       
-      $('#rr').empty();
-      $('#rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
-      $('#rr').append("<option value='New'>" + 'New' + "</option>");
+      $('.rr').empty();
+      $('.rr').prepend("<option value=''>" + 'Select Roles & Responsibility' + "</option>");
+      $('.rr').append("<option value='New'>" + 'New' + "</option>");
       var i = 0;
       for (i = 0; i <= response.rr_ref_id.length - 1; i++) { 
         var selected = "";
@@ -478,7 +488,7 @@ function getrrdropdown(designation_id){
               }
           }
         }
-        $('#rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
+        $('.rr').append("<option value='" + response['rr_ref_id'][i] + "' "+selected+" >" + response['rr'][i] + "</option>");
       }
 
     }
@@ -488,7 +498,7 @@ function getrrdropdown(designation_id){
 
 function getkradropdownEdit(company_id_upd){  
 
-  var kra_id_upd = $('#kra_id_Edit').val(); 
+  var kra_id_upd = $('#kra_id_upd').val(); 
   $.ajax({
       url: 'KRA&KPIFile/ajaxKraDetails.php',
       type: 'post',

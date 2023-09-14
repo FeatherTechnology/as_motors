@@ -5772,11 +5772,23 @@
 			if(isset($_POST['dot'])){
 				$dot = $_POST['dot'];
 			}
-			if(isset($_POST['transfer_location'])){
-				$transfer_location = $_POST['transfer_location'];
+			if(isset($_POST['to_company_id'])){
+				$to_company_id = $_POST['to_company_id'];
+			}
+			if(isset($_POST['to_branch_id'])){
+				$to_branch_id = $_POST['to_branch_id'];
+			}
+			if(isset($_POST['to_department'])){
+				$to_department = $_POST['to_department'];
+			}
+			if(isset($_POST['to_designation'])){
+				$to_designation = $_POST['to_designation'];
 			}
 			if(isset($_POST['tef'])){
 				$tef = $_POST['tef'];
+			}
+			if(isset($_POST['krikpi'])){
+				$krikpi = $_POST['krikpi'];
 			}
 			$file = '';
 			if(!empty($_FILES['file']['name']))
@@ -5787,14 +5799,22 @@
 				move_uploaded_file($media_file_temp, $mediaimage_folder);
 			}
 			
-			$insertQry="INSERT INTO transfer_location(company_id, department_id, staff_id, staff_code, dot, transfer_location, transfer_effective_from, file, insert_login_id)
+			$insertQry="INSERT INTO transfer_location(company_id, department_id, staff_id, staff_code, dot, to_company, transfer_location, to_department, to_designation, transfer_effective_from, file, insert_login_id)
 			VALUES('".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($dot)."', 
-			'".strip_tags($transfer_location)."', '".strip_tags($tef)."', '".strip_tags($file)."', '".$userid."' )";
+			'".strip_tags($to_company_id)."', '".strip_tags($to_branch_id)."', '".strip_tags($to_department)."', '".strip_tags($to_designation)."', '".strip_tags($tef)."', '".strip_tags($file)."', '".$userid."' )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+			$transfer_id = $mysqli->insert_id;
+
+			$insStaffHistory = $mysqli->query("INSERT INTO `staff_creation_history` ( `transfer_location_id`, `staff_id`, `staff_name`, `company_id`, `designation`, `emp_code`, `department`, `doj`, `krikpi`, `dob`, `key_skills`, `contact_number`, `email_id`, `reporting`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date` ) SELECT ".$transfer_id.", `staff_id`, `staff_name`, `company_id`, `designation`, `emp_code`, `department`, `doj`, `krikpi`, `dob`, `key_skills`, `contact_number`, `email_id`, `reporting`, `status`, `insert_login_id`, `update_login_id`, `delete_login_id`, `created_date`, `updated_date` FROM `staff_creation` WHERE `staff_id` = '".$staff_code."' ") or die("Error ".$mysqli->error);
+
+			$updStaffCreation = $mysqli->query("UPDATE `staff_creation` SET `company_id`='".strip_tags($to_branch_id)."',`designation`='".strip_tags($to_designation)."',`department`='".strip_tags($to_department)."',`doj`='".strip_tags($tef)."',`krikpi`='".$krikpi."',`update_login_id`= '".$userid."',`updated_date`= now() WHERE `staff_id` = '".$staff_code."' ") or die("Error ".$mysqli->error);
+
+			$updUser = $mysqli->query("UPDATE `user` SET `branch_id`='".strip_tags($to_branch_id)."',`designation_id`='".strip_tags($to_designation)."' WHERE `staff_id`='".$staff_code."' ") or die("Error ".$mysqli->error);
+
 		}
 
 		// Update Transfer Location
-		 public function updateTransferLocation($mysqli,$id,$userid){
+		public function updateTransferLocation($mysqli,$id,$userid){
 
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
@@ -5811,8 +5831,17 @@
 			if(isset($_POST['dot'])){
 				$dot = $_POST['dot'];
 			}
-			if(isset($_POST['transfer_location'])){
-				$transfer_location = $_POST['transfer_location'];
+			if(isset($_POST['to_company_id'])){
+				$to_company_id = $_POST['to_company_id'];
+			}
+			if(isset($_POST['to_branch_id'])){
+				$to_branch_id = $_POST['to_branch_id'];
+			}
+			if(isset($_POST['to_department'])){
+				$to_department = $_POST['to_department'];
+			}
+			if(isset($_POST['to_designation'])){
+				$to_designation = $_POST['to_designation'];
 			}
 			if(isset($_POST['tef'])){
 				$tef = $_POST['tef'];
@@ -5842,8 +5871,7 @@
 			}
 
 			$updQry="UPDATE transfer_location set company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
-			staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', dot = '".strip_tags($dot)."', 
-			transfer_location = '".strip_tags($transfer_location)."', transfer_effective_from = '".strip_tags($tef)."', file = '".strip_tags($file)."',
+			staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', dot = '".strip_tags($dot)."', `to_company`='".strip_tags($to_company_id)."',`transfer_location`='".strip_tags($to_branch_id)."',`to_department`='".strip_tags($to_department)."',`to_designation`='".strip_tags($to_designation)."', transfer_effective_from = '".strip_tags($tef)."', file = '".strip_tags($file)."',
 			status = 0, update_login_id = '".$userid."' WHERE transfer_location_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
@@ -5864,7 +5892,10 @@
 				$detailrecords['staff_id']      = $row->staff_id;		
 				$detailrecords['staff_code']    = $row->staff_code;		
 				$detailrecords['dot']     		= $row->dot;		
+				$detailrecords['to_company']     = $row->to_company;		
 				$detailrecords['transfer_location']     = $row->transfer_location;		
+				$detailrecords['to_department']     = $row->to_department;		
+				$detailrecords['to_designation']     = $row->to_designation;		
 				$detailrecords['transfer_effective_from']       = $row->transfer_effective_from;		
 				$detailrecords['file']       = $row->file;				
 			}

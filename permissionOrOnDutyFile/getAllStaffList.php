@@ -1,5 +1,6 @@
 <?php
 //Also Using this page in work_status_report.php for staff List. 
+//Also Using this page in transfer_location.php for staff List. 
 include '../ajaxconfig.php';
 
 $staff_id = array();

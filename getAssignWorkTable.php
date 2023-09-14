@@ -22,13 +22,25 @@ $designation = '';
 // get staff designation based on session staff id
 $getDesignation = "SELECT designation FROM staff_creation WHERE staff_id = '".$staff_id."' ";
 $runQry = $con->query($getDesignation);
-while($row5 = $runQry->fetch_assoc()){
-    $designation = $row5['designation'];
+$designation = $runQry->fetch_assoc()['designation'];
+
+//if the staff is transfered then check the transfer effective date is greater than curdate if true then take old designation from the staff_creation_history, if false means the designation will not be overwrite 
+$getdesgnDetails = $con->query("SELECT tl.transfer_effective_from, sch.designation FROM `transfer_location` tl LEFT JOIN staff_creation_history sch ON tl.transfer_location_id = sch.transfer_location_id WHERE tl.staff_code = '$staff_id' order by tl.transfer_location_id DESC LIMIT 1");
+        
+if(mysqli_num_rows($getdesgnDetails)>0){
+    $dsgnInfo = $getdesgnDetails->fetch_assoc();
+    $transfer_effective_from = date('Y-m-d',strtotime($dsgnInfo['transfer_effective_from'])); 
+    $curdates = date('Y-m-d');
+
+    if($transfer_effective_from > $curdates){
+        $designation = $dsgnInfo['designation'];
+        
+    }
 }
 
 $today = date('Y-m-d');
 // get assign work list and to_date > '".$today."'
-$getqry = "SELECT * FROM assign_work_ref WHERE status = 0 AND ((work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(from_date) AND MONTH(to_date)) OR work_status IN (0, 1, 2)) AND designation_id = '".$designation."' order by priority desc "; 
+$getqry = "SELECT * FROM assign_work_ref WHERE status = 0 AND ((work_status = 3 AND MONTH(CURDATE()) BETWEEN MONTH(from_date) AND MONTH(to_date)) OR work_status IN (0, 1, 2)) AND designation_id = '".$designation."' order by priority desc ";
 $res = $con->query($getqry);
 $i=0;
 while($row = $res->fetch_assoc())

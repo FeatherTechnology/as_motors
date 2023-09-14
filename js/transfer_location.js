@@ -19,6 +19,8 @@ $(document).ready(function () {
                 }
             }
         });
+        
+        calltocompanylist();
     });
   
     $('#city').change(function() {
@@ -48,28 +50,11 @@ $(document).ready(function () {
                 }
             });
 
-            getTransferLocation(branch_id);
+            // getTransferLocation(branch_id);
         }
     });
- 
-});
 
-$(function(){
-    var transfered_branch_id = $('#id').val();
-    if(transfered_branch_id != undefined && transfered_branch_id != ''){
-        var branch_id = $("#branchIdEdit").val();
-        getTransferLocation(branch_id);
-    }
-    
-    var checkID = $('#checkID').val();
-    if(checkID != 'Overall' && checkID != ''){
-        getTransferLocation(checkID);
-    }
-    
-
-})
-
-// Get Department based on designation
+    // Get Department based on designation
 $("#department").change(function(){ 
 
     var company_id = $("#branch_id").val();
@@ -142,6 +127,8 @@ $("#staff_code").change(function(){
             }
         });
     }
+
+    callKraKpiList(staff_name,'','2');
 });
 
 
@@ -168,6 +155,57 @@ $("input[name='reason']").click(function(){
     }
 });
 
+ //To Branch based on to_company
+$('#to_company_id').change(function(){
+    var to_company_id = $('#to_company_id :selected').val();
+    calltobranchList(to_company_id);
+})
+
+ //To Department based on to_branch
+$('#to_branch_id').change(function(){
+    var to_branch_id = Array.from($('#to_branch_id').val()); // we using common page to get branch based department so send data as in the page.
+    var branch_id = $('#branch_id :selected').val();
+    calltodeptList(to_branch_id, branch_id,'');
+})
+
+ //To Designation based on to_department
+$('#to_department').change(function(){
+
+    var to_department_id = $(this).val(); 
+    calltoDesignationList(to_department_id,'','2');
+
+})
+
+});
+
+$(function(){
+    var transfered_branch_id = $('#id').val();
+    if(transfered_branch_id != undefined && transfered_branch_id != ''){
+        var branch_id = $("#branchIdEdit").val();
+        // getTransferLocation(branch_id);
+        calltocompanylist();
+        var to_company = $('#to_company').val();
+        calltobranchList(to_company);
+
+        var to_branch = Array.from($('#to_branch').val());
+        var to_dept = $('#to_dept').val();
+        calltodeptList(to_branch, branch_id,to_dept);
+
+        var to_dept = $('#to_dept').val();
+        var to_desgn = $('#to_desgn').val();
+        calltoDesignationList(to_dept,to_desgn,'1');
+
+        var staffIdEdit = $("#staffIdEdit").val(); 
+        var krikpiEdit = $("#krikpiEdit").val(); 
+        callKraKpiList(staffIdEdit,krikpiEdit,'1')
+    }
+    
+    var checkID = $('#checkID').val();
+    if(checkID != 'Overall' && checkID != ''){
+        // getTransferLocation(checkID);
+    }
+})
+
 // print functionality
 function print_transfer_location(id){
     $.ajax({
@@ -182,24 +220,144 @@ function print_transfer_location(id){
 }
 
 //Get Transfer Location Based on Branch , Except Selected branch has to show in list.
-function getTransferLocation(branch_id){
-    var transfered_branch_id = $('#id').val();
+// function getTransferLocation(branch_id){
+//     var transfered_branch_id = $('#id').val();
+//     $.ajax({
+//         type: 'POST',
+//         data: {"branch_id": branch_id},
+//         cache: false,
+//         url: 'transferLocationFile/getTransferLocation.php',
+//         dataType: 'json',
+//         success: function(response){
+//             $('#transfer_location').empty();
+//             $('#transfer_location').append('<option value=""> Select Transfer Location </option>');
+//             for(var i=0; i<response.length; i++){
+//                 var selected ='';
+//                 if(response[i]['branch_id'] == transfered_branch_id){
+//                     selected = 'Selected';
+//                 }
+//                 $('#transfer_location').append('<option value="'+response[i]['branch_id'] +'" '+selected+'>'+ response[i]['branch_name'] +'</option>')
+//             }
+//         }
+//     })
+// }
+
+
+function calltocompanylist(){
+    var toCompany = $('#to_company').val();
     $.ajax({
-        type: 'POST',
-        data: {"branch_id": branch_id},
-        cache: false,
-        url: 'transferLocationFile/getTransferLocation.php',
+        url: 'ajaxFetch/ajaxgetcompanyList.php',
+        type:'post',
+        data: {},
         dataType: 'json',
         success: function(response){
-            $('#transfer_location').empty();
-            $('#transfer_location').append('<option value=""> Select Transfer Location </option>');
-            for(var i=0; i<response.length; i++){
-                var selected ='';
-                if(response[i]['branch_id'] == transfered_branch_id){
-                    selected = 'Selected';
+            
+            $("#to_company_id").empty();
+            $("#to_company_id").prepend("<option value=''>"+'Select To Company Name'+"</option>");
+            var r = 0;
+            for (r = 0; r < response.length; r++) { 
+                var selected = ''
+                if(toCompany == response[r]['companyId'] ){
+                    selected = 'selected';
                 }
-                $('#transfer_location').append('<option value="'+response[i]['branch_id'] +'" '+selected+'>'+ response[i]['branch_name'] +'</option>')
+                    $('#to_company_id').append("<option value='" + response[r]['companyId'] + "'"+selected+">" + response[r]['companyName'] + "</option>");
             }
         }
-    })
+    });
+}
+
+function calltobranchList(to_company_id){
+    var toBranch = $('#to_branch').val();
+    // var to_company_id = $('#to_company_id :selected').val();
+        $.ajax({
+            url: 'basicFile/ajaxFetchBranchDetails.php',
+            type:'post',
+            data: {'company_id': to_company_id},
+            dataType: 'json',
+            success: function(response){
+                
+                $("#to_branch_id").empty();
+                $("#to_branch_id").prepend("<option value='' disabled selected>"+'Select To Branch Name'+"</option>");
+                var r = 0;
+                for (r = 0; r <= response.branch_id.length - 1; r++) { 
+                    var selected = ''
+                if(toBranch == response['branch_id'][r] ){
+                    selected = 'selected';
+                }
+                    $('#to_branch_id').append("<option value='" + response['branch_id'][r] + "'"+selected+">" + response['branch_name'][r] + "</option>");
+                }
+            }
+        });
+}
+
+function calltodeptList(to_branch_id, branch_id, toDept){
+
+    if(to_branch_id == branch_id || branch_id == ''){
+        alert('Transfer not allowed for same branch or no branch.')
+        $('#to_branch_id').val('');
+    }else{
+        $.ajax({
+            url: 'ajaxFetch/ajaxGetBranchBasedDept.php',
+            type:'post',
+            data: {'branchId': to_branch_id},
+            dataType: 'json',
+            success: function(response){
+                
+                $("#to_department").empty();
+                $("#to_department").prepend("<option value=''>"+'Select To Department Name'+"</option>");
+                var r = 0;
+                for (r = 0; r <= response.length - 1; r++) { 
+                    var selected = ''
+                if(toDept == response[r]['department_id'] ){
+                    selected = 'selected';
+                }
+                    $('#to_department').append("<option value='" + response[r]['department_id'] + "'"+selected+">" + response[r]['department_name'] + "</option>");
+                }
+            }
+        });
+    }
+}
+
+function calltoDesignationList(to_department_id,todesgn,edit_ins){
+    $.ajax({
+        url: 'ajaxFetch/ajaxGetDesignationWithValidation.php',
+        type:'post',
+        data: {'department_id': to_department_id, 'edit_ins': edit_ins},
+        dataType: 'json',
+        success: function(response){
+            
+            $("#to_designation").empty();
+            $("#to_designation").prepend("<option value=''>"+'Select To Designation Name'+"</option>");
+            var r = 0;
+            for (r = 0; r < response.designation_id.length; r++) { 
+                var selected = ''
+                if(todesgn == response['designation_id'][r] ){
+                    selected = 'selected';
+                }
+                $('#to_designation').append("<option value='" + response['designation_id'][r] + "'"+selected+">" + response['designation_name'][r] + "</option>");
+            }
+        }
+    });
+}
+
+function callKraKpiList(staffcode,krakpiid,editInsert){
+    $.ajax({
+        url: 'ajaxFetch/ajaxGetkrakpibasedondesignation.php',
+        type:'post',
+        data: {'staffcode': staffcode, 'editInsert': editInsert},
+        dataType: 'json',
+        success: function(response){
+            
+            $("#krikpi").empty();
+            $("#krikpi").prepend("<option value=''>"+'Select KRA & KPI'+"</option>");
+            var r = 0;
+            for (r = 0; r < response.length; r++) { 
+                var selected = ''
+                if(krakpiid == response[r]['krakpi_id'] ){
+                    selected = 'selected';
+                }
+                $('#krikpi').append("<option value='" + response[r]['krakpi_id'] + "'"+selected+">" + response[r]['designation_name'] + "</option>");
+            }
+        }
+    });
 }
