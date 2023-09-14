@@ -27,27 +27,46 @@ $(document).ready(function () {
 
     $('#execute').click(function() { 
         var designation_id = $('#designation').val();
+        var staff_id = $('#staff_id').val();
+        var dsgnid = '';
 
         $.ajax({
-            url: 'get_all_detail.php',
-            data: { 'designation_id': designation_id },
-            cache: false,
-            type:'post',
+            type:'POST',
+            data: { 'staff_id': staff_id },
+            url: 'ajaxFetch/ajaxGetDesignationAfterTransfer.php',
             dataType: 'json',
             success: function(response){
-                $('#moduleTable').find('tbody').empty();
-                for(var a=0; a < response.length; a++){
-                
-                var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
-                "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Statisfied</option><option value='2'>Not Done</option><option value='3'>Carry Forward</option></select></td>" + "<td><input tabindex='10' type='text' class='form-control status' id='status' name='status[]'></input></td></tr>";
-                $('#moduleTable').find('tbody').append(appendTxt);
-                
+                if(response == '0'){
+                    dsgnid = designation_id;
+                }else{
+                    dsgnid = response;
                 }
-
-                callFunctionAfterSuccess(); //After data append the function will call to work
+                
                 } //Scuccess END.
-            });
-            
+            }).then(function(){
+                console.log(dsgnid);
+
+                $.ajax({
+                    url: 'get_all_detail.php',
+                    data: { 'designation_id': dsgnid },
+                    cache: false,
+                    type:'post',
+                    dataType: 'json',
+                    success: function(response){
+                        $('#moduleTable').find('tbody').empty();
+                        for(var a=0; a < response.length; a++){
+                        
+                        var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
+                        "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Statisfied</option><option value='2'>Not Done</option><option value='3'>Carry Forward</option></select></td>" + "<td><input tabindex='10' type='text' class='form-control status' id='status' name='status[]'></input></td></tr>";
+                        $('#moduleTable').find('tbody').append(appendTxt);
+                        
+                        }
+
+                        callFunctionAfterSuccess(); //After data append the function will call to work
+                        } //Scuccess END.
+                    });
+            })
+    
     });
 
     // $('#page_print').click(function (e){

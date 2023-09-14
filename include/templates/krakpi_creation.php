@@ -84,7 +84,7 @@ if($idupd>0)
 
     <input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation); ?>" >
     <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php print_r($company_name); ?>" >
-    <input type="hidden" id="kra_id_Edit" name="kra_id_Edit" class="form-control" value="<?php if(isset($kra_category)) echo (implode(',',$kra_category)); ?>" >
+    <input type="hidden" id="kra_id_upd" name="kra_id_upd" class="form-control" value="<?php if(isset($kra_category)) echo (implode(',',$kra_category)); ?>" >
     <input type="hidden" id="rr_id_Edit" name="rr_id_Edit" class="form-control" value="<?php if(isset($rr)) echo (implode(',',$rr)); ?>" >
     
 <?php
@@ -110,7 +110,6 @@ if($idupd>0)
         <input type="hidden" class="form-control" value="<?php if(isset($company_name)) echo $company_name; ?>"  id="company_id_upd" name="company_id_upd" placeholder="Enter id" >
         <input type="hidden" class="form-control" value="<?php if(isset($department)) echo $department; ?>"  id="department_upd" name="department_upd" >
         <input type="hidden" class="form-control" value="<?php if(isset($designation)) echo $designation; ?>"  id="designation_upd" name="designation_upd" >
-        <input type="hidden" class="form-control" value="<?php if(isset($kra_category)) echo (implode(',',$kra_category)); ?>"  id="kra_id_upd" name="kra_id_upd" >
         <input type="hidden" class="form-control" value="<?php if(isset($rr)) echo (implode(',',$rr)); ?>"  id="rr_id_upd" name="rr_id_upd" >
  		<!-- Row start -->
         <div class="row gutters">
@@ -311,7 +310,7 @@ if($idupd>0)
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <select tabindex="5" type="text" class="form-control" id="kra_category" name="kra_category[]" >
+                                                <select tabindex="5" type="text" class="form-control kra_category" id="kra_category" name="kra_category[]" >
                                                     <option value="">Select KRA Category</option>   
                                                 </select>
                                             </td>
@@ -383,7 +382,7 @@ if($idupd>0)
                                                     <tr>
                                                         <input type="hidden" name="krakpi_ref_id[]" id="krakpi_ref_id" value="<?php if(isset($krakpi_ref_id)){ echo $krakpi_ref_id[$i]; } ?>">
                                                         <td>
-                                                            <select tabindex="5" type="text" class="form-control" id="kra_category" name="kra_category[]" >
+                                                            <select tabindex="5" type="text" class="form-control kra_category" id="kra_category" name="kra_category[]" >
                                                                 <option value="">Select KRA Category</option> 
                                                                 <?php if (sizeof($kraCategory)>0) { 
                                                                     for($j=0;$j<count($kraCategory);$j++) { ?>
@@ -407,10 +406,10 @@ if($idupd>0)
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <input type="text" readonly tabindex="7" name="kpi[]" id="kpi" class="form-control" value="<?php if(isset($kpi)){ echo $kpi[$i]; } ?>">
+                                                            <input type="text" readonly tabindex="7" name="kpi[]" id="kpi" class="form-control kpi" value="<?php if(isset($kpi)){ echo $kpi[$i]; } ?>">
                                                         </td>
                                                         <td>
-                                                            <select tabindex="8" type="text" class="form-control" id="criteria" name="criteria[]" >
+                                                            <select tabindex="8" type="text" class="form-control criteria" id="criteria" name="criteria[]" >
                                                                 <option value="">Select Criteria</option>
                                                                 <option <?php if(isset($criteria)) { if('Event' == $criteria[$i]) echo 'selected'; ?> value="<?php echo 'Event' ?>">
                                                                 <?php echo 'Event'; } else { ?> <option value="Event">Event</option> <?php } ?></option>
@@ -449,15 +448,15 @@ if($idupd>0)
                                                         
                                                         <?php if($frequency[$i] == 'Fortnightly' || $frequency[$i] == 'Monthly' || $frequency[$i] == 'Quaterly' || $frequency[$i] == 'Half Yearly' ){ ?>
                                                         <td>
-                                                            <input type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
+                                                            <input type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
                                                         </td>
                                                         <?php } else if($frequency[$i] == 'Daily Task' || $frequency[$i] == 'Yearly'){  ?>
                                                             <td>
-                                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
+                                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="frequency_applicable" > 
                                                             </td>
                                                         <?php }else{?>
                                                             <td>
-                                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" >  
+                                                            <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="frequency_applicable" >  
                                                             </td>
                                                         
                                                         <?php } ?>
@@ -472,20 +471,20 @@ if($idupd>0)
 
                                                         <?php if($calendar[$i] == 'Yes'){ ?>
                                                             <td>
-                                                                <input type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" value="<?php if(isset($from_date)){ echo date('Y-m-d',strtotime($from_date[$i])); } ?>" > &nbsp;&nbsp;
+                                                                <input type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control from_date" value="<?php if(isset($from_date)){ echo date('Y-m-d',strtotime($from_date[$i])); } ?>" > &nbsp;&nbsp;
                                                                 <span>To</span> &nbsp;&nbsp;
-                                                                <input type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" value="<?php if(isset($to_date)){ echo date('Y-m-d',strtotime($to_date[$i])); } ?>" >
+                                                                <input type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control to_date" value="<?php if(isset($to_date)){ echo date('Y-m-d',strtotime($to_date[$i])); } ?>" >
                                                             </td>
                                                         <?php } else if($calendar[$i] == 'No'){ ?>
                                                             <td>
-                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" value="<?php if(isset($from_date)){ echo $from_date[$i]; } ?>" > &nbsp;&nbsp;
+                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control from_date" value="<?php if(isset($from_date)){ echo $from_date[$i]; } ?>" > &nbsp;&nbsp;
                                                                 <span>To</span> &nbsp;&nbsp;
-                                                                <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" value="<?php if(isset($to_date)){ echo $to_date[$i]; } ?>" >
+                                                                <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control to_date" value="<?php if(isset($to_date)){ echo $to_date[$i]; } ?>" >
                                                             </td>
                                                         <?php }else{ ?>
                                                             <td>
-                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control" > &nbsp;&nbsp;
-                                                                <span>To</span> &nbsp;&nbsp; <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control" >
+                                                                <input readonly type="date" tabindex="8" name="from_date[]" id="from_date" class="form-control from_date" > &nbsp;&nbsp;
+                                                                <span>To</span> &nbsp;&nbsp; <input readonly type="date" tabindex="9" name="to_date[]" id="to_date" class="form-control to_date" >
                                                             </td>
                                                             <?php } ?>
                                                         <td>

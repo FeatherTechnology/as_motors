@@ -7,7 +7,7 @@ if(isset($_SESSION["userid"])){
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
-    if($sbranch_id >0){
+    if(intval($sbranch_id) >0){
         $company = $con->query("SELECT company_id FROM branch_creation WHERE branch_id = '$sbranch_id' ");
         $companyDetails = $company->fetch_assoc();
         $company_id = $companyDetails['company_id'];

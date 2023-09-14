@@ -61,9 +61,16 @@ if($idupd>0)
 			$staff_id    	     = $getTransferLocation['staff_id']; 
 			$staff_code    	     = $getTransferLocation['staff_code'];
 			$dot    	     = $getTransferLocation['dot'];
+			$to_company    	     = $getTransferLocation['to_company'];
 			$transfer_location    	     = $getTransferLocation['transfer_location'];
+			$to_department    	     = $getTransferLocation['to_department'];
+			$to_designation    	     = $getTransferLocation['to_designation'];
 			$tef    	     = $getTransferLocation['transfer_effective_from'];
 			$file    	     = $getTransferLocation['file'];
+
+            $getInstName=$mysqli->query("SELECT krikpi FROM staff_creation WHERE staff_id = '".strip_tags($staff_code)."'");
+            $row2=$getInstName->fetch_assoc();
+            $krikpi    = $row2["krikpi"]; 
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
@@ -135,14 +142,14 @@ if($idupd>0)
 
             var staffIdEdit = $("#staffIdEdit").val(); 
             $.ajax({
-                url: 'StaffFile/ajaxGetDeptBasedStaff.php',
+                url: 'permissionOrOnDutyFile/getAllStaffList.php',
                 type:'post',
-                data: { "company_id":company_id, "department_id":department_id },
+                data: {},
                 dataType: 'json',
                 success: function(response){
                     
                     $("#staff_code").empty();
-                    $("#staff_code").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
+                    $("#staff_code").prepend("<option value='' disabled selected>"+'Select Staff Code'+"</option>");
                     var r = 0;
                     for (r = 0; r <= response.staff_id.length - 1; r++) { 
                         var selected = "";
@@ -150,8 +157,7 @@ if($idupd>0)
                         {
                             selected = "selected";
                         }
-                        $('#staff_code').append("<option value='" + response['staff_id'][r] + "' "+selected+">" + 
-                        response['emp_code'][r] + "</option>");
+                        $('#staff_code').append("<option value='" + response['staff_id'][r] + "' "+selected+">" + response['emp_code'][r] + "</option>");
                     }
                 }
             });
@@ -181,6 +187,11 @@ if($idupd>0)
     <form id = "permission_or_on_duty" name="permission_or_on_duty" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($transfer_location_id)) echo $transfer_location_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
     <input type="hidden" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>" id="checkID" name="checkID" >
+    <input type="hidden" class="form-control" value="<?php if(isset($to_company)) echo $to_company; ?>" id="to_company" name="to_company" >
+    <input type="hidden" class="form-control" value="<?php if(isset($transfer_location)) echo $transfer_location; ?>" id="to_branch" name="to_branch" >
+    <input type="hidden" class="form-control" value="<?php if(isset($to_department)) echo $to_department; ?>" id="to_dept" name="to_dept" >
+    <input type="hidden" class="form-control" value="<?php if(isset($to_designation)) echo $to_designation; ?>" id="to_desgn" name="to_desgn" >
+    <input type="hidden" class="form-control" value="<?php if(isset($krikpi)) echo $krikpi; ?>" id="krikpiEdit" name="krikpiEdit" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -235,36 +246,7 @@ if($idupd>0)
                                     </div>
 
                                     <?php if($idupd<=0){ ?>
-
-                                        <script language='javascript'> 
-                                            window.onload=getdepartmentLoad;
-                                            
-                                            function getdepartmentLoad(){ 
-                                                var company_id = $("#branch_id").val();
-                                                if(company_id.length==''){
-                                                    $("#branch_id").val('');
-                                                }else{
-                                                    $.ajax({
-                                                        url: 'StaffFile/ajaxStaffDepartmentDetails.php',
-                                                        type: 'post',
-                                                        data: { "company_id":company_id },
-                                                        dataType: 'json',
-                                                        success:function(response){ 
-
-                                                        $('#department').empty();
-                                                        $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-                                                        var r = 0;
-                                                        for (r = 0; r <= response.department_id.length - 1; r++) { 
-                                                            $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
-                                                        }
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        </script>
-
-
-                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Department</label>
                                                 <select tabindex="3" type="text" class="form-control" id="department" name="department" >
@@ -274,7 +256,7 @@ if($idupd>0)
                                         </div>
                                     <?php } ?>
                                     <?php if($idupd>0){ ?>
-                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Department</label>
                                                 <select tabindex="3" type="text" class="form-control" id="department" name="department" >
@@ -308,19 +290,57 @@ if($idupd>0)
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
+                                            <label for="to_company_id">To Company Name</label>
+                                                <select type="text" class="form-control" id="to_company_id" name="to_company_id" >
+                                                    <option value="">Select To Company Name</option>   
+                                                </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="to_branch_id">To Branch Name</label>
+                                                <select type="text" class="form-control" id="to_branch_id" name="to_branch_id" >
+                                                    <option value="" >Select Branch Name</option> 
+                                                </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="to_department">To Department</label>
+                                            <select type="text" class="form-control" id="to_department" name="to_department" >
+                                                <option value="">Select Department</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="to_designation">To Designation</label>
+                                            <select type="text" class="form-control" id="to_designation" name="to_designation">
+                                                <option value="">Select Designation</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
                                             <label for="disabledInput">DOT</label>
                                             <input type="date" tabindex="5" name="dot" id="dot" placeholder="From" class="form-control"  value="<?php if (isset($dot)) echo $dot;?>">
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Transfer Location</label>
                                             <select id="transfer_location" name="transfer_location" class="form-control" tabindex="6">
                                                 <option value="">Select Transfer Location</option>
                                             </select> 
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
@@ -341,12 +361,21 @@ if($idupd>0)
                                         </div>
                                     </div>
 
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="krikpi">KRA & KPI Mapping</label>
+                                            <select type="text" class="form-control" id="krikpi" name="krikpi">
+                                                <option value="">Select KRA & KPI</option> 
+                                            </select> 
+                                        </div>
+                                    </div>
+
                                 </div>
                                 
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                    <div class="col-md-12">
                         <br><br>
                         <div class="text-right">
                             <button type="submit" name="submitTransferLocation" id="submitTransferLocation" class="btn btn-primary" value="Submit" tabindex="9">Submit</button>

@@ -1,4 +1,5 @@
 <?php 
+//Also using in transfer_location.js.
 include('../ajaxconfig.php');
 
 $company_names = array();
