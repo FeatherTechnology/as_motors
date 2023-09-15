@@ -118,10 +118,11 @@ function setalltoReadonly(){
 //Get Daily task List.
 function getDailyTaskUpdate(){
     var desgn_id = $('#employee :selected').data('value');
+    var staffid = $('#employee :selected').val();
     $.ajax({
         url: 'dailyTaskUpdateFile/getDailyTaskUpdate.php',
         type: 'post',
-        data: {'desgn_id':desgn_id},
+        data: {'desgn_id':desgn_id, 'staffid': staffid},
         // dataType: 'json',
         success:function(response){ 
         $('#dailyTaskTable').empty();
