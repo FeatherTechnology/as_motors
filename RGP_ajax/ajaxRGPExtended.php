@@ -8,6 +8,24 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 } 
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+}else{
+    $staffid = 0;
+}
+//if the staff is transfered then check the transfer effective date is greater than curdate if true then take old designation from the staff_creation_history, if false means the designation will not be overwrite 
+$getdesgnDetails = $con->query("SELECT tl.transfer_effective_from, sch.company_id, sch.designation FROM `transfer_location` tl LEFT JOIN staff_creation_history sch ON tl.transfer_location_id = sch.transfer_location_id WHERE tl.staff_code = '$staffid' order by tl.transfer_location_id DESC LIMIT 1");
+        
+if(mysqli_num_rows($getdesgnDetails)>0){
+    $dsgnInfo = $getdesgnDetails->fetch_assoc();
+    $transfer_effective_from = date('Y-m-d',strtotime($dsgnInfo['transfer_effective_from'])); 
+    $curdates = date('Y-m-d');
+
+    if($transfer_effective_from > $curdates){
+        $sbranch_id = $dsgnInfo['company_id']; //Old Designation.
+        
+    }
+}
 
 
 $column = array(
