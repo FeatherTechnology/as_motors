@@ -17,6 +17,7 @@ if(isset($_POST["designation_id"])){
 
 $staff_id = array();
 $staff_name = array();
+$emp_code = array();
 
 $getInstName=$con->query("SELECT * FROM staff_creation WHERE department = '".strip_tags($department_id)."' AND designation = '".strip_tags($designation_id)."' AND status = 0");
 while($row2=$getInstName->fetch_assoc()){

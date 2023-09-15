@@ -12,7 +12,7 @@ if(mysqli_num_rows($getdesgnDetails)>0){
     $curdates = date('Y-m-d');
 
     if($transfer_effective_from > $curdates){
-        $designation = $dsgnInfo['designation'];
+        $designation = $dsgnInfo['designation']; //Old Designation.
         
     }else{
         $designation = 0;
