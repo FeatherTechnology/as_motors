@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2023 at 03:00 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 7.4.33
+-- Generation Time: Sep 19, 2023 at 11:25 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -1681,6 +1681,36 @@ CREATE TABLE `staff_creation` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `staff_creation_history`
+--
+
+CREATE TABLE `staff_creation_history` (
+  `staff_history_id` int(11) NOT NULL,
+  `transfer_location_id` int(11) DEFAULT NULL,
+  `staff_id` int(11) NOT NULL,
+  `staff_name` varchar(255) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `designation` int(11) DEFAULT NULL,
+  `emp_code` text DEFAULT NULL,
+  `department` int(11) DEFAULT NULL,
+  `doj` varchar(255) DEFAULT NULL,
+  `krikpi` varchar(255) DEFAULT NULL,
+  `dob` varchar(255) DEFAULT NULL,
+  `key_skills` varchar(255) DEFAULT NULL,
+  `contact_number` varchar(255) DEFAULT NULL,
+  `email_id` varchar(250) NOT NULL,
+  `reporting` varchar(250) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tag_creation`
 --
 
@@ -1777,7 +1807,10 @@ CREATE TABLE `transfer_location` (
   `staff_code` varchar(255) DEFAULT NULL,
   `staff_id` varchar(255) DEFAULT NULL,
   `dot` varchar(255) DEFAULT NULL,
+  `to_company` varchar(100) DEFAULT NULL,
   `transfer_location` varchar(255) DEFAULT NULL,
+  `to_department` varchar(100) DEFAULT NULL,
+  `to_designation` varchar(100) DEFAULT NULL,
   `transfer_effective_from` varchar(255) DEFAULT NULL,
   `file` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
@@ -1812,7 +1845,6 @@ CREATE TABLE `user` (
   `Createddate` datetime NOT NULL DEFAULT current_timestamp(),
   `administration_module` varchar(11) DEFAULT NULL,
   `dashboard` varchar(11) DEFAULT NULL,
-  `reports` int(11) DEFAULT 1,
   `company_creation` varchar(11) DEFAULT NULL,
   `branch_creation` varchar(11) DEFAULT NULL,
   `holiday_creation` varchar(11) DEFAULT NULL,
@@ -1871,8 +1903,17 @@ CREATE TABLE `user` (
   `approval_mechanism_module` varchar(11) DEFAULT NULL,
   `approval_requisition` varchar(11) DEFAULT NULL,
   `business_communication_outgoing` varchar(11) DEFAULT NULL,
-  `minutes_of_meeting` varchar(11) DEFAULT NULL
+  `minutes_of_meeting` varchar(11) DEFAULT NULL,
+  `report_module` int(11) DEFAULT 1,
+  `reports` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `designation_id`, `mobile_number`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `daily_task_update`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `regularisation_approval`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`, `report_module`, `reports`) VALUES
+(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', NULL, NULL, '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2403,6 +2444,12 @@ ALTER TABLE `staff_creation`
   ADD PRIMARY KEY (`staff_id`);
 
 --
+-- Indexes for table `staff_creation_history`
+--
+ALTER TABLE `staff_creation_history`
+  ADD PRIMARY KEY (`staff_history_id`);
+
+--
 -- Indexes for table `tag_creation`
 --
 ALTER TABLE `tag_creation`
@@ -2923,6 +2970,12 @@ ALTER TABLE `staff_creation`
   MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `staff_creation_history`
+--
+ALTER TABLE `staff_creation_history`
+  MODIFY `staff_history_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tag_creation`
 --
 ALTER TABLE `tag_creation`
@@ -2956,7 +3009,7 @@ ALTER TABLE `transfer_location`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
