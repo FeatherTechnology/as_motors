@@ -15,7 +15,6 @@ if(isset($_SESSION["userid"])){
 
 $administration_module = '';
 $dashboard             = '';
-$reports             = '';
 $company_creation      = '';
 $branch_creation       = '';
 $holiday_creation      = '';
@@ -75,6 +74,8 @@ $approval_mechanism_module    = '';
 $approval_requisition    = '';
 $business_communication_outgoing    = '';
 $minutes_of_meeting    = '';
+$report_module             = '';
+$reports             = '';
 
 $getuser = $userObj->getmanageuser($mysqli,$userid); 
 if (sizeof($getuser)>0) {
@@ -93,7 +94,6 @@ if (sizeof($getuser)>0) {
 
 		$administration_module    = $getuser['administration_module']; 
 		$dashboard      = $getuser['dashboard']; 
-		$reports      = $getuser['reports']; 
 		$company_creation = $getuser['company_creation']; 
 		$branch_creation = $getuser['branch_creation'];
 		$holiday_creation = $getuser['holiday_creation'];
@@ -153,6 +153,8 @@ if (sizeof($getuser)>0) {
 		$approval_requisition    = $getuser['approval_requisition'];
 		$business_communication_outgoing    = $getuser['business_communication_outgoing'];
 		$minutes_of_meeting    = $getuser['minutes_of_meeting'];
+		$report_module      = $getuser['report_module']; 
+		$reports      = $getuser['reports']; 
 	}
 }
 
@@ -275,11 +277,6 @@ if (sizeof($getuser)>0) {
 								<?php if($dashboard == 0 && $dashboard != '' && $dashboard != NULL){ ?>				
 									<li>									
 										<a href="dashboard"><i class="icon-devices_other"></i>Dashboard</a>
-									</li>
-								<?php } ?>
-								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
-									<li>									
-										<a href="work_status_report"><i class="fa fa-file"></i>Report</a>
 									</li>
 								<?php } ?>
 								<?php if($company_creation == 0 && $company_creation != '' && $company_creation != NULL) { ?>
@@ -680,6 +677,25 @@ if (sizeof($getuser)>0) {
 						</div>	
 					</li>
 				<?php } ?>
+				<!-- Report Module-->
+				<?php if($report_module == 0 && $report_module != '' && $report_module != NULL){ ?>	
+					<li class="sidebar-dropdown">
+						<a href="javascript:void(0)">
+							<i class="fa fa-file"></i>
+							<span class="menu-text">Reports</span>
+						</a>
+						<div class="sidebar-submenu">
+							<ul>
+								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
+									<li>									
+										<a href="work_status_report"><i class="fa fa-flag"></i>Basic Report</a>
+									</li>
+								<?php } ?>
+							</ul>
+						</div>
+					</li>
+				<?php } ?>
+
 			</ul>
 			<!-- sidebar menu end -->
 		</div>

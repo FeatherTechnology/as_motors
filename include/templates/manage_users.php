@@ -17,7 +17,6 @@ $role           = '';
 
 $administration_module = '';
 $dashboard             = '';
-$reports             = '';
 $company_creation      = '';
 $branch_creation       = '';
 $holiday_creation      = '';
@@ -77,7 +76,9 @@ $approval_mechanism_module    = '';
 $approval_requisition    = '';
 $business_communication_outgoing    = '';
 $minutes_of_meeting    = '';
-    
+$report_module    = '';
+$reports             = '';
+
 if(isset($_POST['submitusers']))
 {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
@@ -133,7 +134,6 @@ if($idupd>0)
 
             $administration_module    = $getuser['administration_module'];
             $dashboard      = $getuser['dashboard'];
-            $reports      = $getuser['reports'];
             $company_creation = $getuser['company_creation'];
             $branch_creation = $getuser['branch_creation'];
             $holiday_creation = $getuser['holiday_creation'];
@@ -193,6 +193,8 @@ if($idupd>0)
             $approval_requisition    = $getuser['approval_requisition'];
             $business_communication_outgoing    = $getuser['business_communication_outgoing'];
             $minutes_of_meeting    = $getuser['minutes_of_meeting'];
+            $report_module      = $getuser['report_module'];
+            $reports      = $getuser['reports'];
 		}
 	}
 } 
@@ -339,12 +341,12 @@ if($idupd>0)
                                 <label class="custom-control-label" for="dashboard">Dashborad</label>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($reports==0){ echo'checked'; }} ?>  class="custom-control-input admin-checkbox" id="reports" name="reports" disabled>
                                 <label class="custom-control-label" for="reports">Reports</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($company_creation==0){echo'checked';}} ?> tabindex="10" class="custom-control-input admin-checkbox" id="company_creation" name="company_creation" disabled>
@@ -735,6 +737,25 @@ if($idupd>0)
                     <br>
                     <br>
                     <!-- approval machanism module end -->
+                    
+                    <!-- Report Module Start -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" tabindex="8" value="Yes" <?php if($idupd > 0){ if($report_module==0){ echo'checked'; }} ?>  class="custom-control-input" id="report_module" name="report_module" >
+                        <label class="custom-control-label" for="report_module">
+                            <h5>Reporting</h5>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($reports==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="reports" name="reports" disabled>
+                                <label class="custom-control-label" for="reports">Reports</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Report module end -->
+                    <hr>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-4">
                     <div class="text-right">
