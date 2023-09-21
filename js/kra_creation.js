@@ -89,25 +89,30 @@ if(updweight>0 ){
 // Add kra details
 $(document).on('click','#add_kraDetails',function(){ 
 	
-	var kraFormData = addKraTable(to100);
+	let sum = 0;
+	// Loop through each price cell and add its value to the sum
+	$('.price').each(function() {
+		sum += parseFloat($(this).val());
+	});
+
+	var kraFormData = addKraTable(sum);
 	//check weightage is reached 100 or not
 	to100 = parseInt(to100) + parseInt(kraFormData['weightage']);
-	// console.log(to100);
 	if(to100 == 100){
 		$('#add_kraDetails').hide();
 	}
 	
-	validateTableKra();
+	// validateTableKra();
 
 });
 
 var selectedRow = null;
-function addKraTable(to100){ 
+function addKraTable(sum){ 
 
 	var kraFormData = readKra(); 
 	var over100 = 0;
 	//Alert when adding existing weightage
-	over100 = parseInt(to100) + parseInt(kraFormData['weightage']);
+	over100 = parseInt(sum) + parseInt(kraFormData['weightage']);
 	// console.log(over100);
 	if(over100 > 100){
 		alert('Enter lesser weightage!');
@@ -167,7 +172,7 @@ function insertKra(data){
 	if(data.weightage != ""  && data.kra_category != ""){
 
 		cell0=newRow.insertCell(0);
-		cell0.innerHTML='<input type="text" readonly name="kra_category[]" id="kra_category" class="form-control" value="'+data.kra_category+'">';
+		cell0.innerHTML='<input type="hidden" name="kra_creation_ref_id[]" id="kra_creation_ref_id" class="kcrid"><input type="text" readonly name="kra_category[]" id="kra_category" class="form-control" value="'+data.kra_category+'">';
 
 		cell1=newRow.insertCell(1);
 		cell1.innerHTML='<input type="text" readonly name="weightage[]" id="weightage" class="form-control weightage" value="'+data.weightage+'">';
@@ -190,18 +195,46 @@ function updateKra(data){
 }
 
 function onDelete(td){ 
+
 	row = td.parentElement.parentElement;
 
 	var sel=td.closest('tr'); //get closest tr
-	var sel2 =sel.querySelectorAll('input.weightage'); //select class
-	var cellValue = sel2[0].value;//getting weightage value of this row
-	to100 = to100 - parseInt(cellValue);//surbract from total value
-	// console.log(to100);
-	$('#add_kraDetails').show();
-	// console.log(to100);
+	var sel2 =sel.querySelectorAll('input.kcrid'); //select class
+	var cellValue = sel2[0].value;//getting kra_creation_ref_if value of this row
 
-	document.getElementById("kraTable").deleteRow(row.rowIndex);
-	resetKraForm();
+	$.ajax({
+		url: 'ajaxFetch/ajaxDeleteValidateForKRARR.php',
+		type: 'post',
+		data: { "cellValue":cellValue, "cellKey": 'kra_category' },
+		dataType: 'json',
+		success:function(response){ 
+			if(response == 1 && confirm('This KRA is already mapped in KRA&KPI creation, Do you want delete this?')){ // if the KRA Category Map with KRA&KPI creation ask permission to delete.
+				rowDelete(cellValue);
+			}else if(response == 0){
+				rowDelete(cellValue);
+			}
+			
+		}
+	});
+	
+}
+
+function rowDelete(cellValue){
+		// Assuming you want to store the cellValue in an array
+		var dataArray = [];
+		var kraid = $('#kra_creation_ref_id_deleted').val();
+		if(kraid != ''){ //get kra_ref_id which delete and store that particular id in seperate hidden input, to use delete that particular id and update remaining by using using id. 
+			dataArray.push(kraid);
+		}
+		dataArray.push(cellValue);
+	
+		// Set the array value to the input field
+		$('#kra_creation_ref_id_deleted').val(dataArray);
+	
+		$('#add_kraDetails').show();
+	
+		document.getElementById("kraTable").deleteRow(row.rowIndex);
+		resetKraForm();
 }
 
 function resetKraForm(){

@@ -1749,29 +1749,35 @@
 			if(isset($_POST['rr'])){
 				$rr = $_POST['rr'];
 			}
-			// if(isset($_POST['applicability'])){
-			// 	$applicability = $_POST['applicability'];
-			// }
-			// if(isset($_POST['frequency'])){
-			// 	$frequency = $_POST['frequency'];
-			// }
-			// if(isset($_POST['code_ref'])){
-			// 	$code_ref = $_POST['code_ref'];
-			// }
 			if(isset($_POST['userid'])){
 				$userid = $_POST['userid'];
 			} 
-
+			if(isset($_POST['rr_ref_id'])){
+				$rr_ref_id = $_POST['rr_ref_id'];
+			} 
+			if(isset($_POST['rr_ref_id_deleted'])){
+				$rr_ref_id_deleted = $_POST['rr_ref_id_deleted'];
+			} 
 			$updateQry = 'UPDATE rr_creation SET company_name = "'.strip_tags($company_name).'", status = "0" WHERE rr_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
-			$DeleterrRef = $mysqli->query("DELETE FROM rr_creation_ref WHERE rr_reff_id = '".$id."' "); 
+			// $DeleterrRef = $mysqli->query("DELETE FROM rr_creation_ref WHERE rr_reff_id = '".$id."' "); 
+			
+			for($a=0; $a < count($rr_ref_id_deleted); $a++){
+				$DeleterrRef = $mysqli->query("DELETE FROM rr_creation_ref WHERE rr_ref_id = '".$rr_ref_id_deleted[$a]."' "); 
+			} 
 
 			for($i=0; $i<=sizeof($department)-1; $i++){
+				if(!empty($rr_ref_id[$i])){
+					$rrUpdaet = "UPDATE `rr_creation_ref` SET `rr_reff_id`='$id',`department`='$department[$i]',`designation`='$designation[$i]',`rr`='$rr[$i]',`update_login_id`='$userid',`updated_date` = now() WHERE `rr_ref_id`='$rr_ref_id[$i]' ";
+					$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+				
+				}else{
+					$rrUpdaet = "INSERT INTO rr_creation_ref(rr_reff_id, rr, department, designation, insert_login_id) 
+					VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($userid)."')";
+					$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+				}
 
-				$rrUpdaet = "INSERT INTO rr_creation_ref(rr_reff_id, rr, department, designation, insert_login_id) 
-				VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."','".strip_tags($department[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($userid)."')";
-				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
 			} 
 
 			return true;
@@ -3362,18 +3368,35 @@
 			if(isset($_POST['userid'])){
 				$userid = $_POST['userid'];
 			}
+			if(isset($_POST['kra_creation_ref_id'])){
+				$kra_creation_ref_id = $_POST['kra_creation_ref_id'];
+			}
+			if(isset($_POST['kra_creation_ref_id_deleted'])){
+				$kra_creation_ref_id_deleted = $_POST['kra_creation_ref_id_deleted'];
+			}
 		
 			$kraUpdaet = "UPDATE kra_creation SET company_id = '".strip_tags($company_id)."', designation_id = '".strip_tags($designation)."', 
 			department_id='".strip_tags($department)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE kra_id= '".strip_tags($id)."' ";
 			$updresult = $mysqli->query($kraUpdaet )or die ("Error in in update Query!.".$mysqli->error);
 
-			$deleteKraRef = $mysqli->query("DELETE FROM kra_creation_ref WHERE kra_id = '".$id."' "); 
+			// $deleteKraRef = $mysqli->query("DELETE FROM kra_creation_ref WHERE kra_id = '".$id."' "); 
+			
+			for($a=0; $a < count($kra_creation_ref_id_deleted); $a++){
+				$deleteKraRef = $mysqli->query("DELETE FROM kra_creation_ref WHERE kra_creation_ref_id = '".$kra_creation_ref_id_deleted[$a]."' "); 
+			} 
 
 			for($i=0; $i<=sizeof($kra_category)-1; $i++){
 
-				$kraUpdaet = "INSERT INTO kra_creation_ref(kra_category, weightage, kra_id) 
-				VALUES('".strip_tags($kra_category[$i])."',  '".strip_tags($weightage[$i])."', '".strip_tags($id)."')";
-				$updresult = $mysqli->query($kraUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+				if($kra_creation_ref_id[$i] != ''){
+					$kraUpdaet = "UPDATE `kra_creation_ref` SET `kra_category`='".$kra_category[$i]."',`weightage`='".$weightage[$i]."' WHERE `kra_creation_ref_id`='".$kra_creation_ref_id[$i]."' ";
+					$updresult = $mysqli->query($kraUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+					
+				}else{
+					$kraUpdaet = "INSERT INTO kra_creation_ref(kra_category, weightage, kra_id) 
+					VALUES('".strip_tags($kra_category[$i])."',  '".strip_tags($weightage[$i])."', '".strip_tags($id)."')";
+					$updresult = $mysqli->query($kraUpdaet)or die ("Error in in update Query!.".$mysqli->error);
+					
+				}
 			} 
 
 	 	}
@@ -10589,12 +10612,13 @@ public function get_role_performance($mysqli){
                 $dailyperform_list[$i]['month']      = $row->month;
 				$dailyperform_list[$i]['status']      = $row->status;
 				$emp_id      = $row->emp_id;
+                $month      = $row->month;
 				
 				$i++;
 			}
 		}
 
-        $dailyperform1 = "SELECT dpr.daily_performance_ref_id, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.old_target, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$emp_id' order by dpr.system_date";
+        $dailyperform1 = "SELECT dpr.daily_performance_ref_id, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.old_target, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$emp_id' AND dp.month = '$month' order by dpr.system_date ASC";
 		
 		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list1 = array();

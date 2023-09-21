@@ -129,6 +129,8 @@ if($idupd>0)
         <input type="hidden" class="form-control" value="<?php if(isset($department)) echo $department; ?>" id="department_upd" name="department_upd" aria-describedby="id" >
         <input type="hidden" class="form-control" value="<?php if(isset($designation)) echo $designation; ?>" id="designation_upd" name="designation_upd" aria-describedby="id" >
 
+        <input type="hidden" name="kra_creation_ref_id_deleted[]" id="kra_creation_ref_id_deleted">
+
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -263,6 +265,7 @@ if($idupd>0)
                                                     if($kra_creation_ref_id[$tab] != ''){ ?>
                                                     <tr>
                                                             <td>
+                                                                <input type="hidden" name="kra_creation_ref_id[]" id="kra_creation_ref_id" class="kcrid" value="<?php echo $kra_creation_ref_id[$tab]; ?>" >
                                                                 <input type="text" readonly name="kra_category[]" id="kra_category" class="form-control" value="<?php echo $kra_category[$tab]; ?>" >
                                                             </td>
                                                             <td>
