@@ -681,14 +681,19 @@ if (sizeof($getuser)>0) {
 				<?php if($report_module == 0 && $report_module != '' && $report_module != NULL){ ?>	
 					<li class="sidebar-dropdown">
 						<a href="javascript:void(0)">
-							<i class="fa fa-file"></i>
+							<i class="icon-file-plus"></i>
 							<span class="menu-text">Reports</span>
 						</a>
 						<div class="sidebar-submenu">
 							<ul>
 								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
 									<li>									
-										<a href="work_status_report"><i class="fa fa-flag"></i>Basic Report</a>
+										<a href="work_status_report"><i class="icon-flag"></i>Basic Report</a>
+									</li>
+								<?php } ?>
+								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
+									<li>									
+										<a href="daily_performance_report"><i class="icon-area-graph"></i>Daily Performance Report</a>
 									</li>
 								<?php } ?>
 							</ul>

@@ -600,6 +600,10 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/work_status_report.php" ?>
 			<?php } ?>
 			
+			<!-- Daily Performance Report -->
+			<?php if($current_page == 'daily_performance_report') { ?>
+			<?php include "include/templates/daily_performance_report.php" ?>
+			<?php } ?>
 		</div>
 		<!-- Page content end -->
 

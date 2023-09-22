@@ -26,8 +26,8 @@ $column = array(
     'month',
     'status'
 );
-
-$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,DATE_FORMAT(CONCAT('2023-', LPAD(dp.month, 2, '0'), '-01'), '%M') AS month,dp.status FROM
+//DATE_FORMAT(CONCAT('2023-', LPAD(dp.month, 2, '0'), '-01'), '%M') AS month
+$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month AS month,dp.status FROM
 daily_performance dp
 LEFT JOIN
 company_creation c ON c.company_id = dp.company_id
@@ -109,7 +109,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['department_name'];
     $sub_array[] = $row['designation_name'];
     $sub_array[] = $row['staff_name'];
-    $sub_array[] = $row['month'];
+    $sub_array[] = date('F',strtotime($row['month']));
     $status    = $row['status'];
     
     
