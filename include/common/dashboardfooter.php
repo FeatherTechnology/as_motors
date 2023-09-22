@@ -2754,6 +2754,11 @@ if($current_page == 'work_status_report') { ?>
 	<script src="js/work_status_report.js"></script>
     <?php }
     
+
+if($current_page == 'daily_performance_report') { ?>
+	<script src="js/daily_performance_report.js"></script>
+    <?php }
+    
 ?> 
 
 <script src="js/logincreation.js"></script>

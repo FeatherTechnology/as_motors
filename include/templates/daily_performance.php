@@ -203,11 +203,11 @@ table {
                                                 <?php if($idupd == '0'){ ?>
                                                     
                                                     <input readonly tabindex="6" type="text" class="form-control" id="month" name="month" value="<?php echo date("F"); ?>">
-                                                    <input readonly type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo date("m"); ?>" >
+                                                    <input readonly type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo date("Y-m"); ?>" >
                                             
                                                 <?php } else { ?> 
 
-                                                    <input readonly tabindex="6" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){  }else{ echo date("F", mktime(0, 0, 0, $month, 1)); }  ?>">
+                                                    <input readonly tabindex="6" type="text" class="form-control" id="month" name="month" value="<?php if($month == '0'){  }else{ echo date("F", strtotime($month)); }  ?>">
                                                     <input type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo $month;  ?>" >
 
                                                 <?php } ?>
