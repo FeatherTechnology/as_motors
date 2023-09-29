@@ -154,7 +154,7 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Company Name</label>
-                                                <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control">
+                                                <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Company Name</option>
                                                 </select>
                                             </div>
@@ -163,7 +163,7 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Branch Name</label>
-                                                <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control">
+                                                <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Branch Name</option>
                                                 </select>
                                             </div>
@@ -172,7 +172,7 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Department</label>
-                                                <select type="text" tabindex="3" name="dept" id="dept" class="form-control">
+                                                <select type="text" tabindex="3" name="dept" id="dept" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Department Name</option>
                                                 </select>
                                             </div>
@@ -181,7 +181,7 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Designation</label>
-                                                <select type="text" tabindex="4" name="designation" id="designation" class="form-control">
+                                                <select type="text" tabindex="4" name="designation" id="designation" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Designation Name</option>
                                                 </select>
                                             </div>
@@ -189,8 +189,8 @@ table {
 
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
-                                                <label for="inputReadOnly">Emp Name</label>
-                                                <select tabindex="5" type="text" class="form-control" name="staff_id" id="staff_id">
+                                                <label for="inputReadOnly">Employee Name</label>
+                                                <select tabindex="5" type="text" class="form-control" name="staff_id" id="staff_id" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                 <option value=''>Select Staff Name</option>  
                                                 </select>
                                             </div>
@@ -203,7 +203,7 @@ table {
                                                 <?php if($idupd == '0'){ ?>
                                                     
                                                     <input readonly tabindex="6" type="text" class="form-control" id="month" name="month" value="<?php echo date("F"); ?>">
-                                                    <input readonly type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo date("Y-m"); ?>" >
+                                                    <input readonly type="hidden" class="form-control" id="nmonth" name="nmonth" value="<?php echo date("Y-m-01"); ?>" >
                                             
                                                 <?php } else { ?> 
 
@@ -242,9 +242,7 @@ table {
                                             <th>Target</th>
                                             <th>Actual Achieve</th>
                                             <th>System Date</th>
-                                            <th>Work Status</th>
-                                            <th>Status</th>
-                                            
+                                            <th>Work Status</th>                                            
                                         </tr>
                                     </thead>
                                     <?php if($idupd<=0){ ?>
@@ -273,12 +271,7 @@ table {
                                                         <option value="2">Not Done</option>
                                                         <option value="3">Carry Forward</option>
                                                     </select>
-                                                </td>
-                                                <td>
-                                                    <input  type="text" class="form-control status" id="status" name="status[]" tabindex="14"></input> 
-                                                </td>
-                                                
-                                                
+                                                </td>                                               
                                             </tr>
                                         </tbody>
                                     <?php } if($idupd>0){
@@ -293,7 +286,14 @@ table {
                                                         $system_date            =$ref_table[$i]['system_date'];
                                                         $goal_setting_id                   = $ref_table[$i]['goal_setting_id'];
                                                         $goal_setting_ref_id                   = $ref_table[$i]['goal_setting_ref_id'];
-                                                        $status            =$ref_table[$i]['status'];
+                                                        $status                   = $ref_table[$i]['status'];
+                                                        $manager_updated_status                   = $ref_table[$i]['manager_updated_status'];
+
+                                                        if($ref_table[$i]['manager_updated_status'] != 1 && $logrole == 1){
+                                                            $isReadOnly = false;
+                                                        }else{
+                                                            $isReadOnly = true;
+                                                        }
                                                 ?>
                                                         <tr>
                                                             <td>
@@ -304,37 +304,24 @@ table {
                                                             
                                                             </td>
                                                             <td >
-                                                                <input tabindex="10" type="text" class="form-control target" id="target" name="target[]" value="<?php echo $target ?>" readonly>
+                                                                <input tabindex="10" type="text" class="form-control target" id="target" name="target[]" value="<?php echo $target; ?>" readonly>
                                                                 </input> 
                                                             </td>
                                                             <td >
-                                                                <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $actual_achieve ?>" readonly>
+                                                                <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $actual_achieve; ?>" <?php echo $isReadOnly ? 'readonly' : ''; ?> >
                                                                 </input> 
                                                             </td>
                                                             <td>
                                                                 <input tabindex="12" type="date" class="form-control" id="sdate" name="sdate[]" value="<?php echo $system_date; ?>" readonly></input> 
                                                             </td>
                                                             <td>
-                                                                <select  class="form-control wstatus" id="wstatus" name="wstatus[]"  value="<?php echo $status ?>" tabindex="13">
+                                                                <select  class="form-control wstatus" id="wstatus" name="wstatus[]"  value="<?php echo $status; ?>" tabindex="13" <?php echo $isReadOnly ? 'disabled' : ''; ?> >
                                                                     <option value=" ">Select Work Status</option>
                                                                     <option value="1" <?php if($status == '1') { echo 'selected';} ?> >Statisfied</option>
                                                                     <option value="2" <?php if($status == '2') { echo 'selected';} ?> >Not Done</option>
                                                                     <option value="3" <?php if($status == '3') { echo 'selected';} ?> >Carry Forward</option>
                                                                 </select>
-                                                            </td>
-                                                            <td>
-                                                                    <?php if($status == '1') { ?>
-                                                                        <input type="text" class="form-control status" id="status" name="status[]" style="background-color: green;">
-                                                                        <?php }else if($status == '2'){ ?>
-                                                                            <input type="text" class="form-control status" id="status" name="status[]" style="background-color: red;">
-                                                                        <?php }else if($status == '3'){ ?>
-                                                                        
-                                                                            <input type="text" class="form-control status" id="status" name="status[]" style="background-color: blue;">
-                                                                        <?php }else{ ?>
-                                                                            <input type="text" class="form-control status" id="status" name="status[]">
-                                                                        <?php } ?>
-                                                            </td>
-                                                            
+                                                            </td>                                                            
                                                         </tr>
                                                     <?php } ?>
                                                 </tbody>

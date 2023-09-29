@@ -612,6 +612,11 @@ if (sizeof($getuser)>0) {
 										<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
 									</li>
 								<?php } ?>
+								<?php if($daily_performance == 0 && $daily_performance != '' && $daily_performance != NULL) { ?>
+									<li>
+										<a href="daily_performance_review"><i class="icon-file"></i>Daily Performance Review</a>	
+									</li>
+								<?php } ?>
 								<?php if($appreciation_depreciation == 0 && $appreciation_depreciation != '' && $appreciation_depreciation != NULL) { ?>
 									<li>
 										<a href="edit_appreciation_depreciation"><i class="icon-thumb_up"></i>Appreciation VS Depreciation</a>	

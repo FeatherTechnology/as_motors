@@ -1,17 +1,21 @@
 <?php
 include('ajaxconfig.php');
 
-if(isset($_POST["designation_id"])){
-	$designation_id  = $_POST["designation_id"];
+if(isset($_POST["staff_id"])){
+	$staff_id  = $_POST["staff_id"];
 }
+// if(isset($_POST["designation_id"])){
+// 	$designation_id  = $_POST["designation_id"];
+// }
 
 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
 //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is.
-	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
 	FROM goal_setting_ref gsr 
 	LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-	WHERE gs.role = '$designation_id' 
+	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
 	AND gsr.monthly_conversion_required = '1' 
+	AND (gsr.status != '1' && gsr.status != '2')
 	AND gsr.goal_month = curdate() ";
 // echo $goalSettingQry;
 	$goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
@@ -35,14 +39,14 @@ if(isset($_POST["designation_id"])){
 
 	if($daily_goal_setting_ref_id == $goalsettinginfo->goal_setting_ref_id){ 
 		
-		$emp_data_list[$i]['target']      	= $old_target + $goalsettinginfo->target;
+		$emp_data_list[$i]['target']      	= $old_target + $goalsettinginfo->per_day_target;
 
 	}else if($daily_goal_setting_ref_id == ''){ 
 
-		$goaltargetQry = $mysqli->query(" SELECT sum(gsr.target) as total_target
+		$goaltargetQry = $mysqli->query(" SELECT sum(gsr.per_day_target) as total_target
 		FROM goal_setting_ref gsr 
 		LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-		WHERE gs.role = '$designation_id' 
+		WHERE FIND_IN_SET($staff_id, gsr.staffname)  
 		AND gsr.monthly_conversion_required = '1'
 		AND gsr.assertion_table_sno = '$goalsettinginfo->assertion_table_sno'
 		AND gsr.goal_month < curdate() 
@@ -54,17 +58,17 @@ if(isset($_POST["designation_id"])){
 
 		if($goal_target['total_target'] != '') {
 			$sumvalue = $goal_target['total_target'] - $actualAchieveinfo['actual_achieve'];
-			$sumtarget = $goalsettinginfo->target + $sumvalue ;
+			$sumtarget = $goalsettinginfo->per_day_target + $sumvalue ;
 			
 		} else{
-			$sumtarget = $goalsettinginfo->target; 
+			$sumtarget = $goalsettinginfo->per_day_target; 
 
 		}
 
 		$emp_data_list[$i]['target']      	=  $sumtarget; 
 		// $total_target = $goal_target['pending_target'];
 	}else{
-		$emp_data_list[$i]['target']      	=  $goalsettinginfo->target;
+		$emp_data_list[$i]['target']      	=  $goalsettinginfo->per_day_target;
 	}
 					
 	$emp_data_list[$i]['assertion']      	= $goalsettinginfo->assertion;

@@ -10,9 +10,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 		$company_id         = $CompanyroleDetail['company_id'];
 		$company_name         = $CompanyroleDetail['company_name'];
 }
-} 
-
-?> 
+} ?>
 <input type="hidden" id="logrole" class="logrole" value="<?php 	echo $logrole;       ?>" >
 <input type="hidden" id="logtitle" class="logtitle" value="<?php 	echo $logtitle;      ?>" >
 <input type="hidden" id="company_id" class="company_id" value="<?php 	echo $company_id;    ?>" >
@@ -20,17 +18,23 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 <!-- Page header start -->
 <div class="page-header">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Goal Setting List</li>
+		<li class="breadcrumb-item">Daily Performance Review List</li>
 	</ol>
-<?php if($logrole == '1' or $logrole == '3'){ ?>
-	<a href="goal_setting">
-		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Goal Setting Creation</button>
-    </a>
-	<?php echo '<style>.View_goal_setting { display: none; }</style>'; ?>
-	<?php }else{ ?>
-<?php echo '<style>.edpage { display: none; }</style>'; echo '<style>.icon-trash-2 { display: none; }</style>'; ?>
+	<?php #if($logrole == '1' || $logrole == '3'){ ?>
+		<a href="daily_performance_review">
+		<button type="button" tabindex="1"  class="btn btn-primary backb"><span class="icon-add"></span>&nbsp Daily Performance Review</button>
+	</a>
+	<?php 
+	// }
 
-		<?php } ?>
+	if($logrole == '1' || $logrole == '3' ){ 
+		echo '<style>.View_goal_setting { display: none; }</style>'; 
+		
+	}else{
+		echo '<style>.edpage { display: none; }</style>'; 
+		echo '<style>.icon-trash-2 { display: none; }</style>'; 
+	} ?>
+	
 </div>
 <!-- Page header end -->
 
@@ -50,33 +54,35 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 					if($mscid==1)
 					{?>
 					<div class="alert alert-success" role="alert">
-						<div class="alert-text">Goal Setting Added Successfully!</div>
+						<div class="alert-text">Daily Performance Added Successfully!</div>
 					</div> 
 					<?php
 					}
 					if($mscid==2)
 					{?>
 						<div class="alert alert-success" role="alert">
-						<div class="alert-text">Goal Setting Updated Successfully!</div>
+						<div class="alert-text">Daily Performance Updated Successfully!</div>
 					</div>
 					<?php
 					}
 					if($mscid==3)
 					{?>
 					<div class="alert alert-danger" role="alert">
-						<div class="alert-text">Goal Setting Inactive Successfully!</div>
+						<div class="alert-text">Daily Performance Inactive Successfully!</div>
 					</div>
 					<?php
 					}
 					}
 					?>
-					<table id="goal_setting_infoDashboard" class="table custom-table">
+					<table id="daily_performance_review_fetch" class="table custom-table">
 						<thead>
 							<tr>
 								<th>S. No.</th>
 								<th>Company Name</th>
-								<th>Branch Name</th>
 								<th>Department Name</th>
+								<th>Role</th>
+								<th>Employee Name</th>
+								<th>Month</th>
 								<th>Status</th>
 								<th colspan="1">Action</th>
 							</tr>
@@ -96,6 +102,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 	setTimeout(function() {
 		$('.alert').fadeOut('slow');
 	}, 2000);
+
 
     
 </script>

@@ -389,6 +389,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                             <?php
                                                             if ($sbranch_id == 'Overall') {
                                                                 if (sizeof($expiredRGPList)) {
+                                                                    $j = 0;
                                                                     for ($i = 0; $i < count($expiredRGPList); $i++) {
                                                                         $j = $i + 1; ?>
                                                             <tr>
@@ -478,6 +479,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <th>Designation / Staff Name</th>
                                                         <?php 
                                                         if ($sbranch_id == 'Overall') {
+                                                            $j = 0;
                                                         if (sizeof($outdateList) > 0) {
                                                             for ($i = 0; $i < count($outdateList); $i++) {$j=$i+1; ?>
                                                         <tr>
@@ -538,8 +540,9 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                         <?php }
                                                         }
                                                         } else { ?>
-                                                        <?php if (sizeof($outdateList) > 0) {
-                                                            $j = 0;
+                                                        <?php 
+                                                        $j = 0;
+                                                        if (sizeof($outdateList) > 0) {
                                                             for ($i = 0; $i < count($outdateList); $i++) {
                                                                 if ($outdateList[$i]['branch_id'] == $sbranch_id) {
                                                                     $j = $j + 1; ?>
@@ -2153,6 +2156,43 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                         </div>
                     </div>
                 <!-- Regularisation Approved List END -->
+
+                <!-- Manager Comment in Daily Performance Review Start-->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Manager Comment in Daily Performance Review</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 "> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" >
+                                                    <div class="table">
+                                                        <table id="manager_comment_info_dashboard" class="table custom-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S. No.</th>
+                                                                    <th>Staff Name</th>
+                                                                    <th>Manager Comment</th>
+                                                                    <th>Manager Name</th>
+                                                                    <th>Date</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Manager Comment in Daily Performance Review END -->
 
                 <!-- Vehicle Management Start-->
                 <?php if($role =='3' || $role == '1'){ // 3-Manager, 1-Overall  ?>

@@ -1,3 +1,10 @@
+// Initialize Choices.js for the new multi-select dropdown
+// choices js for multi select dropdown:
+const staffname = new Choices('#staff_name0', {
+	removeItemButton: true,
+    allowHTML: true, // Set allowHTML to true
+});
+
 // Document is ready
 $(document).ready(function (){
 
@@ -15,10 +22,23 @@ $(document).on('click','#add_row',(function(){
     }else{
         lencnt = lenz;
     }
+
+    var totalRows = $('#goalsettingInfo tr').length;
+
+    // Create a unique ID for the select element in the new row
+    var selectId = 'staff_name' + totalRows;
     
-    var appendTxt = "<tr><td><input tabindex='4' type='text' class='form-control' id='assertion' placeholder='Enter Assertion' name='assertion[]'><input type='hidden' class='form-control' id='rowcnt' name='rowcnt[]' value='"+lencnt+"'></td>"+"<td><input tabindex='6' type='number' class='form-control' id='target' name='target[]' placeholder='Enter Target'></td>"+"<td><input type='month' tabindex='11' class='form-control' id='goal_month' name='goal_month[]'></td><td><select tabindex='11' class='form-control' id='monthly_conversion' name='monthly_conversion[]'><option value=''>Select Type</option><option value='0'>Month</option><option value='1'>Daily</option></select></td>"+"<td> <button type='button' tabindex='9' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" + "<td> <span class='icon-trash-2' tabindex='10' id='delete_row'></span></td></tr>";
+    var appendTxt = '<tr><td><input tabindex="5" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"></input><input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="'+lencnt+'"></td><td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td><td><input type="month" tabindex="7" class="form-control" id="goal_month" name="goal_month[]"></td><td><select tabindex="8" class="form-control" id="monthly_conversion" name="monthly_conversion[]"><option value="">Select Type</option><option value="0">Month</option><option value="1">Daily</option></select></td><td><select tabindex="9" class="form-control" id="'+selectId+'" name="staff_name'+totalRows+'[]" multiple><option value="">Select Staff Name</option></select></td><td><button type="button" tabindex="10" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td><td><span class="icon-trash-2" tabindex="11" id="delete_row"></span></td></tr>';
     $('#moduleTable').find('tbody').append(appendTxt);
 
+    // Initialize Choices.js for the new multi-select dropdown
+    var newChoiceVarName = new Choices('#' + selectId, {
+        removeItemButton: true,
+        allowHTML: true, // Set allowHTML to true
+    });
+
+    var dept_id = $('#dept').val(); 
+    staffNameListBasedOnDept(dept_id,newChoiceVarName)
 }));
 
 // Delete unwanted Rows
@@ -53,7 +73,8 @@ $('#branch_name').change(function(){ // To get Department Name.
 $('#dept').change(function() { 
     var department_id =$('#dept').val();
     var designation_id ='';
-    getDesignationList(department_id,designation_id);
+    // getDesignationList(department_id,designation_id);
+    staffNameListBasedOnDept(department_id,staffname);
 });
 
 
@@ -73,10 +94,10 @@ $(function(){
         var dept_id_upd = $('#dept_id_upd').val();
         getDepartmentList(branch_id_upd, dept_id_upd);
 
-        var role_id_up = $('#role_id_up').val();
-        getDesignationList(dept_id_upd, role_id_up);
+        // var role_id_up = $('#role_id_up').val();
+        // getDesignationList(dept_id_upd, role_id_up);
 
-        getgoalsettingsdetails(idupd); //if edit page means the details will be show in table.
+        getgoalsettingsdetails(idupd,dept_id_upd); //if edit page means the details will be show in table.
 
     }else{
 
@@ -89,9 +110,10 @@ $(function(){
             var branchid = $('#user_branch').val();
             var dept_id = $('#user_department').val();
             getDepartmentList(branchid, dept_id);
+            staffNameListBasedOnDept(dept_id,staffname)
             
             var user_designation = $('#user_designation').val();
-            getDesignationList(dept_id, user_designation);
+            // getDesignationList(dept_id, user_designation);
 
             var userComid = $('#user_company').val();
             getCompanyNameList(userComid); //Company List.
@@ -196,35 +218,33 @@ function getDepartmentList(branchid, dept_id){
     });
 }
 
-function getDesignationList(department_id, role_id_up){
+// function getDesignationList(department_id, role_id_up){
+//     $.ajax({
+//         url: 'R&RFile/ajaxR&RDesignationDetails.php',
+//         type: 'post',
+//         data: { "department_id":department_id },
+//         dataType: 'json',
+//         success:function(response){
+//             $('#designation').text('');
+//             $('#designation').val('');
+//             var option = $('<option></option>').val('').text('Select Designation Name');
+//             $('#designation').append(option);
+//             var i = 0;
+//             for (i = 0; i <= response.designation_id.length - 1; i++) { 
+//             var selected = "";
+//             if(role_id_up == response['designation_id'][i]){
+//                 selected = "selected";
+//             }
+//             $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
+//             }
+//         }
+//         }); 
+// }
 
-    $.ajax({
-        url: 'R&RFile/ajaxR&RDesignationDetails.php',
-        type: 'post',
-        data: { "department_id":department_id },
-        dataType: 'json',
-        success:function(response){
-            
-            $('#designation').text('');
-            $('#designation').val('');
-            var option = $('<option></option>').val('').text('Select Designation Name');
-            $('#designation').append(option);
-            var i = 0;
-            for (i = 0; i <= response.designation_id.length - 1; i++) { 
-            var selected = "";
-            if(role_id_up == response['designation_id'][i]){
-                selected = "selected";
-            }
-            $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
-            }
-        }
-        }); 
-}
-
-function getgoalsettingsdetails(idupd){ //edit screen details.
+function getgoalsettingsdetails(idupd,dept_id_upd){ //edit screen details.
     $.ajax({
         url: 'targetFixingFile/ajaxGoalSettingsDetails.php',
-        data: {'goal_setting_ref': idupd },
+        data: {'goal_setting_ref': idupd, 'department_id': dept_id_upd },
         cache: false,
         type:'post',
         success: function(response){
@@ -233,3 +253,42 @@ function getgoalsettingsdetails(idupd){ //edit screen details.
         }
     });
 }
+
+//staff Name List
+function staffNameListBasedOnDept(department_id,multiSelectId){ 
+    $.ajax({
+        url: 'targetFixingFile/ajaxGetDepartmentBasedStaffs.php',
+        type: 'post',
+        data: { "department_id":department_id },
+        dataType: 'json',
+        success:function(response){  
+
+            $('#dept_strength').val(response.staff_id.length);
+
+            multiSelectId.clearStore();
+            for (r = 0; r < response.staff_id.length; r++) { 
+
+                var staff_id = response['staff_id'][r];  
+                var staff_name = response['staff_name'][r]; 
+
+                var selected = '';
+                    // for(var i=0;i<staff_id.length;i++){ 
+                    //     if(staff_id[i] == staff_id){  
+                    //         selected = 'selected';
+                    //     }
+                    // }
+
+                var items = [
+                    {
+                        value: staff_id,
+                        label: staff_name,
+                        selected: selected,
+                    }
+                ];
+                multiSelectId.setChoices(items);
+                multiSelectId.init();
+            }
+
+        }
+    });
+};
