@@ -58,7 +58,7 @@ if ($idupd > 0) {
          $company_id                  = $getgoalsettingsData['company_id'];
          $branch_id                  = $getgoalsettingsData['branch_id'];
          $dept_id                  = $getgoalsettingsData['dept_id'];
-         $role_id                    = $getgoalsettingsData['role_id'];
+         $dept_strength                    = $getgoalsettingsData['dept_strength'];
       }
    }
 
@@ -73,12 +73,12 @@ if ($idupd > 0) {
 
    if (sizeof($getGoalSettingfet) > 0) {
       for ($j = 0; $j < sizeof($getGoalSettingfet); $j++) {
-         // print_r($getAuditassign_ref);
          $goal_setting_ref_id[$j]                       = $getGoalSettingfet[$j]['goal_setting_ref_id'];
          $goal_setting_id[$j]                       = $getGoalSettingfet[$j]['goal_setting_id'];
          $assertion[$j]                       = $getGoalSettingfet[$j]['assertion'];
          $target[$j]                       = $getGoalSettingfet[$j]['target'];
          $monthly_conversion[$j]                       = $getGoalSettingfet[$j]['monthly_conversion'];
+         $staffname[$j]                       = $getGoalSettingfet[$j]['staffname'];
       }
    }
 }
@@ -105,7 +105,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 <!-- Main container start -->
 <div class="main-container">
    <!--------form start-->
-   <form id="audit_checklist" name="audit_checklist" action="" method="post" enctype="multipart/form-data">
+   <form id="goal_setting" name="goal_setting" method="post" enctype="multipart/form-data">
       <input type="hidden" class="form-control" value="<?php if (isset($idupd)) echo $idupd; ?>" id="goal_setting_id" name="goal_setting_id" >
       <input type="hidden" class="form-control" value="<?php if (isset($sno)) echo $sno; ?>" id="snocnt" name="snocnt" >
 
@@ -113,7 +113,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
       <input type="hidden" class="form-control" value="<?php if (isset($company_id)) echo $company_id; ?>" id="company_id_upd" name="company_id_upd">
       <input type="hidden" class="form-control" value="<?php if (isset($branch_id)) echo $branch_id; ?>" id="branch_id_upd" name="branch_id_upd">
       <input type="hidden" class="form-control" value="<?php if (isset($dept_id)) { echo $dept_id; } else { echo '0'; } ?>" id="dept_id_upd" name="dept_id_upd">
-      <input type="hidden" class="form-control" value="<?php if (isset($role_id)) echo $role_id; ?>" id="role_id_up" name="role_id_up">
+      <!-- <input type="hidden" class="form-control" value="<?php #if (isset($role_id)) echo $role_id; ?>" id="role_id_up" name="role_id_up"> -->
       <!-- Data will get in edit screen END -->
       
       <!-- Login User Data Start -->
@@ -124,13 +124,11 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
       <input type="hidden" class="form-control" value="<?php if (isset($user_role)) echo $user_role; ?>" id="user_role" name="user_role">
       <!-- Login User Data END -->
 
-
       <!-- Row start -->
       <div class="row gutters">
          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
                <div class="card-header">
-                  <!-- <div class="card-title">General Info</div> -->
                </div>
                <div class="card-body">
                   <div class="row ">
@@ -140,7 +138,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Company Name</label>
+                                 <label for="company_name">Company Name</label>
                                  <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control">
                                     <option value=''>Select Company Name</option>
                                  </select>
@@ -149,7 +147,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Branch Name</label>
+                                 <label for="branch_name">Branch Name</label>
                                  <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control">
                                     <option value=''>Select Branch Name</option>
                                  </select>
@@ -158,8 +156,8 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Department</label>
-                                 <select type="text" tabindex="2" name="dept" id="dept" class="form-control">
+                                 <label for="dept">Department</label>
+                                 <select type="text" tabindex="3" name="dept" id="dept" class="form-control">
                                     <option value=''>Select Department Name</option>
                                  </select>
                               </div>
@@ -167,10 +165,8 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
-                                 <label for="inputReadOnly">Designation</label>
-                                 <select type="text" tabindex="3" name="designation" id="designation" class="form-control">
-                                    <option value=''>Select Designation Name</option>
-                                 </select>
+                                 <label for="dept_strength">Department strength</label>
+                                 <input type="number" tabindex="4" name="dept_strength" id="dept_strength" class="form-control" value="<?php if(isset($dept_strength)) echo $dept_strength; ?>" readonly>
                               </div>
                            </div>
 
@@ -183,29 +179,34 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                                        <th>Target</th>
                                        <th>Month</th>
                                        <th>Type</th>
+                                       <th>Staff</th>
                                        <th colspan="2">Action</th>
                                     </tr>
                                  </thead>
                                     <tbody id='goalsettingInfo'>  
                                        <tr>
                                           <td>
-                                             <input tabindex="9" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"></input>
+                                             <input tabindex="5" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"></input>
                                              <input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="<?php echo $sno; ?>">
                                           </td>
-                                          <td><input tabindex="10" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
-                                          <td><input type="month" tabindex="11" class="form-control" id="goal_month" name="goal_month[]"></td>
-                                          <td><select tabindex="11" class="form-control" id="monthly_conversion" name="monthly_conversion[]">
+                                          <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
+                                          <td><input type="month" tabindex="7" class="form-control" id="goal_month" name="goal_month[]"></td>
+                                          <td><select tabindex="8" class="form-control" id="monthly_conversion" name="monthly_conversion[]">
                                                 <option value=''>Select Type</option>
                                                 <option value='0'>Month</option>
                                                 <option value='1'>Daily</option>
-                                             </select></td>
-                                          <td><button type="button" tabindex="12" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
-                                          <td><span class='icon-trash-2' tabindex="13" id="delete_row"></span></td>
+                                             </select>
+                                          </td>
+                                          <td><select tabindex="9" class="form-control" id="staff_name0" name="staff_name0[]" multiple>
+                                                <option value=''>Select Staff Name</option>
+                                             </select>
+                                          </td>
+                                          <td><button type="button" tabindex="10" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                          <td><span class='icon-trash-2' tabindex="11" id="delete_row"></span></td>
                                        </tr>
                                     </tbody>
                               </table>
                            </div>
-                           <!-- </div> -->
                         </div>
                      </div>
                   </div>
@@ -214,7 +215,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
             <div class="col-md-12">
                <br><br>
                <div class="text-right">
-                  <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="13">Submit</button>
+                  <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="12">Submit</button>
                </div>
             </div>
          </div>

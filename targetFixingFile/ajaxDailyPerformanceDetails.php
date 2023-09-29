@@ -4,8 +4,9 @@ include '../ajaxconfig.php';
 
 if(isset($_POST["month"])){
 	$yearmonth = $_POST["month"]; //format('yyyy-mm'); // we want month only so split month here.
-	$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
-    $month = intval($yearmonthsplit[1]);
+	// $yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
+    // $month = intval($yearmonthsplit[1]);
+    $month = $yearmonth.'-01';
 
 }
 if(isset($_POST["designation"])){
@@ -53,7 +54,7 @@ if(mysqli_num_rows($getdesgnDetails)>0){
                 // $target[]	= $row["target"];
                 $assertion_table_sno	= $row["assertion_table_sno"];
 
-                $goaltargetQry = $mysqli->query(" SELECT sum(gsr.target) as total_target
+                $goaltargetQry = $mysqli->query(" SELECT gsr.target as total_target
                 FROM goal_setting_ref gsr 
                 LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
                 WHERE gsr.monthly_conversion_required = '1'

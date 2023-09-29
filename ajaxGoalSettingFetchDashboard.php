@@ -18,17 +18,13 @@ if(isset($_SESSION["staffid"])){
 $column = array(
     'c.company_name',
     'department_name',
-    'designation_name',
-    'year',
     'status'
 );
 
-$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,bc.branch_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
+$query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,bc.branch_name,gs.department,dc.department_name,gs.status FROM goal_setting gs 
 LEFT JOIN company_creation c ON c.company_id=gs.company_name 
 LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
-LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-LEFT JOIN year_creation y ON y.year_id=gs.year
+LEFT JOIN department_creation dc ON dc.department_id=gs.department
 WHERE ";
 
 if ($staffid != 'Overall'){
@@ -55,8 +51,6 @@ if($_POST['search']!="");
             
             // OR c.company_name LIKE  '%".$_POST['search']."%'
             // OR dc.department_name LIKE '%".$_POST['search']."%'
-            // OR ds.designation_name LIKE '%".$_POST['search']."%'
-            // OR y.year LIKE '%".$_POST['search']."%'
             // OR gs.status LIKE '%".$_POST['search']."%'";
            
         }
@@ -95,7 +89,6 @@ foreach ($result as $row) {
     $sub_array[] = $row['company_name'];
     $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['department_name'];
-    $sub_array[] = $row['designation_name'];
     $status    = $row['status'];
     
     
@@ -122,11 +115,9 @@ foreach ($result as $row) {
 
 function count_all_data($connect)
 {
-    $query     = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
+    $query     = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,gs.department,dc.department_name,gs.status FROM goal_setting gs 
     LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-    LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-    LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-    LEFT JOIN year_creation y ON y.year_id=gs.year";
+    LEFT JOIN department_creation dc ON dc.department_id=gs.department";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();

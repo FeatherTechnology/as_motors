@@ -52,14 +52,20 @@ if(isset($_SESSION['role'])){
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- select2 cdns -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
 <script type="text/javascript" language="javascript">
 
 
 	// $('select').selectpicker();
 
     $(document).ready(function() {
-//"Max-User-Connection" exceeded when more than 10 DB connection made, All ajax are run at a time to getting a data for dashboard so connection exceeded bug are coming in alert, so calling the particular function based on the login. Now the function run one by one so the connection exceed will not reach.
-// here we call the function and in this function ajax will run and end of the each ajax "drawCallBack" function will run to call next function.  
+        //"Max-User-Connection" exceeded when more than 10 DB connection made, All ajax are run at a time to getting a data for dashboard so connection exceeded bug are coming in alert, so calling the particular function based on the login. Now the function run one by one so the connection exceed will not reach.
+        // here we call the function and in this function ajax will run and end of the each ajax "drawCallBack" function will run to call next function.  
         var user_role_dashboard_use = $('#user_role_dashboard_use').val();
         if(user_role_dashboard_use == '1'){ //Overall
             commonDashboard();
@@ -1833,6 +1839,36 @@ buttons: [
     [10, 25, 50, "All"]
 ]
 });
+// Daily Performance Review
+var daily_performance_review_fetch = $('#daily_performance_review_fetch').DataTable({
+
+"order": [[ 0, "desc" ]],
+//"ordering": false, //removes sorting by column
+'processing': true,
+'serverSide': true,
+'serverMethod': 'post',
+//'searching': false, // Remove default Search Control
+'ajax': {
+    'url':'ajaxFetch/ajaxDailyPerformanceReviewFetch.php',
+    'data': function(data){
+        var search = $('#search').val();
+        data.search = search;
+    }
+},
+dom: 'lBfrtip',
+buttons: [
+    {
+        extend: 'csv',
+        exportOptions: {
+            columns: [ 0, 1, 2 ,3, 4, 5, 6 ]
+        }
+    }
+],
+"lengthMenu": [
+    [10, 25, 50, -1],
+    [10, 25, 50, "All"]
+]
+});
 
 
     // parallel agreement - meeting minutes dashboard
@@ -2084,6 +2120,36 @@ buttons: [
             // 'searching': false, // Remove default Search Control
             'ajax': {
                 'url':'ajaxRegularisationApprovedList.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ]
+            });
+
+        var manager_comment_info_dashboard = $('#manager_comment_info_dashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'dashboardAjaxFile/ajaxManagerCommentDashboardInfo.php',
                 'data': function(data){
                     var search = $('#search').val();
                     data.search = search;
@@ -2496,6 +2562,7 @@ buttons: [
         meetingMinutesParallelAgreement_info_dashboard.draw();
         afterMeetingMinutesNotification_info_dashboard.draw();
         daily_performance_info.draw();
+        daily_performance_review_fetch.draw();
         appreciation_depreciatione_info.draw();
         targetFixing_info.draw();
         appreciation_depreciation_info.draw();
@@ -2740,6 +2807,10 @@ if($current_page == 'target_fixing') { ?>
 
 if($current_page == 'daily_performance') { ?>
 	<script src="js/daily_performance.js"></script>
+	<?php } 
+
+if($current_page == 'daily_performance_review') { ?>
+	<script src="js/daily_performance_review.js"></script>
 	<?php } 
 
 if($current_page == 'appreciation_depreciation') { ?>

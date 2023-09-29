@@ -569,6 +569,14 @@ include('api/main.php'); // Database Connection File
 			<?php include "include/templates/edit_daily_performance.php" ?>
 			<?php } ?>
 
+			<?php if($current_page == 'edit_daily_performance_review') { ?>
+			<?php include "include/templates/edit_daily_performance_review.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'daily_performance_review') { ?>
+			<?php include "include/templates/daily_performance_review.php" ?>
+			<?php } ?>
+
 			<!-- appreciation_depreciation -->
 			<?php if($current_page == 'appreciation_depreciation') { ?>
 			<?php include "include/templates/appreciation_depreciation.php" ?>
