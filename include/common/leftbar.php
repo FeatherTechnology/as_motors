@@ -65,6 +65,7 @@ $target_fixing_module  = '';
 $goal_setting      = '';
 // $target_fixing    = '';
 $daily_performance    = '';
+$daily_performance_review    = '';
 $appreciation_depreciation    = '';
 $vehicle_management_module    = '';
 $vehicle_details    = '';
@@ -76,6 +77,7 @@ $business_communication_outgoing    = '';
 $minutes_of_meeting    = '';
 $report_module             = '';
 $reports             = '';
+$daily_performance_report             = '';
 
 $getuser = $userObj->getmanageuser($mysqli,$userid); 
 if (sizeof($getuser)>0) {
@@ -144,6 +146,7 @@ if (sizeof($getuser)>0) {
 		$goal_setting      = $getuser['goal_setting'];
 		// $target_fixing    = $getuser['target_fixing'];
 		$daily_performance    = $getuser['daily_performance'];
+		$daily_performance_review    = $getuser['daily_performance_review'];
 		$appreciation_depreciation    = $getuser['appreciation_depreciation'];
 		$vehicle_management_module    = $getuser['vehicle_management_module'];
 		$vehicle_details    = $getuser['vehicle_details'];
@@ -155,6 +158,7 @@ if (sizeof($getuser)>0) {
 		$minutes_of_meeting    = $getuser['minutes_of_meeting'];
 		$report_module      = $getuser['report_module']; 
 		$reports      = $getuser['reports']; 
+		$daily_performance_report      = $getuser['daily_performance_report']; 
 	}
 }
 
@@ -612,7 +616,7 @@ if (sizeof($getuser)>0) {
 										<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
 									</li>
 								<?php } ?>
-								<?php if($daily_performance == 0 && $daily_performance != '' && $daily_performance != NULL) { ?>
+								<?php if($daily_performance_review == 0 && $daily_performance_review != '' && $daily_performance_review != NULL) { ?>
 									<li>
 										<a href="daily_performance_review"><i class="icon-file"></i>Daily Performance Review</a>	
 									</li>
@@ -696,7 +700,7 @@ if (sizeof($getuser)>0) {
 										<a href="work_status_report"><i class="icon-flag"></i>Basic Report</a>
 									</li>
 								<?php } ?>
-								<?php if($reports == 0 && $reports != '' && $reports != NULL){ ?>				
+								<?php if($daily_performance_report == 0 && $daily_performance_report != '' && $daily_performance_report != NULL){ ?>				
 									<li>									
 										<a href="daily_performance_report"><i class="icon-area-graph"></i>Daily Performance Report</a>
 									</li>

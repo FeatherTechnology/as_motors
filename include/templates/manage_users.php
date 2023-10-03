@@ -67,6 +67,7 @@ $target_fixing_module  = '';
 $goal_setting      = '';
 // $target_fixing    = '';
 $daily_performance    = '';
+$daily_performance_review    = '';
 $appreciation_depreciation    = '';
 $vehicle_management_module    = '';
 $vehicle_details    = '';
@@ -78,6 +79,7 @@ $business_communication_outgoing    = '';
 $minutes_of_meeting    = '';
 $report_module    = '';
 $reports             = '';
+$daily_performance_report             = '';
 
 if(isset($_POST['submitusers']))
 {
@@ -184,6 +186,7 @@ if($idupd>0)
             $goal_setting      = $getuser['goal_setting'];
             // $target_fixing    = $getuser['target_fixing'];
             $daily_performance    = $getuser['daily_performance'];
+            $daily_performance_review    = $getuser['daily_performance_review'];
             $appreciation_depreciation    = $getuser['appreciation_depreciation'];
             $vehicle_management_module    = $getuser['vehicle_management_module'];
             $vehicle_details    = $getuser['vehicle_details'];
@@ -195,6 +198,7 @@ if($idupd>0)
             $minutes_of_meeting    = $getuser['minutes_of_meeting'];
             $report_module      = $getuser['report_module'];
             $reports      = $getuser['reports'];
+            $daily_performance_report      = $getuser['daily_performance_report'];
 		}
 	}
 } 
@@ -669,6 +673,12 @@ if($idupd>0)
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($daily_performance_review==0){echo'checked';}} ?> tabindex="40" class="custom-control-input targetfixing-checkbox" id="daily_performance_review" name="daily_performance_review" disabled>
+                                <label class="custom-control-label" for="daily_performance_review">Daily Performance Review</label>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($appreciation_depreciation==0){echo'checked';}} ?> tabindex="40" class="custom-control-input targetfixing-checkbox" id="appreciation_depreciation" name="appreciation_depreciation" disabled>
                                 <label class="custom-control-label" for="appreciation_depreciation">Appreciation VS Depreciation</label>
                             </div>
@@ -750,7 +760,14 @@ if($idupd>0)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($reports==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="reports" name="reports" disabled>
-                                <label class="custom-control-label" for="reports">Reports</label>
+                                <label class="custom-control-label" for="reports">Basic Report</label>
+                            </div>
+                        </div>
+                    
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($daily_performance_report==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="daily_performance_report" name="daily_performance_report" disabled>
+                                <label class="custom-control-label" for="daily_performance_report">Daily Performance Report</label>
                             </div>
                         </div>
                     </div>

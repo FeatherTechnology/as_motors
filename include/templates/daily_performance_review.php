@@ -6,9 +6,7 @@ if(isset($_SESSION["userid"])){
     $CompanyroleDetail = $userObj->getsroleDetail($mysqli, $userid);
     for ($j = 0; $j < count($CompanyroleDetail); $j++) {
         $logrole             = $CompanyroleDetail['role'];
-        $logtitle            = $CompanyroleDetail['title'];
         $user_company_id     = $CompanyroleDetail['company_id'];
-        $company_name        = $CompanyroleDetail['company_name'];
         $user_desgn_id       = $CompanyroleDetail['designation_id'];
         $user_dept_id        = $CompanyroleDetail['department'];
         $user_staff_id       = $CompanyroleDetail['staff_id'];
@@ -19,59 +17,39 @@ if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 }
 
-if(isset($_POST['submit_daily_performance']) && $_POST['submit_daily_performance'] != '')
-{
-    // $insert_update_daily_peformance = $userObj->adddailyperformance($mysqli, $userid);  
-?>
-    <script>location.href='<?php echo $HOSTPATH; ?>edit_daily_performance&msc=2';</script> 
-<?php	
-}
 
-$del=0;
-if(isset($_GET['del']))
-{
-$del=$_GET['del'];
-}
-if($del>0)
-{   
-	$deleteAuditAreaCreation = $userObj->deletedailyperformance($mysqli,$del); 
-	?>
-	<script>location.href='<?php echo $HOSTPATH; ?>edit_daily_performance&msc=3';</script>
-<?php	
-}
+// $idupd=0;
+// if(isset($_GET['upd']))
+// {
+// $idupd = $_GET['upd'];
+// }
 
-$idupd=0;
-if(isset($_GET['upd']))
-{
-$idupd = $_GET['upd'];
-}
+// if($idupd>0)
+// {
+// 	$daily_performance_details = $userObj->getdailyperformance($mysqli,$idupd); 
+// 	if (sizeof($daily_performance_details)>0) {
+//         for($i=0;$i<sizeof($daily_performance_details);$i++)  { //both daily_performance & daily_perfomance_ref table calling in one function and return as one array, here we spliting. 
+//             $header_table              = $daily_performance_details['daily_performance_list'];
+//             $ref_table                 = $daily_performance_details['daily_performance_ref_list'];
+// 		}
+// 	}
 
-if($idupd>0)
-{
-	$daily_performance_details = $userObj->getdailyperformance($mysqli,$idupd); 
-	if (sizeof($daily_performance_details)>0) {
-        for($i=0;$i<sizeof($daily_performance_details);$i++)  { //both daily_performance & daily_perfomance_ref table calling in one function and return as one array, here we spliting. 
-            $header_table              = $daily_performance_details['daily_performance_list'];
-            $ref_table                 = $daily_performance_details['daily_performance_ref_list'];
-		}
-	}
-
-    for($i=0;$i<sizeof($header_table);$i++)  {
+//     for($i=0;$i<sizeof($header_table);$i++)  {
     
-        $daily_performance_id        = $header_table[$i]['daily_performance_id'];  
-        $company_id                  = $header_table[$i]['company_id']; 
-        $company_name_upd            = $header_table[$i]['company_name']; 
-        $branch_id                   = $header_table[$i]['branch_id']; 
-        $branch_name                 = $header_table[$i]['branch_name']; 
-        $department_id               = $header_table[$i]['department_id']; 
-        $department_name             = $header_table[$i]['department_name']; 
-        $role_id                     = $header_table[$i]['role_id']; 
-        $designation_name            = $header_table[$i]['designation_name']; 
-        $emp_id                      = $header_table[$i]['emp_id']; 
-        $staff_name                  = $header_table[$i]['staff_name']; 
-        $month                       = $header_table[$i]['month']; 
-    }
-}
+//         $daily_performance_id        = $header_table[$i]['daily_performance_id'];  
+//         $company_id                  = $header_table[$i]['company_id']; 
+//         $company_name_upd            = $header_table[$i]['company_name']; 
+//         $branch_id                   = $header_table[$i]['branch_id']; 
+//         $branch_name                 = $header_table[$i]['branch_name']; 
+//         $department_id               = $header_table[$i]['department_id']; 
+//         $department_name             = $header_table[$i]['department_name']; 
+//         $role_id                     = $header_table[$i]['role_id']; 
+//         $designation_name            = $header_table[$i]['designation_name']; 
+//         $emp_id                      = $header_table[$i]['emp_id']; 
+//         $staff_name                  = $header_table[$i]['staff_name']; 
+//         $month                       = $header_table[$i]['month']; 
+//     }
+// }
 ?>
 
 <!-- Page header start -->
@@ -92,13 +70,8 @@ if($idupd>0)
 <form id = "daily_performace_form" name="daily_performace_form" action="" method="post" enctype="multipart/form-data"> 
 <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="idupd" name="idupd">
 <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd">
-<input type="hidden" class="form-control" value="<?php if(isset($company_name_upd)) echo $company_name_upd; ?>"  id="company_name_upd" name="company_name_upd">
 <input type="hidden" class="form-control" value="<?php if(isset($branch_id)) echo $branch_id; ?>"  id="branch_id_upd" name="branch_id_upd">
 <input type="hidden" class="form-control" value="<?php if(isset($department_id)) echo $department_id; ?>"  id="dept_id_upd" name="dept_id_upd">
-<input type="hidden" class="form-control" value="<?php if(isset($role_id)) echo $role_id; ?>"  id="role_id_up" name="role_id_up">
-<input type="hidden" class="form-control" value="<?php if(isset($emp_id)) echo $emp_id; ?>"  id="emp_idup" name="emp_idup">
-<input type="hidden" class="form-control" value="<?php if(isset($logrole)) echo $logrole; ?>"  id="logrole" name="logrole">
-<input type="hidden" class="form-control" value="<?php if(isset($user_company_name)) echo $user_company_name; ?>"  id="logcname" name="logcname">
 
 <!-- Login User Data Start -->
 <input type="hidden" class="form-control" value="<?php if (isset($user_company_id)) echo $user_company_id; ?>" id="user_company" name="user_company">

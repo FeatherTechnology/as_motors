@@ -25,7 +25,7 @@ $query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,bc.branch_na
 LEFT JOIN company_creation c ON c.company_id=gs.company_name 
 LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
 LEFT JOIN department_creation dc ON dc.department_id=gs.department
-WHERE ";
+WHERE ( gs.created_date <= CURDATE() + INTERVAL 30 DAY ) AND ";
 
 if ($staffid != 'Overall'){
     $query .= "gs.department = '$user_dept_id' ";
@@ -48,11 +48,9 @@ if($_POST['search']!="");
 
         else{	
             // $query .= "
-            
             // OR c.company_name LIKE  '%".$_POST['search']."%'
             // OR dc.department_name LIKE '%".$_POST['search']."%'
             // OR gs.status LIKE '%".$_POST['search']."%'";
-           
         }
     }
 }
