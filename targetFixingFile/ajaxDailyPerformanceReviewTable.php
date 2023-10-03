@@ -13,7 +13,7 @@ FROM daily_performance_ref dpr
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
 LEFT JOIN goal_setting_ref gsr ON dpr.goal_setting_ref_id = gsr.goal_setting_ref_id 
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = '2023-09-28' && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id CURDATE()
+WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = CURDATE() && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
 
 
 $qryInfo = $mysqli->query($dailyperformanceQry) or die("Error in Get All Records".$mysqli->error);

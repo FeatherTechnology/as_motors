@@ -37,7 +37,7 @@ LEFT JOIN
 designation_creation dsc ON dsc.designation_id = dp.role_id
 LEFT JOIN
 staff_creation s ON s.staff_id = dp.emp_id
-WHERE ";
+WHERE MONTH(dp.month) = MONTH(CURDATE()) AND YEAR(DATE(dp.month)) = YEAR(CURDATE()) AND ";
 
 if ($staffid != 'Overall'){
     if($role == '3'){

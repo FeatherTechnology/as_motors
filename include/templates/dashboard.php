@@ -2158,7 +2158,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                 <!-- Regularisation Approved List END -->
 
                 <!-- Manager Comment in Daily Performance Review Start-->
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">Manager Comment in Daily Performance Review</div>
