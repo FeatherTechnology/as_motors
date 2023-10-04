@@ -160,7 +160,11 @@ foreach ($result as $row) {
     $sub_array[] = $designation_name;
     $sub_array[] = $staff_name;
     // $sub_array[] = $year;
-    $sub_array[] = $row['month'];
+    $date = mktime(0, 0, 0, $row['month'], 1, date('Y'));
+
+    // Format the date to display the month name
+    // $monthName = date('F', $date);
+    $sub_array[] = date('F', $date);
     
     $status      = $row['status'];
     if($status == 1)

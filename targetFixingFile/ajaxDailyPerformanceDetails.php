@@ -118,9 +118,10 @@ if(mysqli_num_rows($getdesgnDetails)>0){
                         ?>
                         <tbody>
                             <tr>
-                                <td><?php echo $sno; ?>
-                                <input type="hidden" class="form-control" value="1" name="review[]" id="review" ></td> <!-- 1=Daily Task -->
-                                <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
+                                <td><?php echo $sno; ?></td>
+                                <td style="display: none;" >
+                                <input type="hidden" class="form-control" value="1" name="review[]" id="review" > <!-- 1=Daily Task -->
+                                <input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
                                 <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" value="<?php echo $actual_achieved[$o]; ?>" readonly></td>
@@ -185,7 +186,9 @@ if(mysqli_num_rows($getdesgnDetails)>0){
                 <tbody>
                     <tr>
                         <td><?php echo $sno; ?>
-                        <input type="hidden" class="form-control" value="0" name="review[]" id="review" ></td> <!-- 0=Monthly Task -->
+                        <td style="display: none;" >
+                            <input type="text" class="form-control" value="0" name="review[]" id="review" > <!-- 0=Monthly Task -->
+                        </td>
                         <td><input readonly type="text" class="form-control" value="<?php echo $goalsettinginfo->assertion; ?>" name="assertion[]" id="assertion" ></td>
                         <td><input readonly type="number" class="form-control" value="<?php echo $goalsettinginfo->target; ?>" name="target[]" id="target" ></td>
                         <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" ></td>

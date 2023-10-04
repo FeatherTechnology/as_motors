@@ -3,25 +3,22 @@ include '../ajaxconfig.php';
 ?>
 
 <style>
-    .balance{
+    .balance {
         font-weight: bold;
         color: red;
     }
+
+    .recordspn{
+        font-weight: bold;
+        font-size: 18px;
+        color: red;
+        text-align: center;
+    }
 </style>
-<table class="table custom-table" id="dpr_staff_report">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Assertion</th>
-            <th>Target</th>
-            <th>Achieve</th>
-        </tr>
-    </thead>
-    <tbody>
 
 <?php
 if(isset($_POST["monthwise"])){
-    $monthwise = $_POST["monthwise"];
+    $monthwise = $_POST["monthwise"].'-01';
 }
 if(isset($_POST["overall_from_date"])){
     $overall_from_date = date('Y-m-d',strtotime($_POST["overall_from_date"]));
@@ -30,78 +27,135 @@ if(isset($_POST["overall_to_date"])){
     $overall_to_date = date('Y-m-d',strtotime($_POST["overall_to_date"]));
 }
 
-if($monthwise != ''){
-    $dailyperform1 = "SELECT dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.month = '$monthwise' order by dpr.system_date ASC";
 
-}else{
-    $dailyperform1 = "SELECT dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE (dpr.system_date >= ('$overall_from_date') AND dpr.system_date <= ('$overall_to_date') ) order by dpr.system_date ASC";
+    
+    // Calculate the number of months between the from and to dates
+    $from = new DateTime($overall_from_date);
+    $to = new DateTime($overall_to_date);
+    $interval = DateInterval::createFromDateString('1 month');
+    $period = new DatePeriod($from, $interval, $to);
+    if($monthwise != '-01'){
+        $where = " dp.month = '$monthwise' ";
+        printTable($mysqli, $where, $monthwise);
+    }else{
+        // Loop through each month
+        foreach ($period as $month) {
+            $startOfMonth = $month->format('Y-m-01');
+            $endOfMonth = $month->format('Y-m-t');
+            $where = " (dpr.system_date >= ('$startOfMonth') AND dpr.system_date <= ('$endOfMonth') ) ";
+            printTable($mysqli, $where, $startOfMonth);
+        }
+    }
+    
+    // Loop through each month
+    // foreach ($period as $month) {
+    //     $startOfMonth = $month->format('Y-m-01');
+    //     $endOfMonth = $month->format('Y-m-t');
+        
+    //     if($monthwise != '-01'){
+    //         $where = " dp.month = '$monthwise' ";
+        
+    //     }else{
+    //         $where = " (dpr.system_date >= ('$startOfMonth') AND dpr.system_date <= ('$endOfMonth') ) ";
+        
+    //     }
+function printTable($mysqli,$where, $monthname ){
+        $dailyperform1 = "SELECT dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE $where AND dpr.manager_updated_status = '1' order by dpr.system_date ASC";
 
-}
+        $res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records" . $mysqli->error);
+        $dailyperform_list1 = array();
+        $i = 0;
 
-$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
-$dailyperform_list1 = array();
-$i=0;
+        $actual = 0;
+        $fixedtarget = 0;
 
-$actual = 0;
-$fixedtarget = 0;
-if ($mysqli->affected_rows>0)
-{
-    $assertionArry = array();
-    while($row1 = $res1->fetch_object()){		
-        if(!in_array($row1->assertion_table_sno, $assertionArry)){ //to find total target of the month by sum target in goal_setting_ref table using assertion_table_sno. Duplicate row are append so using array to check and avoid duplicate.
-            $qrydetails = $mysqli->query("SELECT  sum(gsr.target) as fixtarget FROM  goal_setting_ref gsr WHERE assertion_table_sno = '$row1->assertion_table_sno' ");
-            $qryinfo = $qrydetails->fetch_object();	
-            $fixtarget = $qryinfo->fixtarget;			
-            array_push($assertionArry, $row1->assertion_table_sno);
+        if ($mysqli->affected_rows > 0) {
+            echo '<table class="table custom-table dpr_staff_report">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th colspan="4">'.date('F',strtotime($monthname)).'</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tr>';
+            echo '<th>Date</th>';
+            echo '<th>Assertion</th>';
+            echo '<th>Target</th>';
+            echo '<th>Achieve</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            
+            while ($row1 = $res1->fetch_object()) {
+                echo '<tr>';
+                echo '<td>' . $row1->system_date . '</td>';
+                echo '<td>' . $row1->assertion . '</td>';
+                echo '<td>' . $row1->target . '</td>';
+                echo '<td>' . $row1->actual_achieve . '</td>';
+                echo '</tr>';
+                
+                $i++;
+                $actual = $actual + $row1->actual_achieve;
+                $fixedtarget = $fixedtarget + $row1->target;
+            }
+            
+            echo '</tbody>';
+            echo '<tr>';
+            echo '<td></td>';
+            echo '<td><b>Total</b></td>';
+            echo '<td><b>' . $fixedtarget . '</b></td>';
+            echo '<td><b>' . $actual . '</b></td>';
+            echo '</tr>';
+            echo '<tr class="balance">';
+            echo '<td></td>';
+            echo '<td><b>Balance To Do</b></td>';
+            echo '<td colspan="2">' . ($fixedtarget - $actual) . '</td>';
+            echo '</tr>';
+            echo '</table>';
+            echo '</br></br>';
         }else{
-            $fixtarget = 0;
-        }		
-?>    
+            echo '<center><span class="recordspn">No Record Found!</span></center>';
 
-    <tr>
-        <td><?php echo $row1->system_date; ?></td>
-        <td><?php echo $row1->assertion; ?></td>
-        <td><?php echo $row1->target; ?></td>
-        <td><?php echo $row1->actual_achieve; ?></td>
-    </tr>
-
-<?php $i++; 
-$actual = $actual + $row1->actual_achieve;
-$fixedtarget = $fixedtarget + $fixtarget;
-}  } ?>
-    </tbody>
-
-    <tr>
-        <td></td>
-        <td><b>Total</b></td>
-        <td><b><?php echo $fixedtarget; ?></b></td>
-        <td><b><?php echo $actual; ?></b></td>
-    </tr>
-    <tr class='balance'>
-        <td></td>
-        <td><b>Balance To Do</b></td>
-        <td colspan="2"><?php echo $fixedtarget - $actual; ?></td>
-    </tr>
-</table>
-
+            echo '<table class="table custom-table dpr_staff_report">';
+            echo '<thead>';
+            echo '<tr>';
+            echo '<th colspan="4">'.date('F',strtotime($monthname)).'</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tr>';
+            echo '<th>Date</th>';
+            echo '<th>Assertion</th>';
+            echo '<th>Target</th>';
+            echo '<th>Achieve</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+            echo '</tbody>';
+            echo '<tr>';
+            echo '<td></td>';
+            echo '<td><b>Total</b></td>';
+            echo '<td><b>' . $fixedtarget . '</b></td>';
+            echo '<td><b>' . $actual . '</b></td>';
+            echo '</tr>';
+            echo '<tr class="balance">';
+            echo '<td></td>';
+            echo '<td><b>Balance To Do</b></td>';
+            echo '<td colspan="2">' . ($fixedtarget - $actual) . '</td>';
+            echo '</tr>';
+            echo '</table>';
+            echo '</br></br>';
+        }
+    }
+?>
 
 <script type="text/javascript">
     $(function() {
-        $('#dpr_staff_report').DataTable({
+        $('.dpr_staff_report').DataTable({
             'processing': true,
             'iDisplayLength': 20,
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
             ],
-            // "createdRow": function(row, data, dataIndex) {
-            //     $(row).find('td:first').html(dataIndex + 1);
-            // },
-            // "drawCallback": function(settings) {
-            //     this.api().column(0).nodes().each(function(cell, i) {
-            //         cell.innerHTML = i + 1;
-            //     });
-            // },
         });
     });
 </script>

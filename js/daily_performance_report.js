@@ -217,7 +217,8 @@ function getDepartmentList(id) {
             for (var i = 0; i < len; i++) {
                 var department_name = response[i]['department_name'];
                 var department_id = response[i]['department_id'];
-                $('#'+id).append("<option value='" + department_id + "'>" + department_name + "</option>");
+                var branch_name = response[i]['branch_name'];
+                $('#'+id).append("<option value='" + department_id + "'>" + department_name +' -  '+branch_name + "</option>");
             }
             {//To Order ag_group Alphabetically
                 var firstOption = $('#'+id+" option:first-child");
