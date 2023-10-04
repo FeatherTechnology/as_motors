@@ -9083,7 +9083,7 @@
 			$row = $res->fetch_object();	
 			$appreciationDepreciationId  					= $row->appreciation_depreciation_id;
 			$detailrecords['appreciation_depreciation_id']  = $row->appreciation_depreciation_id; 
-			$detailrecords['review']                        = $row->review;
+			// $detailrecords['review']                        = $row->review;
 			$detailrecords['company_id']                    = $row->company_id;
 			$detailrecords['department']                    = $row->department_id;
 			$detailrecords['designation']                   = $row->designation_id; 	
@@ -9110,6 +9110,7 @@
 				$appreciationDepreciationRefId         			= $row1->appreciation_depreciation_ref_id;  
 				$appreciation_depreciation_ref_id[]     	    = $row1->appreciation_depreciation_ref_id; 
 				$daily_performance_ref_id[]     	    = $row1->daily_performance_ref_id; 
+				$review[]                                    = $row1->review;
 				$assertion[]                                    = $row1->assertion;
 				$target[]                                       = $row1->target;
 				$achievement[]                                  = $row1->achievement;
@@ -9120,6 +9121,7 @@
 		{
 			$detailrecords['appreciation_depreciation_ref_id']          = $appreciation_depreciation_ref_id;  
 			$detailrecords['daily_performance_ref_id']          = $daily_performance_ref_id;  
+			$detailrecords['review']                        = $review;
 			$detailrecords['assertion']                                 = $assertion;  	
 			$detailrecords['target']                                    = $target;  	
 			$detailrecords['achievement']                               = $achievement;  	
@@ -9129,6 +9131,7 @@
 		{
 			$detailrecords['appreciation_depreciation_ref_id']          = array();
 			$detailrecords['daily_performance_ref_id']          = array();
+			$detailrecords['review']                        = array();
 			$detailrecords['assertion']                                 = array(); 
 			$detailrecords['target']                                    = array(); 
 			$detailrecords['achievement']                               = array(); 

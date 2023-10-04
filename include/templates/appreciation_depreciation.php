@@ -12,7 +12,7 @@ if(isset($_SESSION["branch_id"])){
     $audit_area_list1 = $userObj->getAuditAreaTable1($mysqli, $sbranch_id);
 }
 $companyName = $userObj->getCompanyName($mysqli);
-$goalYear = $userObj->getGoalYear($mysqli);
+// $goalYear = $userObj->getGoalYear($mysqli);
 // $midtermReview = $userObj->getmidtermReview($mysqli);
 
 $id=0;
@@ -21,7 +21,7 @@ if(isset($_POST['submitAppDep']) && $_POST['submitAppDep'] != '')
 {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	    
-        $updateAppDep = $userObj->updateAppDep($mysqli,$id,$userid);   
+        $update_App_Dep = $userObj->updateAppDep($mysqli,$id,$userid);   
         ?>
         <script>location.href='<?php echo $HOSTPATH; ?>edit_appreciation_depreciation&msc=2';</script> 
     <?php }
@@ -59,7 +59,6 @@ if($idupd>0)
         for($i=0;$i<sizeof($getAppDep);$i++)  {
 
             $appreciation_depreciation_id                  = $getAppDep['appreciation_depreciation_id']; 
-            $review                                        = $getAppDep['review']; 
             $company_id                                    = $getAppDep['company_id']; 
             $department                                    = $getAppDep['department']; 
             $designation                                   = $getAppDep['designation']; 
@@ -74,9 +73,10 @@ if($idupd>0)
             $need_for_improvement                          = $getAppDep['need_for_improvement']; 
             $overall_rating                                = $getAppDep['overall_rating']; 
             $update_login_id                                = $getAppDep['update_login_id']; 
-
+            
             $appreciation_depreciation_ref_id              = $getAppDep['appreciation_depreciation_ref_id']; 
             $daily_performance_ref_id                      = $getAppDep['daily_performance_ref_id']; 
+            $review                                        = $getAppDep['review']; 
             $assertion                                     = $getAppDep['assertion']; 
             $target                                        = $getAppDep['target']; 
             $achievement                                   = $getAppDep['achievement']; 
@@ -314,7 +314,9 @@ if($idupd>0)
                                                         <tbody>
                                                             <tr>
                                                                 <td><?php echo $sno; ?></td>
-                                                                <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $appreciation_depreciation_ref_id[$o]; ?>" name="appreciation_depreciation_ref_id[]" id="appreciation_depreciation_ref_id" ></td>
+                                                                <td style="display: none;" >
+                                                                <input type="text" class="form-control" value="<?php echo $review[$o]; ?>" name="review[]" id="review" > <!-- 0 = Monthly Task, 1 = Daily Task-->
+                                                                <input type="text" readonly class="form-control" value="<?php echo $appreciation_depreciation_ref_id[$o]; ?>" name="appreciation_depreciation_ref_id[]" id="appreciation_depreciation_ref_id" ></td>
                                                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
