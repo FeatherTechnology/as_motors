@@ -190,6 +190,7 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Employee Name</label>
+                                                <input type="hidden" class="form-control" id="staffidedit" name="staffidedit" value="<?php if(isset($emp_id)) echo $emp_id; ?>">
                                                 <select tabindex="5" type="text" class="form-control" name="staff_id" id="staff_id" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                 <option value=''>Select Staff Name</option>  
                                                 </select>

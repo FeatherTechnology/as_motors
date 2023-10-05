@@ -1055,7 +1055,10 @@ if(isset($_SESSION['role'])){
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
-            ]
+            ],
+            "drawCallback":function(){
+                changeRowColor();
+            }
         });
     
     // approval line - approval requisition
@@ -2499,8 +2502,42 @@ buttons: [
                 [10, 25, 50, "All"]
             ]
         });
+        // Regularisation Approval List dashboard END/////
+
+        //Manager Pending Task dashboard
+		var managerlogin_pending_task_dashboard = $('#managerlogin_pending_task_dashboard').DataTable({
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'dashboardAjaxFile/ajaxManagerLoginPendingTaskList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback":function(){
+            changeRowBGColor();
+        }
+        });
+        //Manager Pending Task dashboard END
     }
-    // Regularisation Approval List dashboard END/////
 ///////////////////////////////////////////////////////////////////////// Manager Login Dashboard END///////////////////////////////////////////////////////////
 
 
@@ -3254,6 +3291,48 @@ if($current_page == 'daily_performance_report') { ?>
                 }
             }
         })
+    }
+
+    function changeRowColor(){
+        $('#pending_task_dashboard tbody tr').each(function(){
+            let sts = $(this).find('td:nth-child(5)').html();
+            console.log(sts)
+            if (sts == 'Work Assigned') { 
+                $(this).closest('tr').css({'backgroundColor':'yellow', 'fontWeight': 'bold'})
+            }else if (sts == 'In Progress') {
+                $(this).closest('tr').css({'backgroundColor':'#ffd486', 'fontWeight': 'bold'})
+                
+            }else if (sts == 'Pending') {
+                $(this).closest('tr').css({'backgroundColor':'#f44', 'fontWeight': 'bold'})
+                
+            }
+            // else if (sts == 'Completed') {
+            //     $(this).closest('tr').css('backgroundColor','')
+
+            // }
+        });
+
+    }
+
+    function changeRowBGColor(){
+        $('#managerlogin_pending_task_dashboard tbody tr').each(function(){
+            let sts = $(this).find('td:nth-child(5)').html();
+            console.log(sts)
+            if (sts == 'Work Assigned') { 
+                $(this).closest('tr').css({'backgroundColor':'yellow', 'fontWeight': 'bold'})
+            }else if (sts == 'In Progress') {
+                $(this).closest('tr').css({'backgroundColor':'#ffd486', 'fontWeight': 'bold'})
+                
+            }else if (sts == 'Pending') {
+                $(this).closest('tr').css({'backgroundColor':'#f44', 'fontWeight': 'bold'})
+                
+            }
+            // else if (sts == 'Completed') {
+            //     $(this).closest('tr').css('backgroundColor','')
+
+            // }
+        });
+
     }
 </script>
 
