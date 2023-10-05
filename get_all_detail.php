@@ -15,7 +15,7 @@ if(isset($_POST["staff_id"])){
 	LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
 	AND gsr.monthly_conversion_required = '1' 
-	AND (gsr.status != '1' && gsr.status != '2')
+	-- AND (gsr.status != '1' && gsr.status != '2')
 	AND gsr.goal_month = curdate() ";
 // echo $goalSettingQry;
 	$goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
@@ -27,7 +27,7 @@ if(isset($_POST["staff_id"])){
 	$dprQry = "SELECT sum(target) as total_pending_target, goal_setting_ref_id
 	FROM daily_performance_ref 
 	WHERE status != '1' 
-	AND goal_setting_ref_id = '$goalsettinginfo->goal_setting_ref_id' 
+	AND staff_id = '$staff_id' 
 	AND MONTH(system_date) = MONTH($goalsettinginfo->cdate) ";
 
 	// echo $dprQry;
@@ -53,7 +53,7 @@ if(isset($_POST["staff_id"])){
 		 ");  // AND gsr.status != 1 // AND dpr.status != 1  //LEFT JOIN  daily_performance_ref dpr ON gsr.goal_setting_ref_id = dpr.goal_setting_ref_id //, sum(dpr.actual_achieve) as actual
 		$goal_target = $goaltargetQry->fetch_assoc();
 
-		$actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE assertion_table_sno = '$goalsettinginfo->assertion_table_sno' ");
+		$actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE staff_id = '$staff_id' ");
 		$actualAchieveinfo = $actualAchieveDetials->fetch_assoc();
 
 		if($goal_target['total_target'] != '') {

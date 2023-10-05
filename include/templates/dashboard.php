@@ -640,6 +640,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                             <th>Task Title</th>
                                                             <th>Task</th>
                                                             <th>End Date</th>
+                                                            <th>Status</th>
                                                             <th>Designation / Staff Name</th>
                                                         </tr>
                                                     </thead>
@@ -1495,6 +1496,46 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 </div>
                 <!-- Regularaisation approval List END -->
+
+            <!-- Manager Pending Task START -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pending Task</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="managerlogin_pending_task_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No.</th>
+                                                            <th>Task Title</th>
+                                                            <th>Task</th>
+                                                            <th>End Date</th>
+                                                            <th>Status</th>
+                                                            <th>Designation / Staff Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Manager Pending Task END -->
                 
                 <!-- Today's Task List Start -->
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">

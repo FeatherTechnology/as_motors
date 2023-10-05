@@ -10649,7 +10649,7 @@ public function get_role_performance($mysqli){
 			}
 		}
 
-        $dailyperform1 = "SELECT dpr.daily_performance_ref_id, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.old_target, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, dpr.manager_updated_status FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$emp_id' AND dp.month = '$month' order by dpr.system_date ASC";
+        $dailyperform1 = "SELECT dpr.daily_performance_ref_id, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, dpr.manager_updated_status FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$emp_id' AND dp.month = '$month' order by dpr.system_date ASC";
 		
 		$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
 		$dailyperform_list1 = array();
@@ -10664,7 +10664,7 @@ public function get_role_performance($mysqli){
 				$dailyperform_list1[$i]['target']      = $row1->target;	
 				$dailyperform_list1[$i]['actual_achieve']      = $row1->actual_achieve;	
 				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
-				$dailyperform_list1[$i]['old_target']      = $row1->old_target;
+				// $dailyperform_list1[$i]['old_target']      = $row1->old_target;
 				$dailyperform_list1[$i]['goal_setting_id']      = $row1->goal_setting_id;
 				$dailyperform_list1[$i]['goal_setting_ref_id']      = $row1->goal_setting_ref_id;
 				$dailyperform_list1[$i]['status']      = $row1->status;
@@ -10701,6 +10701,9 @@ public function adddailyperformance($mysqli,$userid){
 		}
 		if(isset($_POST['staff_id'])){
 			$staff_id = $_POST['staff_id'];
+		}
+		if(isset($_POST['staffidedit'])){
+			$staffidedit = $_POST['staffidedit'];
 		}
 		if(isset($_POST['nmonth'])){
 			$nmonth = $_POST['nmonth'];
@@ -10747,8 +10750,8 @@ public function adddailyperformance($mysqli,$userid){
 			$last_id  = $mysqli->insert_id;
 
 			for($j=0; $j<=sizeof($assertion)-1; $j++){
-				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, actual_achieve, system_date, goal_setting_id,goal_setting_ref_id, assertion_table_sno, status)
-				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".strip_tags($actual_achieve[$j])."', '".strip_tags($sdate[$j])."', '".strip_tags($goal_setting_id[$j])."','".strip_tags($goal_setting_ref_id[$j])."', '".strip_tags($assertion_table_sno[$j])."', '".strip_tags($wstatus[$j])."')";
+				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, actual_achieve, system_date, staff_id, goal_setting_id,goal_setting_ref_id, assertion_table_sno, status)
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".strip_tags($actual_achieve[$j])."', '".strip_tags($sdate[$j])."', '$staff_id', '".strip_tags($goal_setting_id[$j])."','".strip_tags($goal_setting_ref_id[$j])."', '".strip_tags($assertion_table_sno[$j])."', '".strip_tags($wstatus[$j])."')";
 				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
 				$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='$wstatus[$j]' WHERE `goal_setting_ref_id`='$goal_setting_ref_id[$j]' ") or die("Error ".$mysqli->error);
@@ -10774,7 +10777,7 @@ public function adddailyperformance($mysqli,$userid){
 				// $qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target, actual_achieve, system_date, goal_setting_id,goal_setting_ref_id, assertion_table_sno,status)
 				// VALUES('$idupd', '$assertion[$i]','$target[$i]', '$actual_achieve[$i]', '$sdate[$i]', '$goal_setting_id[$i]','$goal_setting_ref_id[$i]', '$assertion_table_sno[$i]', '$wstatus[$i]')";
 
-				$qry2="UPDATE `daily_performance_ref` SET `actual_achieve`='$actual_achieve[$i]',`status`='$wstatus[$i]' WHERE `daily_performance_ref_id` = '$daily_ref_id[$i]' ";
+				$qry2="UPDATE `daily_performance_ref` SET `actual_achieve`='$actual_achieve[$i]', `staff_id`= '$staffidedit', `status`='$wstatus[$i]' WHERE `daily_performance_ref_id` = '$daily_ref_id[$i]' ";
 				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 
 				$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='$wstatus[$i]' WHERE `goal_setting_ref_id`='$goal_setting_ref_id[$i]' ") or die("Error ".$mysqli->error);
