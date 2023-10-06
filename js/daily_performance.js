@@ -26,46 +26,7 @@ $(document).ready(function () {
     });
 
     $('#execute').click(function() { 
-        // var designation_id = $('#designation').val();
-        var staff_id = $('#staff_id').val();
-        // var dsgnid = '';
-
-        // $.ajax({
-        //     type:'POST',
-        //     data: { 'staff_id': staff_id },
-        //     url: 'ajaxFetch/ajaxGetDesignationAfterTransfer.php',
-        //     dataType: 'json',
-        //     success: function(response){
-        //         if(response == '0'){
-        //             dsgnid = designation_id;
-        //         }else{
-        //             dsgnid = response;
-        //         }
-                
-        //         } //Scuccess END.
-        //     }).then(function(){
-
-                $.ajax({
-                    url: 'get_all_detail.php',
-                    data: { 'staff_id': staff_id },
-                    cache: false,
-                    type:'post',
-                    dataType: 'json',
-                    success: function(response){
-                        $('#moduleTable').find('tbody').empty();
-                        for(var a=0; a < response.length; a++){
-                        
-                        var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
-                        "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Statisfied</option><option value='2'>Not Done</option><option value='3'>Carry Forward</option></select></td></tr>";
-                        $('#moduleTable').find('tbody').append(appendTxt);
-                        
-                        }
-
-                        callFunctionAfterSuccess(); //After data append the function will call to work
-                        } //Scuccess END.
-                    });
-            // })
-    
+        executeAssertionTable();
     });
 
     // $('#page_print').click(function (e){
@@ -112,7 +73,7 @@ $(document).ready(function () {
 });  // Document END///
 
 $(function(){
-
+    $('#execute').hide();
     var idupd = $('#idupd').val();
     if(parseInt(idupd) > 0){ // Edit page value getting.
         var com_id_upd = $('#company_id_upd').val();
@@ -133,7 +94,7 @@ $(function(){
 
         // getgoalsettingsdetails(idupd); //if edit page means the details will be show in table.
         
-        $('#execute').hide();
+        
         // $('select').attr('disabled',true);
 
         var userRole = $('#user_role').val();
@@ -167,7 +128,13 @@ $(function(){
 
             var user_staff_id=$('#user_staff_id').val();
             getEmpList(user_designation, user_staff_id);//Emp List.
+            
+            setTimeout(function(){
+                executeAssertionTable();
+            },1000);
+
         }else{
+            $('#execute').show();
             var com = '';
             getCompanyNameList(com); //Company List.
         }
@@ -304,10 +271,10 @@ function getEmpList(designation_id, staff_id){
             var option = $('<option></option>').val('').text('Select Employee');
             $('#staff_id').append(option);
             for(var a=0; a<=data.length-1; a++){
-                var selected = '';
-                if(staff_id == data[a]['staff_id']){
+                // var selected = '';
+                // if(staff_id == data[a]['staff_id']){
                     selected = 'selected';
-                }
+                // }
                 $('#staff_id').append("<option value='"+data[a]['staff_id']+"'"+selected+">"+data[a]['staff_name']+"</option>");
             }
             
@@ -317,7 +284,7 @@ function getEmpList(designation_id, staff_id){
 
 function callFunctionAfterSuccess(){
 
-$('.actual_achieve').off('keyup')
+// $('.actual_achieve').off('keyup')
 $('.actual_achieve').keyup(function(){
     var target = parseInt($(this).parent().parent().find('.target').val());
     var actual = parseInt($(this).val());
@@ -335,7 +302,7 @@ $('.actual_achieve').keyup(function(){
     }
 });
 
-$('.wstatus').off('change')
+// $('.wstatus').off('change')
 $('.wstatus').change(function() { 
 
     var wstatus=$(this).val();
@@ -466,3 +433,46 @@ document.getElementById('page_print').addEventListener('click', function () {
 document.getElementById('page_excel').addEventListener('click', function () {
     exportFormAndTable();
 });
+
+
+function executeAssertionTable(){
+            // var designation_id = $('#designation').val();
+            var staff_id = $('#staff_id').val();
+            // var dsgnid = '';
+    
+            // $.ajax({
+            //     type:'POST',
+            //     data: { 'staff_id': staff_id },
+            //     url: 'ajaxFetch/ajaxGetDesignationAfterTransfer.php',
+            //     dataType: 'json',
+            //     success: function(response){
+            //         if(response == '0'){
+            //             dsgnid = designation_id;
+            //         }else{
+            //             dsgnid = response;
+            //         }
+                    
+            //         } //Scuccess END.
+            //     }).then(function(){
+    
+                    $.ajax({
+                        url: 'get_all_detail.php',
+                        data: { 'staff_id': staff_id },
+                        cache: false,
+                        type:'post',
+                        dataType: 'json',
+                        success: function(response){
+                            $('#moduleTable').find('tbody').empty();
+                            for(var a=0; a < response.length; a++){
+                            
+                            var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
+                            "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Statisfied</option><option value='2'>Not Done</option><option value='3'>Carry Forward</option></select></td></tr>";
+                            $('#moduleTable').find('tbody').append(appendTxt);
+                            
+                            }
+    
+                            callFunctionAfterSuccess(); //After data append the function will call to work
+                            } //Scuccess END.
+                        });
+                // })
+}

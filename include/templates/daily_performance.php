@@ -248,7 +248,7 @@ table {
                                     </thead>
                                     <?php if($idupd<=0){ ?>
                                         <tbody>
-                                            <tr>
+                                            <!-- <tr>
 
                                                 <td>
                                                     <textarea tabindex="9" type="text" class="form-control" id="assertion" name="assertion[]"  readonly>
@@ -273,7 +273,7 @@ table {
                                                         <option value="3">Carry Forward</option>
                                                     </select>
                                                 </td>                                               
-                                            </tr>
+                                            </tr> -->
                                         </tbody>
                                     <?php } if($idupd>0){
                                             if(isset($daily_performance_id)){ ?>
@@ -309,6 +309,7 @@ table {
                                                                 </input> 
                                                             </td>
                                                             <td >
+                                                                <!-- If daily performance review by manager then no access for everyone. -->
                                                                 <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $actual_achieve; ?>" <?php echo $isReadOnly ? 'readonly' : ''; ?> >
                                                                 </input> 
                                                             </td>

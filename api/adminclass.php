@@ -10594,7 +10594,7 @@ public function get_role_performance($mysqli){
 }
 	// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
 	public function getsroleDetail ($mysqli, $userid){
-		$qry = "SELECT u.role,u.title,b.company_id,c.company_name, u.designation_id, sc.department, u.staff_id FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id LEFT JOIN staff_creation sc ON u.staff_id = sc.staff_id WHERE u.user_id ='$userid' AND u.status=0 ORDER BY u.branch_id ASC";
+		$qry = "SELECT u.role,u.title,b.company_id,c.company_name, b.branch_id, b.branch_name, u.designation_id, sc.department, u.staff_id FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id LEFT JOIN staff_creation sc ON u.staff_id = sc.staff_id WHERE u.user_id ='$userid' AND u.status=0 ORDER BY u.branch_id ASC";
 		$res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
 		$detailrecords = array();
 	   
@@ -10607,6 +10607,8 @@ public function get_role_performance($mysqli){
 				$detailrecords['title']          	= strip_tags($row->title);
 				$detailrecords['company_id']        = strip_tags($row->company_id);
 				$detailrecords['company_name']      = strip_tags($row->company_name);
+				$detailrecords['branch_id']      	= strip_tags($row->branch_id);
+				$detailrecords['branch_name']      	= strip_tags($row->branch_name);
 				$detailrecords['department']        = strip_tags($row->department);
 				$detailrecords['designation_id']    = strip_tags($row->designation_id);
 				$detailrecords['staff_id']    = strip_tags($row->staff_id);

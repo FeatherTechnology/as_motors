@@ -1,5 +1,7 @@
 <?php
 include('../ajaxconfig.php');
+date_default_timezone_set('Asia/Calcutta');
+$curdate = date('Y-m-d');
 
 if(isset($_POST['department_id'])){
     $department_id = $_POST['department_id'];
@@ -7,13 +9,27 @@ if(isset($_POST['department_id'])){
 if(isset($_POST['user_staff_id'])){
     $user_staff_id = $_POST['user_staff_id'];
 }
+if(isset($_POST['reviewDate'])){
+    $reviewDate = $_POST['reviewDate'];
+}
 
+if($user_staff_id == 'Overall'){
 $dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
 FROM daily_performance_ref dpr 
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
 LEFT JOIN goal_setting_ref gsr ON dpr.goal_setting_ref_id = gsr.goal_setting_ref_id 
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = CURDATE() && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
+WHERE dp.department_id='$department_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
+
+}else{
+$dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
+FROM daily_performance_ref dpr 
+LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
+LEFT JOIN goal_setting_ref gsr ON dpr.goal_setting_ref_id = gsr.goal_setting_ref_id 
+LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
+WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
+
+}
 
 
 $qryInfo = $mysqli->query($dailyperformanceQry) or die("Error in Get All Records".$mysqli->error);
@@ -90,4 +106,7 @@ if ($mysqli->affected_rows>0)
         <td> </td>                                                            
         <td> </td>                                                            
     </tr>
-<?php } ?>
+<?php 
+}else{
+    echo '0';
+} ?>
