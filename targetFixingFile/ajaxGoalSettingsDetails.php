@@ -47,9 +47,9 @@ if ($mysqli->affected_rows>0)
     allowHTML: true, // Set allowHTML to true
 });
 
-staffNameListBasedOnDept();
+staffNameListBasedOnDepartment();
 //staff Name List
-function staffNameListBasedOnDept(){ 
+function staffNameListBasedOnDepartment(){ 
     var department_id = <?php echo $department_id; ?> ;
     var editstaffname = $('#editstaffname<?php echo $i; ?>').val().split(',');
     $.ajax({

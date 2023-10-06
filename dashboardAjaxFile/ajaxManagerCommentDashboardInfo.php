@@ -13,12 +13,12 @@ $column = array(
     'manager_updated_date',
 );
 
-$query = "SELECT sc.staff_name as username, dpr.manager_comment, dpr.manager_updated_date, msc.staff_name as managername
+$query = "SELECT sc.staff_name as username, dpr.manager_comment, dpr.manager_updated_date, msc.fullname as managername
 FROM daily_performance_ref dpr 
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
-LEFT JOIN staff_creation msc ON dpr.manager_id = msc.staff_id
+LEFT JOIN  user msc ON dpr.manager_id = msc.staff_id
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.emp_id='$staffid' && dpr.manager_updated_status != 0 && MONTH(dpr.manager_updated_date) = MONTH(CURDATE()) ";
+WHERE dp.emp_id='$staffid' && dpr.manager_updated_status != 0 && dpr.manager_comment != '' && MONTH(dpr.manager_updated_date) = MONTH(CURDATE()) ";
 
 
 if (isset($_POST['order'])) {

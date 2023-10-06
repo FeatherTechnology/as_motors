@@ -1,5 +1,7 @@
 <?php
 include('ajaxconfig.php');
+date_default_timezone_set('Asia/Calcutta');
+$curdate = date('Y-m-d');
 
 if(isset($_POST["staff_id"])){
 	$staff_id  = $_POST["staff_id"];
@@ -9,28 +11,34 @@ if(isset($_POST["staff_id"])){
 // }
 
 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
-//if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is.
-	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+//if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is. -- AND (gsr.status != '1' && gsr.status != '2') LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
+	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
 	FROM goal_setting_ref gsr 
-	LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
 	AND gsr.monthly_conversion_required = '1' 
-	-- AND (gsr.status != '1' && gsr.status != '2')
-	AND gsr.goal_month = curdate() ";
-// echo $goalSettingQry;
+	AND gsr.goal_month = '$curdate' ";
+
 	$goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
 	$i = 0;
 	$emp_data_list = array();
 	$total_target = 0;
 	while($goalsettinginfo = $goalsettingDetails->fetch_object()){
 		
+	$dprDataCheckQry = "SELECT *
+	FROM daily_performance_ref 
+	WHERE staff_id = '$staff_id' 
+	AND goal_setting_ref_id = '$goalsettinginfo->goal_setting_ref_id' 
+	AND MONTH(system_date) = MONTH('$goalsettinginfo->cdate') ";
+	$dprDataDetails = $mysqli->query($dprDataCheckQry) or die("Error in Get All Records".$mysqli->error); 
+	if(mysqli_num_rows($dprDataDetails) == 0){
+
 	$dprQry = "SELECT sum(target) as total_pending_target, goal_setting_ref_id
 	FROM daily_performance_ref 
 	WHERE status != '1' 
 	AND staff_id = '$staff_id' 
-	AND MONTH(system_date) = MONTH($goalsettinginfo->cdate) ";
-
-	// echo $dprQry;
+	AND goal_setting_ref_id = '$goalsettinginfo->goal_setting_ref_id' 
+	AND MONTH(system_date) = MONTH('$goalsettinginfo->cdate') ";
+	
 	$dprDetails = $mysqli->query($dprQry) or die("Error in Get All Records".$mysqli->error); 
 	while($dprinfo = $dprDetails->fetch_object()){
 	$old_target = $dprinfo->total_pending_target;
@@ -49,11 +57,11 @@ if(isset($_POST["staff_id"])){
 		WHERE FIND_IN_SET($staff_id, gsr.staffname)  
 		AND gsr.monthly_conversion_required = '1'
 		AND gsr.assertion_table_sno = '$goalsettinginfo->assertion_table_sno'
-		AND gsr.goal_month < curdate() 
+		AND gsr.goal_month < '$curdate' 
 		 ");  // AND gsr.status != 1 // AND dpr.status != 1  //LEFT JOIN  daily_performance_ref dpr ON gsr.goal_setting_ref_id = dpr.goal_setting_ref_id //, sum(dpr.actual_achieve) as actual
 		$goal_target = $goaltargetQry->fetch_assoc();
 
-		$actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE staff_id = '$staff_id' ");
+		$actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE staff_id = '$staff_id' AND assertion_table_sno = '$goalsettinginfo->assertion_table_sno' ");
 		$actualAchieveinfo = $actualAchieveDetials->fetch_assoc();
 
 		if($goal_target['total_target'] != '') {
@@ -66,7 +74,6 @@ if(isset($_POST["staff_id"])){
 		}
 
 		$emp_data_list[$i]['target']      	=  $sumtarget; 
-		// $total_target = $goal_target['pending_target'];
 	}else{
 		$emp_data_list[$i]['target']      	=  $goalsettinginfo->per_day_target;
 	}
@@ -78,6 +85,7 @@ if(isset($_POST["staff_id"])){
 	$emp_data_list[$i]['assertion_table_sno']    				= $goalsettinginfo->assertion_table_sno;
 	
 	$i++;					
+}
 }
 
 echo json_encode($emp_data_list);

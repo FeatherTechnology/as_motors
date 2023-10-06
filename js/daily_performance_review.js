@@ -13,55 +13,33 @@ $(document).ready(function () {
         getDepartmentList(branchid, dept_id);
     })
 
+    $('#review_date').change(function(){
+        var reviewDate = $(this).val();
+        var dept_id = $('#dept').val();
+        var user_staff_id = $('#user_staff_id').val();
+        daily_performance_review_table(dept_id,user_staff_id,reviewDate);
+    });
+
 });  // Document END///
 
 $(function(){
 
-    var idupd = $('#idupd').val();
-    if(parseInt(idupd) > 0){ // Edit page value getting.
-        var com_id_upd = $('#company_id_upd').val();
-        getCompanyNameList(com_id_upd); //Company List.
-
-        var userbranch = $('#branch_id_upd').val();
-        getBranchList(com_id_upd, userbranch); //Branch name.
-
-        var branch_id_upd = $('#branch_id_upd').val();
-        var dept_id_upd = $('#dept_id_upd').val();
-        getDepartmentList(branch_id_upd, dept_id_upd);
-
+    var role = $('#user_role').val();
+    if(role != '1'){ //if staff or manager login then the details will come automatically.
         $('select').attr('disabled',true);
+        var company_id = $('#user_company').val(); 
+        var userbranch = $('#user_branch').val();
+        getCompanyNameList(company_id); //Company List.
+        getBranchList(company_id, userbranch); //Branch name append auto except for super admin.
 
-        var userRole = $('#user_role').val();
-        if(userRole == '1'){
-            $('.actual_achieve').removeAttr('readonly');
-            $('.wstatus').attr('disabled',false);
-
-        }else{
-            $('#submit_daily_performance').hide();
-        }
+        var branchid = $('#user_branch').val();
+        var dept_id = $('#user_department').val();
+        getDepartmentList(branchid, dept_id);
 
     }else{
-        var role = $('#user_role').val();
-        if(role != '1'){ //if staff or manager login then the details will come automatically.
-            var company_id = $('#user_company').val(); 
-            var userbranch = $('#user_branch').val();
-            getCompanyNameList(company_id); //Company List.
-            getBranchList(company_id, userbranch); //Branch name append auto except for super admin.
-    
-            var branchid = $('#user_branch').val();
-            var dept_id = $('#user_department').val();
-            var user_staff_id = $('#user_staff_id').val();
-            getDepartmentList(branchid, dept_id);
-            daily_performance_review_table(dept_id,user_staff_id);
-
-        }else{
-            var com = '';
-            getCompanyNameList(com); //Company List.
-        }
+        var com = '';
+        getCompanyNameList(com); //Company List.
     }
-
-
-    callFunctionAfterSuccess()//status change, actual input checking.
 
 }); //Function OnLoad END///
 
@@ -153,31 +131,21 @@ function getDepartmentList(branchid, dept_id){
     });
 }
 
-function callFunctionAfterSuccess(){
-
-$('.actual_achieve').off('keyup')
-$('.actual_achieve').keyup(function(){
-    var target = parseInt($(this).parent().parent().find('.target').val());
-    var actual = parseInt($(this).val());
-    if(actual == target){
-        $(this).parent().parent().find('.wstatus').val('1')
-    }else{
-        $(this).parent().parent().find('.wstatus').val('')
-    }
-});
-
-}
-
-// daily_performance_review_table
-function daily_performance_review_table(dept_id_upd,user_staff_id){ //edit screen details.
+// daily performance review table
+function daily_performance_review_table(dept_id,user_staff_id,reviewDate){ //edit screen details.
     $.ajax({
         url: 'targetFixingFile/ajaxDailyPerformanceReviewTable.php',
-        data: {'department_id': dept_id_upd, 'user_staff_id': user_staff_id },
+        data: {'department_id': dept_id, 'user_staff_id': user_staff_id, 'reviewDate': reviewDate },
         cache: false,
         type:'post',
         success: function(response){
             $('#reviewTable').empty(); 
-            $('#reviewTable').html(response); 
+            if(response == 0){
+                $('#reviewTable').html("<tr><td colspan='10'>No Record Found!</td></tr>"); 
+                
+            }else{
+                $('#reviewTable').html(response); 
+            }
         }
     }).then(function(){
 
@@ -197,7 +165,7 @@ function daily_performance_review_table(dept_id_upd,user_staff_id){ //edit scree
                         alert('Update Failed');
                     }
 
-                    daily_performance_review_table(dept_id_upd, user_staff_id)
+                    daily_performance_review_table(dept_id, user_staff_id, reviewDate)
                 }
             })
     
