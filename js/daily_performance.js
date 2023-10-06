@@ -271,10 +271,7 @@ function getEmpList(designation_id, staff_id){
             var option = $('<option></option>').val('').text('Select Employee');
             $('#staff_id').append(option);
             for(var a=0; a<=data.length-1; a++){
-                // var selected = '';
-                // if(staff_id == data[a]['staff_id']){
-                    selected = 'selected';
-                // }
+                var  selected = 'selected';
                 $('#staff_id').append("<option value='"+data[a]['staff_id']+"'"+selected+">"+data[a]['staff_name']+"</option>");
             }
             
