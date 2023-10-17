@@ -199,6 +199,9 @@ foreach ($result as $row) {
 	{
         $action ="<a href='permission_or_on_duty&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 
         <a href='permission_or_on_duty&del=$id' title='Delete details' class='delete_permission_on_duty'><span class='icon-trash-2'></span></a>";
+	}elseif($leave_status == 1)
+	{
+        $action = "<span onclick = 'print_gatePass($id)' title='Print Gate Pass'><span class='icon-print'></span>";
 	}
     
 
