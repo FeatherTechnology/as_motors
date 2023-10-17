@@ -28,26 +28,7 @@ $(document).ready(function () {
 
     // Get branch based on Department
     $("#branch_id").change(function(){
-        var company_id = $("#branch_id").val();
-        if(company_id.length==''){
-            $("#branch_id").val('');
-        }else{
-            $.ajax({
-                url: 'StaffFile/ajaxStaffDepartmentDetails.php',
-                type: 'post',
-                data: { "company_id":company_id },
-                dataType: 'json',
-                success:function(response){ 
-
-                    $('#department').empty();
-                    $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-                    var r = 0;
-                    for (r = 0; r <= response.department_id.length - 1; r++) { 
-                    $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
-                    }
-                }
-            });
-        }
+        getDeptList('0');
     });
 
     // Hide and show reason
@@ -84,6 +65,22 @@ $(document).ready(function () {
 //Function OnLoad.
 $(function(){
 autoGenRegNo(); //Auto Generation of Regularisation Number.
+
+var idupd = $('#idupd').val();
+var userRole = $('#userRole').val();
+var userDeptId = $('#userDeptId').val();
+var userStaffId = $('#userStaffId').val();
+if(idupd <= '0' && userRole != '1'){
+    getDeptList(userDeptId);
+    getStaffList(userStaffId, userDeptId);
+    getReportingPerson(userDeptId, userStaffId)    
+}
+if(userRole != '1'){
+    $('#department').attr('disabled', true);
+}
+if(userRole == '4'){
+    $('#staff_name').attr('disabled', true);
+}
 });
 
 function autoGenRegNo(){
@@ -101,83 +98,17 @@ function autoGenRegNo(){
     })
 }
 
-// Get Department based on designation
-$("#department").change(function(){ 
-
-    var company_id = $("#branch_id").val();
-    var department_id = $("#department").val();
-    if(department_id.length==''){ 
-        $("#department").val('');
-    }else{
-        $.ajax({
-            url: 'StaffFile/ajaxStaffDesignationDetails.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
-            dataType: 'json',
-            success:function(response){
-            
-                $('#designation').empty();
-                $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
-                var i = 0;
-                for (i = 0; i <= response.designation_id.length - 1; i++) { 
-                    $('#designation').append("<option value='" + response['designation_id'][i] + "'>" + response['designation_name'][i] + "</option>");
-                }
-            }
-        });
-    }
-});
-
 // Get Department based reporting person
 $("#department").change(function(){ 
-
-    var company_id = $("#branch_id").val();
     var department_id = $("#department").val();
-
-    if(department_id.length==''){ 
-        $("#department").val('');
-    }else{
-        $.ajax({
-            url: 'StaffFile/ajaxGetDeptBasedStaff.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
-            dataType: 'json',
-            success:function(response){
-            
-                $('#staff_name').empty();
-                $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
-                var i = 0;
-                for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                    $('#staff_name').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
-                }
-
-            }
-        });
-    }
+    getStaffList('0', department_id);
 });
 
 // Get staff code 
 $("#staff_name").change(function(){ 
-
-    var company_id = $("#branch_id").val();
     var department_id = $("#department").val();
     var staff_name = $("#staff_name").val();
-
-    if(staff_name.length==''){ 
-        $("#staff_name").val('');
-    }else{
-        $.ajax({
-            url: 'StaffFile/ajaxGetStaffBasedStaffCode.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id, "staff_name":staff_name  },
-            dataType: 'json',
-            success:function(response){
-            
-                $('#staff_code').val(response.emp_code);
-                $('#reporting_name').val(response.reporting);
-                $('#reporting').val(response.reporting_id);
-            }
-        });
-    }
+    getReportingPerson(department_id, staff_name);
 });
 
 
@@ -204,4 +135,83 @@ $("input[name='reason']").click(function(){
     }
 });
 
+function getDeptList(deptid){
+    var company_id = $("#branch_id").val();
+        if(company_id.length==''){
+            $("#branch_id").val('');
+        }else{
+            $.ajax({
+                url: 'StaffFile/ajaxStaffDepartmentDetails.php',
+                type: 'post',
+                data: { "company_id":company_id },
+                dataType: 'json',
+                success:function(response){ 
 
+                    $('#department').empty();
+                    $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+                    var r = 0;
+                    for (r = 0; r <= response.department_id.length - 1; r++) { 
+                        var selected = '';
+                        if(deptid == response['department_id'][r]){
+                            $('#mySelectedDeptName').val(response['department_id'][r])
+                            selected = 'selected';
+                        }
+                    $('#department').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
+                    }
+                }
+            });
+        }
+}
+
+function getStaffList(staffid, department_id){
+    var company_id = $("#branch_id").val();
+
+    if(department_id.length==''){ 
+        $("#department").val('');
+    }else{
+        $('#mySelectedDeptName').val(department_id)
+        $.ajax({
+            url: 'StaffFile/ajaxGetDeptBasedStaff.php',
+            type: 'post',
+            data: { "company_id":company_id, "department_id":department_id },
+            dataType: 'json',
+            success:function(response){
+            
+                $('#staff_name').empty();
+                $('#staff_name').prepend("<option value=''>" + 'Select Staff Name' + "</option>");
+                var i = 0;
+                for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                    var selected = '';
+                        if(staffid == response['staff_id'][i]){
+                            $('#mySelectedStaffName').val(response['staff_id'][i])
+                            selected = 'selected';
+                        }
+                    $('#staff_name').append("<option value='" + response['staff_id'][i] + "' "+selected+" >" + response['staff_name'][i] + "</option>");
+                }
+
+            }
+        });
+    }
+}
+
+function getReportingPerson(department_id, staff_name){
+    var company_id = $("#branch_id").val();
+
+    if(staff_name.length==''){ 
+        $("#staff_name").val('');
+    }else{
+        $('#mySelectedStaffName').val(staff_name)
+        $.ajax({
+            url: 'StaffFile/ajaxGetStaffBasedStaffCode.php',
+            type: 'post',
+            data: { "company_id":company_id, "department_id":department_id, "staff_name":staff_name  },
+            dataType: 'json',
+            success:function(response){
+            
+                $('#staff_code').val(response.emp_code);
+                $('#reporting_name').val(response.reporting);
+                $('#reporting').val(response.reporting_id);
+            }
+        });
+    }
+}

@@ -268,6 +268,9 @@ $(document).ready(function(){
 //auto call function for edit
 $(function(){
 
+    DropDownPolicyCompany();
+    resetPolicyCompany();
+    
     // manager login
     resetinsuranceTableLoad();
     DropDownInsuranceLoad();
@@ -505,3 +508,142 @@ function getDeptName(company_id){
         });
     }
 }
+
+
+
+// ///////////////////////////  Policy Company Modal //////////////////////////////
+
+//Policy Company submit button action
+$('#submitPolicyCompanyModal').click(function(){
+    let policy_com = $("#policy_com").val();
+    let policy_com_id = $("#policy_com_id").val();
+
+    if (policy_com !='' ) { 
+
+        $.ajax({
+            url:'insuranceFile/policyCompanyInsert.php', 
+            data:{'policy_com': policy_com, 'policy_com_id': policy_com_id },
+            dataType:'json',
+            type:'POST',
+            cache: false,
+            success:function(response){
+                
+                var insresult = response.includes("Added");
+                var updresult = response.includes("Updated");
+                if (insresult) {
+                    $('#policyInsertOk').show();
+                    setTimeout(function () {
+                        $('#policyInsertOk').fadeOut('fast');
+                    }, 2000);
+                }
+                else if (updresult) {
+                    $('#policyUpdateOk').show();
+                    setTimeout(function () {
+                        $('#policyUpdateOk').fadeOut('fast');
+                    }, 2000);
+                }
+                else {
+                    $('#policyDeleteNotOk').show();
+                    setTimeout(function () {
+                        $('#policyDeleteNotOk').fadeOut('fast');
+                    }, 2000);
+                }
+
+                DropDownPolicyCompany();
+                resetPolicyCompany();
+            }
+        })
+    }else{
+        $('#companynameCheck').show();
+    }
+})
+
+$("body").on("click", "#policy_company_edit", function () {
+    let id = $(this).attr('value');
+    $.ajax({
+        url: 'insuranceFile/getPolicyCompanyEdit.php',
+        type: 'POST',
+        data: { "id": id },
+        cache: false,
+        success: function(response){
+            $("#policy_com_id").val(id);
+            $("#policy_com").val(response);
+        }
+    });
+});
+
+$("body").on("click", "#policy_company_delete", function () {
+    var isok = confirm("Do you want delete this Policy Company?");
+    if (isok == false) {
+        return false;
+    } else {
+        var id = $(this).attr('value');
+
+        $.ajax({
+            url: 'insuranceFile/getPolicyCompanyDelete.php',
+            type: 'POST',
+            data: { "id": id },
+            cache: false,
+            success: function (response) {
+                var delresult = response.includes("Inactivated");
+                if (delresult) {
+                    $('#policyDeleteOk').show();
+                    setTimeout(function () {
+                        $('#policyDeleteOk').fadeOut('fast');
+                    }, 2000);
+                }
+                else {
+
+                    $('#policyDeleteNotOk').show();
+                    setTimeout(function () {
+                        $('#policyDeleteNotOk').fadeOut('fast');
+                    }, 2000);
+                }
+
+                DropDownPolicyCompany();
+                resetPolicyCompany();
+            }
+        });
+    }
+});
+//Policy Company List Modal Table
+function resetPolicyCompany() {
+    $.ajax({
+        url: 'insuranceFile/policyCompanyReset.php',
+        type: 'POST',
+        data: { },
+        cache: false,
+        success: function (html) {
+            $("#PolicyCompanyDiv").empty();
+            $("#PolicyCompanyDiv").html(html);
+
+            $("#policy_com").val('');
+        }
+    });
+}
+
+//Dropdown for insurance
+function DropDownPolicyCompany(){
+    $.ajax({
+        url: 'insuranceFile/getPolicyCompanyDropDown.php',
+        type: 'post',
+        data: {},
+        dataType: 'json',
+        success:function(response){
+
+            var len = response.length;
+            $("#policy_company").empty();
+            $("#policy_company").append("<option value=''disabled selected>"+'Select Policy Company'+"</option>");
+
+            var policy_company_upd = $('#policy_company_upd').val();
+            for(var i = 0; i<len; i++){
+                var selected = '';
+                if(policy_company_upd == response[i]['policy_company_id']){
+                    selected = 'selected';
+                }
+                $("#policy_company").append("<option value='"+response[i]['policy_company_id']+"' "+selected+" >"+response[i]['policy_company']+"</option>");
+            }
+        }
+    });
+}
+/////////////////////////////  Policy Company Modal END //////////////////////////////

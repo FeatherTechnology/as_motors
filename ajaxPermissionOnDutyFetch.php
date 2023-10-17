@@ -2,11 +2,21 @@
 include('ajaxconfig.php');
 @session_start();
 
-if(isset($_SESSION["userid"])){
-    $userid = $_SESSION["userid"];
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
 }
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
+}
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+
+    $user_dept_id = '';
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
 }
 
 $column = array(
@@ -28,7 +38,7 @@ $column = array(
 );
 
 $query = "SELECT * FROM permission_or_on_duty WHERE 1";
-if($sbranch_id == 'Overall'){
+if($role == '1'){
     $query .= '';
     if($_POST['search']!="");
     {
@@ -61,8 +71,11 @@ if($sbranch_id == 'Overall'){
             }
         }
     }
-}else{
-    $query .=" and company_id= '".$sbranch_id."' ";
+}else if($role == '3'){
+    $query .=" and department_id = '".$user_dept_id."' ";
+}else if($role == '4'){
+    $query .=" and staff_id = '".$staffid."' ";
+
 }
 
 if (isset($_POST['order'])) {

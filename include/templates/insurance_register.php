@@ -240,6 +240,7 @@ if($idupd>0)
         <input type="hidden" class="form-control" value="<?php if(isset($ins_reg_id)) echo $ins_reg_id; ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
         <input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>" id="company_id_upd" name="company_id_upd" aria-describedby="id" placeholder="Enter id">
         <input type="hidden" class="form-control" value="<?php if(isset($insurance_id)) echo $insurance_id; ?>" id="insurance_id_upd" name="insurance_id_upd" aria-describedby="id" placeholder="Enter id">
+        <input type="hidden" class="form-control" value="<?php if(isset($policy_company)) echo $policy_company; ?>" id="policy_company_upd" name="policy_company_upd" >
         <input type="hidden" class="form-control" value="<?php if(isset($dept_id)) echo $dept_id; ?>"  id="dept_id_upd" name="dept_id_upd" aria-describedby="id" placeholder="Enter id">
         <input type="hidden" class="form-control" value="<?php if(isset($freq_id)) echo $freq_id; ?>"  id="freq_id_upd" name="freq_id_upd" aria-describedby="id" placeholder="Enter id">
 
@@ -334,12 +335,27 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Policy Company</label>
-                                            <input tabindex="8" type="text" class="form-control" name="policy_company" id="policy_company" placeholder="Enter Policy Company" value="<?php if(isset($policy_company)) echo $policy_company; ?>">
+                                            <label for="policy_company">Policy Company</label>
+                                            <select tabindex="6" type="text" class="form-control" name="policy_company" id="policy_company">
+                                                <option value="" disabled selected>Select Policy Company</option>
+                                            </select>
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" style="margin-top: 20px">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" id="add_policy_company" name="add_policy_company" data-toggle="modal" data-target=".addPolicyCompany" style="padding: 5px 30px;"><span class="icon-add"></span></button>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Policy Company</label>
+                                            <input tabindex="8" type="text" class="form-control" name="policy_company" id="policy_company" placeholder="Enter Policy Company" value="<?php #if(isset($policy_company)) echo $policy_company; ?>">
+                                        </div>
+                                    </div> -->
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
@@ -491,6 +507,84 @@ if($idupd>0)
             </div>
         </div>
     </div>
+
+    <!-- Add Course Policy Company Modal -->
+<div class="modal fade addPolicyCompany" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Add Policy Company</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetPolicyCompany();DropDownPolicyCompany();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- alert messages -->
+                <div id="policyInsertNotOk" class="unsuccessalert">Policy Company Already Exists, Please Enter a Different Name!
+                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="policyInsertOk" class="successalert">Policy Company Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="policyUpdateOk" class="successalert">Policy Company Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="policyDeleteNotOk" class="unsuccessalert">Process Failed!
+                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="policyDeleteOk" class="unsuccessalert">Policy Company Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                            <label class="label">Enter Policy Company</label>
+                            <input type="hidden" name="policy_com_id" id="policy_com_id">
+                            <input type="text" name="policy_com" id="policy_com" class="form-control" placeholder="Enter Policy Company">
+                            <span class="text-danger" id="companynameCheck" style="display: none;">Enter Policy Company</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                            <label class="label" style="visibility: hidden;">Policy</label>
+                        <button type="button" name="submitPolicyCompanyModal" id="submitPolicyCompanyModal" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+                <div id="PolicyCompanyDiv"> 
+                    <table class="table custom-table" id="policyTable"> 
+                        <thead>
+                            <tr>
+                                <th>S. No</th>
+                                <th>Policy Company</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-2 col-xl-2"></td>
+                                    <td></td>
+                                    <td>
+                                        <a id="edit_policy_com" value=""><span class="icon-border_color"></span></a> &nbsp
+                                        <a id="delete_policy_com" value=""><span class='icon-trash-2'></span></a>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetPolicyCompany();DropDownPolicyCompany();">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <script>
 	setTimeout(function() {

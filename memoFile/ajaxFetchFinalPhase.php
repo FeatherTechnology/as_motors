@@ -25,9 +25,6 @@ if(mysqli_num_rows($getname)>0){
 		$staff_id[]    = $row["staff_id"];
 		$reporting[] 	= $row["staff_name"];
 }
-}else{
-	$staff_id[]    = '';
-	$reporting[] 	= '';
 }
 
 $departmentDetails["staff_id"] = $staff_id;

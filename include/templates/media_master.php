@@ -181,7 +181,8 @@ if($idupd>0)
                                             <?php if(!isset($media_file) && $idupd<=0){ ?>
                                             <input type="file" tabindex="4" class="form-control" id="media_file" name="media_file" ></input>
                                             <?php }else{ ?>
-                                            <input type="file" tabindex="4" class="form-control" id="media_file" name="media_file" ></input>   
+                                            <input type="file" tabindex="4" class="form-control" id="media_file" name="media_file" ></input> 
+                                            <a href="uploads/media_master/<?php if(isset($media_file)) echo $media_file; ?>" download="<?php if(isset($media_file)) echo $media_file; ?>" title='Download File'>Click here to download  <?php if(isset($media_file)) echo $media_file; ?></a>  
                                             <input type="hidden"  name="edit_media_file" id="edit_media_file" value="<?php echo $media_file; ?>">
                                         <?php }?>      
                                         </div>
@@ -206,14 +207,13 @@ if($idupd>0)
                                             <label for="disabledInput">Platform</label>
                                             <select id="platform" name="platform" class="form-control">
                                                 <option value=''>Select Platform </option>
-                                                <option <?php if(isset($platform)) { if('Facebook' == $platform) echo 'selected'; ?> value="<?php echo 'Facebook' ?>">
-                                                    <?php echo 'Facebook'; }else{ ?> <option value="Facebook">Facebook</option> <?php } ?></option>
-                                                <option <?php if(isset($platform)) { if('Instagram' == $platform) echo 'selected'; ?> value="<?php echo 'Instagram' ?>">
-                                                    <?php echo 'Instagram'; }else{ ?> <option value="Instagram">Instagram</option>   <?php } ?></option>
-                                                <option <?php if(isset($platform)) { if('YouTube' == $platform) echo 'selected'; ?> value="<?php echo 'YouTube' ?>">
-                                                    <?php echo 'YouTube'; }else{ ?> <option value="YouTube">YouTube</option>  <?php } ?></option>
-                                                <option <?php if(isset($platform)) { if('TV Ads' == $platform) echo 'selected'; ?> value="<?php echo 'TV Ads' ?>">
-                                                    <?php echo 'TV Ads'; }else{ ?> <option value="TV Ads">TV Ads</option>  <?php } ?></option>
+                                                <option <?php if(isset($platform)) { if('1' == $platform) echo 'selected'; } ?> value="<?php echo '1' ?>">Facebook</option>
+                                                <option <?php if(isset($platform)) { if('2' == $platform) echo 'selected'; } ?> value="<?php echo '2' ?>">WhatsApp</option>
+                                                <option <?php if(isset($platform)) { if('3' == $platform) echo 'selected'; } ?> value="<?php echo '3' ?>">Instagram</option>
+                                                <option <?php if(isset($platform)) { if('4' == $platform) echo 'selected'; } ?> value="<?php echo '4' ?>">Twitter</option>
+                                                <option <?php if(isset($platform)) { if('5' == $platform) echo 'selected'; } ?> value="<?php echo '5' ?>">YouTube</option>
+                                                <option <?php if(isset($platform)) { if('6' == $platform) echo 'selected'; } ?> value="<?php echo '6' ?>">Telegram</option>
+                                                <option <?php if(isset($platform)) { if('7' == $platform) echo 'selected'; } ?> value="<?php echo '7' ?>">Tv ads</option>
                                             </select>             
                                         </div>
                                     </div>

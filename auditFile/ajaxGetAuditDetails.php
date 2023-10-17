@@ -43,7 +43,7 @@ $qry4=$con->query("SELECT * FROM designation_creation WHERE designation_id= '".$
     $message['role2_id'] = $role2_id;
 
 // check audit area already given
-$qry5 = $con->query("SELECT * FROM audit_checklist_ref WHERE DATE(from_date) <= '".$date_of_audit."' AND DATE(to_date) >= '".$date_of_audit."' AND status = '0' ");
+// $qry5 = $con->query("SELECT * FROM audit_checklist_ref WHERE DATE(from_date) <= '".$date_of_audit."' AND DATE(to_date) >= '".$date_of_audit."' AND status = '0' ");
 $message['exist']='';
 if($con->affected_rows>0){
     $message['exist']="Selected Audit Area already submitted. Please Use Previous Checklist";

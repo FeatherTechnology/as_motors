@@ -81,38 +81,22 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(response){
 
-                if(response['reporting'] != ''){
+                // if(response['reporting'] != ''){
                     $("#initial_phase").empty();
                     $("#initial_phase").prepend("<option value=''>"+'Assign Employee'+"</option>");
                     var r = 0;
                     for (r = 0; r <= response.staff_id.length - 1; r++) { 
-                        $('#initial_phase').append("<option value='" + response['staff_id'][r] + "'>" + response['reporting'][r] + "</option>");
+                        $('#initial_phase').append("<option value='" + response['staff_id'][r] + "' selected>" + response['reporting'][r] + "</option>");
                     }
-                }
-
+                    finalPhaseList();
+                // }
             }
         });
     });
- 
+
     // get final phase based on staff
     $('#initial_phase').on('change',function(){
-
-        var initial_phase = $('#initial_phase :selected').val();
-        $.ajax({
-            url: 'memoFile/ajaxFetchFinalPhase.php',
-            type:'post',
-            data: {'initial_phase': initial_phase},
-            dataType: 'json',
-            success: function(response){
-                
-                $("#final_phase").empty();
-                $("#final_phase").prepend("<option value=''>"+'Assign Employee'+"</option>");
-                var r = 0;
-                for (r = 0; r <= response.staff_id.length - 1; r++) { 
-                    $('#final_phase').append("<option value='" + response['staff_id'][r] + "'>" + response['reporting'][r] + "</option>");
-                }
-            }
-        });
+        finalPhaseList();
     });
 
 });
@@ -179,3 +163,22 @@ function getdepartmentLoad(branch_id){
         }
     });
 };
+
+function finalPhaseList(){
+    var initial_phase = $('#initial_phase :selected').val();
+    $.ajax({
+        url: 'memoFile/ajaxFetchFinalPhase.php',
+        type:'post',
+        data: {'initial_phase': initial_phase},
+        dataType: 'json',
+        success: function(response){
+            
+            $("#final_phase").empty();
+            $("#final_phase").prepend("<option value=''>"+'Assign Employee'+"</option>");
+            var r = 0;
+            for (r = 0; r <= response.staff_id.length - 1; r++) { 
+                $('#final_phase').append("<option value='" + response['staff_id'][r] + "' selected>" + response['reporting'][r] + "</option>");
+            }
+        }
+    });
+}

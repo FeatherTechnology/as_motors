@@ -98,10 +98,35 @@ foreach ($result as $row) {
     $sub_array[] = $company_name;
     $sub_array[] = $branch_name;
     $sub_array[] = $row['media_name'];
-    $sub_array[] = $row['media_file'];
+    // $sub_array[] = $row['media_file'];
+    $sub_array[] = "<a href='uploads/media_master/".$row['media_file']."' download='".$row['media_file']."' title='Download File'>".$row['media_file']."</a> ";
     $sub_array[] = $row['from_period'];
     $sub_array[] = $row['to_period'];
-    $sub_array[] = $row['platform'];
+
+    if($row['platform'] == '1'){
+        $platform_name = 'Facebook';
+    }
+    else if($row['platform'] == '2'){
+        $platform_name = 'WhatsApp';
+    }
+    else if($row['platform'] == '3'){
+        $platform_name = 'Instagram';
+    }
+    else if($row['platform'] == '4'){
+        $platform_name = 'Twitter';
+    }
+    else if($row['platform'] == '5'){
+        $platform_name = 'YouTube';
+    }
+    else if($row['platform'] == '6'){
+        $platform_name = 'Telegram';
+    }
+    else if($row['platform'] == '7'){
+        $platform_name = 'Tv ads';
+    }else{
+        $platform_name = '';
+    }
+    $sub_array[] = $platform_name;
 
     $status      = $row['status'];
     if($status == 1)

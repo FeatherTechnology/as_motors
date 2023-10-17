@@ -193,20 +193,9 @@ if($idupd>0)
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">To Department</label>
-                                            <?php if(!isset($to_department) && $idupd<=0){ ?>
                                                 <select disabled tabindex="2" type="text" class="form-control" id="to_department" name="to_department" >
                                                     <option value="">Select Department</option> 
-                                                </select>  
-                                            <?php } else { ?>
-                                                <select disabled tabindex="1" type="text" class="form-control" id="to_department" name="to_department" >
-                                                    <option value="">Select To Department</option>   
-                                                    <?php if (sizeof($fromDepartmentName)>0) { 
-                                                    for($j=0;$j<count($fromDepartmentName);$j++) { ?>
-                                                    <option <?php if(isset($to_department)) { if($fromDepartmentName[$j]['department_id'] == $to_department)  echo 'selected'; }  ?> value="<?php echo $fromDepartmentName[$j]['department_id']; ?>">
-                                                    <?php echo $fromDepartmentName[$j]['department_name'];?></option>
-                                                    <?php }} ?> 
                                                 </select>
-                                            <?php } ?>
                                         </div>
                                     </div>
 

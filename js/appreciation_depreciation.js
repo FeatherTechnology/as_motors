@@ -6,7 +6,8 @@ $(document).ready(function () {
     if(department_id.length==''){ 
       $("#department").val('');
     }else{
-      getdesignation(department_id);
+      var designation_upd = $('#designation_upd').val();
+      getdesignation(department_id, designation_upd);
     }
   });
   
@@ -16,7 +17,8 @@ $(document).ready(function () {
     if(company_id.length==''){
       $("#company_name").val('');
     }else{
-      getdepartment(company_id);
+      var department_upd = $('#department_upd').val();
+      getdepartment(company_id, department_upd);
     }
   });
 
@@ -27,30 +29,10 @@ $(document).ready(function () {
 
   // Get Department based reporting person
   $("#designation").change(function(){  
-
     var company_id = $("#company_name").val();
     var department_id = $("#department").val();
     var designation_id = $("#designation").val();
-
-    if(designation_id.length==''){ 
-        $("#designation").val('');
-    }else{
-      $.ajax({
-          url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
-          type: 'post',
-          data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
-          dataType: 'json',
-          success:function(response){
-          
-              $('#staff_id').empty();
-              $('#staff_id').prepend("<option value=''>" + 'Select Staff' + "</option>");
-              var i = 0;
-              for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                  $('#staff_id').append("<option value='" + response['staff_id'][i] + "'>" + response['staff_name'][i] + "</option>");
-              }
-          }
-      });
-    }
+    getStaffListName(company_id, department_id, designation_id);
   });
 
   $("#overall_rating").change(function(){
@@ -65,16 +47,13 @@ $(document).ready(function () {
     }
   });
 
-});
-
-
   // execute daily performance
   $("#executeTargetFixingDetails").click(function(){
-
+  
     var month = $('#month').val();
     var designation = $('#designation').val();
     var staff_id = $('#staff_id :selected').val();
-
+  
     $.ajax({
       url:"targetFixingFile/ajaxDailyPerformanceDetails.php",
       method:"post",
@@ -82,31 +61,84 @@ $(document).ready(function () {
       success:function(html){
         $("#dailyPerformanceDetailsAppend").empty();
         $("#dailyPerformanceDetailsAppend").html(html);
-
+  
         getReportingPerson(staff_id);
-
+  
       }
     });
   });
+
+  $(".edit_assertion").on('click', function() { 
+    var checkbox = $(this).parents('tr').find('td #edit_assertion').is(":checked");
+    if (checkbox) { 
+        $(this).parents('tr').find('td #new_assertion').attr("readonly",false);
+        $(this).parents('tr').find('td #new_target').attr("readonly",false);
+        $(this).parents('tr').find('td #applicability').attr("readonly",false);
+    } else { 
+        $(this).parents('tr').find('td #new_assertion').val('').attr("readonly",true);
+        $(this).parents('tr').find('td #new_target').val('').attr("readonly",true);
+        $(this).parents('tr').find('td #applicability').val('').attr("readonly",true);
+    }
+  });
+  
+  $(".delete_assertion").on('click', function() { 
+    
+    var checkbox = $(this).parents('tr').find('td #delete_assertion').is(":checked");
+    if (checkbox) { 
+  
+      var currentDate = new Date($.now());
+      var formattedDate = currentDate.toLocaleDateString();  
+  
+      $(this).parents('tr').find('td #deleted_date').val(formattedDate);
+      $(this).parents('tr').find('td #deleted_remarks').attr("readonly",false);
+    } else { 
+      $(this).parents('tr').find('td #deleted_date').val('').attr("readonly",true);
+      $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
+    }
+  });
+
+});
+
+
 
   //get details on edit
   $(function(){
 
     // super admin login
+    var id = $("#id").val();
     var idupd = $("#company_name").val();
-    var department_upd = $('#department_upd').val();
-    var staff_id = $('#empEdit').val();
-    if(idupd > 0 ){
+    // var department_upd = $('#department_upd').val();
+    // var staff_id = $('#empEdit').val();
+    var userDeptId = $('#userDeptId').val();
+    var userDesignationId = $('#userDesignationId').val();
+    var userStaffId = $('#staffid').val();
+    var userRole = $('#userRole').val();
+    if(id <= '0' && idupd > 0 ){
 
-      getdepartment(idupd);
-      getdesignation(department_upd);
-      getReportingPerson(staff_id);
+      getdepartment(idupd, userDeptId);
+      getdesignation(userDeptId, userDesignationId);
+      getStaffListName(idupd, userDeptId, userDesignationId);
+      getReportingPerson(userStaffId);
     }
+
+    // if(idupd <= '0' && userRole != '1'){
+    //     getDeptList(userDeptId);
+    //     getStaffList(userStaffId, userDeptId);
+    //     getReportingPerson(userDeptId, userStaffId)    
+    // }
+    if(userRole != '1'){
+        $('#department').attr('disabled', true);
+    }
+    if(userRole == '4'){
+        $('#designation').attr('disabled', true);
+        $('#staff_id').attr('disabled', true);
+    }
+
   });
 
 // get department details
-function getdepartment(company_id){ 
-  var department_upd = $('#department_upd').val();
+function getdepartment(company_id, department_upd){ 
+  
   $.ajax({
     url: 'R&RFile/ajaxGetCompanyBasedDepartment.php',
     type: 'post',
@@ -120,6 +152,7 @@ function getdepartment(company_id){
       for (r = 0; r <= response.department_id.length - 1; r++) { 
         var selected = "";
         if(department_upd == response['department_id'][r]){
+          $('#mySelectedDeptName').val(response['department_id'][r]);
           selected = "selected";
         }
         $('#department').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
@@ -129,11 +162,9 @@ function getdepartment(company_id){
 }
 
 //get designation details
-function getdesignation(department_id){ 
-
+function getdesignation(department_id, designation_upd){ 
   var company_id = $('#company_name').val();
-  var designation_upd = $('#designation_upd').val();
-
+  $('#mySelectedDeptName').val(department_id);
   $.ajax({
     url: 'R&RFile/ajaxR&RDesignationDetails.php',
     type: 'post',
@@ -147,6 +178,7 @@ function getdesignation(department_id){
       for (i = 0; i <= response.designation_id.length - 1; i++) { 
         var selected = "";
         if(designation_upd == response['designation_id'][i]){
+          $('#mySelectedDesgnName').val(response['designation_id'][i]);
           selected = "selected";
       }
         $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
@@ -154,36 +186,6 @@ function getdesignation(department_id){
     }
   });
 }
-
-
-$(".edit_assertion").on('click', function() { 
-  var checkbox = $(this).parents('tr').find('td #edit_assertion').is(":checked");
-  if (checkbox) { 
-      $(this).parents('tr').find('td #new_assertion').attr("readonly",false);
-      $(this).parents('tr').find('td #new_target').attr("readonly",false);
-      $(this).parents('tr').find('td #applicability').attr("readonly",false);
-  } else { 
-      $(this).parents('tr').find('td #new_assertion').val('').attr("readonly",true);
-      $(this).parents('tr').find('td #new_target').val('').attr("readonly",true);
-      $(this).parents('tr').find('td #applicability').val('').attr("readonly",true);
-  }
-});
-
-$(".delete_assertion").on('click', function() { 
-  
-  var checkbox = $(this).parents('tr').find('td #delete_assertion').is(":checked");
-  if (checkbox) { 
-
-    var currentDate = new Date($.now());
-    var formattedDate = currentDate.toLocaleDateString();  
-
-    $(this).parents('tr').find('td #deleted_date').val(formattedDate);
-    $(this).parents('tr').find('td #deleted_remarks').attr("readonly",false);
-  } else { 
-    $(this).parents('tr').find('td #deleted_date').val('').attr("readonly",true);
-    $(this).parents('tr').find('td #deleted_remarks').val('').attr("readonly",true);
-  }
-});
 
 function getReportingPerson(staff_id){
   // Nested AJAX call to getreportingPersonDetails.php
@@ -202,4 +204,29 @@ function getReportingPerson(staff_id){
       // }
     }
   });
+}
+
+function getStaffListName(company_id, department_id, designation_id){
+  if(designation_id.length==''){ 
+      $("#designation").val('');
+  }else{
+    $('#mySelectedDesgnName').val(designation_id);
+    $.ajax({
+        url: 'insuranceFile/ajaxGetDesignationBasedStaff.php',
+        type: 'post',
+        data: { "company_id":company_id, "department_id":department_id, "designation_id":designation_id },
+        dataType: 'json',
+        success:function(response){
+        
+            $('#staff_id').empty();
+            $('#staff_id').prepend("<option value=''>" + 'Select Staff' + "</option>");
+            var i = 0;
+            for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                $('#mySelectedStaffName').val(response['staff_id'][i]);
+                $('#staff_id').append("<option value='" + response['staff_id'][i] + "' selected>" + response['staff_name'][i] + "</option>");
+            }
+        }
+    });
+  }
+
 }

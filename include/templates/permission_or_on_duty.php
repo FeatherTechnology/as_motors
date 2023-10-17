@@ -1,7 +1,21 @@
-<?php 
+<?php
+include('ajaxconfig.php');
 @session_start();
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
+} 
+if(isset($_SESSION["role"])){
+    $user_role = $_SESSION["role"];
+} 
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+
+    $user_dept_id = '';
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
@@ -92,16 +106,17 @@ if($idupd>0)
                 dataType: 'json',
                 success: function(response){ 
 
-                    $('#department_id').empty();
-                    $('#department_id').prepend("<option value=''>" + 'Select Department' + "</option>");
+                    $('#department').empty();
+                    $('#department').prepend("<option value=''>" + 'Select Department' + "</option>");
                     var i = 0;
                     for (i = 0; i <= response.departmentId.length - 1; i++) {
                         var selected = "";
                         if(response['departmentId'][i] == departmentEdit)
                         {
+                            $('#mySelectedDeptName').val(response['departmentId'][i])
                             selected = "selected";
                         }
-                        $('#department_id').append("<option value='" + response['departmentId'][i] + "' "+selected+">" + response['departmentName'][i] + "</option>");
+                        $('#department').append("<option value='" + response['departmentId'][i] + "' "+selected+">" + response['departmentName'][i] + "</option>");
                     }
                 }
             });
@@ -151,6 +166,7 @@ if($idupd>0)
                         var selected = "";
                         if(response['staff_id'][r] == staffIdEdit)
                         {
+                            $('#mySelectedStaffName').val(response['staff_id'][r])
                             selected = "selected";
                         }
                         $('#staff_name').append("<option value='" + response['staff_id'][r] + "' "+selected+">" + 
@@ -206,6 +222,10 @@ if($idupd>0)
 <!--------form start-->
     <form id = "permission_or_on_duty" name="permission_or_on_duty" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($permission_on_duty_id)) echo $permission_on_duty_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
+    <input type="hidden" value="<?php if(isset($staffid)) echo $staffid ?>" id="userStaffId" name="userStaffId">
+    <input type="hidden" value="<?php if(isset($user_dept_id)) echo $user_dept_id ?>" id="userDeptId" name="userDeptId">
+    <input type="hidden" value="<?php if(isset($user_role)) echo $user_role ?>" id="userRole" name="userRole">
+    <input type="hidden" value="<?php if(isset($idupd)) echo $idupd ?>" id="idupd" name="idupd">
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -265,65 +285,20 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <?php if($idupd<=0){ ?>
-
-                                        <script language='javascript'> 
-                                            window.onload=getdepartmentLoad;
-                                            
-                                            function getdepartmentLoad(){ 
-                                                var company_id = $("#branch_id").val();
-                                                if(company_id.length==''){
-                                                    $("#branch_id").val('');
-                                                }else{
-                                                    $.ajax({
-                                                        url: 'StaffFile/ajaxStaffDepartmentDetails.php',
-                                                        type: 'post',
-                                                        data: { "company_id":company_id },
-                                                        dataType: 'json',
-                                                        success:function(response){ 
-
-                                                        $('#department').empty();
-                                                        $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-                                                        var r = 0;
-                                                        for (r = 0; r <= response.department_id.length - 1; r++) { 
-                                                            $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
-                                                        }
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        </script>
-
-
-                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                            <div class="form-group">
-                                                <label for="disabledInput">Department</label>
-                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" >
-                                                    <option value="">Select Department</option>   
-                                                </select>
-                                            </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="disabledInput">Department</label>
+                                            <input type="hidden" id="mySelectedDeptName" name="mySelectedDeptName">
+                                            <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                                <option value="">Select Department</option>   
+                                            </select>
                                         </div>
-                                    <?php } ?>
-                                    <?php if($idupd>0){ ?>
-                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                            <div class="form-group">
-                                                <label for="disabledInput">Department</label>
-                                                <select tabindex="3" type="text" class="form-control" id="department" name="department" >
-                                                    <option value="">Select Department</option>
-                                                    <?php if (sizeof($departmentList)>0) { 
-                                                    for($j=0;$j<count($departmentList);$j++) { ?>
-                                                    <option <?php if(isset($department)) { if($departmentList[$j]['department_id'] == $department)  echo 'selected'; }  ?>
-                                                    value="<?php echo $departmentList[$j]['department_id']; ?>">
-                                                    <?php echo $departmentList[$j]['department_name'];?></option>
-                                                    <?php }} ?> 
-                                                </select>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
+                                    </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Name</label>
+                                            <input type="hidden" id="mySelectedStaffName" name="mySelectedStaffName">
                                             <select id="staff_name" name="staff_name" class="form-control" tabindex="4">
                                                 <option value="">Select Staff Name</option>
                                             </select>   

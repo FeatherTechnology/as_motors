@@ -9,8 +9,6 @@ if(isset($_SESSION["branch_id"])){
 }
 
 $companyName = $userObj->getCompanyName($mysqli);
-$departmentList = $userObj->getDepartment($mysqli); 
-$companyList = $userObj->getCompanyName($mysqli);
 
 $id=0;
 if(isset($_POST['submitMemoBtn']) && $_POST['submitMemoBtn'] != '')
@@ -31,17 +29,15 @@ if(isset($_GET['upd']))
 $status =0;
 if($idupd>0)
 {
-    $getMemo = $userObj->getMemo($mysqli,$idupd); 
-    if (sizeof($getMemo)>0) {
-        for($itag=0;$itag<sizeof($getMemo);$itag++) {
+    $getMemoList = $userObj->getMemo($mysqli,$idupd); 
+    if (sizeof($getMemoList)>0) {
 
-            $memo_id                 = $getMemo['memo_id']; 
-            $company_id              = $getMemo['company_id'];
-            $to_department      = $getMemo['to_department'];
-            $inquiry      = $getMemo['inquiry'];
-            $suggestion      = $getMemo['suggestion'];
-            $attachment      = $getMemo['attachment'];
-        }
+            $memo_id         = $getMemoList['memo_id']; 
+            $company_id      = $getMemoList['company_id'];
+            $to_department   = $getMemoList['to_department'];
+            $inquiry         = $getMemoList['inquiry'];
+            $suggestion      = $getMemoList['suggestion'];
+            $attachment      = $getMemoList['attachment'];
     } 
 
     $assignEmployeeName = $userObj->getAssignEmployeeName($mysqli, $to_department);  
@@ -105,8 +101,6 @@ if($idupd>0)
             }
             });
         };
-
-   
     </script>
 
 <?php
@@ -147,7 +141,7 @@ if($idupd>0)
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Company Name</label>
+                                            <label for="company_id">Company Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="1" disabled type="text" class="form-control" id="company_id" name="company_id"  >
                                                     <option value="">Select Company Name</option>   
@@ -169,7 +163,7 @@ if($idupd>0)
                                     
                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Branch Name</label>
+                                            <label for="branch_id">Branch Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
                                                 <select disabled tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
                                                     <option value="" disabled selected>Select Branch Name</option> 
@@ -183,66 +177,18 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <!-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="disabledInput">Company Name</label>
-                                            <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id" >
-                                                <option value="">Select Company Name</option>   
-                                                <?php if (sizeof($companyName)>0) { 
-                                                for($j=0;$j<count($companyName);$j++) { ?>
-                                                <option <?php if(isset($company_id)) { if($companyName[$j]['company_id'] == $company_id)  echo 'selected'; }  ?> value="<?php echo $companyName[$j]['company_id']; ?>">
-                                                <?php echo $companyName[$j]['company_name'];?></option>
-                                                <?php }} ?> 
-                                            </select> 
-                                        </div>
-                                    </div> -->
-
-                                    <!-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12"></div> -->
-
-                                    <!-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label for="disabledInput">From Department</label>
-                                            <?php if(!isset($from_department) && $idupd<=0){ ?>
-                                                <select tabindex="2" type="text" class="form-control" id="from_department" name="from_department" >
-                                                    <option value="">Select Department</option> 
-                                                </select>  
-                                            <?php } else { ?>
-                                                <select tabindex="1" type="text" class="form-control" id="from_department" name="from_department" >
-                                                    <option value="">Select Company Name</option>   
-                                                    <?php if (sizeof($fromDepartmentName)>0) { 
-                                                    for($j=0;$j<count($fromDepartmentName);$j++) { ?>
-                                                    <option <?php if(isset($from_department)) { if($fromDepartmentName[$j]['department_id'] == $from_department)  echo 'selected'; }  ?> value="<?php echo $fromDepartmentName[$j]['department_id']; ?>">
-                                                    <?php echo $fromDepartmentName[$j]['department_name'];?></option>
-                                                    <?php }} ?> 
-                                                </select>
-                                            <?php } ?>
-                                           
-                                        </div>
-                                    </div> -->
-
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">To Department</label>
-                                            <?php if(!isset($to_department) && $idupd<=0){ ?>
+                                            <label for="to_department">To Department</label>
                                                 <select disabled tabindex="2" type="text" class="form-control" id="to_department" name="to_department" >
                                                     <option value="">Select Department</option> 
                                                 </select>  
-                                            <?php } else { ?>
-                                                <select disabled tabindex="1" type="text" class="form-control" id="to_department" name="to_department" >
-                                                    <option value="">Select To Department</option>   
-                                                    <?php if (sizeof($fromDepartmentName)>0) { 
-                                                    for($j=0;$j<count($fromDepartmentName);$j++) { ?>
-                                                    <option <?php if(isset($to_department)) { if($fromDepartmentName[$j]['department_id'] == $to_department)  echo 'selected'; }  ?> value="<?php echo $fromDepartmentName[$j]['department_id']; ?>">
-                                                    <?php echo $fromDepartmentName[$j]['department_name'];?></option>
-                                                    <?php }} ?> 
-                                                </select>
-                                            <?php } ?>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Assign Employee</label>
+                                            <label for="assign_employee">Assign Employee</label>
                                             <?php if(!isset($assign_employee) && $idupd<=0){ ?>
                                                 <select tabindex="2" type="text" class="form-control" id="assign_employee" name="assign_employee" >
                                                     <option value="">Assign Employee</option> 
@@ -262,7 +208,7 @@ if($idupd>0)
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Priority</label>
+                                            <label for="priority">Priority</label>
                                             <select tabindex="4" type="text" class="form-control" name="priority" id="priority">
                                                 <option value="">Select Priority</option>
                                                 <option value="1" <?php if(isset($priority) && $priority == '1') echo 'selected'; ?>>High</option>
@@ -274,7 +220,7 @@ if($idupd>0)
 
                                     <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="inputReadOnly">Inquiry</label>
+                                            <label for="inquiry">Inquiry</label>
                                             <textarea readonly class="form-control" tabindex="3" rows="4" cols="50" id="inquiry" name="inquiry" 
                                             value="<?php if(isset($inquiry)) echo $inquiry; ?>" placeholder="Enter Inquiry"><?php if(isset($inquiry)) echo $inquiry; ?></textarea>
                                         </div>
@@ -282,7 +228,7 @@ if($idupd>0)
 
                                     <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="inputReadOnly">Suggestion</label>
+                                            <label for="suggestion">Suggestion</label>
                                             <textarea readonly class="form-control" tabindex="3" rows="4" cols="50" id="suggestion" name="suggestion" 
                                             value="<?php if(isset($suggestion)) echo $suggestion; ?>" placeholder="Enter Suggestion"><?php if(isset($suggestion)) echo $suggestion; ?></textarea>
                                         </div>
@@ -290,7 +236,7 @@ if($idupd>0)
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="inputReadOnly">Attachment</label>
+                                            <label for="fileList">Attachment</label>
                                             <div style="border: 2px solid black; height:auto;padding:10px;" id="fileList">
                                                 <a href="uploads/memo/<?php echo $attachment; ?>" download><li><?php echo $attachment; ?></li></a>
                                             </div>  
@@ -299,7 +245,7 @@ if($idupd>0)
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Traget Date For Completion</label>
+                                            <label for="completion_target_date">Traget Date For Completion</label>
                                             <input type="date" tabindex="3" id="completion_target_date" name="completion_target_date" class="form-control"  value="<?php if(isset($completion_target_date)) echo $completion_target_date; ?>" >
                                         </div>
                                     </div>
@@ -313,41 +259,19 @@ if($idupd>0)
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Initial Phase</label>
-                                            <?php if(!isset($assign_employee) && $idupd<=0){ ?>
+                                            <label for="initial_phase">Initial Phase</label>
                                                 <select tabindex="2" type="text" class="form-control" id="initial_phase" name="initial_phase" >
                                                     <option value="">Assign Employee</option> 
                                                 </select>  
-                                            <?php } else { ?>
-                                                <select tabindex="1" type="text" class="form-control" id="initial_phase" name="initial_phase" >
-                                                    <option value="">Assign Employee</option>   
-                                                    <?php if (sizeof($initialPhaseName)>0) { 
-                                                    for($i=0;$i<count($initialPhaseName);$i++) { ?>
-                                                    <option <?php if(isset($initial_phase)) { if($initialPhaseName[$i]['staff_id'] == $initial_phase)  echo 'selected'; }  ?> value="<?php echo $initialPhaseName[$i]['staff_id']; ?>">
-                                                    <?php echo $initialPhaseName[$i]['reporting'];?></option>
-                                                    <?php }} ?> 
-                                            </select>
-                                            <?php }?>
                                         </div>
                                     </div>
 
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Final Phase</label>
-                                            <?php if(!isset($assign_employee) && $idupd<=0){ ?>
+                                            <label for="final_phase">Final Phase</label>
                                                 <select tabindex="2" type="text" class="form-control" id="final_phase" name="final_phase" >
                                                     <option value="">Assign Employee</option> 
-                                                </select>  
-                                            <?php } else { ?>
-                                                <select tabindex="1" type="text" class="form-control" id="final_phase" name="final_phase" >
-                                                    <option value="">Assign Employee</option>   
-                                                    <?php if (sizeof($finalPhaseName)>0) { 
-                                                    for($i=0;$i<count($finalPhaseName);$i++) { ?>
-                                                    <option <?php if(isset($final_phase)) { if($finalPhaseName[$i]['staff_id'] == $final_phase)  echo 'selected'; }  ?> value="<?php echo $finalPhaseName[$i]['staff_id']; ?>">
-                                                    <?php echo $finalPhaseName[$i]['reporting'];?></option>
-                                                    <?php }} ?> 
-                                            </select>
-                                            <?php }?>
+                                                </select>
                                         </div>
                                     </div>
                                 </div>

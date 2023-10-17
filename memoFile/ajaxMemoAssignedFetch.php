@@ -160,9 +160,9 @@ foreach ($result as $row) {
      $sub_array[] = $staffName;
      $sub_array[] = $priority_name;
      $sub_array[] = $row['inquiry']; 
-     $sub_array[] = $row['suggestion'];  
-     $sub_array[] = $row['attachment'];  
-     $sub_array[] = $row['completion_target_date'];  
+     $sub_array[] = $row['suggestion']; 
+     $sub_array[] = "<a href='uploads/memo/".$row['attachment']."' download='".$row['attachment']."' title='Download File'>".$row['attachment']."</a>";
+     $sub_array[] = ($row['completion_target_date'] != '') ? date('d-m-Y',strtotime($row['completion_target_date'])) : '' ;  
      $sub_array[] = $initialPhase;
      $sub_array[] = $finalPhase; 
     

@@ -171,24 +171,10 @@
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mt-3">
                               <div class="form-group">
                                  <select type="text" tabindex="2" name="prev" id="prev" class="form-control" >
-                                    <?php if ($audit_area_id <>'') {  ?>
-                                    <?php if(isset($audit_area_id)) echo $audit_area_id;
-                                       for($j=0;$j<count($audit_area_list);$j++) {
-                                           $areaid = $audit_area_list[$j]['audit_area_id'];
-                                           $areaname = $audit_area_list[$j]['audit_area'];
-                                           if($audit_area_id == $areaid){
-                                       
-                                        ?>
-                                    <option value="<?php echo $areaid; ?>"><?php echo  $areaname;?>
-                                       <?php for($j=0;$j<count($audit_area_list);$j++) { 
-                                          $areaid = $audit_area_list[$j]['audit_area_id'];
-                                          if($areaid != $audit_area_id){ ?>
-                                    <option value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>"><?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                    <?php } }}}}else{ ?> 
                                     <option value="0">Select Checklist</option>
                                     <?php for($j=0;$j<count($audit_area_list);$j++) { ?>
-                                    <option value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>"><?php echo $audit_area_list[$j]['audit_area'];?></option>
-                                    <?php }} ?>
+                                    <option value="<?php echo $audit_area_list[$j]['audit_area_id']; ?>" <?php if(isset($audit_area_id) && $audit_area_id == $audit_area_list[$j]['audit_area_id']) echo 'selected'; ?> > <?php echo $audit_area_list[$j]['audit_area'];?> </option>
+                                    <?php } ?>
                                  </select>
                               </div>
                            </div>
@@ -275,6 +261,7 @@
                                        </td>
                                        <td>
                                           <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'> <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
+                                          <a href="uploads/audit_assign/<?php if(isset($attachment[$g])) echo $attachment[$g]; ?>" download="<?php if(isset($attachment[$g])) echo $attachment[$g]; ?>" title='Download File'>Click here to download  <?php if(isset($attachment[$g])) echo $attachment[$g]; ?></a>
                                        </td>
                                        <?php }else if($audit == 1){?>
                                        <td>     
@@ -290,6 +277,7 @@
                                        </td>
                                        <td>
                                           <input type='file' tabindex='7' class='form-control' id='att_file' name='file[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'> <input type='text' tabindex='7' style ="display:none;" class='form-control' id='att_filec' name='file1[]' style='padding: 3px;' value ='<?php echo  $attachment[$g]; ?>'>
+                                          <a href="uploads/audit_assign/<?php if(isset($attachment[$g])) echo $attachment[$g]; ?>" download="<?php if(isset($attachment[$g])) echo $attachment[$g]; ?>" title='Download File'>Click here to download  <?php if(isset($attachment[$g])) echo $attachment[$g]; ?></a>
                                        </td>
                                        <?php }  ?>
                                        <!-- <td>

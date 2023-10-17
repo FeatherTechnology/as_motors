@@ -20,8 +20,11 @@ $(document).ready(function(){
                         $("#res_staff_name").empty();
                         $("#res_staff_name").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
                         var r = 0;
+                        var staffid = $('#staff_name').val();
                         for (r = 0; r < response.staff_id.length; r++) { 
-                            $('#res_staff_name').append("<option value='" + response['staff_id'][r] + "'>" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
+                            if(staffid != response['staff_id'][r]){
+                                $('#res_staff_name').append("<option value='" + response['staff_id'][r] + "'>" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
+                            }
                         }
     
                     }

@@ -80,6 +80,11 @@ $minutes_of_meeting    = '';
 $report_module    = '';
 $reports             = '';
 $daily_performance_report             = '';
+$vehicle_management_report_module             = '';
+$vehicle_report             = '';
+$daily_km_report             = '';
+$diesel_slip_report             = '';
+$memo_report             = '';
 
 if(isset($_POST['submitusers']))
 {
@@ -199,6 +204,11 @@ if($idupd>0)
             $report_module      = $getuser['report_module'];
             $reports      = $getuser['reports'];
             $daily_performance_report      = $getuser['daily_performance_report'];
+            $vehicle_management_report_module      = $getuser['vehicle_management_report_module'];
+            $vehicle_report      = $getuser['vehicle_report'];
+            $daily_km_report      = $getuser['daily_km_report'];
+            $diesel_slip_report      = $getuser['diesel_slip_report'];
+            $memo_report      = $getuser['memo_report'];
 		}
 	}
 } 
@@ -770,6 +780,33 @@ if($idupd>0)
                                 <label class="custom-control-label" for="daily_performance_report">Daily Performance Report</label>
                             </div>
                         </div>
+
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($vehicle_management_report_module==0){echo'checked';}} ?> tabindex="15" class="custom-control-input vehicle-report-checkbox" id="venhicle_management_sub_module" name="venhicle_management_sub_module" disabled>
+                                <label class="custom-control-label" for="venhicle_management_sub_module"><h6>Vehicle Management Report<h6></label>
+                            </div> <br>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($vehicle_report==0){echo'checked';}} ?> tabindex="14"class="custom-control-input vehicle-sub-checkbox" id="vehicle_report" name="vehicle_report" disabled>
+                                <label class="custom-control-label" for="vehicle_report">Vehicle Report</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($daily_km_report==0){echo'checked';}} ?> tabindex="14"class="custom-control-input vehicle-sub-checkbox" id="daily_km_report" name="daily_km_report" disabled>
+                                <label class="custom-control-label" for="daily_km_report">Daily KM Report</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($diesel_slip_report==0){echo'checked';}} ?> tabindex="14"class="custom-control-input vehicle-sub-checkbox" id="diesel_slip_report" name="diesel_slip_report" disabled>
+                                <label class="custom-control-label" for="diesel_slip_report">Diesel Slip Report</label>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($memo_report==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="memo_report" name="memo_report" disabled>
+                                <label class="custom-control-label" for="memo_report">Memo Report</label>
+                            </div>
+                        </div>
+                        
                     </div>
                     <!-- Report module end -->
                     <hr>

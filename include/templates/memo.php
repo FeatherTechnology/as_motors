@@ -171,6 +171,7 @@ if($idupd>0)
                                             <?php } else { ?>
                                                 <input type="file" tabindex="3" class="form-control" id="attachment" name="attachment" ></input>   
                                                 <input type="hidden" name="edit_attachment" id="edit_attachment" value="<?php echo $attachment; ?>" >
+                                                <a href="uploads/memo/<?php if(isset($attachment)) echo $attachment; ?>" download="<?php if(isset($attachment)) echo $attachment; ?>" title='Download File'>Click here to download  <?php if(isset($attachment)) echo $attachment; ?></a>
                                             <?php } ?>
                                         </div>
                                     </div>

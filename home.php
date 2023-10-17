@@ -612,6 +612,22 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'daily_performance_report') { ?>
 			<?php include "include/templates/daily_performance_report.php" ?>
 			<?php } ?>
+			
+			<!-- Vehicle Management Report -->
+			<?php if($current_page == 'vehicle_report') { ?>
+			<?php include "include/templates/vehicle_report.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'daily_km_report') { ?>
+			<?php include "include/templates/daily_km_report.php" ?>
+			<?php } ?>
+
+			<?php if($current_page == 'diesel_slip_report') { ?>
+			<?php include "include/templates/diesel_slip_report.php" ?>
+			<?php } ?>
+			<?php if($current_page == 'memo_report') { ?>
+			<?php include "include/templates/memo_report.php" ?>
+			<?php } ?>
 		</div>
 		<!-- Page content end -->
 
