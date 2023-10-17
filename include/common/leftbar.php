@@ -744,7 +744,7 @@ if (sizeof($getuser)>0) {
 								<?php } ?>	
 								<?php if($memo_report == 0 && $memo_report != '' && $memo_report != NULL){ ?>				
 									<li>									
-										<a href="memo_report"><i class="icon-area-graph"></i>Memo Report</a>
+										<a href="memo_report"><i class="icon-assignment"></i>Memo Report</a>
 									</li>
 								<?php } ?>
 							</ul>
