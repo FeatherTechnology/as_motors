@@ -72,6 +72,7 @@
 	<!-- Row end -->
 </div>
 <!-- Main container end -->
+<div id="printgatepass" style="display: none"></div>
 
 <script>
 	setTimeout(function() {

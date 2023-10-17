@@ -2745,6 +2745,10 @@ if($current_page == 'permission_or_on_duty') { ?>
 	<script src="js/permission_or_on_duty.js"></script>
 	<?php }
 
+if($current_page == 'edit_permission_or_on_duty') { ?>
+	<script src="js/edit_permission_or_on_duty.js"></script>
+	<?php }
+
 if($current_page == 'permission_approval') { ?>
 	<script src="js/permission_approval.js"></script>
 	<?php }
