@@ -86,30 +86,23 @@ $(document).ready(function () {
     // insert Data into Module Table
     function insertData(date_of_audit){
         $('#moduleTable').find('tbody').empty();
-                    $.ajax({
-                        url: 'getPrevChecklist.php',
-                        data: {'prev_checklist': date_of_audit },
-                        cache: false,
-                        type:'post',
-                        dataType: 'json',
-                        success: function(data){
-                        //   $('#moduleTable').find('tbody').empty();
-                            for(var a=0; a<=data.length-1; a++){
-                                markup1 = "<td><input type='text' tabindex='4' class='form-control' value="+ data[a]['major_area'] + " id='major' name='major[]' placeholder='Enter Area'></input></td>";
-                                // markup2= "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['sub_area'] + " id='sub' name='sub[]'></input></td>";
-                                markup3 = "<td><input type='text' tabindex='5' class='form-control'  value="+ data[a]['assertion'] + " id='assertion' name='assertion[]' placeholder='Enter Assertion'></input></td>";
-                                // markup4 = "<td><input type='text' tabindex='3' class='form-control'  value="+ data[a]['weightage'] + " id='weightage' name='weightage[]'></input></td>";
-                                var dataAppend = "<tr>"+ markup1 + markup3 +
-                                "<td> <select type='text' tabindex='6' name='prevstatus[]'  id='prevstatus' class='form-control prevstatus'><option value=''>Select Status</option><option value='1'>Yes</option><option value='0'>No</option></select></td>"+
-                                "<td><textarea  id='aremarks'  class='form-control' rows='1' name='aremarks[]'  cols='35' placeholder='Enter Audit Remarks'></textarea></td>"+
-                                "<td><input tabindex='7' type='text' class='form-control' id='rcmd' name='rcmd[]' placeholder='Enter Recommendation' ></td>"+
-                                "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td> </tr>";
-                                $('#moduleTable').find('tbody').append(dataAppend);
-                                sts();
-                            }
-                              // $('#delete_row:last').filter(':last').attr('id', '');
-                        }
-                      });
+            $.ajax({
+                url: 'getPrevChecklist.php',
+                data: {'prev_checklist': date_of_audit },
+                cache: false,
+                type:'post',
+                dataType: 'json',
+                success: function(data){
+                //   $('#moduleTable').find('tbody').empty();
+                    for(var a=0; a<=data.length-1; a++){
+                        $('#moduleTable').find('tbody').append("<tr><td><input type='text' tabindex='4' class='form-control' value='"+ data[a]['major_area'] + "' id='major' name='major[]' placeholder='Enter Area'></td> <td><input type='text' tabindex='5' class='form-control'  value='"+ data[a]['assertion'] + "' id='assertion' name='assertion[]' placeholder='Enter Assertion'></td><td> <select type='text' tabindex='6' name='prevstatus[]'  id='prevstatus' class='form-control prevstatus'><option value=''>Select Status</option><option value='1'>Yes</option><option value='0'>No</option></select></td>"+
+                        "<td><textarea  id='aremarks'  class='form-control' rows='1' name='aremarks[]'  cols='35' placeholder='Enter Audit Remarks'></textarea></td>"+
+                        "<td><input tabindex='7' type='text' class='form-control' id='rcmd' name='rcmd[]' placeholder='Enter Recommendation' ></td>"+
+                        "<td><input type='file' style='padding: 3px;' tabindex='8' class='form-control' id='att_file' name='file[]'></td> </tr>");
+                        sts();
+                    }
+                }
+            });
     }
     // "<td> <input tabindex='7' type='text' class='form-control' id='Astatus' name='Astatus[]'></td>"+"<td><input tabindex='9' type='text' class='form-control' id='rcmd' name='rcmd[]' ></td>"+"<td><input tabindex='10' type='text' class='form-control' id='assertion' name='assertion[]' ></td>"+"<td><input tabindex='11' type='text' class='form-control' id='aremarks' name='aremarks[]' ></td>"+"<td> <button type='button' tabindex='3' id='add_row' name='add_row' value='Submit' class='btn btn-primary add_row'>Add</button></td>" + "<td> <span class='icon-trash-2' tabindex='' id='delete_row'></span></td></tr>"
     // //Validations

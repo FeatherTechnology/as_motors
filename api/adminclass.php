@@ -5316,10 +5316,12 @@
 			'".strip_tags($company_id)."', '".strip_tags($branch_from)."','".strip_tags($company_to)."', '".strip_tags($branch_to)."', '".strip_tags($from_comm_line1)."', '".strip_tags($from_comm_line2)."', 
 			'".strip_tags($to_comm_line1)."','".strip_tags($to_comm_line2)."','".strip_tags($rgp_staff)."','".strip_tags($asset_name)."','".strip_tags($asset_value)."', '".strip_tags($reason_rgp)."',current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+			$lastId = $mysqli->insert_id;
 			
 			$insertAsset = "UPDATE asset_register set rgp_status ='inward' where asset_id = '" . strip_tags($asset_name) . "' ";
 			$insassetresult=$mysqli->query($insertAsset) or die("Error ".$mysqli->error);
 			
+			return $lastId;
 		}
 		//Update RGP
 		public function updateRGP($mysqli,$id){
@@ -5621,11 +5623,11 @@
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
-			if(isset($_POST['department'])){
-				$department_id = $_POST['department'];
+			if(isset($_POST['mySelectedDeptName'])){
+				$department_id = $_POST['mySelectedDeptName'];
 			}
-			if(isset($_POST['staff_name'])){
-				$staff_name = $_POST['staff_name'];
+			if(isset($_POST['mySelectedStaffName'])){
+				$staff_name = $_POST['mySelectedStaffName'];
 			}
 			if(isset($_POST['staff_code'])){
 				$staff_code = $_POST['staff_code'];
@@ -5672,11 +5674,11 @@
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
-			if(isset($_POST['department'])){
-				$department_id = $_POST['department'];
+			if(isset($_POST['mySelectedDeptName'])){
+				$department_id = $_POST['mySelectedDeptName'];
 			}
-			if(isset($_POST['staff_name'])){
-				$staff_name = $_POST['staff_name'];
+			if(isset($_POST['mySelectedStaffName'])){
+				$staff_name = $_POST['mySelectedStaffName'];
 			}
 			if(isset($_POST['staff_code'])){
 				$staff_code = $_POST['staff_code'];
@@ -8997,14 +8999,14 @@
 		if(isset($_POST['company_name'])){
 			$company_id = $_POST['company_name'];
 		}
-		if(isset($_POST['department'])){
-			$department_id = $_POST['department'];
+		if(isset($_POST['mySelectedDeptName'])){
+			$department_id = $_POST['mySelectedDeptName'];
 		}
-		if(isset($_POST['designation'])){
-			$designation_id = $_POST['designation'];
+		if(isset($_POST['mySelectedDesgnName'])){
+			$designation_id = $_POST['mySelectedDesgnName'];
 		}
-		if(isset($_POST['staff_id'])){
-			$emp_id = $_POST['staff_id'];
+		if(isset($_POST['mySelectedStaffName'])){
+			$emp_id = $_POST['mySelectedStaffName'];
 		}
 		// if(isset($_POST['goal_year'])){
 		// 	$year_id = $_POST['goal_year'];
@@ -9150,14 +9152,14 @@
 		if(isset($_POST['company_name'])){
 			$company_id = $_POST['company_name'];
 		}
-		if(isset($_POST['department'])){
-			$department_id = $_POST['department'];
+		if(isset($_POST['mySelectedDeptName'])){
+			$department_id = $_POST['mySelectedDeptName'];
 		}
-		if(isset($_POST['designation'])){
-			$designation_id = $_POST['designation'];
+		if(isset($_POST['mySelectedDesgnName'])){
+			$designation_id = $_POST['mySelectedDesgnName'];
 		}
-		if(isset($_POST['staff_id'])){
-			$emp_id = $_POST['staff_id'];
+		if(isset($_POST['mySelectedStaffName'])){
+			$emp_id = $_POST['mySelectedStaffName'];
 		}
 		// if(isset($_POST['goal_year'])){
 		// 	$year_id = $_POST['goal_year'];
@@ -9885,10 +9887,40 @@
 			}else{
 				$daily_performance_report=1;
 			}
+			if(isset($_POST['venhicle_management_sub_module']) &&    $_POST['venhicle_management_sub_module'] == 'Yes')		
+			{
+				$venhicle_management_sub_module=0;
+			}else{
+				$venhicle_management_sub_module=1;
+			}
+			if(isset($_POST['vehicle_report']) &&    $_POST['vehicle_report'] == 'Yes')		
+			{
+				$vehicle_report=0;
+			}else{
+				$vehicle_report=1;
+			}
+			if(isset($_POST['daily_km_report']) &&    $_POST['daily_km_report'] == 'Yes')		
+			{
+				$daily_km_report=0;
+			}else{
+				$daily_km_report=1;
+			}
+			if(isset($_POST['diesel_slip_report']) &&    $_POST['diesel_slip_report'] == 'Yes')		
+			{
+				$diesel_slip_report=0;
+			}else{
+				$diesel_slip_report=1;
+			}
+			if(isset($_POST['memo_report']) &&    $_POST['memo_report'] == 'Yes')		
+			{
+				$memo_report=0;
+			}else{
+				$memo_report=1;
+			}
 		
 			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
-			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report)"; // echo $userInsert; die;
+			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report, vehicle_management_report_module, vehicle_report, daily_km_report, diesel_slip_report, memo_report) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report, $venhicle_management_sub_module, $vehicle_report, $daily_km_report, $diesel_slip_report, $memo_report )"; // echo $userInsert; die;
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
 			
 		}
@@ -9991,6 +10023,11 @@
 				$detailrecords['report_module']      = strip_tags($row->report_module);
 				$detailrecords['reports']      = strip_tags($row->reports);
 				$detailrecords['daily_performance_report']      = strip_tags($row->daily_performance_report);
+				$detailrecords['vehicle_management_report_module']      = strip_tags($row->vehicle_management_report_module);
+				$detailrecords['vehicle_report']      = strip_tags($row->vehicle_report);
+				$detailrecords['daily_km_report']      = strip_tags($row->daily_km_report);
+				$detailrecords['diesel_slip_report']      = strip_tags($row->diesel_slip_report);
+				$detailrecords['memo_report']      = strip_tags($row->memo_report);
 		
 			}
 			return $detailrecords;
@@ -10427,6 +10464,36 @@
 		}else{
 			$daily_performance_report=1;
 		}
+		if(isset($_POST['venhicle_management_sub_module']) &&    $_POST['venhicle_management_sub_module'] == 'Yes')		
+		{
+			$venhicle_management_sub_module=0;
+		}else{
+			$venhicle_management_sub_module=1;
+		}
+		if(isset($_POST['vehicle_report']) &&    $_POST['vehicle_report'] == 'Yes')		
+		{
+			$vehicle_report=0;
+		}else{
+			$vehicle_report=1;
+		}
+		if(isset($_POST['daily_km_report']) &&    $_POST['daily_km_report'] == 'Yes')		
+		{
+			$daily_km_report=0;
+		}else{
+			$daily_km_report=1;
+		}
+		if(isset($_POST['diesel_slip_report']) &&    $_POST['diesel_slip_report'] == 'Yes')		
+		{
+			$diesel_slip_report=0;
+		}else{
+			$diesel_slip_report=1;
+		}
+		if(isset($_POST['memo_report']) &&    $_POST['memo_report'] == 'Yes')		
+		{
+			$memo_report=0;
+		}else{
+			$memo_report=1;
+		}
 	
 		$userupdate="UPDATE user SET 
 		fullname='".strip_tags($fullname)."', 
@@ -10503,6 +10570,11 @@
 		report_module      = $report_module,
 		reports      = $reports,
 		daily_performance_report      = $daily_performance_report,
+		vehicle_management_report_module      = $venhicle_management_sub_module,
+		vehicle_report      = $vehicle_report,
+		daily_km_report      = $daily_km_report,
+		diesel_slip_report      = $diesel_slip_report,
+		memo_report      = $memo_report,
 		status=0 where user_id = '".$id."' ";
 		
 		$update=$mysqli->query($userupdate) or die("Error ".$mysqli->error);

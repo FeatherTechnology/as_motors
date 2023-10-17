@@ -1,4 +1,5 @@
 <?php
+//Also Using in 'vehicle_report.js'.
 include '../ajaxconfig.php';
 
 $branch_names = array();

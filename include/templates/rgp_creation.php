@@ -20,13 +20,13 @@ $idupd=0;
 
         $updateAuditAreaCreationmaster = $userObj->updateRGP($mysqli,$id);  
     ?>
-   <script>location.href='<?php echo $HOSTPATH; ?>edit_rgp_creation&msc=2';</script> 
+   <script>location.href='<?php echo $HOSTPATH; ?>edit_rgp_creation&msc=2&id=<?php echo $id; ?>';</script> 
     <?php	}
     else{   
         
         $addAuditAreaCreation = $userObj->addRGP($mysqli);   
         ?>
-     <script>location.href='<?php echo $HOSTPATH; ?>edit_rgp_creation&msc=1';</script>
+     <script>location.href='<?php echo $HOSTPATH; ?>edit_rgp_creation&msc=1&id=<?php echo $addAuditAreaCreation; ?>';</script>
         <?php
     }
  }   

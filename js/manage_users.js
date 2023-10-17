@@ -160,6 +160,29 @@ $(document).ready(function(){
         var isChecked = $(this).is(":checked");
         $(".report-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
     });
+    // Vehicle Report module enable disable
+    var reportVehicleCheckbox = document.getElementById("report_module");
+    reportVehicleCheckbox.addEventListener("change", function() {
+        var disabledCheckboxes = document.getElementsByClassName("vehicle-report-checkbox");
+        var disabledCheckboxes1 = document.getElementsByClassName("vehicle-sub-checkbox");
+        for (var i = 0; i < disabledCheckboxes.length; i++) {
+            disabledCheckboxes[i].disabled = !reportVehicleCheckbox.checked;
+            if (!reportVehicleCheckbox.checked) {
+                disabledCheckboxes[i].checked = false;
+            }
+        }
+        for (var i = 0; i < disabledCheckboxes1.length; i++) {
+            disabledCheckboxes1[i].disabled = !reportVehicleCheckbox.checked;
+            if (!reportVehicleCheckbox.checked) {
+                disabledCheckboxes1[i].checked = false;
+            }
+        }
+    });
+    //Vehicle Management Report enable Disable
+    $("#venhicle_management_sub_module").on("change", function() {
+        var isChecked = $(this).is(":checked");
+        $(".vehicle-sub-checkbox").prop("disabled", !isChecked).prop("checked", isChecked);
+    });
 
     // employee name
     $('#staff_name').change(function () {	
@@ -332,6 +355,7 @@ $(function(){
         var vehicleManagementModule = document.getElementById('vehicle_management_module');
         var approvalMechanismModule = document.getElementById('approval_mechanism_module');
         var reportmodule = document.getElementById('report_module');
+        var venhicle_management_sub_module = document.getElementById('venhicle_management_sub_module');
 
         if(adminmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.admin-checkbox"); checkbox(checkboxesToEnable,adminmodule);}
         if(mastermodule.checked){const checkboxesToEnable = document.querySelectorAll("input.master-checkbox"); checkbox(checkboxesToEnable,mastermodule);}
@@ -348,6 +372,8 @@ $(function(){
         if(vehicleManagementModule.checked){const checkboxesToEnable = document.querySelectorAll("input.vehicle-checkbox");checkbox(checkboxesToEnable,vehicleManagementModule);}
         if(approvalMechanismModule.checked){const checkboxesToEnable = document.querySelectorAll("input.approvalmechanism-checkbox");checkbox(checkboxesToEnable,approvalMechanismModule);}
         if(reportmodule.checked){const checkboxesToEnable = document.querySelectorAll("input.report-checkbox");checkbox(checkboxesToEnable,reportmodule);}
+        if(venhicle_management_sub_module.checked){const checkboxToEnable = document.querySelectorAll("input.vehicle-report-checkbox");checkbox(checkboxToEnable,venhicle_management_sub_module);
+        const checkboxesToEnable = document.querySelectorAll("input.vehicle-sub-checkbox");checkbox(checkboxesToEnable,venhicle_management_sub_module);}
     }
 });
 

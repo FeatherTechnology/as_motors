@@ -78,6 +78,11 @@ $minutes_of_meeting    = '';
 $report_module             = '';
 $reports             = '';
 $daily_performance_report             = '';
+$vehicle_management_report_module             = '';
+$vehicle_report             = '';
+$daily_km_report             = '';
+$diesel_slip_report             = '';
+$memo_report             = '';
 
 $getuser = $userObj->getmanageuser($mysqli,$userid); 
 if (sizeof($getuser)>0) {
@@ -159,6 +164,11 @@ if (sizeof($getuser)>0) {
 		$report_module      = $getuser['report_module']; 
 		$reports      = $getuser['reports']; 
 		$daily_performance_report      = $getuser['daily_performance_report']; 
+		$vehicle_management_report_module      = $getuser['vehicle_management_report_module'];
+		$vehicle_report      = $getuser['vehicle_report'];
+		$daily_km_report      = $getuser['daily_km_report'];
+		$diesel_slip_report      = $getuser['diesel_slip_report'];
+		$memo_report      = $getuser['memo_report'];
 	}
 }
 
@@ -705,10 +715,43 @@ if (sizeof($getuser)>0) {
 										<a href="daily_performance_report"><i class="icon-area-graph"></i>Daily Performance Report</a>
 									</li>
 								<?php } ?>
+								<?php if($vehicle_management_report_module == 0 && $vehicle_management_report_module != '' && $vehicle_management_report_module != NULL) { ?>
+									<li class="sidebar-dropdown1">
+										<a href="javascript:void(0)">
+											<i class="icon-directions_bus"></i>
+											<span class="menu-text" >Vehicle Management Report</span>
+										</a>
+										<div class="sidebar-submenu1">
+											<ul>
+												<?php if($vehicle_report == 0 && $vehicle_report != '' && $vehicle_report != NULL) { ?>
+													<li>
+														<a href="vehicle_report"><i class="icon-playlist_add"></i>Vehicle Report</a>
+													</li>
+												<?php } ?>
+												<?php if($daily_km_report == 0 && $daily_km_report != '' && $daily_km_report != NULL) { ?>
+													<li>
+														<a href="daily_km_report"><i class="icon-cached"></i>Daily KM Report</a>
+													</li>
+												<?php } ?>	
+												<?php if($diesel_slip_report == 0 && $diesel_slip_report != '' && $diesel_slip_report != NULL) { ?>
+													<li>
+														<a href="diesel_slip_report"><i class="icon-event_note"></i>Diesel Slip Report</a>
+													</li>
+												<?php } ?>	
+											</ul>
+										</div>	
+									</li>
+								<?php } ?>	
+								<?php if($memo_report == 0 && $memo_report != '' && $memo_report != NULL){ ?>				
+									<li>									
+										<a href="memo_report"><i class="icon-area-graph"></i>Memo Report</a>
+									</li>
+								<?php } ?>
 							</ul>
 						</div>
 					</li>
 				<?php } ?>
+				<!-- Report Module END-->
 
 			</ul>
 			<!-- sidebar menu end -->

@@ -108,72 +108,72 @@ foreach ($result as $row) {
             $company_name = $row52['company_name'];
         }
     }
- 
+
      //get from department name
-     $fromDepartmentName=''; 
-     $getqry2 = "SELECT * FROM department_creation WHERE department_id ='".strip_tags($row['from_department'])."' and status = 0";
-     $res2 = $con->query($getqry2);
-     while($row2 = $res2->fetch_assoc())
-     {
-         $fromDepartmentName = $row2["department_name"];          
-     }
+    $fromDepartmentName=''; 
+    $getqry2 = "SELECT * FROM department_creation WHERE department_id ='".strip_tags($row['from_department'])."' and status = 0";
+    $res2 = $con->query($getqry2);
+    while($row2 = $res2->fetch_assoc())
+    {
+        $fromDepartmentName = $row2["department_name"];          
+    }
 
-     //get to department name
-     $toDepartmentName=''; 
-     $getqry3 = "SELECT * FROM department_creation WHERE department_id ='".strip_tags($row['to_department'])."' and status = 0";
-     $res3 = $con->query($getqry3);
-     while($row3 = $res3->fetch_assoc())
-     {
-         $toDepartmentName = $row3["department_name"];          
-     }
+    //get to department name
+    $toDepartmentName=''; 
+    $getqry3 = "SELECT * FROM department_creation WHERE department_id ='".strip_tags($row['to_department'])."' and status = 0";
+    $res3 = $con->query($getqry3);
+    while($row3 = $res3->fetch_assoc())
+    {
+        $toDepartmentName = $row3["department_name"];          
+    }
 
-     //get staff name
-     $staffName='';  
-     $getqry4 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['assign_employee'])."' and status = 0";
-     $res4 = $con->query($getqry4);
-     while($row4 = $res4->fetch_assoc())
-     {
-         $staffName = $row4["staff_name"];        
-     }
+    //get staff name
+    $staffName='';  
+    $getqry4 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['assign_employee'])."' and status = 0";
+    $res4 = $con->query($getqry4);
+    while($row4 = $res4->fetch_assoc())
+    {
+        $staffName = $row4["staff_name"];        
+    }
 
-     //get initial phase
-     $initialPhase='';  
-     $getqry5 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['initial_phase'])."' and status = 0";
-     $res5 = $con->query($getqry5);
-     while($row5 = $res5->fetch_assoc())
-     {
-         $initialPhase = $row5["staff_name"];        
-     }
+    //get initial phase
+    $initialPhase='';  
+    $getqry5 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['initial_phase'])."' and status = 0";
+    $res5 = $con->query($getqry5);
+    while($row5 = $res5->fetch_assoc())
+    {
+        $initialPhase = $row5["staff_name"];        
+    }
 
      //get final phase
-     $finalPhase='';  
-     $getqry6 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['final_phase'])."' and status = 0";
-     $res6 = $con->query($getqry6);
-     while($row3 = $res6->fetch_assoc())
-     {
-         $finalPhase = $row3["staff_name"];        
-     }
+    $finalPhase='';  
+    $getqry6 = "SELECT * FROM staff_creation WHERE staff_id ='".strip_tags($row['final_phase'])."' and status = 0";
+    $res6 = $con->query($getqry6);
+    while($row3 = $res6->fetch_assoc())
+    {
+        $finalPhase = $row3["staff_name"];        
+    }
 
      // priority
-     $priority_name='';
-     $priority_id = $row['priority'];
-     if($priority_id == "1"){$priority_name = "High";}
-     if($priority_id == "2"){$priority_name = "Medium";}
-     if($priority_id == "3"){$priority_name = "Low";}
+    $priority_name='';
+    $priority_id = $row['priority'];
+    if($priority_id == "1"){$priority_name = "High";}
+    if($priority_id == "2"){$priority_name = "Medium";}
+    if($priority_id == "3"){$priority_name = "Low";}
 
-     $sub_array[] = $company_name;
-     $sub_array[] = $toDepartmentName;
-     $sub_array[] = $staffName;
-     $sub_array[] = $priority_name;
-     $sub_array[] = $row['inquiry']; 
-     $sub_array[] = $row['suggestion'];  
-     $sub_array[] = $row['attachment'];  
-     $sub_array[] = $row['completion_target_date'];  
-     $sub_array[] = $initialPhase;
-     $sub_array[] = $finalPhase; 
-     $sub_array[] = $row['date_of_completion'];  
-     $sub_array[] = $row['update_attachment'];  
-     $sub_array[] = $row['narration'];  
+    $sub_array[] = $company_name;
+    $sub_array[] = $toDepartmentName;
+    $sub_array[] = $staffName;
+    $sub_array[] = $priority_name;
+    $sub_array[] = $row['inquiry']; 
+    $sub_array[] = $row['suggestion']; 
+    $sub_array[] = "<a href='uploads/memo/".$row['attachment']."' download='".$row['attachment']."' title='Download File'>".$row['attachment']."</a>";  
+    $sub_array[] = $row['completion_target_date'];  
+    $sub_array[] = $initialPhase;
+    $sub_array[] = $finalPhase; 
+    $sub_array[] = $row['date_of_completion'];
+    $sub_array[] = "<a href='uploads/memo_update/".$row['update_attachment']."' download='".$row['update_attachment']."' title='Download File'>".$row['update_attachment']."</a>";  
+    $sub_array[] = $row['narration'];  
     
     $status      = $row['status'];
     if($status == 1)

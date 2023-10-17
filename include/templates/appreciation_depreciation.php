@@ -1,10 +1,24 @@
 <?php 
+include('ajaxconfig.php');
 @session_start();
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 } 
+if(isset($_SESSION["role"])){
+    $user_role = $_SESSION["role"];
+} 
+if(isset($_SESSION["designation_id"])){
+    $user_designation_id = $_SESSION["designation_id"];
+} 
 if(isset($_SESSION["staffid"])){
     $staffid = $_SESSION["staffid"];
+
+    $user_dept_id = '';
+    $staffDetails = $con->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    if(mysqli_num_rows($staffDetails)>0){
+        $staffinfo = $staffDetails->fetch_assoc();
+        $user_dept_id = $staffinfo['department'];
+    }
 } 
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
@@ -114,6 +128,7 @@ if($idupd>0)
                 for (r = 0; r <= response.department_id.length - 1; r++) { 
                     var selected = "";
                     if(department_upd == response['department_id'][r]){
+                        $('#mySelectedDeptName').val(response['department_id'][r]);
                     selected = "selected";
                     }
                     $('#department').append("<option value='" + response['department_id'][r] + "' "+selected+">" + response['department_name'][r] + "</option>");
@@ -144,6 +159,7 @@ if($idupd>0)
                     for (i = 0; i <= response.designation_id.length - 1; i++) { 
                         var selected = "";
                         if(designation_upd == response['designation_id'][i]){
+                            $('#mySelectedDesgnName').val(response['designation_id'][i]);
                             selected = "selected";
                         }
                         $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
@@ -174,6 +190,7 @@ if($idupd>0)
                     for (i = 0; i <= response.staff_id.length - 1; i++) { 
                         var selected = "";
                         if(emp_upd == response['staff_id'][i]){
+                            $('#mySelectedStaffName').val(response['staff_id'][i]);
                             selected = "selected";
                         }
                         $('#staff_id').append("<option value='" + response['staff_id'][i] + "' "+selected+" >" + response['staff_name'][i] + "</option>");
@@ -207,6 +224,10 @@ if($idupd>0)
         <input type="hidden" class="form-control" value="<?php if(isset($staffid)) echo $staffid; ?>"  id="staffid" name="staffid" >
         <input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" >
         <input type="hidden" class="form-control" value="<?php if(isset($appreciation_depreciation_id)) echo $appreciation_depreciation_id ?>"  id="appreciation_depreciation_id" name="appreciation_depreciation_id" >
+        <input type="hidden" value="<?php if(isset($user_dept_id)) echo $user_dept_id ?>" id="userDeptId" name="userDeptId">
+        <input type="hidden" value="<?php if(isset($user_role)) echo $user_role ?>" id="userRole" name="userRole">
+        <input type="hidden" value="<?php if(isset($user_designation_id)) echo $user_designation_id ?>" id="userDesignationId" name="userDesignationId">
+
  		<!-- Row start -->
          <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -242,6 +263,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Department</label>
+                                        <input type="hidden" id="mySelectedDeptName" name="mySelectedDeptName">
                                         <select tabindex="3" type="text" class="form-control" id="department" name="department" >
                                             <option value="">Select Department</option>   
                                         </select>
@@ -251,6 +273,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Designation</label>
+                                        <input type="hidden" id="mySelectedDesgnName" name="mySelectedDesgnName">
                                         <select tabindex="4" type="text" class="form-control" id="designation" name="designation" >
                                                 <option value="">Select Designation</option>   
                                         </select>
@@ -260,6 +283,7 @@ if($idupd>0)
                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label for="disabledInput">Staff Name</label>
+                                        <input type="hidden" id="mySelectedStaffName" name="mySelectedStaffName">
                                         <select tabindex="4" type="text" class="form-control" id="staff_id" name="staff_id" >
                                             <option value="">Select Staff</option>  
                                         </select>

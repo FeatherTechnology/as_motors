@@ -2866,6 +2866,22 @@ if($current_page == 'work_status_report') { ?>
 if($current_page == 'daily_performance_report') { ?>
 	<script src="js/daily_performance_report.js"></script>
     <?php }
+
+if($current_page == 'vehicle_report') { ?>
+	<script src="js/vehicle_report.js"></script>
+    <?php }
+
+if($current_page == 'daily_km_report') { ?>
+	<script src="js/daily_km_report.js"></script>
+    <?php }
+
+if($current_page == 'diesel_slip_report') { ?>
+	<script src="js/diesel_slip_report.js"></script>
+    <?php }
+
+if($current_page == 'memo_report') { ?>
+	<script src="js/memo_report.js"></script>
+    <?php }
     
 ?> 
 

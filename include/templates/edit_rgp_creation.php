@@ -22,6 +22,7 @@
 					if(isset($_GET['msc']))
 					{
 					$mscid=$_GET['msc'];
+					$tableid=$_GET['id'];
 					if($mscid==1)
 					{?>
 					<div class="alert alert-success" role="alert">
@@ -52,6 +53,7 @@
 					}
 					}
 					?>
+					<input type="hidden" name="table_id" id="table_id" value="<?php if(isset($tableid)) echo $tableid;?>">
 					<table id="rgp_table" class="table custom-table">
 						<thead>
 							<tr>
@@ -87,5 +89,23 @@
 <script>
 	setTimeout(function() {
 		$('.alert').fadeOut('slow');
+
+	// print functionality
+	var id = $('#table_id').val();
+	if(id != ''){
+		if(confirm('Do You want to Print RGP?')){
+		$.ajax({
+			url: 'RGP_ajax/print_rgp.php',
+			cache: false,
+			type: 'POST',
+			data: {'id':id},
+			success: function(html){
+				$("#printrgp").html(html);
+			}
+		});
+	}
+	}
+
 	}, 2000);
+
 </script>
