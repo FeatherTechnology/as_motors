@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2023 at 11:25 AM
+-- Generation Time: Oct 17, 2023 at 02:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -752,7 +752,7 @@ CREATE TABLE `daily_performance` (
   `department_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `emp_id` int(11) DEFAULT NULL,
-  `month` int(11) DEFAULT NULL,
+  `month` date DEFAULT NULL,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
   `delete_login_id` int(11) DEFAULT NULL,
@@ -774,11 +774,15 @@ CREATE TABLE `daily_performance_ref` (
   `target` varchar(100) DEFAULT NULL,
   `actual_achieve` varchar(50) DEFAULT NULL,
   `system_date` date DEFAULT NULL,
-  `old_target` varchar(200) DEFAULT NULL,
+  `staff_id` varchar(200) DEFAULT NULL,
   `goal_setting_id` int(11) DEFAULT NULL,
   `goal_setting_ref_id` int(11) DEFAULT NULL,
   `assertion_table_sno` varchar(50) DEFAULT NULL,
-  `status` varchar(100) DEFAULT NULL
+  `status` varchar(100) DEFAULT NULL,
+  `manager_comment` varchar(250) DEFAULT NULL,
+  `manager_updated_status` int(11) DEFAULT 0,
+  `manager_id` varchar(50) DEFAULT NULL,
+  `manager_updated_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -870,7 +874,7 @@ CREATE TABLE `goal_setting` (
   `branch_id` int(11) DEFAULT NULL,
   `department` varchar(255) DEFAULT NULL,
   `role` varchar(250) DEFAULT NULL,
-  `year` varchar(200) DEFAULT NULL,
+  `dept_strength` varchar(200) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
@@ -891,8 +895,10 @@ CREATE TABLE `goal_setting_ref` (
   `assertion_table_sno` varchar(50) DEFAULT NULL,
   `assertion` varchar(255) DEFAULT NULL,
   `target` varchar(255) DEFAULT NULL,
+  `per_day_target` varchar(150) DEFAULT NULL,
   `goal_month` varchar(50) DEFAULT NULL,
   `monthly_conversion_required` int(11) DEFAULT NULL,
+  `staffname` varchar(200) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
@@ -1467,6 +1473,20 @@ CREATE TABLE `pm_checklist_ref` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `policy_company_creation`
+--
+
+CREATE TABLE `policy_company_creation` (
+  `policy_company_id` int(11) NOT NULL,
+  `policy_company` varchar(150) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `project_creation`
 --
 
@@ -1895,6 +1915,7 @@ CREATE TABLE `user` (
   `goal_setting` varchar(11) DEFAULT NULL,
   `target_fixing` varchar(11) DEFAULT NULL,
   `daily_performance` varchar(11) DEFAULT NULL,
+  `daily_performance_review` int(11) NOT NULL DEFAULT 1,
   `appreciation_depreciation` varchar(11) DEFAULT NULL,
   `vehicle_management_module` varchar(11) DEFAULT NULL,
   `vehicle_details` varchar(11) DEFAULT NULL,
@@ -1905,15 +1926,21 @@ CREATE TABLE `user` (
   `business_communication_outgoing` varchar(11) DEFAULT NULL,
   `minutes_of_meeting` varchar(11) DEFAULT NULL,
   `report_module` int(11) DEFAULT 1,
-  `reports` int(11) DEFAULT 1
+  `reports` int(11) DEFAULT 1,
+  `daily_performance_report` int(11) NOT NULL DEFAULT 1,
+  `vehicle_management_report_module` int(11) NOT NULL DEFAULT 1,
+  `vehicle_report` int(11) NOT NULL DEFAULT 1,
+  `daily_km_report` int(11) NOT NULL DEFAULT 1,
+  `diesel_slip_report` int(11) NOT NULL DEFAULT 1,
+  `memo_report` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `designation_id`, `mobile_number`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `daily_task_update`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `regularisation_approval`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`, `report_module`, `reports`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', NULL, NULL, '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, 0);
+INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `designation_id`, `mobile_number`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `daily_task_update`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `regularisation_approval`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `daily_performance_review`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`, `report_module`, `reports`, `daily_performance_report`, `vehicle_management_report_module`, `vehicle_report`, `daily_km_report`, `diesel_slip_report`, `memo_report`) VALUES
+(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', NULL, NULL, '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2382,6 +2409,12 @@ ALTER TABLE `pm_checklist_multiple`
 --
 ALTER TABLE `pm_checklist_ref`
   ADD PRIMARY KEY (`pm_checklist_ref_id`);
+
+--
+-- Indexes for table `policy_company_creation`
+--
+ALTER TABLE `policy_company_creation`
+  ADD PRIMARY KEY (`policy_company_id`);
 
 --
 -- Indexes for table `project_creation`
@@ -2910,6 +2943,12 @@ ALTER TABLE `pm_checklist_ref`
   MODIFY `pm_checklist_ref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `policy_company_creation`
+--
+ALTER TABLE `policy_company_creation`
+  MODIFY `policy_company_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `project_creation`
 --
 ALTER TABLE `project_creation`
@@ -3009,7 +3048,7 @@ ALTER TABLE `transfer_location`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
