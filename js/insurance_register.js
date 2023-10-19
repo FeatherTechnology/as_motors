@@ -277,7 +277,7 @@ $(function(){
     DropDownDepartmentLoad();
 
     var company_id = $("#branch_id").val();
-    getDeptName(company_id);
+    // getDeptName(company_id);
 
     // super admin login
 
@@ -287,17 +287,18 @@ $(function(){
         var idupd = $("#branch_id :selected").val(); 
     }
 
+    $('#add_insuranceDetails').attr({"data-toggle":"modal" ,"data-target":".add_insuranceModal"})
     var upd_name = $("#branch_id :selected").text();
     if(idupd > 0 ){ 
         
         var department_upd = $('#dept_id_upd').val(); 
-        $('#add_insuranceDetails').attr({"data-toggle":"modal" ,"data-target":".add_insuranceModal"})
+        // $('#add_insuranceDetails').attr({"data-toggle":"modal" ,"data-target":".add_insuranceModal"})
         
         resetinsuranceTable(idupd);
         DropDownInsurance();
         DropDownDepartment(idupd,department_upd);
     }else{
-        $('#add_insuranceDetails').removeAttr({"data-toggle":"modal" ,"data-target":".add_insuranceModal"});
+        // $('#add_insuranceDetails').removeAttr({"data-toggle":"modal" ,"data-target":".add_insuranceModal"});
     }
 });
 
