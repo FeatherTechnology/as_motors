@@ -41,9 +41,10 @@ $sheet->setCellValue('F1', 'Asset Value');
 $sheet->setCellValue('G1', 'Date of put to use');
 $sheet->setCellValue('H1', 'Depreciation Date');
 $sheet->setCellValue('I1', 'Asset Location');
-$sheet->setCellValue('J1', 'Model no');
-$sheet->setCellValue('K1', 'Warranty Upto');
-$sheet->setCellValue('L1', 'Spares Name');
+$sheet->setCellValue('J1', 'Asset Count');
+$sheet->setCellValue('K1', 'Model no');
+$sheet->setCellValue('L1', 'Warranty Upto');
+$sheet->setCellValue('M1', 'Spares Name');
 
 
 //Asset ID
@@ -154,8 +155,8 @@ while ($sparerow = $spareresult->fetch_assoc()) {
     $spareData[] = $sparerow["spare_name"];
 }
 
-for($l=2; $l<1000; $l++){
-    $sparedropdown = $sheet->getCell('L'.$l)->getDataValidation();
+for($m=2; $m<1000; $m++){
+    $sparedropdown = $sheet->getCell('M'.$m)->getDataValidation();
     $sparedropdown->setType(DataValidation::TYPE_LIST);
     $sparedropdown->setErrorStyle(DataValidation::STYLE_INFORMATION);
     $sparedropdown->setAllowBlank(false);
@@ -163,9 +164,9 @@ for($l=2; $l<1000; $l++){
     $sparedropdown->setShowErrorMessage(true);
     $sparedropdown->setShowDropDown(true);
     $sparedropdown->setFormula1('"'.implode(',', $spareData).'"');
-    $sheet->getStyle('G'.$l)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
-    $sheet->getStyle('H'.$l)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
-    $sheet->getStyle('K'.$l)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
+    $sheet->getStyle('G'.$m)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
+    $sheet->getStyle('H'.$m)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
+    $sheet->getStyle('L'.$m)->getNumberFormat()->setFormatCode('yyyy-mm-dd');
 }
 
 

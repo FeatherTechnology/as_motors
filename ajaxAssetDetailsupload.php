@@ -126,30 +126,35 @@ if(isset($_FILES["file"]["type"])){
                     $asset_location = mysqli_real_escape_string($con,$Row[8]); 
                 }
 
-                $model_no = "";
+                $asset_count = "";
                 if(isset($Row[9])) {
-                    $model_no = mysqli_real_escape_string($con,$Row[9]); 
+                    $asset_count = mysqli_real_escape_string($con,$Row[9]); 
+                }
+
+                $model_no = "";
+                if(isset($Row[10])) {
+                    $model_no = mysqli_real_escape_string($con,$Row[10]); 
                 }
 
                 $warranty_upto = "";
-                if(isset($Row[10])) {
-                    $warranty_upto = mysqli_real_escape_string($con,$Row[10]); 
+                if(isset($Row[11])) {
+                    $warranty_upto = mysqli_real_escape_string($con,$Row[11]); 
                 }
 
                 $spare_name = "";
                 $spare_id = "";
-                if(isset($Row[11])) {
-                    $spare_name = mysqli_real_escape_string($con,$Row[11]); 
+                if(isset($Row[12])) {
+                    $spare_name = mysqli_real_escape_string($con,$Row[12]); 
                     $sparequery = "SELECT spare_id FROM spare_creation where spare_name = '".$spare_name."' and status = 0";
                     $spareinfo = $con->query($sparequery) or die("Error On spare_creation");
                     $sparerow = $spareinfo->fetch_assoc();
                     $spare_id = $sparerow["spare_id"];
                 }
                 
-                if($i==0 && $asset_auto_id != "" && $dou != "" && $depreciation !="" && $asset_location !="Asset Location" && $model_no !="" && $warranty_upto !='' && $spare_name !='')
+                if($i==0 && $asset_auto_id != "" && $dou != "" && $depreciation !="" && $asset_location !="Asset Location" && $asset_count != '' && $model_no !="" && $warranty_upto !='' && $spare_name !='')
                 {                 
-                    $query = "INSERT INTO asset_details(asset_register_id, company_id, branch_id, classification, asset_name, asset_value, dou, depreciation, asset_location, spare_names, created_id, created_date)
-                    VALUES('".strip_tags($asset_id)."', '".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class_id)."', '".strip_tags($asset_name_id)."', '".strip_tags($asset_value)."', '".strip_tags($dou)."', '".strip_tags($depreciation)."', '".strip_tags($asset_location)."', '".strip_tags($spare_id)."', '$userid', '$curdate' )";
+                    $query = "INSERT INTO asset_details(asset_register_id, company_id, branch_id, classification, asset_name, asset_value, dou, depreciation, asset_location, asset_count, spare_names, created_id, created_date)
+                    VALUES('".strip_tags($asset_id)."', '".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class_id)."', '".strip_tags($asset_name_id)."', '".strip_tags($asset_value)."', '".strip_tags($dou)."', '".strip_tags($depreciation)."', '".strip_tags($asset_location)."', '".strip_tags($asset_count)."', '".strip_tags($spare_id)."', '$userid', '$curdate' )";
                     
                     $result = $mysqli->query($query) or die("Error ");
                     $asset_details_id = $mysqli->insert_id;

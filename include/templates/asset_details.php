@@ -67,6 +67,7 @@ if($idupd>0)
 			$depreciation    	                = $getAssetDetails['depreciation'];
 			$as_on    	                = $getAssetDetails['as_on'];
 			$asset_location    	                = $getAssetDetails['asset_location'];
+			$asset_count    	                = $getAssetDetails['asset_count'];
 			$spare_names    	                = $getAssetDetails['spare_names'];
 	
 		}
@@ -266,6 +267,14 @@ if($idupd>0)
                                             <label for="asset_location">Asset Location</label>
                                             <input tabindex="7" type="text" class="form-control" id="asset_location" name="asset_location" 
                                             value="<?php if(isset($asset_location)) echo $asset_location; ?>"  placeholder = "Enter Asset Location"><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="asset_count">Asset Count</label>
+                                            <input tabindex="8" type="text" class="form-control" id="asset_count" name="asset_count" 
+                                            value="<?php if(isset($asset_count)) echo $asset_count; ?>"  placeholder = "Enter Asset Count"><br>
                                         </div>
                                     </div>
                                     
