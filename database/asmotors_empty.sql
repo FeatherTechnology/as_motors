@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2023 at 02:48 PM
+-- Generation Time: Oct 19, 2023 at 01:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -157,6 +157,7 @@ CREATE TABLE `approval_requisition_parallel_agree_disagree` (
 
 CREATE TABLE `asset_details` (
   `asset_details_id` int(11) NOT NULL,
+  `asset_register_id` int(11) DEFAULT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `branch_id` varchar(255) DEFAULT NULL,
   `classification` varchar(255) DEFAULT NULL,
@@ -165,6 +166,8 @@ CREATE TABLE `asset_details` (
   `dou` date DEFAULT NULL,
   `depreciation` varchar(255) DEFAULT NULL,
   `as_on` varchar(255) DEFAULT NULL,
+  `asset_location` varchar(100) DEFAULT NULL,
+  `asset_count` varchar(50) DEFAULT NULL,
   `spare_names` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `created_id` int(11) DEFAULT NULL,
@@ -189,6 +192,23 @@ CREATE TABLE `asset_details_ref` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `asset_name_creation`
+--
+
+CREATE TABLE `asset_name_creation` (
+  `asset_name_id` int(11) NOT NULL,
+  `asset_name` varchar(150) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `asset_register`
 --
 
@@ -196,9 +216,12 @@ CREATE TABLE `asset_register` (
   `asset_id` int(11) NOT NULL,
   `company_id` varchar(255) DEFAULT NULL,
   `asset_classification` varchar(250) DEFAULT NULL,
+  `asset_autoGen_id` varchar(50) DEFAULT NULL,
   `asset_name` varchar(255) DEFAULT NULL,
+  `vendor_id` varchar(50) DEFAULT NULL,
   `dop` date DEFAULT NULL,
   `asset_nature` int(11) DEFAULT NULL,
+  `depreciation_rate` varchar(50) DEFAULT NULL,
   `asset_value` int(11) DEFAULT NULL,
   `maintenance` varchar(255) DEFAULT NULL,
   `rgp_status` varchar(255) NOT NULL DEFAULT 'inword',
@@ -1971,6 +1994,23 @@ CREATE TABLE `vehicle_details` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vendor_name_creation`
+--
+
+CREATE TABLE `vendor_name_creation` (
+  `vendor_name_id` int(11) NOT NULL,
+  `vendor_name` varchar(150) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `insert_login_id` int(11) DEFAULT NULL,
+  `update_login_id` int(11) DEFAULT NULL,
+  `delete_login_id` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `work_status`
 --
 
@@ -2055,6 +2095,12 @@ ALTER TABLE `asset_details`
 --
 ALTER TABLE `asset_details_ref`
   ADD PRIMARY KEY (`ref_id`);
+
+--
+-- Indexes for table `asset_name_creation`
+--
+ALTER TABLE `asset_name_creation`
+  ADD PRIMARY KEY (`asset_name_id`);
 
 --
 -- Indexes for table `asset_register`
@@ -2525,6 +2571,12 @@ ALTER TABLE `vehicle_details`
   ADD PRIMARY KEY (`vehicle_details_id`);
 
 --
+-- Indexes for table `vendor_name_creation`
+--
+ALTER TABLE `vendor_name_creation`
+  ADD PRIMARY KEY (`vendor_name_id`);
+
+--
 -- Indexes for table `work_status`
 --
 ALTER TABLE `work_status`
@@ -2587,6 +2639,12 @@ ALTER TABLE `asset_details`
 --
 ALTER TABLE `asset_details_ref`
   MODIFY `ref_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `asset_name_creation`
+--
+ALTER TABLE `asset_name_creation`
+  MODIFY `asset_name_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `asset_register`
@@ -3055,6 +3113,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `vehicle_details`
   MODIFY `vehicle_details_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vendor_name_creation`
+--
+ALTER TABLE `vendor_name_creation`
+  MODIFY `vendor_name_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `work_status`
