@@ -4792,6 +4792,9 @@
 			if(isset($_POST['asset_location'])){
 				$asset_location = $_POST['asset_location'];
 			}
+			if(isset($_POST['asset_count'])){
+				$asset_count = $_POST['asset_count'];
+			}
 			if(isset($_POST['modal_no'])){
 				$modal_no = $_POST['modal_no'];
 			}
@@ -4804,8 +4807,7 @@
 			}
 			
 			
-			$insertQry="INSERT INTO asset_details(asset_register_id, company_id, branch_id, classification, asset_name, asset_value, dou, depreciation, asset_location, spare_names, created_date)
-			VALUES('".strip_tags($asset_id)."', '".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class)."', '".strip_tags($asset_name)."', '".strip_tags($asset_value)."', '".strip_tags($put_to)."', '".strip_tags($depreciation)."', '".strip_tags($asset_location)."', '".strip_tags($spare_names)."', current_timestamp() )";
+			$insertQry="INSERT INTO asset_details(asset_register_id, company_id, branch_id, classification, asset_name, asset_value, dou, depreciation, asset_location, asset_count, spare_names, created_date) VALUES('".strip_tags($asset_id)."', '".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class)."', '".strip_tags($asset_name)."', '".strip_tags($asset_value)."', '".strip_tags($put_to)."', '".strip_tags($depreciation)."', '".strip_tags($asset_location)."', '".strip_tags($asset_count)."', '".strip_tags($spare_names)."', current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			$asset_details_id = $mysqli->insert_id; 
 			
@@ -4851,6 +4853,9 @@
 			if(isset($_POST['asset_location'])){
 				$asset_location = $_POST['asset_location'];
 			}
+			if(isset($_POST['asset_count'])){
+				$asset_count = $_POST['asset_count'];
+			}
 			if(isset($_POST['modal_no'])){
 				$modal_no = $_POST['modal_no'];
 			}
@@ -4863,7 +4868,7 @@
 			}
 			
 			
-			$updateQry="UPDATE asset_details set asset_register_id = '".strip_tags($asset_id)."', company_id = '".strip_tags($company_id)."', branch_id = '".strip_tags($branch_id)."', classification ='".strip_tags($asset_class)."', asset_name = '".strip_tags($asset_name)."', asset_value = '".strip_tags($asset_value)."', dou = '".strip_tags($put_to)."', depreciation = '".strip_tags($depreciation)."', asset_location = '".strip_tags($asset_location)."', spare_names= '".strip_tags($spare_names)."', status = 0 WHERE asset_details_id = '".$id."' ";
+			$updateQry="UPDATE asset_details set asset_register_id = '".strip_tags($asset_id)."', company_id = '".strip_tags($company_id)."', branch_id = '".strip_tags($branch_id)."', classification ='".strip_tags($asset_class)."', asset_name = '".strip_tags($asset_name)."', asset_value = '".strip_tags($asset_value)."', dou = '".strip_tags($put_to)."', depreciation = '".strip_tags($depreciation)."', asset_location = '".strip_tags($asset_location)."',  asset_count = '".strip_tags($asset_count)."', spare_names= '".strip_tags($spare_names)."', status = 0 WHERE asset_details_id = '".$id."' ";
 			$updresult=$mysqli->query($updateQry) or die("Error ".$mysqli->error);
 			$DeleteAssetRef = $mysqli->query("DELETE FROM asset_details_ref WHERE asset_details_reff_id = '".$id."' ");
 			
@@ -4909,6 +4914,7 @@
 				$detailrecords['depreciation'] = $row12["depreciation"];  
 				$detailrecords['as_on'] = $row12["as_on"];  
 				$detailrecords['asset_location'] = $row12["asset_location"];  
+				$detailrecords['asset_count'] = $row12["asset_count"];  
 				$detailrecords['spare_names'] = $row12["spare_names"];  
 				$j++;
 			// }
