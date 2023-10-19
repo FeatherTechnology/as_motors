@@ -141,7 +141,7 @@ if($idupd>0)
 
             getBranchBasedDepartmentEdit(branch_id, departmentEdit);
             getDepartmentBasedDesignationEdit(branch_id, departmentEdit, designationEdit);
-            getDesignationBasedStaffEdit(branch_id, departmentEdit, designationEdit, staffEdit);
+            // getDesignationBasedStaffEdit(branch_id, departmentEdit, designationEdit, staffEdit);
         }
 
         function getBranchBasedDepartmentEdit(branch_id, departmentEdit){ 
