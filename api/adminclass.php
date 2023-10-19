@@ -3599,14 +3599,23 @@
 			if(isset($_POST['asset_class'])){
 				$asset_class_id = $_POST['asset_class'];
 			}
+			if(isset($_POST['asset_autoid'])){
+				$asset_autoid = $_POST['asset_autoid'];
+			}
 			if(isset($_POST['asset_name'])){
 				$asset_name = $_POST['asset_name'];
+			}
+			if(isset($_POST['vendor_name'])){
+				$vendor_name = $_POST['vendor_name'];
 			}
 			if(isset($_POST['dop'])){
 				$dop = $_POST['dop'];
 			}
 			if(isset($_POST['nature'])){
 				$asset_nature_id = $_POST['nature'];
+			}
+			if(isset($_POST['depreciation_rate'])){
+				$depreciation_rate = $_POST['depreciation_rate'];
 			}
 			if(isset($_POST['asset_value'])){
 				$asset_value = $_POST['asset_value'];
@@ -3615,9 +3624,7 @@
 				$maintenance = $_POST['check_list'];
 			}
 
-			$insertQry="INSERT INTO asset_register(company_id, asset_classification,asset_name,dop,asset_nature,asset_value,maintenance, created_date, insert_login_id) VALUES 
-				('".strip_tags($company_id)."', '".strip_tags($asset_class_id)."','".strip_tags($asset_name)."','".$dop."','".strip_tags($asset_nature_id)."','".strip_tags($asset_value)."',
-				'".strip_tags($maintenance)."', CURRENT_TIMESTAMP(), '".$userid."' )";
+			$insertQry="INSERT INTO asset_register(company_id, asset_classification,asset_autoGen_id,asset_name,vendor_id,dop,asset_nature,depreciation_rate,asset_value,maintenance, created_date, insert_login_id) VALUES ('".strip_tags($company_id)."', '".strip_tags($asset_class_id)."', '".strip_tags($asset_autoid)."','".strip_tags($asset_name)."','".strip_tags($vendor_name)."','".$dop."','".strip_tags($asset_nature_id)."','".strip_tags($depreciation_rate)."','".strip_tags($asset_value)."', '".strip_tags($maintenance)."', CURRENT_TIMESTAMP(), '".$userid."' )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			
 		}
@@ -3634,11 +3641,17 @@
 			if(isset($_POST['asset_name'])){
 				$asset_name = $_POST['asset_name'];
 			}
+			if(isset($_POST['vendor_name'])){
+				$vendor_name = $_POST['vendor_name'];
+			}
 			if(isset($_POST['dop'])){
 				$dop = $_POST['dop'];
 			}
 			if(isset($_POST['nature'])){
 				$asset_nature_id = $_POST['nature'];
+			}
+			if(isset($_POST['depreciation_rate'])){
+				$depreciation_rate = $_POST['depreciation_rate'];
 			}
 			if(isset($_POST['asset_value'])){
 				$asset_value = $_POST['asset_value'];
@@ -3647,9 +3660,7 @@
 				$maintenance = $_POST['check_list'];
 			}
 
-			$updQry="UPDATE asset_register set company_id = '".strip_tags($company_id)."', asset_classification = '".strip_tags($asset_class_id)."', asset_name = '".strip_tags($asset_name)."', dop = '".strip_tags($dop)."', 
-			asset_nature = '".strip_tags($asset_nature_id)."', asset_value = '".strip_tags($asset_value)."', maintenance = '".strip_tags($maintenance)."', status = 0 , updated_date = CURRENT_TIMESTAMP(), update_login_id = '".strip_tags($userid)."'
-			WHERE asset_id = '".strip_tags($id)."' ";
+			$updQry="UPDATE asset_register set company_id = '".strip_tags($company_id)."', asset_classification = '".strip_tags($asset_class_id)."', asset_name = '".strip_tags($asset_name)."',vendor_id = '".strip_tags($vendor_name)."', dop = '".strip_tags($dop)."', asset_nature = '".strip_tags($asset_nature_id)."', depreciation_rate = '".strip_tags($depreciation_rate)."' , asset_value = '".strip_tags($asset_value)."', maintenance = '".strip_tags($maintenance)."', status = 0 , updated_date = CURRENT_TIMESTAMP(), update_login_id = '".strip_tags($userid)."' WHERE asset_id = '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
 		
@@ -3666,9 +3677,12 @@
 				$detailrecords['company_id']      = $row->company_id; 
 				$detailrecords['asset_id']      = $row->asset_id; 
 				$detailrecords['asset_classification']      = $row->asset_classification;		
+				$detailrecords['asset_autoGen_id']      = $row->asset_autoGen_id;		
 				$detailrecords['asset_name']      = $row->asset_name;		
+				$detailrecords['vendor_id']      = $row->vendor_id;		
 				$detailrecords['dop']      = $row->dop;		
 				$detailrecords['asset_nature']      = $row->asset_nature;		
+				$detailrecords['depreciation_rate']      = $row->depreciation_rate;		
 				$detailrecords['asset_value']      = $row->asset_value;		
 				$detailrecords['maintenance']      = $row->maintenance;		
 			}
@@ -4748,6 +4762,9 @@
 
 			//Add addAssetDetails
 		public function addAssetDetails($mysqli){
+			if(isset($_POST['asset_id'])){
+				$asset_id = $_POST['asset_id'];
+			}
 			if(isset($_POST['company_id'])){
 				$company_id = $_POST['company_id'];
 			}
@@ -4769,8 +4786,11 @@
 			if(isset($_POST['depreciation'])){
 				$depreciation = $_POST['depreciation'];
 			}
-			if(isset($_POST['as_on'])){
-				$as_on = $_POST['as_on'];
+			// if(isset($_POST['as_on'])){
+			// 	$as_on = $_POST['as_on'];
+			// }
+			if(isset($_POST['asset_location'])){
+				$asset_location = $_POST['asset_location'];
 			}
 			if(isset($_POST['modal_no'])){
 				$modal_no = $_POST['modal_no'];
@@ -4784,10 +4804,8 @@
 			}
 			
 			
-			$insertQry="INSERT INTO asset_details(company_id,branch_id,classification,asset_name,asset_value,dou,depreciation,as_on,spare_names,created_date)
-			VALUES('".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class)."', 
-			'".strip_tags($asset_name)."', '".strip_tags($asset_value)."', '".strip_tags($put_to)."', '".strip_tags($depreciation)."', '".strip_tags($as_on)."', 
-			'".strip_tags($spare_names)."', current_timestamp() )";
+			$insertQry="INSERT INTO asset_details(asset_register_id, company_id, branch_id, classification, asset_name, asset_value, dou, depreciation, asset_location, spare_names, created_date)
+			VALUES('".strip_tags($asset_id)."', '".strip_tags($company_id)."', '".strip_tags($branch_id)."', '".strip_tags($asset_class)."', '".strip_tags($asset_name)."', '".strip_tags($asset_value)."', '".strip_tags($put_to)."', '".strip_tags($depreciation)."', '".strip_tags($asset_location)."', '".strip_tags($spare_names)."', current_timestamp() )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 			$asset_details_id = $mysqli->insert_id; 
 			
@@ -4802,6 +4820,9 @@
 		//Add addAssetDetails
 		public function updateAssetDetails($mysqli,$id){
 
+			if(isset($_POST['asset_id'])){
+				$asset_id = $_POST['asset_id'];
+			}
 			if(isset($_POST['company_id'])){
 				$company_id = $_POST['company_id'];
 			}
@@ -4824,8 +4845,11 @@
 			if(isset($_POST['depreciation'])){
 				$depreciation = $_POST['depreciation'];
 			}
-			if(isset($_POST['as_on'])){
-				$as_on = $_POST['as_on'];
+			// if(isset($_POST['as_on'])){
+			// 	$as_on = $_POST['as_on'];
+			// }
+			if(isset($_POST['asset_location'])){
+				$asset_location = $_POST['asset_location'];
 			}
 			if(isset($_POST['modal_no'])){
 				$modal_no = $_POST['modal_no'];
@@ -4839,10 +4863,7 @@
 			}
 			
 			
-			$updateQry="UPDATE asset_details set company_id = '".strip_tags($company_id)."',branch_id = '".strip_tags($branch_id)."',
-			classification ='".strip_tags($asset_class)."', asset_name = '".strip_tags($asset_name)."',asset_value = '".strip_tags($asset_value)."',
-			dou = '".strip_tags($put_to)."',depreciation = '".strip_tags($depreciation)."',as_on = '".strip_tags($as_on)."',spare_names= '".strip_tags($spare_names)."', status = 0
-			WHERE asset_details_id = '".$id."' ";
+			$updateQry="UPDATE asset_details set asset_register_id = '".strip_tags($asset_id)."', company_id = '".strip_tags($company_id)."', branch_id = '".strip_tags($branch_id)."', classification ='".strip_tags($asset_class)."', asset_name = '".strip_tags($asset_name)."', asset_value = '".strip_tags($asset_value)."', dou = '".strip_tags($put_to)."', depreciation = '".strip_tags($depreciation)."', asset_location = '".strip_tags($asset_location)."', spare_names= '".strip_tags($spare_names)."', status = 0 WHERE asset_details_id = '".$id."' ";
 			$updresult=$mysqli->query($updateQry) or die("Error ".$mysqli->error);
 			$DeleteAssetRef = $mysqli->query("DELETE FROM asset_details_ref WHERE asset_details_reff_id = '".$id."' ");
 			
@@ -4878,6 +4899,7 @@
 			// {
 			$row12 = $res12->fetch_assoc();
 				$detailrecords['asset_details_id'] = $row12["asset_details_id"];  
+				$detailrecords['asset_register_id'] = $row12["asset_register_id"];  
 				$detailrecords['company_id'] = $row12["company_id"];  
 				$detailrecords['branch_id'] = $row12["branch_id"];  
 				$detailrecords['classification'] = $row12["classification"];  
@@ -4886,6 +4908,7 @@
 				$detailrecords['dou'] = $row12["dou"];  
 				$detailrecords['depreciation'] = $row12["depreciation"];  
 				$detailrecords['as_on'] = $row12["as_on"];  
+				$detailrecords['asset_location'] = $row12["asset_location"];  
 				$detailrecords['spare_names'] = $row12["spare_names"];  
 				$j++;
 			// }

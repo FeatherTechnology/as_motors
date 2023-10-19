@@ -56,7 +56,7 @@
 								<th>Date of put to use</th>
 								<th>Asset Value</th>
 								<th>Depreciation</th>
-								<th>As on Date Value</th>
+								<!-- <th>As on Date Value</th> -->
 								<th>Spare Names</th>
 								<th>Status</th>
 								<th>Action</th>

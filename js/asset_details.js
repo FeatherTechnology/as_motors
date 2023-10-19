@@ -22,7 +22,7 @@ $(document).ready(function(){
         $("#branch_id").val('');
         }else{
             resetspareTable(branch_id);
-            resetSpareDropdown(branch_id)
+            // resetSpareDropdown(branch_id)
         }
     });
 
@@ -33,12 +33,12 @@ $(document).ready(function(){
     });
     //asset value based on asset name change
     $('#asset_name').change(function(){
-      var asset_name = $('#asset_name').val();
+      var assetname = $(this).find('option:selected').data('id');
       $.ajax({
         url: 'assetDetails/ajaxgetassetValuedropdown.php',
         type: 'POST',
         cache: false,
-        data:{'asset_name':asset_name},
+        data:{'asset_name':assetname},
         dataType:'json',
         success:function(response){
           $('#asset_value').val(response);
@@ -104,7 +104,6 @@ $(document).ready(function(){
         $('#submitAssetUploadbtn').attr("disabled", true);
       },
       success: function(data){
-      console.log(data)
     if(data == 0){
       $("#notinsertsuccess").hide();
       $("#insertsuccess").show();
@@ -122,6 +121,34 @@ $(document).ready(function(){
     });
   });
   
+
+  $('#asset_id').change(function(){
+    var assetid = $(this).val();
+    $.ajax({
+      type: 'POST',
+      data:{'assetid':assetid},
+      url: 'assetDetails/getAssetRegisterDetails.php',
+      cache: false,
+      dataType:'json',
+      success:function(response){
+        getBranch(response['company_id'])
+        getassetNamedropdown(response['asset_classification'])
+        setTimeout(() => {
+          $('#company_id').val(response['company_id']);
+          $('#branch_id').val(response['branch_name']);
+          $('#asset_class').val(response['asset_classification']);
+          $('#asset_name').val(response['asset_name']);
+          $('#asset_value').val(response['asset_value']);
+          
+          resetspareTable(response['branch_name']);
+          DropDownStock();
+        }, 500);
+
+      }
+    });
+
+  });
+
 });//document ready end
 
 
@@ -379,9 +406,9 @@ $(function(){
     });
 
     //spare table reset based on user login
-    var branchLogin = $('#branch_id').val();
-    resetspareTable(branchLogin);
-    resetSpareDropdown(branchLogin);
+    // var branchLogin = $('#branch_id').val();
+    // resetspareTable(branchLogin);
+    // resetSpareDropdown(branchLogin);
 
     //on update functions
     var asset_details_id_upd = $('#asset_details_id_upd').val();
@@ -393,6 +420,8 @@ $(function(){
       resetspareTable(branch_id_upd);
       getassetNamedropdown(asset_class_id);
     }
+
+    getAssetID();
 });
 
 
@@ -445,6 +474,12 @@ $("body").on("click","#delete_spare", function(){
 
 function DropDownStock(){
   var branch_id = $('#branch_id').val();
+  // var id = $('#id').val();
+  // if(id > 0){
+    var editsparename = $('#spare_name_edit').val().split(',');
+  // }else{
+  //   var editsparename = $('#spare_names').val();
+  // }
   $.ajax({
       url: 'assetDetails/ajaxgetSparedropdown.php',
       type: 'post',
@@ -458,10 +493,19 @@ function DropDownStock(){
 		for(var i = 0; i<len; i++){
 			var spare_id = response[i]['spare_id'];
 			var spare_name = response[i]['spare_name'];
+      var selected = '';
+      if(editsparename != ''){
+          for(var i=0; i < editsparename.length; i++){
+              if(editsparename[i] == spare_id){ 
+                  selected = 'selected'; 
+              }
+          }
+      }
 			var items = [
 				{
 					value: spare_id,
 					label: spare_name,
+          selected: selected,
 				}
 			];
 			spare_names.setChoices(items);
@@ -486,13 +530,40 @@ function getassetNamedropdown(asset_class){
       $("#asset_name").prepend("<option value=''>Select Asset Name</option>");
       for(var i = 0; i<len; i++){
           var asset_id = response[i]['asset_id'];
+          var asset_name_id = response[i]['asset_name_id'];
           var asset_name = response[i]['asset_name'];
           var selected = "";
-          if(asset_name_upd == response[i]['asset_id']){
+          if(asset_name_upd == response[i]['asset_name_id']){
             selected = "selected";
           } 
-          $("#asset_name").append("<option value='"+asset_id+"' "+selected+">"+asset_name+"</option>");
+          $("#asset_name").append("<option value='"+asset_name_id+"' "+selected+" data-id='"+asset_id+"'>"+asset_name+"</option>");
       }
     }
   });
+}
+
+function getAssetID(){
+  var asset_register_id = $('#asset_register_id').val();
+  $.ajax({
+    type: 'POST',
+    url: 'assetDetails/getAssetIDAutoGen.php',
+    cache: false,
+    data:{},
+    dataType:'json',
+    success:function(response){
+      var len = response.length;
+      $("#asset_id").empty();
+      $("#asset_id").prepend("<option value=''>Select Asset ID</option>");
+      for(var i = 0; i<len; i++){
+          var asset_id = response[i]['asset_id'];
+          var asset_autoGen_id = response[i]['asset_autoGen_id'];
+          var selected = "";
+          if(asset_register_id == response[i]['asset_id']){
+            selected = "selected";
+          } 
+          $("#asset_id").append("<option value='"+asset_id+"' "+selected+">"+asset_autoGen_id+"</option>");
+      }
+    }
+  });
+
 }

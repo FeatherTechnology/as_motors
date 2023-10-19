@@ -86,16 +86,24 @@ foreach ($result as $row) {
     }
 
     $company_name='';
+    $branch_name='';
     $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
     $res = $con->query($qry);
     while($row5 = $res->fetch_assoc())
     {
+        $branch_name = $row5['branch_name'];
         $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
         $res1 = $con->query($getname) ;
         while ($row52 = $res1->fetch_assoc()) {
             $company_name = $row52['company_name'];
         }
     }
+
+    $assetnameQry = $con->query("SELECT asset_name FROM asset_name_creation WHERE asset_name_id = '".$row['asset_name']."' ") ;
+    $assetName = $assetnameQry->fetch_assoc()['asset_name'];
+
+    $assetnameQry = $con->query("SELECT vendor_name FROM vendor_name_creation WHERE vendor_name_id = '".$row['vendor_id']."' ") ;
+    $vendorName = $assetnameQry->fetch_assoc()['vendor_name'];
     
     //Fetching Asset Classification name
     $asset_class_id = $row['asset_classification']; 
@@ -107,8 +115,11 @@ foreach ($result as $row) {
     if($asset_class_id == "6"){$asset_class_name = "Electrical & fitting";}
 
     $sub_array[] = $company_name;
+    $sub_array[] = $branch_name;
     $sub_array[] = $asset_class_name;
-    $sub_array[] = $row['asset_name'];
+    $sub_array[] = $row['asset_autoGen_id'];
+    $sub_array[] = $assetName;
+    $sub_array[] = $vendorName;
     $sub_array[] = $row['dop'];
 
     //Fetchin Asset Nature Name
@@ -117,6 +128,7 @@ foreach ($result as $row) {
     if($asset_nature_id == "2"){$asset_nature_name = "Moveable";}
 
     $sub_array[] = $asset_nature_name;
+    $sub_array[] = $row['depreciation_rate'];
     $sub_array[] = $row['asset_value'];
 
     //Fetchin Maintenance 
