@@ -109,7 +109,7 @@ foreach ($result as $row) {
     
     $asset_name='';
     $getAssetName = $row['asset_name'];   
-    $getqry3 = "SELECT * FROM asset_register WHERE asset_id ='".strip_tags($getAssetName)."' and status = 0";
+    $getqry3 = "SELECT * FROM asset_name_creation WHERE asset_name_id ='".strip_tags($getAssetName)."' and status = 0";
     $res3 = $con->query($getqry3);
     while($row3 = $res3->fetch_assoc())
     {
@@ -152,7 +152,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['dou'];
     $sub_array[] = $row['asset_value'];
     $sub_array[] = $row['depreciation'];
-    $sub_array[] = $row['as_on'];
+    // $sub_array[] = $row['as_on'];
     $sub_array[] = $spare_names;
 
     $status      = $row['status'];

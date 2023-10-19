@@ -53,9 +53,12 @@ if($idupd>0)
             $company_id                      = $getAssetRegisterList['company_id'];
             $asset_id                      = $getAssetRegisterList['asset_id'];
 			$asset_class_id              	 = $getAssetRegisterList['asset_classification'];
+			$asset_autoGen_id              	 = $getAssetRegisterList['asset_autoGen_id'];
 			$asset_name          		 = $getAssetRegisterList['asset_name'];
+			$vendor_id          		 = $getAssetRegisterList['vendor_id'];
 			$dop      			             = $getAssetRegisterList['dop'];
 			$asset_nature_id		             = $getAssetRegisterList['asset_nature'];
+			$depreciation_rate		             = $getAssetRegisterList['depreciation_rate'];
 			$asset_value		             = $getAssetRegisterList['asset_value'];
 			$maintenance_id		             = $getAssetRegisterList['maintenance'];
 		}
@@ -115,9 +118,11 @@ if($idupd>0)
 <!--------form start-->
 <form id = "asset_register" name="asset_register" action="" method="post" enctype="multipart/form-data"> 
 <input type="hidden" class="form-control" value="<?php if(isset($asset_id)) echo $asset_id; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
+<input type="hidden" class="form-control" value="<?php if(isset($asset_name)) echo $asset_name; ?>"  id="asset_name_upd" name="asset_name_upd">
+<input type="hidden" class="form-control" value="<?php if(isset($vendor_id)) echo $vendor_id; ?>"  id="vendor_name_upd" name="vendor_name_upd">
 
- 		<!-- Row start -->
-         <div class="row gutters">
+        <!-- Row start -->
+            <div class="row gutters">
 
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
@@ -127,12 +132,12 @@ if($idupd>0)
                     <div class="card-body">
                         <div class="row ">
                             <!--Fields -->
-                           <div class="col-md-8 "> 
-                              <div class="row">
+                        <div class="col-md-12"> 
+                            <div class="row">
 
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Company Name</label>
+                                            <label for="company_id">Company Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id" >
                                                     <option value="">Select Company Name</option>   
@@ -150,9 +155,9 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Branch Name</label>
+                                            <label for="branch_id">Branch Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
                                                     <option value="" disabled selected>Select Branch Name</option> 
@@ -166,9 +171,9 @@ if($idupd>0)
                                         </div>
                                     </div>
 
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Asset Classification</label>
+                                            <label for="asset_class">Asset Classification</label>
                                             <select tabindex="3" type="text" class="form-control" name="asset_class" id="asset_class">
                                                 <option value="">Select Asset Classification</option>
                                                 <option value="1" <?php if(isset($asset_class_id )){if($asset_class_id == "1") echo "selected";} ?>>Plant & Machinary</option>
@@ -180,22 +185,53 @@ if($idupd>0)
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Asset Name</label>
-                                            <input tabindex="4" type="text" id='asset_name' name="asset_name" class="form-control" value="<?php if(isset($asset_name)) echo $asset_name; ?>" placeholder="Enter Asset Name" >
+                                            <label for="asset_autoid">Asset ID</label>
+                                            <input tabindex="4" type="text" id='asset_autoid' name="asset_autoid" class="form-control" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
                                         <div class="form-group">
-                                            <label for="disabledInput">Date of Purchase</label>
-                                            <input tabindex="5" type="date" id='dop' name="dop" class="form-control" value="<?php if(isset($dop)) echo $dop; ?>">
+                                            <label for="asset_name">Asset Name</label>
+                                            <select tabindex="5" id='asset_name' name="asset_name" class="form-control">
+                                                <option value=''>Select Asset Name</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" style="margin-top: 20px">
                                         <div class="form-group">
-                                            <label for="disabledInput">Asset Nature</label>
-                                            <select tabindex="6" type="text" class="form-control" name="nature" id="nature">
+                                            <button type="button" class="btn btn-primary" id="add_asset_name" name="add_asset_name" data-toggle="modal" data-target=".addAssetName" style="padding: 5px 30px;"><span class="icon-add"></span></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+                                        <div class="form-group">
+                                            <label for="vendor_name">Vendor Name</label>
+                                            <select tabindex="6" id='vendor_name' name="vendor_name" class="form-control">
+                                                <option value=''>Select Vendor Name</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-4 col-sm-4 col-12" style="margin-top: 20px">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-primary" id="add_vendor_name" name="add_vendor_name" data-toggle="modal" data-target=".addVendorName" style="padding: 5px 30px;"><span class="icon-add"></span></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <div class="form-group">
+                                            <label for="dop">Date of Purchase</label>
+                                            <input tabindex="7" type="date" id='dop' name="dop" class="form-control" value="<?php if(isset($dop)) echo $dop; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <div class="form-group">
+                                            <label for="nature">Asset Nature</label>
+                                            <select tabindex="8" type="text" class="form-control" name="nature" id="nature">
                                                 <option value="" >Select Asset</option>
                                                 <option value="2" <?php if(isset($asset_nature_id )){if($asset_nature_id == "2") echo "selected"; }?>>Moveable</option>                                                
                                                 <option value="1" <?php if(isset($asset_nature_id )){if($asset_nature_id == "1") echo "selected";} ?>>Immoveable</option>
@@ -203,98 +239,112 @@ if($idupd>0)
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
                                             <br>
-                                            <label for="disabledInput">Maintenance Required</label>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" tabindex="7" checked name="check_list" id="yes" value="1" <?php if(isset($maintenance_id ))
+                                            <label for="check_list">Maintenance Required</label>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" tabindex="9" checked name="check_list" id="yes" value="1" <?php if(isset($maintenance_id ))
                                                 echo ($maintenance_id =='1')?'checked':'' ?>> &nbsp;&nbsp; <label for="yes">Yes </label> &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" tabindex="8" name="check_list" id="no"  value="2" <?php if(isset($maintenance_id ))
+                                            <input type="radio" tabindex="10" name="check_list" id="no"  value="2" <?php if(isset($maintenance_id ))
                                                 echo ($maintenance_id =='2')?'checked':'' ?>> &nbsp;&nbsp; <label for="no">No</label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                                         <div class="form-group">
-                                            <label for="from_date">Asset/Book Value</label>
-                                            <input type="number" tabindex = "9" name="asset_value" id="asset_value" placeholder="Enter Asset/Book Value" class="form-control" 
+                                            <label for="depreciation_rate">Depreciation Rate</label>
+                                            <input type="text" tabindex = "11" name="depreciation_rate" id="depreciation_rate" placeholder="Enter Depreciation Rate" class="form-control" 
+                                            value="<?php if (isset($depreciation_rate)) echo $depreciation_rate;?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                        <div class="form-group">
+                                            <label for="asset_value">Asset/Book Value</label>
+                                            <input type="number" tabindex = "12" name="asset_value" id="asset_value" placeholder="Enter Asset/Book Value" class="form-control" 
                                             value="<?php if (isset($asset_value)) echo $asset_value;?>">
                                         </div>
                                     </div>
                                     
-                                    
                                 </div>  
                             </div>
+
                             <div class="col-md-12">
                                 <br><br>
                                 <div class="col-md-3">
-                                    <button type="button"  tabindex="10"  id="downloadAsset" name="downloadAsset" class="btn btn-primary"><span class="icon-download"></span>Download</button>
-                                    <button type="button" data-toggle="modal" data-target="#AssetModal" tabindex="11"  id="uploadstaff" name="uploadstaff"  class="btn btn-primary"><span class="icon-upload"></span>Upload</button>		
+                                    <button type="button"  tabindex="13"  id="downloadAsset" name="downloadAsset" class="btn btn-primary"><span class="icon-download"></span>Download</button>
+                                    <button type="button" data-toggle="modal" data-target="#AssetModal" tabindex="14"  id="uploadstaff" name="uploadstaff"  class="btn btn-primary"><span class="icon-upload"></span>Upload</button>		
                                 </div>
                                 <div class="text-right">
-                                    <button type="submit" name="submitAssetRegister" id="submitAssetRegister" class="btn btn-primary" value="Submit" tabindex="12">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary" tabindex="13" id='reset'>Cancel</button>
+                                    <button type="submit" name="submitAssetRegister" id="submitAssetRegister" class="btn btn-primary" value="Submit" tabindex="15">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary" tabindex="16" id='reset'>Cancel</button>
                                 </div>
                                 <br><br>
                             </div>
-                           
+                        
                         </div>
                     </div>
                 </div>
                 <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                      <div class="table-container">
-          
-                          <div class="table-responsive">
-                              <?php
-                              $mscid=0;
-                              if(isset($_GET['msc']))
-                              {
-                              $mscid=$_GET['msc'];
-                              if($mscid==1)
-                              {?>
-                              <div class="alert alert-success" role="alert">
-                                  <div class="alert-text">Asset Added Successfully!</div>
-                              </div> 
-                              <?php
-                              }
-                              if($mscid==2)
-                              {?>
-                                  <div class="alert alert-success" role="alert">
-                                  <div class="alert-text">Asset Updated Successfully!</div>
-                              </div>
-                              <?php
-                              }
-                              if($mscid==3)
-                              {?>
-                              <div class="alert alert-danger" role="alert">
-                                  <div class="alert-text">Asset Inactive Successfully!</div>
-                              </div>
-                              <?php
-                              }
-                              }
-                              ?>
-                              <table id="asset_register_table" class="table custom-table">
-                                  <thead>
-                                      <tr>
-                                          <th>S. No.</th>
-                                          <th>Company Name</th>
-                                          <th>Asset Classification</th>
-                                          <th>Asset Name</th>
-                                          <th>Date Of Purchase</th>
-                                          <th>Asset Nature</th>
-                                          <th>Asset/Book Value</th>
-                                          <th>Maintenance Required</th>
-                                          <th>Status</th>
-                                          <th>Action</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-container">
+        
+                        <div class="table-responsive">
+                            <?php
+                            $mscid=0;
+                            if(isset($_GET['msc']))
+                            {
+                            $mscid=$_GET['msc'];
+                            if($mscid==1)
+                            {?>
+                            <div class="alert alert-success" role="alert">
+                                <div class="alert-text">Asset Added Successfully!</div>
+                            </div> 
+                            <?php
+                            }
+                            if($mscid==2)
+                            {?>
+                                <div class="alert alert-success" role="alert">
+                                <div class="alert-text">Asset Updated Successfully!</div>
+                            </div>
+                            <?php
+                            }
+                            if($mscid==3)
+                            {?>
+                            <div class="alert alert-danger" role="alert">
+                                <div class="alert-text">Asset Inactive Successfully!</div>
+                            </div>
+                            <?php
+                            }
+                            }
+                            ?>
+                            <table id="asset_register_table" class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>S. No.</th>
+                                        <th>Company Name</th>
+                                        <th>Branch Name</th>
+                                        <th>Asset Classification</th>
+                                        <th>Asset ID</th>
+                                        <th>Asset Name</th>
+                                        <th>Vendor Name</th>
+                                        <th>Date Of Purchase</th>
+                                        <th>Asset Nature</th>
+                                        <th>Depreciation Rate</th>
+                                        <th>Asset/Book Value</th>
+                                        <th>Maintenance Required</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>    
 
         <div class="modal fade" id="AssetModal" tabindex="-1" role="dialog" aria-labelledby="vCenterModalTitle" aria-hidden="true">
@@ -302,7 +352,7 @@ if($idupd>0)
                 <div class="modal-content" style="background-color: white">
                 <div class="modal-header">
                     <h5 class="modal-title" id="vCenterModalTitle">Asset Upload</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.reload();">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -323,12 +373,168 @@ if($idupd>0)
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="submitAssetUploadbtn" name="submitAssetUploadbtn">Upload</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="location.reload();">Close</button>
                 </div>
             </div>
         </div>       
         
     </div>
+
+
+<!-- Asset Name creation Modal START-->
+    <div class="modal fade addAssetName" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Add Asset Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetAssetName();DropDownAssetName();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- alert messages -->
+                <div id="assetInsertNotOk" class="unsuccessalert">Asset Name Already Exists, Please Enter a Different Name!
+                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="assetInsertOk" class="successalert">Asset Name Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="assetUpdateOk" class="successalert">Asset Name Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="assetDeleteNotOk" class="unsuccessalert">Process Failed!
+                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="assetDeleteOk" class="unsuccessalert">Asset Name Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                            <label class="label">Enter Asset Name</label>
+                            <input type="hidden" name="asset_name_id" id="asset_name_id">
+                            <input type="text" name="asset_name_create" id="asset_name_create" class="form-control" placeholder="Enter Asset Name">
+                            <span class="text-danger" id="assetnameCheck" style="display: none;">Enter Asset Name</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                            <label class="label" style="visibility: hidden;">Asset</label>
+                        <button type="button" name="submitAssetNameModal" id="submitAssetNameModal" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+                <div id="AssetNameDiv"> 
+                    <table class="table custom-table" id="assetTable"> 
+                        <thead>
+                            <tr>
+                                <th>S. No</th>
+                                <th>Asset Name</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-2 col-xl-2"></td>
+                                    <td></td>
+                                    <td>
+                                        <!-- <a id="edit_asset_name" value=""><span class="icon-border_color"></span></a> &nbsp
+                                        <a id="delete_asset_name" value=""><span class='icon-trash-2'></span></a> -->
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetAssetName();DropDownAssetName();">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Asset Name creation Modal END-->
+
+<!-- Vendor Name creation Modal START-->
+    <div class="modal fade addVendorName" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myLargeModalLabel">Add Vendor Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetVendorName();DropDownVendorName();">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- alert messages -->
+                <div id="vendorInsertNotOk" class="unsuccessalert">Vendor Name Already Exists, Please Enter a Different Name!
+                <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="vendorInsertOk" class="successalert">Vendor Name Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="vendorUpdateOk" class="successalert">Vendor Name Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="vendorDeleteNotOk" class="unsuccessalert">Process Failed!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <div id="vendorDeleteOk" class="unsuccessalert">Vendor Name Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                </div>
+
+                <br />
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <div class="form-group">
+                            <label class="label">Enter Vendor Name</label>
+                            <input type="hidden" name="vendor_name_id" id="vendor_name_id">
+                            <input type="text" name="vendor_name_create" id="vendor_name_create" class="form-control" placeholder="Enter Vendor Name">
+                            <span class="text-danger" id="vendornameCheck" style="display: none;">Enter Vendor Name</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                            <label class="label" style="visibility: hidden;">Vendor</label>
+                        <button type="button" name="submitvendorNameModal" id="submitvendorNameModal" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+                <div id="vendorNameDiv"> 
+                    <table class="table custom-table" id="vendorTable"> 
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Vendor Name</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-2 col-xl-2"></td>
+                                    <td></td>
+                                    <td>
+                                        <!-- <a id="edit_asset_name" value=""><span class="icon-border_color"></span></a> &nbsp
+                                        <a id="delete_asset_name" value=""><span class='icon-trash-2'></span></a> -->
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetVendorName();DropDownVendorName();">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Vendor Name creation Modal END-->
 
 <script>
 	setTimeout(function() {

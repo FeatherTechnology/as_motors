@@ -11,7 +11,6 @@ if(isset($_SESSION["branch_id"])){
 $audit_area_list = $userObj->getAuditAreaTable($mysqli);
 $companyName = $userObj->getCompanyName($mysqli);
 $SpareName = $userObj->getSpareName($mysqli);
-$assetClassName = $userObj->getAssetClassName($mysqli);
 $id=0;
 $idupd=0;
  if(isset($_POST['submit_asset_details']) && $_POST['submit_asset_details'] != '')
@@ -58,6 +57,7 @@ if($idupd>0)
         for($i=0;$i<sizeof($getAssetDetails);$i++)  {
 
             $asset_details_id                  = $getAssetDetails['asset_details_id']; 
+            $asset_register_id                  = $getAssetDetails['asset_register_id']; 
             $company_id                  = $getAssetDetails['company_id']; 
             $branch_id                  = $getAssetDetails['branch_id']; 
 			$asset_class                	 = $getAssetDetails['classification'];
@@ -66,6 +66,7 @@ if($idupd>0)
             $put_to                	     = $getAssetDetails['dou'];
 			$depreciation    	                = $getAssetDetails['depreciation'];
 			$as_on    	                = $getAssetDetails['as_on'];
+			$asset_location    	                = $getAssetDetails['asset_location'];
 			$spare_names    	                = $getAssetDetails['spare_names'];
 	
 		}
@@ -94,33 +95,33 @@ if($idupd>0)
     <input type="hidden" id="assetnameEdit" name="assetnameEdit" value="<?php print_r($asset_name); ?>" >
 
     <script>
-        window.onload=editCompanyBasedBranch;
-        function editCompanyBasedBranch(){
-            var branch_id = $('#company_nameEdit').val();
-            var assetClassification = $('#assetclassEdit').val();
-            $.ajax({
-                url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
-                type:'post',
-                data: {'branch_id': branch_id},
-                dataType: 'json',
-                success: function(response){
+        // window.onload=editCompanyBasedBranch;
+        // function editCompanyBasedBranch(){
+        //     var branch_id = $('#company_nameEdit').val();
+        //     var assetClassification = $('#assetclassEdit').val();
+        //     $.ajax({
+        //         url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
+        //         type:'post',
+        //         data: {'branch_id': branch_id},
+        //         dataType: 'json',
+        //         success: function(response){
                     
-                    $("#branch_id").empty();
-                    $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-                    var r = 0;
-                    for (r = 0; r <= response.branch_id.length - 1; r++) { 
-                        var selected = "";
-                        if(response['branch_id'][r] == branch_id)
-                        {
-                            selected = "selected";
-                        }
-                        $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + response['branch_name'][r] + "</option>");
-                    }
+        //             $("#branch_id").empty();
+        //             $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
+        //             var r = 0;
+        //             for (r = 0; r <= response.branch_id.length - 1; r++) { 
+        //                 var selected = "";
+        //                 if(response['branch_id'][r] == branch_id)
+        //                 {
+        //                     selected = "selected";
+        //                 }
+        //                 $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + response['branch_name'][r] + "</option>");
+        //             }
 
-                }
-            });
-            getassetNamedropdown(assetClassification);
-        }
+        //         }
+        //     });
+        //     getassetNamedropdown(assetClassification);
+        // }
     </script>
             
 <!-- Page header start -->
@@ -139,12 +140,14 @@ if($idupd>0)
 <div class="main-container">
 <!--------form start-->
 <form id = "asset_details" name="asset_details" action="" method="post" enctype="multipart/form-data"> 
-<input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
-<input type="hidden" class="form-control" value="<?php if(isset($asset_details_id)) echo $asset_details_id; ?>"  id="asset_details_id_upd" name="asset_details_id_upd" aria-describedby="id" placeholder="Enter id">
-<input type="hidden" class="form-control" value="<?php if(isset($asset_class)) echo $asset_class; ?>"  id="asset_class_id_upd" name="asset_class_id_upd" aria-describedby="id" placeholder="Enter id">
-<input type="hidden" class="form-control" value="<?php if(isset($asset_name)) echo $asset_name; ?>"  id="asset_name_upd" name="asset_name_upd" aria-describedby="id" placeholder="Enter id">
-<input type="hidden" class="form-control" value="<?php if(isset($branch_id)) echo $branch_id; ?>"  id="branch_id_upd" name="branch_id_upd" aria-describedby="id" placeholder="Enter id">
-<input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd" aria-describedby="id" placeholder="Enter id">
+<input type="hidden" class="form-control" value="<?php if(isset($idupd)) echo $idupd; ?>"  id="id" name="id" >
+<input type="hidden" class="form-control" value="<?php if(isset($asset_details_id)) echo $asset_details_id; ?>"  id="asset_details_id_upd" name="asset_details_id_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($asset_class)) echo $asset_class; ?>"  id="asset_class_id_upd" name="asset_class_id_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($asset_name)) echo $asset_name; ?>"  id="asset_name_upd" name="asset_name_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($branch_id)) echo $branch_id; ?>"  id="branch_id_upd" name="branch_id_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($company_id)) echo $company_id; ?>"  id="company_id_upd" name="company_id_upd" >
+<input type="hidden" class="form-control" value="<?php if(isset($asset_register_id)) echo $asset_register_id; ?>"  id="asset_register_id" name="asset_register_id" >
+<input type="hidden" class="form-control" value="<?php if(isset($req_array)) echo $req_array; ?>"  id="spare_name_edit" name="spare_name_edit" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -160,6 +163,15 @@ if($idupd>0)
                             <div class="col-md-8 "> 
                                 <div class="row">
                                     
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                        <label for="asset_id">Asset ID</label>
+                                            <select tabindex="1" type="text" class="form-control" id="asset_id" name="asset_id" >
+                                                <option value="">Select Asset ID</option> 
+                                            </select>                                  
+                                        </div>
+                                    </div>
+
                                     <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                         <label for="disabledInput">Company</label>
@@ -201,21 +213,12 @@ if($idupd>0)
                                             <label for="disabledInput">Asset Classification</label>
                                             <select tabindex="3" type="text" class="form-control" name="asset_class" id="asset_class">
                                                 <option value="">Select Asset Classification</option>
-
                                                 <option value="1" <?php if(isset($asset_class )){if($asset_class == "1") echo "selected";} ?>>Plant & Machinary</option>
                                                 <option value="2" <?php if(isset($asset_class )){if($asset_class == "2") echo "selected";} ?>>Land & Building</option>
                                                 <option value="3" <?php if(isset($asset_class )){if($asset_class == "3") echo "selected";} ?>>Computer</option>
                                                 <option value="4" <?php if(isset($asset_class )){if($asset_class == "4") echo "selected";} ?>>Printer and Scanner</option>
                                                 <option value="5" <?php if(isset($asset_class )){if($asset_class == "5") echo "selected";} ?>>Furniture and Fixtures</option>
                                                 <option value="6" <?php if(isset($asset_class )){if($asset_class == "6") echo "selected";} ?>>Electrical & fitting</option>
-
-                                                <!-- <?php if (sizeof($assetClassName)>0) { 
-                                                    for($j=0;$j<count($assetClassName);$j++) { ?>
-                                                    <option <?php if(isset($asset_class)) { if($assetClassName[$j]['asset_class'] == $asset_class)  echo 'selected'; }  ?> 
-                                                    value="<?php echo $assetClassName[$j]['asset_class']; ?>">
-                                                    <?php echo $assetClassName[$j]['asset_class'];?></option>
-                                                    <?php }} ?>  -->
-
                                             </select>
                                             </div>
                                     </div>
@@ -251,11 +254,18 @@ if($idupd>0)
                                             value="<?php if(isset($depreciation)) echo $depreciation; ?>" >
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <!-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="inputReadOnly">As On Date Value</label>
                                             <input tabindex="7" type="text" class="form-control" id="as_on" name="as_on" 
-                                            value="<?php if(isset($as_on)) echo $as_on; ?>"  placeholder = "Enter As On Date Value"><br>
+                                            value=""  placeholder = "Enter As On Date Value"><br>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-xl-6 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="asset_location">Asset Location</label>
+                                            <input tabindex="7" type="text" class="form-control" id="asset_location" name="asset_location" 
+                                            value="<?php if(isset($asset_location)) echo $asset_location; ?>"  placeholder = "Enter Asset Location"><br>
                                         </div>
                                     </div>
                                     
@@ -459,7 +469,7 @@ if($idupd>0)
                         <div class="modal-content" style="background-color: white">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="vCenterModalTitle">Asset Upload</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="location.href='edit_asset_details';">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -480,7 +490,7 @@ if($idupd>0)
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" id="submitAssetUploadbtn" name="submitAssetUploadbtn">Upload</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="location.href='edit_asset_details';">Close</button>
                             </div>
                         </div>
                     </div>

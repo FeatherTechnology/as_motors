@@ -28,6 +28,7 @@ if(isset($_POST['lusername'])) {
 			$_SESSION['role']    	= $result['role']; 
 			$_SESSION['staffid']     = $result['staff_id']; 
 			$_SESSION['designation_id']     = $result['designation_id']; 
+			$_SESSION['curdateFromIndexPage']     = date('d-m-Y'); 
 			?>
 			<script>location.href='<?php echo $HOSTPATH; ?>dashboard';</script>  
 			<?php
