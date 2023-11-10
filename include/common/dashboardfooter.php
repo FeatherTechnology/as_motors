@@ -2886,6 +2886,10 @@ if($current_page == 'diesel_slip_report') { ?>
 if($current_page == 'memo_report') { ?>
 	<script src="js/memo_report.js"></script>
     <?php }
+
+if($current_page == 'kra_kpi_report') { ?>
+	<script src="js/kra_kpi_report.js"></script>
+    <?php }
     
 ?> 
 

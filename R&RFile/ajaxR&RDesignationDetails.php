@@ -1,4 +1,5 @@
 <?php
+//Also using in kra_kpi_report.js
 @session_start();
 include '../ajaxconfig.php';
 

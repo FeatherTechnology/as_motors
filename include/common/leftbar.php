@@ -83,6 +83,7 @@ $vehicle_report             = '';
 $daily_km_report             = '';
 $diesel_slip_report             = '';
 $memo_report             = '';
+$krakpi_report             = '';
 
 $getuser = $userObj->getmanageuser($mysqli,$userid); 
 if (sizeof($getuser)>0) {
@@ -169,6 +170,7 @@ if (sizeof($getuser)>0) {
 		$daily_km_report      = $getuser['daily_km_report'];
 		$diesel_slip_report      = $getuser['diesel_slip_report'];
 		$memo_report      = $getuser['memo_report'];
+		$krakpi_report      = $getuser['krakpi_report'];
 	}
 }
 
@@ -745,6 +747,11 @@ if (sizeof($getuser)>0) {
 								<?php if($memo_report == 0 && $memo_report != '' && $memo_report != NULL){ ?>				
 									<li>									
 										<a href="memo_report"><i class="icon-assignment"></i>Memo Report</a>
+									</li>
+								<?php } ?>
+								<?php if($krakpi_report == 0 && $krakpi_report != '' && $krakpi_report != NULL){ ?>				
+									<li>									
+										<a href="kra_kpi_report"><i class="icon-assignment"></i>KRA&KPI Report</a>
 									</li>
 								<?php } ?>
 							</ul>
