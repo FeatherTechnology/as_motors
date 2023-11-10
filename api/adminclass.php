@@ -9946,10 +9946,16 @@
 			}else{
 				$memo_report=1;
 			}
+			if(isset($_POST['krakpi_report']) &&    $_POST['krakpi_report'] == 'Yes')		
+			{
+				$krakpi_report=0;
+			}else{
+				$krakpi_report=1;
+			}
 		
 			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
-			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report, vehicle_management_report_module, vehicle_report, daily_km_report, diesel_slip_report, memo_report) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report, $venhicle_management_sub_module, $vehicle_report, $daily_km_report, $diesel_slip_report, $memo_report )"; // echo $userInsert; die;
+			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report, vehicle_management_report_module, vehicle_report, daily_km_report, diesel_slip_report, memo_report, krakpi_report) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report, $venhicle_management_sub_module, $vehicle_report, $daily_km_report, $diesel_slip_report, $memo_report, $krakpi_report )"; // echo $userInsert; die;
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
 			
 		}
@@ -10057,6 +10063,7 @@
 				$detailrecords['daily_km_report']      = strip_tags($row->daily_km_report);
 				$detailrecords['diesel_slip_report']      = strip_tags($row->diesel_slip_report);
 				$detailrecords['memo_report']      = strip_tags($row->memo_report);
+				$detailrecords['krakpi_report']      = strip_tags($row->krakpi_report);
 		
 			}
 			return $detailrecords;
@@ -10523,6 +10530,12 @@
 		}else{
 			$memo_report=1;
 		}
+		if(isset($_POST['krakpi_report']) &&    $_POST['krakpi_report'] == 'Yes')		
+		{
+			$krakpi_report=0;
+		}else{
+			$krakpi_report=1;
+		}
 	
 		$userupdate="UPDATE user SET 
 		fullname='".strip_tags($fullname)."', 
@@ -10604,6 +10617,7 @@
 		daily_km_report      = $daily_km_report,
 		diesel_slip_report      = $diesel_slip_report,
 		memo_report      = $memo_report,
+		krakpi_report      = $krakpi_report,
 		status=0 where user_id = '".$id."' ";
 		
 		$update=$mysqli->query($userupdate) or die("Error ".$mysqli->error);

@@ -1,4 +1,5 @@
 <?php 
+//Also using in kra_kpi_report.js
 include('../ajaxconfig.php');
 
 $deptList_arr = array();

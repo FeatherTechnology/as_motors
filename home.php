@@ -628,6 +628,10 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'memo_report') { ?>
 			<?php include "include/templates/memo_report.php" ?>
 			<?php } ?>
+			<!-- KRA&KPI Reports based on Designation -->
+			<?php if($current_page == 'kra_kpi_report') { ?>
+			<?php include "include/templates/kra_kpi_report.php" ?>
+			<?php } ?>
 		</div>
 		<!-- Page content end -->
 
