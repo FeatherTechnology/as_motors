@@ -40,10 +40,11 @@ $res = array();
 if($designation_id != '0'){
 
 $resqry = "";
-$resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name FROM `basic_creation` bc 
-LEFT JOIN staff_creation sc ON bc.designation IN (sc.designation) 
-LEFT JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility) 
-WHERE FIND_IN_SET($designation_id, bc.designation)";
+$resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name 
+FROM `basic_creation` bc 
+JOIN staff_creation sc ON sc.designation = $designation_id
+JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility)
+WHERE FIND_IN_SET($designation_id, bc.designation) && sc.status = 0";
 
 $resInfo = $connect->query($resqry);
 if($resInfo -> rowCount() > 0){
