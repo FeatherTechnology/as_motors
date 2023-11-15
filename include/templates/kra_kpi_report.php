@@ -36,6 +36,21 @@
                             <!--Type End-->
 
                             <!--Department Start-->
+                            <div class="col-md-12" id="department_report" style="display: none;">
+                                <div class="row">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <label for="dept_name">Department Name</label>
+                                                <select tabindex="6" type="text" class="form-control clearvalue" id="department_name" name="department_name">
+                                                    <option value=''>Select Department</option>
+                                                </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Department End-->
+
+                            <!-- Designation Start -->
                             <div class="col-md-12" id="designation_report" style="display: none;">
                                 <div class="row">
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
@@ -57,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--Department End-->
+                            <!-- Designation End -->
 
                             <!--Report View Button Start -->
                             <div class="col-12">

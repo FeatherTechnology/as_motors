@@ -125,8 +125,14 @@ foreach ($result as $row) {
 
         $getqry1 = "SELECT designation_name FROM designation_creation WHERE designation_id ='" . strip_tags($reportName) . "' and status = 0";
         $res15 = $con->query($getqry1);
+        if(mysqli_num_rows($res15) > 0){
         $row15 = $res15->fetch_assoc();
-        $report_to_name = $row15["designation_name"];
+            $report_to_name = $row15["designation_name"];
+
+        }else{
+            $report_to_name = '';
+
+        }
     }else{
         $report_to_name = '';
     }

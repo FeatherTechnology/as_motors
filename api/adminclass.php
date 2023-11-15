@@ -1342,6 +1342,10 @@
 			if(isset($_POST['report_to'])){
                 $report_to = $_POST['report_to'];
             }
+			if(isset($_POST['responsibility'])){
+				$responsibility1 = $_POST['responsibility'];
+				$responsibility = implode(",", $responsibility1);
+			}
             // if($type == "Common"){
             //  $selectCompany = $mysqli->query("SELECT * FROM company_creation WHERE 1 AND status=0");
             //  $i=0;
@@ -1361,9 +1365,9 @@
             //      $insresult=$mysqli->query($basicInsert) or die("Error ".$mysqli->error);
             //  }
             // }else if($type == "Specific"){
-                $basicInsert="INSERT INTO basic_creation(company_id, department_code, department, designation_code, designation, report_to, insert_login_id)
+                $basicInsert="INSERT INTO basic_creation(company_id, department_code, department, designation_code, designation, report_to, responsibility, insert_login_id)
                 VALUES( '".strip_tags($company_id)."', '".strip_tags($department_code)."', '".strip_tags($department)."',
-                '".strip_tags($designation_code)."', '".strip_tags($designation)."', '".strip_tags($report_to)."', '".strip_tags($userid)."')";
+                '".strip_tags($designation_code)."', '".strip_tags($designation)."', '".strip_tags($report_to)."', '".strip_tags($responsibility)."', '".strip_tags($userid)."')";
                 $insresult=$mysqli->query($basicInsert) or die("Error ".$mysqli->error);
             // }
         }
@@ -1385,6 +1389,7 @@
 				$detailrecords['designation_code']       = $row->designation_code;
 				$detailrecords['designation']         = $row->designation;
 				$detailrecords['report_to']         = $row->report_to;
+				$detailrecords['responsibility']         = $row->responsibility;
 								
 			}
 			
@@ -1420,10 +1425,14 @@
 			if(isset($_POST['report_to'])){
                 $report_to = $_POST['report_to'];
             }
+			if(isset($_POST['responsibility'])){
+                $responsibility1 = $_POST['responsibility'];
+                $responsibility = implode(",", $responsibility1);
+            }
 
             $basicUpdaet = "UPDATE basic_creation SET company_id = '".strip_tags($company_id)."', department_code='".strip_tags($department_code)."',
             department='".strip_tags($department)."', designation_code='".strip_tags($designation_code)."',
-            designation='".strip_tags($designation)."',report_to = '".strip_tags($report_to)."', update_login_id='".strip_tags($userid)."', status = 0 
+            designation='".strip_tags($designation)."', report_to = '".strip_tags($report_to)."', responsibility = '".strip_tags($responsibility)."', update_login_id='".strip_tags($userid)."', status = 0 
 			WHERE basic_creation_id = '".strip_tags($id)."' "; 
             $updresult = $mysqli->query($basicUpdaet) or die ("Error in in update Query!.".$mysqli->error);
         }

@@ -61,6 +61,7 @@ if($idupd>0)
 			$department_code       	     = $getBasicCreation['department_code'];
 			$designation_code                	 = $getBasicCreation['designation_code'];
 			$report_to       		    	 = $getBasicCreation['report_to'];
+			$responsibility       		    	 = $getBasicCreation['responsibility'];
 		}
         
 	} 
@@ -76,6 +77,7 @@ if($idupd>0)
     <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php echo ($company_id); ?>" >
     <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php echo ($department); ?>" >
     <input type="hidden" id="designationEdit" name="designationEdit" value="<?php echo $designation; ?>" >
+    <input type="hidden" id="responsibilityEdit" name="responsibilityEdit" value="<?php echo $responsibility; ?>" >
     <input type="hidden" id="reportingtoEdit" name="reportingtoEdit" value="<?php echo ($report_to); ?>" >
 
     <script>
@@ -107,6 +109,7 @@ if($idupd>0)
             editBranchBasedDepartment();
             editBranchBasedDesignation();
             editResetreportingdropdown();
+            EditDropDownResponsibile();
         }   
 
         // get department details
@@ -290,6 +293,19 @@ if($idupd>0)
                                             </div>
                                         </div>
 
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+											<div class="form-group" id='responbile_div'>
+                                                <label class="label">Responsibility</label>
+                                                <select type="text" class="form-control" id="responsibility" name="responsibility[]" multiple ></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label class="label" style="visibility: hidden;">Add Responsibilty</label>
+                                                <button type="button" tabindex="6" class="btn btn-primary" id="add_responsibilityDetails" name="add_responsibilityDetails"  style="padding: 5px 35px;"><span class="icon-add"></span></button>
+                                            </div>
+                                        </div>
+
                                         <!-- Add Course Category Modal -->
                                         <div class="modal fade addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg">
@@ -422,8 +438,76 @@ if($idupd>0)
                                     </div>
                                 </div>
 
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6 col-12">
-                            <div class="text-right" id="end_buttons">
+									<!-- Add Responsibility Modal -->
+                                    <div class="modal fade addResponsibilityModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content" style="background-color: white">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myLargeModalLabel">Add Responsibility</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DropDownResponsibile()">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- alert messages -->
+                                                    <div id="responsibleInsertNotOk" class="unsuccessalert">Responsiblility Already Exists, Please Enter a Different Name!
+                                                    <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                                                    </div>
+
+                                                    <div id="responsibleInsertOk" class="successalert">Responsiblility Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                                                    </div>
+
+                                                    <div id="responsibleUpdateOk" class="successalert">Responsiblility Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                                                    </div>
+
+                                                    <div id="responsibleDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Responsiblility!
+                                                    <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                                                    </div>
+
+                                                    <div id="responsibleDeleteOk" class="successalert">Responsiblility Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                                                    </div>
+
+                                                    <br />
+                                                <div class="row">
+                                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                                        <div class="form-group">
+                                                            <label class="label">Enter Responsibility</label>
+                                                            <input type="hidden" name="responsibility_id" id="responsibility_id">
+                                                            <input type="text" name="responsible_name" id="responsible_name" class="form-control" placeholder="Enter Responsibility">
+                                                            <span class="text-danger" id="responsiblenameCheck" style="display: none;">Enter Responsibility</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                                                            <label class="label" style="visibility: hidden;">Responsibility</label>
+                                                        <button type="button" tabindex="2" name="submitResponsibilityBtn" id="submitResponsibilityBtn" class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                                <div id="updatedResponsibilityTable"> 
+                                                    <table class="table custom-table" id="responsibilityTable"> 
+                                                        <thead>
+                                                            <tr>
+                                                                <th>S.No</th>
+                                                                <th>Responsibility</th>
+                                                                <th>ACTION</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                        </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="DropDownResponsibile()">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Add Responsibility Modal END -->
+                                    
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-6 col-12">
+                                        <div class="text-right" id="end_buttons">
                                 <button tabindex="8"  type="submit" value="submit" id="submitBasicCreation" name="submitBasicCreation" class="btn btn-primary" >Submit</button>
                                 <button tabindex="9" type="reset" id="cancelbtn" name="cancelbtn" class="btn btn-outline-secondary" class="text-right">Cancel</button>
                                 <br /><br />

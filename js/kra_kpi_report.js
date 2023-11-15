@@ -4,14 +4,17 @@ $(document).ready(function(){ //Document Ready Start.
         var typeValue = $(this).val();
 
         if(typeValue == '2'){
+            $('#department_report').hide();
             $('#designation_report').show();
-            getDepartmentList()
-
+            getDepartmentList('dept_name') //Get All Department list.
+            
         } else{
+            $('#department_report').show();
             $('#designation_report').hide();
-
+            getDepartmentList('department_name') //Get All Department list.
+            
         }
-
+        
         clearValueforAll(); //Clear all value when change type.
 
     });//krakpi_report_type END.
@@ -21,8 +24,15 @@ $(document).ready(function(){ //Document Ready Start.
 
         if(reportType =='1'){//OverAll.
 
-            $('.validate').hide();
-            getOverAllReport();//OverAll report ajax.
+            var department_name = $('#department_name').val();
+
+            if(department_name != ''){
+                $('.validate').hide();
+                getOverAllReport(department_name);//OverAll Department report ajax.
+            }else{
+                $('.validate').show();
+                tableEmpty();
+            }
 
         }else if(reportType =='2'){//Designation.
             var designation_name = $('#designation_name').val();
@@ -82,7 +92,7 @@ $(document).ready(function(){ //Document Ready Start.
 }); //Document Ready End.
 
 
-function getDepartmentList() {
+function getDepartmentList(id) {
         $.ajax({
             url : "departmentFile/getAllDepartmentDetails.php",
             type: "POST",
@@ -91,30 +101,30 @@ function getDepartmentList() {
             success: function(response){
                 
                 var len = response.length;
-                $('#dept_name').empty();
-                $('#dept_name').append("<option value=''>" + 'Select Department' + "</option>");
+                $('#'+id).empty();
+                $('#'+id).append("<option value=''>" + 'Select Department' + "</option>");
                 for (var i = 0; i < len; i++) {
                     var department_name = response[i]['department_name'];
                     var department_id = response[i]['department_id'];
                     var branch_name = response[i]['branch_name'];
-                    $('#dept_name').append("<option value='" + department_id + "'>" + department_name +' -  '+branch_name +"</option>");
+                    $('#'+id).append("<option value='" + department_id + "'>" + department_name +' -  '+branch_name +"</option>");
                 }
                 {//To Order ag_group Alphabetically
-                    var firstOption = $('#dept_name'+" option:first-child");
-                    $('#dept_name').html($('#dept_name'+" option:not(:first-child)").sort(function (a, b) {
+                    var firstOption = $('#'+id+" option:first-child");
+                    $('#'+id).html($('#'+id+" option:not(:first-child)").sort(function (a, b) {
                         return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
                     }));
-                    $('#dept_name').prepend(firstOption);
+                    $('#'+id).prepend(firstOption);
                 }
             }
         })
     }
 
-function getOverAllReport(){
+function getOverAllReport(department_id){
 
     $.ajax({
         type: "POST",
-        data: {},
+        data: {"department_id": department_id },
         url: "reports/krakpi_designation_reports/getOverallKRAKPIReport.php",
         cache: false,
         success: function(response){

@@ -3,6 +3,10 @@ const designation = new Choices('#designation', {
 	removeItemButton: true,
 });
 
+const responsibility = new Choices('#responsibility', {
+	removeItemButton: true,
+});
+
 $(document).ready(function () {
 
     // get company based branch name
@@ -45,7 +49,7 @@ $(document).ready(function () {
     });
     
    //End Department Code
-   $(document).on("click", "#add_departmentDetails", function () {
+    $(document).on("click", "#add_departmentDetails, #add_designationDetails, #add_responsibilityDetails", function () {
         if($('#branch_id_session').val() != 'Overall'){
             var branch_id = $('#branch_id').val();
         }else{
@@ -57,21 +61,21 @@ $(document).ready(function () {
             alert("Please select Company and Branch Name");
             return false;
         }
-   });
+    });
 
-   $(document).on("click", "#add_designationDetails", function () {
-        if($('#branch_id_session').val() != 'Overall'){
-            var branch_id = $('#branch_id').val();
-        }else{
-        var branch_id = $('#branch_id :selected').val();
-        }
-        if(branch_id>0){
-            return true;
-        }else{
-            alert("Please select Company and Branch Name");
-            return false;
-        }
-   });
+//    $(document).on("click", "#add_designationDetails", function () {
+//         if($('#branch_id_session').val() != 'Overall'){
+//             var branch_id = $('#branch_id').val();
+//         }else{
+//         var branch_id = $('#branch_id :selected').val();
+//         }
+//         if(branch_id>0){
+//             return true;
+//         }else{
+//             alert("Please select Company and Branch Name");
+//             return false;
+//         }
+//    });
   
     // Modal Box for Department Name
     $("#departmentnameCheck").hide();
@@ -136,6 +140,7 @@ $(document).ready(function () {
             // change attribute for modals
             $('#add_departmentDetails').attr({"data-toggle":"modal" ,"data-target":".addDepartmentModal"});
             $('#add_designationDetails').attr({"data-toggle":"modal" ,"data-target":".addDesignationModal"});
+            $('#add_responsibilityDetails').attr({"data-toggle":"modal" ,"data-target":".addResponsibilityModal"});
     
             //to select departments dropdown based on company name
             companyDetails(branch_id,department_upd,designation_upd);
@@ -165,6 +170,13 @@ $(document).ready(function () {
             $("#designationTable").remove();
             resetdesignationTable(branch_id);
 
+            //get Responsibility data based on company details for datatables
+            $("#responsibilityTable").remove();
+            resetResponsibilityTable(branch_id);
+
+            //Responsibility Dropdown.
+            DropDownResponsibile()
+
             //get reporting person data based on company name
             resetreportingdropdown(branch_id,report_to_upd);
         }
@@ -174,6 +186,8 @@ $(document).ready(function () {
             $('#add_departmentDetails').removeAttr("data-target");
             $('#add_designationDetails').removeAttr("data-toggle");
             $('#add_designationDetails').removeAttr("data-target");
+            $('#add_responsibilityDetails').removeAttr("data-toggle");
+            $('#add_responsibilityDetails').removeAttr("data-target");
         }
     });
 
@@ -186,9 +200,11 @@ $(document).ready(function () {
             var report_to_upd = $('#report_to_upd').val();
             $('#add_departmentDetails').attr({"data-toggle":"modal" ,"data-target":".addDepartmentModal"})
             $('#add_designationDetails').attr({"data-toggle":"modal" ,"data-target":".addDesignationModal"})
+            $('#add_responsibilityDetails').attr({"data-toggle":"modal" ,"data-target":".addResponsibilityModal"});
             // companyDetails(idupd,department_upd,designation_upd);
             resetdepartmentTable(idupd);
             resetdesignationTable(idupd);
+            resetResponsibilityTable(idupd);
             resetreportingdropdown(idupd,report_to_upd);
             getDesignationCode(upd_name);
         }
@@ -512,6 +528,131 @@ $(document).ready(function () {
         }
      });
 
+//Modal Box for Responsibility Name
+    $(document).on("click", "#submitResponsibilityBtn", function () {
+    if($('#branch_id_session').val() != 'Overall'){
+        var branch_id = $('#branch_id').val();
+    }else{
+    var branch_id = $('#branch_id :selected').val();
+    }
+        var responsibility_id=$("#responsibility_id").val();
+        var responsible_name=$("#responsible_name").val();
+        if(responsible_name!=""){
+            $.ajax({
+                url: 'responsibilityFile/ajaxInsertResponsibility.php',
+                type: 'POST',
+                data: {"responsible_name":responsible_name,"responsibility_id":responsibility_id,"branch_id": branch_id},
+                cache: false,
+                success:function(response){
+                    var insresult = response.includes("Exists");
+                    var updresult = response.includes("Updated");
+                    if(insresult){
+                        $('#responsibleInsertNotOk').show(); 
+                        setTimeout(function() {
+                            $('#responsibleInsertNotOk').fadeOut('fast');
+                        }, 2000);
+                    }else if(updresult){
+                        $('#responsibleUpdateOk').show();  
+                        setTimeout(function() {
+                            $('#responsibleUpdateOk').fadeOut('fast');
+                        }, 2000);
+                        $("#responsibilityTable").remove();
+                        resetResponsibilityTable(branch_id);
+                        $("#responsible_name").val('');
+                        $("#responsibility_id").val('');
+                    }
+                    else{
+                        $('#responsibleInsertOk').show();  
+                        setTimeout(function() {
+                            $('#responsibleInsertOk').fadeOut('fast');
+                        }, 2000);
+                        $("#responsibilityTable").remove();
+                        resetResponsibilityTable(branch_id);
+                        $("#responsible_name").val('');
+                        $("#responsibility_id").val('');
+                    }
+                }
+            });
+        }
+        else{
+        $("#responsiblenameCheck").show();
+        }
+    });
+
+//reset Responsibility modal table
+    function resetResponsibilityTable(branch_id){
+
+    $.ajax({
+        url: 'responsibilityFile/ajaxResetResponsibilityTable.php',
+        type: 'POST',
+        data: {"branch_id":branch_id},
+        cache: false,
+        success:function(html){
+            $("#updatedResponsibilityTable").empty();
+            $("#updatedResponsibilityTable").html(html);
+        }
+    });
+    }
+
+    $("#responsible_name").keyup(function(){
+
+        var resval = $("#responsible_name").val();
+        if(resval.length == ''){
+        $("#responsiblenameCheck").show();
+        return false;
+        }else{
+        $("#responsiblenameCheck").hide();
+        }
+    });
+
+    $("body").on("click","#edit_responsibility",function(){
+
+        var responsibility_id=$(this).attr('value');
+        $("#responsibility_id").val(responsibility_id);
+        $.ajax({
+                url: 'responsibilityFile/ajaxEditResponsibility.php',
+                type: 'POST',
+                data: {"responsibility_id":responsibility_id},
+                cache: false,
+                success:function(response){
+                $("#responsible_name").val(response);
+            }
+        });
+    });
+
+    $("body").on("click","#delete_responsibility", function(){
+
+    var isok=confirm("Do you want Delete Responsibility?");
+    if(isok==false){
+    return false;
+    }else{
+        var responsibility_id=$(this).attr('value');
+        var c_obj = $(this).parents("tr");
+        $.ajax({
+            url: 'responsibilityFile/ajaxDeleteResponsibility.php',
+            type: 'POST',
+            data: {"responsibility_id":responsibility_id},
+            cache: false,
+            success:function(response){
+                var delresult = response.includes("Rights");
+                if(delresult){
+                $('#responsibleDeleteNotOk').show(); 
+                setTimeout(function() {
+                $('#responsibleDeleteNotOk').fadeOut('fast');
+                }, 2000);
+                }
+                else{
+                c_obj.remove();
+                $('#responsibleDeleteOk').show();  
+                setTimeout(function() {
+                $('#responsibleDeleteOk').fadeOut('fast');
+                }, 2000);
+                }
+            }
+        });
+    }
+    });
+
 
     $("#common").click(function(){
         $(".common").css('display','block');
@@ -608,10 +749,6 @@ function editBranchBasedDesignation(){
     var basic_creation_id = $('#basic_creation_idEdit').val(); 
     var branch_id = $('#company_nameEdit').val(); 
     var designationEdit = $('#designationEdit').val().split(',');  
-//     var desig = $('.choices__list').val();
-//  console.log("designation_id",desig);
-   
-    // console.log(designationEdit)
     $.ajax({
         url: 'basicFile/getDesignationDetails.php',
         type: 'post',
@@ -623,8 +760,6 @@ function editBranchBasedDesignation(){
             for (var r = 0; r <= response.designation_id.length - 1; r++) {     
                 var designation_id = response['designation_id'][r];  
                 var designation_name = response['designation_name'][r]; 
-// console.log("designation_id",designation_id);
-// console.log("designation_name",designation_name);
                 var selected = '';
                 if(designationEdit != ''){
              
@@ -655,3 +790,78 @@ function editBranchBasedDesignation(){
     });
     
 };
+
+function DropDownResponsibile(){
+    if($('#branch_id_session').val() != 'Overall'){
+        var branch_id = $('#branch_id').val();
+    }else{
+        var branch_id = $('#branch_id :selected').val();
+    }
+    
+    $.ajax({
+        url: 'responsibilityFile/ajaxGetResponsibilityDropDown.php',
+        type: 'post',
+        data: {'branch_id': branch_id},
+        dataType: 'json',
+        success:function(response){
+
+            responsibility.clearStore();
+            var len = response.length;
+            for(var i = 0; i<len; i++){
+                var responsibility_id = response[i]['responsibility_id'];
+                var responsibility_name = response[i]['responsibility_name'];
+                var items = [
+                    {
+                        value: responsibility_id,
+                        label: responsibility_name,
+                    }
+                ];
+                responsibility.setChoices(items);
+                responsibility.init();
+            }
+        }
+            
+    });
+        
+}
+
+function EditDropDownResponsibile(){
+    var branch_id = $('#company_nameEdit').val();
+    var responsibilityEdit = $('#responsibilityEdit').val().split(',');
+    $.ajax({
+        url: 'responsibilityFile/ajaxGetResponsibilityDropDown.php',
+        type: 'post',
+        data: {'branch_id': branch_id},
+        dataType: 'json',
+        success:function(response){
+
+            responsibility.clearStore();
+            var len = response.length;
+            for(var i = 0; i<len; i++){
+                var responsibility_id = response[i]['responsibility_id'];
+                var responsibility_name = response[i]['responsibility_name'];
+                var selected = '';
+                
+                if(responsibilityEdit != ''){
+                    // for(var i=0;i<responsibilityEdit.length;i++){
+                        if(responsibilityEdit[i] == responsibility_id){ 
+                            selected = 'selected';    
+                        }
+                    // }
+                }
+
+                var items = [
+                    {
+                        value: responsibility_id,
+                        label: responsibility_name,
+                        selected: selected,
+                    }
+                ];
+                responsibility.setChoices(items);
+                responsibility.init();
+            }
+        }
+            
+    });
+        
+}
