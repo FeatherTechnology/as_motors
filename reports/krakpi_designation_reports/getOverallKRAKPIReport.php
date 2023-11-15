@@ -22,6 +22,7 @@ include '../../ajaxconfig.php';
             <th width="15%">S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
+            <th>Designation</th>
             <th>Responsibility</th>
         </tr>
     </thead>
@@ -35,14 +36,16 @@ if(isset($_POST["department_id"])){
 
 $res_emp_code = array();
 $res_staff_name = array();
+$res_designation = array();
 $res = array();
 
 if($department_id != '0'){
 
 $resqry = "";
-$resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name FROM `basic_creation` bc 
+$resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name, dc.designation_name FROM `basic_creation` bc 
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.designation,bc.designation)
 LEFT JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility) 
+LEFT JOIN designation_creation dc ON dc.designation_id = sc.designation
 WHERE bc.department = '$department_id' order by sc.staff_id ";
 
 $resInfo = $connect->query($resqry);
@@ -52,6 +55,7 @@ while ($restask = $resInfo->fetch()) {
 
     $res_emp_code[]['emp_code'] = $restask['emp_code'];
     $res_staff_name[]['staff_name'] = $restask['staff_name'];
+    $res_designation[]['designation_name'] = $restask['designation_name'];
     $res[]['responsibility_name'] = $restask['responsibility_name'];
     }
 }
@@ -59,6 +63,7 @@ while ($restask = $resInfo->fetch()) {
 } else{
     $res_emp_code[]['emp_code'] = '';
     $res_staff_name[]['staff_name'] = '';
+    $res_designation[]['designation_name'] = '';
     $res[]['responsibility_name'] = '';
 }
 
@@ -69,6 +74,7 @@ for ($i=0; $i<count($res); $i++) {
         <td><?php echo $a++; ?></td>
         <td><?php echo $res_emp_code[$i]['emp_code']; ?></td>
         <td><?php echo $res_staff_name[$i]['staff_name']; ?></td>
+        <td><?php echo $res_designation[$i]['designation_name']; ?></td>
         <td><?php echo $res[$i]['responsibility_name']; ?></td>
     </tr>
 <?php }  ?>
@@ -96,6 +102,7 @@ for ($i=0; $i<count($res); $i++) {
             <th>S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
+            <th>Designation</th>
             <th>Frequency</th>
             <th>KRA Category</th>
             <th>R & R</th>
@@ -110,6 +117,7 @@ for ($i=0; $i<count($res); $i++) {
 $dailyworkid = array();
 $dailyemp_code = array();
 $dailystaff_name = array();
+$dailydesignation = array();
 $dailyfrequency = array();
 $dailykra = array();
 $dailyrr = array();
@@ -120,13 +128,14 @@ $dailycompletedFile = array();
 
 if($department_id != '0'){
 $dailytaskqry = "";
-$dailytaskqry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
+$dailytaskqry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, dc.designation_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
 FROM krakpi_calendar_map kcm 
 LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id 
 LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
+LEFT JOIN designation_creation dc ON kc.designation = dc.designation_id
 WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency = 'Daily Task' ORDER BY sc.staff_id ";
 
 $dailytaskInfo = $connect->query($dailytaskqry);
@@ -146,6 +155,7 @@ while ($dailytask = $dailytaskInfo->fetch()) {
     $dailyworkid[]['work_id'] = $dailytask['work_id'];
     $dailyemp_code[]['emp_code'] = $dailytask['emp_code'];
     $dailystaff_name[]['staff_name'] = $dailytask['staff_name'];
+    $dailydesignation[]['designation_name'] = $dailytask['designation_name'];
     $dailyfrequency[]['frequency'] = $dailytask['frequency'];
     $dailykra[]['kra_category'] = $dailytask['kra_category'];
     $dailyrr[]['RR'] = $dailytask['RR'];
@@ -160,6 +170,7 @@ while ($dailytask = $dailytaskInfo->fetch()) {
     $dailyworkid[]['work_id'] = '';
     $dailyemp_code[]['emp_code'] = '';
     $dailystaff_name[]['staff_name'] = '';
+    $dailydesignation[]['designation_name'] = '';
     $dailyfrequency[]['frequency'] = '';
     $dailykra[]['kra_category'] = '';
     $dailyrr[]['RR'] = '';
@@ -186,6 +197,7 @@ for ($i=0; $i<count($dailykra); $i++) {
         <td><?php echo $a++; ?></td>
         <td><?php echo $dailyemp_code[$i]['emp_code']; ?></td>
         <td><?php echo $dailystaff_name[$i]['staff_name']; ?></td>
+        <td><?php echo $dailydesignation[$i]['designation_name']; ?></td>
         <td><?php echo $dailyfrequency[$i]['frequency']; ?></td>
         <td><?php echo $dailykra[$i]['kra_category']; ?></td>
         <td><?php echo $dailyrr[$i]['RR']; ?></td>
@@ -218,6 +230,7 @@ for ($i=0; $i<count($dailykra); $i++) {
             <th>S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
+            <th>Designation</th>
             <th>Task Name</th>
             <th>Frequency</th>
             <th>KRA Category</th>
@@ -234,6 +247,7 @@ for ($i=0; $i<count($dailykra); $i++) {
 $workid = array();
 $emp_code = array();
 $staff_name = array();
+$desgn = array();
 $frequency = array();
 $kra = array();
 $rr = array();
@@ -245,13 +259,14 @@ $completedFile = array();
 if($department_id != '0'){//KRAKPI 
 //KRAKPI start//
 $qry = "";
-$qry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
+$qry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, dc.designation_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
 FROM krakpi_calendar_map kcm 
 LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id 
 LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
+LEFT JOIN designation_creation dc ON kc.designation = dc.designation_id
 WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency != 'Daily Task' ORDER BY sc.staff_id ";
 
 $krakpiInfo = $connect->query($qry);
@@ -271,6 +286,7 @@ while ($krakpitask = $krakpiInfo->fetch()) {
     $workid[]['work_id'] = $krakpitask['work_id'];
     $emp_code[]['emp_code'] = $krakpitask['emp_code'];
     $staff_name[]['staff_name'] = $krakpitask['staff_name'];
+    $desgn[]['designation_name'] = $krakpitask['designation_name'];
     $frequency[]['frequency'] = $krakpitask['frequency'];
     $kra[]['kra_category'] = $krakpitask['kra_category'];
     $rr[]['RR'] = $krakpitask['RR'];
@@ -283,9 +299,10 @@ while ($krakpitask = $krakpiInfo->fetch()) {
 //KRAKPI END//
 
 //Todo Start //
-$todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, tc.work_des as RR, DATE(tc.from_date) as f_date, DATE(tc.to_date) as t_date, sc.staff_name, sc.emp_code
+$todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, tc.work_des as RR, DATE(tc.from_date) as f_date, DATE(tc.to_date) as t_date, sc.staff_name, sc.emp_code, dc.designation_name
 FROM todo_creation tc 
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
+LEFT JOIN designation_creation dc ON sc.designation = dc.designation_id
 WHERE sc.department = '$department_id' &&  tc.status = 0 ";
 
 $gettodoinfo = $con->query($todoqry);
@@ -304,6 +321,7 @@ while($todoinfo = $gettodoinfo->fetch_assoc())
     $workid[]['work_id'] = $todoinfo['work_id'];
     $emp_code[]['emp_code'] = $todoinfo['emp_code'];
     $staff_name[]['staff_name'] = $todoinfo['staff_name'];
+    $desgn[]['designation_name'] = $todoinfo['designation_name'];
     $frequency[]['frequency'] = '-';
     $kra[]['kra_category'] = '-';
     $rr[]['RR'] = $todoinfo['RR'];
@@ -319,6 +337,7 @@ while($todoinfo = $gettodoinfo->fetch_assoc())
     $workid[]['work_id'] = '';
     $emp_code[]['emp_code'] = '';
     $staff_name[]['staff_name'] = '';
+    $desgn[]['designation_name'] = '';
     $frequency[]['frequency'] = '';
     $kra[]['kra_category'] = '';
     $rr[]['RR'] = '';
@@ -345,6 +364,7 @@ for ($i=0; $i<count($kra); $i++) {
         <td><?php echo $a++; ?></td>
         <td><?php echo $emp_code[$i]['emp_code']; ?></td>
         <td><?php echo $staff_name[$i]['staff_name']; ?></td>
+        <td><?php echo $desgn[$i]['designation_name']; ?></td>
         <td><?php echo $workid[$i]['work_id']; ?></td>
         <td><?php echo $frequency[$i]['frequency']; ?></td>
         <td><?php echo $kra[$i]['kra_category']; ?></td>
@@ -373,7 +393,7 @@ for ($i=0; $i<count($kra); $i++) {
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3 ]
+                        columns: [ 0, 1, 2, 3, 4 ]
                     }
                 }
             ],
@@ -391,7 +411,7 @@ for ($i=0; $i<count($kra); $i++) {
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
                     }
                 }
             ],
@@ -409,7 +429,7 @@ for ($i=0; $i<count($kra); $i++) {
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+                        columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
                     }
                 }
             ],
