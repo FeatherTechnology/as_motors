@@ -43,9 +43,9 @@ if($department_id != '0'){
 
 $resqry = "";
 $resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name, dc.designation_name FROM `basic_creation` bc 
-LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.designation,bc.designation)
-LEFT JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility) 
-LEFT JOIN designation_creation dc ON dc.designation_id = sc.designation
+JOIN staff_creation sc ON FIND_IN_SET(sc.designation,bc.designation)
+JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility) 
+JOIN designation_creation dc ON dc.designation_id = sc.designation
 WHERE bc.department = '$department_id' order by sc.staff_id ";
 
 $resInfo = $connect->query($resqry);
