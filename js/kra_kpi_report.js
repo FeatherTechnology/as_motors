@@ -22,7 +22,7 @@ $(document).ready(function(){ //Document Ready Start.
     $('#view_report').click(function(){ //view report in the table.
         var reportType = $('#krakpi_report_type').val();
 
-        if(reportType =='1'){//OverAll.
+        if(reportType =='1'){//Department.
 
             var department_name = $('#department_name').val();
 
