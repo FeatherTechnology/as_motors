@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2023 at 01:25 PM
+-- Generation Time: Nov 15, 2023 at 08:46 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -454,6 +454,7 @@ CREATE TABLE `basic_creation` (
   `department` varchar(250) DEFAULT NULL,
   `designation` varchar(250) DEFAULT NULL,
   `report_to` varchar(255) DEFAULT NULL,
+  `responsibility` varchar(50) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `insert_login_id` int(11) DEFAULT NULL,
   `update_login_id` int(11) DEFAULT NULL,
@@ -1576,6 +1577,21 @@ CREATE TABLE `report_creation` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `responsibility_creation`
+--
+
+CREATE TABLE `responsibility_creation` (
+  `responsibility_id` int(11) NOT NULL,
+  `responsibility_name` varchar(150) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  `created_date` date DEFAULT NULL,
+  `updated_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rgp_creation`
 --
 
@@ -1955,15 +1971,9 @@ CREATE TABLE `user` (
   `vehicle_report` int(11) NOT NULL DEFAULT 1,
   `daily_km_report` int(11) NOT NULL DEFAULT 1,
   `diesel_slip_report` int(11) NOT NULL DEFAULT 1,
-  `memo_report` int(11) NOT NULL DEFAULT 1
+  `memo_report` int(11) NOT NULL DEFAULT 1,
+  `krakpi_report` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`user_id`, `firstname`, `lastname`, `fullname`, `title`, `emailid`, `user_name`, `user_password`, `role`, `staff_id`, `branch_id`, `designation_id`, `mobile_number`, `status`, `Createddate`, `administration_module`, `dashboard`, `company_creation`, `branch_creation`, `holiday_creation`, `manage_users`, `master_module`, `basic_sub_module`, `responsibility_sub_module`, `audit_sub_module`, `others_sub_module`, `basic_creation`, `tag_creation`, `rr_creation`, `kra_category`, `krakpi_creation`, `staff_creation`, `audit_area_creation`, `audit_area_checklist`, `audit_assign`, `audit_follow_up`, `report_template`, `media_master`, `asset_creation`, `insurance_register`, `service_indent`, `asset_details`, `rgp_creation`, `promotional_activities`, `work_force_module`, `schedule_task_sub_module`, `memo_sub_module`, `campaign`, `assign_work`, `daily_task_update`, `todo`, `assigned_work`, `memo_initiate`, `memo_assigned`, `memo_update`, `maintenance_module`, `pm_checklist`, `bm_checklist`, `maintenance_checklist`, `manpower_in_out_module`, `permission_or_onduty`, `regularisation_approval`, `transfer_location`, `target_fixing_module`, `goal_setting`, `target_fixing`, `daily_performance`, `daily_performance_review`, `appreciation_depreciation`, `vehicle_management_module`, `vehicle_details`, `daily_km`, `diesel_slip`, `approval_mechanism_module`, `approval_requisition`, `business_communication_outgoing`, `minutes_of_meeting`, `report_module`, `reports`, `daily_performance_report`, `vehicle_management_report_module`, `vehicle_report`, `daily_km_report`, `diesel_slip_report`, `memo_report`) VALUES
-(1, 'Super', 'Admin', 'Super Admin', 'Super Admin', 'support@feathertechnology.in', 'support@feathertechnology.in', 'admin@123', '1', 'Overall', 'Overall', NULL, NULL, '0', '2021-04-17 17:08:00', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', 0, '0', '0', '0', '0', '0', '0', '0', '0', '0', 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2485,6 +2495,12 @@ ALTER TABLE `promotional_activities_ref`
 --
 ALTER TABLE `report_creation`
   ADD PRIMARY KEY (`report_id`);
+
+--
+-- Indexes for table `responsibility_creation`
+--
+ALTER TABLE `responsibility_creation`
+  ADD PRIMARY KEY (`responsibility_id`);
 
 --
 -- Indexes for table `rgp_creation`
@@ -3031,6 +3047,12 @@ ALTER TABLE `report_creation`
   MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `responsibility_creation`
+--
+ALTER TABLE `responsibility_creation`
+  MODIFY `responsibility_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `rgp_creation`
 --
 ALTER TABLE `rgp_creation`
@@ -3106,7 +3128,7 @@ ALTER TABLE `transfer_location`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vehicle_details`
