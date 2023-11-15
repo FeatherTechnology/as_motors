@@ -26,7 +26,7 @@
                                             <label for="krakpi_report_type">Report Type</label>
                                                 <select tabindex="1" type="text" class="form-control emptyTable" id="krakpi_report_type" name="krakpi_report_type">
                                                     <option value=''>Select Report Type</option>
-                                                    <option value='1'>OverAll</option>
+                                                    <option value='1'>Department</option>
                                                     <option value='2'>Designation</option>
                                                 </select>
                                         </div>
