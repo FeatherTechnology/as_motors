@@ -144,6 +144,10 @@ if($idupd>0)
 
             var branch_id = $('#company_nameEdit').val(); 
             var report_to_upd = $('#reportingtoEdit').val();
+            var designationEdit = $('#designationEdit').val();
+
+            // Use a regular expression to match numbers in the string
+            var designationEditArray = designationEdit.match(/\d+/g) || [];
 
             $.ajax({
                 url: 'ajaxResetReportingDropdown.php',
@@ -156,12 +160,18 @@ if($idupd>0)
                     $("#report_to").empty();
                     $("#report_to").append("<option value=''>"+'Select Reporting Person'+"</option>");
                     for(var i = 0; i<response.designation_id.length; i++){ 
+                        var designation_id = response['designation_id'][i];
                         var selected = "";
                         if(report_to_upd == response['designation_id'][i]) {
                             selected = "selected";
-                        }                
-         
-                        $("#report_to").append("<option value='"+response['designation_id'][i]+"' "+selected+">"+response['designation_name'][i]+"</option>");
+                        }  
+                        
+                        var disabled = '';
+                        if (designationEditArray.includes(designation_id.toString())) {
+                        disabled = 'disabled';    
+                        }
+                        
+                        $("#report_to").append("<option value='"+response['designation_id'][i]+"' "+selected+" "+ disabled +">"+response['designation_name'][i]+"</option>");
                     }
                 }
             });
