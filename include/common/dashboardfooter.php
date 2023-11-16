@@ -2916,7 +2916,6 @@ if($current_page == 'kra_kpi_report') { ?>
             inActiveRemark('company_id',id,'company_creation',dlt,'edit_company_creation'); //call function to add in active remark.
             return true;
         }else{
-                console.log('aaaaaaa'+dlt);
                 return false;
             }
     });
@@ -3320,7 +3319,6 @@ if($current_page == 'kra_kpi_report') { ?>
     function changeRowColor(){
         $('#pending_task_dashboard tbody tr').each(function(){
             let sts = $(this).find('td:nth-child(5)').html();
-            console.log(sts)
             if (sts == 'Work Assigned') { 
                 $(this).closest('tr').css({'backgroundColor':'yellow', 'fontWeight': 'bold'})
             }else if (sts == 'In Progress') {
@@ -3341,7 +3339,6 @@ if($current_page == 'kra_kpi_report') { ?>
     function changeRowBGColor(){
         $('#managerlogin_pending_task_dashboard tbody tr').each(function(){
             let sts = $(this).find('td:nth-child(5)').html();
-            console.log(sts)
             if (sts == 'Work Assigned') { 
                 $(this).closest('tr').css({'backgroundColor':'yellow', 'fontWeight': 'bold'})
             }else if (sts == 'In Progress') {

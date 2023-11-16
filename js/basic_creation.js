@@ -1,10 +1,12 @@
 // choices js for multi select dropdown:
 const designation = new Choices('#designation', {
 	removeItemButton: true,
+    allowHTML: true,
 });
 
 const responsibility = new Choices('#responsibility', {
 	removeItemButton: true,
+    allowHTML: true,
 });
 
 $(document).ready(function () {
@@ -178,7 +180,7 @@ $(document).ready(function () {
             DropDownResponsibile()
 
             //get reporting person data based on company name
-            resetreportingdropdown(branch_id,report_to_upd);
+            // resetreportingdropdown(branch_id,report_to_upd);
         }
         else{
             // remove modal attribute when company not selected
@@ -191,10 +193,19 @@ $(document).ready(function () {
         }
     });
 
+    $('#designation').change(function(){
+        var desgnID = $(this).val();
+        resetreportingdropdown(desgnID)
+
+    });
+
+}); // document ready end
+
     $(function(){ 
         var idupd = $("#branch_id").val();
+        var id = $("#id").val();
         var upd_name = $("#branch_id :selected").text();
-        if(idupd != null){
+        if(idupd != null && id == ''){
             var department_upd = $('#department_upd').val();
             var designation_upd = $('#designation_upd').val();
             var report_to_upd = $('#report_to_upd').val();
@@ -205,8 +216,12 @@ $(document).ready(function () {
             resetdepartmentTable(idupd);
             resetdesignationTable(idupd);
             resetResponsibilityTable(idupd);
-            resetreportingdropdown(idupd,report_to_upd);
+            // resetreportingdropdown(idupd,report_to_upd);
             getDesignationCode(upd_name);
+            //Responsibility Dropdown.
+            DropDownResponsibile()
+            DropDownStock(); // Department Dropdown ,Get department initially based on branch when add basic creation using Manager or staff login.
+            DropDownDesignation(); // Designation Dropdown ,Get Designation initially based on branch when add basic creation using Manager or staff login.  
         }
 
         $('#departmentTable').DataTable({
@@ -225,8 +240,6 @@ $(document).ready(function () {
             }
         });
 
-        DropDownStock(); // Department Dropdown ,Get department initially based on branch when add basic creation using Manager or staff login.
-        DropDownDesignation(); // Designation Dropdown ,Get Designation initially based on branch when add basic creation using Manager or staff login.  
 
     });
     
@@ -302,9 +315,11 @@ $(document).ready(function () {
     }
     
     //report Dropdown
-    function resetreportingdropdown(branch_id,report_to_upd){ 
+    function resetreportingdropdown(desgnID){ 
+        var branch_id = $('#branch_id').val(); 
+        var report_to_upd = $('#reportingtoEdit').val();
 
-         $.ajax({
+        $.ajax({
             url: 'ajaxResetReportingDropdown.php',
             type: 'POST',
             data: {"branch_id":branch_id},
@@ -315,11 +330,18 @@ $(document).ready(function () {
                 $("#report_to").empty();
                 $("#report_to").append("<option value=''>"+'Select reporting Person'+"</option>");
                 for(var i = 0; i<response.designation_id.length; i++){ 
+                    var designation_id = response['designation_id'][i];
                     var selected = "";
                     if(report_to_upd == response['designation_id'][i]) {
                         selected = "selected";
-                    }   
-                    $("#report_to").append("<option value='"+response['designation_id'][i]+"' "+selected+">"+response['designation_name'][i]+"</option>");
+                    }  
+                    
+                    var disabled = '';
+                    if (desgnID.includes(designation_id.toString())) {
+                    disabled = 'disabled';    
+                    }
+
+                    $("#report_to").append("<option value='"+response['designation_id'][i]+"' "+selected+" "+ disabled +">"+response['designation_name'][i]+"</option>");
                 }
             }
         });
@@ -681,7 +703,7 @@ $(document).ready(function () {
     });
 
     
-}); // document ready end
+
 
 function DropDownStock(){
     if($('#branch_id_session').val() != 'Overall'){
@@ -745,10 +767,9 @@ function DropDownDesignation(){
 
 // get designation details
 function editBranchBasedDesignation(){ 
- 
     var basic_creation_id = $('#basic_creation_idEdit').val(); 
     var branch_id = $('#company_nameEdit').val(); 
-    var designationEdit = $('#designationEdit').val().split(',');  
+    var designationEdit = $('#designationEdit').val().split(',');
     $.ajax({
         url: 'basicFile/getDesignationDetails.php',
         type: 'post',
@@ -762,17 +783,16 @@ function editBranchBasedDesignation(){
                 var designation_name = response['designation_name'][r]; 
                 var selected = '';
                 if(designationEdit != ''){
-             
                 
-                    for(var i=0;i<designationEdit.length;i++){
+                    // for(var i=0;i<designationEdit.length;i++){
 
-                        if(designationEdit[i] == designation_id){ 
-                            selected = 'selected';
-                            
-                        }
+                    //     if(designationEdit[i] == designation_id){ 
+                    //         selected = 'selected'; 
+                    //     }
+                    // }
+                    if(designationEdit.includes(designation_id)){
+                        selected = 'selected';    
                     }
-                
-
                 }
 
                 var items = [
@@ -842,7 +862,7 @@ function EditDropDownResponsibile(){
                 var responsibility_name = response[i]['responsibility_name'];
                 var selected = '';
                 
-                if(responsibilityEdit.includes(responsibility_id)){ 
+                if(responsibilityEdit.includes(responsibility_id)){
                     selected = 'selected';    
                 }
 
