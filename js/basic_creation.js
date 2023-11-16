@@ -842,12 +842,8 @@ function EditDropDownResponsibile(){
                 var responsibility_name = response[i]['responsibility_name'];
                 var selected = '';
                 
-                if(responsibilityEdit != ''){
-                    // for(var i=0;i<responsibilityEdit.length;i++){
-                        if(responsibilityEdit[i] == responsibility_id){ 
-                            selected = 'selected';    
-                        }
-                    // }
+                if(responsibilityEdit.includes(responsibility_id)){ 
+                    selected = 'selected';    
                 }
 
                 var items = [
