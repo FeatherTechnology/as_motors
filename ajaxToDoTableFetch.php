@@ -12,7 +12,7 @@ if(isset($_SESSION["branch_id"])){
 $column = array(
 
     'todo_id',
-    'company_id',
+    // 'company_id',
     'work_des',
     // 'tag_id',
     'priority',
@@ -42,18 +42,18 @@ if($sbranch_id == 'Overall'){
                 $query .= "
 
                 OR todo_id LIKE '%".$_POST['search']."%'
-                OR company_id LIKE  '%".$_POST['search']."%'
                 OR work_des LIKE  '%".$_POST['search']."%'
                 OR priority LIKE  '%".$_POST['search']."%'
                 OR assign_to LIKE  '%".$_POST['search']."%'
                 OR from_date LIKE  '%".$_POST['search']."%'
                 OR to_date LIKE  '%".$_POST['search']."%'
                 OR status LIKE '%".$_POST['search']."%' ";
+                // OR company_id LIKE  '%".$_POST['search']."%'
             }
         }
     }
 }else{
-    $query .=" and company_id= '".$sbranch_id."' ";
+    $query .=" and created_id= '".$userid."' ";
 }
 
 if (isset($_POST['order'])) {
@@ -85,17 +85,17 @@ foreach ($result as $row) {
         $sub_array[] = $sno;
     }
 
-    $company_name='';
-    $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
-    $res = $con->query($qry);
-    while($row5 = $res->fetch_assoc())
-    {
-        $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
-        $res1 = $con->query($getname) ;
-        while ($row52 = $res1->fetch_assoc()) {
-            $company_name = $row52['company_name'];
-        }
-    }
+    // $company_name='';
+    // $qry = "SELECT * FROM branch_creation WHERE branch_id = '".$row['company_id']."' AND status=0 ORDER BY branch_id DESC"; 
+    // $res = $con->query($qry);
+    // while($row5 = $res->fetch_assoc())
+    // {
+    //     $getname = "SELECT company_name FROM company_creation WHERE company_id = '".$row5['company_id']."' ";
+    //     $res1 = $con->query($getname) ;
+    //     while ($row52 = $res1->fetch_assoc()) {
+    //         $company_name = $row52['company_name'];
+    //     }
+    // }
 
     //get department
     // $department_name='';
@@ -130,7 +130,7 @@ foreach ($result as $row) {
         }
     }
     
-    $sub_array[] = $company_name;
+    // $sub_array[] = $company_name;
     // $sub_array[] = $department_name;
     $sub_array[] = $row['work_des'];
     // $sub_array[] = $tagClassification;
@@ -141,8 +141,8 @@ foreach ($result as $row) {
     else{$sub_array[] = 'Low';}
 
     $sub_array[] = $staffName;
-    $sub_array[] = $row['from_date'];
-    $sub_array[] = $row['to_date'];
+    $sub_array[] = date('d-m-Y',strtotime($row['from_date']));
+    $sub_array[] = date('d-m-Y',strtotime($row['to_date']));
 
     $status      = $row['status'];
     if($status == 1)

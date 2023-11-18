@@ -71,7 +71,7 @@ $i=0;
 while($row1 = $res1->fetch_assoc())
 {
     $detailRecords[$i]['todo_id'] = $row1["todo_id"];      
-    $detailRecords[$i]['todo_company_id'] = $row1["company_id"];      
+    // $detailRecords[$i]['todo_company_id'] = $row1["company_id"];      
     $detailRecords[$i]['todo_work_des'] = $row1["work_des"];      
     $detailRecords[$i]['todo_tag_id'] = $row1["tag_id"];      
     $detailRecords[$i]['todo_priority'] = $row1["priority"];      

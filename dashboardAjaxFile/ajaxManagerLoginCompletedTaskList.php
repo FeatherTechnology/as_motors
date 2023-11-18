@@ -5,12 +5,26 @@ include('../ajaxconfig.php');
 if(isset($_SESSION["curdateFromIndexPage"])){
     $curdate = $_SESSION["curdateFromIndexPage"];
 }
-if(isset($_SESSION["userid"])){
-    $userid = $_SESSION["userid"];
+
+$staffIds = array(); //To find same department staffs, by using session staff_id find department for the user from 'staff_creation', as same by using department id to find other staff in same department to view only same department record for manager.  
+$staffdeptIds = array();
+
+if(isset($_SESSION["staffid"])){
+    $staffid = $_SESSION["staffid"];
+
+    $staffDetailsQry = $connect->query("SELECT `department` FROM `staff_creation` WHERE `staff_id` = '$staffid' ");
+    $userDept = $staffDetailsQry->fetch()['department'];
+    
+    $staffinfoQry = $connect->query("SELECT staff_id, designation FROM `staff_creation` WHERE `department` = '$userDept' ");
+    while($staffinfo = $staffinfoQry->fetch()){
+        $staffIds[] = $staffinfo['staff_id'];
+        $staffdeptIds[] = $staffinfo['designation'];
+    }
+    // Convert the array to a comma-separated string
+    $deptstaffid = implode(",", $staffIds);
+    $deptstaffdesgnid = implode(",", $staffdeptIds);
 }
-if(isset($_SESSION["branch_id"])){
-    $sbranch_id = $_SESSION["branch_id"];
-} 
+
 $column = array(
     
     'tb',
@@ -23,12 +37,8 @@ $tasktitle = array();
 $designation = array();
 $endate = array();
 
-$TodoTaskInfo ="SELECT 'ToDo' as tb, work_des as title, to_date as end_date, assign_to as assign, work_status as sts FROM todo_creation WHERE work_status != 3 AND status = 0 AND
-(
-    `to_date` >= '$curdate'
-    AND
-    `to_date` <= '$curdate' + INTERVAL 10 DAY
-)";
+$TodoTaskInfo ="SELECT 'ToDo' as tb, work_des as title, to_date as end_date, assign_to as assign, work_status as sts FROM todo_creation WHERE work_status = 3 AND status = 0 AND
+( `to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY ) AND FIND_IN_SET('$deptstaffid', assign_to)";
 $todoInfo = $connect->query($TodoTaskInfo);
 if($todoInfo){                
     while ($todotask = $todoInfo->fetch()) { 
@@ -44,7 +54,7 @@ if($todoInfo){
 
 $rr = array();
 $kpi = array();
-$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status IN (0, 1, 2)");
+$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status = 3 AND kc.department = '$userDept'");
 while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
@@ -56,11 +66,11 @@ foreach($rr as $val){
     if($val == 'New'){
         
         $qry .= "SELECT 'KRA&KPI ' as tb, kcm.work_status as sts, kcr.kpi as title, kcm.to_date as end_date, kc.designation  as assign
-                FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status IN (0, 1, 2)  AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY );";
+                FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status = 3  AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY ) AND kc.department = '$userDept' ;";
     }else{
         $qry .= "SELECT 'KRA&KPI ' as tb, kcm.work_status as sts, rrr.rr as title, kcm.to_date as end_date, kc.designation  as assign 
                 FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
-                JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id WHERE kc.status = 0 AND kcm.work_status IN (0, 1, 2) AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY );";
+                JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id WHERE kc.status = 0 AND kcm.work_status = 3 AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY ) AND kc.department = '$userDept' ;";
     }
 }
 if($qry){
@@ -79,7 +89,7 @@ $krakpiInfo->closeCursor();
 }
 
 $auditTaskInfo ="SELECT 'AUDIT AREA ' as tb, acr.work_status as sts, ac.audit_area as title, acr.to_date as end_date, ac.role1 as assign
-FROM audit_area_creation_ref acr LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id WHERE ac.status = 0 AND acr.work_status IN (0, 1, 2) AND (acr.to_date >= '$curdate' AND acr.to_date <= '$curdate' + INTERVAL 10 DAY )";
+FROM audit_area_creation_ref acr LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id WHERE ac.status = 0 AND acr.work_status = 3 AND (acr.to_date >= '$curdate' AND acr.to_date <= '$curdate' + INTERVAL 10 DAY ) AND ac.department_id = '$userDept'";
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){                
     while ($audittask = $auditInfo->fetch()) { 
@@ -95,7 +105,7 @@ if($auditInfo){
 
 $maintanceTaskInfo = "SELECT 'PM MAINTENANCE '  as tb, pcr.work_status as sts, pcr.checklist as title, pcr.to_date as end_date, pcr.role1 as assign
 FROM pm_checklist_ref pcr LEFT JOIN maintenance_checklist mc
-ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id WHERE mc.status = 0 AND pcr.work_status IN (0, 1, 2) AND (pcr.to_date >= '$curdate' AND pcr.to_date <= '$curdate' + INTERVAL 10 DAY )";
+ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id WHERE mc.status = 0 AND pcr.work_status = 3 AND (pcr.to_date >= '$curdate' AND pcr.to_date <= '$curdate' + INTERVAL 10 DAY ) AND (FIND_IN_SET('$deptstaffdesgnid', mc.role1) || FIND_IN_SET('$deptstaffdesgnid', mc.role2))";
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
 while ($maintancetask = $maintanceInfo->fetch()) { 
@@ -110,7 +120,7 @@ while ($maintancetask = $maintanceInfo->fetch()) {
 $maintanceInfo->closeCursor();
 }
 
-$campgnTaskInfo = "SELECT 'CAMPAIGN' as tb, activity_involved as title, end_date as end_date, employee_name as assign, work_status as sts FROM campaign_ref WHERE work_status != 3 AND ( `end_date` >= '$curdate' AND `end_date` <= '$curdate' + INTERVAL 10 DAY ) ";
+$campgnTaskInfo = "SELECT 'CAMPAIGN' as tb, activity_involved as title, end_date as end_date, employee_name as assign, work_status as sts FROM campaign_ref WHERE work_status = 3 AND ( `end_date` >= '$curdate' AND `end_date` <= '$curdate' + INTERVAL 10 DAY ) AND department_id = '$userDept' ";
 $cmpgnInfo = $connect->query($campgnTaskInfo);
 if($cmpgnInfo){
 while ($cmpgntask = $cmpgnInfo->fetch()) { 
@@ -126,7 +136,7 @@ $cmpgnInfo->closeCursor();
 
 } 
 
-$insregrefTaskInfo = "SELECT 'INSURANCE REGISTER' as tb, ic.insurance_name as title, ins.work_status as sts, ins.to_date as end_date, ins.designation_id as assign FROM `insurance_register_ref` ins LEFT JOIN insurance_creation ic ON ins.insurance_id = ic.insurance_id WHERE  ins.work_status != 3 AND (ins.to_date >= '$curdate' AND ins.to_date <= '$curdate' + INTERVAL 10 DAY ) ";
+$insregrefTaskInfo = "SELECT 'INSURANCE REGISTER' as tb, ic.insurance_name as title, ins.work_status as sts, ins.to_date as end_date, ins.designation_id as assign FROM `insurance_register_ref` ins LEFT JOIN insurance_creation ic ON ins.insurance_id = ic.insurance_id WHERE  ins.work_status = 3 AND (ins.to_date >= '$curdate' AND ins.to_date <= '$curdate' + INTERVAL 10 DAY ) AND ins.department_id = '$userDept' ";
 $insregrefInfo = $connect->query($insregrefTaskInfo);
 if($insregrefInfo){
 while ($insregreftask = $insregrefInfo->fetch()) { 
@@ -143,7 +153,7 @@ $insregrefInfo->closeCursor();
 }           
             
 $bmTaskInfo = "SELECT 'BM MAINTENANCE' as tb, bcr.work_status as sts, bcr.checklist as title, bcr.to_date as end_date, bcr.role1 as assign 
-FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND bcr.work_status IN (0, 1, 2) AND (bcr.to_date >= '$curdate' AND bcr.to_date <= '$curdate' + INTERVAL 10 DAY ) ";
+FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND bcr.work_status = 3 AND (bcr.to_date >= '$curdate' AND bcr.to_date <= '$curdate' + INTERVAL 10 DAY ) AND (FIND_IN_SET('$deptstaffdesgnid', mc.role1) || FIND_IN_SET('$deptstaffdesgnid', mc.role2)) ";
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
 while ($bmtask = $bmInfo->fetch()) { 
@@ -158,8 +168,7 @@ while ($bmtask = $bmInfo->fetch()) {
 $bmInfo->closeCursor();
 }    
 
-$fcinsTaskInfo = "SELECT 'FC INSURANCE RENEW' as tb, assign_remark as title, work_status as sts, to_date as end_date, assign_staff_name as assign FROM `fc_insurance_renew` WHERE work_status != 3 AND
-(`to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY )";
+$fcinsTaskInfo = "SELECT 'FC INSURANCE RENEW' as tb, assign_remark as title, work_status as sts, to_date as end_date, assign_staff_name as assign FROM `fc_insurance_renew` WHERE work_status = 3 AND (`to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY ) AND FIND_IN_SET('$deptstaffid', assign_staff_name)";
 $fcinsInfo = $connect->query($fcinsTaskInfo);
 if($fcinsInfo){
 while ($fcinstask = $fcinsInfo->fetch()) { 
@@ -174,8 +183,7 @@ while ($fcinstask = $fcinsInfo->fetch()) {
 $fcinsInfo->closeCursor();
 }    
 
-$assignworkTaskInfo = "SELECT 'ASSIGN WORK' as tb, work_des_text as title, to_date as end_date, designation_id as assign, work_status as sts FROM assign_work_ref WHERE work_status != 3 AND status = 0 AND
-( `to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY) ";
+$assignworkTaskInfo = "SELECT 'ASSIGN WORK' as tb, work_des_text as title, to_date as end_date, designation_id as assign, work_status as sts FROM assign_work_ref WHERE work_status = 3 AND status = 0 AND ( `to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY) AND FIND_IN_SET('$userDept', department_id)";
 $assignworkInfo = $connect->query($assignworkTaskInfo);
 if($assignworkInfo){
 while ($assignworktask = $assignworkInfo->fetch()) { 

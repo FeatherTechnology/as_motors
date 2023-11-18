@@ -57,7 +57,7 @@ if($idupd>0)
 	
 	if (sizeof($getTodoList)>0) {
         for($iwork=0;$iwork<sizeof($getTodoList);$iwork++)  {	
-            $company_id                  = $getTodoList['company_id'];
+            // $company_id                  = $getTodoList['company_id'];
             $todo_id                     = $getTodoList['todo_id'];
             $work_des          		     = $getTodoList['work_des'];
             // $tag_id      			     = $getTodoList['tag_id'];
@@ -70,7 +70,7 @@ if($idupd>0)
 		}
 	}
 
-    $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
+    // $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
 }
 ?>
    
@@ -93,11 +93,12 @@ if($idupd>0)
 <form id = "todo" name="todo" action="" method="post" enctype="multipart/form-data"> 
 <input type="hidden" class="form-control" value="<?php if(isset($todo_id)) echo $todo_id; ?>"  id="id" name="id" placeholder="Enter id">
 
-<input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php if(isset($company_id)) echo $company_id; ?>" >
+<!-- <input type="hidden" id="company_nameEdit" name="company_nameEdit" value="<?php #if(isset($company_id)) echo $company_id; ?>" > -->
 <input type="hidden" id="staffEdit" name="staffEdit" value="<?php if(isset($assign_to)) echo $assign_to; ?>" >
 <!-- <input type="hidden" id="tagEdit" name="tagEdit" value="" > -->
 <input type="hidden" id="criteriaEdit" name="criteriaEdit" value="<?php if(isset($criteria)) echo $criteria; ?>" >
 <input type="hidden" id="idupd" name="idupd" value="<?php if(isset($idupd)) echo $idupd; ?>" >
+<input type="hidden" id="sessionBranchId" name="sessionBranchId" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>" >
 
  		<!-- Row start -->
          <div class="row gutters">
@@ -113,41 +114,41 @@ if($idupd>0)
                            <div class="col-md-12 "> 
                               <div class="row">
 
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" <?php #if($sbranch_id == 'Overall'){ ?> style = "display: none;" <?php #} ?> >
                                         <div class="form-group">
                                             <label for="disabledInput">Company Name</label>
-                                            <?php if($sbranch_id == 'Overall'){ ?>
+                                            <?php #if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id">
                                                     <option value="">Select Company Name</option>   
-                                                        <?php if (sizeof($companyName)>0) { 
-                                                        for($j=0;$j<count($companyName);$j++) { ?>
-                                                        <option <?php if(isset($sCompanyBranchDetailEdit['company_id'])) { if($companyName[$j]['company_id'] == $sCompanyBranchDetailEdit['company_id'])  echo 'selected'; }  ?> value="<?php echo $companyName[$j]['company_id']; ?>">
-                                                        <?php echo $companyName[$j]['company_name'];?></option>
-                                                        <?php }} ?>  
+                                                        <?php #if (sizeof($companyName)>0) { 
+                                                        #for($j=0;$j<count($companyName);$j++) { ?>
+                                                        <option <?php #if(isset($sCompanyBranchDetailEdit['company_id'])) { if($companyName[$j]['company_id'] == $sCompanyBranchDetailEdit['company_id'])  echo 'selected'; }  ?> value="<?php #echo $companyName[$j]['company_id']; ?>">
+                                                        <?php #echo $companyName[$j]['company_name'];?></option>
+                                                        <?php #}} ?>  
                                                 </select>  
-                                            <?php } else if($sbranch_id != 'Overall'){ ?>
+                                            <?php #} else if($sbranch_id != 'Overall'){ ?>
                                                 <select disabled tabindex="1" type="text" class="form-control" id="company_name" name="company_name"  >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
+                                                    <option value="<?php #echo $sbranch_id; ?>"><?php #echo $sCompanyBranchDetail['company_name']; ?></option> 
                                                 </select> 
-                                            <?php } ?>
+                                            <?php #} ?>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" <?php #if($sbranch_id == 'Overall'){ ?> style = "display: none;" <?php #} ?>>
                                         <div class="form-group">
                                             <label for="disabledInput">Branch Name</label>
-                                            <?php if($sbranch_id == 'Overall'){ ?>
+                                            <?php #if($sbranch_id == 'Overall'){ ?>
                                                 <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
                                                     <option value="" disabled selected>Select Branch Name</option> 
                                                 </select> 
-                                            <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
+                                            <?php #} else if($sbranch_id != 'Overall'){ ?>
+                                                <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php #echo $sbranch_id; ?>" >
                                                 <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
-                                                    <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
+                                                    <option value="<?php #echo $sbranch_id; ?>"><?php #echo $sCompanyBranchDetail['branch_name']; ?></option> 
                                                 </select> 
-                                            <?php } ?>
+                                            <?php #} ?>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
