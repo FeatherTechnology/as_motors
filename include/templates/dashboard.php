@@ -659,6 +659,46 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
             </div>
             <!-- Pending Task END -->
 
+            <!-- Completed Task START - Overall Login -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Completed Task</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="completed_task_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No.</th>
+                                                            <th>Task Title</th>
+                                                            <th>Task</th>
+                                                            <th>End Date</th>
+                                                            <th>Status</th>
+                                                            <th>Designation / Staff Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Completed Task END -->
+
             <!-- PM, BM checklist -->
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="card">
@@ -1496,46 +1536,6 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                     </div>
                 </div>
                 <!-- Regularaisation approval List END -->
-
-            <!-- Manager Pending Task START -->
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">Pending Task</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="customScroll5">
-                            <ul class="project-activity">
-                                <div class="col-md-12 "> 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group" >
-                                                <div class="table">
-                                                <table id="managerlogin_pending_task_dashboard" class="table custom-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>S. No.</th>
-                                                            <th>Task Title</th>
-                                                            <th>Task</th>
-                                                            <th>End Date</th>
-                                                            <th>Status</th>
-                                                            <th>Designation / Staff Name</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Manager Pending Task END -->
                 
                 <!-- Today's Task List Start -->
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 staff_manager_login" style="display: none;">
@@ -1612,6 +1612,86 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                         </div>
                     </div>
                 <!-- TODO List END -->
+
+            <!-- Manager Pending Task START -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pending Task</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="managerlogin_pending_task_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No.</th>
+                                                            <th>Task Title</th>
+                                                            <th>Task</th>
+                                                            <th>End Date</th>
+                                                            <th>Status</th>
+                                                            <th>Designation / Staff Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Manager Pending Task END -->
+
+            <!-- Manager Completed Task START -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 manager_login">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Completed Task</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="customScroll5">
+                            <ul class="project-activity">
+                                <div class="col-md-12 "> 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" >
+                                                <div class="table">
+                                                <table id="managerlogin_completed_task_dashboard" class="table custom-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S. No.</th>
+                                                            <th>Task Title</th>
+                                                            <th>Task</th>
+                                                            <th>End Date</th>
+                                                            <th>Status</th>
+                                                            <th>Designation / Staff Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Manager Completed Task END -->
 
                 <!-- memo Initiate -->
                 <?php 
@@ -2299,6 +2379,168 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
             </div>
         </div>
     </form>
+
+
+    <!-- Add Work status Modal -->
+    <div class="modal fade workStatusModal" id="workStatusModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeStatusModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- alert messages -->
+                    <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group ">
+                                <label class="label" id="work_des_label">Work description</label>
+                                <input type="hidden" name="work_id" id="work_id">
+                                <textarea readonly name="work_name" id="work_name" class="form-control" style="height:100px ; width: 350px"></textarea>
+                                
+                                <label class="label" id="progress_label" style="display: none;">Progress Status</label>
+                                <input type="text" class="form-control" style="display: none;width: 350px;" id="in_progress" name="in_progress" placeholder="Enter Progress Status"><br>
+                                <button  name="submit_progress" id="submit_progress" style="display: none;" class="btn btn-primary">Submit </button>
+                                <button  name="cancel_progress" id="cancel_progress" style="display: none;" class="btn btn-outline-secondary">Cancel</button>
+
+                                <label class="label" id="pending_label" style="display: none;">Pending Remark</label>
+                                <input type="text" class="form-control" style="display: none;width: 350px;" id="pending" name="pending" placeholder="Enter Remarks for Pending"><br>
+                                <button  name="submit_pending" id="submit_pending" style="display: none;" class="btn btn-primary">Submit</button>
+                                <button  name="cancel_pending" id="cancel_pending" style="display: none;" class="btn btn-outline-secondary">Cancel
+                                </button>
+
+                                <label class="label" id="completed_label" style="display: none;">Completed File</label>
+                                <input type="file" class="form-control" style="display: none;width: 350px;" id="completed_file" name="completed_file" ><br>
+                                <label class="label" id="com_remark_label" style="display: none;">Completed Remark</label>
+                                <textarea name="completed_remark" id="completed_remark" class="form-control" style="display: none;height:100px ; width: 350px"></textarea><br>
+                                <button  name="submit_completed" id="submit_completed" style="display: none;" class="btn btn-primary">Submit</button>
+                                <button  name="cancel_completed" id="cancel_completed" style="display: none;" class="btn btn-outline-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12">
+                            <button type="button" tabindex="2" name="inprogressgbtn" id="inprogressgbtn" class="btn btn-primary">In Progress</button>
+                            <button type="button" tabindex="2" name="pendingbtn" id="pendingbtn" class="btn btn-danger">Pending</button>
+                            <button type="button" tabindex="2" name="completedbtn" id="completedbtn" class="btn btn-success">Completed</button>
+                            <button type="button" tabindex="2" name="remarkviewbtn" id="remarkviewbtn" class="btn btn-warning" onclick="closeStatusModal()">Remark View</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeStatusModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END of the Add Work status -->
+
+
+    <!-- Add Work status Modal - if END Date is less than current date means this modal will Open. -->
+    <div class="modal fade workStatusModal1" id="workStatusModal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="background-color: white">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeStatusModal1()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" name="CompletedWorkTaskModal">
+                        <div class="modal-body">
+                            <!-- alert messages -->
+                            <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                            </div>
+                            <br>
+                            
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group ">
+                                        <!-- <label class="label" id="work_des_label">Work description</label> -->
+                                        <input type="hidden" name="work_id1" id="work_id1">
+                                        <textarea readonly name="work_name1" id="work_name1" class="form-control" style="display: none; height:100px ; width: 350px"></textarea>
+                                        
+                                        <label class="label" id="over_due_label" >Completed Date</label>
+                                        <input type="date" class="form-control" style="width: 350px;" id="outdated" name="outdated" ><br>
+                                        <label class="label">Completed Remark</label>
+                                        <textarea name="completed_remark_outdated" id="completed_remark_outdated" class="form-control" style="height:100px ; width: 350px"></textarea><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-12"></div>
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                                    <button name="submit_outdated" id="submit_outdated" class="btn btn-primary">Submit </button>
+                                    <button type="reset" name="cancel_outdated" id="cancel_outdated" class="btn btn-outline-secondary">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeStatusModal1()">Close</button>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <!-- End of the modal for adding work status-->
+
+
+    <!-- After Completed Show Remark Modal START -->
+    <div class="modal fade" id="completedRemark" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myLargeModalLabel">Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeRemarkModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="overflow-y: scroll; height: 450px;">
+                    <!-- alert messages -->
+                    <div id="insertsuccess" class="successalert">Status Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                    </div>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="inprogress_sts">
+                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="pending_sts">
+                            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12"></div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" id="complete_sts">
+                        
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeRemarkModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- After Completed Show Remark Modal END -->
+
+
+
 </div>
 
 

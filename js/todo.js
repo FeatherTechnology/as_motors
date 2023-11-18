@@ -1,5 +1,6 @@
 const assign_to = new Choices('#assign_to', {
 	removeItemButton: true,
+    allowHTML: true,
 });
 
 $(document).ready(function(){
@@ -68,39 +69,39 @@ $(document).ready(function(){
     // });
 
     //Based on branch staff list shown
-    $("#branch_id").change(function(){
-        var branch_id = $("#branch_id").val();
-        if(branch_id.length==''){
-            $("#branch_id").val('');
-        }else{
+    // $("#branch_id").change(function(){
+    //     var branch_id = $("#branch_id").val();
+    //     if(branch_id.length==''){
+    //         $("#branch_id").val('');
+    //     }else{
         
-            $.ajax({
-                url: 'todoFile/getStaffNamebasedBranch.php',
-                type: 'post',
-                data: { "branch_id":branch_id },
-                dataType: 'json',
-                success:function(response){ 
+    //         $.ajax({
+    //             url: 'todoFile/getStaffNamebasedBranch.php',
+    //             type: 'post',
+    //             data: { "branch_id":branch_id },
+    //             dataType: 'json',
+    //             success:function(response){ 
 
-                    assign_to.clearStore();
-                    for (r = 0; r <= response.staff_id.length - 1; r++) { 
+    //                 assign_to.clearStore();
+    //                 for (r = 0; r <= response.staff_id.length - 1; r++) { 
 
-                        var staff_id = response['staff_id'][r];  
-                        var staff_name = response['staff_name'][r]; 
-                        var items = [
-                            {
-                                value: staff_id,
-                                label: staff_name,
-                            }
-                        ];
-                        assign_to.setChoices(items);
-                        assign_to.init();
-                    }
-                    $("#staff_id").val('');
-                    $("#staff_name").val('');
-                }
-            });
-        }
-    });
+    //                     var staff_id = response['staff_id'][r];  
+    //                     var staff_name = response['staff_name'][r]; 
+    //                     var items = [
+    //                         {
+    //                             value: staff_id,
+    //                             label: staff_name,
+    //                         }
+    //                     ];
+    //                     assign_to.setChoices(items);
+    //                     assign_to.init();
+    //                 }
+    //                 $("#staff_id").val('');
+    //                 $("#staff_name").val('');
+    //             }
+    //         });
+    //     }
+    // });
 
     // enable and disable project
     $(document).on("change",".criteria",function(){  
@@ -243,11 +244,25 @@ $(function(){
         }
     });
 
+    var sessionBranchId = $('#sessionBranchId').val();
     // var idupd = $('#idupd').val();
-
-    // if(idupd>0 && idupd !=''){
-        editCompanyBasedBranch();
+    // if(idupd >0 && idupd !=''){
+    //     var branch_id = $('#company_nameEdit').val();
+    // }else{
     // }
+    var branch_id = $('#sessionBranchId').val();
+    var staffEditupd = $('#staffEdit').val().split(',');  
+
+    // if((idupd>0 && idupd !='') || (sessionBranchId != 'Overall')){
+    //     // editCompanyBasedBranch();
+    // }
+
+    if(sessionBranchId == 'Overall'){ //Overall
+        editBranchBasedTagAssignTo('0', staffEditupd);
+    }else{ //Manager
+        editBranchBasedTagAssignTo(branch_id, staffEditupd);
+
+    }
 
             // get department details
         // function editBranchBasedDepartment(){ 
@@ -279,52 +294,52 @@ $(function(){
 
 });
 
-function editCompanyBasedBranch(){ 
-    var idupd = $('#idupd').val(); 
+// function editCompanyBasedBranch(){ 
+//     var idupd = $('#idupd').val(); 
 
-    if(idupd >0 && idupd !=''){
-        var branch_id = $('#company_nameEdit').val();
-    }else{
-        var branch_id = $('#branch_id').val();
-    }
+//     if(idupd >0 && idupd !=''){
+//         var branch_id = $('#company_nameEdit').val();
+//     }else{
+//         var branch_id = $('#branch_id').val();
+//     }
     
-    var staffEdit = $('#staffEdit').val().split(',');  
+//     var staffEdit = $('#staffEdit').val().split(',');  
 
-    $.ajax({
-        url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
-        type:'post',
-        data: {'branch_id': branch_id},
-        dataType: 'json',
-        success: function(response){
+//     $.ajax({
+//         url: 'R&RFile/ajaxEditCompanyBasedBranch.php',
+//         type:'post',
+//         data: {'branch_id': branch_id},
+//         dataType: 'json',
+//         success: function(response){
             
-            $("#branch_id").empty();
-            $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
-            var r = 0;
-            for (r = 0; r <= response.branch_id.length - 1; r++) { 
-                var selected = "";
-                if(response['branch_id'][r] == branch_id)
-                {
-                    selected = "selected";
-                }
-                $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + 
-                response['branch_name'][r] + "</option>");
-            }
-        }
-    });
+//             $("#branch_id").empty();
+//             $("#branch_id").prepend("<option value='' disabled selected>"+'Select Branch Name'+"</option>");
+//             var r = 0;
+//             for (r = 0; r <= response.branch_id.length - 1; r++) { 
+//                 var selected = "";
+//                 if(response['branch_id'][r] == branch_id)
+//                 {
+//                     selected = "selected";
+//                 }
+//                 $('#branch_id').append("<option value='" + response['branch_id'][r] + "' "+selected+">" + 
+//                 response['branch_name'][r] + "</option>");
+//             }
+//         }
+//     });
 
-    editBranchBasedTagAssignTo(branch_id, staffEdit);
+//     editBranchBasedTagAssignTo(branch_id, staffEdit);
 
-    // enable and disable project
-    var criteria = $('#criteriaEdit').val();
-    if(criteria == 'Event'){ 
-        $('#project_id').attr("readonly",true);
-        $('#add_CategoryDetails').attr("disabled",true);
-    } else if(criteria == 'Project'){ 
-        $('#project_id').attr("readonly",false);
-        $('#add_CategoryDetails').attr("disabled",false);
-    }
+//     // enable and disable project
+//     var criteria = $('#criteriaEdit').val();
+//     if(criteria == 'Event'){ 
+//         $('#project_id').attr("readonly",true);
+//         $('#add_CategoryDetails').attr("disabled",true);
+//     } else if(criteria == 'Project'){ 
+//         $('#project_id').attr("readonly",false);
+//         $('#add_CategoryDetails').attr("disabled",false);
+//     }
 
-}
+// }
 
 
 function DropDownCourse(){
@@ -470,6 +485,7 @@ function editBranchBasedTagAssignTo(branch_id,staffEdit){
 
                 var staff_id = response['staff_id'][r];  
                 var staff_name = response['staff_name'][r]; 
+                var designation = response['designationName'][r]; 
 
                 var selected = '';
                 if(staffEdit != ''){
@@ -483,7 +499,7 @@ function editBranchBasedTagAssignTo(branch_id,staffEdit){
                 var items = [
                     {
                         value: staff_id,
-                        label: staff_name,
+                        label: staff_name + ' - ' + designation,
                         selected: selected,
                     }
                 ];

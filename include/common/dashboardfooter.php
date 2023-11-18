@@ -1048,7 +1048,7 @@ if(isset($_SESSION['role'])){
                 {
                     extend: 'csv',
                     exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                        columns: [ 0, 1, 2 ,3, 4, 5 ]
                     }
                 }
             ],
@@ -1059,6 +1059,39 @@ if(isset($_SESSION['role'])){
             "drawCallback":function(){
                 changeRowColor();
             }
+        });
+
+        // Completed Task dashboard - Overall Login
+		var completed_task_dashboard = $('#completed_task_dashboard').DataTable({
+
+            "order": [[ 0, "desc" ]],
+            // "ordering": false, //removes sorting by column
+            'processing': true,
+            'serverSide': true,
+            'serverMethod': 'post',
+            // 'searching': false, // Remove default Search Control
+            'ajax': {
+                'url':'dashboardAjaxFile/ajaxCompletedTaskList.php',
+                'data': function(data){
+                    var search = $('#search').val();
+                    data.search = search;
+                }
+            },
+            // dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2 ,3, 4, 5 ]
+                    }
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            // "drawCallback":function(){
+            // }
         });
     
     // approval line - approval requisition
@@ -2524,7 +2557,7 @@ buttons: [
             {
                 extend: 'csv',
                 exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
                 }
             }
         ],
@@ -2537,6 +2570,39 @@ buttons: [
         }
         });
         //Manager Pending Task dashboard END
+
+        //Manager Completed Task dashboard
+		var managerlogin_completed_task_dashboard = $('#managerlogin_completed_task_dashboard').DataTable({
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'dashboardAjaxFile/ajaxManagerLoginCompletedTaskList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ,3, 4, 5 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        // "drawCallback":function(){
+        // }
+        });
+        //Manager Completed Task dashboard END
     }
 ///////////////////////////////////////////////////////////////////////// Manager Login Dashboard END///////////////////////////////////////////////////////////
 

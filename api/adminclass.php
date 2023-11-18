@@ -4025,9 +4025,9 @@
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
-			if(isset($_POST['branch_id'])){
-				$company_id = $_POST['branch_id'];
-			}
+			// if(isset($_POST['branch_id'])){
+			// 	$company_id = $_POST['branch_id'];
+			// }
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
@@ -4057,10 +4057,11 @@
 				$project_id = $_POST['project'];
 			}
 			
-			$insertQry="INSERT INTO todo_creation(company_id, work_des, priority, assign_to, from_date, to_date, criteria, project_id, created_date, created_id)
-			VALUES('".strip_tags($company_id)."', '".strip_tags($work_des)."','".strip_tags($priority_id)."', '".strip_tags($assign_to_id)."', 
+			$insertQry="INSERT INTO todo_creation( work_des, priority, assign_to, from_date, to_date, criteria, project_id, created_date, created_id)
+			VALUES( '".strip_tags($work_des)."','".strip_tags($priority_id)."', '".strip_tags($assign_to_id)."', 
 			'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($criteria)."','".strip_tags($project_id)."', current_timestamp(), '".$userid."' )"; 
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+			//company_id,'".strip_tags($company_id)."',
 		}
 
 		// Update Todo 
@@ -4069,9 +4070,9 @@
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
-			if(isset($_POST['branch_id'])){
-				$company_id = $_POST['branch_id'];
-			}
+			// if(isset($_POST['branch_id'])){
+			// 	$company_id = $_POST['branch_id'];
+			// }
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
@@ -4098,9 +4099,10 @@
 				$project_id = $_POST['project'];
 			}
 
-			$updQry="UPDATE todo_creation set company_id = '".strip_tags($company_id)."', work_des = '".strip_tags($work_des)."', priority = '".strip_tags($priority_id)."', assign_to = '".strip_tags($assign_to_id)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', 
+			$updQry="UPDATE todo_creation set  work_des = '".strip_tags($work_des)."', priority = '".strip_tags($priority_id)."', assign_to = '".strip_tags($assign_to_id)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', 
 			criteria = '".strip_tags($criteria)."', project_id = '".strip_tags($project_id)."',	status = 0, updated_id = '".$userid."' WHERE todo_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
+			//company_id = '".strip_tags($company_id)."',
 		}
 		
 		// Get Assign Work table
@@ -4113,7 +4115,7 @@
 			if ($mysqli->affected_rows>0)
 			{
 				$row = $res->fetch_object();	
-				$detailrecords['company_id']      = $row->company_id; 
+				// $detailrecords['company_id']      = $row->company_id; 
 				$detailrecords['todo_id']      = $row->todo_id; 		
 				$detailrecords['work_des']      = $row->work_des;		
 				// $detailrecords['tag_id']      = $row->tag_id;		
