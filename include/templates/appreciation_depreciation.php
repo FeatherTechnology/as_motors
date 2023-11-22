@@ -81,13 +81,14 @@ if($idupd>0)
             $month                                         = $getAppDep['month']; 
             $overall_performance                           = $getAppDep['overall_performance']; 
             $not_done                                      = $getAppDep['not_done']; 
-            $carry_forward                                 = $getAppDep['carry_forward']; 
+            // $carry_forward                                 = $getAppDep['carry_forward']; 
             $strength                                      = $getAppDep['strength']; 
             $weakness                                      = $getAppDep['weakness']; 
             $need_for_improvement                          = $getAppDep['need_for_improvement']; 
             $overall_rating                                = $getAppDep['overall_rating']; 
             $update_login_id                                = $getAppDep['update_login_id']; 
             
+            //Daily
             $appreciation_depreciation_ref_id              = $getAppDep['appreciation_depreciation_ref_id']; 
             $daily_performance_ref_id                      = $getAppDep['daily_performance_ref_id']; 
             $review                                        = $getAppDep['review']; 
@@ -95,6 +96,15 @@ if($idupd>0)
             $target                                        = $getAppDep['target']; 
             $achievement                                   = $getAppDep['achievement']; 
             $employee_rating                               = $getAppDep['employee_rating']; 
+
+            //Monthly
+            $monthly_app_dep_ref_id = $getAppDep['monthly_app_dep_ref_id'];
+            $monthly_daily_performance_ref_id = $getAppDep['monthly_daily_performance_ref_id'];
+            $monthly_review = $getAppDep['monthly_review'];
+            $monthly_assertion = $getAppDep['monthly_assertion']; 
+            $monthly_target = $getAppDep['monthly_target']; 
+            $monthly_achievement = $getAppDep['monthly_achievement']; 
+            $monthly_employee_rating = $getAppDep['monthly_employee_rating']; 
 
             $num_padded = sprintf("%02d", $month);
             $yearmonth                                     = $year_id.'-'.$num_padded;
@@ -318,11 +328,11 @@ if($idupd>0)
 
                             <?php if($idupd>0){ ?>
                                 <div class="card" id="stockinformation">
-                                    <div class="card-header">Goal Setting Details</div>
+                                    <div class="card-header">Daily Performance Details</div>
                                     <div class="card-body">
                                     <br> 
                                         <div style="overflow-x: auto; white-space: nowrap;" >
-                                             <table class="table custom-table" id="sstable">
+                                            <table class="table custom-table" id="sstable">
                                                 <tr>
                                                     <th>S. No.</th>
                                                     <th>Assertion</th>
@@ -344,7 +354,7 @@ if($idupd>0)
                                                                 <td style="display: none;" ><input type="text" readonly class="form-control" value="<?php echo $daily_performance_ref_id[$o]; ?>" name="daily_performance_ref_id[]" id="daily_performance_ref_id" ></td>
                                                                 <td><input readonly type="text" class="form-control" value="<?php echo $assertion[$o]; ?>" name="assertion[]" id="assertion" ></td>
                                                                 <td><input readonly type="number" class="form-control" value="<?php echo $target[$o]; ?>" name="target[]" id="target" ></td>
-                                                                <td><input type="text" class="form-control" name="achievement[]" id="achievement" value="<?php echo $achievement[$o]; ?>" placeholder="Enter new achievement" ></td>
+                                                                <td><input type="text" class="form-control achievement" name="achievement[]" id="achievement" value="<?php echo $achievement[$o]; ?>" placeholder="Enter new achievement" ></td>
                                                                 <td>
                                                                     <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]" >
                                                                         <option value="">Select Employee Rating</option>
@@ -367,12 +377,53 @@ if($idupd>0)
                                                                 <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$overall_performance; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
                                                                 <td>
                                                                     <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$not_done; ?>" name="not_done" id="not_done" >
-                                                                    <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  >
+                                                                    <!-- <input readonly type="text" class="form-control" value="<?php #echo "Total Carry Forward - ".$carry_forward; ?>" name="carry_forward" id="carry_forward"  > -->
                                                                 </td> 
                                                             </tr>
                                                         </tbody>
                                                 <?php } ?>
                                             </table>
+                                            <!-- Daily achievement END -->
+
+        <!-- Monthly achievement START -->
+        <h5>Monthly Goal Details</h5>
+        <table class="table custom-table" id="sstable">
+            <tr>
+                <th>S. No.</th>
+                <th>Assertion</th>
+                <th>Target</th>
+                <th>Achievement</th>
+                <th>Employee Rating</th>
+            </tr>
+            <tbody>
+                <?php $b = 1;   
+                if(isset($monthly_app_dep_ref_id)){ 
+                    for($a=0; $a < count($monthly_app_dep_ref_id); $a++){ 
+                ?>
+                <tr>
+                    <td><?php echo $b; ?>
+                    <td style="display: none;" >
+                        <input type="text" class="form-control" value="0" name="review[]" id="review" > <!-- 0=Monthly Task -->
+                        <input type="text" readonly class="form-control" value="<?php echo $monthly_app_dep_ref_id[$a]; ?>" name="appreciation_depreciation_ref_id[]" id="appreciation_depreciation_ref_id" >
+                    </td>
+                    <td><input readonly type="text" class="form-control" value="<?php echo $monthly_assertion[$a]; ?>" name="assertion[]" id="assertion" ></td>
+                    <td><input readonly type="number" class="form-control" value="<?php echo $monthly_target[$a]; ?>" name="target[]" id="target" ></td>
+                    <td><input type="text" class="form-control" name="achievement[]" id="achievement" placeholder="Enter new achievement" value="<?php echo $monthly_achievement[$a]; ?>" ></td>
+                    <td>
+                        <select tabindex="4" type="text" class="form-control" id="employee_rating" name="employee_rating[]">
+                            <option value="">Select Employee Rating</option>  
+                            <option value="1" <?php if(isset($monthly_employee_rating )){if($monthly_employee_rating[$a] == "1") echo "selected";} ?>>1</option>
+                            <option value="2" <?php if(isset($monthly_employee_rating )){if($monthly_employee_rating[$a] == "2") echo "selected";} ?>>2</option>
+                            <option value="3" <?php if(isset($monthly_employee_rating )){if($monthly_employee_rating[$a] == "3") echo "selected";} ?>>3</option>
+                            <option value="4" <?php if(isset($monthly_employee_rating )){if($monthly_employee_rating[$a] == "4") echo "selected";} ?>>4</option>
+                            <option value="5" <?php if(isset($monthly_employee_rating )){if($monthly_employee_rating[$a] == "5") echo "selected";} ?>>5</option>
+                        </select>   
+                    </td>
+                </tr>
+                <?php  $b = $b++; }}?>
+            </tbody>
+        </table>
+        <!-- Monthly achievement END -->
                                         </div>
                                     </div>
                                 </div>

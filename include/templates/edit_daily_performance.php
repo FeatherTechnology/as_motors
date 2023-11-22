@@ -84,6 +84,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 								<th>Employee Name</th>
 								<th>Month</th>
 								<th>Status</th>
+								<th>Reject Status</th>
 								<th colspan="1">Action</th>
 							</tr>
 						</thead>

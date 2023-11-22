@@ -29,6 +29,13 @@ $(document).ready(function () {
         executeAssertionTable();
     });
 
+    $('#submit_daily_performance').click(function(e){
+        // e.preventDefault();
+
+        var removerow = $('#moduleTable tbody tr td input.actual_achieve[readonly]');
+        removerow.parent().parent().remove();
+    });
+
     // $('#page_print').click(function (e){
     //     e.preventDefault();
     //     // $('#moduleTable').print();
@@ -98,9 +105,13 @@ $(function(){
         // $('select').attr('disabled',true);
 
         var userRole = $('#user_role').val();
+        var user_staff_id = $('#user_staff_id').val();
         if(userRole == '1'){
             // $('.actual_achieve').removeAttr('readonly');
             // $('.wstatus').attr('disabled',false);
+
+        }else if(emp_idup == user_staff_id){
+            $('#submit_daily_performance').show();
 
         }else{
             $('#submit_daily_performance').hide();
@@ -290,29 +301,29 @@ $('.actual_achieve').keyup(function(){
     //     $(this).val('');
     // }
 
-    if(actual == target){
+    if(actual >= target){
         $(this).parent().parent().find('.wstatus').val('1')
         // $(this).parent().parent().find('.status').css("background-color", "green");
     }else{
-        $(this).parent().parent().find('.wstatus').val('')
+        $(this).parent().parent().find('.wstatus').val('2')
         // $(this).parent().parent().find('.status').css("background-color", "transparent");
     }
 });
 
 // $('.wstatus').off('change')
-$('.wstatus').change(function() { 
+// $('.wstatus').change(function() { 
 
-    var wstatus=$(this).val();
-    if(wstatus == '1'){
-            $(this).parent().next().children().css("background-color", "green");
-        }else if(wstatus == '2'){
-            $(this).parent().next().children().css("background-color", "red");
-        }else if(wstatus == '3'){
-            $(this).parent().next().children().css("background-color", "blue");
-        }else{
-            $(this).parent().next().children().css("background-color", "transparent");
-        }
-}); 
+//     var wstatus=$(this).val();
+//     if(wstatus == '1'){
+//             $(this).parent().next().children().css("background-color", "green");
+//         }else if(wstatus == '2'){
+//             $(this).parent().next().children().css("background-color", "red");
+//         }else if(wstatus == '3'){
+//             $(this).parent().next().children().css("background-color", "blue");
+//         }else{
+//             $(this).parent().next().children().css("background-color", "transparent");
+//         }
+// }); 
 
 }
 
@@ -452,24 +463,29 @@ function executeAssertionTable(){
             //         } //Scuccess END.
             //     }).then(function(){
     
-                    $.ajax({
-                        url: 'get_all_detail.php',
-                        data: { 'staff_id': staff_id },
-                        cache: false,
-                        type:'post',
-                        dataType: 'json',
-                        success: function(response){
-                            $('#moduleTable').find('tbody').empty();
-                            for(var a=0; a < response.length; a++){
-                            
-                            var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
-                            "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Statisfied</option><option value='2'>Not Done</option><option value='3'>Carry Forward</option></select></td></tr>";
-                            $('#moduleTable').find('tbody').append(appendTxt);
-                            
-                            }
-    
-                            callFunctionAfterSuccess(); //After data append the function will call to work
-                            } //Scuccess END.
-                        });
+$.ajax({
+    url: 'get_all_detail.php',
+    data: { 'staff_id': staff_id },
+    cache: false,
+    type:'post',
+    dataType: 'json',
+    success: function(response){
+        $('#moduleTable').find('tbody').empty();
+        if(response.length == '0'){
+            $('#moduleTable').find('tbody').append("<tr><td colspan='10'>No Record Found!</td></tr>"); 
+        }else{
+            for(var a=0; a < response.length; a++){
+            
+            var appendTxt = "<tr><td><textarea tabindex='6' type='text' class='form-control' id='assertion' name='assertion[]' readonly>"+ response[a]['assertion'] +" </textarea><input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="+ response[a]['goal_setting_id'] +"><input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="+ response[a]['goal_setting_ref_id'] +"><input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="+ response[a]['assertion_table_sno'] +"></td>" +
+            "<td><input tabindex='7' type='text' class='form-control target' id='target' name='target[]' value="+ response[a]['target'] +" readonly></input></td><td><input tabindex='7' type='number' class='form-control actual_achieve' id='actual_achieve' name='actual_achieve[]' ></td>" + "<td><input tabindex='8' type='date' class='form-control sdate' id='sdate' name='sdate[]' value="+ response[a]['cdate'] +" readonly></input></td>" + "<td><select class='form-control wstatus' id='wstatus' name='wstatus[]'><option value=''>Select Work Status</option><option value='1'>Satisfied</option><option value='2'>Not Done</option></select></td></tr>";
+            //<option value='3'>Carry Forward</option>
+            $('#moduleTable').find('tbody').append(appendTxt);
+            
+            }
+            callFunctionAfterSuccess(); //After data append the function will call to work
+        }
+
+        } //Scuccess END.
+    });
                 // })
 }

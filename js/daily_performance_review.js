@@ -131,6 +131,48 @@ function getDepartmentList(branchid, dept_id){
     });
 }
 
+
+function callFunctionAfterSuccess(){
+
+    $('.actual_achieve').keyup(function(){
+        var target = parseInt($(this).parent().parent().find('.target').val());
+        var actual = parseInt($(this).val()) || 0;
+    
+        if(actual >= target){
+            $(this).parent().parent().find('.wstatus').val('1')
+        }else{
+            $(this).parent().parent().find('.wstatus').val('2')
+        }
+
+        var totalval = target - actual;
+        // Ensure totalval is not negative
+        totalval = (totalval < 0) ? 0 : totalval;
+
+        // Now totalval will be 0 if it was negative
+        $(this).parent().parent().find('.balance_to_do').val(totalval); 
+
+
+    // Calculate the sum of all actual values
+    var sum = 0;
+    $('.actual_achieve').each(function() {
+        var value = parseInt($(this).val()) || 0;
+        sum += value;
+    });
+
+    $('#totalAchieves').text(sum);
+
+    var bal = 0;
+    $('.balance_to_do').each(function() {
+        var balvalue = parseInt($(this).val()) || 0;
+        bal += balvalue;
+    });
+
+    $('#totalbal').text(bal);
+
+    });
+    
+}
+
 // daily performance review table
 function daily_performance_review_table(dept_id,user_staff_id,reviewDate){ //edit screen details.
     $.ajax({
@@ -146,15 +188,21 @@ function daily_performance_review_table(dept_id,user_staff_id,reviewDate){ //edi
             }else{
                 $('#reviewTable').html(response); 
             }
+            callFunctionAfterSuccess();
         }
     }).then(function(){
 
         $('.review_submit').click(function(){
             var daily_ref_id = $(this).data('id');
+            var actualachieve =  $(this).parent().parent().find('.actual_achieve').val();
+            var sdate =  $(this).parent().parent().find('.sdate').val();
+            var wstatus =  $(this).parent().parent().find('.wstatus').val();
             var managercomment =  $(this).parent().parent().find('.manager_comment').val();
+            var goal_setting_ref_id =  $(this).parent().parent().find('.goal_setting_ref_id').val();
+            var assertion_table_sno =  $(this).parent().parent().find('.assertion_table_sno').val();
             $.ajax({
                 type: 'POST',
-                data:{'daily_ref_id':daily_ref_id, 'manager_comment': managercomment},
+                data:{'daily_ref_id':daily_ref_id, 'actualachieve': actualachieve, 'sdate': sdate, 'wstatus': wstatus, 'manager_comment': managercomment, 'goal_setting_ref_id': goal_setting_ref_id, 'assertion_table_sno': assertion_table_sno },
                 url: 'targetFixingFile/ajaxDailyPerformanceManagerUpdate.php',
                 dataType: 'json',
                 cache: false,
@@ -168,6 +216,34 @@ function daily_performance_review_table(dept_id,user_staff_id,reviewDate){ //edi
                     daily_performance_review_table(dept_id, user_staff_id, reviewDate)
                 }
             })
+    
+        });
+
+        $('.reject_review').click(function(){
+            var dlt = confirm("Do you want to Reject this Review?");
+            if(dlt){
+
+            var daily_ref_id = $(this).data('id');
+            $.ajax({
+                type: 'POST',
+                data:{'daily_ref_id':daily_ref_id },
+                url: 'targetFixingFile/ajaxDailyPerformanceManagerReject.php',
+                dataType: 'json',
+                cache: false,
+                success: function(response){
+                    if(response == 1){
+                        alert('Review Rejected!');
+                    }else{
+                        alert('Review Reject Failed');
+                    }
+
+                    daily_performance_review_table(dept_id, user_staff_id, reviewDate)
+                }
+            })
+
+        }else{
+            return false;    
+        }
     
         });
     })

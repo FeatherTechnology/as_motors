@@ -27,7 +27,7 @@ $column = array(
     'status'
 );
 //DATE_FORMAT(CONCAT('2023-', LPAD(dp.month, 2, '0'), '-01'), '%M') AS month
-$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month AS month,dp.status FROM
+$query = "SELECT dp.daily_performance_id,c.company_name,dc.department_name,dsc.designation_name,s.staff_name,dp.month AS month,dp.status, dp.emp_id FROM
 daily_performance dp
 LEFT JOIN
 company_creation c ON c.company_id = dp.company_id
@@ -113,7 +113,6 @@ foreach ($result as $row) {
     $status    = $row['status'];
     
     
-   
     if($status == 1)
 	{
 	$sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Inactive</span></span>";
@@ -122,6 +121,19 @@ foreach ($result as $row) {
 	{
     $sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--success kt-badge--inline kt-badge--pill'>Active</span></span>";
 	}
+
+    $month = $row['month'];
+    $staff = $row['emp_id'];
+
+    $getRejectDetails = $mysqli->query("SELECT * FROM `daily_performance_ref` WHERE MONTH(system_date) = MONTH('$month') AND YEAR(system_date) = YEAR('$month') && `staff_id`= '$staff' &&  `manager_updated_status` = 2 ");
+    if(mysqli_num_rows($getRejectDetails) > 0){
+        $rejectfinding = 'Yes';
+    }else{
+        $rejectfinding = 'No';
+    }
+
+    $sub_array[] = $rejectfinding;
+    
 	$id   = $row['daily_performance_id'];
 	
 	// $action="<a href='daily_performance&upd=$id' title='Edit details'><span class='icon-border_color'></span></a>&nbsp;&nbsp; 

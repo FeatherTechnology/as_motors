@@ -14,20 +14,20 @@ if(isset($_POST['reviewDate'])){
 }
 
 if($user_staff_id == 'Overall'){
-$dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
+$dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.assertion_table_sno,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
 FROM daily_performance_ref dpr 
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
 LEFT JOIN goal_setting_ref gsr ON dpr.goal_setting_ref_id = gsr.goal_setting_ref_id 
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.department_id='$department_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
+WHERE dp.department_id='$department_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 && dpr.manager_updated_status != 2 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
 
 }else{
-$dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
+$dailyperformanceQry = "SELECT dpr.daily_performance_ref_id, dpr.assertion,gsr.assertion_table_sno,gsr.target, gsr.per_day_target, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.goal_setting_id, dpr.goal_setting_ref_id, dpr.status, sc.staff_name 
 FROM daily_performance_ref dpr 
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
 LEFT JOIN goal_setting_ref gsr ON dpr.goal_setting_ref_id = gsr.goal_setting_ref_id 
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
+WHERE dp.department_id='$department_id' && sc.reporting = '$user_staff_id' && dpr.system_date = '$reviewDate' && dpr.manager_updated_status != 1 && dpr.manager_updated_status != 2 order by dpr.system_date ASC "; //GROUP BY sc.staff_id 
 
 }
 
@@ -56,7 +56,8 @@ if ($mysqli->affected_rows>0)
         <td>
         <input tabindex="9" type="text" class="form-control" id="assertion" name="assertion[]" value="<?php echo $qryDetails->assertion; ?>" readonly>
         <input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="<?php echo $qryDetails->goal_setting_id; ?>">
-        <input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="<?php echo $qryDetails->goal_setting_ref_id; ?>">
+        <input type='hidden' class='form-control assertion_table_sno' id='assertion_table_sno' name='assertion_table_sno[]' value="<?php echo $qryDetails->assertion_table_sno; ?>">
+        <input type='hidden' class='form-control goal_setting_ref_id' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="<?php echo $qryDetails->goal_setting_ref_id; ?>">
         <input  type="hidden" class="form-control" id="daily_ref_id" name="daily_ref_id[]" value="<?php echo $qryDetails->daily_performance_ref_id; ?>">
 
         </td>
@@ -65,11 +66,11 @@ if ($mysqli->affected_rows>0)
             </input> 
         </td>
         <td >
-            <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $qryDetails->actual_achieve; ?>" readonly>
+            <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $qryDetails->actual_achieve; ?>" >
             </input> 
         </td>
         <td >
-            <input tabindex="11" type="number" class="form-control" id="balance_to_do" name="balance_to_do[]" value="<?php echo $qryDetails->target - $qryDetails->actual_achieve; ?>" readonly>
+            <input tabindex="11" type="number" class="form-control balance_to_do" id="balance_to_do" name="balance_to_do[]" value="<?php echo $qryDetails->target - $qryDetails->actual_achieve; ?>" readonly>
             </input> 
         </td>
         <td >
@@ -77,20 +78,21 @@ if ($mysqli->affected_rows>0)
             </input> 
         </td>
         <td>
-            <input tabindex="12" type="date" class="form-control" id="sdate" name="sdate[]" value="<?php echo $qryDetails->system_date; ?>" readonly></input> 
+            <input tabindex="12" type="date" class="form-control sdate" id="sdate" name="sdate[]" value="<?php echo $qryDetails->system_date; ?>" readonly></input> 
         </td>
         <td>
-            <select  class="form-control wstatus" id="wstatus" name="wstatus[]" tabindex="13" disabled>
-                <option value=" ">Select Work Status</option>
+            <select  class="form-control wstatus" id="wstatus" name="wstatus[]" tabindex="13">
+                <option value="">Select Work Status</option>
                 <option value="1" <?php if($status == '1') { echo 'selected';} ?> >Statisfied</option>
                 <option value="2" <?php if($status == '2') { echo 'selected';} ?> >Not Done</option>
-                <option value="3" <?php if($status == '3') { echo 'selected';} ?> >Carry Forward</option>
+                <!-- <option value="3" <?php #if($status == '3') { echo 'selected';} ?> >Carry Forward</option> -->
             </select>
         </td>                                                            
         <td>
             <textarea  class="form-control manager_comment" id="manager_comment" name="manager_comment[]" tabindex="13"></textarea>
         </td>                                                            
         <td><input type="button" name="review_submit" id="review_submit" class="btn btn-primary review_submit" value="Submit" data-id="<?php echo $qryDetails->daily_performance_ref_id; ?>" ></td>                                                            
+        <td><input type="button" name="reject_review" id="reject_review" class="btn btn-danger reject_review" value="Reject" data-id="<?php echo $qryDetails->daily_performance_ref_id; ?>" ></td>                                                            
     </tr>
 
 <?php $i++; }  ?>
@@ -98,10 +100,11 @@ if ($mysqli->affected_rows>0)
         <td> Overall </td>
         <td> </td>
         <td> <?php echo $target;?> </td>
-        <td> <?php echo $actualAchieve;?> </td>
-        <td> <?php echo $balancetodo;?> </td>
+        <td id="totalAchieves"> <?php echo $actualAchieve;?> </td>
+        <td id="totalbal"> <?php echo $balancetodo;?> </td>
         <td> <?php echo $average;?> </td>
         <td> </td>
+        <td> </td>                                                            
         <td> </td>                                                            
         <td> </td>                                                            
         <td> </td>                                                            

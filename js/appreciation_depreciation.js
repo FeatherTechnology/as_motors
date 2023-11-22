@@ -97,6 +97,20 @@ $(document).ready(function () {
     }
   });
 
+  $('.achievement').keyup(function(){
+    console.log('aaaa')
+    // Calculate the sum of all actual values
+    var sum = 0;
+    $('.achievement').each(function() {
+        var value = parseInt($(this).val()) || 0;
+        sum += value;
+    });
+
+    $('#overall_performance').val('Total Satisfied - '+ sum);
+
+});
+
+
 });
 
 
@@ -118,7 +132,15 @@ $(document).ready(function () {
       getdepartment(idupd, userDeptId);
       getdesignation(userDeptId, userDesignationId);
       getStaffListName(idupd, userDeptId, userDesignationId);
-      getReportingPerson(userStaffId);
+    }
+
+    if(id > 0){
+      setTimeout(() => {
+        var staff_id = $('#staff_id :selected').val();
+        getReportingPerson(staff_id);
+        
+      }, 500);
+
     }
 
     // if(idupd <= '0' && userRole != '1'){

@@ -19,6 +19,11 @@ include('api/main.php'); // Database Connection File
 
 <!doctype html>
 <html lang="en">
+	<style>
+	.quickscard{
+		overflow: scroll !important;
+	}
+	</style>
 
 <!-- downlaod customer excel div -->
 <div id="backup_customer" style="display:none"></div>
@@ -74,14 +79,25 @@ include('api/main.php'); // Database Connection File
 							<a href="#" id="notifications" data-toggle="dropdown" aria-haspopup="true">
 								<i class="icon-bell"></i>
 								<span
-									class="count-label"><?php //echo count($notification); // count($notificationmax); ?></span>
+									class="count-label" id="notificationCnt"><?php //echo count($notification); // count($notificationmax); ?></span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right lrg" aria-labelledby="notifications">
 								<div class="dropdown-menu-header">
 									Notifications
 								</div>
-								<div class="customScroll5 quickscard">
-									<ul class="header-notifications"></ul>
+								<div class="customScroll5 quickscard" style="overflow: scroll !important;">
+									<ul class="header-notifications" id='notificationUL'>
+										<!-- <table>
+											<tr>
+												<td>1</td>
+												<td>Todo</td>
+												<td>-</td>
+												<td>testing</td>
+												<td>-</td>
+												<td>pending</td>
+											</tr>
+										</table> -->
+									</ul>
 								</div>
 							</div>
 						</li>
@@ -649,6 +665,22 @@ include('api/main.php'); // Database Connection File
 	<?php include "include/common/dashboardfinancedatatablefooter.php" ?>
 	<?php } ?>
 	
+	<script>
+		$(function(){
+			$.ajax({
+				url: 'dashboardAjaxFile/ajaxGetNotificationForPendingTask.php',
+				type: 'post',
+				data: {},
+				cache: false,
+				success: function(response){
+					$('#notificationUL').empty();
+					$('#notificationUL').html(response);
+					$('#notificationCnt').text($('#rowcnt').val() - 1);
+				}
+			}); //Ajax END. 
+
+		})//Function END.
+	</script>
 	
 </body>
 

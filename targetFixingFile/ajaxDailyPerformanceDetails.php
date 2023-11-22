@@ -88,15 +88,15 @@ if(mysqli_num_rows($getdesgnDetails)>0){
             }
 
             // get not done and carry farward count
-            $selectcarryforwardDetails = $con->query("SELECT (dpr.status) AS statusCount, dpr.target, dpr.actual_achieve FROM daily_performance_ref dpr LEFT JOIN daily_performance dp 
-            ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id = '".$staff_id."' 
-            AND dp.month = '".$month."' AND dp.status = 0 AND dpr.status = '3' ");
-            $carryforward_target_total =0;
-            while($carryforwardinfo = $selectcarryforwardDetails->fetch_assoc()){
-                $carry_forwardCount	= $carryforwardinfo["statusCount"];
-                $carry_forward_target	= $carryforwardinfo["target"] - $carryforwardinfo["actual_achieve"];
-                $carryforward_target_total	= $carry_forward_target + $carryforward_target_total;
-            }
+            // $selectcarryforwardDetails = $con->query("SELECT (dpr.status) AS statusCount, dpr.target, dpr.actual_achieve FROM daily_performance_ref dpr LEFT JOIN daily_performance dp 
+            // ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id = '".$staff_id."' 
+            // AND dp.month = '".$month."' AND dp.status = 0 AND dpr.status = '3' ");
+            // $carryforward_target_total =0;
+            // while($carryforwardinfo = $selectcarryforwardDetails->fetch_assoc()){
+            //     $carry_forwardCount	= $carryforwardinfo["statusCount"];
+            //     $carry_forward_target	= $carryforwardinfo["target"] - $carryforwardinfo["actual_achieve"];
+            //     $carryforward_target_total	= $carry_forward_target + $carryforward_target_total;
+            // }
 
             ?>
 
@@ -149,7 +149,7 @@ if(mysqli_num_rows($getdesgnDetails)>0){
                             <td><input readonly type="text" class="form-control" value="<?php echo "Total Satisfied - ".$total_achieved; ?>" name="overall_performance" id="overall_performance" placeholder="Enter new assertion" ></td>
                             <td>
                                 <input readonly type="text" class="form-control" value="<?php echo "Total Not Done - ".$notdone_target_total; ?>" name="not_done" id="not_done" >
-                                <input readonly type="text" class="form-control" value="<?php echo "Total Carry Forward - ".$carryforward_target_total; ?>" name="carry_forward" id="carry_forward"  >
+                                <!-- <input readonly type="text" class="form-control" value="<?php #echo "Total Carry Forward - ".$carryforward_target_total; ?>" name="carry_forward" id="carry_forward"  > -->
                             </td> 
                         </tr>
                     </tbody>
@@ -171,12 +171,15 @@ if(mysqli_num_rows($getdesgnDetails)>0){
                 <?php
                 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
                 //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is.
-                $goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+                // $goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.target, gs.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+                // FROM goal_setting_ref gsr 
+                // LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
+                // WHERE gs.role = '$designation_id' 
+                // AND gsr.monthly_conversion_required = '0' 
+                // AND gsr.goal_month = '$yearmonth' ";
+                $goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
                 FROM goal_setting_ref gsr 
-                LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-                WHERE gs.role = '$designation_id' 
-                AND gsr.monthly_conversion_required = '0' 
-                AND gsr.goal_month = '$yearmonth' ";
+                WHERE FIND_IN_SET($staff_id,gsr.staffname) AND gsr.monthly_conversion_required = '0' AND gsr.goal_month = '$yearmonth' ";
 
                 $goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
                 if(mysqli_num_rows($goalsettingDetails) > 0){
