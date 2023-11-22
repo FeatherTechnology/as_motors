@@ -54,6 +54,7 @@
 								 <th>Date Of Audit</th>
 								<th>Role 1</th>
 								<th>Role 2</th>
+								<th>Audit Status</th>
 								<th>Status</th>
 								<th colspan="1">Action</th>
 							</tr>

@@ -66,7 +66,8 @@ if(isset($_POST["staff_id"])){
 
 		if($goal_target['total_target'] != '') {
 			$sumvalue = $goal_target['total_target'] - $actualAchieveinfo['actual_achieve'];
-			$sumtarget = $goalsettinginfo->per_day_target + $sumvalue ;
+			$sumtotalValue = ($sumvalue < 0) ? "0" : $sumvalue;
+			$sumtarget = $goalsettinginfo->per_day_target + $sumtotalValue ;
 			
 		} else{
 			$sumtarget = $goalsettinginfo->per_day_target; 

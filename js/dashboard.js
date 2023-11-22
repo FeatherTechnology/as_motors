@@ -487,3 +487,21 @@ function closeRemarkModal(){
     $('#com_file').children().text('')
 
 }
+
+function sendNotification(task_name, task_id, work_des, des_staff_id){
+$.ajax({
+    url: 'dashboardAjaxFile/sendNotificationToPendingTask.php',
+    type: 'post',
+    data: {'task_name': task_name, 'task_id': task_id, 'work_des': work_des, 'des_staff_id': des_staff_id},
+    cache: false,
+    success: function(response){
+        if(response == 0){
+            alert('Notification sent successfully!');
+
+        }else{
+            alert('Notification Not sent!');
+
+        }
+    }
+}); 
+}

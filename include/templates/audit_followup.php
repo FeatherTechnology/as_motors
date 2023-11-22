@@ -46,7 +46,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <!-- <div class="card-title">General Info</div> -->
+                        <span class="required" style="font-size: 12px;">*Note:  Once the target date is updated in the audit assign on the dashboard screen, the audit follow-up will be displayed.</br></br> * The Audit Follow-up will be executed if the target date is less than or equal to 3 days from the current date. </span>
                     </div>
                     <div class="card-body">
                         <div class="row ">
@@ -137,12 +137,12 @@
                                                     <th>Auditee Response*</th>
                                                     <th>Action plan*</th>
                                                     <th>Target Date</th>
-                                                    <th colspan="2">Action</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody id='t1'>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>
                                                         <input tabindex="4" type="text" class="form-control"
                                                             id="assertion" name="assertion[]"></input>
@@ -170,9 +170,8 @@
                                                     <td><button type="button" tabindex="9" id="add_row" name="add_row"
                                                             value="Submit" class="btn btn-primary add_row">Add</button>
                                                     </td>
-                                                    <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span>
-                                                    </td>
-                                                </tr>
+                                                    <td><span class='icon-trash-2' tabindex="10" id="delete_row"></span></td>
+                                                </tr> -->
                                             </tbody>
 
                                         </table>
@@ -198,28 +197,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Follow Up</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="clearModalData()">&times;</button>
                 </div>
                 <div class="modal-body" style="background-color: whitesmoke;">
                     <div class="form-group">
                         <label for="remarks">Remarks *</label>
-                        <?php 
-
-            
-        
-                                             if(isset($_SESSION["userid"])){
-                                                   $userid = $_SESSION["userid"];
-                                             }
-                                        ?>
-
-                        <textarea id='remarks' class='form-control' rows='5' name='remarks' cols='35'
-                            placeholder='Enter Audit Remarks'></textarea>
-                        <input type='hidden' class='form-control assignid' id='assignidc' name='assidnid' value=""
-                            readonly>
-                        <input type='hidden' class='form-control assignrefid' id='assignrefidc' name='assidnrefid'
-                            value="" readonly>
-                        <input type='hidden' class='form-control userid' id='userid' name='userid'
-                            value="<?php echo   $userid;?>" readonly>
+                        <textarea id='remarks' class='form-control' rows='5' name='remarks' cols='35' placeholder='Enter Audit Remarks'></textarea>
+                        <input type='hidden' class='form-control assignid' id='assignidc' name='assidnid' value="" readonly>
+                        <input type='hidden' class='form-control assignrefid' id='assignrefidc' name='assidnrefid' value="" readonly>
+                        <input type='hidden' class='form-control userid' id='userid' name='userid' value="<?php echo $userid;?>" readonly>
                     </div>
                     <div class="form-group">
                         <label for="date">Completed Date *</label>
@@ -228,13 +214,11 @@
                     <div class="form-group">
                         <label for="file">Attachment If Any</label>
                         <input type="file" class="form-control" style='padding: 3px;' id="file" name="file">
-
                     </div>
-
                 </div>
                 <div class="modal-footer" style="background-color: whitesmoke;">
                     <button type="button" id="insert" class="btn btn-primary insert" name="insert">Submit</button>
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="clearModalData()">Close</button>
                 </div>
             </div>
 

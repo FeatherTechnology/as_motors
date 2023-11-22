@@ -116,6 +116,16 @@ foreach ($result as $row) {
     $sub_array[] = $row['role1'];
     $sub_array[] = $row['role2'];
 
+    $auditstsQry = $mysqli->query("SELECT * FROM `audit_assign_ref` WHERE `audit_assign_id` = 2 &&  `audit_status` = 0 && `auditee_followup_status` != 1");
+    if(mysqli_num_rows($auditstsQry)>0){
+        // $auditstsfetch = $auditstsQry->fetch_assoc();
+        $sub_array[] = 'Audit Pending';
+    }else{
+        $sub_array[] = 'Audit Completed';
+    }
+
+
+
 
     // $sub_array[] = $row['pan_number'];
     // $sub_array[] = $row['esi_number'];

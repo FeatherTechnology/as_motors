@@ -154,7 +154,7 @@ if($idupd>0)
                                                         <?php echo $departmentList[$j]['department_name'] . ' - ' ;
                                                         for($k=0;$k<count($compnayNameBranchBased);$k++){
                                                             if($departmentList[$j]['company_id'] == $compnayNameBranchBased[$k]['branch_id']){
-                                                                echo $compnayNameBranchBased[$k]['company_name'];
+                                                                echo $compnayNameBranchBased[$k]['branch_name'];
                                                             }
                                                         }
                                                         ?></option>
@@ -238,7 +238,7 @@ if($idupd>0)
                                                             <?php echo $designationList[$j]['designation_name'] . ' - ' ;
                                                             for($k=0;$k<count($compnayNameBranchBased);$k++){
                                                                 if($designationList[$j]['company_id'] == $compnayNameBranchBased[$k]['branch_id']){
-                                                                    echo $compnayNameBranchBased[$k]['company_name'];
+                                                                    echo $compnayNameBranchBased[$k]['branch_name'];
                                                                 }
                                                             }
                                                         ?></option>
@@ -272,7 +272,7 @@ if($idupd>0)
                                                                 <?php echo $designationList[$j]['designation_name'] . ' - ' ;
                                                                 for($k=0;$k<count($compnayNameBranchBased);$k++){
                                                                     if($designationList[$j]['company_id'] == $compnayNameBranchBased[$k]['branch_id']){
-                                                                        echo $compnayNameBranchBased[$k]['company_name'];
+                                                                        echo $compnayNameBranchBased[$k]['branch_name'];
                                                                     }
                                                                 }
                                                             ?></option>

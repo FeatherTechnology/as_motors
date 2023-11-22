@@ -642,6 +642,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                             <th>End Date</th>
                                                             <th>Status</th>
                                                             <th>Designation / Staff Name</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1636,6 +1637,7 @@ if(sizeof($mm_approvalRequisitionAfterNotification) > 0){
                                                             <th>End Date</th>
                                                             <th>Status</th>
                                                             <th>Designation / Staff Name</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

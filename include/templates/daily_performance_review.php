@@ -98,7 +98,7 @@ if(isset($_SESSION["userid"])){
                                             <th>System Date</th>
                                             <th>Work Status</th>                                            
                                             <th>Manager Comment</th>                                            
-                                            <th>Action</th>                                            
+                                            <th colspan='2'>Action</th>                                            
                                         </tr>
                                     </thead>
                                         <tbody id="reviewTable"></tbody>

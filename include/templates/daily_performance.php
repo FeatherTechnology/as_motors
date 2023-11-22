@@ -1,4 +1,5 @@
 <?php 
+//if manager reject the daily performance review then particular staff or super admin can edit value and re-submit the daily performance.
 @session_start();
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
@@ -287,13 +288,18 @@ table {
                                                         $system_date            =$ref_table[$i]['system_date'];
                                                         $goal_setting_id                   = $ref_table[$i]['goal_setting_id'];
                                                         $goal_setting_ref_id                   = $ref_table[$i]['goal_setting_ref_id'];
+                                                        $assertion_table_sno                   = $ref_table[$i]['assertion_table_sno'];
                                                         $status                   = $ref_table[$i]['status'];
                                                         $manager_updated_status                   = $ref_table[$i]['manager_updated_status'];
 
-                                                        if($ref_table[$i]['manager_updated_status'] != 1 && $logrole == 1){
+                                                        if($ref_table[$i]['manager_updated_status'] != 1 && $logrole == 1){ //Super Admin only can edit the daily performance screen.
                                                             $isReadOnly = false;
                                                         }else{
-                                                            $isReadOnly = true;
+                                                            if($ref_table[$i]['manager_updated_status'] == 2 && $emp_id == $user_staff_id){
+                                                                $isReadOnly = false;
+                                                            }else{
+                                                                $isReadOnly = true;
+                                                            }
                                                         }
                                                 ?>
                                                         <tr>
@@ -302,6 +308,7 @@ table {
                                                             <input type='hidden' class='form-control' id='goal_setting_id' name='goal_setting_id[]' value="<?php echo $goal_setting_id; ?>">
                                                             <input type='hidden' class='form-control' id='goal_setting_ref_id' name='goal_setting_ref_id[]' value="<?php echo $goal_setting_ref_id; ?>">
                                                             <input  type="hidden" class="form-control" id="daily_ref_id" name="daily_ref_id[]" value="<?php echo  $daily_performance_ref_id; ?>">
+                                                            <input type='hidden' class='form-control' id='assertion_table_sno' name='assertion_table_sno[]' value="<?php echo  $assertion_table_sno; ?>">
                                                             
                                                             </td>
                                                             <td >
@@ -318,10 +325,10 @@ table {
                                                             </td>
                                                             <td>
                                                                 <select  class="form-control wstatus" id="wstatus" name="wstatus[]"  value="<?php echo $status; ?>" tabindex="13" <?php echo $isReadOnly ? 'disabled' : ''; ?> >
-                                                                    <option value=" ">Select Work Status</option>
-                                                                    <option value="1" <?php if($status == '1') { echo 'selected';} ?> >Statisfied</option>
+                                                                    <option value="">Select Work Status</option>
+                                                                    <option value="1" <?php if($status == '1') { echo 'selected';} ?> >Satisfied</option>
                                                                     <option value="2" <?php if($status == '2') { echo 'selected';} ?> >Not Done</option>
-                                                                    <option value="3" <?php if($status == '3') { echo 'selected';} ?> >Carry Forward</option>
+                                                                    <!-- <option value="3" <?php #if($status == '3') { echo 'selected';} ?> >Carry Forward</option> -->
                                                                 </select>
                                                             </td>                                                            
                                                         </tr>

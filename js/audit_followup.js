@@ -81,10 +81,9 @@ $(document).ready(function () {
                     "<td><input type='text' tabindex='7' class='form-control' id='auditee_response' name='auditee_response[]' value="+ data[a]['auditee_response'] + " readonly></td>"+
                     "<td><input type='text' tabindex='7' class='form-control' id='action_plan' name='action_plan[]' value="+ data[a]['action_plan'] +" readonly></td>"+
                     "<td><input type='text' tabindex='7' class='form-control' id='target_date' name='target_date[]' value="+ data[a]['target_date'] +" readonly></td>"+
-                    "<td><button type='button' class='btn btn-info btn-lg add_row' id='add_row_"+a+"' data-toggle='modal' data-target='#myModal'>Edit</button></td>"+
-                        "<td><span class='icon-trash-2' tabindex='10' id='delete_row'></span></td> </tr>";
+                    "<td><button type='button' class='btn btn-info btn-lg add_row' id='add_row_"+a+"' data-toggle='modal' data-target='#myModal'>Edit</button></td> </tr>";
                         $('#moduleTable').find('tbody').append(dataAppend);                           
-                    
+                    //"+"<td><span class='icon-trash-2' tabindex='10' id='delete_row'></span></td>
                 }
             }
         });
@@ -136,6 +135,7 @@ $(document).ready(function () {
                 $('.modal-backdrop').remove();
                 $('#myModal').removeClass('show');
 				$('#prev').trigger('change',function(){})
+                clearModalData();
 			}
 		});
         var date_of_audit = $('#prev').val();
@@ -145,5 +145,10 @@ $(document).ready(function () {
    
 });
     
-
- 
+function clearModalData(){
+    $("#assignidc").val('');
+    $("#assignrefidc").val('');
+    $("#remarks").val('');
+    $("#date").val('');
+	$('#file').val('');
+}
