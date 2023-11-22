@@ -1058,40 +1058,8 @@ if(isset($_SESSION['role'])){
             ],
             "drawCallback":function(){
                 changeRowColor();
+                OverallLoginFunc();
             }
-        });
-
-        // Completed Task dashboard - Overall Login
-		var completed_task_dashboard = $('#completed_task_dashboard').DataTable({
-
-            "order": [[ 0, "desc" ]],
-            // "ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            // 'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'dashboardAjaxFile/ajaxCompletedTaskList.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            // "drawCallback":function(){
-            // }
         });
     
     // approval line - approval requisition
@@ -2605,6 +2573,44 @@ buttons: [
         //Manager Completed Task dashboard END
     }
 ///////////////////////////////////////////////////////////////////////// Manager Login Dashboard END///////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////// Overall Login Dashboard END///////////////////////////////////////////////////////////
+function OverallLoginFunc(){
+// Completed Task dashboard - Overall Login
+var completed_task_dashboard = $('#completed_task_dashboard').DataTable({
+
+"order": [[ 0, "desc" ]],
+// "ordering": false, //removes sorting by column
+'processing': true,
+'serverSide': true,
+'serverMethod': 'post',
+// 'searching': false, // Remove default Search Control
+'ajax': {
+    'url':'dashboardAjaxFile/ajaxCompletedTaskList.php',
+    'data': function(data){
+        var search = $('#search').val();
+        data.search = search;
+    }
+},
+// dom: 'lBfrtip',
+buttons: [
+    {
+        extend: 'csv',
+        exportOptions: {
+            columns: [ 0, 1, 2 ,3, 4, 5 ]
+        }
+    }
+],
+"lengthMenu": [
+    [10, 25, 50, -1],
+    [10, 25, 50, "All"]
+],
+// "drawCallback":function(){
+// }
+});
+
+}//Function END
+///////////////////////////////////////////////////////////////////////// Overall Login Dashboard END///////////////////////////////////////////////////////////
 
 
 	$('#search').change(function(){
