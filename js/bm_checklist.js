@@ -172,7 +172,7 @@ function DropDownCourse(){
 
             var len = response.length;
             $("#category_id").empty();
-            $("#category_id").append("<option value=''>"+'Select Loan Category'+"</option>");
+            $("#category_id").append("<option value=''>"+'Select Category'+"</option>");
             for(var i = 0; i<len; i++){
                 var category_creation_id = response[i]['category_creation_id'];
                 var category_creation_name = response[i]['category_creation_name'];

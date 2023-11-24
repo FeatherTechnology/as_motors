@@ -100,10 +100,18 @@ foreach ($result as $row) {
     }
 
     $assetnameQry = $con->query("SELECT asset_name FROM asset_name_creation WHERE asset_name_id = '".$row['asset_name']."' ") ;
-    $assetName = $assetnameQry->fetch_assoc()['asset_name'];
+    if(mysqli_num_rows($assetnameQry)  > 0){
+        $assetName = $assetnameQry->fetch_assoc()['asset_name'];
+    }else{
+        $assetName = '';
+    }
 
     $assetnameQry = $con->query("SELECT vendor_name FROM vendor_name_creation WHERE vendor_name_id = '".$row['vendor_id']."' ") ;
-    $vendorName = $assetnameQry->fetch_assoc()['vendor_name'];
+    if(mysqli_num_rows($assetnameQry)  > 0){
+        $vendorName = $assetnameQry->fetch_assoc()['vendor_name'];
+    }else{
+        $vendorName = '';
+    }
     
     //Fetching Asset Classification name
     $asset_class_id = $row['asset_classification']; 

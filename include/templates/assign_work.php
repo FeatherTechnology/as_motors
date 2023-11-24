@@ -62,6 +62,8 @@ if($idupd>0)
 			$designation		             = $getAssignWorkList[$iwork]['designation'];
 			$from_date		             = $getAssignWorkList[$iwork]['from_date'];
 			$to_date		             = $getAssignWorkList[$iwork]['to_date'];
+			$frequency		             = $getAssignWorkList[$iwork]['frequency'];
+			$frequency_applicable		             = $getAssignWorkList[$iwork]['frequency_applicable'];
 		}
 	}
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
@@ -323,6 +325,8 @@ if($idupd>0)
                                             </td>
                                             <td>
                                                 <input type="hidden" style="display:none" readonly name="work_des_id[]" id="work_des_id" class="form-control" value=<?php echo $getAssignWorkList[$g]['work_des_id']; ?> />
+                                                <input type="hidden" name="frequency[]" id="frequency" class="form-control" value="<?php echo $getAssignWorkList[$g]['frequency']; ?>" />
+                                                <input type="hidden" name="frequency_applicable[]" id="frequency_applicable" class="form-control" value="<?php echo $getAssignWorkList[$g]['frequency_applicable']; ?>" />
                                                 <input type="text" class="form-control" id="work_des_ins" name="work_des_ins[]" readonly value="<?php echo $getAssignWorkList[$g]['work_des_text']; ?>">
                                                 </input> 
                                             </td>

@@ -102,6 +102,9 @@ function printTable($mysqli,$where, $monthname ){
                 $fixedtarget = $fixedtarget + $row1->target;
             }
             
+            $sumvalue = $fixedtarget - $actual;
+            $bal = ($sumvalue < 0) ? "0" : $sumvalue;
+
             echo '</tbody>';
             echo '<tr>';
             echo '<td></td>';
@@ -116,11 +119,15 @@ function printTable($mysqli,$where, $monthname ){
             echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2">' . ($fixedtarget - $actual) . '</td>';
+            echo '<td colspan="2">' . $bal . '</td>';
             echo '</tr>';
             echo '</table>';
             echo '</br></br>';
         }else{
+
+            $sumvalue = $fixedtarget - $actual;
+            $bal = ($sumvalue < 0) ? "0" : $sumvalue;
+
             echo '<center><span class="recordspn">No Record Found!</span></center>';
 
             echo '<table class="table custom-table dpr_staff_report">';
@@ -153,7 +160,7 @@ function printTable($mysqli,$where, $monthname ){
             echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2">' . ($fixedtarget - $actual) . '</td>';
+            echo '<td colspan="2">' . $bal . '</td>';
             echo '</tr>';
             echo '</table>';
             echo '</br></br>';

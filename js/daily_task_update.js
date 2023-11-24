@@ -31,46 +31,14 @@ $(document).ready(function(){
         getDailyTaskUpdate();
     });
 
-    $('#submit_daily_task_update').click(function(){ //Update Work_status.
-        event.preventDefault();
-
-        var workid = $('#daily_task :selected').data('value');
-        var daily_task =$('#daily_task').val();
-        var id = workid+daily_task;
-        var work_name =$('#daily_task :selected').text();
-        var work_status =$('#work_status').val();
-        var remarks = $('#work_remark').val();
-        var status_file = $('#status_file').val();
-
-        var status_file = $("#status_file")[0];
-        var file = status_file.files[0];
-    
-    
-        var formdata = new FormData();
-        formdata.append('id', id)
-        formdata.append('work_name', work_name)
-        formdata.append('work_status', work_status)
-        formdata.append('remarks', remarks)
-        formdata.append('status_file', file)
-
-        $.ajax({
-            url: 'dailyTaskUpdateFile/dailyTasksubmit.php',
-            type: 'POST',
-            data: formdata,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (response) {
-                $('#insertsuccess').show();
-                setTimeout(function() {
-                    $('#insertsuccess').fadeOut('fast');
-                    location.href='daily_task_update';
-                }, 1000);
-    
-            }
+    $('#submit_daily_task_update').click(function(e){
+        // Select rows where the work_status select element has an empty value
+        var removerows = $('#taskTable tbody tr td select.work_status').filter(function() {
+            return $(this).val() == '';
         });
-
-    })
+        // Remove the parent row of each selected element
+        removerows.closest('tr').remove();
+    });
 
 }); //Document END.
 
@@ -79,8 +47,15 @@ $(function(){
     var staffid = $('#staffid').val();
     var branch_id = $('#branch_id').val();
     if(staffid !='Overall'){ // For Staff Login.
+        $('#dailytask_update').hide();
         setalltoReadonly();
         getStaffLoad(branch_id);
+
+        setTimeout(() => {
+            $('#dailytask_update').click();
+            
+        }, 1000);
+
     }
 });
 
@@ -119,14 +94,20 @@ function setalltoReadonly(){
 function getDailyTaskUpdate(){
     var desgn_id = $('#employee :selected').data('value');
     var staffid = $('#employee :selected').val();
+    var current_date = $('#current_date').val();
     $.ajax({
         url: 'dailyTaskUpdateFile/getDailyTaskUpdate.php',
         type: 'post',
-        data: {'desgn_id':desgn_id, 'staffid': staffid},
-        // dataType: 'json',
+        data: {'desgn_id':desgn_id, 'staffid': staffid, 'current_date': current_date},
         success:function(response){ 
         $('#dailyTaskTable').empty();
-        $('#dailyTaskTable').html(response);
+        if(response == 0){
+            $('#dailyTaskTable').html("<tr><td colspan='4'>No Record Found!</td></tr>");
+
+        }else{
+            $('#dailyTaskTable').html(response);
+
+        }
         }
     });
 }

@@ -679,6 +679,10 @@ include('api/main.php'); // Database Connection File
 				}
 			}); //Ajax END. 
 
+			//Alert fadeout for all page.
+			setTimeout(function() {
+				$('.alert').fadeOut('slow');
+			}, 2000);
 		})//Function END.
 	</script>
 	

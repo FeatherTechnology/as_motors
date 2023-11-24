@@ -3,6 +3,7 @@ include '../ajaxconfig.php';
 @session_start();
 date_default_timezone_set('Asia/Calcutta');
 $current_time = date('H:i:s');
+$current_date = date('Y-m-d');
 
 if(isset($_POST['company_id'])){
     $company_id = $_POST['company_id'];
@@ -123,7 +124,7 @@ if($checklist == 'pm_checklist'){
         $insertChecklistRefRun = $con->query($insertChecklistRef);
         $checklistRefId = $con->insert_id;
 
-        if($frequency_applicableArr[$i] == 'frequency_applicable'){ 
+        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
 
             if($frequencyArr[$i] == 'Fortnightly'){
     
@@ -145,9 +146,11 @@ if($checklist == 'pm_checklist'){
                         $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                     }
                 
+                    if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                     $from_dates[] = $current_from_date;
                     $to_dates[] = $current_to_date;
-                
+                    }
+
                     $current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
                     $current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
                 
@@ -176,10 +179,12 @@ if($checklist == 'pm_checklist'){
                     while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
                         $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                     }
-                
+
+                    if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                     $from_dates[] = $current_from_date;
                     $to_dates[] = $current_to_date;
-                
+                    }
+
                     $current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
                     $current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
                 
@@ -209,9 +214,11 @@ if($checklist == 'pm_checklist'){
                         $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                     }
                 
+                    if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                     $from_dates[] = $current_from_date;
                     $to_dates[] = $current_to_date;
-                
+                    }
+
                     $current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
                     $current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
                 
@@ -241,9 +248,11 @@ if($checklist == 'pm_checklist'){
                         $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                     }
                 
+                    if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                     $from_dates[] = $current_from_date;
                     $to_dates[] = $current_to_date;
-                
+                    }
+
                     $current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
                     $current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
                 
@@ -262,6 +271,39 @@ if($checklist == 'pm_checklist'){
                 $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
             } 
             
+        } else if ($frequencyArr[$i] == 'Daily Task' && $calendar == "No"){
+            //if select Daily Task in frequency then insert record per day for current year. 
+            $end_of_year = date('Y-12-31');
+            $current_from_date = date('Y-m-d', strtotime($current_date));
+        
+            $from_dates = array();
+        
+            while ($current_from_date <= $end_of_year ) {
+                // Check if current_from_date is a Sunday or holiday
+                while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                    $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+                }
+
+                if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+                    $from_dates[] = $current_from_date;
+                }
+
+                $current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+            
+                if ($current_from_date > $end_of_year ) {
+                    break;
+                }
+            }//While END.
+
+            for($a=0; $a <count($from_dates); $a++){
+
+                $insertQry="INSERT INTO pm_checklist_ref(pm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
+                role2) VALUES ('".strip_tags($checkedidArr[$i])."', '".strip_tags($maintenanceChceklistId)."', '".strip_tags($checklistRefId)."', 
+                '".strip_tags($checklist_textareaArr[$i])."', '".strip_tags($from_dates[$a].' '.$current_time)."', '".strip_tags($from_dates[$a].' '.$current_time)."', 
+                '".strip_tags($role1)."', '".strip_tags($role2)."' )";
+                $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+            } 
+
         } else { 
     
             $insertQry="INSERT INTO pm_checklist_ref(pm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
@@ -291,7 +333,7 @@ if($checklist == 'pm_checklist'){
         VALUES ('".strip_tags($maintenanceChceklistId)."', '".strip_tags($checkedidArr[$i])."', '".strip_tags($remarksArr[$i])."', '".strip_tags($file[$i])."')"; 
         $insertChecklistRefRun = $con->query($insertChecklistRef);
 
-    if($frequency_applicableArr[$i] == 'frequency_applicable'){ 
+    if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
 
         if($frequencyArr[$i] == 'Fortnightly'){
 
@@ -313,9 +355,11 @@ if($checklist == 'pm_checklist'){
                     $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                 }
             
+                if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                 $from_dates[] = $current_from_date;
                 $to_dates[] = $current_to_date;
-            
+                }
+
                 $current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
                 $current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
             
@@ -345,9 +389,11 @@ if($checklist == 'pm_checklist'){
                     $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                 }
             
+                if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                 $from_dates[] = $current_from_date;
                 $to_dates[] = $current_to_date;
-            
+                }
+
                 $current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
                 $current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
             
@@ -377,9 +423,11 @@ if($checklist == 'pm_checklist'){
                     $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                 }
             
+                if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                 $from_dates[] = $current_from_date;
                 $to_dates[] = $current_to_date;
-            
+                }
+
                 $current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
                 $current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
             
@@ -409,9 +457,11 @@ if($checklist == 'pm_checklist'){
                     $current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
                 }
             
+                if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
                 $from_dates[] = $current_from_date;
                 $to_dates[] = $current_to_date;
-            
+                }
+                
                 $current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
                 $current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
             
@@ -427,10 +477,42 @@ if($checklist == 'pm_checklist'){
             role2) VALUES ('".strip_tags($checkedidArr[$i])."', '".strip_tags($maintenanceChceklistId)."', '".strip_tags($insertChecklistRefRun)."', 
             '".strip_tags($checklist_textareaArr[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', '".strip_tags($to_dates[$j].' '.$current_time)."', 
             '".strip_tags($role1)."', '".strip_tags($role2)."' )";
-            $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
-            echo $insresult;
+            $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
         } 
         
+    } else if ($frequencyArr[$i] == 'Daily Task' && $calendar == "No"){
+        //if select Daily Task in frequency then insert record per day for current year. 
+        $end_of_year = date('Y-12-31');
+        $current_from_date = date('Y-m-d', strtotime($current_date));
+    
+        $from_dates = array();
+    
+        while ($current_from_date <= $end_of_year ) {
+            // Check if current_from_date is a Sunday or holiday
+            while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+                $current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+            }
+
+            if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+                $from_dates[] = $current_from_date;
+            }
+
+            $current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+        
+            if ($current_from_date > $end_of_year ) {
+                break;
+            }
+        }//While END.
+
+        for($a=0; $a <count($from_dates); $a++){
+
+            $insertQry="INSERT INTO bm_checklist_ref(bm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
+            role2) VALUES ('".strip_tags($checkedidArr[$i])."', '".strip_tags($maintenanceChceklistId)."', '".strip_tags($insertChecklistRefRun)."', 
+            '".strip_tags($checklist_textareaArr[$i])."', '".strip_tags($from_dates[$a].' '.$current_time)."', '".strip_tags($from_dates[$a].' '.$current_time)."', 
+            '".strip_tags($role1)."', '".strip_tags($role2)."' )";
+            $insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+        } 
+
     } else { 
 
         $insertQry="INSERT INTO bm_checklist_ref(bm_checklist_id, maintenance_checklist_id, maintenance_checklist_ref_id, checklist, from_date, to_date, role1, 
