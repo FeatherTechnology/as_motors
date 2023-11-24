@@ -1,11 +1,8 @@
 <?php
 //Also using in kra_kpi_report.js
-@session_start();
+//Also using in assign_work.js
 include '../ajaxconfig.php';
 
-if(isset($_SESSION["userid"])){
-    $userid = $_SESSION["userid"];
-}
 if(isset($_POST["department_id"])){
 	$department_id = $_POST["department_id"]; 
 }

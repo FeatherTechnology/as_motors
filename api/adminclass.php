@@ -637,6 +637,7 @@
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
+			$current_date = date('Y-m-d');
 
 			if(isset($_POST['audit_area'])){
 				$audit_area = $_POST['audit_area'];
@@ -698,7 +699,7 @@
 				$holiday_dates[] = $row9["holiday_date"];
 			}
 
-			if($frequency_applicable == 'frequency_applicable'){
+			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
 
 				if ($frequency == 'Fortnightly'){ 
 
@@ -720,9 +721,10 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
 					
@@ -750,9 +752,11 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
 					
@@ -779,10 +783,12 @@
 						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
-					
+
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
 					
@@ -810,9 +816,11 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
 					
@@ -828,6 +836,37 @@
 					'".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."' )";
 					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 				} 
+			} else if ($frequency == 'Daily Task' && $calendar == "No"){
+				//if select Daily Task in frequency then insert record per day for current year. 
+				$end_of_year = date('Y-12-31');
+				$current_from_date = date('Y-m-d', strtotime($current_date));
+			
+				$from_dates = array();
+			
+				while ($current_from_date <= $end_of_year ) {
+					// Check if current_from_date is a Sunday or holiday
+					while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+						$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+					}
+
+					if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+						$from_dates[] = $current_from_date;
+					}
+
+					$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+				
+					if ($current_from_date > $end_of_year ) {
+						break;
+					}
+				}//While END.
+
+				for($a=0; $a <count($from_dates); $a++){
+
+					$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
+					'".strip_tags($from_dates[$a].' '.$current_time)."', '".strip_tags($from_dates[$a].' '.$current_time)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				} 
+
 			} else {
 
 				$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($lastid)."', '".strip_tags($from_date)."', 
@@ -867,6 +906,7 @@
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
+			$current_date = date('Y-m-d');
 
 			if(isset($_POST['audit_area'])){
 				$audit_area = $_POST['audit_area'];
@@ -930,7 +970,7 @@
 				$holiday_dates[] = $row9["holiday_date"];
 			}
 
-			if($frequency_applicable == 'frequency_applicable'){
+			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
 
 				if ($frequency == 'Fortnightly'){ 
 
@@ -952,9 +992,11 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
 					
@@ -982,8 +1024,10 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
+						}
 					
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
@@ -1012,8 +1056,10 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
+						}
 					
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
@@ -1042,9 +1088,11 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
 					
@@ -1060,6 +1108,37 @@
 					'".strip_tags($from_dates[$i].' '.$current_time)."', '".strip_tags($to_dates[$i].' '.$current_time)."' )";
 					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 				} 
+			} else if ($frequency == 'Daily Task' && $calendar == "No"){
+				//if select Daily Task in frequency then insert record per day for current year. 
+				$end_of_year = date('Y-12-31');
+				$current_from_date = date('Y-m-d', strtotime($current_date));
+			
+				$from_dates = array();
+			
+				while ($current_from_date <= $end_of_year ) {
+					// Check if current_from_date is a Sunday or holiday
+					while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+						$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+					}
+
+					if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+						$from_dates[] = $current_from_date;
+					}
+
+					$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+				
+					if ($current_from_date > $end_of_year ) {
+						break;
+					}
+				}//While END.
+
+				for($a=0; $a <count($from_dates); $a++){
+
+					$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($id)."', 
+					'".strip_tags($from_dates[$a].' '.$current_time)."', '".strip_tags($from_dates[$a].' '.$current_time)."' )";
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+				} 
+
 			} else {
 
 				$insertQry="INSERT INTO audit_area_creation_ref(audit_area_id, from_date, to_date) VALUES ('".strip_tags($id)."', '".strip_tags($from_date)."', 
@@ -1849,6 +1928,7 @@
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
+			$current_date = date('Y-m-d');
 
             $rrInsert="INSERT INTO krakpi_creation(company_name, department, designation, insert_login_id) VALUES('".strip_tags($company_name)."', 
 			'".strip_tags($department)."', '".strip_tags($designation)."', '".strip_tags($userid)."' )";
@@ -1906,8 +1986,10 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
+							}
 						
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
@@ -1936,9 +2018,11 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
+
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
 						
@@ -1966,8 +2050,10 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
+							}
 						
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
@@ -1996,9 +2082,11 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
+
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
 						
@@ -2020,6 +2108,39 @@
 					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
 					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
 					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+
+				} else if ($frequency[$i] == 'Daily Task' && $calendar[$i] == "No"){
+					//if select Daily Task in frequency then insert record per day for current year. 
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($current_date));
+				
+					$from_dates = array();
+				
+					while ($current_from_date <= $end_of_year ) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+
+						if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+						}
+
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+					
+						if ($current_from_date > $end_of_year ) {
+							break;
+						}
+					}//While END.
+
+					for($a=0; $a <count($from_dates); $a++){
+
+						$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
+						'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_dates[$a].' '.$current_time)."', 
+						'".strip_tags($from_dates[$a].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+
 				}
 			} 
 
@@ -2145,6 +2266,7 @@
 
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
+			$current_date = date('Y-m-d');
 
             $updateQry = 'UPDATE krakpi_creation SET company_name = "'.strip_tags($company_name).'", department = "'.strip_tags($department).'", 
 			designation = "'.strip_tags($designation).'", status = "0" WHERE krakpi_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
@@ -2182,7 +2304,7 @@
 				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable[$i] == 'frequency_applicable'){
+				if($frequency_applicable[$i] == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
 					if ($frequency[$i] == 'Fortnightly'){ 
 
@@ -2204,9 +2326,11 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
+
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
 						
@@ -2233,10 +2357,11 @@
 							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
-						
+
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 month'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 month'));
 						
@@ -2264,9 +2389,11 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
+
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
 						
@@ -2294,9 +2421,11 @@
 								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 							}
 						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 							$from_dates[] = $current_from_date;
 							$to_dates[] = $current_to_date;
-						
+							}
+
 							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
 						
@@ -2314,11 +2443,44 @@
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
 
-				} else {
+				} else if($calendar[$i] == "Yes"){
 
 					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($id)."', 
 					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
-					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+
+				} else if ($frequency[$i] == 'Daily Task' && $calendar[$i] == "No"){
+					//if select Daily Task in frequency then insert record per day for current year. 
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($current_date));
+				
+					$from_dates = array();
+				
+					while ($current_from_date <= $end_of_year ) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+
+						if ($current_from_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+						}
+
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 DAY'));
+					
+						if ($current_from_date > $end_of_year ) {
+							break;
+						}
+					}//While END.
+
+					for($a=0; $a <count($from_dates); $a++){
+
+						$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($id)."', 
+						'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_dates[$a].' '.$current_time)."', 
+						'".strip_tags($from_dates[$a].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+
 				}
 			}
 
@@ -3481,16 +3643,174 @@
 			if(isset($_POST['to_date_ins'])){
 				$to_date = $_POST['to_date_ins'];
 			}
+			if(isset($_POST['frequency'])){
+				$frequency = $_POST['frequency'];
+			}
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
 			$insertQry="INSERT INTO assign_work(company_id,created_date) VALUES('".strip_tags($company_id)."', current_timestamp()  )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 				
 			$lastid = $mysqli->insert_id;
-			for($i=0;$i<sizeof($department_id);$i++){
+			date_default_timezone_set('Asia/Calcutta');
+			$current_time = date('H:i:s');
+
+			for($i=0;$i < count($department_id);$i++){
 				
-				$insertQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, designation_id, from_date, to_date)
-				VALUES('".strip_tags($lastid)."', '".strip_tags($department_id[$i])."', '".strip_tags($work_des_id[$i])."','".strip_tags($work_des_text[$i])."', 
-				'".strip_tags($designation[$i])."', '".strip_tags($from_date[$i])."', '".strip_tags($to_date[$i])."' )";
+				if($frequency_applicable[$i] == 'frequency_applicable' && $frequency_applicable[$i] != ''){ 
+					
+					// select holiday
+					$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+					$res9 = $mysqli->query($getqry9);
+					$holiday_dates = [];
+					while ($row9 = $res9->fetch_assoc()) {
+						$holiday_dates[] = $row9["holiday_date"];
+					}
+
+					if($frequency[$i] == 'Fortnightly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					} else if($frequency[$i] == 'Monthly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					}  else if($frequency[$i] == 'Quaterly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+						
+					} else if($frequency[$i] == 'Half Yearly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} 
+		
+					for($j=0; $j<count($from_dates); $j++){
+						$insertQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, frequency, frequency_applicable, designation_id, from_date, to_date) VALUES('".strip_tags($lastid)."', '".strip_tags($department_id[$i])."', '".strip_tags($work_des_id[$i])."','".strip_tags($work_des_text[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', '".strip_tags($to_dates[$j].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
+					} 
+					
+				} else {
+			
+					$insertQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, frequency, frequency_applicable, designation_id, from_date, to_date)
+				VALUES('".strip_tags($lastid)."', '".strip_tags($department_id[$i])."', '".strip_tags($work_des_id[$i])."','".strip_tags($work_des_text[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($from_date[$i].' '.$current_time)."', '".strip_tags($to_date[$i].' '.$current_time)."' )";
 				$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+				}
 			}
 		}
 
@@ -3517,19 +3837,182 @@
 			if(isset($_POST['to_date_ins'])){
 				$to_date = $_POST['to_date_ins'];
 			}
-			
-			$delRef = "DELETE FROM assign_work_ref where assign_work_reff_id = '".strip_tags($id)."' ";
-			$delres = $mysqli->query($delRef) or die('unable to update');
-			
-			for($i=0;$i<=sizeof($department_id)-1;$i++){
-				$updQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, designation_id, from_date, to_date)
-					VALUES('".strip_tags($id)."', '".$department_id[$i]."', '".$work_des_id[$i]."','".$work_des_text[$i]."', '".$designation[$i]."', '".$from_date[$i]."', 
-					'".$to_date[$i]."' )";
-				$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
+			if(isset($_POST['frequency'])){
+				$frequency = $_POST['frequency'];
 			}
-
+			if(isset($_POST['frequency_applicable'])){
+				$frequency_applicable = $_POST['frequency_applicable'];
+			}
+			
 			$updateqry = "UPDATE assign_work set status = 0 where work_id = '".$id."' ";
 			$updres = $mysqli->query($updateqry) or die("Error ");
+
+			$delRef = "DELETE FROM assign_work_ref where assign_work_reff_id = '".strip_tags($id)."' ";
+			$delres = $mysqli->query($delRef) or die('unable to update');
+
+			date_default_timezone_set('Asia/Calcutta');
+			$current_time = date('H:i:s');
+			
+			for($i=0;$i<=sizeof($department_id)-1;$i++){
+
+				if($frequency_applicable[$i] == 'frequency_applicable' && $frequency_applicable[$i] != ''){ 
+					
+					// select holiday
+					$getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
+					$res9 = $mysqli->query($getqry9);
+					$holiday_dates = [];
+					while ($row9 = $res9->fetch_assoc()) {
+						$holiday_dates[] = $row9["holiday_date"];
+					}
+
+					if($frequency[$i] == 'Fortnightly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+15 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+15 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					} else if($frequency[$i] == 'Monthly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+1 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+1 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					}  else if($frequency[$i] == 'Quaterly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+3 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+3 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+						
+					} else if($frequency[$i] == 'Half Yearly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+					} 
+		
+					for($j=0; $j<count($from_dates); $j++){
+						$insertQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, frequency, frequency_applicable, designation_id, from_date, to_date) VALUES('".strip_tags($id)."', '".strip_tags($department_id[$i])."', '".strip_tags($work_des_id[$i])."','".strip_tags($work_des_text[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($designation[$i])."', '".strip_tags($from_dates[$j].' '.$current_time)."', '".strip_tags($to_dates[$j].' '.$current_time)."' )";
+						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
+					} 
+					
+				} else {
+					$updQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, frequency, frequency_applicable, designation_id, from_date, to_date)
+					VALUES('".strip_tags($id)."', '".$department_id[$i]."', '".$work_des_id[$i]."','".$work_des_text[$i]."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".$designation[$i]."', '".$from_date[$i].' '.$current_time."', '".$to_date[$i].' '.$current_time."' )";
+					$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
+				}
+
+				// $updQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, designation_id, from_date, to_date)
+				// 	VALUES('".strip_tags($id)."', '".$department_id[$i]."', '".$work_des_id[$i]."','".$work_des_text[$i]."', '".$designation[$i]."', '".$from_date[$i]."', 
+				// 	'".$to_date[$i]."' )";
+				// $updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
+			}
 		}
 		
 		// Get Assign Work table
@@ -3547,7 +4030,7 @@
 				
 			}
 			
-			$getQry = "SELECT * FROM assign_work_ref where assign_work_reff_id= '".$id."' "; 
+			$getQry = "SELECT * FROM assign_work_ref where assign_work_reff_id= '".$id."'  group by work_des"; 
 			$res = $mysqli->query($getQry) or die("Error in Get All Records".$mysqli->error);
 			$j=0;
 			if ($mysqli->affected_rows>0)
@@ -3583,6 +4066,8 @@
 					// print_r($detailrecords[$j]['designation_name']); die;
 					$detailrecords[$j]['from_date']      = $row->from_date;		
 					$detailrecords[$j]['to_date']      = $row->to_date;		
+					$detailrecords[$j]['frequency']      = $row->frequency;		
+					$detailrecords[$j]['frequency_applicable']      = $row->frequency_applicable;		
 					$j++;
 				}
 			}
@@ -3828,9 +4313,11 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
-					
+						}
+
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
 					
@@ -3955,8 +4442,10 @@
 							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
 						}
 					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
 						$from_dates[] = $current_from_date;
 						$to_dates[] = $current_to_date;
+						}
 					
 						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+6 months'));
 						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+6 months'));
@@ -7876,6 +8365,12 @@
 						}
 					}
 					
+				}else {
+					$detailrecords['campaign_ref_id'] = array();
+					$detailrecords['start_date'] = array();
+					$detailrecords['end_date'] = array();
+					$detailrecords['staff_name'] = array();
+					$detailrecords['department_id'] = array();
 				} 
 			}
             
@@ -11047,6 +11542,112 @@ public function adddailyperformance($mysqli,$userid){
 		
 		return $detailrecords;
 	}
+
+	//Daily Task Update.
+	public function addDailyTask($mysqli, $curdate){
+
+		if(isset($_POST['daily_task_id'])){
+			$daily_task_id = $_POST['daily_task_id'];
+		}
+		if(isset($_POST['daily_task_work'])){
+			$daily_task_work = $_POST['daily_task_work'];
+		}
+		if(isset($_POST['daily_task'])){
+			$work_name = $_POST['daily_task'];
+		}
+		if(isset($_POST['work_status'])){
+			$work_status = $_POST['work_status'];
+		}
+		if(isset($_POST['work_remark'])){
+			$remarks = $_POST['work_remark'];
+		}
+		if (isset($_FILES['status_file'])) {
+			
+			// File uploading code
+			$file = $_FILES['status_file'];
+			foreach ($file['name'] as $index => $name) {
+			$files[] = $file['name'][$index];
+			$fileName = $file['name'][$index];
+			$fileTmpName = $file['tmp_name'][$index];
+			$targetPath = 'uploads/completedTaskFile/'.$fileName;
+			move_uploaded_file($fileTmpName, $targetPath);
+			}
+		}else{
+			$files = "";
+		}
+		
+		for($i=0; $i< count($daily_task_id); $i++){
+		$workdes_id = $daily_task_work[$i]. $daily_task_id[$i];
+
+		$qry = "INSERT into work_status (work_id, work_des, work_status, remarks, completed_file, created_date) values ('" .$workdes_id. "','" .$work_name[$i]. "', '" .$work_status[$i]. "', '" .$remarks[$i]. "', '" .$files[$i]. "', '$curdate')  ";  
+		$result = $mysqli->query($qry) or die("error");
+
+		$ifhas = "todo";
+		$ifhas1 = "krakpi_ref";
+		$ifhas2 = "audit_area";
+		$ifhas3 = "maintenance";
+		$ifhas4 = "campaign";
+		$ifhas5 = "insurance";
+		$ifhas6 = "BM";
+		$ifhas7 = "FC_INS_renew";
+
+		if (strstr($workdes_id, $ifhas)) {
+			//"The substring was found in the string";
+			$todo_id = preg_replace('/todo /', '', $workdes_id);
+			$qry = "UPDATE todo_creation set work_status = '$work_status[$i]' where todo_id = '".$todo_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update todo table");
+
+		} else if(strstr($workdes_id, $ifhas1)) {
+			//"The substring was found in the string";
+			$krakpi_calendar_map_id = preg_replace('/krakpi_ref /', '', $workdes_id);
+			$qry = "UPDATE krakpi_calendar_map set work_status = '$work_status[$i]' where krakpi_calendar_map_id = '".$krakpi_calendar_map_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		} else if(strstr($workdes_id, $ifhas2)) {
+			//"The substring was found in the string";
+			$audit_area_id = preg_replace('/audit_area /', '', $workdes_id);
+			$qry = "UPDATE audit_area_creation_ref set work_status = '$work_status[$i]' where audit_area_creation_ref_id = '".$audit_area_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		} else if(strstr($workdes_id, $ifhas3)) {
+			//"The substring was found in the string";
+			$maintenance_checklist_id = preg_replace('/maintenance /', '', $workdes_id);
+			$qry = "UPDATE pm_checklist_ref set work_status = '$work_status[$i]' where pm_checklist_ref_id = '".$maintenance_checklist_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		} else if(strstr($workdes_id, $ifhas4)) {
+			//"The substring was found in the string";
+			$campaign_ref_id = preg_replace('/campaign /', '', $workdes_id);
+			$qry = "UPDATE campaign_ref set work_status = '$work_status[$i]' where campaign_ref_id = '".$campaign_ref_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		} else if(strstr($workdes_id, $ifhas5)) {
+			//"The substring was found in the string";
+			$ins_reg_ref_id = preg_replace('/insurance /', '', $workdes_id);
+			$qry = "UPDATE insurance_register_ref set work_status = '$work_status[$i]' where ins_reg_ref_id = '".$ins_reg_ref_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		} else if(strstr($workdes_id, $ifhas6)) {
+			//"The substring was found in the string";
+			$maintenance_checklist_id_bm = preg_replace('/BM /', '', $workdes_id);
+			$qry = "UPDATE bm_checklist_ref set work_status = '$work_status[$i]' where bm_checklist_ref_id = '".$maintenance_checklist_id_bm."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update BM Checklist ref table");
+
+		} else if(strstr($workdes_id, $ifhas7)) {
+			//"The substring was found in the string";
+			$Fc_insurance_renew_id = preg_replace('/FC_INS_renew /', '', $workdes_id);
+			$qry = "UPDATE fc_insurance_renew set work_status = '$work_status[$i]' where Fc_insurance_renew_id = '".$Fc_insurance_renew_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update FC Insurance Renew table");
+			
+		} else {
+			//"The substring was not found in the string";
+			$assign_work_id = preg_replace('/assign_work /', '', $workdes_id);
+			$qry = "UPDATE assign_work_ref set work_status = '$work_status[$i]' where ref_id = '".$assign_work_id."' ";
+			$result = $mysqli->query($qry) or die("Error Not able to update assign work table");
+
+		}
+	}
+	}//Daily Task Add END.
 
 
 

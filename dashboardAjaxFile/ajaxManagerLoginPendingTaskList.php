@@ -40,7 +40,7 @@ $designation = array();
 $endate = array();
 
 $TodoTaskInfo ="SELECT 'ToDo' as tb, work_des as title, to_date as end_date, assign_to as assign, work_status as sts, todo_id FROM todo_creation WHERE work_status != 3 AND status = 0 AND
-( `to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY ) AND FIND_IN_SET('$deptstaffid', assign_to)";
+( `to_date` >= '$curdate' AND `to_date` <= '$curdate' + INTERVAL 10 DAY ) AND FIND_IN_SET(assign_to, '$deptstaffid')";
 $todoInfo = $connect->query($TodoTaskInfo);
 if($todoInfo){                
     while ($todotask = $todoInfo->fetch()) { 

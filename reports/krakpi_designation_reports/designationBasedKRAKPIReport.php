@@ -1,5 +1,9 @@
 <?php
 include '../../ajaxconfig.php';
+@session_start();
+if(isset($_SESSION['curdateFromIndexPage'])){
+    $curdate = $_SESSION['curdateFromIndexPage'];
+}
 //krakpi.\\         ////designation based.
 ?>
 
@@ -128,7 +132,7 @@ LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
-WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency = 'Daily Task'  ";
+WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency = 'Daily Task' && date(kcm.from_date) <= '$curdate' ";
 
 $dailytaskInfo = $connect->query($dailytaskqry);
 if($dailytaskInfo -> rowCount() > 0){

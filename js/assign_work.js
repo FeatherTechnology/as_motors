@@ -62,28 +62,16 @@ $(document).ready(function(){
         });
     });
     
-    // get department details
+    // get Designation details
     $('#department').change(function(){
-
-        var company_id = $('#company_id').val();
-        var branch_id = $('#branch_id').val();
         var department_id = $('#department').val();
 
         $.ajax({
-            url: 'assignworkFile/ajaxFetchWorkDescription.php',
+            url: 'R&RFile/ajaxR&RDesignationDetails.php',
             type: 'post',
-            data: { "company_id":company_id, "department_id":department_id, "branch_id": branch_id },
+            data: { "department_id":department_id },
             dataType: 'json',
             success:function(response){ 
-        
-                // work description
-                $('#work_des').empty();
-                $('#work_des').prepend("<option value=''>" + 'Select Work Description' + "</option>");
-                var r = 0;
-                for (r = 0; r <= response.id.length - 1; r++) { 
-                    $('#work_des').append("<option value='" + response['id'][r] + "' >" + response['name'][r] + "</option>");
-                }
-
                 // designation
                 $('#designation').empty();
                 $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
@@ -95,14 +83,47 @@ $(document).ready(function(){
         });
     });
 
+    // get Work Description details
+    $('#designation').change(function(){
+
+        var company_id = $('#company_id').val();
+        var designation = $('#designation').val();
+
+        $.ajax({
+            url: 'assignworkFile/ajaxFetchWorkDescription.php',
+            type: 'post',
+            data: { "company_id":company_id, "designation":designation },
+            dataType: 'json',
+            success:function(response){ 
+        
+                // work description
+                $('#work_des').empty();
+                $('#work_des').prepend("<option value=''>" + 'Select Work Description' + "</option>");
+                var r = 0;
+                for (r = 0; r <= response.id.length - 1; r++) { 
+                    $('#work_des').append("<option value='" + response['id'][r] + "' data-value='"+ response['frequency'][r] +"' data-id='"+ response['frequency_applicable'][r] +"' >" + response['name'][r] + "</option>");
+                }
+            }
+        });
+    });
+
+    //Add Work Info temprorary
+    $("#add_workDetails").click(function(){ 
+        addWorkTable();
+        $('#company_id').attr('readonly', true);
+        $('#branch_id').attr('readonly', true);
+    });
+
 });
-    
-    
-//Add Work Info temprorary
-$("#add_workDetails").click(function(){ 
-    addWorkTable();
-    $('#company_id').attr('readonly', true);
-    $('#branch_id').attr('readonly', true);
+
+// get details on edit
+$(function(){
+    var idupd = $('#id').val();
+    if(idupd >0){
+        setalltoReadonly();
+    }
+    // manager login
+    getdepartmentLoad();
 });
             
 var selectedRow = null;
@@ -153,7 +174,9 @@ function readWork() {
     workFormData["work_des_id"] = document.getElementById("work_des").value;
     workFormData["designation"] = document.getElementById("designation").value;
     workFormData["work_des_name"] = $("#work_des option:selected").text().trim();
-
+    workFormData["frequency"] = $('#work_des :selected').data('value');
+    workFormData["frequency_applicable"] = $('#work_des :selected').data('id');
+    
     //get Department Name
     workFormData["department_name"] = $("#department option:selected").text().trim();
 
@@ -177,6 +200,8 @@ function insertWork(data){
 
         cell1=newRow.insertCell(1);
         cell1.innerHTML='<input type="hidden" style="display:none" readonly name="work_des_id[]" id="work_des_id" class="form-control" value="'+data.work_des_id+'"/>';
+        cell1.innerHTML +='<input type="hidden" name="frequency[]" id="frequency" class="form-control" value="'+data.frequency+'"/>';
+        cell1.innerHTML +='<input type="hidden" name="frequency_applicable[]" id="frequency_applicable" class="form-control" value="'+data.frequency_applicable+'"/>';
         cell1.innerHTML +='<input type="text" readonly name="work_des_ins[]" id="work_des_ins" class="form-control" value="'+data.work_des_name+'"/>';
         
         cell2=newRow.insertCell(2);
@@ -218,12 +243,6 @@ function resetWorkForm(){
     selectedRow = null;
 }
 
-// get details on edit
-$(function(){
-    // manager login
-    getdepartmentLoad();
-});
-
 // get department details
 function getdepartmentLoad(){ 
 $.ajax({
@@ -242,13 +261,6 @@ $.ajax({
     }
 });
 }
-    
-$(function(){
-    var idupd = $('#id').val();
-    if(idupd >0){
-        setalltoReadonly();
-    }
-});
 
 function setalltoReadonly(){
 

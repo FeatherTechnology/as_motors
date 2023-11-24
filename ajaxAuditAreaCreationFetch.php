@@ -142,8 +142,8 @@ foreach ($result as $row) {
     $sub_array[] = $department_name;
     $sub_array[] = $row['frequency'];
     $sub_array[] = $row['calendar'];
-    $sub_array[] = date('Y-m-d',strtotime($row['from_date']));
-    $sub_array[] = date('Y-m-d',strtotime($row['to_date']));
+    $sub_array[] = ($row['from_date']) ? date('Y-m-d',strtotime($row['from_date'])) : '' ;
+    $sub_array[] = ($row['to_date']) ? date('Y-m-d',strtotime($row['to_date'])) : '';
     $sub_array[] = $role1Name;
     $sub_array[] = $role2Name;
     $sub_array[] = $row['check_list'];
