@@ -3,6 +3,9 @@
    if(isset($_SESSION["userid"])){
        $userid = $_SESSION["userid"];
    }
+   if(isset($_SESSION["curdateFromIndexPage"])){
+       $curdate = $_SESSION["curdateFromIndexPage"];
+   }
 
    $audit_area_list = $userObj->getAuditAreaTable($mysqli);
    $id=0;
@@ -114,7 +117,7 @@
                                         <div class="form-group">
                                             <label for="disabledInput">Date Of Audit</label>
                                             <input type="texty" tabindex="1" name="date_of_audit" id="date_of_audit"
-                                                class="form-control" value="<?php echo date("d/m/Y") ; ?>" readonly>
+                                                class="form-control" value="<?php echo date('d/m/Y',strtotime($curdate)) ; ?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
