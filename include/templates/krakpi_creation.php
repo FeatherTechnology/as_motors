@@ -235,6 +235,7 @@ if($idupd>0)
                     <div class="row">
                         <div class="col-md-12" style="overflow-x: auto">
                             <table id="moduleTable" class="table custom-table" style="width: 120%">
+                            <input type="hidden" name='freq_check' id='freq_check' value="" >
                                 <thead>
                                     <tr>
                                         <th>KRA Category</th>
@@ -353,7 +354,7 @@ if($idupd>0)
                                                 </select>
                                             </td>
                                             <td>
-                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" > 
+                                                <input disabled type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" value="frequency_applicable" class="frequency_applicable"> 
                                             </td>
                                             <td>
                                                 <select tabindex="9" type="text" class="form-control calendar" id="calendar" name="calendar[]" >

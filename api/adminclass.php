@@ -1920,10 +1920,14 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
-			if(isset($_POST['frequency_applicable'])){
-				$frequency_applicable = $_POST['frequency_applicable'];
-			}else{
-				$frequency_applicable = [];
+			// if(isset($_POST['frequency_applicable'])){
+			// 	$frequency_applicable = $_POST['frequency_applicable'];
+			// }else{
+			// 	$frequency_applicable = [];
+			// }
+
+			if(isset($_POST['freq_check'])){
+				$freq_check = explode(',',$_POST['freq_check']);
 			}
 
 			date_default_timezone_set('Asia/Calcutta');
@@ -1956,15 +1960,15 @@
 				} else {
 					$to_date = $to_date1[$i].' '.$current_time;
 				}
-
+				$frequency_applicable = $freq_check[$i]!=' '?'frequency_applicable':'';
 				$krakpiInsert="INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, frequency_applicable, calendar, from_date, to_date, 
 				insert_login_id, kra_category, kpi) VALUES ('".strip_tags($lastid)."', '".strip_tags($rr[$i])."','".strip_tags($criteria[$i])."', 
-				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($calendar[$i])."', 
+				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable)."', '".strip_tags($calendar[$i])."', 
 				'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."' )";
 				$insresult=$mysqli->query($krakpiInsert) or die("Error ".$mysqli->error); 
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable[$i] == 'frequency_applicable' && $calendar[$i] == "Yes"){
+				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
 					if ($frequency[$i] == 'Fortnightly'){ 
 
@@ -2258,10 +2262,14 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
-			if(isset($_POST['frequency_applicable'])){
-				$frequency_applicable = $_POST['frequency_applicable'];
-			}else{
-				$frequency_applicable = [];
+			// if(isset($_POST['frequency_applicable'])){
+			// 	$frequency_applicable = $_POST['frequency_applicable'];
+			// }else{
+			// 	$frequency_applicable = [];
+			// }
+
+			if(isset($_POST['freq_check'])){
+				$freq_check = explode(',',$_POST['freq_check']);
 			}
 
 			date_default_timezone_set('Asia/Calcutta');
@@ -2296,15 +2304,15 @@
 				} else {
 					$to_date = $to_date1[$i].' '.$current_time;
 				}
-
+				$frequency_applicable = $freq_check[$i]!=' '?'frequency_applicable':'';
 				$rrUpdaet = "INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, frequency_applicable, calendar, from_date, to_date, 
 				insert_login_id, kra_category, kpi)VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."', '".strip_tags($criteria[$i])."', 
-				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".strip_tags($calendar[$i])."', 
+				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable)."', '".strip_tags($calendar[$i])."', 
 				'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."')";  
 				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable[$i] == 'frequency_applicable' && $calendar[$i] == "Yes"){
+				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
 					if ($frequency[$i] == 'Fortnightly'){ 
 
