@@ -64,6 +64,10 @@ $(document).ready(function () {
     }
   });
 
+  setTimeout(() => {
+    getFrequencyApplicable();
+  }, 1000);
+  
   // add module 
   var markup1 = "<option value=''>Select KRA Category</option>";
   var markup2 = "<option value=''>Select Roles & Responsibility</option><option value='New'>New</option>";
@@ -94,7 +98,7 @@ $(document).ready(function () {
           "<td><select id='criteria' tabindex='11' name='criteria[]' class='criteria chosen-select form-control'><option value=''>Select Criteria</option><option value='Event'>Event</option><option value='Project'>Project</option></select></td>" +
           "<td style='display: flex; margin-top: 25px;'><select readonly tabindex='11' id='project' name='project[]' class='project chosen-select form-control'>" + markup3 + "</select> &nbsp;&nbsp;&nbsp; <button disabled type='button' tabindex='4' class='btn btn-primary' id='add_CategoryDetails' name='add_CategoryDetails' data-toggle='modal' data-target='.addProjectModal'><span class='icon-add'></span></button> </td>" +
           "<td><select id='frequency' tabindex='11' name='frequency[]' class='frequency chosen-select form-control'><option value=''>Select Frequency</option><option value='Fortnightly'>Fortnightly</option><option value='Monthly'>Monthly</option><option value='Quaterly'>Quaterly</option><option value='Half Yearly'>Half Yearly</option><option value='yearly'>yearly</option><option value='Daily Task'>Daily Task</option></select></td>" +
-          "<td><input disabled type='checkbox' tabindex='7' name='frequency_applicable[]' id='frequency_applicable' value='frequency_applicable' > </td>" +
+          "<td><input disabled type='checkbox' tabindex='7' name='frequency_applicable[]' id='frequency_applicable' value='frequency_applicable' class='frequency_applicable'> </td>" +
           "<td><select tabindex='9' type='text' class='form-control calendar' id='calendar' name='calendar[]' ><option value=''>Select Calendar</option><option value='Yes'>Yes</option><option value='No'>No</option></select></td>" +
           "<td><input readonly type='date' tabindex='8' name='from_date[]' id='from_date' class='form-control' >&nbsp;&nbsp; <span>To</span>&nbsp;&nbsp;<input readonly type='date' tabindex='9' name='to_date[]' id='to_date' class='form-control' ></td>" +
           "<td><button type='button' tabindex='11' id='add_product' name='add_product' value='Submit' class='btn btn-primary add_product'>Add</button></td>" +
@@ -123,6 +127,8 @@ $(document).ready(function () {
           // markup1="<option value=''>Select Roles & Responsibility</option>";
 
         }
+      }).then(function(){
+        getFrequencyApplicable();
       });
       // forChoice++;
     });
@@ -519,4 +525,22 @@ function getkradropdownEdit(company_id_upd){
 
       }
   });
+}
+
+function getFrequencyApplicable(){
+  $('.frequency_applicable').off().change(function(){
+    console.log('aaaa')
+    let boxes= [];let x=0;let y=' ';
+    $('.frequency_applicable').each(function(){
+      
+      if($(this).prop('checked')){
+        boxes.push(x)
+      }else{
+        boxes.push(y);
+      }
+      x++;
+    })
+    boxes = boxes.join(',');
+    $('#freq_check').empty().val(boxes);
+  })
 }
