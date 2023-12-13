@@ -19,7 +19,7 @@ include '../../ajaxconfig.php';
 <table class="table custom-table" id="reponsibility_report_data">
     <thead>
         <tr>
-            <th width="15%">S.No</th>
+            <th width="20">S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
             <th>Designation</th>
@@ -46,7 +46,7 @@ $resqry = "SELECT sc.emp_code, sc.staff_name, rc.responsibility_name, dc.designa
 JOIN staff_creation sc ON FIND_IN_SET(sc.designation,bc.designation)
 JOIN responsibility_creation rc ON FIND_IN_SET(rc.responsibility_id, bc.responsibility) 
 JOIN designation_creation dc ON dc.designation_id = sc.designation
-WHERE bc.department = '$department_id' order by sc.staff_id ";
+WHERE bc.department = '$department_id' && sc.status = 0 order by sc.staff_id ";
 
 $resInfo = $connect->query($resqry);
 if($resInfo -> rowCount() > 0){
@@ -99,7 +99,7 @@ for ($i=0; $i<count($res); $i++) {
 <table class="table custom-table" id="dailytask_report_data">
     <thead>
         <tr>
-            <th>S.No</th>
+            <th width="20">S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
             <th>Designation</th>
@@ -136,7 +136,7 @@ LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
 LEFT JOIN designation_creation dc ON kc.designation = dc.designation_id
-WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency = 'Daily Task' ORDER BY sc.staff_id ";
+WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency = 'Daily Task' && sc.status = 0 ORDER BY sc.staff_id ";
 
 $dailytaskInfo = $connect->query($dailytaskqry);
 if($dailytaskInfo -> rowCount() > 0){
@@ -227,7 +227,7 @@ for ($i=0; $i<count($dailykra); $i++) {
 <table class="table custom-table" id="calendartask_report_data">
     <thead>
         <tr>
-            <th>S.No</th>
+            <th width="20">S.No</th>
             <th>Emp Code</th>
             <th>Staff Name</th>
             <th>Designation</th>
@@ -267,7 +267,7 @@ LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
 LEFT JOIN designation_creation dc ON kc.designation = dc.designation_id
-WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency != 'Daily Task' ORDER BY sc.staff_id ";
+WHERE kc.department = '$department_id' && kc.status = 0 && kcr.frequency != 'Daily Task' && sc.status = 0 ORDER BY sc.staff_id ";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo -> rowCount() > 0){
@@ -303,7 +303,7 @@ $todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, 
 FROM todo_creation tc 
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
 LEFT JOIN designation_creation dc ON sc.designation = dc.designation_id
-WHERE sc.department = '$department_id' &&  tc.status = 0 ";
+WHERE sc.department = '$department_id' &&  tc.status = 0 && sc.status = 0 ";
 
 $gettodoinfo = $con->query($todoqry);
 if(mysqli_num_rows($gettodoinfo) > 0){

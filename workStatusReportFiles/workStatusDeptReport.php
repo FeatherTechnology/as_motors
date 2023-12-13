@@ -14,7 +14,7 @@ include '../ajaxconfig.php';
 <table class="table custom-table" id="staff_report_data">
     <thead>
         <tr>
-            <th width="15%">S.No</th>
+            <th width="50">S.No</th>
             <th>Staff Code</th>
             <th>Staff Name</th>
             <th>Work Description</th>
@@ -52,7 +52,7 @@ if(isset($_POST["wrk_dept_id"])){
         $branch_id = '';
     }
 //Get Staff id based on department.
-    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$wrk_dept_id' ");
+    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$wrk_dept_id' AND status = 0 ");
     if(mysqli_num_rows($getstaffDetails)>0){
         $staff_id = array();
         $designation = array();
@@ -101,11 +101,11 @@ LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
 WHERE kc.status = 0 
-AND 
-kc.department = '".$wrk_dept_id."' 
+AND kc.department = '".$wrk_dept_id."' 
 AND FIND_IN_SET(kcm.work_status, '".$wrksts."') > 0
 AND ( DATE(kcm.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(kcm.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+AND ( DATE(kcm.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
+AND sc.status = 0";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo){
@@ -144,6 +144,7 @@ AND FIND_IN_SET(ac.department_id, '$wrk_dept_id') > 0
 AND FIND_IN_SET(acr.work_status, '".$wrksts."') > 0 
 AND (DATE(acr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."')) 
 AND (DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."'))
+AND sc.status = 0
 
 UNION
 
@@ -155,7 +156,8 @@ WHERE ac.status = 0
 AND FIND_IN_SET(ac.department_id, '$wrk_dept_id') > 0 
 AND FIND_IN_SET(acr.work_status, '".$wrksts."') > 0
 AND (DATE(acr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."'))
-AND (DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."')) ";
+AND (DATE(acr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."')) 
+AND sc.status = 0 ";
 
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){
@@ -195,6 +197,7 @@ AND FIND_IN_SET(mc.role1, '$desgn_id') > 0
 AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0
 
 UNION
 
@@ -209,7 +212,7 @@ AND FIND_IN_SET(mc.role2, '$desgn_id') > 0
 AND  FIND_IN_SET(pcr.work_status, '".$wrksts."') > 0
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
-";
+AND sc.status = 0 ";
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
 while ($maintancetask = $maintanceInfo->fetch()) { 
@@ -248,6 +251,7 @@ AND FIND_IN_SET(mc.role1, '$desgn_id') > 0
 AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0
 
 UNION
 
@@ -261,7 +265,8 @@ WHERE mc.status = 0
 AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND FIND_IN_SET(bcr.work_status, '".$wrksts."') > 0
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+AND ( DATE(bcr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ";
 
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
@@ -298,7 +303,8 @@ WHERE c.status = 0
 AND FIND_IN_SET(cf.employee_name, '$staffid') > 0 
 AND FIND_IN_SET(cf.work_status, '".$wrksts."') > 0
 AND ( DATE(cf.start_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(cf.end_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+AND ( DATE(cf.end_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ";
 
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
@@ -334,7 +340,8 @@ WHERE awf.status = 0
 AND awf.department_id = '".$wrk_dept_id."' 
 AND  FIND_IN_SET(awf.work_status, '".$wrksts."') > 0
 AND ( DATE(awf.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(awf.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+AND ( DATE(awf.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ";
 
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
@@ -370,7 +377,8 @@ WHERE tc.status = 0
 AND FIND_IN_SET(tc.assign_to, '$staffid') > 0 
 AND FIND_IN_SET(tc.work_status, '".$wrksts."') > 0 
 AND ( DATE(tc.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(tc.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";
+AND ( DATE(tc.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ";
 
 $gettodoinfo = $con->query($todoqry);
 if($gettodoinfo){
@@ -407,7 +415,8 @@ WHERE ir.status = 0
 AND ir.department_id = '".$wrk_dept_id."'  
 AND FIND_IN_SET(irr.work_status, '".$wrksts."') > 0
 AND ( DATE(irr.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(irr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ";  
+AND ( DATE(irr.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ";  
 
 $insdeatils = $con->query($insqry);
 if($insdeatils){
@@ -447,7 +456,8 @@ WHERE fir.status = 0
 AND FIND_IN_SET(fir.assign_staff_name,'$staffid') > 0  
 AND FIND_IN_SET(fir.work_status, '".$wrksts."') > 0
 AND ( DATE(fir.from_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) 
-AND ( DATE(fir.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') ) ");
+AND ( DATE(fir.to_date) BETWEEN DATE('".$work_from_date."') and DATE('".$work_to_date."') )
+AND sc.status = 0 ");
 
 if(mysqli_num_rows($fc_ins_details)>0){
 while($fcInfo = $fc_ins_details->fetch_assoc())

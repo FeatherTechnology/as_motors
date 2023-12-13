@@ -50,7 +50,7 @@ if(isset($_POST["dept_to_date"])){
 
 
 function printTable($mysqli, $dept_name, $where, $monthname ){
-        $dailyperform1 = "SELECT sc.emp_code, sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' order by dpr.system_date ASC";
+        $dailyperform1 = "SELECT sc.emp_code, sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' AND sc.status = '0' order by dpr.system_date ASC";
 
         $res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records" . $mysqli->error);
         $dailyperform_list1 = array();

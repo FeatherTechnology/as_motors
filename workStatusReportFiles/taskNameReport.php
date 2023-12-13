@@ -14,7 +14,7 @@ include '../ajaxconfig.php';
 <table class="table custom-table" id="staff_report_data">
     <thead>
         <tr>
-            <th width="15%">S.No</th>
+            <th width="50">S.No</th>
             <th>Staff Code</th>
             <th>Staff Name</th>
             <th>Work Description</th>
@@ -60,7 +60,7 @@ LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id
 LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
-WHERE kc.status = 0 ";
+WHERE kc.status = 0 && sc.status = 0 ";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo){
@@ -96,7 +96,7 @@ $auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as i
 FROM audit_area_creation_ref acr 
 LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id 
 LEFT JOIN staff_creation sc ON ac.role1 = sc.designation
-WHERE ac.status = 0
+WHERE ac.status = 0 && sc.status = 0 
 
 UNION
 
@@ -104,7 +104,7 @@ SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_statu
 FROM audit_area_creation_ref acr 
 LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id 
 LEFT JOIN staff_creation sc ON ac.role2 = sc.designation
-WHERE ac.status = 0 ";
+WHERE ac.status = 0 && sc.status = 0  ";
 
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){
@@ -140,7 +140,7 @@ LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id 
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
-WHERE mc.status = 0 
+WHERE mc.status = 0 && sc.status = 0 
 
 UNION
 
@@ -150,7 +150,7 @@ LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id 
 LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
-WHERE mc.status = 0 ";
+WHERE mc.status = 0 && sc.status = 0  ";
 
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
@@ -186,7 +186,7 @@ LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
-WHERE mc.status = 0 
+WHERE mc.status = 0 && sc.status = 0 
 
 UNION
 
@@ -196,7 +196,7 @@ LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintena
 LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id 
 LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id 
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
-WHERE mc.status = 0 ";
+WHERE mc.status = 0 && sc.status = 0 ";
 
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
@@ -231,7 +231,7 @@ $campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.
 FROM campaign_ref cf 
 LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id 
 LEFT JOIN staff_creation sc ON cf.employee_name = sc.staff_id
-WHERE c.status = 0 ";
+WHERE c.status = 0 && sc.status = 0 ";
 
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
@@ -265,7 +265,7 @@ while($campaigntask = $campaignInfo->fetch_assoc())
 $assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, awf.ref_id as id, awf.work_status as sts, awf.work_des_text as title, DATE(awf.from_date) as f_date, DATE(awf.to_date) as t_date,sc.staff_name, sc.emp_code
 FROM assign_work_ref awf
 LEFT JOIN staff_creation sc ON awf.designation_id = sc.designation
-WHERE awf.status = 0 "; 
+WHERE awf.status = 0 && sc.status = 0 "; 
 
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
@@ -299,7 +299,7 @@ while($assignTask = $assignInfo->fetch_assoc())
 $todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, tc.work_des as title, DATE(tc.from_date) as f_date, DATE(tc.to_date) as t_date, sc.staff_name, sc.emp_code
 FROM todo_creation tc 
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
-WHERE tc.status = 0 ";
+WHERE tc.status = 0 && sc.status = 0 ";
 
 $gettodoinfo = $con->query($todoqry);
 if($gettodoinfo){
@@ -334,7 +334,7 @@ $insqry = "SELECT 'INSURANCE REGISTER ' as work_id, irr.ins_reg_ref_id as id, ir
 FROM insurance_register_ref irr 
 LEFT JOIN insurance_register ir ON irr.ins_reg_id = ir.ins_reg_id 
 LEFT JOIN staff_creation sc ON ir.designation_id = sc.designation
-WHERE ir.status = 0 ";  
+WHERE ir.status = 0 && sc.status = 0 ";  
 
 $insdeatils = $con->query($insqry);
 if($insdeatils){
@@ -371,7 +371,7 @@ while($insInfo = $insdeatils->fetch_assoc())
 $fc_ins_details = $con->query("SELECT 'FC INSURANCE RENEWAL ' as work_id, fir.fc_insurance_renew_id as id, fir.work_status as sts, fir.assign_remark as title, DATE(fir.from_date) as f_date, DATE(fir.to_date) as t_date,sc.staff_name, sc.emp_code 
 FROM fc_insurance_renew fir
 LEFT JOIN staff_creation sc ON fir.assign_staff_name = sc.staff_id
-WHERE fir.status = 0 ");
+WHERE fir.status = 0 && sc.status = 0 ");
 if(mysqli_num_rows($fc_ins_details)>0){
 while($fcInfo = $fc_ins_details->fetch_assoc())
 {
