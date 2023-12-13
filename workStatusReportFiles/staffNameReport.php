@@ -15,7 +15,7 @@ include '../ajaxconfig.php';
 <table class="table custom-table" id="staff_report_data">
     <thead>
         <tr>
-            <th width="15%">S.No</th>
+            <th width="50">S.No</th>
             <th>Work Description</th>
             <th>Start Date</th>
             <th>End Date</th>
@@ -28,7 +28,7 @@ include '../ajaxconfig.php';
 <?php
 if(isset($_POST["staffid"])){
     $staffid = $_POST["staffid"];
-    $getstaffDetails = $con->query("SELECT designation FROM staff_creation WHERE staff_id = '$staffid' ");
+    $getstaffDetails = $con->query("SELECT designation FROM staff_creation WHERE staff_id = '$staffid' AND status = 0 ");
     $staffDetail = $getstaffDetails->fetch_assoc();
     $designation = $staffDetail['designation'];
 }

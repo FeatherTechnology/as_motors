@@ -4,7 +4,7 @@ include('../ajaxconfig.php');
 
 $deptList_arr = array();
 
-$result = $connect->query("SELECT dc.department_id, dc.department_name, brc.branch_name FROM `basic_creation` bc LEFT JOIN `department_creation` dc ON bc.department = dc.department_id LEFT JOIN `branch_creation` brc ON bc.company_id = brc.branch_id GROUP BY department_id");
+$result = $connect->query("SELECT dc.department_id, dc.department_name, brc.branch_name FROM `basic_creation` bc LEFT JOIN `department_creation` dc ON bc.department = dc.department_id LEFT JOIN `branch_creation` brc ON bc.company_id = brc.branch_id WHERE bc.status = 0 GROUP BY department_id");
 // $result = $connect->query("SELECT dc.department_id, dc.department_name FROM `basic_creation` bc LEFT JOIN `department_creation` dc ON bc.department = dc.department_id GROUP BY department_id");
 
 while( $row = $result->fetch()){

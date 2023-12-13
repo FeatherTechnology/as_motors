@@ -14,7 +14,7 @@ include '../ajaxconfig.php';
 <table class="table custom-table" id="staff_report_data">
     <thead>
         <tr>
-            <th width="15%">S.No</th>
+            <th width="50">S.No</th>
             <th>Staff Code</th>
             <th>Staff Name</th>
             <th>Work Description</th>
@@ -38,7 +38,7 @@ if(isset($_POST["dept_name"])){
         $branch_id = '';
     }
 //Get Staff id based on department.
-    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$dept_name' ");
+    $getstaffDetails = $con->query("SELECT staff_id, designation FROM staff_creation WHERE department = '$dept_name' && status = 0 ");
     if(mysqli_num_rows($getstaffDetails)>0){
         $staff_id = array();
         $designation = array();
@@ -100,7 +100,7 @@ LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
 WHERE kc.status = 0 AND kc.department = '".$dept_name."' 
 AND ( DATE(kcm.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(kcm.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) ";
+AND ( DATE(kcm.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) && sc.status = 0 ";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo){
@@ -134,7 +134,7 @@ $auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as i
 FROM audit_area_creation_ref acr 
 LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id 
 LEFT JOIN staff_creation sc ON ac.role1 = sc.designation
-WHERE ac.status = 0 AND FIND_IN_SET(ac.department_id, '$dept_name') > 0 AND (DATE(acr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."')) AND (DATE(acr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."'))
+WHERE ac.status = 0 AND FIND_IN_SET(ac.department_id, '$dept_name') > 0 AND (DATE(acr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."')) AND (DATE(acr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."')) AND sc.status = 0 
 
 UNION
 
@@ -145,7 +145,7 @@ LEFT JOIN staff_creation sc ON ac.role2 = sc.designation
 WHERE ac.status = 0 
 AND FIND_IN_SET(ac.department_id, '$dept_name') > 0
 AND (DATE(acr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."'))
-AND (DATE(acr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."'))";
+AND (DATE(acr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."')) AND sc.status = 0 ";
 
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){
@@ -184,6 +184,7 @@ WHERE mc.status = 0
 AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(pcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 
 
 UNION
 
@@ -196,7 +197,8 @@ LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
 WHERE mc.status = 0 
 AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND ( DATE(pcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(pcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )";
+AND ( DATE(pcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 ";
 
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
@@ -234,6 +236,7 @@ LEFT JOIN staff_creation sc ON mc.role1 = sc.designation
 WHERE mc.status = 0 AND FIND_IN_SET(mc.role1, '$desgn_id') > 0 
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
 AND ( DATE(bcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 
 
 UNION
 
@@ -245,7 +248,8 @@ LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id
 LEFT JOIN staff_creation sc ON mc.role2 = sc.designation
 WHERE mc.status = 0 AND FIND_IN_SET(mc.role2, '$desgn_id') > 0 
 AND ( DATE(bcr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(bcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) ";
+AND ( DATE(bcr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
+AND sc.status = 0 ";
 
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
@@ -280,7 +284,8 @@ LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id
 LEFT JOIN staff_creation sc ON cf.employee_name = sc.staff_id
 WHERE c.status = 0 AND FIND_IN_SET(employee_name, '$staffid') > 0 
 AND ( DATE(cf.start_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(cf.end_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )";
+AND ( DATE(cf.end_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 ";
 
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
@@ -314,7 +319,8 @@ FROM assign_work_ref awf
 LEFT JOIN staff_creation sc ON awf.designation_id = sc.designation
 WHERE awf.status = 0 AND awf.department_id = '".$dept_name."' 
 AND ( DATE(awf.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(awf.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )"; 
+AND ( DATE(awf.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 "; 
 
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
@@ -348,7 +354,8 @@ FROM todo_creation tc
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
 WHERE tc.status = 0 AND $whereClause 
 AND ( DATE(tc.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(tc.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )";
+AND ( DATE(tc.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 ";
 
 $gettodoinfo = $con->query($todoqry);
 if($gettodoinfo){
@@ -383,7 +390,8 @@ LEFT JOIN insurance_register ir ON irr.ins_reg_id = ir.ins_reg_id
 LEFT JOIN staff_creation sc ON ir.designation_id = sc.designation
 WHERE ir.status = 0 AND ir.department_id = '".$dept_name."' 
 AND ( DATE(irr.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(irr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )";  
+AND ( DATE(irr.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 ";  
 
 $insdeatils = $con->query($insqry);
 if($insdeatils){
@@ -421,7 +429,8 @@ FROM fc_insurance_renew fir
 LEFT JOIN staff_creation sc ON fir.assign_staff_name = sc.staff_id
 WHERE fir.status = 0 AND FIND_IN_SET(fir.assign_staff_name,'$staffid') > 0 
 AND ( DATE(fir.from_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') ) 
-AND ( DATE(fir.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )");
+AND ( DATE(fir.to_date) BETWEEN DATE('".$dept_from_date."') and DATE('".$dept_to_date."') )
+AND sc.status = 0 ");
 
 if(mysqli_num_rows($fc_ins_details)>0){
 while($fcInfo = $fc_ins_details->fetch_assoc())

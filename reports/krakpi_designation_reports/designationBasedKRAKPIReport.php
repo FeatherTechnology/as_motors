@@ -5,6 +5,13 @@ if(isset($_SESSION['curdateFromIndexPage'])){
     $curdate = $_SESSION['curdateFromIndexPage'];
 }
 //krakpi.\\         ////designation based.
+$designation_id = '0';
+if(isset($_POST["designation_id"])){
+    $designation_id = ($_POST["designation_id"]);
+}
+
+$getStaffQry = $connect->query("select * from staff_creation where designation = '$designation_id' and status = '0' ");
+if($getStaffQry->rowCount() > 0){ //Report show only if staff creation completed against the designation. if not then no report will show.
 ?>
 
 <!-- Responsibility Table START -->
@@ -32,11 +39,6 @@ if(isset($_SESSION['curdateFromIndexPage'])){
     <tbody>
 
 <?php
-$designation_id = '0';
-if(isset($_POST["designation_id"])){
-    $designation_id = ($_POST["designation_id"]);
-}
-
 $res_emp_code = array();
 $res_staff_name = array();
 $res = array();
@@ -124,7 +126,7 @@ $dailyworksts = array();
 $dailycompletedFile = array();
 
 if($designation_id != '0'){
-$dailytaskqry = "";
+// $dailytaskqry = "";
 $dailytaskqry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
 FROM krakpi_calendar_map kcm 
 LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id 
@@ -132,7 +134,7 @@ LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
-WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency = 'Daily Task' && date(kcm.from_date) <= '$curdate' ";
+WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency = 'Daily Task' && date(kcm.from_date) <= '$curdate' && sc.status = 0";
 
 $dailytaskInfo = $connect->query($dailytaskqry);
 if($dailytaskInfo -> rowCount() > 0){
@@ -249,7 +251,7 @@ $completedFile = array();
 
 if($designation_id != '0'){//KRAKPI 
 //KRAKPI start//
-$qry = "";
+// $qry = "";
 $qry = "SELECT 'KRA & KPI' as work_id, sc.emp_code, sc.staff_name, kcr.frequency, kra.kra_category, CASE WHEN kcr.rr = 'New' THEN kcr.kpi ELSE rrr.rr END as RR,  DATE(kcm.from_date) as f_date, DATE(kcm.to_date) as t_date, kcm.krakpi_calendar_map_id as id, kcm.work_status as sts
 FROM krakpi_calendar_map kcm 
 LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id 
@@ -257,7 +259,7 @@ LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id
 LEFT JOIN rr_creation_ref rrr ON kcr.rr = rrr.rr_ref_id 
 LEFT JOIN kra_creation_ref kra ON kcr.kra_category = kra.kra_creation_ref_id
 LEFT JOIN staff_creation sc ON kc.designation = sc.designation
-WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency != 'Daily Task' ";
+WHERE kc.designation = '$designation_id' && kc.status = 0 && kcr.frequency != 'Daily Task' && sc.status = 0";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo -> rowCount() > 0){
@@ -291,7 +293,7 @@ while ($krakpitask = $krakpiInfo->fetch()) {
 $todoqry = "SELECT 'TODO ' as work_id, tc.todo_id as id, tc.work_status as sts, tc.work_des as RR, DATE(tc.from_date) as f_date, DATE(tc.to_date) as t_date, sc.staff_name, sc.emp_code
 FROM todo_creation tc 
 LEFT JOIN staff_creation sc ON FIND_IN_SET(sc.staff_id, tc.assign_to)
-WHERE sc.designation = '$designation_id' &&  tc.status = 0 ";
+WHERE sc.designation = '$designation_id' &&  tc.status = 0 && sc.status = 0";
 
 $gettodoinfo = $con->query($todoqry);
 if(mysqli_num_rows($gettodoinfo) > 0){
@@ -466,3 +468,10 @@ for ($i=0; $i<count($kra); $i++) {
     }); //Print END///
 
 </script>
+
+<?php }else{
+    ?>
+    <!-- <div class="row col-12"> <div class="center">There is no staff creation against the Designation!</div></div> -->
+    <script>  alert('Please complete the staff creation process for this designation.'); </script>
+    <?php
+} ?>
