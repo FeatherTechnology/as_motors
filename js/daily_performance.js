@@ -149,6 +149,10 @@ $(function(){
             var com = '';
             getCompanyNameList(com); //Company List.
         }
+
+        if(role == 3){
+            $('#execute').show();
+        }
     }
 
     callFunctionAfterSuccess()//status change, actual input checking.

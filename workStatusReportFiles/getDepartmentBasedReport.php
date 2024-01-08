@@ -49,8 +49,9 @@ if(isset($_POST["dept_to_date"])){
     }
 
 
-function printTable($mysqli, $dept_name, $where, $monthname ){
-        $dailyperform1 = "SELECT sc.emp_code, sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' AND sc.status = '0' order by dpr.system_date ASC";
+    function printTable($mysqli, $dept_name, $where, $monthname ){
+    // $dailyperform1 = "SELECT sc.emp_code, sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' AND sc.status = '0' order by dpr.system_date ASC";
+        $dailyperform1 = "SELECT sc.emp_code, sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' AND sc.status = '0' GROUP BY dpr.assertion order by dpr.system_date ASC ";
 
         $res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records" . $mysqli->error);
         $dailyperform_list1 = array();
@@ -66,56 +67,64 @@ function printTable($mysqli, $dept_name, $where, $monthname ){
             echo '<th colspan="6">'.date('F',strtotime($monthname)).'</th>';
             echo '</tr>';
             echo '</thead>';
+            echo '<thead>';
             echo '<tr>';
             echo '<th>Date</th>';
-            echo '<th>Staff Code</th>';
             echo '<th>Staff Name</th>';
+            echo '<th>Designation</th>';
             echo '<th>Assertion</th>';
             echo '<th>Target</th>';
             echo '<th>Achieve</th>';
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
-            
+
             while ($row1 = $res1->fetch_object()) {
+                $actual = 0;
+                $fixedtarget = 0;
+
+                $dailyperformQry = "SELECT sc.emp_code, sc.staff_name, dc.designation_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id JOIN designation_creation dc ON sc.designation = dc.designation_id WHERE dp.department_id ='$dept_name' AND $where AND dpr.manager_updated_status = '1' AND sc.status = '0' AND dpr.assertion = '$row1->assertion' order by dpr.system_date ASC ";
+                $dprFetchingData = $mysqli->query($dailyperformQry) or die("Error in Get All Records" . $mysqli->error);
+                while($dpr_row = $dprFetchingData->fetch_object()){
+                    echo '<tr>';
+                    echo '<td>' . $dpr_row->system_date . '</td>';
+                    echo '<td>' . $dpr_row->staff_name . '</td>';
+                    echo '<td>' . $dpr_row->designation_name . '</td>';
+                    echo '<td>' . $dpr_row->assertion . '</td>';
+                    echo '<td>' . $dpr_row->target . '</td>';
+                    echo '<td>' . $dpr_row->actual_achieve . '</td>';
+                    echo '</tr>';
+                    
+                    $actual = $actual + $dpr_row->actual_achieve;
+                    $fixedtarget = $fixedtarget + $dpr_row->target;
+                }
+                $sumvalue = $fixedtarget - $actual;
+                $bal = ($sumvalue < 0) ? "0" : $sumvalue;
+
                 echo '<tr>';
-                echo '<td>' . $row1->system_date . '</td>';
-                echo '<td>' . $row1->emp_code . '</td>';
-                echo '<td>' . $row1->staff_name . '</td>';
-                echo '<td>' . $row1->assertion . '</td>';
-                echo '<td>' . $row1->target . '</td>';
-                echo '<td>' . $row1->actual_achieve . '</td>';
+                echo '<td></td>';
+                echo '<td></td>';
+                echo '<td></td>';
+                echo '<td><b>Total</b></td>';
+                echo '<td><b>' . $fixedtarget . '</b></td>';
+                echo '<td><b>' . $actual . '</b></td>';
                 echo '</tr>';
-                
-                $i++;
-                $actual = $actual + $row1->actual_achieve;
-                $fixedtarget = $fixedtarget + $row1->target;
-            }
-            
-            $sumvalue = $fixedtarget - $actual;
-            $bal = ($sumvalue < 0) ? "0" : $sumvalue;
+                echo '<tr class="balance">';
+                echo '<td></td>';
+                echo '<td></td>';
+                echo '<td></td>';
+                echo '<td><b>Balance To Do</b></td>';
+                echo '<td colspan="2">' . $bal . '</td>';
+                echo '</tr>';
+   
+            }            
 
             echo '</tbody>';
-            echo '<tr>';
-            echo '<td></td>';
-            echo '<td></td>';
-            echo '<td></td>';
-            echo '<td><b>Total</b></td>';
-            echo '<td><b>' . $fixedtarget . '</b></td>';
-            echo '<td><b>' . $actual . '</b></td>';
-            echo '</tr>';
-            echo '<tr class="balance">';
-            echo '<td></td>';
-            echo '<td></td>';
-            echo '<td></td>';
-            echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2">' . $bal . '</td>';
-            echo '</tr>';
             echo '</table>';
             echo '</br></br>';
         }else{
-            $sumvalue = $fixedtarget - $actual;
-            $bal = ($sumvalue < 0) ? "0" : $sumvalue;
+            // $sumvalue = $fixedtarget - $actual;
+            // $bal = ($sumvalue < 0) ? "0" : $sumvalue;
 
             echo '<center><span class="recordspn">No Record Found!</span></center>';
 
@@ -127,8 +136,8 @@ function printTable($mysqli, $dept_name, $where, $monthname ){
             echo '</thead>';
             echo '<tr>';
             echo '<th>Date</th>';
-            echo '<th>Staff Code</th>';
             echo '<th>Staff Name</th>';
+            echo '<th>Designation</th>';
             echo '<th>Assertion</th>';
             echo '<th>Target</th>';
             echo '<th>Achieve</th>';
@@ -141,15 +150,15 @@ function printTable($mysqli, $dept_name, $where, $monthname ){
             echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Total</b></td>';
-            echo '<td><b>' . $fixedtarget . '</b></td>';
-            echo '<td><b>' . $actual . '</b></td>';
+            echo '<td><b> 0 </b></td>';
+            echo '<td><b> 0 </b></td>';
             echo '</tr>';
             echo '<tr class="balance">';
             echo '<td></td>';
             echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2">' . $bal . '</td>';
+            echo '<td colspan="2"> 0 </td>';
             echo '</tr>';
             echo '</table>';
             echo '</br></br>';
