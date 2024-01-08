@@ -270,6 +270,7 @@ function staffNameListBasedOnDept(department_id,multiSelectId){
 
                 var staff_id = response['staff_id'][r];  
                 var staff_name = response['staff_name'][r]; 
+                var designation_name = response['designation_name'][r]; 
 
                 var selected = '';
                     // for(var i=0;i<staff_id.length;i++){ 
@@ -281,7 +282,7 @@ function staffNameListBasedOnDept(department_id,multiSelectId){
                 var items = [
                     {
                         value: staff_id,
-                        label: staff_name,
+                        label: staff_name +'- ('+ designation_name +')',
                         selected: selected,
                     }
                 ];

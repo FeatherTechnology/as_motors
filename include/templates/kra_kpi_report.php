@@ -1,3 +1,13 @@
+<?php 
+include "ajaxconfig.php";
+
+if(isset($_SESSION['staffid'])){
+    $userstaffid = $_SESSION['staffid'];
+    $staffQry = $con->query("select department from staff_creation where staff_id = '$userstaffid' ");
+    $staffDetails = $staffQry->fetch_assoc();
+    $userdeptid = $staffDetails['department'];
+}
+?>
 <!-- Page header start -->
 <div class="page-header">
     <ol class="breadcrumb">
@@ -10,6 +20,9 @@
 <div class="main-container">
     <!--form start-->
     <form id="krakpi_report" name="krakpi_report" action="" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="user_role" id="user_role" value="<?php if(isset($_SESSION['role'])) echo $_SESSION['role'];?>" >
+        <input type="hidden" name="user_dept_id" id="user_dept_id" value="<?php if(isset($userdeptid)) echo $userdeptid;?>" >
+        <input type="hidden" name="user_designation_id" id="user_designation_id" value="<?php if(isset($_SESSION['designation_id'])) echo $_SESSION['designation_id'];?>" >
         <!-- Row start -->
         <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

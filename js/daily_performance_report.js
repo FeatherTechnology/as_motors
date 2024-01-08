@@ -1,5 +1,7 @@
 $(document).ready(function(){ //Document Ready Start.
 
+    var userrole = $('#user_role').val();
+
     $('#report_type').change(function(){ //Onchange based on type select for report.
         var typeValue = $(this).val();
 
@@ -8,12 +10,30 @@ $(document).ready(function(){ //Document Ready Start.
             $('#dept_report').hide();
             $('#overall_report').hide();
 
-            getStaffList();//To show staff List.
+            if(userrole == 3){
+                var deptid = $('#user_dept_id').val();
+                getDeptStaffNameList(deptid, 'staff_name');
+            }else{
+                getStaffList();//To show staff List.
+            }
 
         }else if(typeValue == '2'){
             $('#staff_report').hide();
             $('#dept_report').show();
             $('#overall_report').hide();
+
+            setTimeout(() => {
+                if(userrole == 3){
+                    $('#dept_type').val('1');
+                    $('#dept_type').attr('disabled', true);
+                    $('#dept_name_report').show();
+                    $('#dept_staff_report').hide();
+                    
+                    getDepartmentList('dept_name');//To show Department List.
+                    $('#dept_name').attr('disabled', true);
+                }
+                
+            }, 500);
 
         }else if(typeValue == '3'){
             $('#staff_report').hide();
@@ -56,32 +76,7 @@ $(document).ready(function(){ //Document Ready Start.
 
     $('#dep_name').change(function(){
         var dep_id = $(this).val();
-        $.ajax({
-            type: "POST",
-            data: {"department_id": dep_id},
-            url: "StaffFile/getDeptBasedStaffDetails.php",
-            dataType: "json",
-            cache: false,
-            success: function(response){
-
-                $("#dept_staff_name").empty();
-                $("#dept_staff_name").append("<option value=''>" + 'Select Staff Name' + "</option>");
-                var len = response.length;
-                for (var i = 0; i < len; i++) {
-                    var staff_id = response[i]['staff_id'];
-                    var staff_name = response[i]['staff_name'];
-                    var emp_code = response[i]['emp_code'];
-                    $("#dept_staff_name").append("<option value='" + staff_id + "'>" + staff_name + " - "+ emp_code +"</option>");
-                }
-                {//To Order staffName Alphabetically
-                    var firstOption = $("#dept_staff_name option:first-child");
-                    $("#dept_staff_name").html($("#dept_staff_name option:not(:first-child)").sort(function (a, b) {
-                        return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
-                    }));
-                    $("#dept_staff_name").prepend(firstOption);
-                }
-            }
-        })//ajax END.
+        getDeptStaffNameList(dep_id, 'dept_staff_name');
 
     });//staff list based on dep_name END. 
 
@@ -172,6 +167,27 @@ $(document).ready(function(){ //Document Ready Start.
 
 }); //Document Ready End.
 
+//On Load Function
+$(function(){
+
+    var role = $('#user_role').val();
+
+    if(role == 4){
+        $('#report_type').val('1');
+        $('#report_type').attr('disabled', true);
+        $('#staff_report').show();
+        $('#dept_report').hide();
+        $('#overall_report').hide();
+
+        getStaffList();//To show staff List.
+        $('#staff_name').attr('disabled', true);
+    }
+
+    if(role == 3){
+        $('#report_type option:last').prop('disabled', true);
+        $('#dept_type option:last').prop('disabled', true);
+    }
+});
 
 function getStaffList() {
 
@@ -185,11 +201,17 @@ function getStaffList() {
             $("#staff_name").empty();
             $("#staff_name").append("<option value=''>" + 'Select Staff Name' + "</option>");
             var len = result['staff_name'].length;
+            var userStaffId = $('#user_staff_id').val();
             for (var i = 0; i < len; i++) {
                 var staff_name = result['staff_name'][i];
                 var staff_id = result['staff_id'][i];
                 var emp_code = result['emp_code'][i];
-                $("#staff_name").append("<option value='" + staff_id + "'>" + staff_name +" - "+ emp_code + "</option>");
+                var designation_name = result['designation_name'][i];
+                var selected = '';
+                if(userStaffId == staff_id){
+                    selected = 'selected';
+                }
+                $("#staff_name").append("<option value='" + staff_id + "' "+ selected + ">" + staff_name +" -  ("+ designation_name + ")"+ "</option>");
             }
             {//To Order staffName Alphabetically
                 var firstOption = $("#staff_name option:first-child");
@@ -218,7 +240,13 @@ function getDepartmentList(id) {
                 var department_name = response[i]['department_name'];
                 var department_id = response[i]['department_id'];
                 var branch_name = response[i]['branch_name'];
-                $('#'+id).append("<option value='" + department_id + "'>" + department_name +' -  '+branch_name + "</option>");
+
+                var selected = '';
+                var userDepartmentId = $('#user_dept_id').val();
+                if(userDepartmentId == department_id){
+                    selected = 'selected';
+                }
+                $('#'+id).append("<option value='" + department_id + "' " +selected+ ">" + department_name +' -  ('+branch_name + ')' +"</option>");
             }
             {//To Order ag_group Alphabetically
                 var firstOption = $('#'+id+" option:first-child");
@@ -294,4 +322,34 @@ function dateEmpty(v){
         $('.clearMonth').val('');
 
     }
+}
+
+function getDeptStaffNameList(dep_id, id){
+    $.ajax({
+        type: "POST",
+        data: {"department_id": dep_id},
+        url: "StaffFile/getDeptBasedStaffDetails.php",
+        dataType: "json",
+        cache: false,
+        success: function(response){
+
+            $("#"+id).empty();
+            $("#"+id).append("<option value=''>" + 'Select Staff Name' + "</option>");
+            var len = response.length;
+            for (var i = 0; i < len; i++) {
+                var staff_id = response[i]['staff_id'];
+                var staff_name = response[i]['staff_name'];
+                var emp_code = response[i]['emp_code'];
+                var designation_name = response[i]['designation_name'];
+                $("#"+id).append("<option value='" + staff_id + "'>" + staff_name + " - ("+ designation_name +")" +"</option>");
+            }
+            {//To Order staffName Alphabetically
+                var firstOption = $("#"+id+" option:first-child");
+                $("#"+id).html($("#"+id+" option:not(:first-child)").sort(function (a, b) {
+                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
+                }));
+                $("#"+id).prepend(firstOption);
+            }
+        }
+    })//ajax END.
 }
