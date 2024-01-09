@@ -50,6 +50,7 @@
 							<tr>
 								<th>S. No.</th>
 								<th>Company Name</th>
+								<th>Designation Name</th>
 								<th>Status</th>
 								<th>Action</th>
 							</tr>

@@ -71,6 +71,11 @@ if(isset($_SESSION['role'])){
             commonDashboard();
             setTimeout(function(){
                 overallManagerLoginDashboard();
+
+                setTimeout(function(){
+                    OverallLoginFunc();
+                },1000);
+
             },2000);
             
         }else if(user_role_dashboard_use == '3'){ //Manager
@@ -1025,41 +1030,6 @@ if(isset($_SESSION['role'])){
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
             ]
-        });
-
-        // Pending Task dashboard
-		var pending_task_dashboard = $('#pending_task_dashboard').DataTable({
-
-            "order": [[ 0, "desc" ]],
-            // "ordering": false, //removes sorting by column
-            'processing': true,
-            'serverSide': true,
-            'serverMethod': 'post',
-            // 'searching': false, // Remove default Search Control
-            'ajax': {
-                'url':'dashboardAjaxFile/ajaxPendingTaskList.php',
-                'data': function(data){
-                    var search = $('#search').val();
-                    data.search = search;
-                }
-            },
-            // dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ,3, 4, 5 ]
-                    }
-                }
-            ],
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            "drawCallback":function(){
-                changeRowColor();
-                OverallLoginFunc();
-            }
         });
     
     // approval line - approval requisition
@@ -2505,40 +2475,6 @@ buttons: [
         });
         // Regularisation Approval List dashboard END/////
 
-        //Manager Pending Task dashboard
-		var managerlogin_pending_task_dashboard = $('#managerlogin_pending_task_dashboard').DataTable({
-        "order": [[ 0, "desc" ]],
-        // "ordering": false, //removes sorting by column
-        'processing': true,
-        'serverSide': true,
-        'serverMethod': 'post',
-        // 'searching': false, // Remove default Search Control
-        'ajax': {
-            'url':'dashboardAjaxFile/ajaxManagerLoginPendingTaskList.php',
-            'data': function(data){
-                var search = $('#search').val();
-                data.search = search;
-            }
-        },
-        // dom: 'lBfrtip',
-        buttons: [
-            {
-                extend: 'csv',
-                exportOptions: {
-                    columns: [ 0, 1, 2 ,3, 4, 5 ]
-                }
-            }
-        ],
-        "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        "drawCallback":function(){
-            changeRowBGColor();
-        }
-        });
-        //Manager Pending Task dashboard END
-
         //Manager Completed Task dashboard
 		var managerlogin_completed_task_dashboard = $('#managerlogin_completed_task_dashboard').DataTable({
         "order": [[ 0, "desc" ]],
@@ -2567,49 +2503,123 @@ buttons: [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        // "drawCallback":function(){
-        // }
+        "drawCallback":function(){
+            managerLoginPendingDashboard();
+        }
         });
         //Manager Completed Task dashboard END
+    }
+
+    function managerLoginPendingDashboard(){
+        //Manager Pending Task dashboard
+		var managerlogin_pending_task_dashboard = $('#managerlogin_pending_task_dashboard').DataTable({
+        "order": [[ 0, "desc" ]],
+        // "ordering": false, //removes sorting by column
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        // 'searching': false, // Remove default Search Control
+        'ajax': {
+            'url':'dashboardAjaxFile/ajaxManagerLoginPendingTaskList.php',
+            'data': function(data){
+                var search = $('#search').val();
+                data.search = search;
+            }
+        },
+        // dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                exportOptions: {
+                columns: [ 0, 1, 2 ,3, 4, 5 ]
+                }
+            }
+        ],
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        "drawCallback":function(){
+            changeRowBGColor();
+        }
+        });
+        //Manager Pending Task dashboard END
     }
 ///////////////////////////////////////////////////////////////////////// Manager Login Dashboard END///////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////// Overall Login Dashboard END///////////////////////////////////////////////////////////
 function OverallLoginFunc(){
-// Completed Task dashboard - Overall Login
-var completed_task_dashboard = $('#completed_task_dashboard').DataTable({
-
-"order": [[ 0, "desc" ]],
-// "ordering": false, //removes sorting by column
-'processing': true,
-'serverSide': true,
-'serverMethod': 'post',
-// 'searching': false, // Remove default Search Control
-'ajax': {
-    'url':'dashboardAjaxFile/ajaxCompletedTaskList.php',
-    'data': function(data){
-        var search = $('#search').val();
-        data.search = search;
-    }
-},
-// dom: 'lBfrtip',
-buttons: [
-    {
-        extend: 'csv',
-        exportOptions: {
-            columns: [ 0, 1, 2 ,3, 4, 5 ]
+    // Completed Task dashboard - Overall Login
+    var completed_task_dashboard = $('#completed_task_dashboard').DataTable({
+    "order": [[ 0, "desc" ]],
+    // "ordering": false, //removes sorting by column
+    'processing': true,
+    'serverSide': true,
+    'serverMethod': 'post',
+    // 'searching': false, // Remove default Search Control
+    'ajax': {
+        'url':'dashboardAjaxFile/ajaxCompletedTaskList.php',
+        'data': function(data){
+            var search = $('#search').val();
+            data.search = search;
         }
+    },
+    // dom: 'lBfrtip',
+    buttons: [
+        {
+            extend: 'csv',
+            exportOptions: {
+            columns: [ 0, 1, 2 ,3, 4, 5 ]
+            }
+        }
+    ],
+    "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+    ],
+    "drawCallback":function(){
+        OverallLoginPendingTask();
     }
-],
-"lengthMenu": [
-    [10, 25, 50, -1],
-    [10, 25, 50, "All"]
-],
-// "drawCallback":function(){
-// }
-});
+    });
 
 }//Function END
+
+function OverallLoginPendingTask(){
+        // Pending Task dashboard
+        var pending_task_dashboard = $('#pending_task_dashboard').DataTable({
+    "order": [[ 0, "desc" ]],
+    // "ordering": false, //removes sorting by column
+    'processing': true,
+    'serverSide': true,
+    'serverMethod': 'post',
+    // 'searching': false, // Remove default Search Control
+    'ajax': {
+        'url':'dashboardAjaxFile/ajaxPendingTaskList.php',
+        'data': function(data){
+            var search = $('#search').val();
+            data.search = search;
+        }
+    },
+    // dom: 'lBfrtip',
+    buttons: [
+        {
+            extend: 'csv',
+            exportOptions: {
+            columns: [ 0, 1, 2 ,3, 4, 5 ]
+            }
+        }
+    ],
+    "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+    ],
+    "drawCallback":function(){
+        changeRowColor();
+        // OverallLoginFunc();
+    }
+    });
+}//Function END.
+
 ///////////////////////////////////////////////////////////////////////// Overall Login Dashboard END///////////////////////////////////////////////////////////
 
 

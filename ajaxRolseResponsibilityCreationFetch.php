@@ -94,6 +94,13 @@ foreach ($result as $row) {
 
     $sub_array[] = $company_name;
     
+    $designationQry = $connect->query("SELECT rcr.designation, dc.designation_name FROM `rr_creation_ref` rcr JOIN designation_creation dc ON rcr.designation = dc.designation_id WHERE rcr.`rr_reff_id` = '".$row['rr_id']."' GROUP BY rcr.designation");
+    $designationName = array();
+    while($desgnInfo = $designationQry->fetch()){
+        $designationName[] = $desgnInfo['designation_name'];
+    }
+    $sub_array[] = $designationName;
+
     $status      = $row['status'];
     if($status == 1)
 	{

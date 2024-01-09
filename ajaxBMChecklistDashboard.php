@@ -6,6 +6,9 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 
@@ -15,6 +18,8 @@ if(isset($_SESSION["staffid"])){
 }else{
     $staffid = 0;
 }
+
+if($sbranch_id != 'Overall'){
 //if the staff is transfered then check the transfer effective date is greater than curdate if true then take old designation from the staff_creation_history, if false means the designation will not be overwrite 
 $getdesgnDetails = $con->query("SELECT tl.transfer_effective_from, sch.company_id, sch.designation FROM `transfer_location` tl LEFT JOIN staff_creation_history sch ON tl.transfer_location_id = sch.transfer_location_id WHERE tl.staff_code = '$staffid' order by tl.transfer_location_id DESC LIMIT 1");
         
@@ -28,6 +33,7 @@ if(mysqli_num_rows($getdesgnDetails)>0){
         
     }
 }
+}
 $column = array(
     
     'bm_checklist_id',
@@ -38,7 +44,7 @@ $column = array(
     'status'
 );
 
-$query = "SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id join bm_checklist_ref c on b.id = c.bm_checklist_id WHERE c.work_status != '3' AND CURDATE() <= c.to_date ";
+$query = "SELECT a.bm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM bm_checklist a left join bm_checklist_multiple b on a.bm_checklist_id = b.bm_checklist_id join bm_checklist_ref c on b.id = c.bm_checklist_id WHERE c.work_status != '3' AND '$curdate' <= c.to_date ";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");

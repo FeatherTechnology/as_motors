@@ -625,7 +625,7 @@ if (sizeof($getuser)>0) {
 								<?php #} ?>
 								<?php if($daily_performance == 0 && $daily_performance != '' && $daily_performance != NULL) { ?>
 									<li>
-										<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance</a>	
+										<a href="edit_daily_performance"><i class="icon-file"></i>Daily Performance Entry</a>	
 									</li>
 								<?php } ?>
 								<?php if($daily_performance_review == 0 && $daily_performance_review != '' && $daily_performance_review != NULL) { ?>

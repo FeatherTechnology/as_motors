@@ -6,6 +6,9 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 
@@ -44,7 +47,7 @@ $column = array(
     'status	',
 );
 
-$query = "SELECT a.pm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id join pm_checklist_ref c on b.id = c.pm_checklist_id WHERE c.work_status != '3' AND c.to_date <= CURDATE() ";
+$query = "SELECT a.pm_checklist_id,a.category_id,b.id,b.checklist,b.rating,b.status,c.work_status FROM pm_checklist a join pm_checklist_multiple b on a.pm_checklist_id = b.pm_checklist_id join pm_checklist_ref c on b.id = c.pm_checklist_id WHERE c.work_status != '3' AND c.to_date <= '$curdate' ";
 if($sbranch_id == 'Overall'){
     $query .= '';
     if($_POST['search']!="");

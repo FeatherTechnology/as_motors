@@ -8,6 +8,9 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["role"])){
     $role = $_SESSION["role"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 if(isset($_SESSION["staffid"])){
     $staffid = $_SESSION["staffid"];
 
@@ -37,7 +40,7 @@ LEFT JOIN
 designation_creation dsc ON dsc.designation_id = dp.role_id
 LEFT JOIN
 staff_creation s ON s.staff_id = dp.emp_id
-WHERE MONTH(dp.month) = MONTH(CURDATE()) AND YEAR(DATE(dp.month)) = YEAR(CURDATE()) AND ";
+WHERE MONTH(dp.month) = MONTH('$curdate') AND YEAR(DATE(dp.month)) = YEAR('$curdate') AND ";
 
 if ($staffid != 'Overall'){
     if($role == '3'){

@@ -6047,11 +6047,7 @@
 
 		function getEditDesignation($mysqli, $department_id){
 
-			$hierarchyDesig = array();
-			$designation_name = array();
-			$designation_id = array();
 			$designationFetch = array();
-
 			// get department based on hierarchy cration
 			for($i=0; $i<=sizeof($department_id)-1; $i++){
 				$getDepartmentId = $mysqli->query("SELECT * FROM basic_creation WHERE department ='".strip_tags($department_id[$i])."' AND status = 0 ");
@@ -6071,28 +6067,23 @@
 			$duplicated=array();
 
 			foreach($designation as $k=>$v) {
-
 				if( ($kt=array_search($v,$designation))!==false and $k!=$kt )
 				{ unset($designation[$kt]);  $duplicated[]=$v; }
-			
 			}
 			sort($designation);
 
 			$detailrecords = array();
-			$i=0;
-			for($j=0; $j<=sizeof($designation)-1; $j++){
-				
-				$getDepartmentName = $mysqli->query("SELECT designation_id, designation_name FROM designation_creation 
-				WHERE designation_id ='".strip_tags($designation[$i])."' AND status = 0");
+
+			for($j=0; $j<sizeof($designation); $j++){				
+				$getDepartmentName = $mysqli->query("SELECT designation_id, designation_name FROM designation_creation WHERE designation_id ='".strip_tags($designation[$j])."' AND status = 0");
 				if ($mysqli->affected_rows>0){
-					while($row2 = $getDepartmentName->fetch_object()){
-						$detailrecords[$i]['designation_id'] = $row2->designation_id; 
-						$detailrecords[$i]['designation_name'] = $row2->designation_name; 
-						$i++;       
-					}
+					$row2 = $getDepartmentName->fetch_object();
+						$detailrecords[$j]['designation_id'] = $row2->designation_id; 
+						$detailrecords[$j]['designation_name'] = $row2->designation_name;       
 				}
 			}
 			
+			sort($detailrecords);
 			return $detailrecords;
 		}
 
@@ -6172,6 +6163,10 @@
 			if(isset($_POST['reporting'])){
 				$reporting = $_POST['reporting'];
 			}
+			$res_staff_name='';
+			if(isset($_POST['res_staff_name'])){
+				$res_staff_name = $_POST['res_staff_name'];
+			}
 			if(isset($_POST['reason'])){
 				$reason = $_POST['reason'];
 			}
@@ -6190,15 +6185,15 @@
 			if(isset($_POST['leave_date'])){
 				$leave_date = $_POST['leave_date'];
 			}
+			if(isset($_POST['leave_to_date'])){
+				$leave_to_date = $_POST['leave_to_date'];
+			}
 			if(isset($_POST['leave_reason'])){
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$insertQry="INSERT INTO permission_or_on_duty(regularisation_id, company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, 
-			permission_date, on_duty_place, leave_date, leave_reason, insert_login_id)
-			VALUES('".strip_tags($reg_auto_gen_no)."','".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', 
-			 '".strip_tags($reason)."', '".strip_tags($permission_from_time)."', '".strip_tags($permission_to_time)."', '".strip_tags($permission_date)."', 
-			 '".strip_tags($on_duty_place)."', '".strip_tags($leave_date)."', '".strip_tags($leave_reason)."', '".$userid."' )";
+			$insertQry="INSERT INTO permission_or_on_duty(regularisation_id, company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, permission_date, on_duty_place, leave_date, leave_to_date, leave_reason, responsible_staff, insert_login_id)
+			VALUES('".strip_tags($reg_auto_gen_no)."','".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', '".strip_tags($reason)."', '".strip_tags($permission_from_time)."', '".strip_tags($permission_to_time)."', '".strip_tags($permission_date)."', '".strip_tags($on_duty_place)."', '".strip_tags($leave_date)."', '".strip_tags($leave_to_date)."', '".strip_tags($leave_reason)."', '".$res_staff_name."', '".$userid."' )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 		}
 
@@ -6223,6 +6218,10 @@
 			if(isset($_POST['reporting'])){
 				$reporting = $_POST['reporting'];
 			}
+			$res_staff_name='';
+			if(isset($_POST['res_staff_name'])){
+				$res_staff_name = $_POST['res_staff_name'];
+			}
 			if(isset($_POST['reason'])){
 				$reason = $_POST['reason'];
 			}
@@ -6241,15 +6240,15 @@
 			if(isset($_POST['leave_date'])){
 				$leave_date = $_POST['leave_date'];
 			}
+			if(isset($_POST['leave_to_date'])){
+				$leave_to_date = $_POST['leave_to_date'];
+			}
 			if(isset($_POST['leave_reason'])){
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$updQry="UPDATE permission_or_on_duty set regularisation_id='".strip_tags($reg_auto_gen_no)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', 
-			staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', reporting = '".strip_tags($reporting)."', reason = '".strip_tags($reason)."',
-			permission_from_time = '".strip_tags($permission_from_time)."', permission_to_time = '".strip_tags($permission_to_time)."', 
-			permission_date = '".strip_tags($permission_date)."', on_duty_place = '".strip_tags($on_duty_place)."', leave_date = '".strip_tags($leave_date)."', 
-			leave_reason = '".strip_tags($leave_reason)."', status = 0, update_login_id = '".$userid."' WHERE permission_on_duty_id= '".strip_tags($id)."' "; 
+			$updQry="UPDATE permission_or_on_duty set regularisation_id='".strip_tags($reg_auto_gen_no)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', reporting = '".strip_tags($reporting)."', reason = '".strip_tags($reason)."', permission_from_time = '".strip_tags($permission_from_time)."', permission_to_time = '".strip_tags($permission_to_time)."', 
+			permission_date = '".strip_tags($permission_date)."', on_duty_place = '".strip_tags($on_duty_place)."', leave_date = '".strip_tags($leave_date)."', leave_to_date = '".strip_tags($leave_to_date)."', leave_reason = '".strip_tags($leave_reason)."', status = 0, responsible_staff = '".$res_staff_name."', update_login_id = '".$userid."' WHERE permission_on_duty_id= '".strip_tags($id)."' "; 
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
 		// Update Leave Approval
@@ -6293,8 +6292,10 @@
 				$detailrecords['permission_date']       = $row->permission_date;		
 				$detailrecords['on_duty_place']       = $row->on_duty_place;		
 				$detailrecords['leave_date']       = $row->leave_date;		
+				$detailrecords['leave_to_date']       = $row->leave_to_date;		
 				$detailrecords['leave_reason']       = $row->leave_reason;		
 				$detailrecords['regularisation_id']       = $row->regularisation_id;	
+				$detailrecords['responsible_staff']       = $row->responsible_staff;	
 				
 				$getname = $mysqli->query("SELECT staff_name FROM staff_creation WHERE staff_id = '".$row->reporting."' ");
 				if ($mysqli->affected_rows>0)
@@ -6311,8 +6312,8 @@
 		
 		//Delete Permission On Dury
 		public function deletePermissionOnDuty($mysqli, $id, $userid){
-
-			$deleteQry = "UPDATE permission_or_on_duty set status='1', delete_login_id = '".$userid."' WHERE permission_on_duty_id = '".strip_tags($id)."' ";
+			// $deleteQry = "UPDATE permission_or_on_duty set status='1', delete_login_id = '".$userid."' WHERE permission_on_duty_id = '".strip_tags($id)."' ";
+			$deleteQry = "DELETE FROM `permission_or_on_duty` WHERE permission_on_duty_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($deleteQry) or die("Error in delete query".$mysqli->error);
 		}
 
@@ -9060,7 +9061,7 @@
 						}
 					}
 					//Total Days count END///
-					$perDayTarget = ceil($targetPerStaff / count($workingDays));
+					$perDayTarget = round($targetPerStaff / count($workingDays));
 					//Inserting the goal_setting_ref table based on the assertion and month date.
 					foreach ($workingDays as $day) {
 					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, staffname, insert_login_id)
@@ -9118,7 +9119,7 @@
 						}
 					}
 					//Total Days count END///
-					$perDayTarget = ceil($targetPerStaff / count($workingDays));
+					$perDayTarget = round($targetPerStaff / count($workingDays));
 					//Inserting the goal_setting_ref table based on the assertion and month date.
 					foreach ($workingDays as $day) {
 					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, staffname, update_login_id)

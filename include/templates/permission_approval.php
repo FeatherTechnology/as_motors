@@ -61,17 +61,19 @@ if($idupd>0)
 			$permission_date    	     = $getPermissionOnDuty['permission_date'];
 			$on_duty_place    	     = $getPermissionOnDuty['on_duty_place'];
 			$leave_date    	     = $getPermissionOnDuty['leave_date'];
+			$leave_to_date    	     = $getPermissionOnDuty['leave_to_date'];
 			$leave_reason    	     = $getPermissionOnDuty['leave_reason'];
 			$regularisation_id    	     = $getPermissionOnDuty['regularisation_id'];
+            $responsible_staff    	     = $getPermissionOnDuty['responsible_staff'];
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
-    <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
-    <input type="text" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
-    <input type="text" id="staffIdEdit" name="staffIdEdit" value="<?php print_r($staff_id); ?>" >
-    <input type="text" id="reasonEdit" name="reasonEdit" value="<?php print_r($reason); ?>" >
+    <input type="hidden" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
+    <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
+    <input type="hidden" id="staffIdEdit" name="staffIdEdit" value="<?php print_r($staff_id); ?>" >
+    <input type="hidden" id="reasonEdit" name="reasonEdit" value="<?php print_r($reason); ?>" >
 
     <script language='javascript'>
         window.onload=editBranchBasedDept;
@@ -200,7 +202,8 @@ if($idupd>0)
 <div class="main-container">
 <!--------form start-->
     <form id = "permission_or_on_duty" name="permission_or_on_duty" action="" method="post" enctype="multipart/form-data"> 
-    <input type="hidden" class="form-control" value="<?php if(isset($permission_on_duty_id)) echo $permission_on_duty_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
+    <input type="hidden" class="form-control" value="<?php if(isset($permission_on_duty_id)) echo $permission_on_duty_id ?>" id="id" name="id">
+    <input type="hidden" value="<?php if(isset($responsible_staff)) echo $responsible_staff ?>" id="responsible_staff" name="responsible_staff">
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -338,6 +341,16 @@ if($idupd>0)
                                             <input type="text" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting_name)) echo $reporting_name; ?>" placeholder="Enter Reporting Staff">  
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 reponsibleStaff">
+                                        <div class="form-group">
+                                            <label for="res_staff_name">Responsible Staff</label> 
+                                            <select class="form-control" id="res_staff_name" name="res_staff_name" >
+                                                <option value=''> Select Staff </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row mt-2">
@@ -388,6 +401,13 @@ if($idupd>0)
                                         </div>
                                     </div>
 
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
+                                        <div class="form-group">
+                                            <label for="leave_to_date">Leave To Date</label> 
+                                            <input type="date" tabindex = "13" name="leave_to_date" id="leave_to_date" class="form-control"  value="<?php if (isset($leave_to_date)) echo $leave_to_date;?>" readonly >
+                                        </div>
+                                    </div>
+
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 staffreason" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Reason</label> 
@@ -399,7 +419,7 @@ if($idupd>0)
                                 <br>
 
                                 <div class="row mt-2">
-                              
+                            
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Approval / Reject</label>
@@ -417,15 +437,6 @@ if($idupd>0)
                                             <div class="form-inline">
                                             <textarea  id="reject_reason" name="reject_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="70" ></textarea>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 reponsibleStaff" style="display: none;" >
-                                        <div class="form-group">
-                                            <label for="res_staff_name">Responsible Staff</label> 
-                                            <select class="form-control" id="res_staff_name" name="res_staff_name" >
-                                                <option value=''> Select Staff </option>
-                                            </select>
                                         </div>
                                     </div>
 

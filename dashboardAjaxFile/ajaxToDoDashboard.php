@@ -1,14 +1,10 @@
 <?php
 include('../ajaxconfig.php');
-@session_start();
-if(isset($_SESSION["curdateFromIndexPage"])){
-    $curdate = $_SESSION["curdateFromIndexPage"];
-}
 if(isset($_POST["staff_id"])){
     $staff_id = $_POST["staff_id"];
 }
 ?>
-<table id="todo_infoDashboard" class="table custom-table">
+<table id="todo_info_Dashboard" class="table custom-table">
     <thead>
         <tr>
             <th width='70'>S. No.</th>
@@ -54,4 +50,26 @@ while($data=$query->fetch_assoc()){
     </tbody>
 </table>
 
+<script>
+    $(function(){
+        $('#todo_info_Dashboard').DataTable({
+            'processing': true,
+            'iDisplayLength': 10,
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            // dom: 'lBfrtip',
+            // buttons: [
+            //     {
+            //         extend: 'csv',
+            //         exportOptions: {
+            //             columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+            //         }
+            //     }
+            // ],
+        });
+    });
+
+</script>
 <!--onclick fnction ('to date', 'table id', 'Work description')  -->

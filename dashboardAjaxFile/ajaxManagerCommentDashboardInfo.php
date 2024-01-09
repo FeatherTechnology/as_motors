@@ -4,6 +4,9 @@ include('../ajaxconfig.php');
 if(isset($_SESSION["staffid"])){
     $staffid = $_SESSION["staffid"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 
 $column = array(
 
@@ -18,7 +21,7 @@ FROM daily_performance_ref dpr
 LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
 LEFT JOIN  user msc ON dpr.manager_id = msc.staff_id
 LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-WHERE dp.emp_id='$staffid' && dpr.manager_updated_status != 0 && dpr.manager_updated_status != 2 && dpr.manager_comment != '' && MONTH(dpr.manager_updated_date) = MONTH(CURDATE()) ";
+WHERE dp.emp_id='$staffid' && dpr.manager_updated_status != 0 && dpr.manager_updated_status != 2 && dpr.manager_comment != '' && MONTH(dpr.manager_updated_date) = MONTH('$curdate') ";
 
 
 if (isset($_POST['order'])) {
@@ -59,14 +62,14 @@ foreach ($result as $row) {
     $sno = $sno + 1;
 }
 
-function count_all_data($connect)
+function count_all_data($connect, $curdate)
 {
     $query     = "SELECT sc.staff_name as username, dpr.manager_comment, dpr.manager_updated_date, msc.staff_name as managername
     FROM daily_performance_ref dpr 
     LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id 
     LEFT JOIN staff_creation msc ON dpr.manager_id = msc.staff_id
     LEFT JOIN staff_creation sc ON dp.emp_id = sc.staff_id 
-    WHERE dpr.manager_updated_status != 0 && dpr.manager_updated_status != 2 && MONTH(dpr.manager_updated_date) = MONTH(CURDATE()) ";
+    WHERE dpr.manager_updated_status != 0 && dpr.manager_updated_status != 2 && MONTH(dpr.manager_updated_date) = MONTH('$curdate') ";
     $statement = $connect->prepare($query);
     $statement->execute();
     return $statement->rowCount();
@@ -74,7 +77,7 @@ function count_all_data($connect)
 
 $output = array(
     'draw' => intval($_POST['draw']),
-    'recordsTotal' => count_all_data($connect),
+    'recordsTotal' => count_all_data($connect, $curdate),
     'recordsFiltered' => $number_filter_row,
     'data' => $data
 );

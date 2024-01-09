@@ -32,6 +32,7 @@ $(document).ready(function () {
     $('#submit_daily_performance').click(function(e){
         // e.preventDefault();
 
+        $('#submit_daily_performance').hide();
         var removerow = $('#moduleTable tbody tr td input.actual_achieve[readonly]');
         removerow.parent().parent().remove();
     });
