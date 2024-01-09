@@ -29,6 +29,7 @@ $(document).ready(function () {
     // Get branch based on Department
     $("#branch_id").change(function(){
         getDeptList('0');
+        getResponsibleStaffList();
     });
 
     // Hide and show reason
