@@ -27,7 +27,7 @@ $departmentList = $userObj->getDepartment($mysqli);
 $companyList = $userObj->getCompanyName($mysqli);
 
 $id=0;
-if(isset($_POST['submittag_creation']) && $_POST['submittag_creation'] != '')
+if(isset($_POST['submit_leave_creation']) && $_POST['submit_leave_creation'] != '')
 {
     if(isset($_POST['id']) && $_POST['id'] >0 && is_numeric($_POST['id'])){		
         $id = $_POST['id']; 	
@@ -81,7 +81,9 @@ if($idupd>0)
 			$permission_date    	     = $getPermissionOnDuty['permission_date'];
 			$on_duty_place    	     = $getPermissionOnDuty['on_duty_place'];
 			$leave_date    	     = $getPermissionOnDuty['leave_date'];
+			$leave_to_date    	     = $getPermissionOnDuty['leave_to_date'];
 			$leave_reason    	     = $getPermissionOnDuty['leave_reason'];
+			$responsible_staff    	     = $getPermissionOnDuty['responsible_staff'];
 		}
 	} 
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
@@ -226,6 +228,7 @@ if($idupd>0)
     <input type="hidden" value="<?php if(isset($user_dept_id)) echo $user_dept_id ?>" id="userDeptId" name="userDeptId">
     <input type="hidden" value="<?php if(isset($user_role)) echo $user_role ?>" id="userRole" name="userRole">
     <input type="hidden" value="<?php if(isset($idupd)) echo $idupd ?>" id="idupd" name="idupd">
+    <input type="hidden" value="<?php if(isset($responsible_staff)) echo $responsible_staff ?>" id="responsible_staff" name="responsible_staff">
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -244,14 +247,14 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Regularisation Number</label>
-                                            <input type="text" name="reg_auto_gen_no" id="reg_auto_gen_no" class="form-control" readonly>
+                                            <input tabindex="1" type="text" name="reg_auto_gen_no" id="reg_auto_gen_no" class="form-control" readonly>
                                         </div>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Company Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="1" type="text" class="form-control" id="company_id" name="company_id" >
+                                                <select tabindex="2" type="text" class="form-control" id="company_id" name="company_id" >
                                                     <option value="">Select Company Name</option>   
                                                         <?php if (sizeof($companyName)>0) { 
                                                         for($j=0;$j<count($companyName);$j++) { ?>
@@ -262,7 +265,7 @@ if($idupd>0)
                                                         <?php }} ?>  
                                                 </select>  
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
-                                                <select disabled tabindex="1" type="text" class="form-control" id="company_id" name="company_id"  >
+                                                <select disabled tabindex="2" type="text" class="form-control" id="company_id" name="company_id"  >
                                                     <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['company_name']; ?></option> 
                                                 </select> 
                                             <?php } ?>
@@ -273,12 +276,12 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Branch Name</label>
                                             <?php if($sbranch_id == 'Overall'){ ?>
-                                                <select tabindex="2" type="text" class="form-control" id="branch_id" name="branch_id" >
+                                                <select tabindex="3" type="text" class="form-control" id="branch_id" name="branch_id" >
                                                     <option value="" disabled selected>Select Branch Name</option> 
                                                 </select> 
                                             <?php } else if($sbranch_id != 'Overall'){ ?>
                                                 <input type="hidden" name="branch_id" id="branch_id" class="form-control" value="<?php echo $sbranch_id; ?>" >
-                                                <select disabled tabindex="2" type="text" class="form-control" id="branch_id1" name="branch_id1" >
+                                                <select disabled tabindex="3" type="text" class="form-control" id="branch_id1" name="branch_id1" >
                                                     <option value="<?php echo $sbranch_id; ?>"><?php echo $sCompanyBranchDetail['branch_name']; ?></option> 
                                                 </select> 
                                             <?php } ?>
@@ -289,7 +292,7 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Department</label>
                                             <input type="hidden" id="mySelectedDeptName" name="mySelectedDeptName">
-                                            <select tabindex="3" type="text" class="form-control" id="department" name="department" >
+                                            <select tabindex="4" type="text" class="form-control" id="department" name="department" >
                                                 <option value="">Select Department</option>   
                                             </select>
                                         </div>
@@ -299,7 +302,7 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Name</label>
                                             <input type="hidden" id="mySelectedStaffName" name="mySelectedStaffName">
-                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="4">
+                                            <select id="staff_name" name="staff_name" class="form-control" tabindex="5">
                                                 <option value="">Select Staff Name</option>
                                             </select>   
                                         </div>
@@ -308,7 +311,7 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Staff Code</label>
-                                            <input type="text" readonly id="staff_code" name="staff_code" class="form-control" value="<?php if(isset($staff_code)) echo $staff_code; ?>" placeholder="Enter Staff Code">
+                                            <input type="text" readonly id="staff_code" name="staff_code" class="form-control" value="<?php if(isset($staff_code)) echo $staff_code; ?>" placeholder="Enter Staff Code" tabindex="6">
                                         </div>
                                     </div>
 
@@ -316,17 +319,26 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="disabledInput">Reporting</label>
                                             <input type="hidden" readonly id="reporting" name="reporting" class="form-control" value="<?php if(isset($reporting)) echo $reporting; ?>">  
-                                            <input type="text" readonly id="reporting_name" name="reporting_name" class="form-control" value="<?php if(isset($reporting_name)) echo $reporting_name; ?>" placeholder="Enter Reporting Staff">  
+                                            <input type="text" readonly id="reporting_name" name="reporting_name" class="form-control" value="<?php if(isset($reporting_name)) echo $reporting_name; ?>" placeholder="Enter Reporting Staff" tabindex="7">  
                                         </div>
                                     </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 reponsibleStaff">
+                                        <div class="form-group">
+                                            <label for="res_staff_name">Responsible Staff</label> 
+                                            <select class="form-control" id="res_staff_name" name="res_staff_name" >
+                                                <option value=''> Select Staff </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row mt-2">
-                              
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="disabledInput">Type</label>
-                                            <select tabindex="3" type="text" class="form-control" id="reason" name="reason" >
+                                            <select tabindex="8" type="text" class="form-control" id="reason" name="reason" >
                                                 <option value="">Select Type</option>   
                                                 <option <?php if(isset($reason)) { if('Permission' == $reason) echo 'selected'; ?> value="<?php echo 'Permission' ?>">
                                                 <?php echo 'Permission'; }else{ ?> <option value="Permission">Permission</option> <?php } ?></option>
@@ -342,7 +354,7 @@ if($idupd>0)
                                         <div class="form-group">
                                             <label for="permission_from_time">Start Time & End Time</label> 
                                             <div class="form-inline">
-                                                <input type="time" tabindex = "8" name="permission_from_time" id="permission_from_time" class="form-control" value="<?php if (isset($permission_from_time)) echo $permission_from_time;?>">&nbsp;&nbsp;
+                                                <input type="time" tabindex = "9" name="permission_from_time" id="permission_from_time" class="form-control" value="<?php if (isset($permission_from_time)) echo $permission_from_time;?>">&nbsp;&nbsp;
                                                 <span>To</span>&nbsp;&nbsp;<input type="time" tabindex = "9" name="permission_to_time" id="permission_to_time" class="form-control"  value="<?php if (isset($permission_to_time)) echo $permission_to_time;?>">
                                             </div>
                                         </div>
@@ -351,28 +363,35 @@ if($idupd>0)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 permissionCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="permission_date">Permission Date</label> 
-                                            <input type="date" tabindex = "8" name="permission_date" id="permission_date" class="form-control"  value="<?php if (isset($permission_date)) echo $permission_date;?>">
+                                            <input type="date" tabindex = "10" name="permission_date" id="permission_date" class="form-control"  value="<?php if (isset($permission_date)) echo $permission_date;?>">
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 on_dutyCls" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Place</label> 
-                                            <input type="text" id="on_duty_place" name="on_duty_place" class="form-control" value="<?php if(isset($on_duty_place)) echo $on_duty_place; ?>" placeholder="Enter On Duty Place">  
+                                            <input type="text" id="on_duty_place" name="on_duty_place" class="form-control" value="<?php if(isset($on_duty_place)) echo $on_duty_place; ?>" placeholder="Enter On Duty Place" tabindex="11">  
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
                                         <div class="form-group">
-                                            <label for="leave_date">Leave Date</label> 
-                                            <input type="date" tabindex = "8" name="leave_date" id="leave_date" class="form-control"  value="<?php if (isset($leave_date)) echo $leave_date;?>">
+                                            <label for="leave_date">Leave From Date</label> 
+                                            <input type="date" tabindex = "12" name="leave_date" id="leave_date" class="form-control"  value="<?php if (isset($leave_date)) echo $leave_date;?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 leaveCls" style="display: none;" >
+                                        <div class="form-group">
+                                            <label for="leave_to_date">Leave To Date</label> 
+                                            <input type="date" tabindex = "13" name="leave_to_date" id="leave_to_date" class="form-control"  value="<?php if (isset($leave_to_date)) echo $leave_to_date;?>">
                                         </div>
                                     </div>
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 staffreason" style="display: none;" >
                                         <div class="form-group">
                                             <label for="place">Reason</label> 
-                                            <textarea tabindex="1" id="leave_reason" name="leave_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="50" value="<?php if(isset($leave_reason)) echo $leave_reason; ?>"><?php if(isset($leave_reason)) echo $leave_reason; ?></textarea>
+                                            <textarea tabindex="14" id="leave_reason" name="leave_reason" class="form-control" placeholder="Enter Reason" rows="4" cols="50" value="<?php if(isset($leave_reason)) echo $leave_reason; ?>"><?php if(isset($leave_reason)) echo $leave_reason; ?></textarea>
                                         </div>
                                     </div>
 
@@ -385,7 +404,7 @@ if($idupd>0)
                         <div class="col-md-12">
                             <br><br>
                             <div class="text-right">
-                                <button type="submit" name="submittag_creation" id="submittag_creation" class="btn btn-primary" value="Submit" tabindex="11">Submit</button>
+                                <button type="submit" name="submit_leave_creation" id="submit_leave_creation" class="btn btn-primary" value="Submit" tabindex="11">Submit</button>
                                 <button type="reset" class="btn btn-outline-secondary" tabindex="12">Cancel</button>
                             </div>
                         </div>

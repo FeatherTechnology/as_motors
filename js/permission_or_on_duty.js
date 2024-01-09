@@ -59,6 +59,15 @@ $(document).ready(function () {
         }
     });
 
+    $('#leave_date').change(function(){
+        $('#leave_to_date').attr('min', $(this).val());
+    })
+    $('#leave_to_date').change(function(){
+        if($('#leave_date').val() == ''){
+            alert("Kindly select leave from date first");
+            $(this).val('');
+        }
+    })
 
 });
 
@@ -81,6 +90,8 @@ if(userRole != '1'){
 if(userRole == '4'){
     $('#staff_name').attr('disabled', true);
 }
+
+getResponsibleStaffList();
 });
 
 function autoGenRegNo(){
@@ -214,4 +225,30 @@ function getReportingPerson(department_id, staff_name){
             }
         });
     }
+}
+
+function getResponsibleStaffList(){
+    var branch_id = $('#branch_id').val();
+    $.ajax({ //Get All Staff List , the ajax page using in other page, it return all staff list based on branch and active or inactive. 
+        type:'POST',
+        data:{'branch_id': branch_id},
+        dataType: 'json',
+        url:"vehicledetailsFile/getBranchStaffList.php",
+        success:function(response){
+            $("#res_staff_name").empty();
+            $("#res_staff_name").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
+            var r = 0;
+            var staffid = $('#staff_name').val();
+            for (r = 0; r < response.staff_id.length; r++) { 
+                if(staffid != response['staff_id'][r]){
+                    var selected = '';
+                    if($('#responsible_staff').val() == response['staff_id'][r]){
+                        selected = 'selected';
+                    }
+                    $('#res_staff_name').append("<option value='" + response['staff_id'][r] + "'" +selected+ ">" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
+                }
+            }
+
+        }
+    });
 }

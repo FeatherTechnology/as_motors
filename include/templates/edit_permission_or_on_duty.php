@@ -39,7 +39,7 @@
 					if($mscid==3)
 					{?>
 					<div class="alert alert-danger" role="alert">
-						<div class="alert-text">Regularisation Inactive Successfully!</div>
+						<div class="alert-text">Regularisation Removed Successfully!</div>
 					</div>
 					<?php
 					}

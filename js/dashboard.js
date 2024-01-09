@@ -2,6 +2,24 @@
 //RGP extended,Regularisation Approval
 $(document).ready(function(){
 
+    $('#rgpExtendedExpiryTable').DataTable({
+        'processing': true,
+        'iDisplayLength': 10,
+        "lengthMenu": [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"]
+        ],
+        // dom: 'lBfrtip',
+        // buttons: [
+        //     {
+        //         extend: 'csv',
+        //         exportOptions: {
+        //             columns: [ 0, 1, 2, 3, 4, 5 ]
+        //         }
+        //     }
+        // ],
+    });
+
     $('#inprogressgbtn').on('click', function(){
         
         $('#progress_label').show();

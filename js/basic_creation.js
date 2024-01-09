@@ -224,6 +224,25 @@ $(document).ready(function () {
             DropDownDesignation(); // Designation Dropdown ,Get Designation initially based on branch when add basic creation using Manager or staff login.  
         }
 
+        if(id>0){
+            $('#add_departmentDetails').attr({"data-toggle":"modal" ,"data-target":".addDepartmentModal"})
+            $('#add_designationDetails').attr({"data-toggle":"modal" ,"data-target":".addDesignationModal"})
+            $('#add_responsibilityDetails').attr({"data-toggle":"modal" ,"data-target":".addResponsibilityModal"});
+
+            var branchId = $('#company_nameEdit').val();
+            //get department data based on company details for datatables
+            $("#departmentTable").remove();
+            resetdepartmentTable(branchId);
+            
+            //get designation data based on company details for datatables
+            $("#designationTable").remove();
+            resetdesignationTable(branchId);
+
+            //get Responsibility data based on company details for datatables
+            $("#responsibilityTable").remove();
+            resetResponsibilityTable(branchId);
+        }
+
         $('#departmentTable').DataTable({
             'iDisplayLength': 5,
             "language": {

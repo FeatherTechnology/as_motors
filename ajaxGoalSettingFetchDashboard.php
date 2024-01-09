@@ -5,6 +5,9 @@ include('ajaxconfig.php');
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 if(isset($_SESSION["staffid"])){
     $staffid = $_SESSION["staffid"];
 
@@ -25,7 +28,7 @@ $query = "SELECT  gs.goal_setting_id,gs.company_name,c.company_name,bc.branch_na
 LEFT JOIN company_creation c ON c.company_id=gs.company_name 
 LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
 LEFT JOIN department_creation dc ON dc.department_id=gs.department
-WHERE ( gs.created_date >= CURDATE() - INTERVAL 30 DAY ) AND ";
+WHERE ( gs.created_date >= '$curdate' - INTERVAL 30 DAY ) AND ";
 
 if ($staffid != 'Overall'){
     $query .= "gs.department = '$user_dept_id' ";
@@ -87,10 +90,26 @@ foreach ($result as $row) {
     $sub_array[] = $row['company_name'];
     $sub_array[] = $row['branch_name'];
     $sub_array[] = $row['department_name'];
+    
+    $goalsettingstaffQry = $connect->query("SELECT staffname FROM `goal_setting_ref` WHERE `goal_setting_id` = '".$row['goal_setting_id']."' group by assertion_table_sno");
+    $staffIds = array();
+    while($gsrInfo = $goalsettingstaffQry->fetch()){
+    $staffIds[] = $gsrInfo['staffname'];
+    }
+    // Convert the array to a comma-separated string
+    $staffIdsString = implode(',', $staffIds);
+
+    $staffDetailsQry = $connect->query("SELECT sc.staff_name, dc.designation_name  FROM staff_creation sc JOIN designation_creation dc ON sc.designation = dc.designation_id WHERE FIND_IN_SET(`staff_id`, '$staffIdsString') ");
+    $staffname = '';
+    while($staffInfo = $staffDetailsQry->fetch()){
+        $staffname .= $staffInfo['staff_name'].', ';
+    }
+
+    $sub_array[] = $staffname;
+
     $status    = $row['status'];
     
     
-   
     if($status == 1)
 	{
 	$sub_array[] = "<span style='width: 144px;'><span class='kt-badge  kt-badge--danger kt-badge--inline kt-badge--pill'>Inactive</span></span>";

@@ -1,5 +1,9 @@
 <?php
 include('ajaxconfig.php');
+@session_start();
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 
 $column = array(
 
@@ -8,7 +12,7 @@ $column = array(
     'leave_date'
 );
 
-$query = "SELECT b.staff_name as leavePerson ,c.staff_name as responsiblePerson, a.permission_date, a.leave_date, a.reason FROM permission_or_on_duty a LEFT JOIN staff_creation b ON a.staff_id = b.staff_id LEFT JOIN staff_creation c ON a.responsible_staff = c.staff_id WHERE a.leave_status = '1' AND (CURDATE() <= a.leave_date || CURDATE() <= a.permission_date) ";
+$query = "SELECT b.staff_name as leavePerson ,c.staff_name as responsiblePerson, a.permission_date, a.leave_date, a.reason FROM permission_or_on_duty a LEFT JOIN staff_creation b ON a.staff_id = b.staff_id LEFT JOIN staff_creation c ON a.responsible_staff = c.staff_id WHERE a.leave_status = '1' AND ('$curdate' <= a.leave_date || '$curdate' <= a.permission_date) ";
 
 
 if (isset($_POST['order'])) {

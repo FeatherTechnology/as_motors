@@ -77,6 +77,7 @@ for($j=0;$j<count($CompanyroleDetail);$j++) {
 								<th>Company Name</th>
 								<th>Branch Name</th>
 								<th>Department Name</th>
+								<th>Staff Name</th>
 								<th>Status</th>
 								<th colspan="1">Action</th>
 							</tr>
