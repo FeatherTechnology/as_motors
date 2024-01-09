@@ -66,6 +66,7 @@ function staffNameListBasedOnDepartment(){
 
                 var staff_id = response['staff_id'][r];  
                 var staff_name = response['staff_name'][r]; 
+                var designation_name = response['designation_name'][r]; 
 
                 var selected = '';
                 if(editstaffname != ''){
@@ -80,7 +81,7 @@ function staffNameListBasedOnDepartment(){
                 var items = [
                     {
                         value: staff_id,
-                        label: staff_name,
+                        label: staff_name + ' - (' + designation_name + ')',
                         selected: selected,
                     }
                 ];

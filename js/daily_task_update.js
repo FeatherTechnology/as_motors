@@ -77,7 +77,7 @@ $.ajax({
         if(staffid == response['staff_id'][r]){
             selected ='selected';
         }
-        $('#employee').append("<option value='" + response['staff_id'][r] + "'"+selected+" data-value='"+ response['designation'][r] +"'>" + response['staff_name'][r] + "</option>");
+        $('#employee').append("<option value='" + response['staff_id'][r] + "'"+selected+" data-value='"+ response['designation'][r] +"'>" + response['staff_name'][r] +' - (' + response['designationName'][r] +')'+ "</option>");
     }
     }
 });
