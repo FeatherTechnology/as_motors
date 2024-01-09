@@ -155,7 +155,8 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Company Name</label>
-                                                <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
+                                                <input type="hidden" name="companyid" id="companyid" >
+                                                <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control managerlogindisabled" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Company Name</option>
                                                 </select>
                                             </div>
@@ -164,7 +165,8 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Branch Name</label>
-                                                <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
+                                                <input type="hidden" name="branchid" id="branchid" >
+                                                <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control managerlogindisabled" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Branch Name</option>
                                                 </select>
                                             </div>
@@ -173,7 +175,8 @@ table {
                                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="inputReadOnly">Department</label>
-                                                <select type="text" tabindex="3" name="dept" id="dept" class="form-control" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
+                                                <input type="hidden" name="deptid" id="deptid" >
+                                                <select type="text" tabindex="3" name="dept" id="dept" class="form-control managerlogindisabled" <?php echo $idupd > 0 ? 'disabled' : ''; ?>>
                                                     <option value=''>Select Department Name</option>
                                                 </select>
                                             </div>

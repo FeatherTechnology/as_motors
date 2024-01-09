@@ -229,8 +229,7 @@ $sno = 1;
         while($staffList = $getStaff->fetch_assoc()){
             $assign .= $staffList['staff_name'].', ';
         }
-    } 
-    else { //we using 9 database table to get record and show in one html table, in project we assign task against designation but todo_creation, campaign_ref, FC INSURANCE RENEW are against staff so splited by condition and based on it show designation and staff name.
+    }else{ //we using 9 database table to get record and show in one html table, in project we assign task against designation but todo_creation, campaign_ref, FC INSURANCE RENEW are against staff so splited by condition and based on it show designation and staff name.
         $getDesignation = $mysqli->query("SELECT designation_name FROM designation_creation where designation_id = '".$desgn_id."' ");
         $designationList = $getDesignation->fetch_assoc();
         $assign = $designationList['designation_name'];

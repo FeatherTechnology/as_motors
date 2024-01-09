@@ -2830,7 +2830,7 @@ if($current_page == 'transfer_location') { ?>
 	<?php }
 
 if($current_page == 'edit_transfer_location') { ?>
-	<script src="js/transfer_location.js"></script>
+	<script src="js/edit_transfer_location.js"></script>
 	<?php }
 
 if($current_page == 'pm_checklist') { ?>

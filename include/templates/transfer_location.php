@@ -1,8 +1,15 @@
 <?php 
+include "ajaxconfig.php";
 @session_start();
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 } 
+if(isset($_SESSION['staffid'])){
+    $userstaffid = $_SESSION['staffid'];
+    $staffQry = $con->query("select department from staff_creation where staff_id = '$userstaffid' ");
+    $staffDetails = $staffQry->fetch_assoc();
+    $userdeptid = $staffDetails['department'];
+}
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
     $sCompanyBranchDetail = $userObj->getCompanyBranchDetail($mysqli, $sbranch_id);
@@ -76,10 +83,10 @@ if($idupd>0)
     $sCompanyBranchDetailEdit = $userObj->getsBranchBasedCompanyName($mysqli, $company_id);
     ?>
 
-    <input type="text" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
-    <input type="text" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
-    <input type="text" id="staffIdEdit" name="staffIdEdit" value="<?php print_r($staff_code); ?>" >
-    <input type="text" id="reasonEdit" name="reasonEdit" value="<?php if(isset($reason))print_r($reason); ?>" >
+    <input type="hidden" id="branchIdEdit" name="branchIdEdit" value="<?php print_r($company_id); ?>" >
+    <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department); ?>" >
+    <input type="hidden" id="staffIdEdit" name="staffIdEdit" value="<?php print_r($staff_code); ?>" >
+    <input type="hidden" id="reasonEdit" name="reasonEdit" value="<?php if(isset($reason))print_r($reason); ?>" >
 
     <script language='javascript'>
         window.onload=editPermissionOnDuty;
@@ -186,12 +193,13 @@ if($idupd>0)
 <!--------form start-->
     <form id = "permission_or_on_duty" name="permission_or_on_duty" action="" method="post" enctype="multipart/form-data"> 
     <input type="hidden" class="form-control" value="<?php if(isset($transfer_location_id)) echo $transfer_location_id ?>" id="id" name="id" aria-describedby="id" placeholder="Enter id">
-    <input type="hidden" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>" id="checkID" name="checkID" >
+    <input type="hidden" class="form-control" value="<?php if(isset($sbranch_id)) echo $sbranch_id; ?>" id="user_branch_id" name="user_branch_id" >
     <input type="hidden" class="form-control" value="<?php if(isset($to_company)) echo $to_company; ?>" id="to_company" name="to_company" >
     <input type="hidden" class="form-control" value="<?php if(isset($transfer_location)) echo $transfer_location; ?>" id="to_branch" name="to_branch" >
     <input type="hidden" class="form-control" value="<?php if(isset($to_department)) echo $to_department; ?>" id="to_dept" name="to_dept" >
     <input type="hidden" class="form-control" value="<?php if(isset($to_designation)) echo $to_designation; ?>" id="to_desgn" name="to_desgn" >
     <input type="hidden" class="form-control" value="<?php if(isset($krikpi)) echo $krikpi; ?>" id="krikpiEdit" name="krikpiEdit" >
+    <input type="hidden" class="form-control" value="<?php if(isset($userdeptid)) echo $userdeptid; ?>" id="userdeptid" name="userdeptid" >
  		<!-- Row start -->
          <div class="row gutters">
 
@@ -249,8 +257,9 @@ if($idupd>0)
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                             <div class="form-group">
                                                 <label for="disabledInput">Department</label>
+                                                <input type="hidden" id="departmentid" name="departmentid" >
                                                 <select tabindex="3" type="text" class="form-control" id="department" name="department" >
-                                                    <option value="">Select Department</option>   
+                                                    <option value="0">Select Department</option>   
                                                 </select>
                                             </div>
                                         </div>
@@ -356,7 +365,8 @@ if($idupd>0)
                                                 <input type="file" tabindex="8" class="form-control" id="file" name="file" ></input>
                                             <?php } else { ?>
                                                 <input type="file" tabindex="8" class="form-control" id="file" name="file" ></input>   
-                                                <input type="hidden" name="edit_file" id="edit_file" value="<?php echo $file; ?>" >
+                                                <input type="hidden" name="edit_file" id="edit_file" value="<?php if(isset($file))echo $file; ?>" >
+                                                <a href="uploads/transfer_location/<?php if(isset($file))echo $file; ?>" target='_blank'><?php if(isset($file))echo $file; ?></a>
                                             <?php } ?>     
                                         </div>
                                     </div>

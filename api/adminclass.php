@@ -6322,8 +6322,8 @@
 			if(isset($_POST['branch_id'])){
 				$company_id = $_POST['branch_id'];
 			}
-			if(isset($_POST['department'])){
-				$department_id = $_POST['department'];
+			if(isset($_POST['departmentid'])){
+				$department_id = $_POST['departmentid'];
 			}
 			if(isset($_POST['staff_code'])){
 				$staff_code = $_POST['staff_code'];
@@ -8990,14 +8990,14 @@
 			if(isset($_POST['goal_setting_id'])){
 				$goal_setting_id = $_POST['goal_setting_id'];
 			}
-			if(isset($_POST['company_name'])){
-				$company_name = $_POST['company_name'];
+			if(isset($_POST['companyid'])){
+				$company_name = $_POST['companyid'];
 			}
-			if(isset($_POST['branch_name'])){
-				$branch_name = $_POST['branch_name'];
+			if(isset($_POST['branchid'])){
+				$branch_name = $_POST['branchid'];
 			}
-			if(isset($_POST['dept'])){
-				$dept = $_POST['dept'];
+			if(isset($_POST['deptid'])){
+				$dept = $_POST['deptid'];
 			}
 			// if(isset($_POST['designation'])){
 			// 	$designation = $_POST['designation'];

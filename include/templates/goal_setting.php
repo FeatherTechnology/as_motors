@@ -139,7 +139,8 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="company_name">Company Name</label>
-                                 <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control">
+                                 <input type="hidden" name="companyid" id="companyid" >
+                                 <select type="text" tabindex="1" name="company_name" id="company_name" class="form-control managerlogindisable">
                                     <option value=''>Select Company Name</option>
                                  </select>
                               </div>
@@ -148,7 +149,8 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="branch_name">Branch Name</label>
-                                 <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control">
+                                 <input type="hidden" name="branchid" id="branchid" >
+                                 <select type="text" tabindex="2" name="branch_name" id="branch_name" class="form-control managerlogindisable">
                                     <option value=''>Select Branch Name</option>
                                  </select>
                               </div>
@@ -157,7 +159,8 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
                               <div class="form-group">
                                  <label for="dept">Department</label>
-                                 <select type="text" tabindex="3" name="dept" id="dept" class="form-control">
+                                 <input type="hidden" name="deptid" id="deptid" >
+                                 <select type="text" tabindex="3" name="dept" id="dept" class="form-control managerlogindisable">
                                     <option value=''>Select Department Name</option>
                                  </select>
                               </div>

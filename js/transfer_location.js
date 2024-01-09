@@ -30,80 +30,51 @@ $(document).ready(function () {
 
     // Get branch based on Department
     $("#branch_id").change(function(){
-        var branch_id = $("#branch_id").val(); //Branch id
-        if(branch_id.length==''){
+        var branchid = $("#branch_id").val(); //Branch id
+        if(branchid.length==''){
             $("#branch_id").val('');
         }else{
-            $.ajax({
-                url: 'StaffFile/ajaxStaffDepartmentDetails.php',
-                type: 'post',
-                data: { "company_id":branch_id },
-                dataType: 'json',
-                success:function(response){ 
-
-                    $('#department').empty();
-                    $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
-                    var r = 0;
-                    for (r = 0; r <= response.department_id.length - 1; r++) { 
-                    $('#department').append("<option value='" + response['department_id'][r] + "'>" + response['department_name'][r] + "</option>");
-                    }
-                }
-            });
-
+            getDepartmentList(branchid);
             // getTransferLocation(branch_id);
         }
     });
 
     // Get Department based on designation
-$("#department").change(function(){ 
+// $("#department").change(function(){ 
 
-    var company_id = $("#branch_id").val();
-    var department_id = $("#department").val();
-    if(department_id.length==''){ 
-        $("#department").val('');
-    }else{
-        $.ajax({
-            url: 'StaffFile/ajaxStaffDesignationDetails.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
-            dataType: 'json',
-            success:function(response){
+//     var company_id = $("#branch_id").val();
+//     var department_id = $("#department").val();
+//     if(department_id.length==''){ 
+//         $("#department").val('');
+//     }else{
+//         $.ajax({
+//             url: 'StaffFile/ajaxStaffDesignationDetails.php',
+//             type: 'post',
+//             data: { "company_id":company_id, "department_id":department_id },
+//             dataType: 'json',
+//             success:function(response){
             
-                $('#designation').empty();
-                $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
-                var i = 0;
-                for (i = 0; i <= response.designation_id.length - 1; i++) { 
-                    $('#designation').append("<option value='" + response['designation_id'][i] + "'>" + response['designation_name'][i] + "</option>");
-                }
-            }
-        });
-    }
-});
+//                 $('#designation').empty();
+//                 $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
+//                 var i = 0;
+//                 for (i = 0; i <= response.designation_id.length - 1; i++) { 
+//                     $('#designation').append("<option value='" + response['designation_id'][i] + "'>" + response['designation_name'][i] + "</option>");
+//                 }
+//             }
+//         });
+//     }
+// });
 
 // Get Department based reporting person
 $("#department").change(function(){ 
 
     var company_id = $("#branch_id").val();
     var department_id = $("#department").val();
-
+    $('#departmentid').val(department_id);
     if(department_id.length==''){ 
         $("#department").val('');
     }else{
-        $.ajax({
-            url: 'StaffFile/ajaxGetDeptBasedStaff.php',
-            type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
-            dataType: 'json',
-            success:function(response){
-                $('#staff_code').empty();
-                $('#staff_code').prepend("<option value=''>" + 'Select Staff Code' + "</option>");
-                var i = 0;
-                for (i = 0; i <= response.staff_id.length - 1; i++) { 
-                    $('#staff_code').append("<option value='" + response['staff_id'][i] + "'>" + response['emp_code'][i] + "</option>");
-                }
-
-            }
-        });
+        getStaffCodeList(company_id, department_id);
     }
 });
 
@@ -164,17 +135,15 @@ $('#to_company_id').change(function(){
  //To Department based on to_branch
 $('#to_branch_id').change(function(){
     var to_branch_id = Array.from($('#to_branch_id').val()); // we using common page to get branch based department so send data as in the page.
-    var branch_id = $('#branch_id :selected').val();
+    var branch_id = $('#branch_id').val();
     calltodeptList(to_branch_id, branch_id,'');
 })
 
  //To Designation based on to_department
 $('#to_department').change(function(){
-
     var to_department_id = $(this).val(); 
     calltoDesignationList(to_department_id,'','2');
-
-})
+});
 
 });
 
@@ -198,26 +167,32 @@ $(function(){
         var staffIdEdit = $("#staffIdEdit").val(); 
         var krikpiEdit = $("#krikpiEdit").val(); 
         callKraKpiList(staffIdEdit,krikpiEdit,'1')
+    }else{
+        var userBranchId = $('#user_branch_id').val();
+        var userDeptId = $('#userdeptid').val();
+        if(userBranchId != 'Overall' && userBranchId != ''){
+            getDepartmentList(userBranchId); //Department List
+            calltocompanylist(); //To Company List
+            getStaffCodeList(userBranchId, userDeptId);
+            $('#department').attr('disabled', true);
+            //getTransferLocation(userBranchId);
+        }
     }
     
-    var checkID = $('#checkID').val();
-    if(checkID != 'Overall' && checkID != ''){
-        // getTransferLocation(checkID);
-    }
 })
 
-// print functionality
-function print_transfer_location(id){
-    $.ajax({
-        url: 'transferLocationFile/printTransferLocation.php',
-        cache: false,
-        type: 'POST',
-        data: { 'id':id },
-        success: function(html){
-            $("#printTransferLocation").html(html);
-        }
-    });
-}
+// // print functionality
+// function print_transfer_location(id){
+//     $.ajax({
+//         url: 'transferLocationFile/printTransferLocation.php',
+//         cache: false,
+//         type: 'POST',
+//         data: { 'id':id },
+//         success: function(html){
+//             $("#printTransferLocation").html(html);
+//         }
+//     });
+// }
 
 //Get Transfer Location Based on Branch , Except Selected branch has to show in list.
 // function getTransferLocation(branch_id){
@@ -358,6 +333,48 @@ function callKraKpiList(staffcode,krakpiid,editInsert){
                 }
                 $('#krikpi').append("<option value='" + response[r]['krakpi_id'] + "'"+selected+">" + response[r]['designation_name'] + "</option>");
             }
+        }
+    });
+}
+
+function getDepartmentList(branchID){
+    var userdeptid = $('#userdeptid').val();
+    $.ajax({
+        url: 'StaffFile/ajaxStaffDepartmentDetails.php',
+        type: 'post',
+        data: { "company_id":branchID },
+        dataType: 'json',
+        success:function(response){ 
+
+            $('#department').empty();
+            $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
+            var r = 0;
+            for (r = 0; r <= response.department_id.length - 1; r++) { 
+                var selected = ''
+                if(userdeptid == response['department_id'][r] ){
+                    selected = 'selected';
+                    $('#departmentid').val(response['department_id'][r]);
+                }
+            $('#department').append("<option value='" + response['department_id'][r] + "'"+selected+">" + response['department_name'][r] + "</option>");
+            }
+        }
+    });
+}
+
+function getStaffCodeList(company_id, department_id){
+    $.ajax({
+        url: 'StaffFile/ajaxGetDeptBasedStaff.php',
+        type: 'post',
+        data: { "company_id":company_id, "department_id":department_id },
+        dataType: 'json',
+        success:function(response){
+            $('#staff_code').empty();
+            $('#staff_code').prepend("<option value=''>" + 'Select Staff Code' + "</option>");
+            var i = 0;
+            for (i = 0; i <= response.staff_id.length - 1; i++) { 
+                $('#staff_code').append("<option value='" + response['staff_id'][i] + "'>" + response['emp_code'][i] + "</option>");
+            }
+
         }
     });
 }

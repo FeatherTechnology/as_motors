@@ -60,19 +60,22 @@ $(document).on("click", '#delete_row', function () {
 
 $('#company_name').change(function(){ // To Get Branch Name based on company//
     var company_id = $('#company_name').val(); 
+    $('#companyid').val(company_id);
     var userbranch = '';
     getBranchList(company_id, userbranch);
 });
 
 $('#branch_name').change(function(){ // To get Department Name.
     var branchid = $('#branch_name').val();
+    $('#branchid').val(branchid);
     var dept_id = '';
     getDepartmentList(branchid, dept_id);
 })
 
 $('#dept').change(function() { 
     var department_id =$('#dept').val();
-    var designation_id ='';
+    $('#deptid').val(department_id);
+    // var designation_id ='';
     // getDesignationList(department_id,designation_id);
     staffNameListBasedOnDept(department_id,staffname);
 });
@@ -128,6 +131,11 @@ $(function(){
         $('#submit_goal_settings').hide();
     }
 
+    if(userRole != '1'){
+        $('.managerlogindisable').attr('disabled', true);
+    }
+
+
 })
 
 
@@ -150,6 +158,7 @@ $.ajax({
             var selected ='';
             if(comid == companyid){
                 selected = 'selected';
+                $('#companyid').val(companyid);
             }
 
             $('#company_name').append("<option value='"+companyid+"'"+selected+">"+companyname+"</option>");
@@ -183,6 +192,7 @@ function getBranchList(company_id, userbranch){
                 var selected = '';
                 if(userbranch == branchid){
                     selected ='selected' ;
+                    $('#branchid').val(branchid);
                 }
                 $('#branch_name').append("<option value='"+branchid+"'"+selected+">"+branchname+"</option>");
             }
@@ -211,6 +221,7 @@ function getDepartmentList(branchid, dept_id){
                 var selected = '';
                 if(dept_id == data[a]['department_id']){
                     selected = 'selected';
+                    $('#deptid').val(data[a]['department_id']);
                 }
                 $('#dept').append("<option value='"+data[a]['department_id']+"'"+selected+">"+data[a]['department_name']+"</option>");
             }
