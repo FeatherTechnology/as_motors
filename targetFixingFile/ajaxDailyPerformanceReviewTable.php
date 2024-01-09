@@ -47,7 +47,7 @@ if ($mysqli->affected_rows>0)
         $target = intVal($target) + intVal($qryDetails->target);
         $actualAchieve = intVal($actualAchieve) + intVal($qryDetails->actual_achieve);
         $balance = $qryDetails->target - $qryDetails->actual_achieve;
-        $balancetodo = intVal($balancetodo) + intVal($balance);
+        $balancetodo = intVal($balancetodo) + intVal(($balance < 0) ? '0' : $balance);
         $average = intVal($average) + intVal($qryDetails->per_day_target);
 ?>
 
@@ -69,8 +69,8 @@ if ($mysqli->affected_rows>0)
             <input tabindex="11" type="number" class="form-control actual_achieve" id="actual_achieve" name="actual_achieve[]" value="<?php echo $qryDetails->actual_achieve; ?>" >
             </input> 
         </td>
-        <td >
-            <input tabindex="11" type="number" class="form-control balance_to_do" id="balance_to_do" name="balance_to_do[]" value="<?php echo $qryDetails->target - $qryDetails->actual_achieve; ?>" readonly>
+        <td>
+            <input tabindex="11" type="number" class="form-control balance_to_do" id="balance_to_do" name="balance_to_do[]" value="<?php echo ($balance < 0) ? '0' : $balance; ?>" readonly>
             </input> 
         </td>
         <td >

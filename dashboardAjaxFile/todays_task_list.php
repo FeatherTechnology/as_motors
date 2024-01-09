@@ -8,6 +8,9 @@ if(isset($_SESSION["userid"])){
 if(isset($_SESSION["branch_id"])){
     $sbranch_id = $_SESSION["branch_id"];
 }
+if(isset($_SESSION["curdateFromIndexPage"])){
+    $curdate = $_SESSION["curdateFromIndexPage"];
+}
 if(isset($_SESSION["designation_id"])){
     $designation = $_SESSION["designation_id"];
 }else{
@@ -57,7 +60,7 @@ $worksts = array();
 
 $rr = array();
 $kpi = array();
-$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0  AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2) AND ( CURDATE() >= DATE(kcm.from_date) AND CURDATE() <= DATE(kcm.to_date) )");
+$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0  AND kc.designation = '".$designation."' AND kcm.work_status IN (0, 1, 2) AND ( '$curdate' >= DATE(kcm.from_date) AND '$curdate' <= DATE(kcm.to_date) )");
 while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
@@ -77,7 +80,7 @@ $qry = "SELECT 'KRA & KPI' as work_id, kcm.krakpi_calendar_map_id as id, kcm.wor
         WHERE kc.status = 0 
         AND kc.designation = '".$designation."' 
         AND kcm.work_status IN (0, 1, 2) 
-        AND (CURDATE() >= DATE(kcm.from_date) AND CURDATE() <= DATE(kcm.to_date))";
+        AND ('$curdate' >= DATE(kcm.from_date) AND '$curdate' <= DATE(kcm.to_date))";
 
 $krakpiInfo = $connect->query($qry);
 if($krakpiInfo){
@@ -91,7 +94,7 @@ while ($krakpitask = $krakpiInfo->fetch()) {
 }
 
 $auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_status as sts, ac.audit_area  as title
-FROM audit_area_creation_ref acr LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id WHERE ac.status = 0 AND acr.work_status IN (0, 1, 2) AND (ac.role1 = '".$designation."' OR ac.role2 = '".$designation."') AND ( CURDATE() >= DATE(acr.from_date) AND CURDATE() <= DATE(acr.to_date) )";
+FROM audit_area_creation_ref acr LEFT JOIN audit_area_creation ac ON acr.audit_area_id = ac.audit_area_id WHERE ac.status = 0 AND acr.work_status IN (0, 1, 2) AND (ac.role1 = '".$designation."' OR ac.role2 = '".$designation."') AND ( '$curdate' >= DATE(acr.from_date) AND '$curdate' <= DATE(acr.to_date) )";
 $auditInfo = $connect->query($auditTaskInfo);
 if($auditInfo){
     
@@ -104,7 +107,7 @@ while ($audittask = $auditInfo->fetch()) {
 }            
 
 $maintanceTaskInfo = "SELECT 'MAINTENANCE '  as work_id, pcr.pm_checklist_ref_id as id, pcr.work_status as sts, pcr.checklist as title
-FROM pm_checklist_ref pcr LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id WHERE mc.status = 0 AND pcr.work_status IN (0, 1, 2) AND (mc.role1 = '".$designation."' OR mc.role2 = '".$designation."') AND ( CURDATE() >= DATE(pcr.from_date) AND CURDATE() <= DATE(pcr.to_date) )";
+FROM pm_checklist_ref pcr LEFT JOIN maintenance_checklist mc ON pcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN pm_checklist_multiple pcm ON pcr.pm_checklist_id = pcm.id LEFT JOIN pm_checklist pc ON pcm.pm_checklist_id = pc.pm_checklist_id WHERE mc.status = 0 AND pcr.work_status IN (0, 1, 2) AND (mc.role1 = '".$designation."' OR mc.role2 = '".$designation."') AND ( '$curdate' >= DATE(pcr.from_date) AND '$curdate' <= DATE(pcr.to_date) )";
 $maintanceInfo = $connect->query($maintanceTaskInfo);
 if($maintanceInfo){
 while ($maintancetask = $maintanceInfo->fetch()) { 
@@ -116,7 +119,7 @@ while ($maintancetask = $maintanceInfo->fetch()) {
 } 
 
 $bmTaskInfo = "SELECT 'BM ' as work_id, bcr.bm_checklist_ref_id as id, bcr.work_status as sts, bcr.checklist as title 
-FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND bcr.work_status IN (0, 1, 2) AND (mc.role1 = '".$designation."' OR mc.role2 = '".$designation."') AND ( CURDATE() >= DATE(bcr.from_date) AND CURDATE() <= DATE(bcr.to_date) )";
+FROM bm_checklist_ref bcr LEFT JOIN maintenance_checklist mc ON bcr.maintenance_checklist_id = mc.maintenance_checklist_id LEFT JOIN bm_checklist_multiple bcm ON bcr.bm_checklist_id = bcm.id LEFT JOIN bm_checklist bc ON bcm.bm_checklist_id = bc.bm_checklist_id  WHERE mc.status = 0 AND bcr.work_status IN (0, 1, 2) AND (mc.role1 = '".$designation."' OR mc.role2 = '".$designation."') AND ( '$curdate' >= DATE(bcr.from_date) AND '$curdate' <= DATE(bcr.to_date) )";
 $bmInfo = $connect->query($bmTaskInfo);
 if($bmInfo){
 while ($bmtask = $bmInfo->fetch()) { 
@@ -128,7 +131,7 @@ while ($bmtask = $bmInfo->fetch()) {
 }
 
 // get campaign ref list
-$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts FROM campaign_ref cf LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id WHERE c.status = 0 AND cf.work_status IN (0, 1, 2) AND FIND_IN_SET('$staffid', employee_name) > 0 AND ( CURDATE() >= DATE(cf.start_date) AND CURDATE() <= DATE(cf.end_date) )";
+$campaignTaskInfo = "SELECT 'CAMPAIGN ' as work_id,cf.campaign_ref_id as id, cf.activity_involved as title,cf.work_status as sts FROM campaign_ref cf LEFT JOIN campaign c ON cf.campaign_id = c.campaign_id WHERE c.status = 0 AND cf.work_status IN (0, 1, 2) AND FIND_IN_SET('$staffid', employee_name) > 0 AND ( '$curdate' >= DATE(cf.start_date) AND '$curdate' <= DATE(cf.end_date) )";
 $campaignInfo = $con->query($campaignTaskInfo);
 if($campaignInfo){
 while($campaigntask = $campaignInfo->fetch_assoc())
@@ -141,7 +144,7 @@ while($campaigntask = $campaignInfo->fetch_assoc())
 }
 
 // get assign work list and to_date > '".$today."'
-$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title FROM assign_work_ref WHERE status = 0 AND work_status IN (0, 1, 2) AND designation_id = '".$designation."' AND ( CURDATE() >= DATE(from_date) AND CURDATE() <= DATE(to_date) ) "; 
+$assignedTaskInfo = "SELECT 'ASSIGNED WORK ' as work_id, ref_id as id, work_status as sts, work_des_text as title FROM assign_work_ref WHERE status = 0 AND work_status IN (0, 1, 2) AND designation_id = '".$designation."' AND ( '$curdate' >= DATE(from_date) AND '$curdate' <= DATE(to_date) ) "; 
 $assignInfo = $con->query($assignedTaskInfo);
 if($assignInfo){
 while($assignTask = $assignInfo->fetch_assoc())

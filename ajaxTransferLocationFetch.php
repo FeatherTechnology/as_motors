@@ -139,7 +139,7 @@ foreach ($result as $row) {
     $sub_array[] = $row['dot'];   
     $sub_array[] = $transfer_company_name.' - '.$transfer_branch_name;
     $sub_array[] = $row['transfer_effective_from'];
-    $sub_array[] = $row['file'];
+    $sub_array[] = "<a href='uploads/transfer_location/".$row['file']."' target='_blank'>".$row['file']."</a>";
 
     $status      = $row['status'];
     if($status == 1)

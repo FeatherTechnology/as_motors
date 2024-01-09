@@ -96,7 +96,7 @@ if(isset($_POST['submit_daily_task_update']) && $_POST['submit_daily_task_update
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="current_date">Date</label>
-                                            <input type="date" tabindex="9" name="current_date" id="current_date" class="form-control" value="<?php echo Date('Y-m-d'); ?>" readonly>
+                                            <input type="date" tabindex="9" name="current_date" id="current_date" class="form-control" value="<?php if(isset($curdate)) echo $curdate; ?>" readonly>
                                         </div>
                                     </div>
 

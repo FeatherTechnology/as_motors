@@ -33,7 +33,7 @@ if( ($kt=array_search($v,$designation_id))!==false and $k!=$kt )
 sort($designation_id); // After unset a array the key will be miss so have to sort the array for key arrange.
 
 $designation_name = array();
-for($i=0; $i <= count($designation_id); $i++){
+for($i=0; $i <= count($designation_id)-1; $i++){
     $desgnCreationQry=$con->query("SELECT * FROM designation_creation where designation_id='".$designation_id[$i]."' and status=0");
     if(mysqli_num_rows($desgnCreationQry) > 0 ){
         $row1 = $desgnCreationQry->fetch_assoc();
@@ -70,7 +70,7 @@ if( ($kt=array_search($v,$desgn_id))!==false and $k!=$kt )
 
 }
 sort($desgn_id); // After unset a array the key will be miss so have to sort the array for key arrange.
-
+array_push($desgn_id, '4'); //4 - is director designation id, giving here statically.
 for($i=0;$i<=sizeof($desgn_id)-1;$i++){
     $result1=$con->query("SELECT * FROM designation_creation where designation_id='".$desgn_id[$i]."' and status=0");
     if(mysqli_num_rows($result1) > 0 ){

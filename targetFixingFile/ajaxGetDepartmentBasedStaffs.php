@@ -37,7 +37,7 @@ while($row2=$getInstName->fetch_assoc()){
 $departmentDetails["staff_id"] = $staff_id;
 $departmentDetails["staff_name"] = $staff_name;
 $departmentDetails["emp_code"] = $emp_code;
-$departmentDetails["emp_cdesignation_nameode"] = $designation_name;
+$departmentDetails["designation_name"] = $designation_name;
     
 echo json_encode($departmentDetails);
 ?>
