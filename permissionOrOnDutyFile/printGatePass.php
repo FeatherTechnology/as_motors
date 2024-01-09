@@ -24,7 +24,7 @@ elseif($row->leave_status == 2)
 
 if($row->reason == 'Leave')
 {
-    $regularisation_date = date('d-m-Y', strtotime($row->leave_date));
+    $regularisation_date = date('d-m-Y', strtotime($row->leave_date)).' - '.date('d-m-Y', strtotime($row->leave_to_date));
 }
 elseif($row->reason == 'Permission')
 {
