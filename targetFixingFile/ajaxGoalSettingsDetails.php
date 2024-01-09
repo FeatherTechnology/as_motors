@@ -9,7 +9,7 @@ if(isset($_POST['department_id'])){
 }
 
 
-$goalSettingsDetails = $mysqli->query("SELECT * FROM goal_setting_ref where goal_setting_id = '$goal_setting_ref' group by assertion order by assertion_table_sno asc") or die("Error in Get All Records".$mysqli->error);
+$goalSettingsDetails = $mysqli->query("SELECT * FROM goal_setting_ref where goal_setting_id = '$goal_setting_ref' group by assertion_table_sno order by assertion_table_sno asc") or die("Error in Get All Records".$mysqli->error);
 
 if ($mysqli->affected_rows>0)
 {
