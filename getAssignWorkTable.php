@@ -4,8 +4,8 @@ include('ajaxconfig.php');
 date_default_timezone_set('Asia/Calcutta');
 $current_date = date('m');
 
-if(isset($_SESSION["staffid"])){
-    $staff_id = $_SESSION["staffid"];
+if(isset($_POST["staffid"])){
+    $staff_id = $_POST["staffid"];
 }else{
     $staff_id = 0;
 }

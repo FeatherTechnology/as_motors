@@ -9,17 +9,18 @@ if(isset($_POST['department_id'])){
 }
 
 
-$goalSettingsDetails = $mysqli->query("SELECT * FROM goal_setting_ref where goal_setting_id = '$goal_setting_ref' group by assertion_table_sno order by assertion_table_sno asc") or die("Error in Get All Records".$mysqli->error);
+$goalSettingsDetails = $mysqli->query("SELECT gsr.* FROM goal_setting_ref gsr where gsr.goal_setting_id = '$goal_setting_ref' group by gsr.assertion_table_sno order by gsr.assertion_table_sno asc") or die("Error in Get All Records".$mysqli->error);
 
 if ($mysqli->affected_rows>0)
 {
     $i=0;
     while($goalInfo = $goalSettingsDetails->fetch_assoc()){
+        $selectBoxId = 'assertion'.$i;
 ?>
 
 <tr>
     <td>
-        <input tabindex="5" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]" value="<?php echo $goalInfo['assertion']; ?>">  
+        <select tabindex="5" class="form-control assertion_names" id="assertion<?php echo $i;?>" name="assertion[]"><option value=''>Select Assertion</option></select> 
         <input type="hidden" class="form-control" id="iid" name="iid[]" value="<?php echo $goalInfo['goal_setting_ref_id']; ?>">
         <input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="<?php echo $goalInfo['assertion_table_sno']; ?>">
     </td>
@@ -42,6 +43,8 @@ if ($mysqli->affected_rows>0)
 </tr>
 
 <script>
+    DropDownAssertion(<?php echo $selectBoxId; ?>,'<?php echo $goalInfo['assertion'];?>');
+
     const staffname = new Choices('#staff_name<?php echo $i; ?>', {
 	removeItemButton: true,
     allowHTML: true, // Set allowHTML to true
