@@ -173,12 +173,18 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                               </div>
                            </div>
 
+                           <div class="col-xl-1 col-lg-1 col-md-6 col-sm-6 col-12">
+                              <div class="form-group">
+                                 <label>Add Assertion</label>
+                                 <button type="button" tabindex="5" class="btn btn-primary" id="add_responsibilityDetails" name="add_responsibilityDetails"  style="padding: 5px 35px;" data-toggle="modal" data-target=".addAssertionModal"><span class="icon-add"></span></button>
+                              </div>
+                           </div>
+
                            <div class="col-md-12" id="tables">
                               <table id="moduleTable" class="table custom-table">
                                  <thead>
                                     <tr>
-
-                                       <th>Assertion</th>
+                                       <th width='25%'>Assertion</th>
                                        <th>Target</th>
                                        <th>Month</th>
                                        <th>Type</th>
@@ -189,7 +195,9 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                                     <tbody id='goalsettingInfo'>  
                                        <tr>
                                           <td>
-                                             <input tabindex="5" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"></input>
+                                             <select tabindex="5" class="form-control assertion_names" id="assertion0" name="assertion[]">
+                                                <option value=''>Select Assertion </option>
+                                             </select>
                                              <input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="<?php echo $sno; ?>">
                                           </td>
                                           <td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td>
@@ -213,13 +221,14 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                         </div>
                      </div>
                   </div>
+                  <div class="col-md-12">
+                     <br><br>
+                     <div class="text-right">
+                        <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="12">Submit</button>
+                     </div>
+                  </div>
                </div>
-            </div>
-            <div class="col-md-12">
-               <br><br>
-               <div class="text-right">
-                  <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="12">Submit</button>
-               </div>
+
             </div>
          </div>
       </div>
@@ -227,3 +236,70 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
 </div>
 </form>
 </div>
+
+   <!-- Add Assertion Modal -->
+   <div class="modal fade addAssertionModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                  <h5 class="modal-title" id="myLargeModalLabel">Add Assertion</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="DropDownAssertion('.assertion_names','')">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                  <!-- alert messages -->
+                  <div id="assertionInsertNotOk" class="unsuccessalert">Assertion Already Exists, Please Enter a Different Name!
+                  <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                  </div>
+
+                  <div id="assertionInsertOk" class="successalert">Assertion Added Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                  </div>
+
+                  <div id="assertionUpdateOk" class="successalert">Assertion Updated Succesfully!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                  </div>
+
+                  <div id="assertionDeleteNotOk" class="unsuccessalert">You Don't Have Rights To Delete This Assertion!
+                  <span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                  </div>
+
+                  <div id="assertionDeleteOk" class="successalert">Assertion Has been Inactivated!<span class="custclosebtn" onclick="this.parentElement.style.display='none';"><span class="icon-squared-cross"></span></span>
+                  </div>
+                  <br/>
+               <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"></div>
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                     <div class="form-group">
+                        <label class="label">Enter Assertion</label>
+                        <input type="hidden" name="assertion_id" id="assertion_id">
+                        <input type="text" name="assertion_name" id="assertion_name" class="form-control" placeholder="Enter Assertion">
+                        <span class="text-danger" id="assertionnameCheck" style="display: none;">Enter Assertion</span>
+                     </div>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-6 col-sm-4 col-12">
+                        <label class="label" style="visibility: hidden;">Assertion</label>
+                     <button type="button" tabindex="2" name="submitAssertionBtn" id="submitAssertionBtn" class="btn btn-primary">Submit</button>
+                  </div>
+               </div>
+               <div id="updatedAssertionTable"> 
+                  <table class="table custom-table" id="assertionTable"> 
+                     <thead>
+                        <tr>
+                              <th>S.No</th>
+                              <th>Assertion</th>
+                              <th>ACTION</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        
+                     </tbody>
+                     </table>
+               </div>
+            </div>
+            <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="DropDownAssertion('.assertion_names','')">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Add Assertion Modal END -->

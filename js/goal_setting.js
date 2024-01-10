@@ -27,8 +27,9 @@ $(document).on('click','#add_row',(function(){
 
     // Create a unique ID for the select element in the new row
     var selectId = 'staff_name' + totalRows;
+    var selectAssertion = 'assertion' + totalRows;
     
-    var appendTxt = '<tr><td><input tabindex="5" type="text" class="form-control" id="assertion" placeholder="Enter Assertion" name="assertion[]"></input><input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="'+lencnt+'"></td><td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td><td><input type="month" tabindex="7" class="form-control" id="goal_month" name="goal_month[]"></td><td><select tabindex="8" class="form-control" id="monthly_conversion" name="monthly_conversion[]"><option value="">Select Type</option><option value="0">Month</option><option value="1">Daily</option></select></td><td><select tabindex="9" class="form-control" id="'+selectId+'" name="staff_name'+totalRows+'[]" multiple><option value="">Select Staff Name</option></select></td><td><button type="button" tabindex="10" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td><td><span class="icon-trash-2" tabindex="11" id="delete_row"></span></td></tr>';
+    var appendTxt = '<tr><td><select tabindex="5" class="form-control assertion_names" id="'+selectAssertion+'" name="assertion[]"><option value="">Select Assertion </option></select><input type="hidden" class="form-control" id="rowcnt" name="rowcnt[]" value="'+lencnt+'"></td><td><input tabindex="6" type="number" class="form-control" id="target" name="target[]" placeholder="Enter Target"></td><td><input type="month" tabindex="7" class="form-control" id="goal_month" name="goal_month[]"></td><td><select tabindex="8" class="form-control" id="monthly_conversion" name="monthly_conversion[]"><option value="">Select Type</option><option value="0">Month</option><option value="1">Daily</option></select></td><td><select tabindex="9" class="form-control" id="'+selectId+'" name="staff_name'+totalRows+'[]" multiple><option value="">Select Staff Name</option></select></td><td><button type="button" tabindex="10" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td><td><span class="icon-trash-2" tabindex="11" id="delete_row"></span></td></tr>';
     $('#moduleTable').find('tbody').append(appendTxt);
 
     // Initialize Choices.js for the new multi-select dropdown
@@ -39,6 +40,8 @@ $(document).on('click','#add_row',(function(){
 
     var dept_id = $('#dept').val(); 
     staffNameListBasedOnDept(dept_id,newChoiceVarName)
+
+    DropDownAssertion('#'+selectAssertion,'');//Get Assertion dropdown for each row append//
 }));
 
 // Delete unwanted Rows
@@ -80,6 +83,113 @@ $('#dept').change(function() {
     staffNameListBasedOnDept(department_id,staffname);
 });
 
+//Modal Box for Assertion Name
+$('#add_responsibilityDetails').click(function(){
+    resetAssertionTable()
+});
+
+$('#submitAssertionBtn').click(function(){
+    var branch_id = $('#branch_name :selected').val();
+    var dept = $('#dept :selected').val();
+    var assertion_id=$("#assertion_id").val();
+    var assertion_name=$("#assertion_name").val();
+
+        if(assertion_name!=""){
+            $.ajax({
+                url: 'targetFixingFile/ajaxInsertAssertion.php',
+                type: 'POST',
+                data: {"assertion":assertion_name, "assertion_id":assertion_id, "branch_id": branch_id, "dept_id": dept},
+                cache: false,
+                success:function(response){
+                    var insresult = response.includes("Exists");
+                    var updresult = response.includes("Updated");
+                    if(insresult){
+                        $('#assertionInsertNotOk').show(); 
+                        setTimeout(function() {
+                            $('#assertionInsertNotOk').fadeOut('fast');
+                        }, 2000);
+                    }else if(updresult){
+                        $('#assertionUpdateOk').show();  
+                        setTimeout(function() {
+                            $('#assertionUpdateOk').fadeOut('fast');
+                        }, 2000);
+                        resetAssertionTable();
+                        $("#assertion_id").val('');
+                        $("#assertion_name").val('');
+                    }
+                    else{
+                        $('#assertionInsertOk').show();  
+                        setTimeout(function() {
+                            $('#assertionInsertOk').fadeOut('fast');
+                        }, 2000);
+                        resetAssertionTable();
+                        $("#assertion_id").val('');
+                        $("#assertion_name").val('');
+                    }
+                }
+            });
+        }
+        else{
+        $("#assertionnameCheck").show();
+        }
+    });
+
+    $("#assertion_name").keyup(function(){
+        var resval = $("#assertion_name").val();
+        if(resval.length == ''){
+        $("#assertionnameCheck").show();
+        return false;
+        }else{
+        $("#assertionnameCheck").hide();
+        }
+    });
+
+    $("body").on("click","#edit_assertion",function(){
+        var assertion_id = $(this).attr('value');
+        $("#assertion_id").val(assertion_id);
+        $.ajax({
+            url: 'targetFixingFile/ajaxEditAssertion.php',
+            type: 'POST',
+            data: {"assertion_id":assertion_id},
+            cache: false,
+            success:function(response){
+            $("#assertion_name").val(response);
+            }
+        });
+    });
+
+    $("body").on("click","#delete_assertion", function(){
+    var isok=confirm("Do you want Delete Assertion?");
+    if(isok==false){
+    return false;
+    }else{
+        var assertion_id=$(this).attr('value');
+        var c_obj = $(this).parents("tr");
+        $.ajax({
+            url: 'targetFixingFile/ajaxDeleteAssertion.php',
+            type: 'POST',
+            data: {"assertion_id":assertion_id},
+            cache: false,
+            success:function(response){
+                var delresult = response.includes("Rights");
+                if(delresult){
+                $('#assertionDeleteNotOk').show(); 
+                setTimeout(function() {
+                $('#assertionDeleteNotOk').fadeOut('fast');
+                }, 2000);
+                }
+                else{
+                c_obj.remove();
+                $('#assertionDeleteOk').show();  
+                setTimeout(function() {
+                $('#assertionDeleteOk').fadeOut('fast');
+                }, 2000);
+                }
+            }
+        });
+    }
+    });
+//Modal Box for Assertion Name END
 
 }); // Document END////
 
@@ -120,10 +230,16 @@ $(function(){
 
             var userComid = $('#user_company').val();
             getCompanyNameList(userComid); //Company List.
+            
+            setTimeout(() => {
+                DropDownAssertion('#assertion0','');//Get Assertion dropdown//
+            }, 1000);
+
         }else{
             var com = '';
             getCompanyNameList(com); //Company List.
         }
+
     }
 
     var userRole = $('#user_role').val();
@@ -304,3 +420,63 @@ function staffNameListBasedOnDept(department_id,multiSelectId){
         }
     });
 };
+
+//Assertion Modal START
+
+//reset Assertion modal table
+function resetAssertionTable(){
+    var dept_id = $('#dept').val();
+    $.ajax({
+        url: 'targetFixingFile/ajaxResetAssertionTable.php',
+        type: 'POST',
+        data: {"dept_id":dept_id},
+        cache: false,
+        success:function(html){
+            $("#updatedAssertionTable").empty();
+            $("#updatedAssertionTable").html(html);
+        }
+    });
+}
+
+function getSelectAssertion(){
+    var assertionValue = {};
+    $('.assertion_names').each(function(){
+        var id = $(this).attr('id');
+        var value = $(this).val();
+        assertionValue[id] = value;
+    })
+    return assertionValue;
+}
+
+function DropDownAssertion(id, editvalue){ // when onload & row append passing id, when modal close passing class.
+    var branch_id = $('#branch_id :selected').val();
+    var dept = $('#dept :selected').val();
+    var temporaryAssertion = getSelectAssertion(); //To store assertion value temporary.
+    
+    $.ajax({
+        url: 'targetFixingFile/ajaxGetAssertionDropDown.php',
+        type: 'post',
+        data: {'branch_id': branch_id, "dept": dept},
+        dataType: 'json',
+        success:function(response){
+            $(id).empty();            
+            $(id).append("<option value=''>Select Assertion</option>");
+            for(var a = 0; a < response.length; a++){
+                var selected = '';
+                if(editvalue.trim().toLowerCase() == response[a]['assertion'].trim().toLowerCase()){
+                    selected = 'selected';
+                }
+                $(id).append("<option value='"+response[a]['assertion']+"'"+selected+">"+response[a]['assertion']+"</option>");
+            }
+
+            if(editvalue ==''){ //in edit page value initially set so restrict this function, if this function run it affect edit option value.
+                $.each(temporaryAssertion, function(key, value) {
+                    $('#' + key).val(value);
+                });
+            }
+
+        }
+            
+    });     
+}
+//Assertion Modal END

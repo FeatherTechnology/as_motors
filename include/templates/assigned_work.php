@@ -1,10 +1,22 @@
 <?php
+include "ajaxconfig.php";
 @session_start();
 if(isset($_SESSION["userid"])){
     $userid = $_SESSION["userid"];
 } 
+if(isset($_SESSION["role"])){
+    $role = $_SESSION["role"];
+} 
 if(isset($_SESSION["staffid"])){
     $staff_id = $_SESSION["staffid"];
+        $staffQry = $con->query("select department from staff_creation where staff_id = '$staff_id' ");
+        if(mysqli_num_rows($staffQry)>0){
+            $staffDetails = $staffQry->fetch_assoc();
+            $userdeptid = $staffDetails['department'];
+        
+        }else{
+            $userdeptid = 0;
+        }
 }else{
     $staff_id = 0;
 }
@@ -69,11 +81,6 @@ body {
     <ol class="breadcrumb">
         <li class="breadcrumb-item">AS - Assigned Work </li>
     </ol>
-
-    <!-- <a href="edit_staff_creation">
-        <button type="button" class="btn btn-primary"><span class="icon-arrow-left"></span>&nbsp; Back</button>
-     <button type="button" class="btn btn-primary"><span class="icon-border_color"></span>&nbsp Edit Employee Master</button>
-    </a> -->
 </div>
 <!-- Page header end -->
 
@@ -81,21 +88,33 @@ body {
 <div class="main-container">
 <!--------form start-->
 <form id = "" name="" action="" method="post" enctype="multipart/form-data"> 
-<input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" aria-describedby="id" placeholder="Enter id">
- 		<!-- Row start -->
-         <div class="row gutters">
+<input type="hidden" class="form-control" value="<?php if(isset($staff_id)) echo $staff_id; ?>"  id="id" name="id" >
+<input type="hidden" class="form-control" value="<?php if(isset($userdeptid)) echo $userdeptid; ?>"  id="userdeptid" name="userdeptid" >
+<input type="hidden" class="form-control" value="<?php if(isset($role)) echo $role; ?>"  id="role" name="role" >
+        <!-- Row start -->
+        <div class="row gutters">
 
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
 					<div class="card-header">
 						<!-- <div class="card-title">General Info</div> -->
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-6 designationDiv" style="margin-left: 50px; display: none;">
+                                <div class="form-group" style="display: flex; justify-content: space-around; align-items: baseline;">
+                                    <label for="desgn" style="font-size: 16px !important;">Designation</label>
+                                    <select class="form-control" name="desgn" id="desgn" style="margin-left: 25px;">
+                                        <option value=''>Select Designation Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 					</div>
                     <div class="card-body">
 
-                    	 <div class="row">
+                        <div class="row">
                             <!--Fields -->
-                           <div class="col-md-12 "> 
-                              <div class="row">
+                        <div class="col-md-12 "> 
+                            <div class="row">
                                     <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-12">
                                         <div class="form-group">
                                             <div id='calendar' ></div>
@@ -138,10 +157,10 @@ body {
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
 
-             <!-- Add Work status Modal -->
-             <div class="modal fade workStatusModal" id="workStatusModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <!-- Add Work status Modal -->
+            <div class="modal fade workStatusModal" id="workStatusModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="background-color: white">
                         <div class="modal-header">
@@ -201,8 +220,8 @@ body {
                 </div>
             </div>
 
-             <!-- Add Work status Modal -->
-             <div class="modal fade workStatusModal1" id="workStatusModal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <!-- Add Work status Modal -->
+            <div class="modal fade workStatusModal1" id="workStatusModal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content" style="background-color: white">
                         <div class="modal-header">
