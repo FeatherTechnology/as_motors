@@ -81,6 +81,7 @@ $('#dept').change(function() {
     // var designation_id ='';
     // getDesignationList(department_id,designation_id);
     staffNameListBasedOnDept(department_id,staffname);
+    DropDownAssertion('#assertion0','');//Get Assertion dropdown//
 });
 
 //Modal Box for Assertion Name
