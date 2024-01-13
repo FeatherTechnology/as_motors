@@ -11366,17 +11366,17 @@ public function adddailyperformance($mysqli,$userid){
 		if(isset($_POST['idupd'])){
 			$idupd = $_POST['idupd'];
 		}
-		if(isset($_POST['company_name'])){
-			$company_id = $_POST['company_name'];
+		if(isset($_POST['companyid'])){
+			$company_id = $_POST['companyid'];
 		}
-		if(isset($_POST['branch_name'])){
-			$branch_id = $_POST['branch_name'];
+		if(isset($_POST['branchid'])){
+			$branch_id = $_POST['branchid'];
 		}
-		if(isset($_POST['dept'])){
-			$department_id = $_POST['dept'];
+		if(isset($_POST['deptid'])){
+			$department_id = $_POST['deptid'];
 		}
-		if(isset($_POST['designation'])){
-			$designation_id = $_POST['designation'];
+		if(isset($_POST['desgnid'])){
+			$designation_id = $_POST['desgnid'];
 		}
 		if(isset($_POST['staff_id'])){
 			$staff_id = $_POST['staff_id'];
@@ -11423,7 +11423,7 @@ public function adddailyperformance($mysqli,$userid){
 		if($idupd == '0'){
 
 			$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, branch_id, department_id, role_id, emp_id, month, insert_login_id, status)
-			VALUES (NULL, '$company_id', '$branch_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
+			VALUES (NULL, '$company_id', '$branch_id', '$department_id', '$designation_id', '$staffidedit','$nmonth','$userid', '0')";
 
 			$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
@@ -11431,7 +11431,7 @@ public function adddailyperformance($mysqli,$userid){
 			for($j=0; $j<=sizeof($assertion)-1; $j++){
 				if($actual_achieve[$j] != ''){
 				$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, actual_achieve, system_date, staff_id, goal_setting_id,goal_setting_ref_id, assertion_table_sno, status)
-				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".strip_tags($actual_achieve[$j])."', '".strip_tags($sdate[$j])."', '$staff_id', '".strip_tags($goal_setting_id[$j])."','".strip_tags($goal_setting_ref_id[$j])."', '".strip_tags($assertion_table_sno[$j])."', '".strip_tags($wstatus[$j])."')";
+				VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".strip_tags($actual_achieve[$j])."', '".strip_tags($sdate[$j])."', '$staffidedit', '".strip_tags($goal_setting_id[$j])."','".strip_tags($goal_setting_ref_id[$j])."', '".strip_tags($assertion_table_sno[$j])."', '".strip_tags($wstatus[$j])."')";
 				$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
 				$update_goal_ref = $mysqli->query("UPDATE `goal_setting_ref` SET `status`='$wstatus[$j]' WHERE `goal_setting_ref_id`='$goal_setting_ref_id[$j]' ") or die("Error ".$mysqli->error);

@@ -3,24 +3,28 @@ $(document).ready(function () {
 
     $('#company_name').change(function(){ // To Get Branch Name based on company//
         var company_id = $('#company_name').val(); 
+        $('#companyid').val(company_id);
         var userbranch = '';
         getBranchList(company_id, userbranch);
     });
     
     $('#branch_name').change(function(){ // To get Department Name.
         var branchid = $('#branch_name').val();
+        $('#branchid').val(branchid);
         var dept_id = '';
         getDepartmentList(branchid, dept_id);
     })
     
     $('#dept').change(function() { 
         var department_id =$('#dept').val();
+        $('#deptid').val(department_id);
         var designation_id ='';
         getDesignationList(department_id,designation_id);
     });
 
     $('#designation').change(function() { 
         var designation_id=$('#designation').val();
+        $('#desgnid').val(designation_id);
         var user_staff_id='';
         getEmpList(designation_id, user_staff_id);
     });
@@ -153,6 +157,11 @@ $(function(){
 
         if(role == 3){
             $('#execute').show();
+            $('.managerlogindisabled').attr('disabled',true);
+        }
+        if(role == 4){
+            $('.managerlogindisabled').attr('disabled',true);
+            $('.staffLoginDisabled').attr('disabled',true);
         }
     }
 
@@ -180,6 +189,7 @@ function getCompanyNameList(comid){
                 var selected ='';
                 if(comid == companyid){
                     selected = 'selected';
+                    $('#companyid').val(companyid);
                 }
     
                 $('#company_name').append("<option value='"+companyid+"'"+selected+">"+companyname+"</option>");
@@ -213,6 +223,7 @@ function getBranchList(company_id, userbranch){
                 var selected = '';
                 if(userbranch == branchid){
                     selected ='selected' ;
+                    $('#branchid').val(branchid);
                 }
                 $('#branch_name').append("<option value='"+branchid+"'"+selected+">"+branchname+"</option>");
             }
@@ -241,6 +252,7 @@ function getDepartmentList(branchid, dept_id){
                 var selected = '';
                 if(dept_id == data[a]['department_id']){
                     selected = 'selected';
+                    $('#deptid').val(data[a]['department_id']);
                 }
                 $('#dept').append("<option value='"+data[a]['department_id']+"'"+selected+">"+data[a]['department_name']+"</option>");
             }
@@ -266,6 +278,7 @@ function getDesignationList(department_id, role_id_up){
             var selected = "";
             if(role_id_up == response['designation_id'][i]){
                 selected = "selected";
+                $('#desgnid').val(response['designation_id'][i]);
             }
             $('#designation').append("<option value='" + response['designation_id'][i] + "' "+selected+" >" + response['designation_name'][i] + "</option>");
             }
@@ -288,6 +301,7 @@ function getEmpList(designation_id, staff_id){
             $('#staff_id').append(option);
             for(var a=0; a<=data.length-1; a++){
                 var  selected = 'selected';
+                $('#staffidedit').val(data[a]['staff_id']);
                 $('#staff_id').append("<option value='"+data[a]['staff_id']+"'"+selected+">"+data[a]['staff_name']+"</option>");
             }
             
