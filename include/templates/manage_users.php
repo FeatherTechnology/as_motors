@@ -680,7 +680,7 @@ if($idupd>0)
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" value="Yes" <?php if($idupd > 0){ if($daily_performance==0){echo'checked';}} ?> tabindex="40" class="custom-control-input targetfixing-checkbox" id="daily_performance" name="daily_performance" disabled>
-                                <label class="custom-control-label" for="daily_performance">Daily Performance</label>
+                                <label class="custom-control-label" for="daily_performance">Daily Performance Entry</label>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
