@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 08:29 AM
+-- Generation Time: Jan 13, 2024 at 08:41 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -148,6 +148,22 @@ CREATE TABLE `approval_requisition_parallel_agree_disagree` (
   `status` int(11) NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assertion_creation`
+--
+
+CREATE TABLE `assertion_creation` (
+  `assertion_id` int(11) NOT NULL,
+  `assertion` varchar(255) NOT NULL,
+  `branch_id` int(255) NOT NULL,
+  `dept_id` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0,
+  `created_date` date NOT NULL,
+  `updated_date` date DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1426,6 +1442,7 @@ CREATE TABLE `permission_or_on_duty` (
   `permission_date` varchar(255) DEFAULT NULL,
   `on_duty_place` varchar(255) DEFAULT NULL,
   `leave_date` varchar(255) DEFAULT NULL,
+  `leave_to_date` varchar(150) DEFAULT NULL,
   `leave_reason` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 0,
   `leave_status` int(11) NOT NULL DEFAULT 0 COMMENT '0=request 1=accepted 2=rejected',
@@ -2122,6 +2139,12 @@ ALTER TABLE `approval_requisition_parallel_agree_disagree`
   ADD PRIMARY KEY (`approval_requisition_agree_disagree_id`);
 
 --
+-- Indexes for table `assertion_creation`
+--
+ALTER TABLE `assertion_creation`
+  ADD PRIMARY KEY (`assertion_id`);
+
+--
 -- Indexes for table `asset_details`
 --
 ALTER TABLE `asset_details`
@@ -2676,6 +2699,12 @@ ALTER TABLE `approval_requisition`
 --
 ALTER TABLE `approval_requisition_parallel_agree_disagree`
   MODIFY `approval_requisition_agree_disagree_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `assertion_creation`
+--
+ALTER TABLE `assertion_creation`
+  MODIFY `assertion_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `asset_details`
