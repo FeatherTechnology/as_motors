@@ -155,52 +155,57 @@ if($idupd>0)
                                             <label for="disabledInput">City</label>
                                             <select id="city" name="city" class="form-control" tabindex = "7">
                                                 <option value="" disabled selected>Choose City</option>
-                                                <option <?php  if(isset($city)) { if($city == "Chennai" ) echo 'selected'; }?> 
-                                                value="Chennai" data-id="TamilNadu">Chennai</option>
-                                                <option <?php  if(isset($city)) { if($city == "Coimbatore" ) echo 'selected'; }?>
-                                                value="Coimbatore" data-id="TamilNadu">Coimbatore</option>
-                                                <option <?php  if(isset($city)) { if($city == "Madurai" ) echo 'selected'; }?>
-                                                value="Madurai" data-id="TamilNadu">Madurai</option>
-                                                <option <?php  if(isset($city)) { if($city == "Tiruchirappalli" ) echo 'selected'; }?>
-                                                value="Tiruchirappalli" data-id="TamilNadu">Tiruchirappalli</option>
-                                                <option <?php  if(isset($city)) { if($city == "Salem" ) echo 'selected'; }?>
-                                                value="Salem" data-id="TamilNadu">Salem</option>
-                                                <option <?php  if(isset($city)) { if($city == "Tiruppur" ) echo 'selected'; }?>
-                                                value="Tiruppur" data-id="TamilNadu">Tiruppur</option>
-                                                <option <?php  if(isset($city)) { if($city == "Tiruvannamalai" ) echo 'selected'; }?>
-                                                value="Tiruvannamalai" data-id="TamilNadu">Tiruvannamalai</option>
-                                                <option <?php  if(isset($city)) { if($city == "Cuddalore" ) echo 'selected'; }?>
-                                                value="Cuddalore" data-id="TamilNadu">Cuddalore</option>
-                                                <option <?php  if(isset($city)) { if($city == "Pudukkottai" ) echo 'selected'; }?>
-                                                value="Pudukkottai" data-id="TamilNadu"> Pudukkottai</option>
-                                                <option <?php  if(isset($city)) { if($city == "Vaniyambadi" ) echo 'selected'; }?>
-                                                value="Vaniyambadi" data-id="TamilNadu">Vaniyambadi</option>
-                                                <option <?php  if(isset($city)) { if($city == "Ambur" ) echo 'selected'; }?>
-                                                value="Ambur" data-id="TamilNadu">Ambur</option>
-                                                <option <?php  if(isset($city)) { if($city == "Nagapattinam" ) echo 'selected'; }?>
-                                                value="Nagapattinam" data-id="TamilNadu">Nagapattinam</option>
-                                                <option <?php  if(isset($city)) { if($city == "Karaikkudi" ) echo 'selected'; }?>
-                                                value="Karaikkudi" data-id="TamilNadu">Karaikkudi</option>
-                                                <option <?php  if(isset($city)) { if($city == "Kanchipuram" ) echo 'selected'; }?>
-                                                value="Kanchipuram" data-id="TamilNadu">Kanchipuram</option>
-                                                <option <?php  if(isset($city)) { if($city == "Sivakasi" ) echo 'selected'; }?>
-                                                value="Sivakasi" data-id="TamilNadu">Sivakasi</option>
-                                                <option <?php  if(isset($city)) { if($city == "Ariankuppam" ) echo 'selected'; }?>
-                                                value="Ariankuppam" data-id="Puducherry">Ariankuppam</option>
-                                                <option <?php  if(isset($city)) { if($city == "Kurumbapet" ) echo 'selected'; }?>
-                                                value="Kurumbapet" data-id="Puducherry">Kurumbapet</option>
-                                                <option <?php  if(isset($city)) { if($city == "Manavely" ) echo 'selected'; }?>
-                                                value="Manavely" data-id="Puducherry">Manavely</option>
-                                                <option <?php  if(isset($city)) { if($city == "Ozhukarai" ) echo 'selected'; }?>
-                                                value="Ozhukarai" data-id="Puducherry">Ozhukarai</option>
-                                                <option <?php  if(isset($city)) { if($city == "Villianur" ) echo 'selected'; }?>
-                                                value="Villianur" data-id="Puducherry">Villianur</option>
-                                                <option <?php  if(isset($city)) { if($city == "Karaikal" ) echo 'selected'; }?>
-                                                value="Karaikal" data-id="Puducherry">Karaikal</option>
-                                                <option <?php  if(isset($city)) { if($city == "Yanam" ) echo 'selected'; }?>
-                                                value="Yanam" data-id="Yanam">Yanam</option>
-                                                <option <?php  if(isset($city)) { if($city == "Mahé" ) echo 'selected'; }?>
-                                                value="Mahé" data-id="Mahé">Mahé</option>
+                                                <option <?php if(isset($city)) { if($city == "Ambur") echo 'selected'; }?> value="Ambur" data-id="TamilNadu">Ambur</option>
+                                                <option <?php if(isset($city)) { if($city == "Ariankuppam") echo 'selected'; }?> value="Ariankuppam" data-id="Puducherry">Ariankuppam</option>
+                                                <option <?php if(isset($city)) { if($city == "Ariyalur") echo 'selected'; }?> value="Ariyalur" data-id="TamilNadu">Ariyalur</option>
+                                                <option <?php if(isset($city)) { if($city == "Chengalpattu") echo 'selected'; }?> value="Chengalpattu" data-id="TamilNadu">Chengalpattu</option>
+                                                <option <?php if(isset($city)) { if($city == "Chennai") echo 'selected'; }?> value="Chennai" data-id="TamilNadu">Chennai</option>
+                                                <option <?php if(isset($city)) { if($city == "Coimbatore") echo 'selected'; }?> value="Coimbatore" data-id="TamilNadu">Coimbatore</option>
+                                                <option <?php if(isset($city)) { if($city == "Cuddalore") echo 'selected'; }?> value="Cuddalore" data-id="TamilNadu">Cuddalore</option>
+                                                <option <?php if(isset($city)) { if($city == "Dharmapuri") echo 'selected'; }?> value="Dharmapuri" data-id="TamilNadu">Dharmapuri</option>
+                                                <option <?php if(isset($city)) { if($city == "Dindigul") echo 'selected'; }?> value="Dindigul" data-id="TamilNadu">Dindigul</option>
+                                                <option <?php if(isset($city)) { if($city == "Erode") echo 'selected'; }?> value="Erode" data-id="TamilNadu">Erode</option>
+                                                <option <?php if(isset($city)) { if($city == "Kallakurichi") echo 'selected'; }?> value="Kallakurichi" data-id="TamilNadu">Kallakurichi</option>
+                                                <option <?php if(isset($city)) { if($city == "Kanchipuram") echo 'selected'; }?> value="Kanchipuram" data-id="TamilNadu">Kanchipuram</option>
+                                                <option <?php if(isset($city)) { if($city == "Kanniyakumari") echo 'selected'; }?> value="Kanniyakumari" data-id="TamilNadu">Kanniyakumari</option>
+                                                <option <?php if(isset($city)) { if($city == "Karaikal") echo 'selected'; }?> value="Karaikal" data-id="Puducherry">Karaikal</option>
+                                                <option <?php if(isset($city)) { if($city == "Karaikkudi") echo 'selected'; }?> value="Karaikkudi" data-id="TamilNadu">Karaikkudi</option>
+                                                <option <?php if(isset($city)) { if($city == "Karur") echo 'selected'; }?> value="Karur" data-id="TamilNadu">Karur</option>
+                                                <option <?php if(isset($city)) { if($city == "Kancheepuram") echo 'selected'; }?> value="Kancheepuram" data-id="TamilNadu">Kancheepuram</option>
+                                                <option <?php if(isset($city)) { if($city == "Kurumbapet") echo 'selected'; }?> value="Kurumbapet" data-id="Puducherry">Kurumbapet</option>
+                                                <option <?php if(isset($city)) { if($city == "Madurai") echo 'selected'; }?> value="Madurai" data-id="TamilNadu">Madurai</option>
+                                                <option <?php if(isset($city)) { if($city == "Mahé") echo 'selected'; }?> value="Mahé" data-id="Mahé">Mahé</option>
+                                                <option <?php if(isset($city)) { if($city == "Manavely") echo 'selected'; }?> value="Manavely" data-id="Puducherry">Manavely</option>
+                                                <option <?php if(isset($city)) { if($city == "Mayiladuthurai") echo 'selected'; }?> value="Mayiladuthurai" data-id="TamilNadu">Mayiladuthurai</option>
+                                                <option <?php if(isset($city)) { if($city == "Nagapattinam") echo 'selected'; }?> value="Nagapattinam" data-id="TamilNadu">Nagapattinam</option>
+                                                <option <?php if(isset($city)) { if($city == "Namakkal") echo 'selected'; }?> value="Namakkal" data-id="TamilNadu">Namakkal</option>
+                                                <option <?php if(isset($city)) { if($city == "Nilgiris") echo 'selected'; }?> value="Nilgiris" data-id="TamilNadu">Nilgiris</option>
+                                                <option <?php if(isset($city)) { if($city == "Ozhukarai") echo 'selected'; }?> value="Ozhukarai" data-id="Puducherry">Ozhukarai</option>
+                                                <option <?php if(isset($city)) { if($city == "Perambalur") echo 'selected'; }?> value="Perambalur" data-id="TamilNadu">Perambalur</option>
+                                                <option <?php if(isset($city)) { if($city == "Pudukkottai") echo 'selected'; }?> value="Pudukkottai" data-id="TamilNadu">Pudukkottai</option>
+                                                <option <?php if(isset($city)) { if($city == "Pudukottai") echo 'selected'; }?> value="Pudukottai" data-id="TamilNadu">Pudukottai</option>
+                                                <option <?php if(isset($city)) { if($city == "Ramanathapuram") echo 'selected'; }?> value="Ramanathapuram" data-id="TamilNadu">Ramanathapuram</option>
+                                                <option <?php if(isset($city)) { if($city == "Ranipet") echo 'selected'; }?> value="Ranipet" data-id="TamilNadu">Ranipet</option>
+                                                <option <?php if(isset($city)) { if($city == "Salem") echo 'selected'; }?> value="Salem" data-id="TamilNadu">Salem</option>
+                                                <option <?php if(isset($city)) { if($city == "Sivagangai") echo 'selected'; }?> value="Sivagangai" data-id="TamilNadu">Sivagangai</option>
+                                                <option <?php if(isset($city)) { if($city == "Sivakasi") echo 'selected'; }?> value="Sivakasi" data-id="TamilNadu">Sivakasi</option>
+                                                <option <?php if(isset($city)) { if($city == "Tenkasi") echo 'selected'; }?> value="Tenkasi" data-id="TamilNadu">Tenkasi</option>
+                                                <option <?php if(isset($city)) { if($city == "Thanjavur") echo 'selected'; }?> value="Thanjavur" data-id="TamilNadu">Thanjavur</option>
+                                                <option <?php if(isset($city)) { if($city == "Theni") echo 'selected'; }?> value="Theni" data-id="TamilNadu">Theni</option>
+                                                <option <?php if(isset($city)) { if($city == "Thirunelveli") echo 'selected'; }?> value="Thirunelveli" data-id="TamilNadu">Thirunelveli</option>
+                                                <option <?php if(isset($city)) { if($city == "Thiruvallur") echo 'selected'; }?> value="Thiruvallur" data-id="TamilNadu">Thiruvallur</option>
+                                                <option <?php if(isset($city)) { if($city == "Thiruvarur") echo 'selected'; }?> value="Thiruvarur" data-id="TamilNadu">Thiruvarur</option>
+                                                <option <?php if(isset($city)) { if($city == "Thoothukudi") echo 'selected'; }?> value="Thoothukudi" data-id="TamilNadu">Thoothukudi</option>
+                                                <option <?php if(isset($city)) { if($city == "Tiruchirappalli") echo 'selected'; }?> value="Tiruchirappalli" data-id="TamilNadu">Tiruchirappalli</option>
+                                                <option <?php if(isset($city)) { if($city == "Tirupathur") echo 'selected'; }?> value="Tirupathur" data-id="TamilNadu">Tirupathur</option>
+                                                <option <?php if(isset($city)) { if($city == "Tiruppur") echo 'selected'; }?> value="Tiruppur" data-id="TamilNadu">Tiruppur</option>
+                                                <option <?php if(isset($city)) { if($city == "Tiruvannamalai") echo 'selected'; }?> value="Tiruvannamalai" data-id="TamilNadu">Tiruvannamalai</option>
+                                                <option <?php if(isset($city)) { if($city == "Trichy") echo 'selected'; }?> value="Trichy" data-id="TamilNadu">Trichy</option>
+                                                <option <?php if(isset($city)) { if($city == "Vaniyambadi") echo 'selected'; }?> value="Vaniyambadi" data-id="TamilNadu">Vaniyambadi</option>
+                                                <option <?php if(isset($city)) { if($city == "Vellore") echo 'selected'; }?> value="Vellore" data-id="TamilNadu">Vellore</option>
+                                                <option <?php if(isset($city)) { if($city == "Villianur") echo 'selected'; }?> value="Villianur" data-id="Puducherry">Villianur</option>
+                                                <option <?php if(isset($city)) { if($city == "Virudhunagar") echo 'selected'; }?> value="Virudhunagar" data-id="TamilNadu">Virudhunagar</option>
+                                                <option <?php if(isset($city)) { if($city == "Yanam") echo 'selected'; }?> value="Yanam" data-id="Yanam">Yanam</option>
                                             </select>   
                                         </div>
                                     </div>
