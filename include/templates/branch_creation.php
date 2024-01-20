@@ -204,6 +204,7 @@ if($idupd>0)
                                                 <option <?php if(isset($city)) { if($city == "Vaniyambadi") echo 'selected'; }?> value="Vaniyambadi" data-id="TamilNadu">Vaniyambadi</option>
                                                 <option <?php if(isset($city)) { if($city == "Vellore") echo 'selected'; }?> value="Vellore" data-id="TamilNadu">Vellore</option>
                                                 <option <?php if(isset($city)) { if($city == "Villianur") echo 'selected'; }?> value="Villianur" data-id="Puducherry">Villianur</option>
+                                                <option <?php  if(isset($city)) { if($city == "Viluppuram" ) echo 'selected'; }?> value="Viluppuram" data-id="TamilNadu">Viluppuram</option>
                                                 <option <?php if(isset($city)) { if($city == "Virudhunagar") echo 'selected'; }?> value="Virudhunagar" data-id="TamilNadu">Virudhunagar</option>
                                                 <option <?php if(isset($city)) { if($city == "Yanam") echo 'selected'; }?> value="Yanam" data-id="Yanam">Yanam</option>
                                             </select>   
