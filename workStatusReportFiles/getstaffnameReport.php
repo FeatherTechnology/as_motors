@@ -2,6 +2,15 @@
 include '../ajaxconfig.php';
 ?>
 
+<script src="vendor\ultimate-export\libs\FileSaver\FileSaver.min.js"></script>
+<script src="vendor\ultimate-export\libs\js-xlsx\xlsx.core.min.js"></script>
+<!-- For IE11 support include polyfills.umd.js before you include jspdf.umd.min.js and html2canvas.min.js -->
+<script src="vendor\ultimate-export\libs\jsPDF\polyfills.umd.min.js"></script>
+<script src="vendor\ultimate-export\libs\jsPDF\jspdf.umd.min.js"></script>
+<script src="vendor\ultimate-export\libs\html2canvas\html2canvas.min.js"></script>
+
+<script src="vendor\ultimate-export\tableExport.min.js"></script>
+
 <style>
     .balance {
         font-weight: bold;
@@ -15,6 +24,8 @@ include '../ajaxconfig.php';
         text-align: center;
     }
 </style>
+
+<button type="button" class="btn btn-danger" id="export_btn" name="export_btn" >Export</button>
 
 <?php
 if(isset($_POST["staffid"])){
@@ -60,28 +71,28 @@ function printTable($mysqli, $staffid, $where, $monthname ){
             echo '<table class="table custom-table" id="dpr_staff_report">';
             echo '<thead>';
             echo '<tr>';
-            echo '<th colspan="4">'.date('F',strtotime($monthname)).'</th>';
+            echo '<th colspan="5">'.date('F',strtotime($monthname)).'</th>';
             echo '</tr>';
-            echo '</thead>';
-            // echo '<thead>';
             echo '<tr>';
             echo '<th>Date</th>';
+            echo '<th>Staff Name</th>';
             echo '<th>Assertion</th>';
             echo '<th>Target</th>';
             echo '<th>Achieve</th>';
             echo '</tr>';
-            // echo '</thead>';
+            echo '</thead>';
             echo '<tbody>';
             
             while ($row1 = $res1->fetch_object()) {
                 $actual = 0;
                 $fixedtarget = 0;
 
-                $dailyperformQry = "SELECT dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$staffid' AND $where AND dpr.manager_updated_status = '1' AND dpr.assertion = '$row1->assertion' order by dpr.system_date ASC ";
+                $dailyperformQry = "SELECT sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.emp_id ='$staffid' AND $where AND dpr.manager_updated_status = '1' AND dpr.assertion = '$row1->assertion' order by dpr.system_date ASC ";
                 $dprFetchingData = $mysqli->query($dailyperformQry) or die("Error in Get All Records" . $mysqli->error);
                 while($dpr_row = $dprFetchingData->fetch_object()){
                 echo '<tr>';
                 echo '<td>' . $dpr_row->system_date . '</td>';
+                echo '<td>' . $dpr_row->staff_name . '</td>';
                 echo '<td>' . $dpr_row->assertion . '</td>';
                 echo '<td>' . $dpr_row->target . '</td>';
                 echo '<td>' . $dpr_row->actual_achieve . '</td>';
@@ -96,11 +107,13 @@ function printTable($mysqli, $staffid, $where, $monthname ){
 
             echo '<tr>';
             echo '<td></td>';
+            echo '<td></td>';
             echo '<td><b>Total</b></td>';
             echo '<td><b>' . $fixedtarget . '</b></td>';
             echo '<td><b>' . $actual . '</b></td>';
             echo '</tr>';
             echo '<tr class="balance">';
+            echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
             echo '<td colspan="2">' . $bal . '</td>';
@@ -121,25 +134,26 @@ function printTable($mysqli, $staffid, $where, $monthname ){
             echo '<table class="table custom-table">';
             echo '<thead>';
             echo '<tr>';
-            echo '<th colspan="4">'.date('F',strtotime($monthname)).'</th>';
+            echo '<th colspan="5">'.date('F',strtotime($monthname)).'</th>';
             echo '</tr>';
-            echo '</thead>';
-            // echo '<thead>';
             echo '<tr>';
             echo '<th>Date</th>';
+            echo '<th>Staff Name</th>';
             echo '<th>Assertion</th>';
             echo '<th>Target</th>';
             echo '<th>Achieve</th>';
             echo '</tr>';
-            // echo '</thead>';
+            echo '</thead>';
             echo '<tbody>';
             echo '<tr>';
+            echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Total</b></td>';
             echo '<td><b> 0 </b></td>';
             echo '<td><b> 0 </b></td>';
             echo '</tr>';
             echo '<tr class="balance">';
+            echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
             echo '<td colspan="2"> 0 </td>';
@@ -152,36 +166,43 @@ function printTable($mysqli, $staffid, $where, $monthname ){
 ?>
 
 <script type="text/javascript">
-    $(function() {
-        // Remove colspans
-    //   $('#dpr_staff_report tr').each(function() {
-    //       var cols = $(this).find('td[colspan]');
-    //       if (cols.length > 0) {
-    //           var colspan = cols.attr('colspan');
-    //           cols.removeAttr('colspan');
-    //           for (var i = 1; i < colspan; i++) {
-    //               cols.eq(0).clone().insertAfter(cols.eq(0));
-    //             }
-    //         }
-    //     });
 
-      // Initialize DataTable
-        $('#dpr_staff_report').DataTable({
-            'processing': true,
-            'iDisplayLength': 20,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    exportOptions: {
-                        columns: [ 0, 1, 2, 3 ]
-                    }
-                }
-            ],
-        });
+    $('#export_btn').click(function(){
+        // To CSV
+        $('#dpr_staff_report').tableExport();
     });
+
+
+    // $(function() {
+    //     // Remove colspans
+    // //   $('#dpr_staff_report tr').each(function() {
+    // //       var cols = $(this).find('td[colspan]');
+    // //       if (cols.length > 0) {
+    // //           var colspan = cols.attr('colspan');
+    // //           cols.removeAttr('colspan');
+    // //           for (var i = 1; i < colspan; i++) {
+    // //               cols.eq(0).clone().insertAfter(cols.eq(0));
+    // //             }
+    // //         }
+    // //     });
+
+    //   // Initialize DataTable
+    //     $('#dpr_staff_report').DataTable({
+    //         'processing': true,
+    //         'iDisplayLength': 20,
+    //         "lengthMenu": [
+    //             [10, 25, 50, -1],
+    //             [10, 25, 50, "All"]
+    //         ],
+    //         dom: 'lBfrtip',
+    //         buttons: [
+    //             {
+    //                 extend: 'csv',
+    //                 exportOptions: {
+    //                     columns: [ 0, 1, 2, 3 ]
+    //                 }
+    //             }
+    //         ],
+    //     });
+    // });
 </script>

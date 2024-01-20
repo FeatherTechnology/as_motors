@@ -2,6 +2,15 @@
 include '../ajaxconfig.php';
 ?>
 
+<script src="vendor\ultimate-export\libs\FileSaver\FileSaver.min.js"></script>
+<script src="vendor\ultimate-export\libs\js-xlsx\xlsx.core.min.js"></script>
+<!-- For IE11 support include polyfills.umd.js before you include jspdf.umd.min.js and html2canvas.min.js -->
+<script src="vendor\ultimate-export\libs\jsPDF\polyfills.umd.min.js"></script>
+<script src="vendor\ultimate-export\libs\jsPDF\jspdf.umd.min.js"></script>
+<script src="vendor\ultimate-export\libs\html2canvas\html2canvas.min.js"></script>
+
+<script src="vendor\ultimate-export\tableExport.min.js"></script>
+
 <style>
     .balance {
         font-weight: bold;
@@ -15,6 +24,8 @@ include '../ajaxconfig.php';
         text-align: center;
     }
 </style>
+
+<button type="button" class="btn btn-danger" id="export_btn" name="export_btn" >Export</button>
 
 <?php
 if(isset($_POST["monthwise"])){
@@ -71,7 +82,6 @@ function printTable($mysqli,$where, $monthname ){
             echo '<tr>';
             echo '<th colspan="6">'.date('F',strtotime($monthname)).'</th>';
             echo '</tr>';
-            echo '</thead>';
             echo '<tr>';
             echo '<th>Date</th>';
             echo '<th>Staff Name</th>';
@@ -135,7 +145,6 @@ function printTable($mysqli,$where, $monthname ){
             echo '<tr>';
             echo '<th colspan="6">'.date('F',strtotime($monthname)).'</th>';
             echo '</tr>';
-            echo '</thead>';
             echo '<tr>';
             echo '<th>Date</th>';
             echo '<th>Staff Name</th>';
@@ -169,14 +178,21 @@ function printTable($mysqli,$where, $monthname ){
 ?>
 
 <script type="text/javascript">
-    $(function() {
-        $('.dpr_staff_report').DataTable({
-            'processing': true,
-            'iDisplayLength': 20,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-        });
+
+    $('#export_btn').click(function(){
+        // To CSV
+        $('.dpr_staff_report').tableExport();
     });
+
+
+ // $(function() {
+    //     $('.dpr_staff_report').DataTable({
+    //         'processing': true,
+    //         'iDisplayLength': 20,
+    //         "lengthMenu": [
+    //             [10, 25, 50, -1],
+    //             [10, 25, 50, "All"]
+    //         ],
+    //     });
+    // });
 </script>
