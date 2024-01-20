@@ -423,6 +423,15 @@ for ($i=0; $i<count($mapid); $i++) {
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
             ],
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4, 5 ]
+                    }
+                }
+            ],
             "createdRow": function(row, data, dataIndex) {
                 $(row).find('td:first').html(dataIndex + 1);
             },
