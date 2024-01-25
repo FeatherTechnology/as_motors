@@ -26,6 +26,7 @@ include '../ajaxconfig.php';
 </style>
 
 <button type="button" class="btn btn-danger" id="export_btn" name="export_btn" >Export</button>
+<input type="button" name="page_print" id="page_print" class="btn btn-primary print-page " data-id="dpr_staff_report" value="PRINT">
 
 <?php
 if(isset($_POST["staffid"])){
@@ -40,8 +41,6 @@ if(isset($_POST["staff_from_date"])){
 if(isset($_POST["staff_to_date"])){
     $staff_to_date = date('Y-m-d',strtotime($_POST["staff_to_date"]));
 }
-
-
     
     // Calculate the number of months between the from and to dates
     $from = new DateTime($staff_from_date);
@@ -62,13 +61,12 @@ if(isset($_POST["staff_to_date"])){
     }
 
 function printTable($mysqli, $staffid, $where, $monthname ){
-        $dailyperform1 = "SELECT dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$staffid' AND $where AND dpr.manager_updated_status = '1' GROUP BY dpr.assertion order by dpr.system_date ASC";
+        $dailyperform1 = "SELECT dpr.assertion, dpr.system_date FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id WHERE dp.emp_id ='$staffid' AND $where AND dpr.manager_updated_status = '1' GROUP BY dpr.assertion order by dpr.system_date ASC";
 
         $res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records" . $mysqli->error);
-        $dailyperform_list1 = array();
 
         if ($mysqli->affected_rows > 0) {
-            echo '<table class="table custom-table" id="dpr_staff_report">';
+            echo '<table class="table custom-table dpr_staff_report" id="dpr_staff_report">';
             echo '<thead>';
             echo '<tr>';
             echo '<th colspan="5">'.date('F',strtotime($monthname)).'</th>';
@@ -85,7 +83,6 @@ function printTable($mysqli, $staffid, $where, $monthname ){
             
             while ($row1 = $res1->fetch_object()) {
                 $actual = 0;
-                $fixedtarget = 0;
 
                 $dailyperformQry = "SELECT sc.staff_name, dpr.assertion, dpr.target, dpr.actual_achieve, dpr.system_date, dpr.assertion_table_sno FROM daily_performance_ref dpr LEFT JOIN daily_performance dp ON dpr.daily_performance_id = dp.daily_performance_id LEFT JOIN staff_creation sc ON dpr.staff_id = sc.staff_id WHERE dp.emp_id ='$staffid' AND $where AND dpr.manager_updated_status = '1' AND dpr.assertion = '$row1->assertion' order by dpr.system_date ASC ";
                 $dprFetchingData = $mysqli->query($dailyperformQry) or die("Error in Get All Records" . $mysqli->error);
@@ -99,35 +96,49 @@ function printTable($mysqli, $staffid, $where, $monthname ){
                 echo '</tr>';
             
                 $actual = $actual + $dpr_row->actual_achieve;
-                $fixedtarget = $fixedtarget + $dpr_row->target;
-            }
+            } //Second while loop//
 
-            $sumvalue = $fixedtarget - $actual;
+            $gsrFetchingData = $mysqli->query("SELECT (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname,',','')) + 1) ) as target from goal_setting_ref gsr WHERE FIND_IN_SET('$staffid', gsr.staffname) AND gsr.assertion ='$row1->assertion' AND (YEAR(gsr.goal_month) = YEAR('$row1->system_date') AND MONTH(gsr.goal_month) = MONTH('$row1->system_date')) GROUP BY gsr.assertion_table_sno ") or die("Error in Get gsrFetchingData Records" . $mysqli->error);
+            $total_target_cnt = 0;
+            while($gsr_row = $gsrFetchingData->fetch_object()){
+                $total_target_cnt = $total_target_cnt + $gsr_row->target;
+            }//Getting total target while loop///
+
+            $sumvalue = $total_target_cnt - $actual;
             $bal = ($sumvalue < 0) ? "0" : $sumvalue;
 
             echo '<tr>';
             echo '<td></td>';
             echo '<td></td>';
-            echo '<td><b>Total</b></td>';
-            echo '<td><b>' . $fixedtarget . '</b></td>';
-            echo '<td><b>' . $actual . '</b></td>';
+            echo '<td></td>';
+            echo '<td></td>';
+            echo '<td></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td></td>';
+            echo '<td></td>';
+            echo '<td><b>Total Target</b></td>';
+            echo '<td colspan="2"><b>' . $total_target_cnt . '</b></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td></td>';
+            echo '<td></td>';
+            echo '<td><b>Total Achieve</b></td>';
+            echo '<td colspan="2"><b>' . $actual . '</b></td>';
             echo '</tr>';
             echo '<tr class="balance">';
             echo '<td></td>';
             echo '<td></td>';
             echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2">' . $bal . '</td>';
+            echo '<td colspan="2"><b>' . $bal . '</b></td>';
             echo '</tr>';
 
-        }
+        } //First Loop///
 
             echo '</tbody>';
             echo '</table>';
             echo '</br></br>';
         }else{
-
-            // $sumvalue = $fixedtarget - $actual;
-            // $bal = ($sumvalue < 0) ? "0" : $sumvalue;
 
             echo '<center><span class="recordspn">No Record Found!</span></center>';
 
@@ -148,15 +159,9 @@ function printTable($mysqli, $staffid, $where, $monthname ){
             echo '<tr>';
             echo '<td></td>';
             echo '<td></td>';
-            echo '<td><b>Total</b></td>';
-            echo '<td><b> 0 </b></td>';
-            echo '<td><b> 0 </b></td>';
-            echo '</tr>';
-            echo '<tr class="balance">';
             echo '<td></td>';
             echo '<td></td>';
-            echo '<td><b>Balance To Do</b></td>';
-            echo '<td colspan="2"> 0 </td>';
+            echo '<td></td>';
             echo '</tr>';
             echo '</tbody>';
             echo '</table>';
@@ -169,40 +174,45 @@ function printTable($mysqli, $staffid, $where, $monthname ){
 
     $('#export_btn').click(function(){
         // To CSV
-        $('#dpr_staff_report').tableExport();
+        $('.dpr_staff_report').tableExport();
     });
 
+    $('.print-page').click(function (e) {
+    e.preventDefault();
 
-    // $(function() {
-    //     // Remove colspans
-    // //   $('#dpr_staff_report tr').each(function() {
-    // //       var cols = $(this).find('td[colspan]');
-    // //       if (cols.length > 0) {
-    // //           var colspan = cols.attr('colspan');
-    // //           cols.removeAttr('colspan');
-    // //           for (var i = 1; i < colspan; i++) {
-    // //               cols.eq(0).clone().insertAfter(cols.eq(0));
-    // //             }
-    // //         }
-    // //     });
+    const tableClass = $(this).data('id');
+    const tables = document.getElementsByClassName(tableClass);
 
-    //   // Initialize DataTable
-    //     $('#dpr_staff_report').DataTable({
-    //         'processing': true,
-    //         'iDisplayLength': 20,
-    //         "lengthMenu": [
-    //             [10, 25, 50, -1],
-    //             [10, 25, 50, "All"]
-    //         ],
-    //         dom: 'lBfrtip',
-    //         buttons: [
-    //             {
-    //                 extend: 'csv',
-    //                 exportOptions: {
-    //                     columns: [ 0, 1, 2, 3 ]
-    //                 }
-    //             }
-    //         ],
-    //     });
-    // });
+    if (tables.length > 0) {
+        title = 'Daily Performance Report';
+
+        // Create a new window to print the modified tables
+        const newWindow = window.open('', '_blank');
+        newWindow.document.write('<html><head><title>Print Tables</title></head><body>');
+        newWindow.document.write('<h4>' + title + '</h4>');
+        newWindow.document.write('<style>');
+        newWindow.document.write('  table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }');
+        newWindow.document.write('  td, th { border: 1px solid black; padding: 8px; }');
+        newWindow.document.write('  @page { margin: 0.5in; }'); // Adjust the margin as needed
+        newWindow.document.write('</style>');
+
+        // Loop through each table and clone it for printing
+        for (let i = 0; i < tables.length; i++) {
+            const tableClone = tables[i].cloneNode(true);
+            newWindow.document.write(tableClone.outerHTML);
+        }
+
+        newWindow.document.write('</body></html>');
+        newWindow.document.close();
+
+        // Wait for a small delay to allow the tables to be rendered in the new window
+        setTimeout(function () {
+            newWindow.print();
+            newWindow.close();
+        }, 1000); // Adjust the delay time as needed
+    } else {
+        console.error('Tables not found.');
+    }
+    });
+
 </script>

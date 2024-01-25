@@ -84,6 +84,7 @@ $daily_km_report             = '';
 $diesel_slip_report             = '';
 $memo_report             = '';
 $krakpi_report             = '';
+$staff_task_details             = '';
 
 $getuser = $userObj->getmanageuser($mysqli,$userid); 
 if (sizeof($getuser)>0) {
@@ -171,6 +172,7 @@ if (sizeof($getuser)>0) {
 		$diesel_slip_report      = $getuser['diesel_slip_report'];
 		$memo_report      = $getuser['memo_report'];
 		$krakpi_report      = $getuser['krakpi_report'];
+		$staff_task_details      = $getuser['staff_task_details'];
 	}
 }
 
@@ -751,7 +753,12 @@ if (sizeof($getuser)>0) {
 								<?php } ?>
 								<?php if($krakpi_report == 0 && $krakpi_report != '' && $krakpi_report != NULL){ ?>				
 									<li>									
-										<a href="kra_kpi_report"><i class="icon-assignment"></i>KRA&KPI Report</a>
+										<a href="kra_kpi_report"><i class="icon-event_note"></i>KRA&KPI Report</a>
+									</li>
+								<?php } ?>
+								<?php if($staff_task_details == 0 && $staff_task_details != '' && $staff_task_details != NULL){ ?>				
+									<li>									
+										<a href="staff_task_details"><i class="icon-layers"></i>Staff Task Details</a>
 									</li>
 								<?php } ?>
 							</ul>

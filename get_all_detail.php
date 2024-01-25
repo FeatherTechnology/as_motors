@@ -12,7 +12,7 @@ if(isset($_POST["staff_id"])){
 
 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
 //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is. -- AND (gsr.status != '1' && gsr.status != '2') LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate 
+	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate, (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname, ',', '')) + 1) ) AS per_staff_target 
 	FROM goal_setting_ref gsr LEFT JOIN goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
 	AND gsr.monthly_conversion_required = '1' 
@@ -50,28 +50,28 @@ if(isset($_POST["staff_id"])){
 		$emp_data_list[$i]['target']      	= $old_target + $goalsettinginfo->per_day_target;
 
 	}else if($daily_goal_setting_ref_id == ''){ 
-
-		$goaltargetQry = $mysqli->query(" SELECT sum(gsr.per_day_target) as total_target
+		$goaltargetQry = $mysqli->query(" SELECT sum(gsr.per_day_target) as total_target, (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname, ',', '')) + 1) ) AS perStaffTarget
 		FROM goal_setting_ref gsr 
 		LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 		WHERE FIND_IN_SET($staff_id, gsr.staffname)  
 		AND gs.status = '0'
 		AND gsr.monthly_conversion_required = '1'
 		AND gsr.assertion_table_sno = '$goalsettinginfo->assertion_table_sno'
-		AND gsr.goal_month < '$curdate' 
+		AND gsr.goal_month <= '$curdate' 
 		 ");  // AND gsr.status != 1 // AND dpr.status != 1  //LEFT JOIN  daily_performance_ref dpr ON gsr.goal_setting_ref_id = dpr.goal_setting_ref_id //, sum(dpr.actual_achieve) as actual
 		$goal_target = $goaltargetQry->fetch_assoc();
 
 		$actualAchieveDetials = $mysqli->query("SELECT sum(target) as target, sum(actual_achieve) as actual_achieve FROM `daily_performance_ref` WHERE staff_id = '$staff_id' AND assertion_table_sno = '$goalsettinginfo->assertion_table_sno' ");
 		$actualAchieveinfo = $actualAchieveDetials->fetch_assoc();
 
-		if($goal_target['total_target'] != '') {
-			$sumvalue = $goal_target['total_target'] - $actualAchieveinfo['actual_achieve'];
-			$sumtotalValue = ($sumvalue < 0) ? "0" : $sumvalue;
-			$sumtarget = $goalsettinginfo->per_day_target + $sumtotalValue ;
+		if($goal_target['perStaffTarget'] != '') {
+			$sumvalue = $goal_target['perStaffTarget'] - $actualAchieveinfo['actual_achieve'];
+			$sumtarget = ($sumvalue < 0) ? "0" : $sumvalue;
+			// $sumtarget = $goalsettinginfo->per_day_target + $sumtotalValue ;
 			
 		} else{
-			$sumtarget = $goalsettinginfo->per_day_target; 
+			// $sumtarget = $goalsettinginfo->per_day_target; 
+			$sumtarget = $goalsettinginfo->per_staff_target; 
 
 		}
 

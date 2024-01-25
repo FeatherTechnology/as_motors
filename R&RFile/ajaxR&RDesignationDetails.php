@@ -1,6 +1,7 @@
 <?php
 //Also using in kra_kpi_report.js
 //Also using in assign_work.js
+//Also using in staff_task_details.js
 include '../ajaxconfig.php';
 
 if(isset($_POST["department_id"])){
