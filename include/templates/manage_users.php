@@ -86,6 +86,7 @@ $daily_km_report             = '';
 $diesel_slip_report             = '';
 $memo_report             = '';
 $krakpi_report             = '';
+$staff_task_details             = '';
 
 if(isset($_POST['submitusers']))
 {
@@ -211,6 +212,7 @@ if($idupd>0)
             $diesel_slip_report      = $getuser['diesel_slip_report'];
             $memo_report      = $getuser['memo_report'];
             $krakpi_report      = $getuser['krakpi_report'];
+            $staff_task_details      = $getuser['staff_task_details'];
 		}
 	}
 } 
@@ -813,6 +815,13 @@ if($idupd>0)
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($krakpi_report==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="krakpi_report" name="krakpi_report" disabled>
                                 <label class="custom-control-label" for="krakpi_report">KRA&KPI Report</label>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" tabindex="9" value="Yes" <?php if($idupd > 0){ if($staff_task_details==0){ echo'checked'; }} ?>  class="custom-control-input report-checkbox" id="staff_task_details" name="staff_task_details" disabled>
+                                <label class="custom-control-label" for="staff_task_details">Staff Task Details</label>
                             </div>
                         </div>
                         

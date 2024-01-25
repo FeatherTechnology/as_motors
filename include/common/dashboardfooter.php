@@ -2972,6 +2972,10 @@ if($current_page == 'memo_report') { ?>
 if($current_page == 'kra_kpi_report') { ?>
 	<script src="js/kra_kpi_report.js"></script>
     <?php }
+
+if($current_page == 'staff_task_details') { ?>
+	<script src="js/staff_task_details.js"></script>
+    <?php }
     
 ?> 
 
@@ -3437,6 +3441,37 @@ if($current_page == 'kra_kpi_report') { ?>
         });
 
     }
+
+    // Function to add the overlay
+    function showOverlay() {
+    var overlayDiv = document.createElement('div');
+    overlayDiv.classList.add('overlay');
+    document.body.appendChild(overlayDiv);
+
+    var loaderDiv = document.createElement('div');
+    loaderDiv.classList.add('loader');
+    overlayDiv.appendChild(loaderDiv);
+
+    var overlayText = document.createElement('span');
+    overlayText.classList.add('overlay-text');
+    overlayText.innerText = 'Please Wait';
+    overlayDiv.appendChild(overlayText);
+    }
+
+    // Function to remove the overlay and clear the timer
+    function hideOverlay() {
+    var overlayDiv = document.querySelector('.overlay');
+    overlayDiv.remove();
+    }
+    
+    $(document).ajaxStart(function() {
+        showOverlay();
+    });
+    
+    $(document).ajaxStop(function() {
+        hideOverlay();
+    });
+
 </script>
 
 

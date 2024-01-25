@@ -648,6 +648,10 @@ include('api/main.php'); // Database Connection File
 			<?php if($current_page == 'kra_kpi_report') { ?>
 			<?php include "include/templates/kra_kpi_report.php" ?>
 			<?php } ?>
+			<!-- staff Task -->
+			<?php if($current_page == 'staff_task_details') { ?>
+			<?php include "include/templates/staff_task_details.php" ?>
+			<?php } ?>
 		</div>
 		<!-- Page content end -->
 
