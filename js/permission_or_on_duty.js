@@ -29,7 +29,7 @@ $(document).ready(function () {
     // Get branch based on Department
     $("#branch_id").change(function(){
         getDeptList('0');
-        getResponsibleStaffList();
+        // getResponsibleStaffList();
     });
 
     // Hide and show reason
@@ -114,6 +114,7 @@ function autoGenRegNo(){
 $("#department").change(function(){ 
     var department_id = $("#department").val();
     getStaffList('0', department_id);
+    getResponsibleStaffList();
 });
 
 // Get staff code 
@@ -229,12 +230,14 @@ function getReportingPerson(department_id, staff_name){
 }
 
 function getResponsibleStaffList(){
+    var resUserRole = $('#userRole').val();
+    var department = $('#mySelectedDeptName').val();
     var branch_id = $('#branch_id').val();
     $.ajax({ //Get All Staff List , the ajax page using in other page, it return all staff list based on branch and active or inactive. 
         type:'POST',
-        data:{'branch_id': branch_id},
+        data:{'branch_id': branch_id, 'department': department, 'resUserRole': resUserRole},
         dataType: 'json',
-        url:"vehicledetailsFile/getBranchStaffList.php",
+        url:"permissionOrOnDutyFile/getResponsibilityPersonList.php",
         success:function(response){
             $("#res_staff_name").empty();
             $("#res_staff_name").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");

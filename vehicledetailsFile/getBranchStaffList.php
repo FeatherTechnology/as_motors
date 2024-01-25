@@ -1,5 +1,4 @@
 <?php
-//Also using in permission_or_on_duty.js
 @session_start();
 include '../ajaxconfig.php';
 
