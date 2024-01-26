@@ -92,7 +92,10 @@ if(userRole == '4'){
     $('#staff_name').attr('disabled', true);
 }
 
-getResponsibleStaffList();
+setTimeout(() => {
+    getResponsibleStaffList();
+    
+}, 1000);
 });
 
 function autoGenRegNo(){

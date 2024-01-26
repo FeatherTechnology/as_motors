@@ -32,10 +32,10 @@ $(document).ready(function(){
             // }
 
         }else if(type == '2'){
-            $('.reponsibleStaff').hide();
+            // $('.reponsibleStaff').hide();
             $('.rejectReason').show();
         }else{
-            $('.reponsibleStaff').hide();
+            // $('.reponsibleStaff').hide();
             $('.rejectReason').hide();
         }
     });
