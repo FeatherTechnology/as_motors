@@ -11,12 +11,15 @@ if(isset($_POST["staff_id"])){
 // }
 
 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
+//(gsr.entry_date_type = 0- current date, 1-previous date)
 //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is. -- AND (gsr.status != '1' && gsr.status != '2') LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate, (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname, ',', '')) + 1) ) AS per_staff_target 
 	FROM goal_setting_ref gsr LEFT JOIN goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
 	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
-	AND gsr.monthly_conversion_required = '1' 
-	AND gsr.goal_month = '$curdate' AND gs.status = '0' ";
+	AND gsr.monthly_conversion_required = '1'
+	AND ((gsr.entry_date_type = '0' AND gsr.goal_month = '$curdate') 
+    	OR (gsr.entry_date_type = '1' AND gsr.goal_month = DATE_SUB('$curdate', INTERVAL 1 DAY)))
+	AND gs.status = '0' ";
 
 	$goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
 	$i = 0;
@@ -57,7 +60,8 @@ if(isset($_POST["staff_id"])){
 		AND gs.status = '0'
 		AND gsr.monthly_conversion_required = '1'
 		AND gsr.assertion_table_sno = '$goalsettinginfo->assertion_table_sno'
-		AND gsr.goal_month <= '$curdate' 
+		AND ((gsr.entry_date_type = '0' AND gsr.goal_month = '$curdate') 
+    		OR (gsr.entry_date_type = '1' AND gsr.goal_month = DATE_SUB('$curdate', INTERVAL 1 DAY)))
 		 ");  // AND gsr.status != 1 // AND dpr.status != 1  //LEFT JOIN  daily_performance_ref dpr ON gsr.goal_setting_ref_id = dpr.goal_setting_ref_id //, sum(dpr.actual_achieve) as actual
 		$goal_target = $goaltargetQry->fetch_assoc();
 

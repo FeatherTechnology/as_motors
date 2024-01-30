@@ -40,10 +40,19 @@ $(document).ready(function(){
         }
     });
 
+    $('#res_staff_id').change(function(){
+        var resstaffname = $('#res_staff_id :selected').text();
+        var extractedName = resstaffname.replace(/\s*\(.*?\)\s*/, '');
+        $('#res_staff_name').val(extractedName);
+    });
+
 });
 
 $(function(){
-    getResponsibleStaffList();
+    setTimeout(() => {
+        getResponsibleStaffList();
+        
+    }, 1000);
 });
 
 function getResponsibleStaffList(){
@@ -54,17 +63,18 @@ function getResponsibleStaffList(){
         dataType: 'json',
         url:"vehicledetailsFile/getBranchStaffList.php",
         success:function(response){
-            $("#res_staff_name").empty();
-            $("#res_staff_name").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
+            $("#res_staff_id").empty();
+            $("#res_staff_id").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
             var r = 0;
             var staffid = $('#staff_name').val();
             for (r = 0; r < response.staff_id.length; r++) { 
                 if(staffid != response['staff_id'][r]){
                     var selected = '';
                     if($('#responsible_staff').val() == response['staff_id'][r]){
+                        $('#res_staff_name').val(response['staff_name'][r]);
                         selected = 'selected';
                     }
-                    $('#res_staff_name').append("<option value='" + response['staff_id'][r] + "'" +selected+ ">" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
+                    $('#res_staff_id').append("<option value='" + response['staff_id'][r] + "'" +selected+ ">" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
                 }
             }
 

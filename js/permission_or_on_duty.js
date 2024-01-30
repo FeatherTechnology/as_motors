@@ -68,7 +68,13 @@ $(document).ready(function () {
             alert("Kindly select leave from date first");
             $(this).val('');
         }
-    })
+    });
+
+    $('#res_staff_id').change(function(){
+        var resstaffname = $('#res_staff_id :selected').text();
+        var extractedName = resstaffname.replace(/\s*\(.*?\)\s*/, '');
+        $('#res_staff_name').val(extractedName);
+    });
 
 });
 
@@ -123,8 +129,9 @@ $("#department").change(function(){
 // Get staff code 
 $("#staff_name").change(function(){ 
     var department_id = $("#department").val();
-    var staff_name = $("#staff_name").val();
-    getReportingPerson(department_id, staff_name);
+    var staff_id = $("#staff_name").val();
+    var staffname = $("#staff_name :selected").text();
+    getReportingPerson(department_id, staff_id, staffname);
 });
 
 
@@ -199,7 +206,8 @@ function getStaffList(staffid, department_id){
                 for (i = 0; i <= response.staff_id.length - 1; i++) { 
                     var selected = '';
                         if(staffid == response['staff_id'][i]){
-                            $('#mySelectedStaffName').val(response['staff_id'][i])
+                            $('#mySelectedStaffId').val(response['staff_id'][i])
+                            $('#mySelectedStaffName').val(response['staff_name'][i])
                             selected = 'selected';
                         }
                     $('#staff_name').append("<option value='" + response['staff_id'][i] + "' "+selected+" >" + response['staff_name'][i] + "</option>");
@@ -210,17 +218,18 @@ function getStaffList(staffid, department_id){
     }
 }
 
-function getReportingPerson(department_id, staff_name){
+function getReportingPerson(department_id, staff_id, staffname){
     var company_id = $("#branch_id").val();
 
-    if(staff_name.length==''){ 
+    if(staff_id.length==''){ 
         $("#staff_name").val('');
     }else{
-        $('#mySelectedStaffName').val(staff_name)
+        $('#mySelectedStaffId').val(staff_id)
+        $('#mySelectedStaffName').val(staffname)
         $.ajax({
             url: 'StaffFile/ajaxGetStaffBasedStaffCode.php',
             type: 'post',
-            data: { "company_id":company_id, "department_id":department_id, "staff_name":staff_name  },
+            data: { "company_id":company_id, "department_id":department_id, "staff_name":staff_id  },
             dataType: 'json',
             success:function(response){
             
@@ -242,17 +251,18 @@ function getResponsibleStaffList(){
         dataType: 'json',
         url:"permissionOrOnDutyFile/getResponsibilityPersonList.php",
         success:function(response){
-            $("#res_staff_name").empty();
-            $("#res_staff_name").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
+            $("#res_staff_id").empty();
+            $("#res_staff_id").prepend("<option value='' disabled selected>"+'Select Staff Name'+"</option>");
             var r = 0;
             var staffid = $('#staff_name').val();
             for (r = 0; r < response.staff_id.length; r++) { 
                 if(staffid != response['staff_id'][r]){
                     var selected = '';
                     if($('#responsible_staff').val() == response['staff_id'][r]){
+                        $('#res_staff_name').val(response['staff_name'][r]);
                         selected = 'selected';
                     }
-                    $('#res_staff_name').append("<option value='" + response['staff_id'][r] + "'" +selected+ ">" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
+                    $('#res_staff_id').append("<option value='" + response['staff_id'][r] + "'" +selected+ ">" + response['staff_name'][r] +"   (" + response['designation_name'][r] + ") </option>");
                 }
             }
 

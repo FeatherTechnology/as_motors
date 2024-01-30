@@ -74,6 +74,7 @@ if($idupd>0)
     <input type="hidden" id="departmentEdit" name="departmentEdit" value="<?php print_r($department_id); ?>" >
     <input type="hidden" id="work_descEdit" name="work_descEdit" value="<?php print_r($work_des); ?>" >
     <input type="hidden" id="designationEdit" name="designationEdit" value="<?php print_r($designation); ?>" >
+    <input type="hidden" id="companyidEdit" name="companyidEdit" value="<?php if($sCompanyBranchDetailEdit['company_id']) echo $sCompanyBranchDetailEdit['company_id']; ?>" >
     <script>
         window.onload=editCompanyBasedBranch;
         function editCompanyBasedBranch(){  
@@ -101,7 +102,7 @@ if($idupd>0)
             });
 
             editBranchBasedDepartment();
-            editDeptBasedWorkDesc();
+            // editDeptBasedWorkDesc();
         }
 
     // get department details
@@ -121,25 +122,30 @@ if($idupd>0)
             $('#department').prepend("<option value=''>" + 'Select Department Name' + "</option>");
             var r = 0;
             for (r = 0; r <= response.department_id.length - 1; r++) { 
-                $('#department').append("<option value='" + response['department_id'][r] + "' >" + response['department_name'][r] + "</option>");
+                var selected = "";
+                if(response['department_id'][r] == department_upd)
+                {
+                    selected = "selected";
+                }
+                $('#department').append("<option value='" + response['department_id'][r] + "'" +selected+">" + response['department_name'][r] + "</option>");
             }
+
+            editDeptBasedWorkDesc();
+            editDesignation();
         }
         });
     };
 
     // get department details
     function editDeptBasedWorkDesc(){ 
-
-        var company_id = $('#company_nameEdit').val(); 
-        var department_id = $('#departmentEdit').val();
-        var department_upd = $('#departmentEdit').val();
-        var work_desc = $('#work_descEdit').val();
+        var company_id = $('#companyidEdit').val();
         var designation = $('#designationEdit').val();
+        var work_descEdit = $('#work_descEdit').val();
 
         $.ajax({
             url: 'assignworkFile/ajaxFetchWorkDescription.php',
             type: 'post',
-            data: { "company_id":company_id, "department_id":department_id },
+            data: { "company_id":company_id, "designation":designation },
             dataType: 'json',
             success:function(response){ 
         
@@ -148,19 +154,43 @@ if($idupd>0)
                 $('#work_des').prepend("<option value=''>" + 'Select Work Description' + "</option>");
                 var r = 0;
                 for (r = 0; r <= response.id.length - 1; r++) { 
-                    $('#work_des').append("<option value='" + response['id'][r] + "' >" + response['name'][r] + "</option>");
+                    var selected = "";
+                    if(response['id'][r] == work_descEdit)
+                    {
+                        selected = "selected";
+                    }
+                    $('#work_des').append("<option value='" + response['id'][r] + "'"+selected+">" + response['name'][r] + "</option>");
                 }
 
-                // designation
-                $('#designation').empty();
-                $('#designation').prepend("<option value=''>" + 'Select Tag Classification' + "</option>");
-                var r = 0;
-                for (r = 0; r <= response.designation_id.length - 1; r++) {
-                    $('#designation').append("<option value='" + response['designation_id'][r] + "' >" + response['designation_name'][r] + "</option>");
-                }
             }
         });
     };
+
+    function editDesignation(){
+        var department_id = $('#departmentEdit').val();
+        var designationEdit = $('#designationEdit').val();
+
+        $.ajax({
+            url: 'R&RFile/ajaxR&RDesignationDetails.php',
+            type: 'post',
+            data: { "department_id":department_id },
+            dataType: 'json',
+            success:function(response){ 
+                // designation
+                $('#designation').empty();
+                $('#designation').prepend("<option value=''>" + 'Select Designation' + "</option>");
+                var r = 0;
+                for (r = 0; r <= response.designation_id.length - 1; r++) { 
+                    var selected = "";
+                    if(response['designation_id'][r] == designationEdit)
+                    {
+                        selected = "selected";
+                    }
+                    $('#designation').append("<option value='" + response['designation_id'][r] + "' "+selected+">" + response['designation_name'][r] + "</option>");
+                }
+            }
+        });
+    }
     </script>
 
 <?php
