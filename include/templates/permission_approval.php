@@ -344,8 +344,9 @@ if($idupd>0)
 
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 reponsibleStaff">
                                         <div class="form-group">
-                                            <label for="res_staff_name">Responsible Staff</label> 
-                                            <select class="form-control" id="res_staff_name" name="res_staff_name" >
+                                            <label for="res_staff_id">Responsible Staff</label>
+                                            <input type="hidden" id="res_staff_name" name="res_staff_name"> 
+                                            <select class="form-control" id="res_staff_id" name="res_staff_id" >
                                                 <option value=''> Select Staff </option>
                                             </select>
                                         </div>

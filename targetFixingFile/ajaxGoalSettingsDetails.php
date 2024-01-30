@@ -32,6 +32,12 @@ if ($mysqli->affected_rows>0)
             <option value='1' <?php if (isset($goalInfo['monthly_conversion_required']) && $goalInfo['monthly_conversion_required'] == '1') { echo 'Selected'; } ?>>Daily</option>
         </select>
     </td>
+    <td><select tabindex="9" class="form-control" id="entry_date_type" name="entry_date_type[]">
+        <option value=''>Select Type</option>
+        <option value='0' <?php if (isset($goalInfo['entry_date_type']) && $goalInfo['entry_date_type'] == '0') { echo 'Selected'; } ?>>Current date</option>
+        <option value='1' <?php if (isset($goalInfo['entry_date_type']) && $goalInfo['entry_date_type'] == '1') { echo 'Selected'; } ?>>Previous date</option>
+        </select>
+    </td>
     <td>
     <input type="hidden" class="form-control" id="editstaffname<?php echo $i; ?>" name="editstaffname[]" value="<?php echo $goalInfo['staffname']; ?>">
     <select tabindex="9" class="form-control" id="staff_name<?php echo $i; ?>" name="staff_name<?php echo $i; ?>[]" multiple>

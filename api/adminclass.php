@@ -6154,6 +6154,9 @@
 			if(isset($_POST['mySelectedDeptName'])){
 				$department_id = $_POST['mySelectedDeptName'];
 			}
+			if(isset($_POST['mySelectedStaffId'])){
+				$staff_id = $_POST['mySelectedStaffId'];
+			}
 			if(isset($_POST['mySelectedStaffName'])){
 				$staff_name = $_POST['mySelectedStaffName'];
 			}
@@ -6163,7 +6166,13 @@
 			if(isset($_POST['reporting'])){
 				$reporting = $_POST['reporting'];
 			}
-			$res_staff_name='';
+			if(isset($_POST['reporting_name'])){
+				$reporting_name = $_POST['reporting_name'];
+			}
+			$res_staff_id='';
+			if(isset($_POST['res_staff_id'])){
+				$res_staff_id = $_POST['res_staff_id'];
+			}
 			if(isset($_POST['res_staff_name'])){
 				$res_staff_name = $_POST['res_staff_name'];
 			}
@@ -6192,13 +6201,13 @@
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$insertQry="INSERT INTO permission_or_on_duty(regularisation_id, company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, permission_date, on_duty_place, leave_date, leave_to_date, leave_reason, responsible_staff, insert_login_id)
-			VALUES('".strip_tags($reg_auto_gen_no)."','".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_name)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', '".strip_tags($reason)."', '".strip_tags($permission_from_time)."', '".strip_tags($permission_to_time)."', '".strip_tags($permission_date)."', '".strip_tags($on_duty_place)."', '".strip_tags($leave_date)."', '".strip_tags($leave_to_date)."', '".strip_tags($leave_reason)."', '".$res_staff_name."', '".$userid."' )";
+			$insertQry="INSERT INTO permission_or_on_duty(regularisation_id, company_id, department_id, staff_id, staff_code, reporting, reason, permission_from_time, permission_to_time, permission_date, on_duty_place, leave_date, leave_to_date, leave_reason, responsible_staff, insert_login_id, staff_name, manager_name,responsible_staff_name)
+			VALUES('".strip_tags($reg_auto_gen_no)."','".strip_tags($company_id)."', '".strip_tags($department_id)."', '".strip_tags($staff_id)."', '".strip_tags($staff_code)."', '".strip_tags($reporting)."', '".strip_tags($reason)."', '".strip_tags($permission_from_time)."', '".strip_tags($permission_to_time)."', '".strip_tags($permission_date)."', '".strip_tags($on_duty_place)."', '".strip_tags($leave_date)."', '".strip_tags($leave_to_date)."', '".strip_tags($leave_reason)."', '".$res_staff_id."', '".$userid."', '".$staff_name."', '".$reporting_name."', '".$res_staff_name."' )";
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
 		}
 
 		//Update Permission On Dury
-		 public function updatePermissionOnDuty($mysqli,$id,$userid){
+		public function updatePermissionOnDuty($mysqli,$id,$userid){
 
 			if(isset($_POST['reg_auto_gen_no'])){
 				$reg_auto_gen_no = $_POST['reg_auto_gen_no'];
@@ -6209,6 +6218,9 @@
 			if(isset($_POST['mySelectedDeptName'])){
 				$department_id = $_POST['mySelectedDeptName'];
 			}
+			if(isset($_POST['mySelectedStaffId'])){
+				$staff_id = $_POST['mySelectedStaffId'];
+			}
 			if(isset($_POST['mySelectedStaffName'])){
 				$staff_name = $_POST['mySelectedStaffName'];
 			}
@@ -6218,7 +6230,13 @@
 			if(isset($_POST['reporting'])){
 				$reporting = $_POST['reporting'];
 			}
-			$res_staff_name='';
+			if(isset($_POST['reporting_name'])){
+				$reporting_name = $_POST['reporting_name'];
+			}
+			$res_staff_id='';
+			if(isset($_POST['res_staff_id'])){
+				$res_staff_id = $_POST['res_staff_id'];
+			}
 			if(isset($_POST['res_staff_name'])){
 				$res_staff_name = $_POST['res_staff_name'];
 			}
@@ -6247,8 +6265,8 @@
 				$leave_reason = $_POST['leave_reason'];
 			}
 			
-			$updQry="UPDATE permission_or_on_duty set regularisation_id='".strip_tags($reg_auto_gen_no)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', staff_id = '".strip_tags($staff_name)."', staff_code = '".strip_tags($staff_code)."', reporting = '".strip_tags($reporting)."', reason = '".strip_tags($reason)."', permission_from_time = '".strip_tags($permission_from_time)."', permission_to_time = '".strip_tags($permission_to_time)."', 
-			permission_date = '".strip_tags($permission_date)."', on_duty_place = '".strip_tags($on_duty_place)."', leave_date = '".strip_tags($leave_date)."', leave_to_date = '".strip_tags($leave_to_date)."', leave_reason = '".strip_tags($leave_reason)."', status = 0, responsible_staff = '".$res_staff_name."', update_login_id = '".$userid."' WHERE permission_on_duty_id= '".strip_tags($id)."' "; 
+			$updQry="UPDATE permission_or_on_duty set regularisation_id='".strip_tags($reg_auto_gen_no)."', company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', staff_id = '".strip_tags($staff_id)."', staff_code = '".strip_tags($staff_code)."', reporting = '".strip_tags($reporting)."', reason = '".strip_tags($reason)."', permission_from_time = '".strip_tags($permission_from_time)."', permission_to_time = '".strip_tags($permission_to_time)."', 
+			permission_date = '".strip_tags($permission_date)."', on_duty_place = '".strip_tags($on_duty_place)."', leave_date = '".strip_tags($leave_date)."', leave_to_date = '".strip_tags($leave_to_date)."', leave_reason = '".strip_tags($leave_reason)."', status = 0, responsible_staff = '".$res_staff_id."', update_login_id = '".$userid."', staff_name = '".$staff_name."', manager_name = '".$reporting_name."', responsible_staff_name = '".$res_staff_name."' WHERE permission_on_duty_id= '".strip_tags($id)."' "; 
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
 		// Update Leave Approval
@@ -6264,11 +6282,14 @@
 			if(isset($_POST['reject_reason'])){
 				$reject_reason = $_POST['reject_reason'];
 			}
-			$res_staff_name='';
+			$res_staff_id='';
+			if(isset($_POST['res_staff_id'])){
+				$res_staff_id = $_POST['res_staff_id'];
+			}
 			if(isset($_POST['res_staff_name'])){
 				$res_staff_name = $_POST['res_staff_name'];
 			}
-			$updresult=$mysqli->query("UPDATE permission_or_on_duty set leave_status='".strip_tags($approve_or_reject)."', reject_reason = '".strip_tags($reject_reason)."', responsible_staff = '".$res_staff_name."' WHERE permission_on_duty_id= '".strip_tags($id)."' ") or die("Error ".$mysqli->error);
+			$updresult=$mysqli->query("UPDATE permission_or_on_duty set leave_status='".strip_tags($approve_or_reject)."', reject_reason = '".strip_tags($reject_reason)."', responsible_staff = '".$res_staff_id."', responsible_staff_name = '".$res_staff_name."' WHERE permission_on_duty_id= '".strip_tags($id)."' ") or die("Error ".$mysqli->error);
 		}
 		// Get Permission On Dury
 		public function getPermissionOnDuty($mysqli, $id){
@@ -9022,6 +9043,9 @@
 			if(isset($_POST['monthly_conversion'])){
 				$monthly_conversion = $_POST['monthly_conversion']; // 0 -Month, 1 -Daily;
 			}
+			if(isset($_POST['entry_date_type'])){
+				$entry_date_type = $_POST['entry_date_type']; // 0 -current date, 1 -previous date;
+			}
 			
 
 			if($goal_setting_id == ''){ 
@@ -9064,8 +9088,8 @@
 					$perDayTarget = round($targetPerStaff / count($workingDays));
 					//Inserting the goal_setting_ref table based on the assertion and month date.
 					foreach ($workingDays as $day) {
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, staffname, insert_login_id)
-					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$perDayTarget."', '".$day."', '".strip_tags($monthly_conversion[$j])."', '".strip_tags($staffname)."', '".strip_tags($userid)."')";
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, entry_date_type, staffname, insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$perDayTarget."', '".$day."', '".strip_tags($monthly_conversion[$j])."', '".$entry_date_type[$j]."', '".strip_tags($staffname)."', '".strip_tags($userid)."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
 					} //Foreach END///
@@ -9073,8 +9097,8 @@
 
 					}else{ 
 
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, staffname, insert_login_id)
-					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$goal_month[$j]."', '".strip_tags($monthly_conversion[$j])."', '".strip_tags($staffname)."', '".strip_tags($userid)."')";
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, entry_date_type, staffname, insert_login_id)
+					VALUES('".strip_tags($last_id)."', '".strip_tags($rowcnt[$j])."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."', '".$goal_month[$j]."', '".strip_tags($monthly_conversion[$j])."', '".$entry_date_type[$j]."', '".strip_tags($staffname)."', '".strip_tags($userid)."')";
 					$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
 
 					} 
@@ -9161,6 +9185,7 @@
 			$auditChecklist2[$i]['assertion'] = $row2['assertion'];
 			$auditChecklist2[$i]['target']=$row2['target'];
 			$auditChecklist2[$i]['monthly_conversion']=$row2['monthly_conversion_required'];
+			$auditChecklist2[$i]['edt']=$row2['entry_date_type'];
 			$auditChecklist2[$i]['staffname']=$row2['staffname'];
 			
 			$i++;
@@ -11461,7 +11486,7 @@ public function adddailyperformance($mysqli,$userid){
 			
 			// $qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id', month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$idupd' ";
 
-			$qry1="UPDATE daily_performance set status ='0', update_login_id='$userid' WHERE daily_performance_id = '$idupd' ";
+			$qry1="UPDATE daily_performance set status ='0', update_login_id='$userid', updated_date = now() WHERE daily_performance_id = '$idupd' ";
 			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 

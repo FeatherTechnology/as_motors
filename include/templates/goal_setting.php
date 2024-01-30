@@ -78,12 +78,13 @@ if ($idupd > 0) {
          $assertion[$j]                       = $getGoalSettingfet[$j]['assertion'];
          $target[$j]                       = $getGoalSettingfet[$j]['target'];
          $monthly_conversion[$j]                       = $getGoalSettingfet[$j]['monthly_conversion'];
+         $edt[$j]                       = $getGoalSettingfet[$j]['edt'];
          $staffname[$j]                       = $getGoalSettingfet[$j]['staffname'];
       }
    }
 }
 
-$goalsnoDetails = $mysqli->query("SELECT MAX(assertion_table_sno) as sno FROM `goal_setting_ref` ");
+$goalsnoDetails = $mysqli->query("SELECT MAX(assertion_table_sno) as sno FROM `goal_setting_ref` ORDER BY assertion_table_sno ASC");
 $snoinfo = $goalsnoDetails->fetch_assoc();
 if (mysqli_num_rows($goalsnoDetails)>0) {
    $sno = $snoinfo['sno'] + 1;
@@ -188,6 +189,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                                        <th>Target</th>
                                        <th>Month</th>
                                        <th>Type</th>
+                                       <th>Entry date Type</th>
                                        <th>Staff</th>
                                        <th colspan="2">Action</th>
                                     </tr>
@@ -208,12 +210,18 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                                                 <option value='1'>Daily</option>
                                              </select>
                                           </td>
-                                          <td><select tabindex="9" class="form-control" id="staff_name0" name="staff_name0[]" multiple>
+                                          <td><select tabindex="9" class="form-control" id="entry_date_type" name="entry_date_type[]">
+                                                <option value=''>Select Type</option>
+                                                <option value='0'>Current date</option>
+                                                <option value='1'>Previous date</option>
+                                             </select>
+                                          </td>
+                                          <td><select tabindex="10" class="form-control" id="staff_name0" name="staff_name0[]" multiple>
                                                 <option value=''>Select Staff Name</option>
                                              </select>
                                           </td>
-                                          <td><button type="button" tabindex="10" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
-                                          <td><span class='icon-trash-2' tabindex="11" id="delete_row"></span></td>
+                                          <td><button type="button" tabindex="11" id="add_row" name="add_row" value="Submit" class="btn btn-primary add_row">Add</button></td>
+                                          <td><span class='icon-trash-2' tabindex="12" id="delete_row"></span></td>
                                        </tr>
                                     </tbody>
                               </table>
@@ -224,7 +232,7 @@ if (mysqli_num_rows($goalsnoDetails)>0) {
                   <div class="col-md-12">
                      <br><br>
                      <div class="text-right">
-                        <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="12">Submit</button>
+                        <button type="submit" name="submit_goal_settings" id="submit_goal_settings" class="btn btn-primary" value="Submit" tabindex="13">Submit</button>
                      </div>
                   </div>
                </div>
