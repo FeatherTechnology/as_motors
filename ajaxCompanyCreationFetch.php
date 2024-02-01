@@ -90,10 +90,10 @@ foreach ($result as $row) {
     $sub_array[] = $row['address1'];
     $sub_array[] = $row['email_id'];
     $sub_array[] = $row['pan_number'];
-    $sub_array[] = $row['esi_number'];
-    $sub_array[] = $row['tan_number'];
-    $sub_array[] = $row['pf_number'];  
-    $sub_array[] = $row['fax_number'];
+    // $sub_array[] = $row['esi_number'];
+    // $sub_array[] = $row['tan_number'];
+    // $sub_array[] = $row['pf_number'];  
+    // $sub_array[] = $row['fax_number'];
     $sub_array[] = $row['in_active_remark'];
     
     $status      = $row['status'];
