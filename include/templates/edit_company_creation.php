@@ -62,10 +62,10 @@
 								<th>Address 1</th>
 								<th>E-Mail Id</th>
 								<th>PAN Number</th>
-								<th>ESI Number</th>
+								<!-- <th>ESI Number</th>
 								<th>TAN Number</th>
 								<th>PF Number</th>
-								<th>FAX Number</th>
+								<th>FAX Number</th> -->
 								<th>In-Active Remark</th>
 								<th>Status</th>
 								<th>Action</th>
