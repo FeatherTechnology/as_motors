@@ -16,4 +16,7 @@ while($dept=$getDepartmentId->fetch_assoc()){
 }
 
 echo json_encode($departmentDetails);
+
+// Close the database connection
+$mysqli->close();
 ?>

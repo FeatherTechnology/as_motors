@@ -3443,34 +3443,34 @@ if($current_page == 'staff_task_details') { ?>
     }
 
     // Function to add the overlay
-    function showOverlay() {
-    var overlayDiv = document.createElement('div');
-    overlayDiv.classList.add('overlay');
-    document.body.appendChild(overlayDiv);
+    // function showOverlay() {
+    // var overlayDiv = document.createElement('div');
+    // overlayDiv.classList.add('overlay');
+    // document.body.appendChild(overlayDiv);
 
-    var loaderDiv = document.createElement('div');
-    loaderDiv.classList.add('loader');
-    overlayDiv.appendChild(loaderDiv);
+    // var loaderDiv = document.createElement('div');
+    // loaderDiv.classList.add('loader');
+    // overlayDiv.appendChild(loaderDiv);
 
-    var overlayText = document.createElement('span');
-    overlayText.classList.add('overlay-text');
-    overlayText.innerText = 'Please Wait';
-    overlayDiv.appendChild(overlayText);
-    }
+    // var overlayText = document.createElement('span');
+    // overlayText.classList.add('overlay-text');
+    // overlayText.innerText = 'Please Wait';
+    // overlayDiv.appendChild(overlayText);
+    // }
 
-    // Function to remove the overlay and clear the timer
-    function hideOverlay() {
-    var overlayDiv = document.querySelector('.overlay');
-    overlayDiv.remove();
-    }
+    // // Function to remove the overlay and clear the timer
+    // function hideOverlay() {
+    // var overlayDiv = document.querySelector('.overlay');
+    // overlayDiv.remove();
+    // }
     
-    $(document).ajaxStart(function() {
-        showOverlay();
-    });
+    // $(document).ajaxStart(function() {
+    //     showOverlay();
+    // });
     
-    $(document).ajaxStop(function() {
-        hideOverlay();
-    });
+    // $(document).ajaxStop(function() {
+    //     hideOverlay();
+    // });
 
 </script>
 

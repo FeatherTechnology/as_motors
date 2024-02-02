@@ -40,4 +40,8 @@ $departmentDetails["emp_code"] = $emp_code;
 $departmentDetails["designation_name"] = $designation_name;
     
 echo json_encode($departmentDetails);
+
+// Close the database connection
+$mysqli->close();
+$connect = null;
 ?>

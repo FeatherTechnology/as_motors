@@ -15,4 +15,8 @@ while( $row = $result->fetch_assoc()){
     $assertionArr[] = array("assertion_id" => $assertion_id, "assertion" => $assertion);
 }
 echo json_encode($assertionArr);
+
+// Close the database connection
+$mysqli->close();
+$connect = null;
 ?>

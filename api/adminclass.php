@@ -9146,16 +9146,16 @@
 					$perDayTarget = round($targetPerStaff / count($workingDays));
 					//Inserting the goal_setting_ref table based on the assertion and month date.
 					foreach ($workingDays as $day) {
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, staffname, update_login_id)
-					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$perDayTarget', '$day', '$monthly_conversion[$i]', '$staffname', '$userid')";
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, per_day_target, goal_month, monthly_conversion_required, entry_date_type, staffname, update_login_id)
+					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$perDayTarget', '$day', '$monthly_conversion[$i]', '$entry_date_type[$i]', '$staffname', '$userid')";
 					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 
 					} //Foreach END///
 					//Insertion END///
 
 					}else{ 
-					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, staffname,update_login_id)
-					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$goal_month[$i]', '$monthly_conversion[$i]', '$staffname', '$userid')";
+					$qry2="INSERT INTO goal_setting_ref(goal_setting_id, assertion_table_sno, assertion, target, goal_month, monthly_conversion_required, entry_date_type, staffname,update_login_id)
+					VALUES('$goal_setting_id', '$rowcnt[$i]', '$assertion[$i]','$target[$i]', '$goal_month[$i]', '$monthly_conversion[$i]', '$entry_date_type[$i]','$staffname', '$userid')";
 					$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 
 					} 
