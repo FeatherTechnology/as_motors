@@ -12,4 +12,7 @@ while($companyInfo = $getCompanyDetails->fetch_assoc()){
 }
 
 echo json_encode($company_names);
+
+// Close the database connection
+mysqli_close($con);
 ?>

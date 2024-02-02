@@ -47,6 +47,8 @@ $taskName = $row->task_name;
             
         }
 
+        // Close the database connection
+        $connect = null;
     }else if($taskName == 'KRA&KPI '){
         $krakpitask = $connect->query("SELECT 'KRA&KPI ' as tb, kcm.work_status as sts 
         FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm.krakpi_ref_id = kcr.krakpi_ref_id 
@@ -59,6 +61,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'AUDIT AREA '){
         $auditTaskInfo = $connect->query("SELECT 'AUDIT AREA ' as tb, acr.work_status as sts
@@ -72,6 +77,9 @@ $taskName = $row->task_name;
             
         }
 
+        // Close the database connection
+        $connect = null;
+
     }else if($taskName == 'PM MAINTENANCE '){
         $maintanceTaskInfo = $connect->query("SELECT 'PM MAINTENANCE ' as tb, pcr.work_status as sts
         FROM pm_checklist_ref pcr LEFT JOIN maintenance_checklist mc
@@ -84,6 +92,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'CAMPAIGN'){
         $campgnTaskInfo = $connect->query("SELECT 'CAMPAIGN' as tb, work_status as sts FROM campaign_ref WHERE work_status != 3 AND campaign_ref_id = '$row->task_id' ");
@@ -95,6 +106,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'INSURANCE REGISTER'){
         $insregrefTaskInfo = $connect->query("SELECT 'INSURANCE REGISTER' as tb, ins.work_status as sts FROM `insurance_register_ref` ins LEFT JOIN insurance_creation ic ON ins.insurance_id = ic.insurance_id WHERE  ins.work_status != 3 AND ins.ins_reg_ref_id = '$row->task_id' ");
@@ -106,6 +120,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'BM MAINTENANCE'){
         $bmTaskInfo = $connect->query("SELECT 'BM MAINTENANCE' as tb, bcr.work_status as sts
@@ -118,6 +135,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'FC INSURANCE RENEW'){
         $fcinsTaskInfo = $connect->query("SELECT 'FC INSURANCE RENEW' as tb, work_status as sts FROM `fc_insurance_renew` WHERE work_status != 3 AND fc_insurance_renew_id = '$row->task_id' ");
@@ -129,6 +149,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else if($taskName == 'ASSIGN WORK'){
         $assignworkTaskInfo = $connect->query("SELECT 'ASSIGN WORK' as tb, work_status as sts FROM assign_work_ref WHERE work_status != 3 AND status = 0 AND ref_id = '$row->task_id' ");
@@ -140,6 +163,9 @@ $taskName = $row->task_name;
             $hideShow = '1'; //False.
             
         }
+
+        // Close the database connection
+        $connect = null;
         
     }else{
         $hideShow = '1'; //False.
@@ -156,7 +182,10 @@ if($hideShow == '0'){
     </tr>
 
 <?php }//hideshow if 
-}//while if?>    
+}//while if
+// Close the database connection
+$mysqli->close();
+?>    
 <input type="hidden" id="rowcnt" value="<?php echo $sno;?>">
 <!-- </tbody> -->
 </table>

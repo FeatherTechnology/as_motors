@@ -17,4 +17,7 @@ while($row=$result->fetch_assoc())
 }
 
 echo json_encode($assetDetails);
+
+// Close the database connection
+mysqli_close($con);
 ?>

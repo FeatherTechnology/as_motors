@@ -13,6 +13,10 @@ $goalSettingsDetails = $mysqli->query("SELECT gsr.* FROM goal_setting_ref gsr wh
 
 if ($mysqli->affected_rows>0)
 {
+    // Close the database connection
+    $mysqli->close();
+    $connect = null;
+
     $i=0;
     while($goalInfo = $goalSettingsDetails->fetch_assoc()){
         $selectBoxId = 'assertion'.$i;
@@ -49,58 +53,99 @@ if ($mysqli->affected_rows>0)
 </tr>
 
 <script>
-    DropDownAssertion(<?php echo $selectBoxId; ?>,'<?php echo $goalInfo['assertion'];?>');
-
     const staffname = new Choices('#staff_name<?php echo $i; ?>', {
 	removeItemButton: true,
     allowHTML: true, // Set allowHTML to true
+    });
+
+$(function(){ //OnLoad Function//
+
+    dropdownAssertions(<?php echo $selectBoxId; ?>,'<?php echo $goalInfo['assertion'];?>'); //Assertion dropdown.
+    staffNameListBasedOnDepartment(); //Staff name.
+    
 });
 
-staffNameListBasedOnDepartment();
-//staff Name List
-function staffNameListBasedOnDepartment(){ 
-    var department_id = <?php echo $department_id; ?> ;
-    var editstaffname = $('#editstaffname<?php echo $i; ?>').val().split(',');
-    $.ajax({
-        url: 'targetFixingFile/ajaxGetDepartmentBasedStaffs.php',
-        type: 'post',
-        data: { "department_id":department_id },
-        dataType: 'json',
-        success:function(response){  
+    function getselectedassertionsOnEdit(){
+        var assertionValue = {};
+        $('.assertion_names').each(function(){
+            var id = $(this).attr('id');
+            var value = $(this).val();
+            assertionValue[id] = value;
+        })
+        return assertionValue;
+    }
 
-            // $('#dept_strength').val(response.staff_id.length);
-
-            staffname.clearStore();
-            for (r = 0; r < response.staff_id.length; r++) { 
-
-                var staff_id = response['staff_id'][r];  
-                var staff_name = response['staff_name'][r]; 
-                var designation_name = response['designation_name'][r]; 
-
-                var selected = '';
-                if(editstaffname != ''){
-                
-                    for(var i=0; i < editstaffname.length; i++){
-                        if(editstaffname[i] == staff_id){ 
-                            selected = 'selected'; 
-                        }
+    function dropdownAssertions(id, editvalue){ // when onload & row append passing id, when modal close passing class.
+    var branch_id = $('#branch_id :selected').val();
+    var dept = $('#dept :selected').val();
+    var temporaryAssertion = getselectedassertionsOnEdit(); //To store assertion value temporary.
+    
+        $.ajax({
+            url: 'targetFixingFile/ajaxGetAssertionDropDown.php',
+            type: 'post',
+            data: {'branch_id': branch_id, "dept": dept},
+            dataType: 'json',
+            success:function(response){
+                $(id).empty();            
+                $(id).append("<option value=''>Select Assertion</option>");
+                for(var a = 0; a < response.length; a++){
+                    var selected = '';
+                    if(editvalue.trim().toLowerCase() == response[a]['assertion'].trim().toLowerCase()){
+                        selected = 'selected';
                     }
+                    $(id).append("<option value='"+response[a]['assertion']+"'"+selected+">"+response[a]['assertion']+"</option>");
                 }
 
-                var items = [
-                    {
-                        value: staff_id,
-                        label: staff_name + ' - (' + designation_name + ')',
-                        selected: selected,
-                    }
-                ];
-                staffname.setChoices(items);
-                staffname.init();
-            }
+                if(editvalue ==''){ //in edit page value initially set so restrict this function, if this function run it affect edit option value.
+                    $.each(temporaryAssertion, function(key, value) {
+                        $('#' + key).val(value);
+                    });
+                }
+            }     
+        });     
+    }
 
-        }
-    });
-};
+    //staff Name List
+    function staffNameListBasedOnDepartment(){ 
+        var department_id = <?php echo $department_id; ?> ;
+        var editstaffname = $('#editstaffname<?php echo $i; ?>').val().split(',');
+        $.ajax({
+            url: 'targetFixingFile/ajaxGetDepartmentBasedStaffs.php',
+            type: 'post',
+            data: { "department_id":department_id },
+            dataType: 'json',
+            success:function(response){  
+                // $('#dept_strength').val(response.staff_id.length);
+                staffname.clearStore();
+                for (r = 0; r < response.staff_id.length; r++) { 
+
+                    var staff_id = response['staff_id'][r];  
+                    var staff_name = response['staff_name'][r]; 
+                    var designation_name = response['designation_name'][r]; 
+
+                    var selected = '';
+                    if(editstaffname != ''){
+                    
+                        for(var i=0; i < editstaffname.length; i++){
+                            if(editstaffname[i] == staff_id){ 
+                                selected = 'selected'; 
+                            }
+                        }
+                    }
+
+                    var items = [
+                        {
+                            value: staff_id,
+                            label: staff_name + ' - (' + designation_name + ')',
+                            selected: selected,
+                        }
+                    ];
+                    staffname.setChoices(items);
+                    staffname.init();
+                }
+            }
+        });
+    }
 </script>
 
 <?php $i++; } } ?>
