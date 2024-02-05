@@ -701,7 +701,38 @@
 
 			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
 
-				if ($frequency == 'Fortnightly'){ 
+				if ($frequency == 'Weekly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+						}
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Fortnightly'){ 
 
 					$end_of_year = date('Y-12-31');
 					$current_from_date = date('Y-m-d', strtotime($from_date1));
@@ -972,7 +1003,39 @@
 
 			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
 
-				if ($frequency == 'Fortnightly'){ 
+				if ($frequency == 'Weekly'){ 
+
+					$end_of_year = date('Y-12-31');
+					$current_from_date = date('Y-m-d', strtotime($from_date1));
+					$current_to_date = date('Y-m-d', strtotime($to_date1));
+				
+					$from_dates = array();
+					$to_dates = array();
+				
+					while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+						// Check if current_from_date is a Sunday or holiday
+						while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+							$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+						}
+						
+						// Check if current_to_date is a Sunday or holiday
+						while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+							$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+						}
+					
+						if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+						$from_dates[] = $current_from_date;
+						$to_dates[] = $current_to_date;
+						}
+
+						$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+						$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+					
+						if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+							break;
+						}
+					}
+				} else if ($frequency == 'Fortnightly'){ 
 
 					$end_of_year = date('Y-12-31');
 					$current_from_date = date('Y-m-d', strtotime($from_date1));
@@ -1970,7 +2033,40 @@
 
 				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
-					if ($frequency[$i] == 'Fortnightly'){ 
+					if ($frequency[$i] == 'Weekly'){ 
+
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+						
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+
+					} else if ($frequency[$i] == 'Fortnightly'){ 
 
 						$end_of_year = date('Y-12-31');
 						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
@@ -2314,7 +2410,40 @@
 
 				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
 
-					if ($frequency[$i] == 'Fortnightly'){ 
+						if ($frequency[$i] == 'Weekly'){ 
+	
+							$end_of_year = date('Y-12-31');
+							$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
+							$current_to_date = date('Y-m-d', strtotime($to_date1[$i]));
+						
+							$from_dates = array();
+							$to_dates = array();
+						
+							while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) {
+								// Check if current_from_date is a Sunday or holiday
+								while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+									$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+								}
+								
+								// Check if current_to_date is a Sunday or holiday
+								while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+									$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+								}
+							
+								if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+								$from_dates[] = $current_from_date;
+								$to_dates[] = $current_to_date;
+								}
+							
+								$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+								$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+							
+								if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+									break;
+								}
+							}
+	
+						} else if ($frequency[$i] == 'Fortnightly'){ 
 
 						$end_of_year = date('Y-12-31');
 						$current_from_date = date('Y-m-d', strtotime($from_date1[$i]));
@@ -3676,7 +3805,39 @@
 						$holiday_dates[] = $row9["holiday_date"];
 					}
 
-					if($frequency[$i] == 'Fortnightly'){
+					if($frequency[$i] == 'Weekly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					} else if($frequency[$i] == 'Fortnightly'){
 			
 						$end_of_year = date('Y-12-31');
 						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
@@ -3873,7 +4034,39 @@
 						$holiday_dates[] = $row9["holiday_date"];
 					}
 
-					if($frequency[$i] == 'Fortnightly'){
+					if($frequency[$i] == 'Weekly'){
+			
+						$end_of_year = date('Y-12-31');
+						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));
+						$current_to_date = date('Y-m-d', strtotime($to_date[$i]));
+					
+						$from_dates = array();
+						$to_dates = array();
+					
+						while ($current_from_date <= $end_of_year && $current_from_date <= $current_to_date) { 
+							// Check if current_from_date is a Sunday or holiday
+							while (date('N', strtotime($current_from_date)) == 7 || in_array($current_from_date, $holiday_dates)) {
+								$current_from_date = date('Y-m-d', strtotime('+1 day', strtotime($current_from_date)));
+							}
+							
+							// Check if current_to_date is a Sunday or holiday
+							while (date('N', strtotime($current_to_date)) == 7 || in_array($current_to_date, $holiday_dates)) {
+								$current_to_date = date('Y-m-d', strtotime('+1 day', strtotime($current_to_date)));
+							}
+						
+							if ($current_from_date <= $end_of_year && $current_to_date <= $end_of_year ) { //if last date is sunday means then it add next year date also so this condition is using.
+							$from_dates[] = $current_from_date;
+							$to_dates[] = $current_to_date;
+							}
+							$current_from_date = date('Y-m-d', strtotime($current_from_date . '+7 days'));
+							$current_to_date = date('Y-m-d', strtotime($current_to_date . '+7 days'));
+						
+							if ($current_from_date > $end_of_year || $current_to_date > $end_of_year || $current_from_date > $current_to_date) {
+								break;
+							}
+						}
+		
+					} else if($frequency[$i] == 'Fortnightly'){
 			
 						$end_of_year = date('Y-12-31');
 						$current_from_date = date('Y-m-d', strtotime($from_date[$i]));

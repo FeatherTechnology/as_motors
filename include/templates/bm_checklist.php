@@ -103,7 +103,7 @@ if($idupd>0)
 
             // enable and disable frequency
             var frequency = $('#frequencyEdit').val(); 
-            if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){
+            if(frequency == 'Weekly' || frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){
                 $('#frequency_applicable').attr("disabled",false);
             } else  if(frequency == 'Daily Task' || frequency == 'Yearly'){ 
                 $('#frequency_applicable').prop('checked', false);
@@ -219,6 +219,7 @@ if($idupd>0)
 											<label for="disabledInput">Frequency</label>
                                             <select type="text" class="form-control frequency" id="frequency" name="frequency" tabindex="15" >
                                                 <option value="">Select Frequency</option> 
+                                                <option <?php if(isset($frequency) && 'Weekly' == $frequency) echo 'selected';  ?>  value="Weekly" >Weekly</option> 
                                                 <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency) echo 'selected';  ?> value="<?php echo 'Fortnightly' ?>">
                                                 <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option>   <?php } ?></option>
                                                 <option <?php if(isset($frequency)) { if('Monthly' == $frequency) echo 'selected';  ?> value="<?php echo 'Monthly' ?>">

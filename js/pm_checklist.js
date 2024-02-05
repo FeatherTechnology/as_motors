@@ -152,7 +152,7 @@ $(document).ready(function () {
     $(document).on("change",".frequency",function(){ 
         var frequency1 = $(this).children(":selected").text();
         var frequency = frequency1.trim(); 
-        if(frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
+        if(frequency == 'Weekly' || frequency == 'Fortnightly' || frequency == 'Monthly' || frequency == 'Quaterly' || frequency == 'Half Yearly' ){ 
             $('#frequency_applicable').attr("disabled",false);
         } else  if(frequency == 'Daily Task' || frequency == 'Yearly'){ 
             $('#frequency_applicable').prop('checked', false);
