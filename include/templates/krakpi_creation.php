@@ -345,6 +345,7 @@ if($idupd>0)
                                             <td>
                                                 <select tabindex="9" type="text" class="form-control frequency" id="frequency" name="frequency[]" >
                                                     <option value=''>Select Frequency</option>
+                                                    <option value='Weekly'>Weekly</option>
                                                     <option value='Fortnightly'>Fortnightly</option>
                                                     <option value='Monthly'>Monthly</option>
                                                     <option value='Quaterly'>Quaterly</option>
@@ -432,6 +433,7 @@ if($idupd>0)
                                                         <td>
                                                             <select tabindex="9" type="text" class="form-control frequency" id="frequency" name="frequency[]" >
                                                                 <option value=''>Select Frequency</option>    
+                                                                <option <?php if(isset($frequency) && ('Weekly' == $frequency[$i])) echo 'selected'; ?> value="<?php echo 'Weekly' ?>">Weekly</option>
                                                                 <option <?php if(isset($frequency)) { if('Fortnightly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Fortnightly' ?>">
                                                                 <?php echo 'Fortnightly'; }else{ ?> <option value="Fortnightly">Fortnightly</option> <?php } ?></option>
                                                                 <option <?php if(isset($frequency)) { if('Monthly' == $frequency[$i]) echo 'selected'; ?> value="<?php echo 'Monthly' ?>">
@@ -447,7 +449,7 @@ if($idupd>0)
                                                             </select>
                                                         </td>
                                                         
-                                                        <?php if($frequency[$i] == 'Fortnightly' || $frequency[$i] == 'Monthly' || $frequency[$i] == 'Quaterly' || $frequency[$i] == 'Half Yearly' ){ ?>
+                                                        <?php if($frequency[$i] == 'Weekly' || $frequency[$i] == 'Fortnightly' || $frequency[$i] == 'Monthly' || $frequency[$i] == 'Quaterly' || $frequency[$i] == 'Half Yearly' ){ ?>
                                                         <td>
                                                             <input type="checkbox" tabindex="7" name="frequency_applicable[]" id="frequency_applicable" class="frequency_applicable" value="frequency_applicable" <?php if($frequency_applicable[$i]== 'frequency_applicable'){ echo'checked'; } ?> > 
                                                         </td>
