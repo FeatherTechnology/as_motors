@@ -13,13 +13,31 @@ if(isset($_POST["staff_id"])){
 //(gsr.monthly_conversion_required = 0- Monthly, 1-Daily)
 //(gsr.entry_date_type = 0- current date, 1-previous date)
 //if month conversion is Daily means then the target is divided by working days, if not means target is shown as it is. -- AND (gsr.status != '1' && gsr.status != '2') LEFT JOIN  goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-	$goalSettingQry = " SELECT gsr.assertion_table_sno, gsr.assertion, gsr.per_day_target, gsr.goal_setting_id, gsr.goal_setting_ref_id, gsr.goal_month as cdate, (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname, ',', '')) + 1) ) AS per_staff_target 
-	FROM goal_setting_ref gsr LEFT JOIN goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
-	WHERE FIND_IN_SET($staff_id, gsr.staffname) 
-	AND gsr.monthly_conversion_required = '1'
-	AND ((gsr.entry_date_type = '0' AND gsr.goal_month = '$curdate') 
-    	OR (gsr.entry_date_type = '1' AND gsr.goal_month = DATE_SUB('$curdate', INTERVAL 1 DAY)))
-	AND gs.status = '0' ";
+	$goalSettingQry = " SELECT 
+    gsr.assertion_table_sno, 
+    gsr.assertion, 
+    gsr.per_day_target, 
+    gsr.goal_setting_id, 
+    gsr.goal_setting_ref_id, 
+    gsr.goal_month as cdate, 
+    (gsr.target / (LENGTH(gsr.staffname) - LENGTH(REPLACE(gsr.staffname, ',', '')) + 1)) AS per_staff_target 
+	FROM 
+		goal_setting_ref gsr 
+		LEFT JOIN goal_setting gs ON gsr.goal_setting_id = gs.goal_setting_id
+	WHERE 
+		FIND_IN_SET($staff_id, gsr.staffname) 
+		AND gsr.monthly_conversion_required = '1'
+		AND (
+			(gsr.entry_date_type = '0' AND gsr.goal_month = '$curdate') 
+			OR 
+			(
+				gsr.entry_date_type = '1' AND gsr.goal_month = CASE 
+					WHEN DAYOFWEEK('$curdate') = 2 THEN DATE_SUB('$curdate', INTERVAL 2 DAY)  -- if Monday, sub 2 day to show saturday record because sunday is holiday.
+					ELSE DATE_SUB('$curdate', INTERVAL 1 DAY)
+				END
+			)
+		)
+		AND gs.status = '0' ";
 
 	$goalsettingDetails = $mysqli->query($goalSettingQry) or die("Error in Get All Records".$mysqli->error);
 	$i = 0;
