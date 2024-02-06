@@ -165,5 +165,6 @@ $output = array(
 echo json_encode($output);
 
 // Close the database connection
+$mysqli->close();
 $connect = null;
 ?>
