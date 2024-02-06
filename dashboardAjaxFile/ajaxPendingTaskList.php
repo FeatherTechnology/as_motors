@@ -46,7 +46,7 @@ if($todoInfo){
 
 $rr = array();
 $kpi = array();
-$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status IN (0, 1, 2)");
+$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status IN (0, 1, 2) AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY )");
 while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
@@ -229,12 +229,16 @@ $sno = 1;
         while($staffList = $getStaff->fetch()){
             $assign .= $staffList['staff_name'].', ';
         }
+        // Close the previous result set 
+        $getStaff->closeCursor();
     }else{ //we using 9 database table to get record and show in one html table, in project we assign task against designation but todo_creation, campaign_ref, FC INSURANCE RENEW are against staff so splited by condition and based on it show designation and staff name.
         $getDesignation = $connect->query("SELECT designation_name FROM designation_creation where designation_id = '".$desgn_id."' ");
         if ($getDesignation && $getDesignation->rowCount() > 0) {
             $designationList = $getDesignation->fetch();
             $assign = $designationList['designation_name'];
         }
+        // Close the previous result set 
+        $getDesignation->closeCursor();
     }
 
     $sub_array[] = $assign;

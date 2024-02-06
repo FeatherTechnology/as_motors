@@ -65,6 +65,8 @@ while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
 }
+// Close the previous result set 
+$checkqry->close();
 
 $qry = "";
 
@@ -91,6 +93,9 @@ while ($krakpitask = $krakpiInfo->fetch()) {
     $tasktitle[]['title'] = $krakpitask['title'];
     $worksts[]['sts'] = $krakpitask['sts'];
     }
+
+// Close the previous result set 
+$krakpiInfo->closeCursor();
 }
 
 $auditTaskInfo ="SELECT 'AUDIT ' as work_id, acr.audit_area_creation_ref_id as id, acr.work_status as sts, ac.audit_area  as title
@@ -103,7 +108,9 @@ while ($audittask = $auditInfo->fetch()) {
     $workid[]['work_id'] = $audittask['work_id'];
     $tasktitle[]['title'] = $audittask['title'];
     $worksts[]['sts'] = $audittask['sts'];
-}   
+} 
+// Close the previous result set 
+$auditInfo->closeCursor();  
 }            
 
 $maintanceTaskInfo = "SELECT 'MAINTENANCE '  as work_id, pcr.pm_checklist_ref_id as id, pcr.work_status as sts, pcr.checklist as title
@@ -116,6 +123,8 @@ while ($maintancetask = $maintanceInfo->fetch()) {
     $tasktitle[]['title'] = $maintancetask['title'];
     $worksts[]['sts'] = $maintancetask['sts'];
 }
+// Close the previous result set 
+$maintanceInfo->closeCursor();
 } 
 
 $bmTaskInfo = "SELECT 'BM ' as work_id, bcr.bm_checklist_ref_id as id, bcr.work_status as sts, bcr.checklist as title 
@@ -128,6 +137,8 @@ while ($bmtask = $bmInfo->fetch()) {
     $tasktitle[]['title'] = $bmtask['title'];
     $worksts[]['sts'] = $bmtask['sts'];
 }
+// Close the previous result set 
+$bmInfo->closeCursor();
 }
 
 // get campaign ref list
@@ -141,6 +152,8 @@ while($campaigntask = $campaignInfo->fetch_assoc())
     $tasktitle[]['title'] = $campaigntask['title'];
     $worksts[]['sts'] = $campaigntask['sts'];
 }
+// Close the previous result set 
+$campaignInfo->close();
 }
 
 // get assign work list and to_date > '".$today."'
@@ -154,6 +167,8 @@ while($assignTask = $assignInfo->fetch_assoc())
     $tasktitle[]['title'] = $assignTask['title'];
     $worksts[]['sts'] = $assignTask['sts'];
 }
+// Close the previous result set 
+$assignInfo->close();
 }
 
 $data = array();
@@ -184,5 +199,6 @@ $output = array(
 echo json_encode($output);
 
 // Close the database connection
+$mysqli->close();
 $connect = null;
 ?>

@@ -54,7 +54,7 @@ if($todoInfo){
 
 $rr = array();
 $kpi = array();
-$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status = 3 AND kc.department = '$userDept'");
+$checkqry = $con->query("SELECT kcr.rr, kcr.kpi FROM krakpi_calendar_map kcm LEFT JOIN krakpi_creation kc ON kcm.krakpi_id = kc.krakpi_id LEFT JOIN krakpi_creation_ref kcr ON kcm. krakpi_ref_id = kcr.krakpi_ref_id WHERE kc.status = 0 AND kcm.work_status = 3 AND kc.department = '$userDept' AND (kcm.to_date >= '$curdate' AND kcm.to_date <= '$curdate' + INTERVAL 10 DAY )");
 while($row = $checkqry->fetch_assoc()){
     $rr[] = $row["rr"];
     $kpi[] = $row["kpi"];
