@@ -72,7 +72,7 @@ if($sbranch_id == 'Overall'){
     }
 }else{
 
-    $query .=" and company_id= '".$company_id."' and ( department_id = '".$user_dept_id."' or emp_id = '".$sstaffid."') and status = '0' ";
+    $query .=" and company_id= '".$company_id."' and (($role = '3' && department_id = '".$user_dept_id."') or ($role = '4' && emp_id = '".$sstaffid."')) and status = '0' ";
 }
 
 if (isset($_POST['order'])) {

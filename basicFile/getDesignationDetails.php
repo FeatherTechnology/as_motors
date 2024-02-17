@@ -38,7 +38,7 @@ foreach($designationId as $k=>$v) {
 }
 
 sort($designationId); // optional
-$getDesignationName = $con->query("SELECT * FROM designation_creation");
+$getDesignationName = $con->query("SELECT * FROM designation_creation  WHERE company_id = '$company_id' and status = '0' ");
 
 // for($i=0; $i<=sizeof($getDesignationName)-1; $i++){  
     // print_r($designationId);
