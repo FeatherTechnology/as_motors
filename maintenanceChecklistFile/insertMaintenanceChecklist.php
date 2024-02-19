@@ -86,6 +86,7 @@ $frequencyArr = array_map('strval', explode(',', $frequencyStr));
 $remarksArr = array_map('strval', explode(',', $remarksStr)); 
 $frequency_applicableArr = array_map('strval', explode(',', $frequency_applicableStr)); 
 $checklist_textareaArr = array_map('strval', explode(',', $checklist_textareaStr)); 
+$frqArr = array('Yearly', 'Daily Task');
 
 // select holiday
 $getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
@@ -115,7 +116,7 @@ if($checklist == 'pm_checklist'){
         $updateQry = 'UPDATE  pm_checklist_multiple SET maintenance_checklist = 1 WHERE id = "'.strip_tags($checkedidArr[$i]).'" ';
         $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
-        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
+        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequencyArr[$i], $frqArr)){ 
 
             if($frequencyArr[$i] == 'Weekly'){
     
@@ -353,7 +354,7 @@ if($checklist == 'pm_checklist'){
         $updateQry = 'UPDATE  bm_checklist_multiple SET maintenance_checklist = 1 WHERE id = "'.strip_tags($checkedidArr[$i]).'" ';
         $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
 
-        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
+        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequencyArr[$i], $frqArr)){ 
 
             if($frequencyArr[$i] == 'Weekly'){
     

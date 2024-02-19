@@ -350,7 +350,7 @@ if($idupd>0)
                                                     <option value='Monthly'>Monthly</option>
                                                     <option value='Quaterly'>Quaterly</option>
                                                     <option value='Half Yearly'>Half Yearly</option>
-                                                    <option value='yearly'>Yearly</option>
+                                                    <option value='Yearly'>Yearly</option>
                                                     <option value='Daily Task'>Daily Task</option>
                                                 </select>
                                             </td>
