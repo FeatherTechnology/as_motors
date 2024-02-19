@@ -141,13 +141,6 @@
                     $cin ="";
                 }
             }
-            if(isset($_POST['cin'])){
-                // if($company_status != 'Partnership' || $company_status != 'HUF' || $company_status != 'Individual'){
-                //  $cin = $_POST['cin'];
-                // }else{
-                //  $cin = '';
-                // }
-            }
             if(isset($_POST['address1'])){
                 $address1 = $_POST['address1'];
             }
@@ -699,7 +692,8 @@
 				$holiday_dates[] = $row9["holiday_date"];
 			}
 
-			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
+			$frqArr = array('Yearly', 'Daily Task');
+			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequency, $frqArr)){
 
 				if ($frequency == 'Weekly'){ 
 
@@ -1001,7 +995,8 @@
 				$holiday_dates[] = $row9["holiday_date"];
 			}
 
-			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes"){
+			$frqArr = array('Yearly', 'Daily Task');
+			if($frequency_applicable == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequency, $frqArr)){
 
 				if ($frequency == 'Weekly'){ 
 
@@ -1258,26 +1253,6 @@
 			return $detailrecords;
 		}
 
-		// get Department Based on Multiple Branch id
-		// public function getBranchBasedDepartment($mysqli, $sbranch_id) {
-
-		// 	$qry = "SELECT * FROM department_creation WHERE company_id in('$sbranch_id') AND status=0 ORDER BY department_id ASC"; 
-		// 	$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-		// 	$detailrecords = array();
-		// 	$i=0;
-		// 	if ($mysqli->affected_rows>0)
-		// 	{
-		// 		while($row = $res->fetch_object())
-		// 		{
-		// 			$detailrecords[$i]['department_id']            = $row->department_id; 
-		// 			$detailrecords[$i]['department_name']       	= strip_tags($row->department_name);
-		// 			$detailrecords[$i]['company_id']       	= strip_tags($row->company_id);
-		// 			$i++;
-		// 		}
-		// 	}
-		// 	return $detailrecords;
-		// }
-
 		public function getBranchBasedDepartment($mysqli, $sbranch_ids) {
 			$detailrecords = array();
 			
@@ -1454,28 +1429,13 @@
             }
             if(isset($_POST['department'])){
                 $department = $_POST['department'];
-                // $department = implode(",", $department1);
             }
             if(isset($_POST['designation_code'])){
                 $designation_code = $_POST['designation_code'];
             }
-			// $designation_id = 1;
             if(isset($_POST['designation'])){
 				$designation1 = $_POST['designation'];
 				$designation = implode(",", $designation1);
-                //  $designation = explode(",", $designation1);
-				// echo "<script>alert('".$designation1."');</script>";
-				//  for($i=0;$i<count($designation);$i++){
-				// 	$qry = "SELECT * FROM designation_creation WHERE designation_name='".$designation[$i]."'"; 
-				// 	$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-				// 	if ($mysqli->affected_rows>0)
-				// 	{
-				// 		while($row = $res->fetch_object())
-				// 		{
-				// 			$designation_id            = $row->designation_id; 
-				// 		}
-				// 	}
-				// }
 			}
             if(isset($_POST['userid'])){
                 $userid = $_POST['userid'];
@@ -1488,30 +1448,10 @@
 				$responsibility1 = $_POST['responsibility'];
 				$responsibility = implode(",", $responsibility1);
 			}
-            // if($type == "Common"){
-            //  $selectCompany = $mysqli->query("SELECT * FROM company_creation WHERE 1 AND status=0");
-            //  $i=0;
-            //  if ($mysqli->affected_rows>0)
-            //  {
-            //      while($row = $selectCompany->fetch_object())
-            //      {
-            //          $detailrecords[$i]['company_id']            = $row->company_id;
-            //          $detailrecords[$i]['company_name']          = strip_tags($row->company_name);
-            //          $i++;
-            //      }
-            //  }
-            //  for($i=0; $i<=sizeof($detailrecords)-1; $i++){
-            //      $basicInsert="INSERT INTO basic_creation(type, company_id, department_code, department, designation_code, designation, insert_login_id)
-            //      VALUES('".strip_tags($type)."', '".strip_tags($detailrecords[$i]['company_id'])."', '".strip_tags($department_code)."', '".strip_tags($department)."',
-            //      '".strip_tags($designation_code)."', '".strip_tags($designation)."','".strip_tags($userid)."')";
-            //      $insresult=$mysqli->query($basicInsert) or die("Error ".$mysqli->error);
-            //  }
-            // }else if($type == "Specific"){
                 $basicInsert="INSERT INTO basic_creation(company_id, department_code, department, designation_code, designation, report_to, responsibility, insert_login_id)
                 VALUES( '".strip_tags($company_id)."', '".strip_tags($department_code)."', '".strip_tags($department)."',
                 '".strip_tags($designation_code)."', '".strip_tags($designation)."', '".strip_tags($report_to)."', '".strip_tags($responsibility)."', '".strip_tags($userid)."')";
                 $insresult=$mysqli->query($basicInsert) or die("Error ".$mysqli->error);
-            // }
         }
 
 		// Get basic
@@ -1541,10 +1481,6 @@
 
 		// Update basic
         public function updateBasicCreation($mysqli, $id, $userid){
-
-            // if(isset($_POST['type'])){
-            // $type = $_POST['type'];
-            // }
             if(isset($_POST['branch_id'])){
                 $company_id = $_POST['branch_id'];
             }
@@ -1586,59 +1522,6 @@
 			$runQry = $mysqli->query($basicDelete) or die("Error in delete query".$mysqli->error);
 		}
 
-		// Add Branch
-		// public function addStaffCreation($mysqli, $userid){
-
-		// 	if(isset($_POST['designation'])){
-		// 		$designation = $_POST['designation'];
-		// 	}
-		// 	if(isset($_POST['branch_id'])){
-		// 		$company_id = $_POST['branch_id'];
-		// 	}
-		// 	if(isset($_POST['staff_name'])){
-		// 		$staff_name = $_POST['staff_name'];
-		// 	}
-		// 	if(isset($_POST['reporting'])){
-		// 		$reporting = $_POST['reporting'];
-		// 	}
-		// 	if(isset($_POST['emp_code'])){
-		// 		$emp_code = $_POST['emp_code'];
-		// 	}
-		// 	if(isset($_POST['department'])){
-		// 		$department = $_POST['department'];
-		// 	}
-		// 	if(isset($_POST['doj'])){
-		// 		$doj = $_POST['doj'];
-		// 	}
-		// 	if(isset($_POST['krikpi'])){
-		// 		$krikpi = $_POST['krikpi'];
-		// 	}
-		// 	if(isset($_POST['dob'])){
-		// 		$dob = $_POST['dob'];
-		// 	}
-		// 	if(isset($_POST['key_skills'])){
-		// 		$key_skills = $_POST['key_skills'];
-		// 	}
-		// 	if(isset($_POST['contact_number'])){
-		// 		$contact_number = $_POST['contact_number'];
-		// 	}
-		// 	if(isset($_POST['email_id'])){
-		// 		$email_id = $_POST['email_id'];
-		// 	}
-			
-		// 	if(isset($_POST['userid'])){
-		// 		$userid = $_POST['userid'];
-		// 	} 
-		
-		// 	$staffInsert="INSERT INTO staff_creation(designation, company_id, staff_name, reporting, emp_code, department, doj, krikpi, 
-		// 	dob, key_skills, contact_number, email_id, insert_login_id) 
-		// 	VALUES('".strip_tags($designation)."', '".strip_tags($company_id)."', '".strip_tags($staff_name)."', '".strip_tags($reporting)."', 
-		// 	'".strip_tags($emp_code)."', '".strip_tags($department)."', '".strip_tags($doj)."', '".strip_tags($krikpi)."', '".strip_tags($dob)."',
-		// 	'".strip_tags($key_skills)."','".strip_tags($contact_number)."','".strip_tags($email_id)."','".strip_tags($userid)."' )";
-
-		// 	$insresult=$mysqli->query($staffInsert) or die("Error ".$mysqli->error);
-		// }
-
 		// Get Staff
 		public function getStaffCreation($mysqli, $id){
 
@@ -1666,59 +1549,6 @@
 			
 			return $detailrecords;
 		}
-
-		// Update Staff
-		// public function updateStaffCreation($mysqli, $id, $userid){
-
-		// 	if(isset($_POST['designation'])){
-		// 		$designation = $_POST['designation'];
-		// 	}
-		// 	if(isset($_POST['branch_id'])){
-		// 		$company_id = $_POST['branch_id'];
-		// 	}
-		// 	if(isset($_POST['staff_name'])){
-		// 		$staff_name = $_POST['staff_name'];
-		// 	}
-		// 	if(isset($_POST['reporting'])){
-		// 		$reporting = $_POST['reporting'];
-		// 	}
-		// 	if(isset($_POST['emp_code'])){
-		// 		$emp_code = $_POST['emp_code'];
-		// 	}
-		// 	if(isset($_POST['department'])){
-		// 		$department = $_POST['department'];
-		// 	}
-		// 	if(isset($_POST['doj'])){
-		// 		$doj = $_POST['doj'];
-		// 	}
-		// 	if(isset($_POST['krikpi'])){
-		// 		$krikpi = $_POST['krikpi'];
-		// 	}
-		// 	if(isset($_POST['dob'])){
-		// 		$dob = $_POST['dob'];
-		// 	}
-		// 	if(isset($_POST['key_skills'])){
-		// 		$key_skills = $_POST['key_skills'];
-		// 	}
-		// 	if(isset($_POST['contact_number'])){
-		// 		$contact_number = $_POST['contact_number'];
-		// 	}
-		// 	if(isset($_POST['email_id'])){
-		// 		$email_id = $_POST['email_id'];
-		// 	}
-	
-		// 	if(isset($_POST['userid'])){
-		// 		$userid = $_POST['userid'];
-		// 	} 
-		
-		//    $staffUpdaet = "UPDATE staff_creation SET designation = '".strip_tags($designation)."', company_id = '".strip_tags($company_id)."', staff_name='".strip_tags($staff_name)."', 
-		//    reporting='".strip_tags($reporting)."', emp_code='".strip_tags($emp_code)."', 
-		//    department='".strip_tags($department)."', doj='".strip_tags($doj)."', krikpi='".strip_tags($krikpi)."', dob='".strip_tags($dob)."',
-		//    key_skills='".strip_tags($key_skills)."',contact_number='".strip_tags($contact_number)."', email_id='".strip_tags($email_id)."',
-		//    update_login_id='".strip_tags($userid)."', status = '0' WHERE staff_id= '".strip_tags($id)."' ";
-		//    $updresult = $mysqli->query($staffUpdaet )or die ("Error in in update Query!.".$mysqli->error);
-		
-	 	// }
 
 		//  Delete Staff
 		public function deleteStaffCreation($mysqli, $id, $userid){
@@ -1751,7 +1581,6 @@
 			$qry = "SELECT rr_ref_id, rr FROM rr_creation_ref LEFT JOIN rr_creation ON rr_creation_ref.rr_reff_id = rr_creation.rr_id 
 			WHERE rr_creation_ref.designation = '".$designation."' AND rr_creation.status = 0 ";
 
-            // $qry = "SELECT * FROM rr_creation_ref WHERE 1 AND status=0 ORDER BY rr_ref_id ASC";
             $res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
             $detailrecords = array();
             $i=0;
@@ -1801,15 +1630,6 @@
 			if(isset($_POST['rr'])){
 				$rr = $_POST['rr'];
 			}
-			// if(isset($_POST['applicability'])){
-			// 	$applicability = $_POST['applicability'];
-			// }
-			// if(isset($_POST['frequency'])){
-			// 	$frequency = $_POST['frequency'];
-			// }
-			// if(isset($_POST['code_ref'])){
-			// 	$code_ref = $_POST['code_ref'];
-			// }
 			if(isset($_POST['userid'])){
 				$userid = $_POST['userid'];
 			} 
@@ -1853,9 +1673,6 @@
 					$rr_ref_id[]     			= $row1->rr_ref_id; 
 					$department[]             = $row1->department; 
 					$designation[]      = $row1->designation;
-					// $applicability[]      = $row1->applicability;
-					// $frequency[]      = $row1->frequency;
-					// $code_ref[]      = $row1->code_ref;
 					$rr[]      = $row1->rr;
 
 				} 
@@ -1865,9 +1682,6 @@
 				$detailrecords['rr_ref_id']        = $rr_ref_id; 
 				$detailrecords['department']      = $department;
 				$detailrecords['designation'] = $designation;  	
-				// $detailrecords['code_ref']   = $code_ref;  	
-				// $detailrecords['frequency']   = $frequency;  	
-				// $detailrecords['applicability']  = $applicability;
 				$detailrecords['rr'] = $rr;  	
 				
 			}
@@ -1876,9 +1690,6 @@
 				$detailrecords['rr_ref_id']      = array();
 				$detailrecords['department']     = array();
 				$detailrecords['designation']    = array(); 
-				// $detailrecords['applicability']  = array(); 
-				// $detailrecords['frequency']      = array(); 
-				// $detailrecords['code_ref']       = array(); 
 				$detailrecords['rr']             = array(); 
 			}
 			
@@ -1911,8 +1722,6 @@
 			} 
 			$updateQry = 'UPDATE rr_creation SET company_name = "'.strip_tags($company_name).'", status = "0" WHERE rr_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
 			$res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error); 
-
-			// $DeleterrRef = $mysqli->query("DELETE FROM rr_creation_ref WHERE rr_reff_id = '".$id."' "); 
 			
 			for($a=0; $a < count($rr_ref_id_deleted); $a++){
 				$DeleterrRef = $mysqli->query("DELETE FROM rr_creation_ref WHERE rr_ref_id = '".$rr_ref_id_deleted[$a]."' "); 
@@ -1983,11 +1792,6 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
-			// if(isset($_POST['frequency_applicable'])){
-			// 	$frequency_applicable = $_POST['frequency_applicable'];
-			// }else{
-			// 	$frequency_applicable = [];
-			// }
 
 			if(isset($_POST['freq_check'])){
 				$freq_check = explode(',',$_POST['freq_check']);
@@ -2031,7 +1835,8 @@
 				$insresult=$mysqli->query($krakpiInsert) or die("Error ".$mysqli->error); 
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
+				$frqArr = array('Yearly', 'Daily Task');
+				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes" && !in_array($frequency[$i], $frqArr)){
 
 					if ($frequency[$i] == 'Weekly'){ 
 
@@ -2203,7 +2008,7 @@
 						'".strip_tags($to_dates[$j].' '.$current_time)."' )";
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
-				} else if($calendar[$i] == "Yes"){
+				} else if($frequency[$i] == 'Yearly' && $calendar[$i] == "Yes"){
 
 					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($lastid)."', 
 					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
@@ -2285,7 +2090,6 @@
             if($rrRefid > 0)
             {
                 $detailrecords['krakpi_ref_id'] = $krakpi_ref_id;
-                // $detailrecords['code_ref'] = $code_ref;
                 $detailrecords['frequency'] = $frequency;
                 $detailrecords['frequency_applicable'] = $frequency_applicable;
                 $detailrecords['calendar'] = $calendar;
@@ -2307,7 +2111,6 @@
                 $detailrecords['calendar']     = array();
                 $detailrecords['from_date']     = array();
                 $detailrecords['to_date']     = array();
-                // $detailrecords['code_ref']      = array();
                 $detailrecords['rr']            = array();
                 $detailrecords['kra_category']            = array();
                 $detailrecords['kpi']            = array();
@@ -2358,11 +2161,6 @@
 			if(isset($_POST['kpi'])){
                 $kpi = $_POST['kpi'];
             }
-			// if(isset($_POST['frequency_applicable'])){
-			// 	$frequency_applicable = $_POST['frequency_applicable'];
-			// }else{
-			// 	$frequency_applicable = [];
-			// }
 
 			if(isset($_POST['freq_check'])){
 				$freq_check = explode(',',$_POST['freq_check']);
@@ -2400,7 +2198,7 @@
 				} else {
 					$to_date = $to_date1[$i].' '.$current_time;
 				}
-				$frequency_applicable = $freq_check[$i]!=' '?'frequency_applicable':'';
+				$frequency_applicable = ($freq_check[$i]!=' ')?'frequency_applicable':'';
 				$rrUpdaet = "INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, criteria, project_id, frequency, frequency_applicable, calendar, from_date, to_date, 
 				insert_login_id, kra_category, kpi)VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."', '".strip_tags($criteria[$i])."', 
 				'".strip_tags($project_id[$i])."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable)."', '".strip_tags($calendar[$i])."', 
@@ -2408,7 +2206,8 @@
 				$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
 				$lastref_id = $mysqli->insert_id;
 
-				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes"){
+				$frqArr = array('Yearly', 'Daily Task');
+				if($frequency_applicable == 'frequency_applicable' && $calendar[$i] == "Yes" && !in_array($frequency[$i], $frqArr)){
 
 						if ($frequency[$i] == 'Weekly'){ 
 	
@@ -2580,7 +2379,7 @@
 						$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);	
 					} 
 
-				} else if($calendar[$i] == "Yes"){
+				} else if($frequency[$i] == 'Yearly' && $calendar[$i] == "Yes"){
 
 					$insertQry="INSERT INTO krakpi_calendar_map(krakpi_id, krakpi_ref_id, kra_category, calendar, from_date, to_date) VALUES ('".strip_tags($id)."', 
 					'".strip_tags($lastref_id)."', '".strip_tags($kra_category[$i])."', '".strip_tags($calendar[$i])."', '".strip_tags($from_date)."', '".strip_tags($to_date)."' )";
@@ -2649,169 +2448,6 @@
 			}
 			return $detailrecords;
 		}
-
-		// // Add krakpi
-        // public function addKraKpiCreation($mysqli, $userid){
-
-        //     if(isset($_POST['department'])){
-        //         $department = $_POST['department'];
-        //     }
-        //     if(isset($_POST['branch_id'])){
-        //         $company_name = $_POST['branch_id'];
-        //     }
-        //     if(isset($_POST['designation'])){
-        //         $designation = $_POST['designation'];
-        //     }
-        //     if(isset($_POST['rr'])){
-        //         $rr = $_POST['rr'];
-        //     }
-        //     if(isset($_POST['applicability'])){
-        //         $applicability = $_POST['applicability'];
-        //     }
-        //     if(isset($_POST['frequency'])){
-        //         $frequency = $_POST['frequency'];
-        //     }
-        //     if(isset($_POST['code_ref'])){
-        //         $code_ref = $_POST['code_ref'];
-        //     }
-        //     if(isset($_POST['userid'])){
-        //         $userid = $_POST['userid'];
-        //     }
-
-		// 	if(isset($_POST['kra_category'])){
-        //         $kra_category = $_POST['kra_category'];
-        //     } 
-
-		// 	if(isset($_POST['kpi'])){
-        //         $kpi = $_POST['kpi'];
-        //     }
-
-        //     $rrInsert="INSERT INTO krakpi_creation(company_name, department, designation, insert_login_id)
-        //     VALUES('".strip_tags($company_name)."','".strip_tags($department)."', '".strip_tags($designation)."', '".strip_tags($userid)."' )";
-        //     $insresult=$mysqli->query($rrInsert) or die("Error ".$mysqli->error);
-        //     $RRId = $mysqli->insert_id;
-
-        //     for($i=0; $i<=sizeof($rr)-1; $i++){
-		// 		$rr1Insert="INSERT INTO krakpi_creation_ref(krakpi_reff_id,rr, applicability,frequency, code_ref,insert_login_id, kra_category, kpi)
-		// 		VALUES('".strip_tags($RRId)."', '".strip_tags($rr[$i])."','".strip_tags($applicability[$i])."',
-		// 		'".strip_tags($frequency[$i])."','".strip_tags($code_ref[$i])."','".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."' )"; 
-		// 		$insresult=$mysqli->query($rr1Insert) or die("Error ".$mysqli->error); 
-		// 	} 
-
-		// 	return true;
-    	// }
-
-        // // Get krakpi
-        // public function getKraKpiCreation($mysqli, $id){
-
-        //     $rr1Select = "SELECT * FROM krakpi_creation WHERE krakpi_id='".mysqli_real_escape_string($mysqli, $id)."' ";
-        //     $res = $mysqli->query($rr1Select) or die("Error in Get All Records".$mysqli->error);
-        //     $detailrecords = array();
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         $row = $res->fetch_object();
-        //         $rrId                           = $row->krakpi_id;
-        //         $detailrecords['krakpi_id']         = $row->krakpi_id;
-        //         $detailrecords['company_name']          = $row->company_name;
-        //         $detailrecords['department']            = $row->department;
-        //         $detailrecords['designation']           = $row->designation;
-        //     }
-        //     $rrRefid = 0;
-        //     $rrSelect = "SELECT * FROM krakpi_creation_ref WHERE krakpi_reff_id='".mysqli_real_escape_string($mysqli, $rrId)."' ";
-        //     $res1 = $mysqli->query($rrSelect) or die("Error in Get All Records".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         while($row1 = $res1->fetch_object()){
-        //             $rrRefid               = $row1->krakpi_ref_id;
-        //             $krakpi_ref_id[]       = $row1->krakpi_ref_id;
-        //             $applicability[]       = $row1->applicability;
-        //             $frequency[]           = $row1->frequency;
-        //             $code_ref[]            = $row1->code_ref;
-        //             $rr[]                  = $row1->rr;
-        //             $kra_category[]        = $row1->kra_category;
-        //             $kpi[]                 = $row1->kpi;
-        //         }
-        //     }
-        //     if($rrRefid > 0)
-        //     {
-        //         $detailrecords['krakpi_ref_id'] = $krakpi_ref_id;
-        //         $detailrecords['code_ref'] = $code_ref;
-        //         $detailrecords['frequency'] = $frequency;
-        //         $detailrecords['applicability'] = $applicability;
-        //         $detailrecords['rr'] = $rr;
-        //         $detailrecords['kra_category'] = $kra_category;
-        //         $detailrecords['kpi'] = $kpi;
-        //     }
-        //     else
-        //     {
-        //         $detailrecords['krakpi_ref_id'] = array();
-        //         $detailrecords['applicability'] = array();
-        //         $detailrecords['frequency']     = array();
-        //         $detailrecords['code_ref']      = array();
-        //         $detailrecords['rr']            = array();
-        //         $detailrecords['kra_category']            = array();
-        //         $detailrecords['kpi']            = array();
-        //     }
-            
-        //     return $detailrecords;
-        // }
-
-        // // Update krakpi
-        // public function updateKraKpiCreation($mysqli, $id, $userid){
-
-        //     if(isset($_POST['department'])){
-        //         $department = $_POST['department'];
-        //     }
-        //     if(isset($_POST['branch_id'])){
-        //         $company_name = $_POST['branch_id'];
-        //     }
-        //     if(isset($_POST['designation'])){
-        //         $designation = $_POST['designation'];
-        //     }
-        //     if(isset($_POST['rr'])){
-        //         $rr = $_POST['rr'];
-        //     }
-        //     if(isset($_POST['applicability'])){
-        //         $applicability = $_POST['applicability'];
-        //     }
-        //     if(isset($_POST['frequency'])){
-        //         $frequency = $_POST['frequency'];
-        //     }
-        //     if(isset($_POST['code_ref'])){
-        //         $code_ref = $_POST['code_ref'];
-        //     }
-        //     if(isset($_POST['userid'])){
-        //         $userid = $_POST['userid'];
-        //     }
-
-		// 	if(isset($_POST['kra_category'])){
-        //         $kra_category = $_POST['kra_category'];
-        //     }
-		// 	if(isset($_POST['kpi'])){
-        //         $kpi = $_POST['kpi'];
-        //     }
-
-        //     $updateQry = 'UPDATE krakpi_creation SET company_name = "'.strip_tags($company_name).'", department = "'.strip_tags($department).'", 
-		// 	designation = "'.strip_tags($designation).'", status = "0" WHERE krakpi_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
-        //     $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error);
-        //     $DeleterrRef = $mysqli->query("DELETE FROM krakpi_creation_ref WHERE krakpi_reff_id = '".$id."' ");
-
-        //     for($i=0; $i<=sizeof($rr)-1; $i++){
-		// 		$rrUpdaet = "INSERT INTO krakpi_creation_ref(krakpi_reff_id, rr, applicability, frequency, code_ref, insert_login_id, kra_category, kpi)
-		// 			VALUES('".strip_tags($id)."', '".strip_tags($rr[$i])."','".strip_tags($applicability[$i])."', '".strip_tags($frequency[$i])."', 
-		// 			'".strip_tags($code_ref[$i])."','".strip_tags($userid)."', '".strip_tags($kra_category[$i])."', '".strip_tags($kpi[$i])."')"; 
-		// 		$updresult = $mysqli->query($rrUpdaet)or die ("Error in in update Query!.".$mysqli->error);
-		// 	}
-
-		// 	return true;
-		// }
-
-		// //  Delete krakpi
-		// public function deleteKraKpiCreation($mysqli, $id, $userid){
-
-		// 	$rrDelete = "UPDATE krakpi_creation set status='1', delete_login_id='".strip_tags($userid)."' WHERE krakpi_id = '".strip_tags($id)."' ";
-		// 	$runQry = $mysqli->query($rrDelete) or die("Error in delete query".$mysqli->error);
-		// }
 
 		//get Audit area table
 			public function getAuditAreaTable($mysqli){
@@ -2917,58 +2553,6 @@
             return $auditChecklist;
         }
 
-		
-        // //get Audit area Checklist table
-        // public function getAuditAreaChecklist($mysqli,$id){
-
-        //     if($id>0){
-        //         $checklistSelect = "SELECT * FROM audit_checklist where audit_checklist_id= '".$id."' ";
-        //     }else{
-        //         $checklistSelect = "SELECT * FROM audit_checklist";
-        //     }
-        //     $res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         while($row = $res->fetch_object()){
-        //         // $auditChecklist[] = $row->audit_checklist_id;
-        //         $auditChecklist['area_id'] = $row->audit_area_id;
-        //         $auditChecklist['department'] = $row->department;
-        //         $auditChecklist['auditor'] = $row->auditor;
-        //         $auditChecklist['auditee'] = $row->auditee;
-        //         }
-        //     }
-        //     $audit_area_name = "SELECT * FROM audit_area_creation where audit_area_id= '".$auditChecklist['area_id']."' ";
-        //     $res1 = $mysqli->query($audit_area_name) or die("Error in Get All Records".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         $row1 = $res1->fetch_assoc();
-        //         $auditChecklist['area_name'] = $row1['audit_area'];
-        //     }
-        //     $department_name = "SELECT * FROM department_creation where department_id= '".$auditChecklist['department']."' ";
-        //     $res2 = $mysqli->query($department_name) or die("Error in Get All Records".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         $row2 = $res2->fetch_assoc();
-        //         $auditChecklist['department_name'] = $row2['department_name'];
-        //     }
-        //     $auditor_name = "SELECT * FROM staff_creation where staff_id= '".$auditChecklist['auditor']."' ";
-        //     $res3 = $mysqli->query($auditor_name) or die("Error in Get All Records".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         $row3 = $res3->fetch_assoc();
-        //         $auditChecklist['auditor_name'] = $row3['staff_name'];
-        //     }
-        //     $auditee_name = "SELECT * FROM staff_creation where staff_id= '".$auditChecklist['auditee']."' ";
-        //     $res4 = $mysqli->query($auditee_name) or die("Error in Get All Records".$mysqli->error);
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         $row4 = $res4->fetch_assoc();
-        //         $auditChecklist['auditee_name'] = $row4['staff_name'];
-        //     }
-            
-        //     return $auditChecklist;
-        // }
-
         //get AudiArea Checklist from ref table
         public function getAuditChecklist_ref($mysqli,$id){
             $get_checklist = "SELECT * FROM audit_checklist_ref where audit_area_id='".$id."' ";
@@ -2980,7 +2564,6 @@
             {
                 while($row2 = $res2->fetch_assoc()){
                 $auditChecklist2[$i]['major_area'] = $row2['major_area'];
-                // $auditChecklist2[$i]['sub_area'] = $row2['sub_area'];
                 $auditChecklist2[$i]['assertion'] = $row2['assertion'];
                 $auditChecklist2[$i]['weightage'] = $row2['weightage'];
                 $i++;
@@ -3007,9 +2590,6 @@
             if(isset($_POST['major'])){
                 $major = $_POST['major'];
             }
-            // if(isset($_POST['sub'])){
-            //     $sub = $_POST['sub'];
-            // }
             if(isset($_POST['assertion'])){
                 $assertion = $_POST['assertion'];
             }
@@ -3054,9 +2634,6 @@
             if(isset($_POST['major'])){
                 $major = $_POST['major'];
             }
-            // if(isset($_POST['sub'])){
-            //     $sub = $_POST['sub'];
-            // }
             if(isset($_POST['assertion'])){
                 $assertion = $_POST['assertion'];
             }
@@ -3071,8 +2648,6 @@
             for($i=0;$i<=sizeof($major)-1;$i++){
                 $qry2="INSERT INTO audit_checklist_ref(audit_area_id, major_area, assertion, weightage)
                 VALUES('".strip_tags($area_id)."', '".strip_tags($major[$i])."', '".strip_tags($assertion[$i])."', '".strip_tags($weightage[$i])."' )";
-                // $qry2="UPDATE audit_checklist_ref set audit_area_id= '".$audit_area_id."' , major_area= '".strip_tags($major[$i])."', sub_area = '".strip_tags($sub[$i])."', assertion ='".strip_tags($assertion[$i])."',
-                // weightage = '".strip_tags($weightage[$i])."' WHERE audit_checklist_ref_id= '".$id."' AND audit_area_id= '".$area_id."' ";
             $update_checklist_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
             }
         }
@@ -3384,14 +2959,7 @@
 				$report_list['report_name'] = $row['report_name'];
 				$report_list['company_id'] = $row['company_id'];
 				$report_list['report_file'] = $row['report_file'];
-			}
-			// $getqry = "SELECT company_name FROM company_creation WHERE company_id ='".strip_tags($report_list['company_id'])."' and status = 0";
-			// $res2 = $mysqli->query($getqry) or die("Error in Get All company".$mysqli->error);
-			// while($row2 = $res2->fetch_assoc())
-			// {
-			// 	$report_list['company_name'] = $row2["company_name"];
-			// }
-			
+			}			
 			return $report_list;
 		}
 
@@ -3511,12 +3079,6 @@
 				$report_list['platform'] = $row['platform'];
 				$report_list['media_file'] = $row['media_file'];
 			}
-			// $getqry = "SELECT company_name FROM company_creation WHERE company_id ='".strip_tags($report_list['company_id'])."' and status = 0";
-			// $res2 = $mysqli->query($getqry) or die("Error in Get All company".$mysqli->error);
-			// while($row2 = $res2->fetch_assoc())
-			// {
-			// 	$report_list['company_name'] = $row2["company_name"];
-			// }
 			return $report_list;
 		}
 
@@ -3686,8 +3248,6 @@
 			$kraUpdaet = "UPDATE kra_creation SET company_id = '".strip_tags($company_id)."', designation_id = '".strip_tags($designation)."', 
 			department_id='".strip_tags($department)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE kra_id= '".strip_tags($id)."' ";
 			$updresult = $mysqli->query($kraUpdaet )or die ("Error in in update Query!.".$mysqli->error);
-
-			// $deleteKraRef = $mysqli->query("DELETE FROM kra_creation_ref WHERE kra_id = '".$id."' "); 
 			
 			for($a=0; $a < count($kra_creation_ref_id_deleted); $a++){
 				$deleteKraRef = $mysqli->query("DELETE FROM kra_creation_ref WHERE kra_creation_ref_id = '".$kra_creation_ref_id_deleted[$a]."' "); 
@@ -4208,11 +3768,6 @@
 					VALUES('".strip_tags($id)."', '".$department_id[$i]."', '".$work_des_id[$i]."','".$work_des_text[$i]."', '".strip_tags($frequency[$i])."', '".strip_tags($frequency_applicable[$i])."', '".$designation[$i]."', '".$from_date[$i].' '.$current_time."', '".$to_date[$i].' '.$current_time."' )";
 					$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 				}
-
-				// $updQry="INSERT INTO assign_work_ref(assign_work_reff_id, department_id, work_des, work_des_text, designation_id, from_date, to_date)
-				// 	VALUES('".strip_tags($id)."', '".$department_id[$i]."', '".$work_des_id[$i]."','".$work_des_text[$i]."', '".$designation[$i]."', '".$from_date[$i]."', 
-				// 	'".$to_date[$i]."' )";
-				// $updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 			}
 		}
 		
@@ -4264,7 +3819,6 @@
 					{
 					   $detailrecords[$j]['designation_name'] = $row2["designation_name"];        
 					}
-					// print_r($detailrecords[$j]['designation_name']); die;
 					$detailrecords[$j]['from_date']      = $row->from_date;		
 					$detailrecords[$j]['to_date']      = $row->to_date;		
 					$detailrecords[$j]['frequency']      = $row->frequency;		
@@ -4449,9 +4003,6 @@
 			if(isset($_POST['designation'])){
 				$designation_id = $_POST['designation'];
 			}
-			// if(isset($_POST['staff_name'])){
-			// 	$staff_id = $_POST['staff_name'];
-			// }
 			if(isset($_POST['calendar'])){
 				$calendar = $_POST['calendar'];
 			}
@@ -4578,9 +4129,6 @@
 			if(isset($_POST['designation'])){
 				$designation_id = $_POST['designation'];
 			}
-			// if(isset($_POST['staff_name'])){
-			// 	$staff_id = $_POST['staff_name'];
-			// }
 			if(isset($_POST['calendar'])){
 				$calendar = $_POST['calendar'];
 			}
@@ -4715,18 +4263,12 @@
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
-			// if(isset($_POST['branch_id'])){
-			// 	$company_id = $_POST['branch_id'];
-			// }
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
-			// if(isset($_POST['tag_id'])){
-			// 	$tag_id = $_POST['tag_id'];
-			// }
 			if(isset($_POST['priority'])){
 				$priority_id = $_POST['priority'];
 			}
@@ -4751,7 +4293,6 @@
 			VALUES( '".strip_tags($work_des)."','".strip_tags($priority_id)."', '".strip_tags($assign_to_id)."', 
 			'".strip_tags($from_date)."', '".strip_tags($to_date)."', '".strip_tags($criteria)."','".strip_tags($project_id)."', current_timestamp(), '".$userid."' )"; 
 			$insresult=$mysqli->query($insertQry) or die("Error ".$mysqli->error);
-			//company_id,'".strip_tags($company_id)."',
 		}
 
 		// Update Todo 
@@ -4760,15 +4301,9 @@
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
-			// if(isset($_POST['branch_id'])){
-			// 	$company_id = $_POST['branch_id'];
-			// }
 			if(isset($_POST['work_des'])){
 				$work_des = $_POST['work_des'];
 			}
-			// if(isset($_POST['tag_id'])){
-			// 	$tag_id = $_POST['tag_id'];
-			// }
 			if(isset($_POST['priority'])){
 				$priority_id = $_POST['priority'];
 			}
@@ -4792,7 +4327,6 @@
 			$updQry="UPDATE todo_creation set  work_des = '".strip_tags($work_des)."', priority = '".strip_tags($priority_id)."', assign_to = '".strip_tags($assign_to_id)."', from_date = '".strip_tags($from_date)."', to_date = '".strip_tags($to_date)."', 
 			criteria = '".strip_tags($criteria)."', project_id = '".strip_tags($project_id)."',	status = 0, updated_id = '".$userid."' WHERE todo_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
-			//company_id = '".strip_tags($company_id)."',
 		}
 		
 		// Get Assign Work table
@@ -4805,10 +4339,8 @@
 			if ($mysqli->affected_rows>0)
 			{
 				$row = $res->fetch_object();	
-				// $detailrecords['company_id']      = $row->company_id; 
 				$detailrecords['todo_id']      = $row->todo_id; 		
-				$detailrecords['work_des']      = $row->work_des;		
-				// $detailrecords['tag_id']      = $row->tag_id;		
+				$detailrecords['work_des']      = $row->work_des;			
 				$detailrecords['priority']      = $row->priority;		
 				$detailrecords['assign_to']      = $row->assign_to;		
 				$detailrecords['from_date']      = $row->from_date;		
@@ -4825,52 +4357,6 @@
 			$deleteQry = "UPDATE todo_creation set status='1' WHERE todo_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($deleteQry) or die("Error in delete query".$mysqli->error);
 		}
-
-		// // get work description for assign work
-		// function getkpilist($mysqli){
-
-		// 	$getqry = "SELECT * FROM krakpi_creation_ref WHERE rr = 'New' and status = 0";
-		// 	$res12 = $mysqli->query($getqry);
-		// 	$detailrecords = array();
-		// 	$j=0;
-		// 	while($row12 = $res12->fetch_assoc())
-		// 	{
-		// 		$detailrecords[$j]['kpi'] = $row12["kpi"];  
-		// 		$detailrecords[$j]['krakpi_ref_id'] = $row12["krakpi_ref_id"];  
-		// 		$j++;
-		// 	}
-		// 	return $detailrecords; 
-		// }
-
-		// //get work description for assign work
-		// function getrrlist($mysqli){
-
-		// 	$rrrecords = array();
-		// 	$detailrecords = array();
-			
-		// 	$getqry = "SELECT * FROM krakpi_creation_ref WHERE rr != 'New' and status = 0";
-		// 	$res12 = $mysqli->query($getqry);
-		// 	while($row12 = $res12->fetch_assoc())
-		// 	{
-		// 		$rrrecords[] = $row12["rr"];       
-		// 	}
-			
-		// 	$z=0;
-
-		// 	// for($i=0; $i<=sizeof($rrrecords)-1; $i++){
-		// 	foreach($rrrecords as $rrlist){
-		// 		$getqry = "SELECT * FROM rr_creation_ref WHERE rr_ref_id ='".strip_tags($rrlist)."' and status = 0";
-		// 		$res2 = $mysqli->query($getqry);
-		// 		while($row2 = $res2->fetch_assoc())
-		// 		{
-		// 			$detailrecords[$z]['rr_id'] = $row2["rr_ref_id"];
-		// 			$detailrecords[$z]['rr_name'] = $row2["rr"];        
-		// 			$z++;
-		// 		}
-		// 	}
-
-		// 	return $detailrecords; 
-		// }
 
 		// Add memo
 		public function addMemo($mysqli,$userid){
@@ -5079,39 +4565,6 @@
 			narration = '".strip_tags($narration)."', status = 0, update_login_id = '".$userid."' WHERE memo_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
-	
-
-		// public function getDepartmentName($mysqli, $company_id){
-
-		// 	$hierarchyDep = array();
-		// 	$department_id = array();
-		// 	$department_name = array();
-
-		// 	$getDepartmentId = $mysqli->query("SELECT * FROM basic_creation WHERE company_id ='".strip_tags($company_id)."' AND status = 0 ");
-		// 	while($row1=$getDepartmentId->fetch_assoc()){
-		// 		$departmentArr[]    = $row1["department"];
-		// 	}
-		// 	$hierarchyDep = array_unique($departmentArr); 
-		// 	// $hierarchyDep = array_map('intval', explode(',', $arrayUnique)); 
-
-		// 	for($i=0; $i<=sizeof($hierarchyDep)-1; $i++){
-		// 		$qry = "SELECT * FROM department_creation WHERE department_id ='".strip_tags($hierarchyDep[$i])."' AND status = 0"; 
-		// 		$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-		// 		$detailrecords = array();
-		// 		$i=0;
-		// 		if ($mysqli->affected_rows>0)
-		// 		{
-		// 			while($row = $res->fetch_object())
-		// 			{
-		// 				$detailrecords[$i]['department_id']         = $row->department_id; 
-		// 				$detailrecords[$i]['department_name']       = strip_tags($row->department_name);
-		// 				$i++;
-		// 			}
-		// 		}
-		// 	}
-
-		// 	return $detailrecords;
-		// }
 
 		// Get Assign Employee table
         public function getAssignEmployeeName($mysqli, $to_department){
@@ -5231,7 +4684,6 @@
 			{
 				$detailrecords[$j]['work_id'] = $row12["assign_work_reff_id"];  
 				$detailrecords[$j]['work_des_text'] = $row12["work_des_text"];  
-				// $detailrecords[$j]['assign_to'] = $row12["assign_to"];  
 				$detailrecords[$j]['assign_to'] = '';  
 				$to_date = $row12["to_date"];
 				$detailrecords[$j]['to_date'] = $to_date ;  
@@ -5262,12 +4714,6 @@
 				$to_date = $row12["to_date"];
 				$detailrecords[$j]['to_date'] = $to_date;
 				$detailrecords[$j]['branch_id'] = $row12['company_id'];
-
-				// $detailrecords[$j]['department_id'] = $row12["department_id"];  
-				// $getbranch = "SELECT * FROM department_creation where department_id = '".$detailrecords[$j]['department_id']."' ";
-				// $res2 = $mysqli->query($getbranch);
-				// $row2 = $res2->fetch_assoc();
-				// $j++;
 			}
 			return $detailrecords; 
 		}
@@ -5369,28 +4815,6 @@
             return $detailrecords;
         }
 
-		// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
-        // public function getsroleDetail ($mysqli, $sbranch_id){
-		// 	$qry = "SELECT u.role,u.title,b.company_id,c.company_name FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id WHERE u.branch_id in ('$sbranch_id')  AND u.status=0 ORDER BY u.branch_id ASC";
-        //     $res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-        //     $detailrecords = array();
-           
-        //     $i=0;
-        //     if ($mysqli->affected_rows>0)
-        //     {
-        //         while($row = $res->fetch_object())
-        //         {
-        //             $detailrecords['role']          = strip_tags($row->role);
-		// 			$detailrecords['title']          = strip_tags($row->title);
-		// 			$detailrecords['company_id']          = strip_tags($row->company_id);
-		// 			$detailrecords['company_name']          = strip_tags($row->company_name);
-        //             $i++;
-        //         }
-        //     }
-		// 	// print_r($detailrecords);
-        //     return $detailrecords;
-		// }
-
 		//  Get branch Name
 		public function getCompanyNameFromBranch($mysqli) {
 
@@ -5428,12 +4852,6 @@
 				while($row = $res->fetch_object())
 				{
 					$detailrecords[$i]['company_id']  = strip_tags($row->company_id);
-					// 	$getname = "SELECT company_name FROM company_creation WHERE company_id = '".strip_tags($row->company_id)."' ";
-					// 	$res1 = $mysqli->query($getname) or die("Error in Get All Records".$mysqli->error);
-					// 	while ($row2 = $res1->fetch_object()) {
-					// 		$company_name = $row2->company_name;
-					// 	}
-					// $detailrecords[$i]['company_name'] = $company_name;
 					$i++;
 				}
 			}
@@ -5487,9 +4905,6 @@
 			if(isset($_POST['depreciation'])){
 				$depreciation = $_POST['depreciation'];
 			}
-			// if(isset($_POST['as_on'])){
-			// 	$as_on = $_POST['as_on'];
-			// }
 			if(isset($_POST['asset_location'])){
 				$asset_location = $_POST['asset_location'];
 			}
@@ -5548,9 +4963,6 @@
 			if(isset($_POST['depreciation'])){
 				$depreciation = $_POST['depreciation'];
 			}
-			// if(isset($_POST['as_on'])){
-			// 	$as_on = $_POST['as_on'];
-			// }
 			if(isset($_POST['asset_location'])){
 				$asset_location = $_POST['asset_location'];
 			}
@@ -5601,8 +5013,6 @@
 			$res12 = $mysqli->query($getqry);
 			$detailrecords = array();
 			$j=0;
-			// while($row12 = $res12->fetch_assoc())
-			// {
 			$row12 = $res12->fetch_assoc();
 				$detailrecords['asset_details_id'] = $row12["asset_details_id"];  
 				$detailrecords['asset_register_id'] = $row12["asset_register_id"];  
@@ -5618,7 +5028,6 @@
 				$detailrecords['asset_count'] = $row12["asset_count"];  
 				$detailrecords['spare_names'] = $row12["spare_names"];  
 				$j++;
-			// }
 			return $detailrecords; 
 		}
 		
@@ -5630,7 +5039,6 @@
 			$j=0;
 			while($row12 = $res12->fetch_assoc())
 			{
-				// $row12 = $res12->fetch_assoc();
 				$detailrecords1[$j]['model_no'] = $row12["modal_no"];  
 				$detailrecords1[$j]['warranty_upto'] = $row12["warranty_upto"];  
 				$j++;
@@ -5819,10 +5227,6 @@
 			company_address2 = '".strip_tags($company_address2)."', reason_for_indent = '".strip_tags($reason_for_indent)."', expected_to_arrive = '".strip_tags($expected_to_arrive)."', 
 			status = 0, stock_in_out = '1', update_login_id = '".$userid."' WHERE service_indent_id= '".strip_tags($id)."' ";
 			$updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
-
-			// $updQry="UPDATE asset_register set stock_in_out = '1', update_login_id = '".$userid."' WHERE asset_id= '".strip_tags($asset_class)."' ";
-
-			// $updresult=$mysqli->query($updQry) or die("Error ".$mysqli->error);
 		}
 
 			//Delete Service Indent
@@ -6300,7 +5704,6 @@
 				}
 			}
 
-			// $hierarchyDesig = array_merge($top_hierarchy, $sub_ordinate);
 			$designationStr = implode(",", $designationFetch);
 			$designationArr = array_map('intval', explode(',', $designationStr)); 
 
@@ -6526,7 +5929,6 @@
 		
 		//Delete Permission On Dury
 		public function deletePermissionOnDuty($mysqli, $id, $userid){
-			// $deleteQry = "UPDATE permission_or_on_duty set status='1', delete_login_id = '".$userid."' WHERE permission_on_duty_id = '".strip_tags($id)."' ";
 			$deleteQry = "DELETE FROM `permission_or_on_duty` WHERE permission_on_duty_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($deleteQry) or die("Error in delete query".$mysqli->error);
 		}
@@ -7122,7 +6524,6 @@
 			$file1 = array();
 			if(count($_FILES["file"]["name"]) > 0)
 			{
-				// $output = '';
 				sleep(3);
 				for($count=0; $count<count($_FILES["file"]["name"]); $count++)
 				{
@@ -7244,10 +6645,6 @@
 						$updresult = $mysqli->query($agreeApprovalRequisition)or die ("Error in in Insert Query!.".$mysqli->error);
 				} }
 			}
-
-			// $addAgreeDisagree = "INSERT INTO approval_requisition_agree_disagree(approval_line_id, agree_disagree, agree_disagree_staff_id)
-			// VALUES('".strip_tags($approval_line_id)."', '1', '".strip_tags($sstaffid)."')";
-			// $updresult = $mysqli->query($addAgreeDisagree)or die ("Error in in Insert Query!.".$mysqli->error);
 		}
 
 		// disagree approval requisition
@@ -8650,9 +8047,6 @@
             $updateQry = 'UPDATE campaign SET promotional_activities_id = "'.strip_tags($project_id).'", actual_start_date = "'.strip_tags($actual_start_date).'", branch_id = "'.strip_tags($branch_id).'", update_login_id = "'.strip_tags($userid).'", status = "0" WHERE campaign_id = "'.mysqli_real_escape_string($mysqli, $id).'" ';
             $res = $mysqli->query($updateQry) or die ("Error in in update Query!.".$mysqli->error);
 
-			// delete ref
-            // $DeleterrRef = $mysqli->query("DELETE FROM campaign_ref WHERE campaign_id = '".$id."' ");
-
 			date_default_timezone_set('Asia/Calcutta');
 			$current_time = date('H:i:s');
 
@@ -9148,35 +8542,6 @@
 			}
 		}
 
-		//  Get goal setting year
-		// public function getGoalYear($mysqli) {
-
-		// 	$qry = "SELECT * FROM goal_setting WHERE 1 AND status=0"; //GROUP BY year
-		// 	$res =$mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
-		// 	$detailrecords = array();
-		// 	$i=0;
-		// 	if ($mysqli->affected_rows>0)
-		// 	{
-		// 		while($row = $res->fetch_object())
-		// 		{
-		// 			$detailrecords[$i]['goal_setting_id']            = $row->goal_setting_id; 
-
-		// 			$selectYear = "SELECT * FROM year_creation WHERE year_id = '".strip_tags($row->year)."' ";
-		// 			$res1 = $mysqli->query($selectYear) or die("Error in Get All Records".$mysqli->error);
-		// 			if ($mysqli->affected_rows>0)
-		// 			{
-		// 				while($row1 = $res1->fetch_object()){
-		// 					$detailrecords[$i]['year_id'] = $row1->year_id;
-		// 					$detailrecords[$i]['year'] = $row1->year;
-		// 				}
-		// 			}
-		// 			$i++;
-		// 		}
-		// 	}
-		// 	return $detailrecords;
-		// }
-
-
 		public function getgoalsettingTable($mysqli){
 
             $auditSelect = "SELECT company_id,company_name FROM company_creation WHERE status = '0'";
@@ -9214,9 +8579,6 @@
 			if(isset($_POST['deptid'])){
 				$dept = $_POST['deptid'];
 			}
-			// if(isset($_POST['designation'])){
-			// 	$designation = $_POST['designation'];
-			// }
 			if(isset($_POST['dept_strength'])){
 				$dept_strength = $_POST['dept_strength'];
 			}
@@ -9387,57 +8749,6 @@
 		return $auditChecklist2;
 	}
 
-	// get getGoalSettingfetch list table   
-	// public function getGoalSettingfetch($mysqli,$id){  //Version1
-	// 	if($id>0){
-	// 		$checklistSelect = "SELECT gs.company_name AS company_id,c.company_name AS company, gs.branch_id, bc.branch_name, gs.department AS dept_id,dc.department_name AS dept,gs.role AS role_id,ds.designation_name  AS role,gs.year AS year_id,y.year AS year,gs.status FROM goal_setting gs 
-	// 		LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
-	// 		LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-	// 		LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
-	// 		LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-	// 		LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-	// 		LEFT JOIN year_creation y ON y.year_id=gs.year WHERE gs.goal_setting_id = '$id' GROUP BY gs.company_name";
-			
-	// 	} else {
-	// 		$checklistSelect = "SELECT gs.company_name,c.company_name, gs.branch_id, bc.branch_name, gs.department,dc.department_name,gs.role,ds.designation_name,gs.year,y.year,gs.status FROM goal_setting gs 
-	// 		LEFT JOIN goal_setting_ref gsr ON gsr.goal_setting_id=gs.goal_setting_id 
-	// 		LEFT JOIN company_creation c ON c.company_id=gs.company_name 
-	// 		LEFT JOIN branch_creation bc ON gs.branch_id = bc.branch_id 
-	// 		LEFT JOIN department_creation dc ON dc.department_id=gs.department 
-	// 		LEFT JOIN designation_creation ds ON ds.designation_id=gs.role 
-	// 		LEFT JOIN year_creation y ON y.year_id=gs.year GROUP BY gs.company_name";
-			
-	// 	}
-
-	// 	$res = $mysqli->query($checklistSelect) or die("Error in Get All checklist ".$mysqli->error);
-
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row = $res->fetch_object()){
-	// 		$auditChecklist['company_id'] = $row->company_id;
-	// 		$auditChecklist['company'] = $row->company;
-	// 		$auditChecklist['branch_id'] = $row->branch_id;
-	// 		$auditChecklist['branch_name'] = $row->branch_name;
-	// 		$auditChecklist['dept_id'] = $row->dept_id;
-	// 		$auditChecklist['dept'] = $row->dept;
-	// 		$auditChecklist['role_id'] = $row->role_id;
-	// 		$auditChecklist['role'] = $row->role;
-	// 		$auditChecklist['year_id'] = $row->year_id;
-	// 		$auditChecklist['year'] = $row->year;
-	// 		// $auditareaid =  $auditChecklist['area_id'];
-	// 		// $dept = $auditChecklist['department'];
-	// 		// $auditor = $auditChecklist['auditor'];
-	// 		// $auditee = $auditChecklist['auditee'];
-	// 	}
-
-	// 	//change value into new variable
-	// 	}
-		
-		
-	// 	return $auditChecklist;
-	// }
-
-
 	// get getGoalSettingfetch list table
 	public function getGoalSettingfetch($mysqli,$id){
 		if($id>0){
@@ -9466,88 +8777,6 @@
 		
 		return $goalsettings;
 	}
-
-
-
-
-
-
-	//get company daily_performance table
-
-	// public function get_daily_performance($mysqli){
-
-	// 	$dailyperform = "SELECT * FROM `company_creation` WHERE status='0'";
-		
-	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-	// 	$dailyperform_list = array();
-	// 	$i=0;
-
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row = $res->fetch_object()){
-				
-
-	// 			$dailyperform_list[$i]['company_id']      = $row->company_id;
-	// 			$dailyperform_list[$i]['company_name']      = $row->company_name;
-				
-	// 			$i++;
-	// 		}
-	// 	}
-
-	// 	return $dailyperform_list;
-	// }
-     
-	//get  deptn daily_performance table
-	// public function get_dept_performance($mysqli){
-
-	// 	$dailyperform = "SELECT * FROM `department_creation` WHERE status='0'";
-		
-	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-	// 	$dailyperformdept_list = array();
-	// 	$i=0;
-
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row = $res->fetch_object()){
-				
-
-	// 			$dailyperformdept_list[$i]['department_id']      = $row->department_id;
-	// 			$dailyperformdept_list[$i]['department_name']      = $row->department_name;
-				
-	// 			$i++;
-	// 		}
-	// 	}
-
-	// 	return $dailyperformdept_list;
-	// }
-	
-
-	//get  role daily_performance table
-	// public function get_role_performance($mysqli){
-
-	// 	$dailyperform = "SELECT * FROM `designation_creation` WHERE status='0'";
-		
-	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-	// 	$dailyperformdesi_list = array();
-	// 	$i=0;
-
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row = $res->fetch_object()){
-				
-
-	// 			$dailyperformdesi_list[$i]['designation_id']      = $row->designation_id;
-	// 			$dailyperformdesi_list[$i]['designation_name']      = $row->designation_name;
-				
-	// 			$i++;
-	// 		}
-	// 	}
-
-	// 	return $dailyperformdesi_list;
-	// }
-	
-	// Add & Edit daily performance
-
 		
 	public function addTargetFixing($mysqli, $userid){
 
@@ -9775,9 +9004,6 @@
 		if(isset($_POST['mySelectedStaffName'])){
 			$emp_id = $_POST['mySelectedStaffName'];
 		}
-		// if(isset($_POST['goal_year'])){
-		// 	$year_id = $_POST['goal_year'];
-		// }
 		if(isset($_POST['month'])){
 			$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
     		$month = intval($yearmonthsplit[1]);
@@ -9800,10 +9026,6 @@
 			$not_done1 = $_POST['not_done'];
 			$not_done = str_replace("Total Not Done - ", "", $not_done1);
 		} 
-		// if(isset($_POST['carry_forward'])){
-		// 	$carry_forward1 = $_POST['carry_forward'];
-		// 	$carry_forward = str_replace("Total Carry Forward - ", "", $carry_forward1);
-		// } 
 		if(isset($_POST['achievement'])){
 			$achievement = $_POST['achievement'];
 		} 
@@ -9829,7 +9051,6 @@
 		'".strip_tags($need_for_improvement)."', '".strip_tags($overall_rating)."', '".strip_tags($userid)."' )";
 		$result=$mysqli->query($qry) or die("Error ".$mysqli->error);
 		$lastId = $mysqli->insert_id; 
-		//carry_forward, '".strip_tags($carry_forward)."',
 
 		for($i=0; $i<=sizeof($review)-1; $i++){
 
@@ -9852,7 +9073,6 @@
 			$row = $res->fetch_object();	
 			$appreciationDepreciationId  					= $row->appreciation_depreciation_id;
 			$detailrecords['appreciation_depreciation_id']  = $row->appreciation_depreciation_id; 
-			// $detailrecords['review']                        = $row->review;
 			$detailrecords['company_id']                    = $row->company_id;
 			$detailrecords['department']                    = $row->department_id;
 			$detailrecords['designation']                   = $row->designation_id; 	
@@ -9967,9 +9187,6 @@
 		if(isset($_POST['mySelectedStaffName'])){
 			$emp_id = $_POST['mySelectedStaffName'];
 		}
-		// if(isset($_POST['goal_year'])){
-		// 	$year_id = $_POST['goal_year'];
-		// }
 		if(isset($_POST['month'])){
 			$yearmonthsplit = explode('-',$_POST["month"]); //format('yyyy-mm'); // we want month only so split month here.
     		$month = intval($yearmonthsplit[1]);
@@ -9993,10 +9210,6 @@
 			$not_done1 = $_POST['not_done'];
 			$not_done = str_replace("Total Not Done - ", "", $not_done1);
 		} 
-		// if(isset($_POST['carry_forward'])){
-		// 	$carry_forward1 = $_POST['carry_forward'];
-		// 	$carry_forward = str_replace("Total Carry Forward - ", "", $carry_forward1);
-		// } 
 		if(isset($_POST['achievement'])){
 			$achievement = $_POST['achievement'];
 		} 
@@ -10021,16 +9234,8 @@
 
 		$qry = "UPDATE appreciation_depreciation SET company_id = '".strip_tags($company_id)."', department_id = '".strip_tags($department_id)."', designation_id = '".strip_tags($designation_id)."', emp_id = '".strip_tags($emp_id)."', year_id = '".strip_tags($year_id)."', month = '".strip_tags($month)."', overall_performance = '".strip_tags($overall_performance)."', not_done = '".strip_tags($not_done)."', strength = '".strip_tags($strength)."', weakness = '".strip_tags($weakness)."', need_for_improvement = '".strip_tags($need_for_improvement)."', overall_rating = '".strip_tags($overall_rating)."', update_login_id='".strip_tags($userid)."', status = '0' WHERE appreciation_depreciation_id= '".strip_tags($id)."' ";
 		$updresult = $mysqli->query($qry )or die ("Error in in update Query!.".$mysqli->error);
-		//carry_forward = '".strip_tags($carry_forward)."', 
-
-		// $deleteRef = $mysqli->query("DELETE FROM appreciation_depreciation_ref WHERE appreciation_depreciation_id = '".$id."' "); 
 
 		for($i=0; $i<=sizeof($review)-1; $i++){
-
-			// $refQry="INSERT INTO appreciation_depreciation_ref( appreciation_depreciation_id, review, daily_performance_ref_id, assertion, target, 
-			// achievement, employee_rating) VALUES ('".strip_tags($id)."', '".$review[$i]."', '".strip_tags($daily_performance_ref_id[$i])."', 
-			// '".strip_tags($assertion[$i])."', '".strip_tags($target[$i])."', '".strip_tags($achievement[$i])."', '".strip_tags($employee_rating[$i])."')"; 
-
 			$refQry = "UPDATE `appreciation_depreciation_ref` SET `review`='$review[$i]',`appreciation_depreciation_id`='$id',`daily_performance_ref_id`='$daily_performance_ref_id[$i]',`assertion`='$assertion[$i]',`target`='$target[$i]',`achievement`='$achievement[$i]',`employee_rating`='$employee_rating[$i]' WHERE `appreciation_depreciation_ref_id` = '$appreciation_depreciation_ref_id[$i]' "; 
 			$refResult=$mysqli->query($refQry) or die("Error ".$mysqli->error);
 		}
@@ -10043,20 +9248,6 @@
 		$qry = "UPDATE appreciation_depreciation set status='1', delete_login_id='".strip_tags($userid)."' WHERE appreciation_depreciation_id = '".strip_tags($id)."' ";
 		$runQry = $mysqli->query($qry) or die("Error in delete query".$mysqli->error);
 	}
-
-	// view app dep
-	// public function getmidtermReview($mysqli){
-
-	// 	$appDep = "SELECT * FROM appreciation_depreciation WHERE review = 'midterm_review' ORDER BY appreciation_depreciation_id DESC LIMIT 1"; 
-	// 	$res = $mysqli->query($appDep) or die("Error in Get All Records".$mysqli->error);
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		$detailrecords = 1;
-	// 	}
-		
-	// 	return $detailrecords;
-	
-	// }
 
 	// view app dep
 	public function viewAppDep($mysqli){
@@ -10122,148 +9313,6 @@
 		
 		return $detailrecords;
 	}
-
-	// public function adddailyperformance($mysqli,$userid){
-
-	// 	if(isset($_POST['id'])){
-	// 		$id = $_POST['id'];
-	// 	}
-	// 	if(isset($_POST['company_id'])){
-	// 		$company_id = $_POST['company_id'];
-	// 	}
-	// 	if(isset($_POST['department_id'])){
-	// 		$department_id = $_POST['department_id'];
-	// 	}
-	// 	if(isset($_POST['designation_id'])){
-	// 		$designation_id = $_POST['designation_id'];
-	// 	}
-	// 	if(isset($_POST['staff_id'])){
-	// 		$staff_id = $_POST['staff_id'];
-	// 	}
-	// 	if(isset($_POST['nmonth'])){
-	// 		$nmonth = $_POST['nmonth'];
-	// 	}
-	
-	// 	if(isset($_POST['assertion'])){
-	// 		$assertion = $_POST['assertion'];
-	// 	}
-	// 	if (isset($_POST['target'])) {
-	// 		$target = $_POST['target'];
-	// 	} 
-	// 	if(isset($_POST['sdate'])){
-	// 		$sdate = $_POST['sdate'];
-	// 	}
-	// 	if (isset($_POST['wstatus'])) {
-	// 		$wstatus = $_POST['wstatus'];
-	// 	}
-	// 	if(isset($_POST['userid'])){
-	// 		$userid = $_POST['userid'];
-	// 	}
-
-	// 	if (isset($_POST['old_target'])) {
-	// 		$old_target = $_POST['old_target'];
-	// 	}
-	// 	if (isset($_POST['target_fixing_id'])) {
-	// 		$target_fixing_id = $_POST['target_fixing_id'];
-	// 	}
-	// 	if (isset($_POST['target_fixing_ref_id'])) {
-	// 		$target_fixing_ref_id = $_POST['target_fixing_ref_id'];
-	// 	}
-
-	// 	if($id == '0'){
-
-	// 		$qry1="INSERT INTO daily_performance (daily_performance_id, company_id, department_id, role_id, emp_id, month, insert_login_id, status)
-	// 		VALUES (NULL, '$company_id', '$department_id', '$designation_id', '$staff_id','$nmonth','$userid', '0')";
-	// 		$insert_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-	// 		$last_id  = $mysqli->insert_id;
-
-	// 		for($j=0; $j<=sizeof($assertion)-1; $j++){
-	// 			$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion, target, system_date,old_target,target_fixing_id,target_fixing_ref_id, status)
-	// 			VALUES('".strip_tags($last_id)."', '".strip_tags($assertion[$j])."','".strip_tags($target[$j])."','".strip_tags($sdate[$j])."','".strip_tags($old_target[$j])."','".strip_tags($target_fixing_id[$j])."','".strip_tags($target_fixing_ref_id[$j])."','".strip_tags($wstatus[$j])."')";
-	// 			$insert_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);
-	// 		}
-	// 	}
-	// 	else {
-			
-	// 		$qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id',month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$id' ";
-	// 		$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
-	// 		$last_id  = $mysqli->insert_id;
-
-	// 		$deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$id."' "); 
-
-	// 		for($i=0;$i<=sizeof($assertion)-1;$i++){
-				
-	// 			$qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status)
-	// 			VALUES('$id', '$assertion[$i]','$target[$i]','$sdate[$i]','$old_target[$i]','$target_fixing_id[$i]','$target_fixing_ref_id[$i]','$wstatus[$i]')";
-	// 			$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
-	// 		}
-			
-	// 	}
-	// }
-
-	// Delete Audit Area Checklist
-	// public function deletedailyperformance($mysqli, $id){
-
-	// 	$checklistDelete = "UPDATE daily_performance set status='1' WHERE daily_performance_id = '".strip_tags($id)."' ";
-	// 	$runQry = $mysqli->query($checklistDelete) or die("Error in delete query".$mysqli->error);
-	// }
-
-	// get dailyperformance table
-    //   public function getdailyperformance($mysqli,$id){
-
-	// 	$dailyperform = "SELECT dp.daily_performance_id,dp.company_id,c.company_name,dp.department_id,dc.department_name,dp.role_id,dsc.designation_name,dp.emp_id,s.staff_name,dp.month,dp.status FROM daily_performance dp LEFT JOIN company_creation c ON c.company_id=dp.company_id LEFT JOIN department_creation dc ON dc.department_id=dp.department_id LEFT JOIN designation_creation dsc ON dsc.designation_id = dp.role_id LEFT JOIN staff_creation s ON s.staff_id=dp.emp_id WHERE dp.daily_performance_id ='$id'";
-		
-	// 	$res = $mysqli->query($dailyperform) or die("Error in Get All Records".$mysqli->error);
-	// 	$dailyperform_list = array();
-	// 	$i=0;
-
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row = $res->fetch_object()){
-			
-	// 			$dailyperform_list[$i]['daily_performance_id']      = $row->daily_performance_id;
-	// 			$dailyperform_list[$i]['company_id']      = $row->company_id;
-	// 			$dailyperform_list[$i]['company_name']      = $row->company_name;
-	// 			$dailyperform_list[$i]['department_id']      = $row->department_id;
-	// 			$dailyperform_list[$i]['department_name']      = $row->department_name;
-	// 			$dailyperform_list[$i]['role_id']      = $row->role_id;
-	// 			$dailyperform_list[$i]['designation_name']      = $row->designation_name;
-	// 			$dailyperform_list[$i]['emp_id']      = $row->emp_id;
-	// 			$dailyperform_list[$i]['staff_name']      = $row->staff_name;
-    //             $dailyperform_list[$i]['month']      = $row->month;
-	// 			$dailyperform_list[$i]['status']      = $row->status;
-	// 			$i++;
-	// 		}
-	// 	}
-
-    //     $dailyperform1 = "SELECT daily_performance_ref_id,assertion,target,system_date,old_target,target_fixing_id,target_fixing_ref_id,status FROM daily_performance_ref  WHERE daily_performance_id ='$id'";
-	// 	$res1 = $mysqli->query($dailyperform1) or die("Error in Get All Records".$mysqli->error);
-	// 	$dailyperform_list1 = array();
-	// 	$i=0;
-	// 	if ($mysqli->affected_rows>0)
-	// 	{
-	// 		while($row1 = $res1->fetch_object()){
-			
-	// 			$dailyperform_list1[$i]['daily_performance_ref_id']      = $row1->daily_performance_ref_id;
-	// 			$dailyperform_list1[$i]['assertion']      = $row1->assertion;	
-	// 			$dailyperform_list1[$i]['target']      = $row1->target;	
-	// 			$dailyperform_list1[$i]['system_date']      = $row1->system_date;
-	// 			$dailyperform_list1[$i]['old_target']      = $row1->old_target;
-	// 			$dailyperform_list1[$i]['target_fixing_id']      = $row1->target_fixing_id;
-	// 			$dailyperform_list1[$i]['target_fixing_ref_id']      = $row1->target_fixing_ref_id;
-	// 			$dailyperform_list1[$i]['status']      = $row1->status;
-	// 			$i++;
-	// 		}
-	// 	}
-
-    //     $response = array(
-	// 		'departments' => $dailyperform_list,
-	// 		'designations' => $dailyperform_list1
-	// 	);
-        
-	// 	return $response;
-	// }
-
 
 		// Add User
 		public function adduser($mysqli){
@@ -10605,12 +9654,6 @@
 			}else{
 				$goal_setting=1;
 			}
-			// if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
-			// {
-				// 	$target_fixing=0;
-				// }else{
-					// 	$target_fixing=1;
-			// }
 			if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
 			{
 				$daily_performance=0;
@@ -10740,7 +9783,7 @@
 		
 			$userInsert="INSERT INTO user (emailid, user_name, designation_id, mobile_number, user_password, role, branch_id, staff_id, fullname, Createddate, administration_module, dashboard, company_creation, branch_creation, holiday_creation, manage_users, master_module, basic_sub_module, responsibility_sub_module, audit_sub_module, others_sub_module, 
 			basic_creation, tag_creation, rr_creation, kra_category, krakpi_creation, staff_creation, audit_area_creation, audit_area_checklist, audit_assign, audit_follow_up, 
-			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report, vehicle_management_report_module, vehicle_report, daily_km_report, diesel_slip_report, memo_report, krakpi_report, staff_task_details) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report, $venhicle_management_sub_module, $vehicle_report, $daily_km_report, $diesel_slip_report, $memo_report, $krakpi_report, $staff_task_details )"; // echo $userInsert; die;
+			report_template, media_master, asset_creation, insurance_register, service_indent, asset_details, rgp_creation, promotional_activities, work_force_module, schedule_task_sub_module, memo_sub_module, campaign,assign_work,daily_task_update, todo, assigned_work, memo_initiate, memo_assigned, memo_update, maintenance_module, pm_checklist, bm_checklist, maintenance_checklist, manpower_in_out_module, permission_or_onduty, regularisation_approval, transfer_location, target_fixing_module, goal_setting, daily_performance, daily_performance_review, appreciation_depreciation, vehicle_management_module, vehicle_details, daily_km, diesel_slip, approval_mechanism_module, approval_requisition, business_communication_outgoing, minutes_of_meeting, report_module, reports, daily_performance_report, vehicle_management_report_module, vehicle_report, daily_km_report, diesel_slip_report, memo_report, krakpi_report, staff_task_details) VALUES ('".strip_tags($email_id)."', '".strip_tags($username)."', '".strip_tags($designation)."', '".strip_tags($mobile_number)."', '".strip_tags($password)."', '".strip_tags($role)."', '".strip_tags($branch_id)."', '".strip_tags($staff_id)."', '".strip_tags($fullname)."', current_timestamp(), $administration_module, $dashboard, $company_creation, $branch_creation, $holiday_creation, $manage_users, $master_module, $basic_sub_module, $responsibility_sub_module, $audit_sub_module, $others_sub_module, $basic_creation, $tag_creation, $rr_creation, $kra_category, $krakpi_creation, $staff_creation, $audit_area_creation, $audit_area_checklist, $audit_assign, $audit_follow_up, $report_template, $media_master, $asset_creation, $insurance_register, $service_indent, $asset_details, $rgp_creation, $promotional_activities, $work_force_module, $schedule_task_sub_module, $memo_sub_module, $campaign, $assign_work, $daily_task_update, $todo, $assigned_work, $memo_initiate, $memo_assigned, $memo_update, $maintenance_module, $pm_checklist, $bm_checklist, $maintenance_checklist, $manpower_in_out_module, $permission_or_onduty, $regularisation_approval, $transfer_location, $target_fixing_module, $goal_setting, $daily_performance, $daily_performance_review, $appreciation_depreciation, $vehicle_management_module, $vehicle_details, $daily_km, $diesel_slip,  $approval_mechanism_module, $approval_requisition, $business_communication_outgoing, $minutes_of_meeting, $report_module, $reports, $daily_performance_report, $venhicle_management_sub_module, $vehicle_report, $daily_km_report, $diesel_slip_report, $memo_report, $krakpi_report, $staff_task_details )";
 			$insresult=$mysqli->query($userInsert) or die("Error ".$mysqli->error);
 			
 		}
@@ -10755,10 +9798,6 @@
 			{
 				$row = $res->fetch_object();	
 				$detailrecords['user_id']                    = $row->user_id; 
-				// $detailrecords['firstname']       	           = strip_tags($row->firstname);
-				// $detailrecords['lastname']       	           = strip_tags($row->lastname);
-				// $detailrecords['fullname']       	           = strip_tags($row->fullname);
-				// $detailrecords['title']       	        = strip_tags($row->title);
 				$detailrecords['user_name']       	        = strip_tags($row->user_name);
 				$detailrecords['designation_id']       	        = strip_tags($row->designation_id);
 
@@ -10828,7 +9867,6 @@
 				$detailrecords['transfer_location']    = strip_tags($row->transfer_location);
 				$detailrecords['target_fixing_module']  = strip_tags($row->target_fixing_module);
 				$detailrecords['goal_setting']      = strip_tags($row->goal_setting);
-				// $detailrecords['target_fixing']    = strip_tags($row->target_fixing);
 				$detailrecords['daily_performance']    = strip_tags($row->daily_performance);
 				$detailrecords['daily_performance_review']    = strip_tags($row->daily_performance_review);
 				$detailrecords['appreciation_depreciation']    = strip_tags($row->appreciation_depreciation);
@@ -11196,12 +10234,6 @@
 		}else{
 			$goal_setting=1;
 		}
-		// if(isset($_POST['target_fixing']) &&    $_POST['target_fixing'] == 'Yes')		
-		// {
-		// 	$target_fixing=0;
-		// }else{
-		// 	$target_fixing=1;
-		// }
 		if(isset($_POST['daily_performance']) &&    $_POST['daily_performance'] == 'Yes')		
 		{
 			$daily_performance=0;
@@ -11500,7 +10532,7 @@ public function get_role_performance($mysqli){
 
 	return $dailyperformdesi_list;
 }
-	// get company and role name SELECT * FROM user WHERE branch_id in ('$sbranch_id')  AND status=0 ORDER BY branch_id ASC
+	// get company and role name
 	public function getsroleDetail ($mysqli, $userid){
 		$qry = "SELECT u.role,u.title,b.company_id,c.company_name, b.branch_id, b.branch_name, u.designation_id, sc.department, u.staff_id FROM user u LEFT JOIN branch_creation b ON b.branch_id=u.branch_id LEFT JOIN company_creation c ON c.company_id=b.company_id LEFT JOIN staff_creation sc ON u.staff_id = sc.staff_id WHERE u.user_id ='$userid' AND u.status=0 ORDER BY u.branch_id ASC";
 		$res = $mysqli->query($qry)or die("Error in Get All Records".$mysqli->error);
@@ -11523,7 +10555,6 @@ public function get_role_performance($mysqli){
 				$i++;
 			}
 		}
-		// print_r($detailrecords);
 		return $detailrecords;
 	}
 	// get dailyperformance table
@@ -11574,7 +10605,6 @@ public function get_role_performance($mysqli){
 				$dailyperform_list1[$i]['target']      = $row1->target;	
 				$dailyperform_list1[$i]['actual_achieve']      = $row1->actual_achieve;	
 				$dailyperform_list1[$i]['system_date']      = $row1->system_date;
-				// $dailyperform_list1[$i]['old_target']      = $row1->old_target;
 				$dailyperform_list1[$i]['goal_setting_id']      = $row1->goal_setting_id;
 				$dailyperform_list1[$i]['goal_setting_ref_id']      = $row1->goal_setting_ref_id;
 				$dailyperform_list1[$i]['assertion_table_sno']      = $row1->assertion_table_sno;
@@ -11635,9 +10665,6 @@ public function adddailyperformance($mysqli,$userid){
 		if (isset($_POST['wstatus'])) {
 			$wstatus = $_POST['wstatus'];
 		}
-		// if (isset($_POST['old_target'])) {
-		// 	$old_target = $_POST['old_target'];
-		// }
 		if (isset($_POST['goal_setting_id'])) {
 			$goal_setting_id = $_POST['goal_setting_id'];
 		}
@@ -11676,20 +10703,12 @@ public function adddailyperformance($mysqli,$userid){
 
 			}
 		else {
-			
-			// $qry1="UPDATE daily_performance set company_id = '$company_id', department_id = '$department_id' , role_id = '$designation_id',emp_id = '$staff_id', month = '$nmonth', status ='0',update_login_id='$userid' WHERE daily_performance_id = '$idupd' ";
 
 			$qry1="UPDATE daily_performance set status ='0', update_login_id='$userid', updated_date = now() WHERE daily_performance_id = '$idupd' ";
 			$update_assign=$mysqli->query($qry1) or die("Error ".$mysqli->error);
 			$last_id  = $mysqli->insert_id;
 
-			// $deleteKraRef = $mysqli->query("DELETE FROM daily_performance_ref WHERE daily_performance_id = '".$idupd."' "); 
-
 			for($i=0;$i<=sizeof($assertion)-1;$i++){
-				
-				// $qry2="INSERT INTO daily_performance_ref(daily_performance_id, assertion,target, actual_achieve, system_date, goal_setting_id,goal_setting_ref_id, assertion_table_sno,status)
-				// VALUES('$idupd', '$assertion[$i]','$target[$i]', '$actual_achieve[$i]', '$sdate[$i]', '$goal_setting_id[$i]','$goal_setting_ref_id[$i]', '$assertion_table_sno[$i]', '$wstatus[$i]')";
-
 				$qry2="UPDATE `daily_performance_ref` SET `actual_achieve`='$actual_achieve[$i]', `staff_id`= '$staffidedit', `status`='$wstatus[$i]', `manager_updated_status` = 0 WHERE `daily_performance_ref_id` = '$daily_ref_id[$i]' ";
 				$update_assign_ref=$mysqli->query($qry2) or die("Error ".$mysqli->error);	
 
@@ -11892,10 +10911,5 @@ public function adddailyperformance($mysqli,$userid){
 
 
 
-
-
 }
 ?>
-
-
-

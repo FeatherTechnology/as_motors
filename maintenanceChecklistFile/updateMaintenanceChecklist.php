@@ -93,6 +93,7 @@ $maintenanceChceklistRefIdArr = array_map('strval', explode(',', $maintenanceChc
 $frequencyArr = array_map('strval', explode(',', $frequencyStr)); 
 $frequency_applicableArr = array_map('strval', explode(',', $frequency_applicableStr)); 
 $checklist_textareaArr = array_map('strval', explode(',', $checklist_textareaStr)); 
+$frqArr = array('Yearly', 'Daily Task');
 
 // select holiday
 $getqry9 = "SELECT holiday_date FROM holiday_creation_ref WHERE 1";
@@ -124,7 +125,7 @@ if($checklist == 'pm_checklist'){
         $insertChecklistRefRun = $con->query($insertChecklistRef);
         $checklistRefId = $con->insert_id;
 
-        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
+        if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequencyArr[$i], $frqArr)){ 
 
             if($frequencyArr[$i] == 'Weekly'){
     
@@ -366,7 +367,7 @@ if($checklist == 'pm_checklist'){
         VALUES ('".strip_tags($maintenanceChceklistId)."', '".strip_tags($checkedidArr[$i])."', '".strip_tags($remarksArr[$i])."', '".strip_tags($file[$i])."')"; 
         $insertChecklistRefRun = $con->query($insertChecklistRef);
 
-    if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes"){ 
+    if($frequency_applicableArr[$i] == 'frequency_applicable' && $calendar == "Yes" && !in_array($frequencyArr[$i], $frqArr)){ 
 
         if($frequencyArr[$i] == 'Weekly'){
 
