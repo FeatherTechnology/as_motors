@@ -67,7 +67,7 @@ foreach ($result as $row) {
     
     $staffId = $row['staff_id'];
     $staff_name=''; 
-    $getqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($staffId)."' and status = 0";
+    $getqry = "SELECT staff_name FROM staff_creation WHERE staff_id ='".strip_tags($staffId)."' ";
     $res12 = $con->query($getqry);
     while($row12 = $res12->fetch_assoc())
     {

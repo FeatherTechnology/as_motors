@@ -1555,6 +1555,8 @@
 
 			$staffDelete = "UPDATE staff_creation set status='1', delete_login_id='".strip_tags($userid)."' WHERE staff_id = '".strip_tags($id)."' ";
 			$runQry = $mysqli->query($staffDelete) or die("Error in delete query".$mysqli->error);
+
+			$mysqli->query("UPDATE user set status='1' WHERE `staff_id`='".strip_tags($id)."' ") or die("Error in user table delete query".$mysqli->error);
 		}
 
 		// get r&r

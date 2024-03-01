@@ -6,27 +6,14 @@ if(isset($_POST["staff_name"])){
 	$staff_name = $_POST["staff_name"];
 }
 
-$designation = array();
-$email = array();
-$mobilenumber = array();
-$desgn_id = array();
+$getitem = $con->query("SELECT sc.email_id, sc.contact_number, sc.designation, sc.company_id, dc.designation_name FROM staff_creation sc LEFT JOIN designation_creation dc ON sc.designation = dc.designation_id WHERE sc.staff_id = '".$staff_name."' and sc.status=0") OR die("Error: ".$con->error);
+$row=$getitem->fetch_assoc();
 
-$getitem = $con->query("SELECT * FROM staff_creation WHERE staff_id = '".$staff_name."' and status=0") OR die("Error: ".$con->error);
-while ($row=$getitem->fetch_assoc()){
-    $getDesignation = $con->query("SELECT designation_name FROM designation_creation WHERE designation_id = '".$row["designation"]."' ") OR die("Error: ".$con->error);
-    while($fetchDesignation = $getDesignation->fetch_assoc()){
-        $designation = $fetchDesignation['designation_name'];
-    }
-    $email[] = $row["email_id"];
-    $mobilenumber[]   = $row["contact_number"];
-    $desgn_id[]   = $row["designation"];
-}
-
-
-$empdetails["designation"] = $designation;
-$empdetails["email"] = $email;
-$empdetails["mobilenumber"] = $mobilenumber;
-$empdetails["desgn_id"] = $desgn_id;
+$empdetails["designation"] = $row['designation_name'];
+$empdetails["email"] = $row["email_id"];
+$empdetails["mobilenumber"] = $row["contact_number"];
+$empdetails["desgn_id"] = $row["designation"];
+$empdetails["branch_id"] = $row["company_id"];
 
 echo json_encode($empdetails);
 ?>

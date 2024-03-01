@@ -66,6 +66,8 @@ include '../ajaxconfig.php';
         update_login_id='".strip_tags($userid)."', status = '0' WHERE staff_id= '".strip_tags($idupd)."' ";
         $updresult = $mysqli->query($staffUpdaet )or die ("Error in in update Query!.".$mysqli->error);
 
+        $mysqli->query("UPDATE `user` SET `fullname`='$staff_name', `emailid`='$email_id', `branch_id`='$company_id',`designation_id`='$designation',`mobile_number`='$contact_number', status='0' WHERE `staff_id`='$idupd' ")or die ("Error in user table update Query!.".$mysqli->error);
+
         if($updresult){
             $message = '1';
         }

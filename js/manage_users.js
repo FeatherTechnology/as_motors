@@ -199,6 +199,7 @@ $(document).ready(function(){
                 $("#designation").val(data['designation']);
                 $("#email").val(data['email']);
                 $("#mobilenumber").val(data['mobilenumber']);
+                $("#branch_id").val(data['branch_id']);
             }
         });
     });
