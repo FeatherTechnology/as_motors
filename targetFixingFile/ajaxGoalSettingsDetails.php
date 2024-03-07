@@ -96,11 +96,11 @@ $(function(){ //OnLoad Function//
                     $(id).append("<option value='"+response[a]['assertion']+"'"+selected+">"+response[a]['assertion']+"</option>");
                 }
 
-                if(editvalue ==''){ //in edit page value initially set so restrict this function, if this function run it affect edit option value.
-                    $.each(temporaryAssertion, function(key, value) {
-                        $('#' + key).val(value);
-                    });
-                }
+                // if(editvalue ==''){ //in edit page value initially set so restrict this function, if this function run it affect edit option value.
+                //     $.each(temporaryAssertion, function(key, value) {
+                //         $('#' + key).val(value);
+                //     });
+                // }
             }     
         });     
     }
