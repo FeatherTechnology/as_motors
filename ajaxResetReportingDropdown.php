@@ -1,5 +1,5 @@
 <?php 
-// 4 - Director....the employee can be in any company or branch but they can report to main branch manager or the manager who reporting to MD. so we assign director designation id static, if director designation change here also change it.
+// 1 - Director....the employee can be in any company or branch but they can report to main branch manager or the manager who reporting to MD. so we assign director designation id static, if director designation change here also change it.
 
 include('ajaxconfig.php');
 
@@ -50,7 +50,7 @@ $reportingArr['designation_id'] = $designation_id;
 $reportingArr['designation_name'] = $designation_name;
 
 
-$managerLevelQry = $con->query("SELECT * FROM basic_creation where report_to = '4' and company_id !='".$company_id."' and status=0"); // 4 - Director....the employee can be in any company or branch but they can report to main branch manager or the manager who reporting to MD. so we assign director designation id static, if director designation change here also change it.  
+$managerLevelQry = $con->query("SELECT * FROM basic_creation where report_to = '1' and company_id !='".$company_id."' and status=0"); // 1 - Director....the employee can be in any company or branch but they can report to main branch manager or the manager who reporting to MD. so we assign director designation id static, if director designation change here also change it.  
 $design_id = array();
 while( $managerLevelInfo = $managerLevelQry->fetch_assoc()){
     $design_id[] = $managerLevelInfo['designation'];
@@ -70,7 +70,7 @@ if( ($kt=array_search($v,$desgn_id))!==false and $k!=$kt )
 
 }
 sort($desgn_id); // After unset a array the key will be miss so have to sort the array for key arrange.
-array_push($desgn_id, '4'); //4 - is director designation id, giving here statically.
+array_push($desgn_id, '1'); //1 - is director designation id, giving here statically.
 for($i=0;$i<=sizeof($desgn_id)-1;$i++){
     $result1=$con->query("SELECT * FROM designation_creation where designation_id='".$desgn_id[$i]."' and status=0");
     if(mysqli_num_rows($result1) > 0 ){
